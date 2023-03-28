@@ -266,7 +266,7 @@ const ReaderAdd = () => {
       return;
     } else {
       try {
-        loader("show");
+        // loader("show");
         let data = {
           createdBy: localStorage.getItem("user_id"),
           firstName: userInputs?.firstName,
@@ -293,12 +293,17 @@ const ReaderAdd = () => {
           irt: "",
         };
         console.log("data", data);
-        await postData(ENDPOINT.READER_CREATE, data);
-        loader("hide");
-        navigate("/readers-view");
+        // await postData(ENDPOINT.READER_CREATE, data);
+        // loader("hide");
+        // navigate("/readers-view");
+        navigate("/reader-review", {
+          state: {
+            data: data,
+          },
+        });
       } catch (err) {
         console.log(err);
-        loader("hide");
+        // loader("hide");
       }
     }
   };

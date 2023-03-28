@@ -1602,9 +1602,9 @@ const LibraryContent = () => {
                         </>
                       );
                     })
-                  : <div>
+                  : <div className="no_found">
                     {noData==true && libraryData?.length<=0?
-                    <p style={{fontSize:"30px",}}>
+                    <p>
                     No Data Found</p>:null}
                     </div>}
               </>

@@ -1,10 +1,31 @@
 
 import React, { useState } from 'react'
 import { Col, Dropdown, DropdownButton, Form, Modal, Row } from 'react-bootstrap';
-import {Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { loader } from "../../../loader";
+import { postData } from "../../../axios/apiHelper";
+import { ENDPOINT } from "../../../axios/apiConfig";
 
 const ReaderReview = () => {
+  const { state }  = useLocation();
+  const navigate   = useNavigate();
   const [field, setField] = useState([]);
+  const [readerData, setReaderData] = useState(
+    typeof state?.data !== "undefined" ? state?.data : {}
+  );
+
+  const createUser = async() => {
+    loader("show");
+    try{
+      await postData(ENDPOINT.READER_CREATE, readerData);
+      loader("hide");
+      navigate("/readers-view");
+    }catch(err){
+        console.log(err);
+        loader("hide");
+    }
+  };
+
   return (
    <Col className="col right-sidebar">
       <div className="custom-container">
@@ -37,100 +58,116 @@ const ReaderReview = () => {
                       Cancel
                     </Link>
                     <button
-                      className="btn btn-primary btn-filled next send_btn">
+                      className="btn btn-primary btn-filled next send_btn"
+                      onClick={createUser}
+                      >
                       Create
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="crm-detail">
-                <div className="crm-detail-content">
-                  <h4>CRM Details</h4>
-                  <div className="crm-review">
-                    <div className="crm-review-detail">
-                      <ul class="tab-mail-list">
-                        <li>
-                          <h6 class="tab-content-title">First name</h6>
-                          <h6>User first name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Middle name</h6>
-                          <h6>User middle name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Last name</h6>
-                          <h6>User last name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Primary email </h6>
-                          <h6>example@gmail.com</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Alternative email </h6>
-                          <h6>example@gmail.com</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Primary phone </h6>
-                          <h6>+000 000000000</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Alternative phone </h6>
-                          <h6>+000 000000000</h6>
-                        </li>
-                      </ul>
-                    </div>
-                     <div className="crm-review-detail">
-                      <ul class="tab-mail-list">
-                        <li>
-                          <h6 class="tab-content-title">Country </h6>
-                          <h6>United Kingdom</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Province</h6>
-                          <h6>Province name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Hospital</h6>
-                          <h6>Hospital name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Title</h6>
-                          <h6>User title</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Speciality</h6>
-                          <h6>User speciality</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Discipline</h6>
-                          <h6>User Discipline</h6>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="crm-review-detail">
-                       <ul class="tab-mail-list">
-                        <li>
-                          <h6 class="tab-content-title">Product</h6>
-                          <h6>Product name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Interest area</h6>
-                          <h6>Interest area</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Rep contact</h6>
-                          <h6>Rep name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Notes</h6>
-                          <h6>Condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum</h6>
-                        </li>
-                      </ul>
+            {
+              console.log(typeof readerData)
+            }
+            {
+              Object.keys(readerData).length > 0
+              ?
+              <div className="crm-detail">
+                  <div className="crm-detail-content">
+                    <h4>CRM Details</h4>
+                    <div className="crm-review">
+                      <div className="crm-review-detail">
+                        <ul className="tab-mail-list">
+                          <li>
+                            <h6 className="tab-content-title">First name</h6>
+                            <h6>{readerData?.firstName ? readerData?.firstName : ""}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Middle name</h6>
+                            <h6>{readerData?.middleName ? readerData?.middleName : ""}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Last name</h6>
+                            <h6>{readerData?.lastName ? readerData?.lastName : ""}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Primary email </h6>
+                            <h6>{readerData?.email ? readerData?.email : ""}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Alternative email </h6>
+                            <h6>{readerData?.alternativeEmail ? readerData?.alternativeEmail : ""}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Primary phone </h6>
+                            <h6>{readerData?.primary_phone ? readerData?.primary_phone : "N/A"}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Alternative phone </h6>
+                            <h6>{readerData?.primary_phone ? readerData?.primary_phone : "N/A"}</h6>
+                          </li>
+                        </ul>
+                      </div>
+                       <div className="crm-review-detail">
+                        <ul className="tab-mail-list">
+                          <li>
+                            <h6 className="tab-content-title">Country </h6>
+                            <h6>{readerData?.country ? readerData?.country : "N/A"}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Province</h6>
+                            <h6>{readerData?.province ? readerData?.province : "N/A"}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Hospital</h6>
+                            <h6>{readerData?.hospital ? readerData?.hospital : "N/A"}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Title</h6>
+                            <h6>{readerData?.title ? readerData?.title : "N/A"}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Speciality</h6>
+                            <h6>{readerData?.speciality ? readerData?.speciality : "N/A"}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Discipline</h6>
+                            <h6>{readerData?.discipline ? readerData?.discipline : "N/A"}</h6>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="crm-review-detail">
+                         <ul className="tab-mail-list">
+                          <li>
+                            <h6 className="tab-content-title">Product</h6>
+                            <h6>{readerData?.product ? readerData?.product : "N/A"}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Interest area</h6>
+                            <h6>{readerData?.interestArea ? readerData?.interestArea : "N/A"}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Rep contact</h6>
+                            <h6>{readerData?.repContact ? readerData?.repContact : "N/A"}</h6>
+                          </li>
+                          <li>
+                            <h6 className="tab-content-title">Notes</h6>
+                            <h6>
+                            {readerData?.notes ? readerData?.notes : "N/A"}
+                            </h6>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
-            </div>
+              </div>
+              :
+              <div className="no_found">
+                <p>No Data found</p>
+              </div>
+            }
+
         </Row>
 
       </div>
