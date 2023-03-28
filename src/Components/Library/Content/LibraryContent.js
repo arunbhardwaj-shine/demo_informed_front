@@ -139,7 +139,7 @@ const LibraryContent = () => {
     try {
       loader("show");
       const res = await postData(ENDPOINT.FILTERS, {
-        user_id: localStorage.getItem("user_id"),
+        id: 18207,
       });
       setFilterData(res?.data?.data);
       setAllTags(res?.data?.data?.tags);
@@ -287,14 +287,12 @@ const LibraryContent = () => {
 
   useEffect(() => {
     getLibraryData(page, filterObject, search);
-
-
   }, [page]);
 
   const getLibraryData = async (page, obj, search) => {
     try {
       let data = {
-        user_id: localStorage.getItem("user_id"),
+        id: 18207,
         page: page,
         search: search,
         type: type,
@@ -309,16 +307,23 @@ const LibraryContent = () => {
       }
 
       const res = await postData(ENDPOINT.LIBRARY, body);
-      setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
+      if (libraryData?.length) {
+        setLibraryData((oldArray) => [
+          ...oldArray,
+          ...res?.data?.data?.library,
+        ]);
+      } else {
+        setLibraryData(res?.data?.data?.library);
+      }
+
       loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
-      if((res?.data?.data?.library).length>0){
-      setIsLoaded(true);
-      setNoData(false)
-      }
-      else{
-        setNoData(true)
+      if ((res?.data?.data?.library).length > 0) {
+        setIsLoaded(true);
+        setNoData(false);
+      } else {
+        setNoData(true);
       }
     } catch (err) {
       console.log("err");
@@ -327,7 +332,7 @@ const LibraryContent = () => {
   };
 
   const searchChange = (e) => {
-    setIsLoaded(false)
+    setIsLoaded(false);
     setNoData(false);
     setSearch(e?.target?.value);
     if (e?.target?.value === "") {
@@ -383,7 +388,7 @@ const LibraryContent = () => {
           type: "success",
           redirect: "",
         });
-        const updatedRes = libraryData.filter(item => item.id !== id);
+        const updatedRes = libraryData.filter((item) => item.id !== id);
         setLibraryData(updatedRes);
         // setLibraryData([]);
         // getLibraryData(page, filterObject, search);
@@ -495,7 +500,7 @@ const LibraryContent = () => {
     loader("show");
     try {
       let body = {
-        user_id: localStorage.getItem("user_id"),
+        userId: 18207,
         pdfId: pdf_id,
       };
       const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
@@ -665,13 +670,13 @@ const LibraryContent = () => {
     // textArea.focus();
     textArea.select();
     try {
-        document.execCommand('copy');
-        toast.success("content copied to the clipboard!");
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
     } catch (err) {
-        console.error('Unable to copy to clipboard', err)
+      console.error("Unable to copy to clipboard", err);
     }
-    document.body.removeChild(textArea)
- };
+    document.body.removeChild(textArea);
+  };
 
   return (
     <>
@@ -990,354 +995,355 @@ const LibraryContent = () => {
           <Row>
             <div className="library-content-box-layuot d-flex">
               <>
-                {libraryData?.length || updateflag
-                  ? libraryData?.map((data, index) => {
-                      return (
-                        <>
-                          <div className="doc-content-main-box col">
-                            <div className="doc-content-header">
-                              <div className="doc-content-header-logo">
-                                <a href="#">
-                                  <img
-                                    alt="doc-logo"
-                                    src={data?.coverImage}
-                                    onError={imageOnError}
-                                    style={{ width: "67px" }}
-                                  />
-                                </a>
-                              </div>
-                              <div className="doc-content">
-                                <h5>{data?.title}</h5>
-                                <h6>{data?.pdf_sub_title}</h6>
-                                <p>{data?.key_author}</p>
-                                <div className="select-tags">
-                                  {data?.tags?.length
-                                    ? JSON.parse(data.tags)?.map((data) => {
-                                        return <div>{data}</div>;
-                                      })
-                                    : ""}
-                                </div>
-                              </div>
-                              {location?.state?.data == "edit" ? (
-                                <div className="dlt_btn">
-                                  <button>
-                                    <img
-                                      src={path_image + "edit-white.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
-                                </div>
-                              ) : deletestatus ? (
-                                <div className="dlt_btn">
-                                  <button
-                                    onClick={(e) =>
-                                      showConfirmationPopup(
-                                        "delete",
-                                        e,
-                                        data?.id
-                                      )
-                                    }
-                                  >
-                                    <img
-                                      src={path_image + "delete.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
-                                </div>
-                              ) : null}
+                {libraryData?.length || updateflag ? (
+                  libraryData?.map((data, index) => {
+                    return (
+                      <>
+                        <div className="doc-content-main-box col">
+                          <div className="doc-content-header">
+                            <div className="doc-content-header-logo">
+                              <a href="#">
+                                <img
+                                  alt="doc-logo"
+                                  src={data?.coverImage}
+                                  onError={imageOnError}
+                                  style={{ width: "67px" }}
+                                />
+                              </a>
                             </div>
-                            <div className="tabs-data">
-                              <Tabs
-                                onSelect={(key) => tabClicked(key, data?.id)}
-                                defaultActiveKey="docintel-link"
-                                fill
-                              >
-                                <Tab
-                                  eventKey="docintel-link"
-                                  title="Docintel Link"
-                                  className="flex-column justify-content-between"
+                            <div className="doc-content">
+                              <h5>{data?.title}</h5>
+                              <h6>{data?.pdf_sub_title}</h6>
+                              <p>{data?.key_author}</p>
+                              <div className="select-tags">
+                                {data?.tags?.length
+                                  ? JSON.parse(data.tags)?.map((data) => {
+                                      return <div>{data}</div>;
+                                    })
+                                  : ""}
+                              </div>
+                            </div>
+                            {location?.state?.data == "edit" ? (
+                              <div className="dlt_btn">
+                                <button>
+                                  <img
+                                    src={path_image + "edit-white.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
+                              </div>
+                            ) : deletestatus ? (
+                              <div className="dlt_btn">
+                                <button
+                                  onClick={(e) =>
+                                    showConfirmationPopup("delete", e, data?.id)
+                                  }
                                 >
-                                  <div className="tab-panel d-flex flex-column justify-content-between">
-                                    <div className="tab-content-links">
-                                      <a
-                                        href={data?.docintelLink}
-                                        className="doc-link"
-                                        target="_blank"
-                                      >
-                                        {data?.docintelLink}
-                                      </a>
-                                      <span
+                                  <img
+                                    src={path_image + "delete.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="tabs-data">
+                            <Tabs
+                              onSelect={(key) => tabClicked(key, data?.id)}
+                              defaultActiveKey="docintel-link"
+                              fill
+                            >
+                              <Tab
+                                eventKey="docintel-link"
+                                title="Docintel Link"
+                                className="flex-column justify-content-between"
+                              >
+                                <div className="tab-panel d-flex flex-column justify-content-between">
+                                  <div className="tab-content-links">
+                                    <a
+                                      href={data?.docintelLink}
+                                      className="doc-link"
+                                      target="_blank"
+                                    >
+                                      {data?.docintelLink}
+                                    </a>
+                                    <span
                                       className="copy-content"
-                                      onClick={() => {copyToClipboard(data?.docintelLink)}}
-                                      >
-                                        <img src={path_image + "copy-content.svg"} alt="Copy" />
-                                      </span>
-                                    </div>
-                                    <ul className="tab-mail-list">
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Upload date
-                                        </h6>
-                                        <h6>
-                                          {moment(data?.created).format(
-                                            "DD MMM, YYYY"
-                                          )}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          inforMedGo code
-                                        </h6>
-                                        <h6>
-                                          {data?.code}
+                                      onClick={() => {
+                                        copyToClipboard(data?.docintelLink);
+                                      }}
+                                    >
+                                      <img
+                                        src={path_image + "copy-content.svg"}
+                                        alt="Copy"
+                                      />
+                                    </span>
+                                  </div>
+                                  <ul className="tab-mail-list">
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Upload date
+                                      </h6>
+                                      <h6>
+                                        {moment(data?.created).format(
+                                          "DD MMM, YYYY"
+                                        )}
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        inforMedGo code
+                                      </h6>
+                                      <h6>
+                                        {data?.code}
+                                        <span
+                                          className="copy-content"
+                                          onClick={() => {
+                                            copyToClipboard(data?.code);
+                                          }}
+                                        >
+                                          <img
+                                            src={
+                                              path_image + "copy-content.svg"
+                                            }
+                                            alt="Copy"
+                                          />
+                                        </span>
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Docintel code
+                                      </h6>
+                                      <h6>
+                                        {data.docintel_code}
+                                        {
                                           <span
                                             className="copy-content"
                                             onClick={() => {
-                                              copyToClipboard(data?.code)
+                                              copyToClipboard(
+                                                data?.docintel_code
+                                              );
                                             }}
-                                      >
-                                      <img
-                                      src={
-                                      path_image + "copy-content.svg"
-                                    }
-                                    alt="Copy"
-                                    />
-                                    </span>
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Docintel code
-                                        </h6>
-                                        <h6>
-                                          {data.docintel_code}
-                                          {
-                                            <span
-                                            className="copy-content"
-                                            onClick={() => {
-                                              copyToClipboard(data?.docintel_code)
-                                            }}
-                                            >
+                                          >
                                             <img
-                                            src={
-                                            path_image + "copy-content.svg"
-                                          }
-                                          alt="Copy"
-                                          />
+                                              src={
+                                                path_image + "copy-content.svg"
+                                              }
+                                              alt="Copy"
+                                            />
                                           </span>
                                         }
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          SPC included
-                                        </h6>
-                                        <h6>
-                                          {data?.spc_included == 0
-                                            ? "No"
-                                            : "Yes"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Language
-                                        </h6>
-                                        <h6>No</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Link type
-                                        </h6>
-                                        <h6>{data?.linkType}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Include
-                                        </h6>
-                                        <div className="include-links">
-                                          {data?.spc_included ? (
-                                            <img
-                                              src={path_image + "spc-img.png"}
-                                              alt=""
-                                            />
-                                          ) : (
-                                            ""
-                                          )}
-
-                                          {data?.linkRelations ? (
-                                            <img
-                                              src={path_image + "video-img.png"}
-                                              alt=""
-                                            />
-                                          ) : (
-                                            ""
-                                          )}
-                                          {data?.pdfLinks ? (
-                                            <img
-                                              src={path_image + "link-img.png"}
-                                              alt=""
-                                            />
-                                          ) : (
-                                            ""
-                                          )}
-
-                                          {data.spc_included == 0 &&
-                                            data.linkRelations == 0 &&
-                                            data.pdfLinks == 0 && <h6>N/A</h6>}
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-
-                                  {location?.state?.data != "edit" &&
-                                  deletestatus == false ? (
-                                    <div className="data-main-footer-sec">
-                                      <div className="footer-btn-wrapper">
-                                        <a
-                                          className="footer-btn"
-                                          href={data?.previewArticle}
-                                          target="_blank"
-                                        >
-                                          Preview aritcle
-                                        </a>
-                                        <Button
-                                          onClick={() => {
-                                            commonModelFun();
-                                            setQr({
-                                              ...qrState,
-                                              value: data?.docintelLink,
-                                            });
-                                          }}
-                                          className="footer-btn"
-                                        >
-                                          Download QR
-                                        </Button>
-                                        <Button
-                                          className="footer-btn"
-                                          onClick={() => {
-                                            navigate("/CreateEmail");
-                                          }}
-                                        >
-                                          Send in email
-                                        </Button>
-                                      </div>
-                                    </div>
-                                  ) : null}
-                                </Tab>
-                                <Tab
-                                  eventKey="data-tab"
-                                  title="Data"
-                                  className="flex-column justify-content-between"
-                                >
-                                  <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
-                                    <ul className="tab-mail-list data">
-                                      <li className="d-flex align-center">
-                                        <h6 className="tab-content-title">
-                                          Unique Reader (total)
-                                          <LinkWithTooltip
-                                            tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
-                                            href="#"
-                                          >
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-
-                                        {flag == 0 && userId == data?.id ? (
-                                          <div className="data-progress limited">
-                                            <ProgressBar
-                                              variant="default"
-                                              now={100}
-                                              label={"Loading"}
-                                            />
-                                          </div>
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        SPC included
+                                      </h6>
+                                      <h6>
+                                        {data?.spc_included == 0 ? "No" : "Yes"}
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Language
+                                      </h6>
+                                      <h6>No</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Link type
+                                      </h6>
+                                      <h6>{data?.linkType}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Include
+                                      </h6>
+                                      <div className="include-links">
+                                        {data?.spc_included ? (
+                                          <img
+                                            src={path_image + "spc-img.png"}
+                                            alt=""
+                                          />
                                         ) : (
-                                          opening_details?.map((details) => {
-                                            if (details?.pdf_id == data?.id) {
-                                              return (
-                                                <>
-                                                  <div className="data-progress limited">
-                                                    <ProgressBar
-                                                      variant="warning"
-                                                      now={
-                                                        details?.limit == 0
-                                                          ? (details?.uniqueReader /
-                                                              1000) *
-                                                            100
-                                                          : (details?.uniqueReader /
-                                                              details?.limit) *
-                                                            100
-                                                      }
-                                                      label={
-                                                        details?.uniqueReader
-                                                      }
-                                                    />
-                                                    <span>
-                                                      Agreed Limit |&nbsp;
-                                                      {details?.limit == 0
-                                                        ? 1000
-                                                        : details?.limit}
-                                                    </span>
-                                                  </div>
-                                                  <span className="total-left">
-                                                    {details?.limit == 0
-                                                      ? 1000 -
-                                                        details?.uniqueReader
-                                                      : details?.limit -
-                                                        details?.uniqueReader}
-                                                    <small>Left</small>
-                                                  </span>
-                                                </>
-                                              );
-                                            }
-                                          })
+                                          ""
                                         )}
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Openings (total){" "}
-                                          <LinkWithTooltip
-                                            tooltip="Number of opening counts for specific article."
-                                            href="#"
-                                          >
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-                                        {flag == 0 && userId == data?.id ? (
-                                          <div className="data-progress limited">
-                                            <ProgressBar
-                                              variant="default"
-                                              now={100}
-                                              label={"loading"}
-                                            />
-                                          </div>
+
+                                        {data?.linkRelations ? (
+                                          <img
+                                            src={path_image + "video-img.png"}
+                                            alt=""
+                                          />
                                         ) : (
-                                          opening_details?.map((details) => {
-                                            if (details?.pdf_id == data?.id) {
-                                              return (
-                                                <>
-                                                  <div className="data-progress success-progress">
-                                                    <ProgressBar
-                                                      variant="success"
-                                                      now={
-                                                        details.opening == 0
-                                                          ? 0
-                                                          : 100
-                                                      }
-                                                      label={details?.opening}
-                                                    />
-                                                    {/* <ProgressBar
+                                          ""
+                                        )}
+                                        {data?.pdfLinks ? (
+                                          <img
+                                            src={path_image + "link-img.png"}
+                                            alt=""
+                                          />
+                                        ) : (
+                                          ""
+                                        )}
+
+                                        {data.spc_included == 0 &&
+                                          data.linkRelations == 0 &&
+                                          data.pdfLinks == 0 && <h6>N/A</h6>}
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+
+                                {location?.state?.data != "edit" &&
+                                deletestatus == false ? (
+                                  <div className="data-main-footer-sec">
+                                    <div className="footer-btn-wrapper">
+                                      <a
+                                        className="footer-btn"
+                                        href={data?.previewArticle}
+                                        target="_blank"
+                                      >
+                                        Preview aritcle
+                                      </a>
+                                      <Button
+                                        onClick={() => {
+                                          commonModelFun();
+                                          setQr({
+                                            ...qrState,
+                                            value: data?.docintelLink,
+                                          });
+                                        }}
+                                        className="footer-btn"
+                                      >
+                                        Download QR
+                                      </Button>
+                                      <Button
+                                        className="footer-btn"
+                                        onClick={() => {
+                                          navigate("/CreateEmail");
+                                        }}
+                                      >
+                                        Send in email
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ) : null}
+                              </Tab>
+                              <Tab
+                                eventKey="data-tab"
+                                title="Data"
+                                className="flex-column justify-content-between"
+                              >
+                                <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
+                                  <ul className="tab-mail-list data">
+                                    <li className="d-flex align-center">
+                                      <h6 className="tab-content-title">
+                                        Unique Reader (total)
+                                        <LinkWithTooltip
+                                          tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+
+                                      {flag == 0 && userId == data?.id ? (
+                                        <div className="data-progress limited">
+                                          <ProgressBar
+                                            variant="default"
+                                            now={100}
+                                            label={"Loading"}
+                                          />
+                                        </div>
+                                      ) : (
+                                        opening_details?.map((details) => {
+                                          if (details?.pdf_id == data?.id) {
+                                            return (
+                                              <>
+                                                <div className="data-progress limited">
+                                                  <ProgressBar
+                                                    variant="warning"
+                                                    now={
+                                                      details?.limit == 0
+                                                        ? (details?.uniqueReader /
+                                                            1000) *
+                                                          100
+                                                        : (details?.uniqueReader /
+                                                            details?.limit) *
+                                                          100
+                                                    }
+                                                    label={
+                                                      details?.uniqueReader
+                                                    }
+                                                  />
+                                                  <span>
+                                                    Agreed Limit |&nbsp;
+                                                    {details?.limit == 0
+                                                      ? 1000
+                                                      : details?.limit}
+                                                  </span>
+                                                </div>
+                                                <span className="total-left">
+                                                  {details?.limit == 0
+                                                    ? 1000 -
+                                                      details?.uniqueReader
+                                                    : details?.limit -
+                                                      details?.uniqueReader}
+                                                  <small>Left</small>
+                                                </span>
+                                              </>
+                                            );
+                                          }
+                                        })
+                                      )}
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Openings (total){" "}
+                                        <LinkWithTooltip
+                                          tooltip="Number of opening counts for specific article."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      {flag == 0 && userId == data?.id ? (
+                                        <div className="data-progress limited">
+                                          <ProgressBar
+                                            variant="default"
+                                            now={100}
+                                            label={"loading"}
+                                          />
+                                        </div>
+                                      ) : (
+                                        opening_details?.map((details) => {
+                                          if (details?.pdf_id == data?.id) {
+                                            return (
+                                              <>
+                                                <div className="data-progress success-progress">
+                                                  <ProgressBar
+                                                    variant="success"
+                                                    now={
+                                                      details.opening == 0
+                                                        ? 0
+                                                        : 100
+                                                    }
+                                                    label={details?.opening}
+                                                  />
+                                                  {/* <ProgressBar
                                                     variant="success"
                                                     now={
                                                       details.limit == 0
@@ -1351,259 +1357,257 @@ const LibraryContent = () => {
                                                     now={100}
                                                     label={details.opening}
                                                   /> */}
-                                                  </div>
-                                                </>
-                                              );
+                                                </div>
+                                              </>
+                                            );
+                                          }
+                                        })
+                                      )}
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Registered readers{" "}
+                                        <LinkWithTooltip
+                                          tooltip="Number of HCPs who have register for or activated the content."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
                                             }
-                                          })
-                                        )}
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Registered readers{" "}
-                                          <LinkWithTooltip
-                                            tooltip="Number of HCPs who have register for or activated the content."
-                                            href="#"
-                                          >
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-                                        {flag == 0 && userId == data.id ? (
-                                          <div className="data-progress limited">
-                                            <ProgressBar
-                                              variant="default"
-                                              now={100}
-                                              label={"loading"}
-                                            />
-                                          </div>
-                                        ) : (
-                                          opening_details.map((details) => {
-                                            if (details.pdf_id == data.id) {
-                                              return (
-                                                <>
-                                                  <div className="data-progress">
-                                                    {/* <span>{details.registeredReader}</span> */}
-                                                    <ProgressBar
-                                                      variant="danger"
-                                                      now={
-                                                        details.limit == 0
-                                                          ? (details.registeredReader /
-                                                              1000) *
-                                                            100
-                                                          : (details.registeredReader /
-                                                              details.limit) *
-                                                            100
-                                                      }
-                                                      label={
-                                                        details.registeredReader
-                                                      }
-                                                    />
-                                                  </div>
-                                                </>
-                                              );
-                                            }
-                                          })
-                                        )}
-                                      </li>
-                                    </ul>
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      {flag == 0 && userId == data.id ? (
+                                        <div className="data-progress limited">
+                                          <ProgressBar
+                                            variant="default"
+                                            now={100}
+                                            label={"loading"}
+                                          />
+                                        </div>
+                                      ) : (
+                                        opening_details.map((details) => {
+                                          if (details.pdf_id == data.id) {
+                                            return (
+                                              <>
+                                                <div className="data-progress">
+                                                  {/* <span>{details.registeredReader}</span> */}
+                                                  <ProgressBar
+                                                    variant="danger"
+                                                    now={
+                                                      details.limit == 0
+                                                        ? (details.registeredReader /
+                                                            1000) *
+                                                          100
+                                                        : (details.registeredReader /
+                                                            details.limit) *
+                                                          100
+                                                    }
+                                                    label={
+                                                      details.registeredReader
+                                                    }
+                                                  />
+                                                </div>
+                                              </>
+                                            );
+                                          }
+                                        })
+                                      )}
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <Button className="footer-btn">
+                                      Analytics
+                                    </Button>
+                                    <Button
+                                      className="footer-btn reset"
+                                      onClick={(e) =>
+                                        showConfirmationPopup(
+                                          "reset",
+                                          e,
+                                          data?.id
+                                        )
+                                      }
+                                    >
+                                      Reset the collected data
+                                    </Button>
                                   </div>
-                                  <div className="data-main-footer-sec">
-                                    <div className="footer-btn-wrapper">
-                                      <Button className="footer-btn">
-                                        Analytics
-                                      </Button>
+                                </div>
+                              </Tab>
+                              <Tab
+                                className="change-tab flex-column justify-content-between"
+                                eventKey="change-tab"
+                                title="Change"
+                              >
+                                <div className="data-main-box change-tab-main-box tab-panel">
+                                  <ul className="tab-mail-list data change">
+                                    <div className="form-group d-flex align-items-center">
+                                      <label htmlFor="">Consent type</label>
+                                      <Select
+                                        options={types}
+                                        defaultValue={
+                                          data.linkType == "Online"
+                                            ? types[0]
+                                            : data.linkType == "Offline"
+                                            ? types[1]
+                                            : data.linkType == "Sunshine"
+                                            ? types[2]
+                                            : "Select"
+                                        }
+                                        onChange={(event) =>
+                                          onConsentChange(event, data.id)
+                                        }
+                                        id={"consent_dropdown_" + index}
+                                        className="dropdown-basic-button split-button-dropup"
+                                        isClearable
+                                      />
                                       <Button
-                                        className="footer-btn reset"
                                         onClick={(e) =>
-                                          showConfirmationPopup(
-                                            "reset",
-                                            e,
-                                            data?.id
-                                          )
+                                          updateConset(data.id, index)
                                         }
                                       >
-                                        Reset the collected data
+                                        Update
                                       </Button>
                                     </div>
-                                  </div>
-                                </Tab>
-                                <Tab
-                                  className="change-tab flex-column justify-content-between"
-                                  eventKey="change-tab"
-                                  title="Change"
-                                >
-                                  <div className="data-main-box change-tab-main-box tab-panel">
-                                    <ul className="tab-mail-list data change">
-                                      <div className="form-group d-flex align-items-center">
-                                        <label htmlFor="">Consent type</label>
-                                        <Select
-                                          options={types}
-                                          defaultValue={
-                                            data.linkType == "Online"
-                                              ? types[0]
-                                              : data.linkType == "Offline"
-                                              ? types[1]
-                                              : data.linkType == "Sunshine"
-                                              ? types[2]
-                                              : "Select"
-                                          }
-                                          onChange={(event) =>
-                                            onConsentChange(event, data.id)
-                                          }
-                                          id={"consent_dropdown_" + index}
-                                          className="dropdown-basic-button split-button-dropup"
-                                          isClearable
-                                        />
-                                        <Button
-                                          onClick={(e) =>
-                                            updateConset(data.id, index)
-                                          }
-                                        >
-                                          Update
-                                        </Button>
-                                      </div>
-                                    </ul>
-                                  </div>
-                                  <div className="data-main-footer-sec">
-                                    <div className="footer-btn-wrapper">
-                                      {/* <Button className="footer-btn">
+                                  </ul>
+                                </div>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    {/* <Button className="footer-btn">
                                         Edit Docintel Link
                                       </Button> */}
-                                      <Link
-                                        to="/library-edit"
-                                        state={{ pdfid: data.id }}
-                                        className="footer-btn"
-                                      >
-                                        Edit Docintel link
-                                      </Link>
-                                      <Button
-                                        className="footer-btn"
-                                        onClick={(e) =>
-                                          tagButtonClicked(data.id)
-                                        }
-                                      >
-                                        Add / Remove tags
-                                      </Button>
-                                      <Link
-                                        to="/library-sublink"
-                                        state={{ pdfid: data.id }}
-                                        className="footer-btn"
-                                      >
-                                        New sublink
-                                      </Link>
-                                    </div>
+                                    <Link
+                                      to="/library-edit"
+                                      state={{ pdfid: data.id }}
+                                      className="footer-btn"
+                                    >
+                                      Edit Docintel link
+                                    </Link>
+                                    <Button
+                                      className="footer-btn"
+                                      onClick={(e) => tagButtonClicked(data.id)}
+                                    >
+                                      Add / Remove tags
+                                    </Button>
+                                    <Link
+                                      to="/library-sublink"
+                                      state={{ pdfid: data.id }}
+                                      className="footer-btn"
+                                    >
+                                      New sublink
+                                    </Link>
                                   </div>
-                                </Tab>
-                                <Tab
-                                  eventKey="sales"
-                                  title="Sales"
-                                  className="flex-column justify-content-between"
-                                >
-                                  <div className="tab-panel">
-                                    <ul className="tab-mail-list">
-                                      {data.licensed == 1 && (
-                                        <>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Sales person
-                                            </h6>
-                                            <h6>{data?.saleName}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Production person
-                                            </h6>
-                                            <h6>{data?.productName}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client name
-                                            </h6>
-                                            <h6>{data?.company}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client product
-                                            </h6>
-                                            <h6>{data?.product}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client country
-                                            </h6>
-                                            <h6>{data?.country}</h6>
-                                          </li>
-                                        </>
-                                      )}
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Opening limit
-                                        </h6>
-                                        <h6>{data?.limit}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Link type
-                                        </h6>
-                                        <h6>{data?.linkType}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Print
-                                        </h6>
-                                        <h6>
-                                          {data?.allow_print ? "Yes" : "No"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Download
-                                        </h6>
-                                        <h6>
-                                          {data?.allow_download ? "Yes" : "No"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Upload date
-                                        </h6>
-                                        <h6>{data?.uploadedDate}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Expiration date
-                                        </h6>
-                                        <h6>
-                                          {data?.expireDate
-                                            ? data.expireDate
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </Tab>
-                              </Tabs>
-                            </div>
+                                </div>
+                              </Tab>
+                              <Tab
+                                eventKey="sales"
+                                title="Sales"
+                                className="flex-column justify-content-between"
+                              >
+                                <div className="tab-panel">
+                                  <ul className="tab-mail-list">
+                                    {data.licensed == 1 && (
+                                      <>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Sales person
+                                          </h6>
+                                          <h6>{data?.saleName}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Production person
+                                          </h6>
+                                          <h6>{data?.productName}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Client name
+                                          </h6>
+                                          <h6>{data?.company}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Client product
+                                          </h6>
+                                          <h6>{data?.product}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Client country
+                                          </h6>
+                                          <h6>{data?.country}</h6>
+                                        </li>
+                                      </>
+                                    )}
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Opening limit
+                                      </h6>
+                                      <h6>{data?.limit}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Link type
+                                      </h6>
+                                      <h6>{data?.linkType}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Print
+                                      </h6>
+                                      <h6>
+                                        {data?.allow_print ? "Yes" : "No"}
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Download
+                                      </h6>
+                                      <h6>
+                                        {data?.allow_download ? "Yes" : "No"}
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Upload date
+                                      </h6>
+                                      <h6>{data?.uploadedDate}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Expiration date
+                                      </h6>
+                                      <h6>
+                                        {data?.expireDate
+                                          ? data.expireDate
+                                          : "N/A"}
+                                      </h6>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </Tab>
+                            </Tabs>
                           </div>
-                        </>
-                      );
-                    })
-                  : <div>
-                    {noData==true && libraryData?.length<=0?
-                    <p style={{fontSize:"30px",}}>
-                    No Data Found</p>:null}
-                    </div>}
+                        </div>
+                      </>
+                    );
+                  })
+                ) : (
+                  <div>
+                    {noData == true && libraryData?.length <= 0 ? (
+                      <p style={{ fontSize: "30px" }}>No Data Found</p>
+                    ) : null}
+                  </div>
+                )}
               </>
             </div>
-            {(page === 1 && isLoaded==true)?
-            (
-
+            {page === 1 && isLoaded == true ? (
               <div className="load_more">
                 <button
                   className="btn btn-primary btn-filled"
@@ -1612,8 +1616,7 @@ const LibraryContent = () => {
                   Load More
                 </button>
               </div>
-            )
-            : null}
+            ) : null}
 
             {pageAll == true ? (
               <div
@@ -1668,13 +1671,13 @@ const LibraryContent = () => {
             <h6>Select Tag :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
+                {/* {Object.values(allTags).map((data) => {
                   return (
                     <>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
                     </>
                   );
-                })}
+                })} */}
               </div>
             </div>
           </div>
