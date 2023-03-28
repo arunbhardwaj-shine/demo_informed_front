@@ -483,7 +483,7 @@
       border-radius: 15px;
       width: 100%;
       padding: 8px;
-      max-height: 150px;
+      max-height: 170px;
       background-color: $white;
       background-clip: padding-box;
       position: absolute;
@@ -491,6 +491,9 @@
       z-index: 99;
       > div {
         padding-right: 5px;
+        overflow-y: auto;
+        height:100%;
+        max-height: 150px;
         div {
           color: $dark-blue;
           font-size: 15px;
@@ -1106,7 +1109,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 .doc-content-main-box ul.tab-mail-list li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin: 0 0 10px;
 }
 .mailbox-table td span.product_list {
@@ -2835,6 +2838,14 @@ section.verify_email.content_details {
 .create-change-content.reader_added .form-group .add_product button {
     min-width: 187px;
 }
+.library-content-box-layuot.readerlist {
+    padding-left: 0;
+    padding-right: 0;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.data li .select-dropdown-wrapper .select .split-button-dropup > div:nth-child(3) > div {
+    padding-left: 2px;
+    padding-right: 8px;
+}
 /**Reader Style End**/
 
 /**Library Responsive**/
@@ -2911,7 +2922,8 @@ ul.tab-mail-list.data span.total-left {
     height: 43.5px;
 }
 .create-change-content.reader_added .form-group .add_product button {
-    min-width: 155px;
+    min-width: 160px;
+    font-size: 14px;
 }
 .create-change-content .form-group .split-button-dropup div:nth-child(3) > div div {
     font-size: 14px;
@@ -2966,6 +2978,9 @@ ul.tab-mail-list.data span.total-left {
   .library_create .library_create-box.spc {
     max-width: 31.3%;
   }
+  .form-group .add_product span {
+    height: 40px;
+}
   .sublink_right .sublink_right_block {
     min-height: 572px;
   }

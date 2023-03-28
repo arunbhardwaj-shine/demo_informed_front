@@ -592,8 +592,7 @@ const NewReaders = () => {
                 </div>
               </div>
             ) : null}
-          </Row>
-          <Row>
+
             <div className="library-content-box-layuot readerlist d-flex">
               <h4>
                 <span>Total HCP</span> | {readerDataList?.length}
