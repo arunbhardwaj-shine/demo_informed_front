@@ -35,7 +35,7 @@
           h6.tab-content-title {
             font-weight: 500;
             color: rgba(0, 74, 137, 0.55);
-            flex: 0 0 129px;
+            flex: 0 0 100px;
             margin: 0;
           }
         }
@@ -472,7 +472,7 @@
       padding: 3px 7px;
     }
   }
-}
+}      
 .split-button-dropup {
   > div {
     &:nth-child(4) {
@@ -502,7 +502,7 @@
           word-break: break-word;
           white-space: normal;
         }
-      }
+      }    
     }
     &:nth-child(3) {
       div {
@@ -642,6 +642,12 @@
   100% {
     opacity: 1;
   }
+}
+.library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
+    flex: 0 0 130px;
+}
+.library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change h6.tab-content-title {
+    flex: 0 0 95px;
 }
 .sublink_right .blink_text {
   margin: 0 auto;
@@ -2300,6 +2306,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   .dropdown-basic-button.split-button-dropup
   > div:nth-child(3) {
   background-position: 83% center;
+  padding: 8px 30px 8px 10px;
 }
 .form-group.primary_phone input.form-control {
   max-width: 308px;
@@ -2819,9 +2826,14 @@ section.verify_email.content_details {
 }
 .top-header {
     align-items: center;
+    padding-left: 0;
+    padding-right: 0;
 }
 .select-mail-template.library-cosent .alice-carousel > div {
     display: block;
+}
+.create-change-content.reader_added .form-group .add_product button {
+    min-width: 187px;
 }
 /**Reader Style End**/
 
@@ -2839,8 +2851,24 @@ section.verify_email.content_details {
     max-width: 100%;
     flex: 0 0 100%;
 }
+.tab-mail-list.data .progress {
+    width: 150px;
 }
-
+ul.tab-mail-list.data span.total-left {
+    font-size: 12px;
+}
+.data-progress {
+    margin-right: 3px;
+    padding: 0px 0 0 20px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
+    padding: 7px 7px;
+    font-size: 13px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup > div:nth-child(3) div {
+    padding-left: 0;
+}
+}
 
 
 @media only screen and (max-width: 1900px) {
@@ -2851,7 +2879,6 @@ section.verify_email.content_details {
     margin-right: 4px;
   }
 }
-
 
 
 @media only screen and (max-width: 1700px) {
@@ -2879,8 +2906,23 @@ section.verify_email.content_details {
 }
 
 
-
 @media only screen and (max-width: 1599px) {
+.form-group.primary_phone .dropdown-basic-button.split-button-dropup > div:nth-child(3), .create-change-content .split-button-dropup > div:nth-child(3) {
+    height: 43.5px;
+}
+.create-change-content.reader_added .form-group .add_product button {
+    min-width: 155px;
+}
+.create-change-content .form-group .split-button-dropup div:nth-child(3) > div div {
+    font-size: 14px;
+}
+  .library-content-box-layuot.readerlist .doc-content-main-box {
+    flex: 0 0 32%;
+    margin: 20px 0 5px;
+}
+.library-content-box-layuot.readerlist {
+    gap: 0% 2%;
+}
   .library_create .library_create-box {
     max-width: 373px;
   }
@@ -2909,7 +2951,7 @@ section.verify_email.content_details {
   }
   .create-change-content .form-group .form-control,
   .create-change-content .form-group .react-datepicker__input-container input {
-    font-size: 13px;
+    font-size: 14px;
   }
   .sublink_left {
     flex: 0 0 500px;
@@ -3049,6 +3091,12 @@ section.verify_email.content_details {
   .create-change-content .form-group .dropdown-basic-button {
     max-width: 350px;
 }
+  .create-change-content .form-group.primary_phone .dropdown-basic-button {
+    max-width: 124px;
+}
+.form-group.primary_phone input.form-control {
+    max-width: 210px;
+}
   .form-group.chapter-title {
     max-width: 438px;
   }
@@ -3091,11 +3139,25 @@ section.verify_email.content_details {
   .create-change-content .form-group .split-button-dropup > div:nth-child(3) {
     max-width: 100%;
   }
+    .form-group.primary_phone .dropdown-basic-button.split-button-dropup > div:nth-child(3), .create-change-content .split-button-dropup > div:nth-child(3) {
+    height: 39px;
+}
+.form-group.primary_phone .dropdown-basic-button.split-button-dropup > div:nth-child(3) {
+    padding: 3px 30px 3px 10px;
+}
 }
 
 
 
 @media (max-width: $layout-breakpoint-extraLarge) {
+
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.data li .select-dropdown-wrapper .select .split-button-dropup > div:nth-child(3) div div {
+    font-size: 13px;
+}
+.doc-content h4 {
+    font-size: 16px;
+    line-height: 22px;
+}
   .library_create .library_create-box {
     padding: 22px 22px;
   }
@@ -3120,12 +3182,7 @@ section.verify_email.content_details {
   .create-change-content .right-change .form-group {
     justify-content: flex-start !important;
   }
-  .create-change-content .col-md-6 {
-    width: 100%;
-  }
-  .create-change-content.spc-content .col-xl-4{
-    width: 33.3%;
-  }
+ 
   .create-change-content .right-change .form-group > label {
     padding-top: 10px;
   }
@@ -3190,7 +3247,7 @@ section.verify_email.content_details {
     top: 12px;
   }
   .library_create {
-    padding: 40px 12px 0;
+    padding: 40px 0px 0;
   }
   .library_create .library_create-box .create-library-content h5 {
     margin: 0;
@@ -3390,6 +3447,12 @@ section.verify_email.content_details {
   }
 }
 @media only screen and (max-width: 1365px) {
+   .create-change-content .col-md-6, .create-change-content .col-md-7, .create-change-content .col-md-5 {
+    width: 100%;
+  }
+  .create-change-content.spc-content .col-xl-4{
+    width: 33.3%;
+  }
   .selected-products-list .products-listing {
     max-width: 265px;
   }
@@ -3408,6 +3471,7 @@ section.verify_email.content_details {
     width: auto;
     flex: 0 0 50%;
   }
+
 .no_content_selected h3 {
     padding: 80px 0 80px;
 }
@@ -3420,7 +3484,7 @@ section.verify_email.content_details {
   .selected-products-list .products-listing {
     max-width: 91%;
   }
-  .library-content-box-layuot .doc-content-main-box {
+  .library-content-box-layuot .doc-content-main-box, .library-content-box-layuot.readerlist .doc-content-main-box {
     flex: 0 0 49%;
     width: 49%;
   }

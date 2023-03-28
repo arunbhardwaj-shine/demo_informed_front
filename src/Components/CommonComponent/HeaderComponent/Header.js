@@ -89,61 +89,61 @@ const Header = () => {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="collapsibleNavbar">
-              <ul className="navbar-nav">
-                <li className="nav-item active">
+            <ul className="navbar-nav">
+              <li className="nav-item active">
+                <a
+                  className="nav-link"
+                  href="/library-content"
+                >
+                  LIBRARY
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/readers-view">
+                  READERS
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="https://informed.pro/Analytics">
+                  ANALYTICS
+                </a>
+              </li>
+              <li className="nav-item active active-main">
+                <a
+                  className="nav-link"
+                  href="https://informed.pro/Distributes/MailEngine"
+                >
+                  EMAIL
+                </a>
+              </li>
+
+              {queryParams?.webinar_flag && queryParams.webinar_flag == 1 ? (
+                <li className="nav-item">
                   <a
                     className="nav-link"
-                    href="/library-content"
+                    href="https://informed.pro/Webinar/readers_webinar"
                   >
-                    LIBRARY
+                    WEBINAR
                   </a>
                 </li>
+              ) : (
+                ""
+              )}
+
+              {localStorage.getItem("user_id") ==
+              "56Ek4feL/1A8mZgIKQWEqg==" ? (
                 <li className="nav-item">
-                  <a className="nav-link" href="/readers-view">
-                    READERS
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="https://informed.pro/Analytics">
-                    ANALYTICS
-                  </a>
-                </li>
-                <li className="nav-item active active-main">
                   <a
                     className="nav-link"
-                    href="https://informed.pro/Distributes/MailEngine"
+                    href="https://informed.pro/webinar/qa_survey?cmid=2147501188"
                   >
-                    EMAIL
+                    Q&A/SURVEY
                   </a>
                 </li>
-
-                {queryParams?.webinar_flag && queryParams.webinar_flag == 1 ? (
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      href="https://informed.pro/Webinar/readers_webinar"
-                    >
-                      WEBINAR
-                    </a>
-                  </li>
-                ) : (
-                  ""
-                )}
-
-                {localStorage.getItem("user_id") ==
-                "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      href="https://informed.pro/webinar/qa_survey?cmid=2147501188"
-                    >
-                      Q&A/SURVEY
-                    </a>
-                  </li>
-                ) : (
-                  ""
-                )}
-              </ul>
+              ) : (
+                ""
+              )}
+            </ul>
             </div>
             <div className="user-login">
               <Dropdown>

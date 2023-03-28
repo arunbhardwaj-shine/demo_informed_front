@@ -26,6 +26,8 @@ import Products from "./Components/Library/Products";
 import AnalyticsHeader from "./Components/Analytics/Layout/Header";
 import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
 import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
+import CisStats from "./Components/Analytics/CisStats";
+
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
@@ -137,7 +139,7 @@ const Routing = () => {
             "/timeline-detail",
           ].includes(window.location.pathname) ? (
           <Header />
-        ) : ["/Analytics"].includes(window.location.pathname) ? (
+        ) : ["/cis_stats"].includes(window.location.pathname) ? (
           <Header />
         ) : window.location.pathname !== "/" ? (
           <Header />
@@ -156,7 +158,7 @@ const Routing = () => {
                 "/setting-webinar",
               ].includes(window.location.pathname) ? (
                 <WebinarSidebar />
-              ) : ["/totalhcp"].includes(window.location.pathname) ? (
+              ) : ["/cis_stats"].includes(window.location.pathname) ? (
                 <AnalyticsSidebar />
               ) : window.location.pathname !== "/" ? (
                 <Sidebar />
@@ -166,6 +168,7 @@ const Routing = () => {
                 {/* New webinar */}
                 {/* <Route path="/new-webinar" element={<WebinarHeader />} /> */}
                 {/* end webinar */}
+                <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
                 <Route path="/readers-view" element={<NewReaders />} />
                 <Route path="/reader-edit" element={<ReaderEdit />} />

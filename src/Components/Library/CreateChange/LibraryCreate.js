@@ -70,8 +70,6 @@ const LibraryCreate = () => {
                 <h2>Create &amp; Change</h2>
               </div>
             </div>
-          </Row>
-          <Row>
             <div className="library_create d-flex">
               {data.map((item, index) => (
                 <div
