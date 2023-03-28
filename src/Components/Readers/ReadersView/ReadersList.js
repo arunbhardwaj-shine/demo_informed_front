@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { postData } from "../../../axios/apiHelper";
+import { postData, getData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
@@ -58,6 +58,7 @@ const NewReaders = () => {
   const [showfilter, setShowFilter] = useState(false);
 
   useEffect(() => {
+    getFilters();
     getReaderListData(page, filterObject, search);
   }, []);
 
@@ -67,6 +68,18 @@ const NewReaders = () => {
     }
   }, [page]);
 
+  const getFilters = async () => {
+    try {
+      loader("show");
+      const res = await getData(ENDPOINT.READERSFILTER);
+      setFilterData(res?.data?.data);
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log("err");
+    }
+  };
+
   const getReaderListData = async (page, obj, search) => {
     try {
       loader("show");
@@ -74,15 +87,17 @@ const NewReaders = () => {
         user_id: localStorage.getItem("user_id"),
         userType: 5,
         search: search,
-        type: Object.keys(obj).length > 0 ? obj?.Status[0] : "Unregistered",
+        type: "",
         page: page,
       };
+
+      let payload = { ...data, ...obj };
       if (pageAllClicked == true) {
         setPageAll(true);
       } else {
         loader("show");
       }
-      const res = await postData(ENDPOINT.READER_LIST_DATA, data);
+      const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
 
       let body = {
         "user_id": localStorage.getItem("user_id")
@@ -98,7 +113,11 @@ const NewReaders = () => {
       });
 
       // setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
-      setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data]);
+      if(page == 2){
+        setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data]);
+      }else{
+        setReaderDataList(res?.data?.data);
+      }
       loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
@@ -152,7 +171,9 @@ const NewReaders = () => {
     }
 
     if (e?.target?.checked == true) {
-      filterObject[key] = [];
+      if(key == "status" || key == "contactType"){
+        filterObject[key] = [];
+      }
       filterObject[key]?.push(item);
       // filterObject[key] = item;
     } else {
@@ -431,9 +452,10 @@ const NewReaders = () => {
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
-                                                      type="radio"
+                                                      type={key == "status" || key == "contactType"  ? "radio" : "checkbox" }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
+                                                      name={key}
                                                       defaultChecked={
                                                         filterObject?.hasOwnProperty(
                                                           key
@@ -444,7 +466,6 @@ const NewReaders = () => {
                                                             -1
                                                           : false
                                                       }
-                                                      name="tags[]"
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
                                                           e,
