@@ -245,14 +245,8 @@ const SpcView = () => {
 					})
 					:
             apiCallStatus ?
-            <div className="smartlist_box_block">
-               <div className="smartlist-view email_box">
-                 <div className="mail-box-content">
-                   <div className="mailbox-table">
-                   No Data Found
-                   </div>
-                 </div>
-               </div>
+            <div className="no_found">
+                   <p>No Data Found</p>
              </div>
              : null
 				}

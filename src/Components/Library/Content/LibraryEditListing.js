@@ -137,8 +137,10 @@ const LibraryContent = () => {
       const res = await postData(ENDPOINT.FILTERS, {
         user_id: localStorage.getItem("user_id"),
       });
-      setFilterData(res?.data?.data);
-      setAllTags(res?.data?.data?.tags);
+      if(res?.data?.data){
+        setFilterData(res?.data?.data);
+        setAllTags(res?.data?.data?.tags);
+      }
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -301,7 +303,9 @@ const LibraryContent = () => {
         loader("show");
       }
       const res = await postData(ENDPOINT.LIBRARY, body);
-      setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
+      if(res?.data?.data?.library){
+        setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
+      }
       setPageAll(false);
       setIsLoaded(true);
       setPageAllClicked(false);
