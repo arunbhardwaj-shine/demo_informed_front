@@ -90,7 +90,36 @@ const Header = () => {
             </button>
             <div className="collapse navbar-collapse" id="collapsibleNavbar">
             <ul className="navbar-nav">
-              <li className="nav-item active">
+              <li className={
+                    window.location.pathname == "/library-create-pharma" ||
+                    window.location.pathname == "/library-delete" ||
+                    window.location.pathname == "/library-campaign" ||
+                    window.location.pathname == "/library-content" ||
+                    window.location.pathname == "/library-create" ||
+                    window.location.pathname == "/library-edit" ||
+                    window.location.pathname == "/library-sublink" ||
+                    window.location.pathname == "/library-topics" ||
+                    window.location.pathname == "/set-popup" ||
+                    window.location.pathname == "/preview-content" ||
+                    window.location.pathname == "/library-create-user" ||
+                    window.location.pathname == "/edit-Consent-Options" ||
+                    window.location.pathname == "/auto_popup" ||
+                    window.location.pathname == "/create-docintel-link" ||
+                    window.location.pathname == "/content-detail" ||
+                    window.location.pathname == "/library-edit-listing" ||
+                    window.location.pathname == "/library-create" ||
+                    window.location.pathname == "/spc" ||
+                    window.location.pathname == "/spc-create" ||
+                    window.location.pathname == "/spc-edit" ||
+                    window.location.pathname == "/spc-view" ||
+                    window.location.pathname == "/spc-render" ||
+                    window.location.pathname == "/spc-delete" ||
+                    window.location.pathname == "/products"
+                    ? "nav-item active active-main"
+                      : "nav-item"
+                  }
+
+              >
                 <a
                   className="nav-link"
                   href="/library-content"
@@ -98,7 +127,17 @@ const Header = () => {
                   LIBRARY
                 </a>
               </li>
-              <li className="nav-item">
+              <li className={
+                    window.location.pathname == "/readers-view" ||
+                    window.location.pathname == "/reader-add" ||
+                    window.location.pathname == "/reader-edit" ||
+                    window.location.pathname == "/smart-list-add" ||
+                    window.location.pathname == "/reader-review" ||
+                    window.location.pathname == "/timeline-detail" ||
+                    window.location.pathname == "/article_type_registration"
+                    ? "nav-item active active-main"
+                      : "nav-item"
+                  }>
                 <a className="nav-link" href="/readers-view">
                   READERS
                 </a>
@@ -108,7 +147,28 @@ const Header = () => {
                   ANALYTICS
                 </a>
               </li>
-              <li className="nav-item active active-main">
+              <li className={
+                      window.location.pathname == "EmailArticleSelect" ||
+                      window.location.pathname == "EmailList" ||
+                      window.location.pathname == "CreateEmail" ||
+                      window.location.pathname == "SelectHCP" ||
+                      window.location.pathname == "SelectSmartList" ||
+                      window.location.pathname == "SelectSmartListUsers" ||
+                      window.location.pathname == "VerifyMAIL" ||
+                      window.location.pathname == "verifyMAIL" ||
+                      window.location.pathname == "VerifyHcpMAIL" ||
+                      window.location.pathname == "CreateSmartList" ||
+                      window.location.pathname == "SmartListFilter" ||
+                      window.location.pathname == "AutoEmail" ||
+                      window.location.pathname == "TemplateBuilder" ||
+                      window.location.pathname == "SmartList" ||
+                      window.location.pathname == "ViewSmartList" ||
+                      window.location.pathname == "EditList" ||
+                      window.location.pathname == "EmailStatss" ||
+                      window.location.pathname == "get-details"
+                    ? "nav-item active active-main"
+                      : "nav-item"
+                  }>
                 <a
                   className="nav-link"
                   href="https://informed.pro/Distributes/MailEngine"

@@ -141,8 +141,10 @@ const LibraryContent = () => {
       const res = await postData(ENDPOINT.FILTERS, {
         user_id: localStorage.getItem("user_id"),
       });
-      setFilterData(res?.data?.data);
-      setAllTags(res?.data?.data?.tags);
+      if(res?.data?.data){
+        setFilterData(res?.data?.data);
+        setAllTags(res?.data?.data?.tags);
+      }
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -287,8 +289,6 @@ const LibraryContent = () => {
 
   useEffect(() => {
     getLibraryData(page, filterObject, search);
-
-
   }, [page]);
 
   const getLibraryData = async (page, obj, search) => {
@@ -399,7 +399,6 @@ const LibraryContent = () => {
 
       loader("hide");
     } catch (err) {
-      console.log("err");
       loader("hide");
     }
 
@@ -1075,8 +1074,8 @@ const LibraryContent = () => {
                                         {data?.docintelLink}
                                       </a>
                                       <span
-                                      className="copy-content"
-                                      onClick={() => {copyToClipboard(data?.docintelLink)}}
+                                        className="copy-content"
+                                        onClick={() => {copyToClipboard(data?.docintelLink)}}
                                       >
                                         <img src={path_image + "copy-content.svg"} alt="Copy" />
                                       </span>
