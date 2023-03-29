@@ -604,6 +604,7 @@ const SetPopup = (props) => {
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
                         }}
+                      
                         onEditorChange={(content) => {
                           setTemplateSaving(content);
                         }}

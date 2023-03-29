@@ -36,4 +36,5 @@ export const ENDPOINT = {
   USERTIMELINE: `/reader/get-timetracking`,
   READERSTATUSUPDATE: `/reader/update-status`,
   READERSFILTER: `/reader/get-reader-filter`,
+  READERACTIVITY: `/reader/reader-activity`,
 };
