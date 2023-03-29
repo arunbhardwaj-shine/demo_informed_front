@@ -141,8 +141,10 @@ const LibraryContent = () => {
       const res = await postData(ENDPOINT.FILTERS, {
         user_id: localStorage.getItem("user_id"),
       });
-      setFilterData(res?.data?.data);
-      setAllTags(res?.data?.data?.tags);
+      if(res?.data?.data){
+        setFilterData(res?.data?.data);
+        setAllTags(res?.data?.data?.tags);
+      }
       loader("hide");
     } catch (err) {
       loader("hide");
