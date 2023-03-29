@@ -25,6 +25,8 @@ const NewReaders = () => {
   const [readerDataList, setReaderDataList] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
+  const [totalCount, setCount] = useState(0);
+
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [pageAll, setPageAll] = useState(false);
   const [pageAllClicked, setPageAllClicked] = useState(false);
@@ -109,11 +111,14 @@ const NewReaders = () => {
         });
         setCountryAll(countries);
       });
+      if(page == 1){
+        setCount(res?.data?.data?.total)
+      }
 
       if(page == 2){
-        setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data]);
+        setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data?.result]);
       }else{
-        setReaderDataList(res?.data?.data);
+        setReaderDataList(res?.data?.data?.result);
       }
       setPageAll(false);
       setPageAllClicked(false);
@@ -623,7 +628,7 @@ const NewReaders = () => {
 
             <div className="library-content-box-layuot readerlist d-flex">
               <h4>
-                <span>Total HCP</span> | {readerDataList?.length}
+                <span>Total HCP</span> | {totalCount}
               </h4>
               {readerDataList?.length || updateflag
                 ? readerDataList.map((data, index) => {
@@ -671,7 +676,7 @@ const NewReaders = () => {
                                         User Status
                                       </h6>
                                       <h6>
-                                        {userTypeValues[data?.user_status]}
+                                        {data?.user_status}
                                       </h6>
                                     </li>
                                     <li>

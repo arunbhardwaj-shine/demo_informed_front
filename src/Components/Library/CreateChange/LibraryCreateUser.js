@@ -156,55 +156,52 @@ const LibraryCreateUser = () => {
     if (Object.keys(err)?.length) {
       setError(err);
       return;
-    } else {
-      setError();
-      console.log("Pharma", userInputs);
+    } 
+    else {
+      loader("show");
+      try {
+        let formData = new FormData();
+
+        formData.append("productionNotes", userInputs?.productionNotes);
+        formData.append("expDatetime", userInputs?.expDatetime);
+        formData.append("limit", userInputs?.limit);
+        formData.append("file", userInputs?.uploadFile?.[0]);
+        formData.append("title", userInputs?.contentTitle);
+        formData.append("company", userInputs?.company);
+        formData.append("country", userInputs?.country);
+        formData.append("pdfSubTitle", userInputs?.journalTitle);
+        formData.append("keyAuthor", userInputs?.keyAuthor);
+        formData.append("multiplePublisher", JSON.stringify(reseller));
+        formData.append("allowShare", userInputs?.allowShare);
+        formData.append("allowDownload", userInputs?.allowDownload);
+        formData.append("allowPrint", userInputs?.allowPrint);
+        formData.append("product", userInputs?.product);
+        ebookFile?.forEach((item) => {
+          formData.append("ebookData", item);
+        });
+        formData.append("fileType", userInputs?.docintelFormat);
+        formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
+        formData.append("chapter", JSON.stringify(chapter));
+        formData.append("specialRequirment", userInputs?.specialRequirment);
+        formData.append("createdBy", id);
+
+        const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
+          header: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        loader("hide");
+        // navigate("/set-popup");
+        navigate("/set-popup", {
+          state: {
+            pdfId: res?.data?.data?.pdfId,
+            fileType: userInputs?.docintelFormat,
+          },
+        });
+      } catch (err) {
+        loader("hide");
+      }
     }
-    // else {
-    //   loader("show");
-    //   try {
-    //     let formData = new FormData();
-
-    //     formData.append("productionNotes", userInputs?.productionNotes);
-    //     formData.append("expDatetime", userInputs?.expDatetime);
-    //     formData.append("limit", userInputs?.limit);
-    //     formData.append("file", userInputs?.uploadFile?.[0]);
-    //     formData.append("title", userInputs?.contentTitle);
-    //     formData.append("company", userInputs?.company);
-    //     formData.append("country", userInputs?.country);
-    //     formData.append("pdfSubTitle", userInputs?.journalTitle);
-    //     formData.append("keyAuthor", userInputs?.keyAuthor);
-    //     formData.append("multiplePublisher", JSON.stringify(reseller));
-    //     formData.append("allowShare", userInputs?.allowShare);
-    //     formData.append("allowDownload", userInputs?.allowDownload);
-    //     formData.append("allowPrint", userInputs?.allowPrint);
-    //     formData.append("product", userInputs?.product);
-    //     ebookFile?.forEach((item) => {
-    //       formData.append("ebookData", item);
-    //     });
-    //     formData.append("fileType", userInputs?.docintelFormat);
-    //     formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
-    //     formData.append("chapter", JSON.stringify(chapter));
-    //     formData.append("specialRequirment", userInputs?.specialRequirment);
-    //     formData.append("createdBy", id);
-
-    //     const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
-    //       header: {
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     });
-    //     loader("hide");
-    //     // navigate("/set-popup");
-    //     navigate("/set-popup", {
-    //       state: {
-    //         pdfId: res?.data?.data?.pdfId,
-    //         fileType: userInputs?.docintelFormat,
-    //       },
-    //     });
-    //   } catch (err) {
-    //     loader("hide");
-    //   }
-    // }
   };
 
   const addMoreChClicked = () => {
