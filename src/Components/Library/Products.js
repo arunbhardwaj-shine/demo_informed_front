@@ -24,6 +24,8 @@ function Products() {
     category:0
   });
   const [show, setShow] = useState(false);
+  const [flag, setFlag] = useState(0);
+
   const [content,setContent] = useState({
     label:"Product",
     value:1
@@ -121,7 +123,7 @@ function Products() {
                 </div>
                 <Row>
                   <div className="col-12 selected-products-list d-flex">
-                    {productData?.data?.map((item) => {
+                    {productData?.length? productData?.data?.map((item) => {
                       return (
                         <>
                           <Col xxl={3} xl={4} md={6}>
@@ -144,7 +146,7 @@ function Products() {
                           </Col>
                         </>
                       );
-                    })}
+                    }):<div class="no_found"><p>No Data Found</p></div>  }
                   </div>
                   </Row>
               </div>

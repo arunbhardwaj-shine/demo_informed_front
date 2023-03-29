@@ -38,4 +38,6 @@ export const ENDPOINT = {
   READERSFILTER: `/reader/get-reader-filter`,
   READERACTIVITY: `/reader/reader-activity`,
   ANALYTICS: '/analytics/graph',
+  READER_DOWNLOAD: `/reader/reader-file`,
+
 };
