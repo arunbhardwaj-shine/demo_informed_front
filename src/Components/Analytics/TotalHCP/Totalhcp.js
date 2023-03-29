@@ -1,105 +1,187 @@
-import React, { useState } from "react";
-import {
-  Col,
-  Dropdown,
-  DropdownButton,
-  Form,
-  Row,
-  Button,
-} from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { getData } from "../../../axios/apiHelper";
+import exporting from 'highcharts/modules/exporting';
+import exportData from 'highcharts/modules/export-data';
 
-const options = {
-  chart: {
-    type: "bar",
-  },
-  title: {
-    text: "Total HCPs",
-  },
-  xAxis: {
-    categories: [
-      "Mar (2023)",
-      "Feb (2023)",
-      "Jan (2023)",
-      "Dec (2022)",
-      "Nov (2022)",
-      "Oct (2022)",
-      "Sept (2022)",
-      "Aug (2022)",
-      "Jul (2022)",
-      "Jun (2022)",
-      "May (2022)",
-      "Apr (2022)",
-      "Before Mar (2022)",
-    ],
-  },
-  yAxis: {
-    min: 0,
+exporting(Highcharts);
+exportData(Highcharts);
 
-    title: {
-      text: "HCP",
+// base bar highchart
+const Totalhcp = () => {
+  const [hcpOptions, setHcpOptions] = useState({
+    chart: {
+      type: "bar",
     },
-    stackLabels: {
+    title: {
+      text: "Total HCPs",
+    },
+    xAxis: {
+      categories: [],
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: "HCP",
+      },
+      stackLabels: {
+        enabled: true,
+      },
+    },
+    legend: {
+      align: 'center',
+      verticalAlign: 'bottom',
+      layout: 'horizontal',
+      x: 0,
+      y: 0
+    },
+    plotOptions: {
+      series: {
+        stacking: "normal",
+      },
+    },
+    exporting: {
       enabled: true,
     },
-  },
+    series: [],
+    
+  });
 
-  legend: {
-    reversed: true,
-  },
-  plotOptions: {
-    series: {
-      stacking: "normal",
-      // dataLabels: {
-      //   enabled: true,
-      // },
+  // base line highchart
+  const [lineOptions, setLineOptions] = useState({
+    chart: {
+      type: "line",
     },
-  },
-  series: [
-    {
-      name: "Russian Federation ",
-      data: [1, 4, 8, 1, 0, 1, 2, 1, 2, 4, 1, 2, 315],
+    title: {
+      text: "Total HCPs",
     },
-    {
-      name: "Russian Federation ",
-      data: [1, 4, 8, 1, 0, 1, 2, 1, 2, 4, 1, 2, 300],
+    xAxis: {
+      categories: [],
     },
-    {
-      name: "TINBS",
-      data: [12, 4, 18, 15, 10, 17, 11, 15, 16, 8, 18, 25, 215],
+    yAxis: {
+      min: 0,
+      title: {
+        text: "HCP",
+      },
     },
-    {
-      name: "SEA",
-      data: [2, 4, 8, 5, 1, 7, 9, 8, 6, 8, 8, 5, 200],
+    legend: {
+      align: 'center',
+      verticalAlign: 'bottom',
+      layout: 'horizontal',
+      x: 0,
+      y: 0
     },
-    {
-      name: "MENA",
-      data: [2, 41, 18, 5, 21, 71, 9, 38, 16, 18, 8, 15, 210],
+    plotOptions: {
+      series: {
+        dataLabels: {
+          enabled: true,
+          format: "{point.y}"
+        }
+      },
     },
-    {
-      name: "Canada",
-      data: [12, 14, 16, 25, 52, 7, 19, 28, 6, 12, 18, 25, 450],
-    },
-    {
-      name: "Others",
-      data: [15, 4, 6, 15, 12, 7, 9, 8, 6, 21, 12, 15, 520],
-    },
-  ],
-};
+    series: [],
+  });
 
-const Totalhcp = () => {
+  // const [tableData, setTableData] = useState([]);
+  const [isDataNotFound, setIsDataNotFound] = useState(false);
+  const [isLoaded ,setIsLoaded] = useState(false);
+ 
+  const getDataFromApi = async () => {
+    try {
+      const response = await getData(ENDPOINT.ANALYTICS);
+      const data = response.data.data;
+      if(data.length <= 0){
+        setIsDataNotFound(true);
+      }
+      console.log(data);
+
+      // Set options for HCP chart
+      const newSeries = data.map((item) => ({
+        name: item.ibu + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
+        data: JSON.parse(item.total_readers),
+      }));
+      const categories = JSON.parse(data[0].Months);
+      const newHcpOptions = {
+        ...hcpOptions,
+        xAxis: {
+          categories: categories,
+        },
+        series: newSeries,
+      };
+      setHcpOptions(newHcpOptions);
+
+
+      // Set options for Base line chart
+      const lineSeries = data.map((item) => ({
+        name: item.ibu + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
+        data: item.hcp,
+      }));
+      const lineCategories = JSON.parse(data[0].Months);
+      const newLineOptions = {
+        ...lineOptions,
+        xAxis: {
+          categories: lineCategories,
+        },
+        series: lineSeries,
+      };
+      setLineOptions(newLineOptions);
+
+
+    //   // Create table data
+    //   const newTableData = data.map((item) => {
+    //     return {
+    //       ibu: item.ibu  + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
+    //       months: JSON.parse(item.Months),
+    //       // beforevalue: item.beforeValue,
+    //       totalsum: item.totalSum,
+    //     };
+    //   });
+    //  console.log(newTableData);
+
+    // //  let monthsData=[];
+    // //  monthsData.push(newTableData[0].months.map((val,i)=>{
+    // //   return val;
+    // //  }))
+
+    // //  setMonthTable(monthsData)
+    //  //console.log(monthsData);
+    //  setTableData(newTableData);
+
+
+    } catch (error) {
+      setIsDataNotFound(true);
+      console.log(error);
+    }
+    setIsLoaded(true)
+  };
+
+  useEffect(() => {
+    getDataFromApi();
+  }, []);
+
+
   return (
     <>
+   
       <Col className="right-sidebar">
+      {isDataNotFound && isLoaded ?<h3>Data Not Found</h3>: isLoaded?
         <div className="custom-container">
           <Row>
             <div className="page-top-nav">
-              <HighchartsReact highcharts={Highcharts} options={options} />
+              <HighchartsReact highcharts={Highcharts} options={hcpOptions} />
             </div>
           </Row>
-        </div>
+          <Row>
+            <div className="page-top-nav">
+              <HighchartsReact
+                highcharts={Highcharts} options={lineOptions} />
+            </div>
+          </Row>
+          
+        </div>:null }
       </Col>
     </>
   );

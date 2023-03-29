@@ -37,4 +37,5 @@ export const ENDPOINT = {
   READERSTATUSUPDATE: `/reader/update-status`,
   READERSFILTER: `/reader/get-reader-filter`,
   READERACTIVITY: `/reader/reader-activity`,
+  ANALYTICS: '/analytics/graph',
 };

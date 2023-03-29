@@ -27,7 +27,7 @@ import AnalyticsHeader from "./Components/Analytics/Layout/Header";
 import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
 import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 import CisStats from "./Components/Analytics/CisStats";
-
+import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
@@ -170,6 +170,7 @@ const Routing = () => {
                 {/* end webinar */}
                 <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
+                <Route path="/country-registration" element={<CountryRegistration />} />
                 <Route path="/readers-view" element={<NewReaders />} />
                 <Route path="/reader-edit" element={<ReaderEdit />} />
                 <Route path="/reader-add" element={<ReaderAdd />} />
