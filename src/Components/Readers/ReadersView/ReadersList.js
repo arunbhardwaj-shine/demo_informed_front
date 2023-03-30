@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
   Accordion,
+  Button,
   Col,
+  Form,
   OverlayTrigger,
   ProgressBar,
   Row,
@@ -21,6 +23,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const NewReaders = () => {
   let obj = {};
+  const limit = 24;
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -55,74 +58,104 @@ const NewReaders = () => {
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
   const [statsFlag, setStatsFlag] = useState(0);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
 
   useEffect(() => {
     getFilters();
     getReaderListData(page, filterObject, search);
   }, []);
 
-  useEffect(() => {
-    if (page == 2) {
-      getReaderListData(page, filterObject, search);
-    }
-  }, [page]);
+  // useEffect(() => {
+  //   if (page == 2) {
+  //     getReaderListData(page, filterObject, search);
+  //   }
+  // }, [page]);
 
   const getFilters = async () => {
     try {
       loader("show");
       const res = await getData(ENDPOINT.READERSFILTER);
       setFilterData(res?.data?.data);
-      loader("hide");
-
     } catch (err) {
       loader("hide");
-
     }
   };
 
-  const getReaderListData = async (page, obj, search) => {
+  const getReaderListData = async (page, obj, search,load=0) => {
     try {
-      loader("show");
+      setIsLoaded(false);
+      if(load == 0){
+        loader("show");
+      }else{
+        setPageAll(true);
+      }
+      setApiCallStatus(false);
       let data = {
         user_id: localStorage.getItem("user_id"),
         userType: 5,
         search: search,
         type: "",
         page: page,
+        limit:limit
       };
 
       let payload = { ...data, ...obj };
-      if (pageAllClicked == true) {
-        setPageAll(true);
-      } else {
-        loader("show");
-      }
+      // if (pageAllClicked == true) {
+      //   setPageAll(true);
+      // } else {
+      //   loader("show");
+      // }
       const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
 
-      let body = {
-        "user_id": localStorage.getItem("user_id")
-      };
-      const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING, body);
-      let countries = [];
-      Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
-        countries.push({
-          value: item,
-          label: item == "B&H" ? "Bosnia and Herzegovina" : item,
-        });
-        setCountryAll(countries);
-      });
       if(page == 1){
-        setCount(res?.data?.data?.total)
+          let body = {
+            "user_id": localStorage.getItem("user_id")
+          };
+          const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING, body);
+          let countries = [];
+          Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
+            countries.push({
+              value: item,
+              label: item == "B&H" ? "Bosnia and Herzegovina" : item,
+            });
+            setCountryAll(countries);
+          });
       }
 
-      if(page == 2){
-        setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data?.result]);
-      }else{
-        setReaderDataList(res?.data?.data?.result);
-      }
-      setPageAll(false);
-      setPageAllClicked(false);
+    if(totalCount != res?.data?.data?.total){
+      setCount(res?.data?.data?.total);
+    }
+
+    let total_results = 0;
+    if(page != 1){
+      total_results = res?.data?.data?.result.length + readerDataList.length;
+      setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data?.result]);
+    }else{
+      total_results = res?.data?.data?.result.length;
+      setReaderDataList(res?.data?.data?.result);
+    }
+
+    if(res?.data?.data?.total > total_results){
       setIsLoaded(true);
+    }else{
+      setIsLoaded(false);
+    }
+
+    // if(res?.data?.data){
+    //     let count = res?.data?.data.length;
+    //     if(count < limit){
+    //       setIsLoaded(false);
+    //     }else{
+    //       setIsLoaded(true);
+    //       setPage(page + 1);
+    //     }
+    // }
+
+      // setPageAll(false);
+      // setPageAllClicked(false);
+      // setIsLoaded(true);
+      setPageAll(false);
+      setApiCallStatus(true);
       loader("hide");
     } catch (err) {
       console.log(err);
@@ -146,7 +179,7 @@ const NewReaders = () => {
       });
       const link = document.createElement('a');
       const url = URL.createObjectURL(res?.data);
-      console.log(url);
+      // console.log(url);
       link.href = url;
       link.download = 'readers.xlsx';
       link.click();
@@ -159,16 +192,18 @@ const NewReaders = () => {
 
 
   const loadMoreClicked = () => {
-    setPageAllClicked(true);
-    setPage(2);
-    setType("rest");
+    // setPageAllClicked(true);
+    let sp = page + 1;
+    getReaderListData(sp, filterObject, search,1);
+    setPage(page + 1);
+    // setType("rest");
   };
 
   const searchChange = (e) => {
     setSearch(e?.target?.value);
     if (e?.target?.value === "") {
       setReaderDataList([]);
-      setPageAllClicked(false);
+      // setPageAllClicked(false);
 
       getReaderListData(page, filterObject, "");
     }
@@ -374,31 +409,9 @@ const NewReaders = () => {
                 <h2>Readers</h2>
               </div>
               <div className="top-right-action library_content_view">
-                  <div className="header-btn">
-                    <button className="btn print"
-                      onClick={()=>{
-                        getDownloadData(page, obj, search)
-                      }}
-                      >
-                    
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                          <mask id="mask0_1144_989" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                          <path d="M0 1.90735e-06H24V24H0V1.90735e-06Z" fill="white"/>
-                          </mask>
-                          <g mask="url(#mask0_1144_989)">
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M3.51562 17.4023C2.29226 17.4023 1.30078 16.4109 1.30078 15.1875V9.5625C1.30078 8.33914 2.29226 7.34766 3.51562 7.34766H20.4844C21.7077 7.34766 22.6992 8.33914 22.6992 9.5625V15.1875C22.6992 16.4109 21.7077 17.4023 20.4844 17.4023H19.125C18.7949 17.4023 18.5273 17.6699 18.5273 18C18.5273 18.3301 18.7949 18.5977 19.125 18.5977H20.4844C22.3679 18.5977 23.8945 17.071 23.8945 15.1875V9.5625C23.8945 7.67899 22.3679 6.15234 20.4844 6.15234H3.51562C1.63211 6.15234 0.105469 7.67899 0.105469 9.5625V15.1875C0.105469 17.071 1.63211 18.5977 3.51562 18.5977H4.875C5.20508 18.5977 5.47266 18.3301 5.47266 18C5.47266 17.6699 5.20508 17.4023 4.875 17.4023H3.51562Z" fill="#0066BE"/>
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M3.15234 14.25C3.15234 14.5801 3.41992 14.8477 3.75 14.8477H20.25C20.5801 14.8477 20.8477 14.5801 20.8477 14.25C20.8477 13.9199 20.5801 13.6523 20.25 13.6523H3.75C3.41992 13.6523 3.15234 13.9199 3.15234 14.25Z" fill="#0066BE"/>
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M6.28125 22.6992C5.8347 22.6992 5.47266 22.3372 5.47266 21.8906V14.8477H18.5273V21.8906C18.5273 22.3372 18.1653 22.6992 17.7187 22.6992H6.28125ZM4.27734 21.8906C4.27734 22.9973 5.17455 23.8945 6.28125 23.8945H17.7187C18.8254 23.8945 19.7227 22.9973 19.7227 21.8906V14.25C19.7227 13.9199 19.4551 13.6523 19.125 13.6523H4.875C4.54492 13.6523 4.27734 13.9199 4.27734 14.25V21.8906Z" fill="#0066BE"/>
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.52734 17.25C9.52734 17.5801 9.79492 17.8477 10.125 17.8477H13.875C14.2051 17.8477 14.4727 17.5801 14.4727 17.25C14.4727 16.9199 14.2051 16.6523 13.875 16.6523H10.125C9.79492 16.6523 9.52734 16.9199 9.52734 17.25Z" fill="#0066BE"/>
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.52734 20.25C9.52734 20.5801 9.79492 20.8477 10.125 20.8477H13.875C14.2051 20.8477 14.4727 20.5801 14.4727 20.25C14.4727 19.9199 14.2051 19.6523 13.875 19.6523H10.125C9.79492 19.6523 9.52734 19.9199 9.52734 20.25Z" fill="#0066BE"/>
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M3.15234 9.75C3.15234 10.0801 3.42029 10.3477 3.75081 10.3477H4.23543C4.56595 10.3477 4.8339 10.0801 4.8339 9.75C4.8339 9.41992 4.56595 9.15234 4.23543 9.15234H3.75081C3.42029 9.15234 3.15234 9.41992 3.15234 9.75Z" fill="#0066BE"/>
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M4.27734 6.75C4.27734 7.08008 4.54492 7.34766 4.875 7.34766H19.125C19.4551 7.34766 19.7227 7.08008 19.7227 6.75V3.51562C19.7227 1.63225 18.1959 0.105469 16.3125 0.105469H7.6875C5.80413 0.105469 4.27734 1.63225 4.27734 3.51562V6.75ZM5.47266 6.15234V3.51562C5.47266 2.2924 6.46428 1.30078 7.6875 1.30078H16.3125C17.5357 1.30078 18.5273 2.2924 18.5273 3.51562V6.15234H5.47266Z" fill="#0066BE"/>
-                          </g>
-                        </svg>
-                    </button>
-                </div>
+
                 <div className="search-bar">
-                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                  <Form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
                       type="text"
@@ -407,7 +420,7 @@ const NewReaders = () => {
                       id="email_search"
                       onChange={(e) => searchChange(e)}
                     />
-                    <button className="btn btn-outline-success" type="submit">
+                    <Button className="btn btn-outline-success" type="submit">
                       <svg
                         width="16"
                         height="16"
@@ -420,8 +433,8 @@ const NewReaders = () => {
                           fill="#97B6CF"
                         />
                       </svg>
-                    </button>
-                  </form>
+                    </Button>
+                  </Form>
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
@@ -556,21 +569,32 @@ const NewReaders = () => {
                       </Accordion>
 
                       <div className="filter-footer">
-                        <button
+                        <Button
                           className="btn btn-primary btn-bordered"
-                          onClick={clearFilter}
-                        >
+                          onClick={clearFilter}>
                           Clear
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           className="btn btn-primary btn-filled"
-                          onClick={applyFilter}
-                        >
+                          onClick={applyFilter}>
                           Apply
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   )}
+                </div>
+
+                  <div className="clear-search">
+                    <button className="btn print"
+                      onClick={()=>{
+                        getDownloadData(page, obj, search)
+                      }}
+                      >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z" fill="#0066BE"/>
+                        <path d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z" fill="#0066BE"/>
+                        </svg>
+                    </button>
                 </div>
               </div>
             </div>
@@ -615,12 +639,12 @@ const NewReaders = () => {
                     })}
                   </div>
                   <div className="clear-filter">
-                    <button
+                    <Button
                       className="btn btn-outline-primary btn-bordered"
                       onClick={clearFilter}
                     >
                       Remove All
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -966,6 +990,13 @@ const NewReaders = () => {
                                         User Status
                                       </h6>
                                       <div className="select-dropdown-wrapper">
+                                        {
+                                          /*console.log(
+                                            types.findIndex(
+                                              (el) =>
+                                              el.label.toLowerCase() == data?.user_status.toLowerCase()
+                                            ))*/
+                                        }
                                         <div className="select">
                                           <Select
                                             options={types}
@@ -973,8 +1004,7 @@ const NewReaders = () => {
                                               types[
                                                 types.findIndex(
                                                   (el) =>
-                                                    el.value ==
-                                                    data?.user_status
+                                                  el.label.toLowerCase() == data?.user_status.toLowerCase()
                                                 )
                                               ]
                                             }
@@ -1017,7 +1047,7 @@ const NewReaders = () => {
                                   </ul>
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn d-flex justify-content-end">
-                                      <button
+                                      <Button
                                         className="btn btn-primary btn-filled update"
                                         onClick={(e) =>
                                           updateReaderDetails(data?.id, index)
@@ -1025,7 +1055,7 @@ const NewReaders = () => {
                                         id={data?.id}
                                       >
                                         Update
-                                      </button>
+                                      </Button>
                                     </div>
                                   </div>
                                 </div>
@@ -1036,20 +1066,27 @@ const NewReaders = () => {
                       </>
                     );
                   })
-                : null}
+                :
+                apiCallStatus ?
+                <div className="no_found">
+                       <p>No Data Found</p>
+                 </div>
+                 : null
+              }
             </div>
-            {page == 1 && isLoaded == true ? (
+            {isLoaded == true ? (
               <div className="load_more">
-                <button
+                <Button
                   className="btn btn-primary btn-filled"
                   onClick={loadMoreClicked}
                 >
                   Load More
-                </button>
+                </Button>
               </div>
             ) : null}
 
-            {pageAll == true ? (
+            {
+              pageAll == true ? (
               <div
                 className="load_more"
                 style={{

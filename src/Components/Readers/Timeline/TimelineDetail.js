@@ -1,18 +1,49 @@
 import React, { useState, useEffect } from 'react'
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
+import moment from "moment";
 import { loader } from "../../../loader";
 
 const TimelineDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const BrokenImage = "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const { state } = useLocation();
   const [isActive, setIsActive] = useState(false);
-  const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '');
-  const handleClick = event => {
-    setIsActive(current => !current);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [readerId, setReaderId] = useState('2147491145');
+  // const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '');
+  const [ebookData,setEbookData] = useState([]);
+
+  const handleClick = async(index,pdf_id,cdate) => {
+    if(index == activeIndex){
+      setIsActive(current => !current);
+    }else{
+      setActiveIndex(index);
+      try{
+        setIsActive(false);
+        loader("show");
+        let crdate = moment(cdate).format('YYYY/MM/DD');
+
+        let body = {
+            pdfId:pdf_id,
+            userId:readerId,
+            cdate: crdate
+        };
+        const res = await postData(ENDPOINT.GETREADERTIMELINEDETAIL, body);
+        if(res?.data?.data){
+          setEbookData(res?.data?.data);
+        }
+        loader("hide");
+        setIsActive(true);
+      }catch(err){
+        loader("hide");
+        setEbookData([]);
+      }
+    }
   };
+
   const [timeLineData, setTimeLineData] = useState([]);
   const [apiFlag, setApiFlag] = useState(0);
 
@@ -23,14 +54,12 @@ const TimelineDetail = () => {
   const getUserTimelineData = async() => {
       try {
         loader("show");
-
         if(typeof readerId === "undefined"){
           if(state?.readerId){
             setReaderId(state?.readerId);
           }
         }
         const res = await postData(ENDPOINT.USERTIMELINE, {
-          user_id: localStorage.getItem("user_id"),
           userId:readerId
         });
         setTimeLineData(res?.data?.data);
@@ -46,15 +75,20 @@ const TimelineDetail = () => {
     window.print();
   }
 
+  const imageOnError = (event) => {
+    event.currentTarget.src = BrokenImage;
+    event.currentTarget.className = "error";
+  };
+
   return (
     <>
       <Col className="right-sidebar col">
         <div className="custom-container">
           <Row>
             <div className="page-top-nav">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-6">
-                    <div className="page-title d-flex align-items-center">
+              <Row className="justify-content-end align-items-center">
+                <Col md="6">
+                  <div className="page-title d-flex align-items-center">
                       <Link className="btn btn-primary btn-bordered back-btn" to="/readers-view">
                         <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
@@ -62,11 +96,11 @@ const TimelineDetail = () => {
                       </Link>
                        <h2>Timeline</h2>
                     </div>
-                </div>
-                <div className="col-12 col-md-4">
+                </Col>
+                <Col md="4">
 
-                </div>
-                <div className="col-12 col-md-2">
+                </Col>
+                <Col md="2">
                   <div className="header-btn">
                     <button className="btn print"
                       onClick={(e) => printPage()}
@@ -87,8 +121,8 @@ const TimelineDetail = () => {
                         </svg>
                     </button>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
             </div>
             <div>
             </div>
@@ -101,7 +135,7 @@ const TimelineDetail = () => {
                   <div className="timeline-left-user">
                      <div className="timeline-left-user-detail">
                       <h5>Username {timeLineData?.user?.name}</h5>
-                        <table>
+                        <Table>
                           <tbody>
                             <tr>
                               <th>Email</th>
@@ -132,7 +166,7 @@ const TimelineDetail = () => {
                               }</td>
                             </tr>
                           </tbody>
-                        </table>
+                        </Table>
                      </div>
                   </div>
                   <div className="timeline-right-list">
@@ -178,7 +212,7 @@ const TimelineDetail = () => {
                                                  </div>
                                             </div>
                                              <div className="timeline-article-device">
-                                              <table>
+                                              <Table>
                                                   <tbody>
                                                     <tr>
                                                       <th className="device-title">
@@ -191,68 +225,110 @@ const TimelineDetail = () => {
                                                       </td>
                                                     </tr>
                                                   </tbody>
-                                                </table>
+                                                </Table>
                                              </div>
-                                             <div className={isActive ? 'timeline-article-detail-full active' : 'timeline-article-detail-full'} onClick={handleClick}>
-                                                <div className="timeline-article-details-heading">
-                                                    <p>Details <img src={path_image + "down-arrow.png"} alt="" /></p>
-                                                </div>
-                                                <div className="timeline-article-details-overall">
-                                                    <div class="data-main-box tab-panel d-flex flex-column justify-content-between">
-                                                      <h3>Chaper 1</h3>
-                                                      <div className="timeline-article-details-boxes">
-                                                        <div className="media">
-                                                          <div className="media-left">
-                                                            <img
-                                                              src="https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page1.png"
-                                                              className="media-object"
-                                                              style={{ width: "80px" }}
-                                                              alt="ebook"
-                                                            />
-                                                            <p>Page: 1</p>
-                                                          </div>
-                                                          <div className="media-right">
-                                                            <ul class="tab-mail-list data">
-                                                            <li class="d-flex align-center">
-                                                              <h6 class="tab-content-title">Ignored
-                                                              </h6>
-                                                              <div class="data-progress limited">
-                                                                <div class="progress">
-                                                                  <div role="progressbar" class="progress-bar bg-danger" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style={{width: "1%"}}>10</div>
+                                             <div className={isActive && (details.id == activeIndex) ? 'timeline-article-detail-full active' : 'timeline-article-detail-full'}
+                                             onClick={(e)=>{
+                                               handleClick(details.id,details.pdf_id,details.Created)
+                                             }}>
+                                               <div className="timeline-article-details-heading">
+                                                   <p>Details <img src={path_image + "down-arrow.png"} alt="" /></p>
+                                               </div>
+                                               <div className="timeline-article-details-overall">
+                                               <div class="data-main-box tab-panel d-flex flex-column justify-content-between">
+                                               <div className="timeline-article-details-boxes">
+                                                {
+                                                  typeof ebookData !== "undefined" && ebookData.length > 0 ?
+                                                  <>
+                                                      {
+                                                        ebookData.map((data, index) => {
+                                                            return (
+                                                              <>
+                                                              {
+                                                                /*<h3>Chapter {data?.page}</h3>*/
+                                                              }
+
+                                                                <div className="media">
+                                                                  <div className="media-left">
+                                                                    <img
+                                                                      src={data?.image}
+                                                                      className="media-object"
+                                                                      style={{ width: "80px" }}
+                                                                      onError={imageOnError}
+                                                                      alt="ebook"
+                                                                    />
+                                                                    <p>Page: {data?.page}</p>
+                                                                  </div>
+                                                                  <div className="media-right">
+                                                                    <ul class="tab-mail-list data">
+                                                                    <li class="d-flex align-center">
+                                                                      <h6 class="tab-content-title">Ignored
+                                                                      </h6>
+                                                                      <div class="data-progress limited">
+                                                                        <div class="progress">
+                                                                          <div role="progressbar"
+                                                                              class="progress-bar bg-danger"
+                                                                              aria-valuenow="1"
+                                                                              aria-valuemin="0"
+                                                                              aria-valuemax="100"
+                                                                              style={{width: data?.red_per + "%"}}>{data?.red}</div>
+                                                                        </div>
+                                                                      </div>
+                                                                      </li>
+                                                                      <li>
+                                                                        <h6 class="tab-content-title">Browsed
+                                                                        </h6>
+                                                                        <div class="data-progress success-progress">
+                                                                          <div class="progress">
+                                                                            <div role="progressbar"
+                                                                                 class="progress-bar bg-warning"
+                                                                                 aria-valuenow="100"
+                                                                                 aria-valuemin="0"
+                                                                                 aria-valuemax="100"
+                                                                                 style={{width: data?.yellow_per + "%"}}>{data?.yellow}</div>
+                                                                            </div>
+                                                                          </div>
+                                                                      </li>
+                                                                      <li>
+                                                                          <h6 class="tab-content-title">Read</h6>
+                                                                          <div class="data-progress">
+                                                                            <div class="progress">
+                                                                              <div role="progressbar"
+                                                                                   class="progress-bar bg-success"
+                                                                                   aria-valuenow="0"
+                                                                                   aria-valuemin="0"
+                                                                                   aria-valuemax="100"
+                                                                                   style={{width: data?.read_per + "%"}}>{data?.read}</div>
+                                                                            </div>
+                                                                          </div>
+                                                                      </li>
+                                                                      <li>
+                                                                          <h6 class="tab-content-title">Readers</h6>
+                                                                          <div class="data-progress">
+                                                                            <div class="progress">
+                                                                              <div role="progressbar"
+                                                                                   class="progress-bar bg-danger"
+                                                                                   aria-valuenow="0"
+                                                                                   aria-valuemin="0"
+                                                                                   aria-valuemax="100"
+                                                                                   style={{width: data?.reader_per + "%"}}>{data?.readers}</div>
+                                                                            </div>
+                                                                          </div>
+                                                                      </li>
+                                                                    </ul>
+                                                                    <p><span>Time Needed: {data?.avg_time} seconds</span> <span>Time Spent: {data?.time_spent} seconds</span></p>
                                                                 </div>
-                                                              </div>
-                                                              </li>
-                                                              <li>
-                                                                <h6 class="tab-content-title">Browsed
-                                                                </h6>
-                                                                <div class="data-progress success-progress">
-                                                                  <div class="progress">
-                                                                    <div role="progressbar" class="progress-bar bg-warning" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{width: "100%"}}>40</div>
-                                                                    </div>
-                                                                  </div>
-                                                              </li>
-                                                              <li>
-                                                                  <h6 class="tab-content-title">Read</h6>
-                                                                  <div class="data-progress">
-                                                                    <div class="progress">
-                                                                      <div role="progressbar" class="progress-bar bg-success" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "0%"}}>0</div>
-                                                                    </div>
-                                                                  </div>
-                                                              </li>
-                                                              <li>
-                                                                  <h6 class="tab-content-title">Readers</h6>
-                                                                  <div class="data-progress">
-                                                                    <div class="progress">
-                                                                      <div role="progressbar" class="progress-bar bg-danger" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "0%"}}>0</div>
-                                                                    </div>
-                                                                  </div>
-                                                              </li>
-                                                            </ul>
-                                                            <p><span>Time Needed: 15.84 seconds</span> <span>Time Spent: 0 seconds</span></p>
-                                                        </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
+                                                                </div>
+
+                                                              </>
+                                                            )
+                                                        })
+                                                      }
+                                                  </>
+                                                  : <h3>No Data Found</h3>
+                                                }
+                                                </div>
+                                                </div>
                                                 </div>
                                              </div>
                                         </div>
@@ -297,7 +373,7 @@ const TimelineDetail = () => {
                                                </div>
                                           </div>
                                            <div className="timeline-article-device">
-                                            <table>
+                                            <Table>
                                                 <tbody>
                                                   <tr>
                                                     <th className="device-title">
@@ -310,7 +386,7 @@ const TimelineDetail = () => {
                                                     </td>
                                                   </tr>
                                                 </tbody>
-                                              </table>
+                                              </Table>
                                            </div>
                                       </div>
                                     </div>
@@ -341,7 +417,7 @@ const TimelineDetail = () => {
                                               </div>
                                           </div>
                                            <div className="timeline-article-device">
-                                            <table>
+                                            <Table>
                                                 <tbody>
                                                   <tr>
                                                     <th className="device-title">
@@ -352,7 +428,7 @@ const TimelineDetail = () => {
                                                     </td>
                                                   </tr>
                                                 </tbody>
-                                              </table>
+                                              </Table>
                                            </div>
                                       </div>
                                     </div>
@@ -383,7 +459,7 @@ const TimelineDetail = () => {
                                             </div>
                                         </div>
                                          <div className="timeline-article-device">
-                                          <table>
+                                          <Table>
                                               <tbody>
                                                 <tr>
                                                   <th className="device-title">
@@ -394,7 +470,7 @@ const TimelineDetail = () => {
                                                   </td>
                                                 </tr>
                                               </tbody>
-                                            </table>
+                                            </Table>
                                          </div>
                                     </div>
                                     </div>
@@ -425,7 +501,7 @@ const TimelineDetail = () => {
                                               </div>
                                           </div>
                                            <div className="timeline-article-device">
-                                            <table>
+                                            <Table>
                                                 <tbody>
                                                   <tr>
                                                     <th className="device-title">
@@ -436,7 +512,7 @@ const TimelineDetail = () => {
                                                     </td>
                                                   </tr>
                                                 </tbody>
-                                              </table>
+                                              </Table>
                                            </div>
                                       </div>
                                     </div>
@@ -467,7 +543,7 @@ const TimelineDetail = () => {
                                               </div>
                                           </div>
                                            <div className="timeline-article-device">
-                                            <table>
+                                            <Table>
                                                 <tbody>
                                                   <tr>
                                                     <th className="device-title">
@@ -498,7 +574,7 @@ const TimelineDetail = () => {
                                                     </td>
                                                   </tr>
                                                 </tbody>
-                                              </table>
+                                              </Table>
                                            </div>
                                       </div>
                                     </div>
@@ -546,7 +622,7 @@ const TimelineDetail = () => {
                                                </div>
                                           </div>
                                            <div className="timeline-article-device">
-                                              <table>
+                                              <Table>
                                                 <tbody>
                                                   <tr>
                                                     <th className="device-title">
@@ -557,7 +633,7 @@ const TimelineDetail = () => {
                                                     </td>
                                                   </tr>
                                                 </tbody>
-                                              </table>
+                                              </Table>
                                            </div>
                                       </div>
                                     </div>
@@ -606,7 +682,7 @@ const TimelineDetail = () => {
                                             </div>
                                          </div>
                                          <div className="timeline-article-device">
-                                            <table>
+                                            <Table>
                                                <tbody>
                                                   <tr>
                                                      <th className="device-title">
@@ -617,7 +693,7 @@ const TimelineDetail = () => {
                                                      </td>
                                                   </tr>
                                                </tbody>
-                                            </table>
+                                            </Table>
                                          </div>
                                       </div>
                                     </div>
