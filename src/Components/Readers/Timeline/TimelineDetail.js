@@ -3,6 +3,7 @@ import { Col, Row, Table } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
+import moment from "moment";
 import { loader } from "../../../loader";
 
 const TimelineDetail = () => {
@@ -10,20 +11,23 @@ const TimelineDetail = () => {
   const { state } = useLocation();
   const [isActive, setIsActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  // const [readerId, setReaderId] = useState('2147491145');
-  const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '');
+  const [readerId, setReaderId] = useState('2147491145');
+  // const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '2147491145');
   const [ebookData,setEbookData] = useState([]);
 
-  const handleClick = async(index,pdf_id) => {
+  const handleClick = async(index,pdf_id,cdate) => {
     if(index == activeIndex){
       setIsActive(current => !current);
     }else{
       setActiveIndex(index);
       try{
         loader("show");
+        let crdate = moment(cdate).format('YYYY/MM/DD');
+
         let body = {
             pdfId:pdf_id,
-            userId:readerId
+            userId:readerId,
+            cdate: crdate
         };
         const res = await postData(ENDPOINT.GETREADERTIMELINEDETAIL, body);
         if(res?.data?.data){
@@ -219,74 +223,104 @@ const TimelineDetail = () => {
                                              </div>
                                              <div className={isActive && (details.id == activeIndex) ? 'timeline-article-detail-full active' : 'timeline-article-detail-full'}
                                              onClick={(e)=>{
-                                               handleClick(details.id,details.pdf_id)
+                                               handleClick(details.id,details.pdf_id,details.Created)
                                              }}>
                                                <div className="timeline-article-details-heading">
                                                    <p>Details <img src={path_image + "down-arrow.png"} alt="" /></p>
                                                </div>
                                                <div className="timeline-article-details-overall">
                                                <div class="data-main-box tab-panel d-flex flex-column justify-content-between">
+                                               <div className="timeline-article-details-boxes">
                                                 {
                                                   typeof ebookData !== "undefined" && ebookData.length > 0 ?
                                                   <>
+                                                      {
+                                                        ebookData.map((data, index) => {
+                                                            return (
+                                                              <>
+                                                              {
+                                                                /*<h3>Chapter {data?.page}</h3>*/
+                                                              }
 
-                                                        <h3>Chaper 1</h3>
-                                                        <div className="timeline-article-details-boxes">
-                                                          <div className="media">
-                                                            <div className="media-left">
-                                                              <img
-                                                                src="https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page1.png"
-                                                                className="media-object"
-                                                                style={{ width: "80px" }}
-                                                                alt="ebook"
-                                                              />
-                                                              <p>Page: 1</p>
-                                                            </div>
-                                                            <div className="media-right">
-                                                              <ul class="tab-mail-list data">
-                                                              <li class="d-flex align-center">
-                                                                <h6 class="tab-content-title">Ignored
-                                                                </h6>
-                                                                <div class="data-progress limited">
-                                                                  <div class="progress">
-                                                                    <div role="progressbar" class="progress-bar bg-danger" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style={{width: "1%"}}>10</div>
+                                                                <div className="media">
+                                                                  <div className="media-left">
+                                                                    <img
+                                                                      src="https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page1.png"
+                                                                      className="media-object"
+                                                                      style={{ width: "80px" }}
+                                                                      alt="ebook"
+                                                                    />
+                                                                    <p>Page: {data?.page}</p>
                                                                   </div>
+                                                                  <div className="media-right">
+                                                                    <ul class="tab-mail-list data">
+                                                                    <li class="d-flex align-center">
+                                                                      <h6 class="tab-content-title">Ignored
+                                                                      </h6>
+                                                                      <div class="data-progress limited">
+                                                                        <div class="progress">
+                                                                          <div role="progressbar"
+                                                                              class="progress-bar bg-danger"
+                                                                              aria-valuenow="1"
+                                                                              aria-valuemin="0"
+                                                                              aria-valuemax="100"
+                                                                              style={{width: data?.red_per + "%"}}>{data?.red}</div>
+                                                                        </div>
+                                                                      </div>
+                                                                      </li>
+                                                                      <li>
+                                                                        <h6 class="tab-content-title">Browsed
+                                                                        </h6>
+                                                                        <div class="data-progress success-progress">
+                                                                          <div class="progress">
+                                                                            <div role="progressbar"
+                                                                                 class="progress-bar bg-warning"
+                                                                                 aria-valuenow="100"
+                                                                                 aria-valuemin="0"
+                                                                                 aria-valuemax="100"
+                                                                                 style={{width: data?.yellow_per + "%"}}>{data?.yellow}</div>
+                                                                            </div>
+                                                                          </div>
+                                                                      </li>
+                                                                      <li>
+                                                                          <h6 class="tab-content-title">Read</h6>
+                                                                          <div class="data-progress">
+                                                                            <div class="progress">
+                                                                              <div role="progressbar"
+                                                                                   class="progress-bar bg-success"
+                                                                                   aria-valuenow="0"
+                                                                                   aria-valuemin="0"
+                                                                                   aria-valuemax="100"
+                                                                                   style={{width: data?.read_per + "%"}}>{data?.read}</div>
+                                                                            </div>
+                                                                          </div>
+                                                                      </li>
+                                                                      <li>
+                                                                          <h6 class="tab-content-title">Readers</h6>
+                                                                          <div class="data-progress">
+                                                                            <div class="progress">
+                                                                              <div role="progressbar"
+                                                                                   class="progress-bar bg-danger"
+                                                                                   aria-valuenow="0"
+                                                                                   aria-valuemin="0"
+                                                                                   aria-valuemax="100"
+                                                                                   style={{width: data?.reader_per + "%"}}>{data?.readers}</div>
+                                                                            </div>
+                                                                          </div>
+                                                                      </li>
+                                                                    </ul>
+                                                                    <p><span>Time Needed: {data?.avg_time} seconds</span> <span>Time Spent: {data?.time_spent} seconds</span></p>
                                                                 </div>
-                                                                </li>
-                                                                <li>
-                                                                  <h6 class="tab-content-title">Browsed
-                                                                  </h6>
-                                                                  <div class="data-progress success-progress">
-                                                                    <div class="progress">
-                                                                      <div role="progressbar" class="progress-bar bg-warning" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{width: "100%"}}>40</div>
-                                                                      </div>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <h6 class="tab-content-title">Read</h6>
-                                                                    <div class="data-progress">
-                                                                      <div class="progress">
-                                                                        <div role="progressbar" class="progress-bar bg-success" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "0%"}}>0</div>
-                                                                      </div>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <h6 class="tab-content-title">Readers</h6>
-                                                                    <div class="data-progress">
-                                                                      <div class="progress">
-                                                                        <div role="progressbar" class="progress-bar bg-danger" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "0%"}}>0</div>
-                                                                      </div>
-                                                                    </div>
-                                                                </li>
-                                                              </ul>
-                                                              <p><span>Time Needed: 15.84 seconds</span> <span>Time Spent: 0 seconds</span></p>
-                                                          </div>
-                                                          </div>
-                                                        </div>
+                                                                </div>
 
+                                                              </>
+                                                            )
+                                                        })
+                                                      }
                                                   </>
                                                   : <h3>No Data Found</h3>
                                                 }
+                                                </div>
                                                 </div>
                                                 </div>
                                              </div>

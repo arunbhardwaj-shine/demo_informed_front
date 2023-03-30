@@ -23,6 +23,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const NewReaders = () => {
   let obj = {};
+  const limit = 24;
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -63,22 +64,19 @@ const NewReaders = () => {
     getReaderListData(page, filterObject, search);
   }, []);
 
-  useEffect(() => {
-    if (page == 2) {
-      getReaderListData(page, filterObject, search);
-    }
-  }, [page]);
+  // useEffect(() => {
+  //   if (page == 2) {
+  //     getReaderListData(page, filterObject, search);
+  //   }
+  // }, [page]);
 
   const getFilters = async () => {
     try {
       loader("show");
       const res = await getData(ENDPOINT.READERSFILTER);
       setFilterData(res?.data?.data);
-      loader("hide");
-
     } catch (err) {
       loader("hide");
-
     }
   };
 
@@ -116,6 +114,16 @@ const NewReaders = () => {
       if(page == 1){
         setCount(res?.data?.data?.total)
       }
+
+    if(res?.data?.data){
+        let count = res?.data?.data.length;
+        if(count < limit){
+          setIsLoaded(false);
+        }else{
+          setIsLoaded(true);
+          setPage(page + 1);
+        }
+    }
 
       if(page == 2){
         setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data?.result]);
