@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
@@ -10,8 +10,8 @@ const TimelineDetail = () => {
   const { state } = useLocation();
   const [isActive, setIsActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [readerId, setReaderId] = useState('2147491145');
-  // const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '2147491145');
+  // const [readerId, setReaderId] = useState('2147491145');
+  const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '');
   const [ebookData,setEbookData] = useState([]);
 
   const handleClick = async(index,pdf_id) => {
@@ -76,9 +76,9 @@ const TimelineDetail = () => {
         <div className="custom-container">
           <Row>
             <div className="page-top-nav">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-6">
-                    <div className="page-title d-flex align-items-center">
+              <Row className="justify-content-end align-items-center">
+                <Col md="6">
+                  <div className="page-title d-flex align-items-center">
                       <Link className="btn btn-primary btn-bordered back-btn" to="/readers-view">
                         <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
@@ -86,11 +86,11 @@ const TimelineDetail = () => {
                       </Link>
                        <h2>Timeline</h2>
                     </div>
-                </div>
-                <div className="col-12 col-md-4">
+                </Col>
+                <Col md="4">
 
-                </div>
-                <div className="col-12 col-md-2">
+                </Col>
+                <Col md="2">
                   <div className="header-btn">
                     <button className="btn print"
                       onClick={(e) => printPage()}
@@ -111,8 +111,8 @@ const TimelineDetail = () => {
                         </svg>
                     </button>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
             </div>
             <div>
             </div>
@@ -125,7 +125,7 @@ const TimelineDetail = () => {
                   <div className="timeline-left-user">
                      <div className="timeline-left-user-detail">
                       <h5>Username {timeLineData?.user?.name}</h5>
-                        <table>
+                        <Table>
                           <tbody>
                             <tr>
                               <th>Email</th>
@@ -156,7 +156,7 @@ const TimelineDetail = () => {
                               }</td>
                             </tr>
                           </tbody>
-                        </table>
+                        </Table>
                      </div>
                   </div>
                   <div className="timeline-right-list">
@@ -202,7 +202,7 @@ const TimelineDetail = () => {
                                                  </div>
                                             </div>
                                              <div className="timeline-article-device">
-                                              <table>
+                                              <Table>
                                                   <tbody>
                                                     <tr>
                                                       <th className="device-title">
@@ -215,7 +215,7 @@ const TimelineDetail = () => {
                                                       </td>
                                                     </tr>
                                                   </tbody>
-                                                </table>
+                                                </Table>
                                              </div>
                                              <div className={isActive && (details.id == activeIndex) ? 'timeline-article-detail-full active' : 'timeline-article-detail-full'}
                                              onClick={(e)=>{
@@ -332,7 +332,7 @@ const TimelineDetail = () => {
                                                </div>
                                           </div>
                                            <div className="timeline-article-device">
-                                            <table>
+                                            <Table>
                                                 <tbody>
                                                   <tr>
                                                     <th className="device-title">
@@ -345,7 +345,7 @@ const TimelineDetail = () => {
                                                     </td>
                                                   </tr>
                                                 </tbody>
-                                              </table>
+                                              </Table>
                                            </div>
                                       </div>
                                     </div>
@@ -376,7 +376,7 @@ const TimelineDetail = () => {
                                               </div>
                                           </div>
                                            <div className="timeline-article-device">
-                                            <table>
+                                            <Table>
                                                 <tbody>
                                                   <tr>
                                                     <th className="device-title">
@@ -387,7 +387,7 @@ const TimelineDetail = () => {
                                                     </td>
                                                   </tr>
                                                 </tbody>
-                                              </table>
+                                              </Table>
                                            </div>
                                       </div>
                                     </div>
@@ -418,7 +418,7 @@ const TimelineDetail = () => {
                                             </div>
                                         </div>
                                          <div className="timeline-article-device">
-                                          <table>
+                                          <Table>
                                               <tbody>
                                                 <tr>
                                                   <th className="device-title">
@@ -429,7 +429,7 @@ const TimelineDetail = () => {
                                                   </td>
                                                 </tr>
                                               </tbody>
-                                            </table>
+                                            </Table>
                                          </div>
                                     </div>
                                     </div>
@@ -460,7 +460,7 @@ const TimelineDetail = () => {
                                               </div>
                                           </div>
                                            <div className="timeline-article-device">
-                                            <table>
+                                            <Table>
                                                 <tbody>
                                                   <tr>
                                                     <th className="device-title">
@@ -471,7 +471,7 @@ const TimelineDetail = () => {
                                                     </td>
                                                   </tr>
                                                 </tbody>
-                                              </table>
+                                              </Table>
                                            </div>
                                       </div>
                                     </div>
@@ -502,7 +502,7 @@ const TimelineDetail = () => {
                                               </div>
                                           </div>
                                            <div className="timeline-article-device">
-                                            <table>
+                                            <Table>
                                                 <tbody>
                                                   <tr>
                                                     <th className="device-title">
@@ -533,7 +533,7 @@ const TimelineDetail = () => {
                                                     </td>
                                                   </tr>
                                                 </tbody>
-                                              </table>
+                                              </Table>
                                            </div>
                                       </div>
                                     </div>
@@ -581,7 +581,7 @@ const TimelineDetail = () => {
                                                </div>
                                           </div>
                                            <div className="timeline-article-device">
-                                              <table>
+                                              <Table>
                                                 <tbody>
                                                   <tr>
                                                     <th className="device-title">
@@ -592,7 +592,7 @@ const TimelineDetail = () => {
                                                     </td>
                                                   </tr>
                                                 </tbody>
-                                              </table>
+                                              </Table>
                                            </div>
                                       </div>
                                     </div>
@@ -641,7 +641,7 @@ const TimelineDetail = () => {
                                             </div>
                                          </div>
                                          <div className="timeline-article-device">
-                                            <table>
+                                            <Table>
                                                <tbody>
                                                   <tr>
                                                      <th className="device-title">
@@ -652,7 +652,7 @@ const TimelineDetail = () => {
                                                      </td>
                                                   </tr>
                                                </tbody>
-                                            </table>
+                                            </Table>
                                          </div>
                                       </div>
                                     </div>

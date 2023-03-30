@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
   Accordion,
+  Button,
   Col,
+  Form,
   OverlayTrigger,
   ProgressBar,
   Row,
@@ -384,7 +386,7 @@ const NewReaders = () => {
                     </button>
                 </div>
                 <div className="search-bar">
-                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                  <Form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
                       type="text"
@@ -393,7 +395,7 @@ const NewReaders = () => {
                       id="email_search"
                       onChange={(e) => searchChange(e)}
                     />
-                    <button className="btn btn-outline-success" type="submit">
+                    <Button className="btn btn-outline-success" type="submit">
                       <svg
                         width="16"
                         height="16"
@@ -406,11 +408,11 @@ const NewReaders = () => {
                           fill="#97B6CF"
                         />
                       </svg>
-                    </button>
-                  </form>
+                    </Button>
+                  </Form>
                 </div>
                 <div className="filter-by nav-item dropdown">
-                  <button
+                  <Button
                     className="btn btn-secondary dropdown"
                     type="button"
                     id="dropdownMenuButton2"
@@ -464,7 +466,7 @@ const NewReaders = () => {
                         ></path>
                       </svg>
                     )}
-                  </button>
+                  </Button>
 
                   {showfilter && (
                     <div
@@ -542,18 +544,16 @@ const NewReaders = () => {
                       </Accordion>
 
                       <div className="filter-footer">
-                        <button
+                        <Button
                           className="btn btn-primary btn-bordered"
-                          onClick={clearFilter}
-                        >
+                          onClick={clearFilter}>
                           Clear
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           className="btn btn-primary btn-filled"
-                          onClick={applyFilter}
-                        >
+                          onClick={applyFilter}>
                           Apply
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   )}
@@ -601,12 +601,12 @@ const NewReaders = () => {
                     })}
                   </div>
                   <div className="clear-filter">
-                    <button
+                    <Button
                       className="btn btn-outline-primary btn-bordered"
                       onClick={clearFilter}
                     >
                       Remove All
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -1003,7 +1003,7 @@ const NewReaders = () => {
                                   </ul>
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn d-flex justify-content-end">
-                                      <button
+                                      <Button
                                         className="btn btn-primary btn-filled update"
                                         onClick={(e) =>
                                           updateReaderDetails(data?.id, index)
@@ -1011,7 +1011,7 @@ const NewReaders = () => {
                                         id={data?.id}
                                       >
                                         Update
-                                      </button>
+                                      </Button>
                                     </div>
                                   </div>
                                 </div>
@@ -1026,12 +1026,12 @@ const NewReaders = () => {
             </div>
             {page == 1 && isLoaded == true ? (
               <div className="load_more">
-                <button
+                <Button
                   className="btn btn-primary btn-filled"
                   onClick={loadMoreClicked}
                 >
                   Load More
-                </button>
+                </Button>
               </div>
             ) : null}
 

@@ -303,8 +303,8 @@ const SetPopup = (props) => {
               {articleId ? (
                 <>
                   <div className="page-top-nav">
-                    <div className="row justify-content-end align-items-center">
-                      <div className="col-12 col-md-1">
+                    <Row className="justify-content-end align-items-center">
+                      <Col md="1">
                         <div className="header-btn-left">
                           <Link
                             className="btn btn-primary btn-bordered back"
@@ -313,8 +313,8 @@ const SetPopup = (props) => {
                             Back
                           </Link>
                         </div>
-                      </div>
-                      <div className="col-12 col-md-9">
+                      </Col>
+                      <Col md="9">
                         <ul className="tabnav-link">
                           <li className="">
                             <a href="">Create Your Content</a>
@@ -326,8 +326,8 @@ const SetPopup = (props) => {
                             <a href="">Preview Your Content &amp; Publish</a>
                           </li>
                         </ul>
-                      </div>
-                      <div className="col-12 col-md-2">
+                      </Col>
+                      <Col md="2">
                         <div className="header-btn">
                           <Link
                             className="btn btn-primary btn-bordered move-draft"
@@ -336,15 +336,15 @@ const SetPopup = (props) => {
                             Cancel
                           </Link>
 
-                          <button
+                          <Button
                             className="btn btn-primary btn-filled next"
                             onClick={nextButtonClicked}
                           >
                             Next
-                          </button>
+                          </Button>
                         </div>
-                      </div>
-                    </div>
+                      </Col>
+                    </Row>
                   </div>
                 </>
               ) : (
@@ -483,7 +483,7 @@ const SetPopup = (props) => {
 
               <section className="select-mail-template library-cosent">
                 <div className="custom-container">
-                  <div className="row">
+                  <Row>
                     {isOnline == false ? (
                       <>
                         <div className="page-title">
@@ -533,7 +533,7 @@ const SetPopup = (props) => {
                       value={templateId}
                     />
                     <div className="email-form">
-                      <form>
+                      <Form>
                         <div className="form-inline row justify-content-between align-items-center"></div>
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-group template_builder_div col-12 col-md-12">
@@ -548,24 +548,24 @@ const SetPopup = (props) => {
                             )}
                             {editableTemplate ? (
                               <div className="form-buttons form-buttons-template right-sided">
-                                <button
+                                <Button
                                   className="btn btn-primary btn-filled"
                                   onClick={(e) => saveTemplateEdit(e)}
                                 >
                                   Save
-                                </button>
-                                <button
+                                </Button>
+                                <Button
                                   className="btn btn-primary btn-bordered"
                                   onClick={(e) => closeTemplateEdit(e)}
                                 >
                                   Cancel
-                                </button>
+                                </Button>
                               </div>
                             ) : (
                               <div className="form-buttons form-buttons-template right-side">
                                 {templateClickedd ? (
                                   <>
-                                    <button
+                                    <Button
                                       className="btn btn-primary btn-filled"
                                       onClick={(e) => {
                                         updateTemplate(e);
@@ -573,18 +573,18 @@ const SetPopup = (props) => {
                                       }}
                                     >
                                       Save
-                                    </button>
+                                    </Button>
                                   </>
                                 ) : null}
                               </div>
                             )}
                           </div>
                         </div>
-                      </form>
+                      </Form>
                     </div>
-                  </div>
+                  </Row>
 
-                  <div className="row">
+                  <Row>
                     {templateClickedd ? (
                       <Editor
                         apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
@@ -610,7 +610,7 @@ const SetPopup = (props) => {
                         }}
                       />
                     ) : null}
-                  </div>
+                  </Row>
                 </div>
               </section>
             </div>
