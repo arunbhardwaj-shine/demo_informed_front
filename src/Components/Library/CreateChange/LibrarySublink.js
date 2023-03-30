@@ -33,6 +33,7 @@ const LibrarySublink = () => {
   const [createNewLink, setCreateNewLink] = useState(false);
   const [reRenderFlag, setreRenderFlag] = useState(0);
   const [showSubLinkList, setshowSubLinkList] = useState(false);
+  const [linkRenderCount, setLinkRenderCount] = useState(0);
   const [changeConsent, setchangeConsent] = useState([]);
   const [flag, setFlag] = useState(0);
   const [opening_details, setOpeningDetails] = useState([]);
@@ -126,6 +127,7 @@ const LibrarySublink = () => {
       });
 
       setshowSubLinkList(true);
+      setLinkRenderCount(linkRenderCount + 1);
       loader("hide");
     }catch (err) {
       console.log("err",err);
@@ -836,6 +838,7 @@ const LibrarySublink = () => {
                     <SubLinkListing
                       pdfid = {selectedArticle}
                       render = {showSubLinkList}
+                      count = {linkRenderCount}
                     />
                     {
                       // <div className="sublink_right_block"></div>
