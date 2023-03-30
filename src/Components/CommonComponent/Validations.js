@@ -1,4 +1,4 @@
-export const createContent = (data, fileCheck) => {
+export const createContent = (data, fileCheck, groupId = 2) => {
   let error = {};
   const regemail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -16,9 +16,9 @@ export const createContent = (data, fileCheck) => {
   //   error.keyAuthor = "Author Title is required!";
   // }
 
-  if (!data?.limit) {
+  if (groupId == 2 && !data?.limit) {
     error.limit = "Limit is required";
-  } else if (data?.limit) {
+  } else if (groupId == 2 && data?.limit) {
     if (data?.limit < 0) {
       error.limit = "Limit must be greater than or equal to 0";
     }
