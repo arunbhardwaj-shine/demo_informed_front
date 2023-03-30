@@ -2549,6 +2549,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 .timeline-article-device {
   padding: 0 0 0 38px;
+  display: table;
 }
 .timeline-article-device tr .device-title {
   font-weight: 500;
@@ -2562,6 +2563,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   line-height: 16px;
   color: $dark-blue;
   padding: 0 0 14px;
+  text-transform: capitalize;
 }
 .timeline-article-device tr:last-child td,
 .timeline-article-device tr:last-child th {
