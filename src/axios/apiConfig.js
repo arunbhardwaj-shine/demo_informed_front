@@ -39,5 +39,6 @@ export const ENDPOINT = {
   READERACTIVITY: `/reader/reader-activity`,
   ANALYTICS: '/analytics/graph',
   READER_DOWNLOAD: `/reader/reader-file`,
+  GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`
 
 };
