@@ -2619,7 +2619,6 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-article-detail-full.active {
   flex-direction: column-reverse;
   display: flex;
-  width: 100%;
 }
 .timeline-article-detail-full .timeline-article-details-heading {
   text-align: center;
@@ -2658,7 +2657,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
-      margin: 0 0 0px;
+      margin: 20px 0 0px;
       .media {
         flex: 0 0 48%;
         padding: 15px;
