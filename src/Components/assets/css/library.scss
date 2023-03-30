@@ -2722,13 +2722,16 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   border-radius: 30px;
   background: $white;
   padding: 7px;
+  &:hover{
+      background: $primary-color;
+      svg{
+        path{
+            fill: $white;
+        }
+      }
+  }
 }
-.header-btn button.btn.print:hover {
-  background: $primary-color;
-}
-.header-btn button.btn.print:hover svg path {
-  fill: $white;
-}
+
 .page-title .back-btn {
   border: none;
   background: $white;
@@ -2741,13 +2744,16 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   align-items: center;
   justify-content: center;
   margin: 0 21px 0 0;
+  &:hover{
+    background: $primary-color;
+    svg{
+        path{
+            fill: $white;
+        }
+    }
+  }
 }
-.page-title .back-btn:hover {
-  background: $primary-color;
-}
-.page-title .back-btn:hover svg path {
-  fill: $white;
-}
+
 .content_details .verify-email-detail {
   margin-bottom: 0;
 }
@@ -2920,7 +2926,6 @@ ul.tab-mail-list.data span.total-left {
   }
 }
 
-
 @media only screen and (max-width: 1599px) {
 .form-group.primary_phone .dropdown-basic-button.split-button-dropup > div:nth-child(3), .create-change-content .split-button-dropup > div:nth-child(3) {
     height: 43.5px;
@@ -2974,8 +2979,6 @@ ul.tab-mail-list.data span.total-left {
     padding-right: 35px;
   }
 }
-
-
 
 @media only screen and (max-width: 1500px) {
   .library_create .library_create-box,
@@ -3165,8 +3168,6 @@ ul.tab-mail-list.data span.total-left {
     padding: 3px 30px 3px 10px;
 }
 }
-
-
 
 @media (max-width: $layout-breakpoint-extraLarge) {
 .timeline-time-view {

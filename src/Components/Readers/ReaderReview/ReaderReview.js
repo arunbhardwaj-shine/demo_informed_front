@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react'
-import { Col, Dropdown, DropdownButton, Form, Modal, Row } from 'react-bootstrap';
+import { Button, Col, Dropdown, DropdownButton, Form, Modal, Row } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loader } from "../../../loader";
 import { postData } from "../../../axios/apiHelper";
@@ -31,16 +31,16 @@ const ReaderReview = () => {
       <div className="custom-container">
          <Row>
           <div className="page-top-nav">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
+              <Row className="row justify-content-end align-items-center">
+                <Col md="1">
                   <div className="header-btn-left">
                     <button className="btn btn-primary btn-bordered back">
                       <Link to="/reader-add">Back</Link>
                     </button>
                   </div>
-                </div>
-                <div className="col-12 col-md-9">
-                  <ul className="tabnav-link">
+                </Col>
+                <Col md="9">
+                   <ul className="tabnav-link">
                     <li className="">
                       <a href="">Create CRM</a>
                     </li>
@@ -48,24 +48,24 @@ const ReaderReview = () => {
                       <a href="">Review &amp; approve</a>
                     </li>
                   </ul>
-                </div>
-                <div className="col-12 col-md-2">
-                  <div className="header-btn">
+                </Col>
+                <Col md="2">
+                    <div className="header-btn">
                     <Link
                     className="btn btn-primary btn-bordered move-draft"
                     to="/readers-view"
                     >
                       Cancel
                     </Link>
-                    <button
+                    <Button
                       className="btn btn-primary btn-filled next send_btn"
                       onClick={createUser}
                       >
                       Create
-                    </button>
+                    </Button>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
             </div>
             {
               Object.keys(readerData).length > 0
