@@ -8,11 +8,12 @@ import { loader } from "../../../loader";
 
 const TimelineDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const BrokenImage = "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const { state } = useLocation();
   const [isActive, setIsActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [readerId, setReaderId] = useState('2147491145');
-  // const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '2147491145');
+  // const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '');
   const [ebookData,setEbookData] = useState([]);
 
   const handleClick = async(index,pdf_id,cdate) => {
@@ -21,6 +22,7 @@ const TimelineDetail = () => {
     }else{
       setActiveIndex(index);
       try{
+        setIsActive(false);
         loader("show");
         let crdate = moment(cdate).format('YYYY/MM/DD');
 
@@ -52,7 +54,6 @@ const TimelineDetail = () => {
   const getUserTimelineData = async() => {
       try {
         loader("show");
-
         if(typeof readerId === "undefined"){
           if(state?.readerId){
             setReaderId(state?.readerId);
@@ -73,6 +74,11 @@ const TimelineDetail = () => {
   const printPage = () => {
     window.print();
   }
+
+  const imageOnError = (event) => {
+    event.currentTarget.src = BrokenImage;
+    event.currentTarget.className = "error";
+  };
 
   return (
     <>
@@ -245,9 +251,10 @@ const TimelineDetail = () => {
                                                                 <div className="media">
                                                                   <div className="media-left">
                                                                     <img
-                                                                      src="https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page1.png"
+                                                                      src={data?.image}
                                                                       className="media-object"
                                                                       style={{ width: "80px" }}
+                                                                      onError={imageOnError}
                                                                       alt="ebook"
                                                                     />
                                                                     <p>Page: {data?.page}</p>
