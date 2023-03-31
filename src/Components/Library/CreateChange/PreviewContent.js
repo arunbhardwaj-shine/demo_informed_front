@@ -171,9 +171,12 @@ const PreviewContent = () => {
       formData.append("file", userInputs?.uploadFile?.[0]);
 
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
-          if(typeof userInputs?.title == "undefined"){
-            formData.append("title", templateName);
-          }
+        if(typeof userInputs?.title != "undefined"){
+            formData.append("title", userInputs?.title);
+        }
+          // if(typeof userInputs?.title == "undefined"){
+          //   formData.append("title", templateName);
+          // }
           // else{
           //   formData.append("title", userInputs?.title);
           // }
