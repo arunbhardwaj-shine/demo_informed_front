@@ -1004,7 +1004,7 @@ const NewReaders = () => {
                                               types[
                                                 types.findIndex(
                                                   (el) =>
-                                                  el.label.toLowerCase() == data?.user_status.toLowerCase()
+                                                  el.label.toLowerCase() == data?.user_status?.toLowerCase()
                                                 )
                                               ]
                                             }
