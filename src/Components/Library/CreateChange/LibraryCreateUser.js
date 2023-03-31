@@ -156,7 +156,7 @@ const LibraryCreateUser = () => {
     if (Object.keys(err)?.length) {
       setError(err);
       return;
-    } 
+    }
     else {
       loader("show");
       try {
@@ -738,6 +738,7 @@ const LibraryCreateUser = () => {
                 <input
                   type="number"
                   name="limit"
+                  min="0"
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
                   onChange={handleChange}
