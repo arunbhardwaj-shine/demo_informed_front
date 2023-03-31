@@ -11,16 +11,18 @@ import { postFormData, postData } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import CommonModel from "../../../Model/CommonModel";
+import moment from "moment";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
 const LibraryCreateUser = () => {
+  const newdate = new Date();
   const [counterFlag, setCounterFlag] = useState(0);
   const [reseller, setReseller] = useState([]);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
   const [id, setId] = useState(localStorage.getItem("user_id"));
   const handleClose = () => setShow(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
@@ -727,10 +729,12 @@ const LibraryCreateUser = () => {
                 <label htmlFor="">Expiration date</label>
                 <DatePicker
                   selected={userInputs?.expDatetime}
+                  value={userInputs?.expDatetime != "" ? userInputs?.expDatetime : moment(new Date(), "DD/MM/YYYY").add('years', 1).format('DD/MM/YYYY')}
                   name="expDatetime"
                   onChange={(e) => handleChange(e, "expDatetime")}
                   dateFormat="dd/MM/yyyy"
                   className="form-control"
+                  minDate={currentDate}
                 />
               </div>
               <div className="form-group">
