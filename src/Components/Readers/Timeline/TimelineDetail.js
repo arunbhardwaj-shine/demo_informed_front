@@ -235,7 +235,7 @@ const TimelineDetail = () => {
                                                    <p>Details <img src={path_image + "down-arrow.png"} alt="" /></p>
                                                </div>
                                                <div className="timeline-article-details-overall">
-                                               <div class="data-main-box tab-panel d-flex flex-column justify-content-between">
+                                               <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                                                <div className="timeline-article-details-boxes">
                                                 {
                                                   typeof ebookData !== "undefined" && ebookData.length > 0 ?
@@ -260,14 +260,14 @@ const TimelineDetail = () => {
                                                                     <p>Page: {data?.page}</p>
                                                                   </div>
                                                                   <div className="media-right">
-                                                                    <ul class="tab-mail-list data">
-                                                                    <li class="d-flex align-center">
-                                                                      <h6 class="tab-content-title">Ignored
+                                                                    <ul className="tab-mail-list data">
+                                                                    <li className="d-flex align-center">
+                                                                      <h6 className="tab-content-title">Ignored
                                                                       </h6>
-                                                                      <div class="data-progress limited">
-                                                                        <div class="progress">
+                                                                      <div className="data-progress limited">
+                                                                        <div className="progress">
                                                                           <div role="progressbar"
-                                                                              class="progress-bar bg-danger"
+                                                                              className="progress-bar bg-danger"
                                                                               aria-valuenow="1"
                                                                               aria-valuemin="0"
                                                                               aria-valuemax="100"
@@ -276,12 +276,12 @@ const TimelineDetail = () => {
                                                                       </div>
                                                                       </li>
                                                                       <li>
-                                                                        <h6 class="tab-content-title">Browsed
+                                                                        <h6 className="tab-content-title">Browsed
                                                                         </h6>
-                                                                        <div class="data-progress success-progress">
-                                                                          <div class="progress">
+                                                                        <div className="data-progress success-progress">
+                                                                          <div className="progress">
                                                                             <div role="progressbar"
-                                                                                 class="progress-bar bg-warning"
+                                                                                 className="progress-bar bg-warning"
                                                                                  aria-valuenow="100"
                                                                                  aria-valuemin="0"
                                                                                  aria-valuemax="100"
@@ -290,11 +290,11 @@ const TimelineDetail = () => {
                                                                           </div>
                                                                       </li>
                                                                       <li>
-                                                                          <h6 class="tab-content-title">Read</h6>
-                                                                          <div class="data-progress">
-                                                                            <div class="progress">
+                                                                          <h6 className="tab-content-title">Read</h6>
+                                                                          <div className="data-progress">
+                                                                            <div className="progress">
                                                                               <div role="progressbar"
-                                                                                   class="progress-bar bg-success"
+                                                                                   className="progress-bar bg-success"
                                                                                    aria-valuenow="0"
                                                                                    aria-valuemin="0"
                                                                                    aria-valuemax="100"
@@ -303,11 +303,11 @@ const TimelineDetail = () => {
                                                                           </div>
                                                                       </li>
                                                                       <li>
-                                                                          <h6 class="tab-content-title">Readers</h6>
-                                                                          <div class="data-progress">
-                                                                            <div class="progress">
+                                                                          <h6 className="tab-content-title">Readers</h6>
+                                                                          <div className="data-progress">
+                                                                            <div className="progress">
                                                                               <div role="progressbar"
-                                                                                   class="progress-bar bg-danger"
+                                                                                   className="progress-bar bg-danger"
                                                                                    aria-valuenow="0"
                                                                                    aria-valuemin="0"
                                                                                    aria-valuemax="100"
