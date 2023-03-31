@@ -173,9 +173,10 @@ const PreviewContent = () => {
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
           if(typeof userInputs?.title == "undefined"){
             formData.append("title", templateName);
-          }else{
-            formData.append("title", userInputs?.title);
           }
+          // else{
+          //   formData.append("title", userInputs?.title);
+          // }
         formData.append("fileId", pdfFileId);
       }
       await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
