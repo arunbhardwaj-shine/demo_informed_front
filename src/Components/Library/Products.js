@@ -146,7 +146,7 @@ function Products() {
                           </Col>
                         </>
                       );
-                    }):<div class="no_found"><p>No Data Found</p></div>  }
+                    }):<div className="no_found"><p>No Data Found</p></div>  }
                   </div>
                   </Row>
               </div>

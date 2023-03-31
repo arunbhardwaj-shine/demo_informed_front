@@ -510,10 +510,10 @@ const EditLibrary = () => {
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
               <div className="form-group justify-content-end">
                 <label htmlFor="">Topics</label>
-                <div class="input-group w-100">
-                  <div class="input-group-prepend">
+                <div className="input-group w-100">
+                  <div className="input-group-prepend">
                     <button
-                      class="btn btn-filled btn-primary"
+                      className="btn btn-filled btn-primary"
                       type="button"
                       id="tags-add"
                       data-bs-toggle="modal"
@@ -522,30 +522,30 @@ const EditLibrary = () => {
                       Add Tag +
                     </button>
                   </div>
-                  <div class="tags_added">
+                  <div className="tags_added">
                     <ul>
-                      <li class="list1">
+                      <li className="list1">
                         Excessive bleedings{" "}
                         <img
                           src="componentAssets/images/filter-close.svg"
                           alt="Close-filter"
                         />
                       </li>
-                      <li class="list1">
+                      <li className="list1">
                         New tag 3{" "}
                         <img
                           src="componentAssets/images/filter-close.svg"
                           alt="Close-filter"
                         />
                       </li>
-                      <li class="list1">
+                      <li className="list1">
                         New tag 6{" "}
                         <img
                           src="componentAssets/images/filter-close.svg"
                           alt="Close-filter"
                         />
                       </li>
-                      <li class="list1">
+                      <li className="list1">
                         global{" "}
                         <img
                           src="componentAssets/images/filter-close.svg"
