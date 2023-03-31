@@ -787,7 +787,7 @@ const LibraryContent = () => {
                         onClick={(e) => showDeleteButtons()}
                       >
                         Cancel
-                      </button>
+                    </button>
                     ) : (
                       <button
                         className="btn btn-outline-primary"
@@ -830,7 +830,7 @@ const LibraryContent = () => {
                   </div>
                 ) : null}
 
-                {location?.state?.data == "edit" ? (
+                {/*location?.state?.data == "edit" ? (
                   <div className="clear-search">
                     <button
                       className="btn btn-outline-primary cancel"
@@ -839,7 +839,7 @@ const LibraryContent = () => {
                       Cancel
                     </button>
                   </div>
-                ) : null}
+                ) : null*/}
               </div>
             </div>
 
