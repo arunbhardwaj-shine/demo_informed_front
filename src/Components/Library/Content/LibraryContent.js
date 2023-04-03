@@ -43,8 +43,8 @@ const LibraryContent = () => {
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
-    { value: "Online", label: "Online" },
-    { value: "Offline", label: "Offline" },
+    { value: "Online Offer", label: "Online Offer" },
+    { value: "Offline Offer", label: "Offline Offer" },
     { value: "Sunshine", label: "Sunshine" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
@@ -970,7 +970,7 @@ const LibraryContent = () => {
             />
             {Object.keys(filterObject)?.length !== 0 ? (
               <div className="apply-filter">
-                <h6>Applied filters</h6>
+                {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
@@ -1164,19 +1164,19 @@ const LibraryContent = () => {
                                         }
                                       </h6>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                       <h6 className="tab-content-title">
                                         SPC included
                                       </h6>
                                       <h6>
                                         {data?.spc_included == 0 ? "No" : "Yes"}
                                       </h6>
-                                    </li>
+                                    </li> */}
                                     <li>
                                       <h6 className="tab-content-title">
                                         Language
                                       </h6>
-                                      <h6>No</h6>
+                                      <h6>{data?.popup_email_content_language?data?.popup_email_content_language:"No"}</h6>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">

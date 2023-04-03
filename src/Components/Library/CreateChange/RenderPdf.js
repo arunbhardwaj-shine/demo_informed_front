@@ -28,7 +28,9 @@ const RenderPdf = ({
   next,
   url,
   handleNext,
-  hidePopup
+  hidePopup,
+  trigger,
+  updatePublish
 }) => {
   const [page, setPage]   = useState(1);
   const [scale, setScale] = useState(1);
@@ -40,6 +42,12 @@ const RenderPdf = ({
   const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
   let total_pages = 1000;
   // let url = "https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/1679390009620.pdf";
+
+  useEffect(() => {
+     if (trigger) {
+       publishClicked();
+     }
+  }, [trigger]);
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     // console.log("Asda");
@@ -117,7 +125,7 @@ const RenderPdf = ({
 	// 	return ret;
 	// }
 
-	const publishClicked = async(e) => {
+	const publishClicked = async() => {
 		var mainDiv = document.getElementsByClassName('viewer-layout-main')[0];
 		let chd = mainDiv.getElementsByClassName("viewer-text-layer");
 		var canvas_layer = mainDiv.getElementsByClassName("viewer-canvas-layer")[0];
@@ -132,6 +140,8 @@ const RenderPdf = ({
       var fd = new FormData();
       fd.append("file", file);
       fd.append("data", JSON.stringify(wordData));
+      // console.log(file);
+      // console.log(wordData);
       // await postFormData(ENDPOINT.ADD_PDF_WORD,fd,{
       //   header:{
       //     "Content-Type": "multipart/form-data",
@@ -151,6 +161,12 @@ const dataURLtoBlob = (dataURL) => {
       return new Blob([new Uint8Array(array)], {type: 'image/png'});
 }
 
+const modalClose = (value) => {
+    // console.log("Hello am done");
+    setCommanShow(false);
+    updatePublish();
+}
+
 
     return (
       <div className="sublink_right_block">
@@ -162,7 +178,7 @@ const dataURLtoBlob = (dataURL) => {
                   <>
                     <MessageModel
                       show={commanShow}
-                      onClose={setCommanShow}
+                      onClose={modalClose}
                       heading={""}
                       data={modalMessage}
                       footerButton={modalBtn}

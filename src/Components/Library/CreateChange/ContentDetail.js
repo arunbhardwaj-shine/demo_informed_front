@@ -287,7 +287,7 @@ const ContentDetail = () => {
                                                   <th>Invoice Notes</th>
                                                   <td>
                                                     {data?.special_requirment
-                                                      ? "Yes"
+                                                      ?data?.special_requirment?.trim()
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -310,16 +310,16 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>ePrint type</th>
                                                   <td>
-                                                    {data?.allow_print
-                                                      ? "Yes"
+                                                    {data?.linkType
+                                                      ? data?.linkType
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
                                                 <tr>
                                                   <th>Uploaded chapters</th>
                                                   <td>
-                                                    {data?.file_type == "ebook"
-                                                      ? "Yes"
+                                                    {data?.chapterCount
+                                                      ? data?.chapterCount
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -346,7 +346,7 @@ const ContentDetail = () => {
                                                   </th>
                                                   <td>
                                                     {data?.production_notes
-                                                      ? "Yes"
+                                                      ? data?.production_notes?.trim()
                                                       : "N/A"}
                                                   </td>
                                                 </tr>

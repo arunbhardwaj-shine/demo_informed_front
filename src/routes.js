@@ -29,6 +29,7 @@ import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 import CisStats from "./Components/Analytics/CisStats";
 import TopClients from "./Components/Analytics/TopClients";
 import TopReseller from "./Components/Analytics/TopReseller";
+import TopSales from "./Components/Analytics/TopSales";
 // import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
@@ -176,8 +177,12 @@ const Routing = () => {
                 <Route path="/totalhcp" element={<Totalhcp />} />
                 <Route path="/top-clients" element={<TopClients />} />
                 <Route path="/top-reseller" element={<TopReseller />} />
-                <Route path="/countrystats" element={<OpeningByCountry />} />
-                <Route path="/salesbycountry" element={<SalesByCountry />} />
+                <Route path="/top-sales" element={<TopSales />} />
+                <Route
+                  path="/openings-by-country"
+                  element={<OpeningByCountry />}
+                />
+                <Route path="/sales-by-country" element={<SalesByCountry />} />
 
                 {/* <Route path="/country-registration" element={<CountryRegistration />} /> */}
                 <Route path="/readers-view" element={<NewReaders />} />

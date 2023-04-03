@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
 import { loader } from "../../loader";
 import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
+
+import HighchartsReact from "highcharts-react-official";
 import { Link } from "react-router-dom";
 
 exporting(Highcharts);
 exportData(Highcharts);
 
-const TopReseller = () => {
+const TopSales = () => {
   const [isDataFound, setIsDataFound] = useState(false);
 
   const [All, setAll] = useState([
@@ -27,6 +28,7 @@ const TopReseller = () => {
     { value: "2020", label: "2020" },
     { value: "2019", label: "2019" },
   ]);
+
   const dataType = useRef(null);
   const year = useRef(null);
   Highcharts.setOptions({
@@ -41,7 +43,7 @@ const TopReseller = () => {
       "#00003C",
     ],
   });
-  const [topResellerOptions, setTopResellerOptions] = useState({
+  const [topSaleOptions, setTopSaleOptions] = useState({
     chart: {
       marginTop: 100,
       type: "bar",
@@ -59,7 +61,7 @@ const TopReseller = () => {
       },
     },
     title: {
-      text: "Top Reseller",
+      text: "Top Sales",
     },
     xAxis: {
       categories: [],
@@ -114,15 +116,17 @@ const TopReseller = () => {
     try {
       loader("show");
       let data = {
-        type: "topSeller",
+        type: "topClient",
         dataType: dataType.current,
         year: year.current,
       };
-      const response = await postData(ENDPOINT.TOPRESELLER, data);
+      const response = await postData(ENDPOINT.TOPCLIENTS, data);
+
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
       }
+
       const categories = hadData?.name;
       const newSeries = [
         {
@@ -142,12 +146,13 @@ const TopReseller = () => {
         },
       ];
 
-      const newResellerOptions = {
-        ...topResellerOptions,
+      const newSaleOptions = {
+        ...topSaleOptions,
         xAxis: { categories: categories },
         series: newSeries,
       };
-      setTopResellerOptions(newResellerOptions);
+
+      setTopSaleOptions(newSaleOptions);
       setIsDataFound(true);
       loader("hide");
     } catch (err) {
@@ -192,13 +197,13 @@ const TopReseller = () => {
                     />
                   </svg>
                 </Link>
-                <h2>Top reseller</h2>
+                <h2>Top clients</h2>
               </div>
             </div>
             <div className="create-change-content spc-content analytic-charts">
               <div className="form_action">
                 <Form className="product-unit d-flex justify-content-between align-items-center">
-                  <div className="form-group">
+                  <div className="form-group ">
                     <label htmlFor="">Filter By</label>
                     <Select
                       options={All}
@@ -221,7 +226,7 @@ const TopReseller = () => {
                 <div className="high_charts">
                   <HighchartsReact
                     highcharts={Highcharts}
-                    options={topResellerOptions}
+                    options={topSaleOptions}
                   />
                 </div>
               ) : null}
@@ -232,4 +237,4 @@ const TopReseller = () => {
     </>
   );
 };
-export default TopReseller;
+export default TopSales;

@@ -837,9 +837,6 @@ const LibrarySublink = () => {
                         Create New Link +
                       </Button>
                     </div>
-
-
-
                     <SubLinkListing
                       pdfid = {selectedArticle}
                       render = {showSubLinkList}
