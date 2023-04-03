@@ -2959,7 +2959,9 @@ section.verify_email.content_details {
     vertical-align: middle;
     color: #212529;
 }
-
+input.viewer-toolbar-current-page-input {
+  pointer-events: none;
+}
 .high_charts .highcharts-data-table table tr th {
     font-weight: 500;
     color: #0b3a81;
