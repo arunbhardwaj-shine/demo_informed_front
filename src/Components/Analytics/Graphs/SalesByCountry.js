@@ -49,7 +49,7 @@ const SalesByCountry = () => {
       },
     },
     title: {
-      text: "Sales By Country",
+      text: " ",
     },
     xAxis: {
       categories: [],
@@ -100,17 +100,17 @@ const SalesByCountry = () => {
   useEffect(() => {
     getDataFromApi();
   }, []);
-
-  const getDataFromApi = async (filter = "") => {
+const dataType=useRef(null);
+const years=useRef(null);
+  const getDataFromApi = async () => {
 
     loader("show");
 
     try {
       const requestBody = {
         type: "saleCountry",
-        filter: filter,
-        dataType: "live",
-        year: 2023,
+        dataType: dataType.current,
+        year: years.current,
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
@@ -155,11 +155,18 @@ const SalesByCountry = () => {
       console.log(err);
       loader("hide");
     }
-    console.log(chart.current)
+    // console.log(chart.current)
   };
 
-  const filterData = (e) => {
-    getDataFromApi(e.value);
+  const filterDataByDataType = (e) => {
+    console.log(e.value)
+    dataType.current=e.value;
+    getDataFromApi();
+  };
+  const filterDataByYears = (e) => {
+    console.log(e.value)
+    years.current=e.value;
+    getDataFromApi();
   };
 
   return (
@@ -167,25 +174,31 @@ const SalesByCountry = () => {
       <Col className="right-sidebar">
         {isDataFound ? (
           <div className="custom-container">
-            <Row>
-              <div className="form-group ">
-                <label htmlFor="">Filter By</label>
-                <Select
-                  options={All}
-                  placeholder="All"
-                  onChange={filterData}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-                <Select
-                  options={Years}
-                  placeholder="Filter By"
-                  onChange={filterData}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
-            </Row>
+        <Row>
+  <div className="form-group d-flex align-items-center">
+    <label htmlFor="">Filter By</label>
+    <div className="d-flex">
+      <Select
+        options={All}
+        placeholder="All"
+        onChange={filterDataByDataType}
+        name="first"
+        className="dropdown-basic-button split-button-dropup mr-2"
+        isClearable
+      />
+      <Select
+        options={Years}
+        name="years"
+
+        placeholder="Filter By"
+        onChange={filterDataByYears}
+        className="dropdown-basic-button split-button-dropup"
+        isClearable
+      />
+    </div>
+  </div>
+</Row>
+
             
             <Row>
               <div className="page-top-nav" >
