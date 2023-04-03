@@ -17,7 +17,7 @@ import {
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import CommonModel from "../../../Model/CommonModel";
-
+import moment from "moment";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditLibrary = () => {
@@ -25,7 +25,7 @@ const EditLibrary = () => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
-
+  const [currentDate, setCurrentDate] = useState(new Date());
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   const [error, setError] = useState({});
@@ -803,12 +803,15 @@ const EditLibrary = () => {
                   selected={
                     userInputs?.expDatetime
                       ? new Date(userInputs?.expDatetime)
-                      : ""
+                      : new Date(moment(new Date(), "MM/DD/YYYY")
+                        .add("years", 1)
+                        .format("MM/DD/YYYY"))
                   }
                   name="expDatetime"
                   onChange={(e) => handleChange(e, "expDatetime")}
                   dateFormat="dd/MM/yyyy"
                   className="form-control"
+                  minDate={currentDate}
                 />
               </div>
 
@@ -817,6 +820,7 @@ const EditLibrary = () => {
                 <input
                   type="number"
                   name="limit"
+                  min="0"
                   defaultValue={Number(userInputs?.limit)}
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
