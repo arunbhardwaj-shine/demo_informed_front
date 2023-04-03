@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { postData } from "../../axios/apiHelper";
@@ -9,18 +9,19 @@ import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
 
 import HighchartsReact from "highcharts-react-official";
+import { Link } from "react-router-dom";
 
 exporting(Highcharts);
 exportData(Highcharts);
 
 const TopSales = () => {
   const [isDataFound, setIsDataFound] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+
   const [All, setAll] = useState([
     { value: "live", label: "Live" },
     { value: "expired", label: "Expired" },
   ]);
-  const [Years, setYears] = useState([
+  const [Year, setYear] = useState([
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
     { value: "2021", label: "2021" },
@@ -164,7 +165,7 @@ const TopSales = () => {
   const filterDataByDataType = (e) => {
     dataType.current = e?.value;
     setIsDataFound(false);
-    getDataFromApi();
+    getDataFromApi(e.value);
   };
   const filterDataByYear = (e) => {
     year.current = e?.value;
@@ -175,37 +176,63 @@ const TopSales = () => {
   return (
     <>
       <Col className="right-sidebar">
-        <Row>
-          <div className="form-group ">
-            <label htmlFor="">Filter By</label>
-            <Select
-              options={All}
-              placeholder="All"
-              onChange={filterDataByDataType}
-              className="dropdown-basic-button split-button-dropup"
-              isClearable
-            />
-            <Select
-              options={Years}
-              placeholder="Years"
-              onChange={filterDataByYear}
-              className="dropdown-basic-button split-button-dropup"
-              isClearable
-            />
-          </div>
-        </Row>
-        {isDataFound ? (
-          <div className="custom-container">
-            <Row>
-              <div className="page-top-nav">
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={topSaleOptions}
-                />
+        <div className="custom-container">
+          <Row>
+            <div className="top-header">
+              <div className="page-title d-flex">
+                <Link
+                  className="btn btn-primary btn-bordered back-btn"
+                  to="/top-clients"
+                >
+                  <svg
+                    width="14"
+                    height="24"
+                    viewBox="0 0 14 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                      fill="#97B6CF"
+                    />
+                  </svg>
+                </Link>
+                <h2>Top clients</h2>
               </div>
-            </Row>
-          </div>
-        ) : null}
+            </div>
+            <div className="create-change-content spc-content analytic-charts">
+              <div className="form_action">
+                <Form className="product-unit d-flex justify-content-between align-items-center">
+                  <div className="form-group ">
+                    <label htmlFor="">Filter By</label>
+                    <Select
+                      options={All}
+                      placeholder="All"
+                      onChange={filterDataByDataType}
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                    />
+                    <Select
+                      options={Year}
+                      placeholder="Year"
+                      onChange={filterDataByYear}
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                    />
+                  </div>
+                </Form>
+              </div>
+              {isDataFound ? (
+                <div className="high_charts">
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={topSaleOptions}
+                  />
+                </div>
+              ) : null}
+            </div>
+          </Row>
+        </div>
       </Col>
     </>
   );

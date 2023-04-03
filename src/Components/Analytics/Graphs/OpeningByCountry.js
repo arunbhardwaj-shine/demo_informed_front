@@ -153,20 +153,7 @@ const OpeningByCountry = () => {
   return (
     <>
       <Col className="right-sidebar">
-        <Row>
-          <div className="form-group ">
-            <Select
-              options={data?.pdfData?.map((pdf) => ({
-                label: pdf.title,
-                value: pdf.id,
-              }))}
-              placeholder="Filter By"
-              onChange={filterData}
-              className="dropdown-basic-button split-button-dropup"
-              isClearable
-            />
-          </div>
-        </Row>
+      
         {isDataFound ? (
           <div className="custom-container">
             <Row>
