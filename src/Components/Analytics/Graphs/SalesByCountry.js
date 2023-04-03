@@ -10,7 +10,6 @@ import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
 
 import HighchartsReact from "highcharts-react-official";
-import "./highchart.css";
 
 exporting(Highcharts);
 exportData(Highcharts);
