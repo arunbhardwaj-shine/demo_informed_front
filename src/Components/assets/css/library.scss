@@ -1489,7 +1489,6 @@ form.product-unit button {
 
 .create-change-content .right-change .form-group > label {
   padding-top: 18px;
-  flex: 0 0 88px;
 }
 .form-check-group .form-check {
   display: flex;
@@ -2913,6 +2912,68 @@ section.verify_email.content_details {
     justify-content: space-evenly;  
 }
 /**Reader Style End**/
+
+
+/**Analytics**/
+.highcharts-container svg {
+    font-family: 'Roboto'!important;
+}
+.analytic-charts {
+    max-width: 1200px;
+    margin: 0 auto ;
+}
+.analytic-charts .high_charts {
+    margin-top: 30px;
+}
+.create-change-content.analytic-charts .high_charts {
+    margin-top: 30px;
+}
+
+.high_charts .highcharts-data-table {
+    margin-top: 30px;
+}
+
+.high_charts .highcharts-data-table table {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #dee2e6;
+    background: #fff;
+}
+
+.high_charts .highcharts-data-table table thead tr {
+    background: #F5F5FA;
+}
+
+.high_charts .highcharts-data-table table thead tr th {
+    font-weight: 500;
+    color: #0b3a81;
+}
+
+.high_charts .highcharts-data-table table tr th, .high_charts .highcharts-data-table table tr td {
+    font-family: 'Roboto';
+    border: 1px solid #ececec;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px 8px;
+    vertical-align: middle;
+    color: #212529;
+}
+
+.high_charts .highcharts-data-table table tr th {
+    font-weight: 500;
+    color: #0b3a81;
+}
+.analytic-charts .product-unit .form-group label {
+    flex: 0 0 auto;
+    margin-right: 24px;
+}
+.analytic-charts .product-unit .form-group .dropdown-basic-button {
+    margin-right: 15px;
+}
+/**Analytics end**/
+
+
 
 /**Library Responsive**/
 
