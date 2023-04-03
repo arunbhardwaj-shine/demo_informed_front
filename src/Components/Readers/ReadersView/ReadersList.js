@@ -58,6 +58,7 @@ const NewReaders = () => {
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
   const [statsFlag, setStatsFlag] = useState(0);
+  const [spcFlag, setSpcFlag] = useState(0);
   const [apiCallStatus, setApiCallStatus] = useState(false);
 
   useEffect(() => {
@@ -86,6 +87,8 @@ const NewReaders = () => {
       setIsLoaded(false);
       if(load == 0){
         loader("show");
+        setPage(1);
+        page = 1;
       }else{
         setPageAll(true);
       }
@@ -107,7 +110,7 @@ const NewReaders = () => {
       // }
       const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
 
-      if(page == 1){
+      if(spcFlag == 0){
           let body = {
             "user_id": localStorage.getItem("user_id")
           };
@@ -120,6 +123,7 @@ const NewReaders = () => {
             });
             setCountryAll(countries);
           });
+          setSpcFlag(1);
       }
 
     if(totalCount != res?.data?.data?.total){
