@@ -27,9 +27,7 @@ import AnalyticsHeader from "./Components/Analytics/Layout/Header";
 import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
 import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 import CisStats from "./Components/Analytics/CisStats";
-import TopClients from "./Components/Analytics/TopClients";
-import TopReseller from "./Components/Analytics/TopReseller";
-
+// import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
@@ -88,6 +86,8 @@ import EditConsentOptions from "./Components/Library/CreateChange/EditConsentOpt
 import ContentDetail from "./Components/Library/CreateChange/ContentDetail";
 import EditLibrary from "./Components/Library/CreateChange/EditLibrary";
 import LibraryEditListing from "./Components/Library/Content/LibraryEditListing";
+import OpeningByCountry from "./Components/Analytics/Graphs/OpeningByCountry";
+import SalesByCountry from "./Components/Analytics/Graphs/SalesByCountry";
 
 let platform = 0;
 let show = 0;
@@ -172,9 +172,10 @@ const Routing = () => {
                 {/* end webinar */}
                 <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
-                <Route path="/top-clients" element={<TopClients />} />
-                <Route path="/top-reseller" element={<TopReseller />} />
-                {/* <Route path="/top-clientnew" element={<TopClientnew />} /> */}
+                <Route path="/countrystats" element={<OpeningByCountry />} />
+                <Route path="/salesbycountry" element={<SalesByCountry />} />
+
+                {/* <Route path="/country-registration" element={<CountryRegistration />} /> */}
                 <Route path="/readers-view" element={<NewReaders />} />
                 <Route path="/reader-edit" element={<ReaderEdit />} />
                 <Route path="/reader-add" element={<ReaderAdd />} />

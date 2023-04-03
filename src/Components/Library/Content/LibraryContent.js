@@ -39,6 +39,7 @@ import QRCode from "qrcode.react";
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryContent = () => {
+  const limit = 24;
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
@@ -48,13 +49,13 @@ const LibraryContent = () => {
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
+  const [totalCount, setCount] = useState(0);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
   const [noData, setNoData] = useState(false);
-
+  const [apiCallStatus, setApiCallStatus] = useState(false);
   const [opening_details, setOpeningDetails] = useState([]);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [finalTags, setFinalTags] = useState([]);
@@ -133,6 +134,7 @@ const LibraryContent = () => {
 
   useEffect(() => {
     applyFilters();
+    getLibraryData(page, filterObject, search);
   }, []);
 
   const applyFilters = async () => {
@@ -141,9 +143,10 @@ const LibraryContent = () => {
       const res = await postData(ENDPOINT.FILTERS, {
         user_id: localStorage.getItem("user_id"),
       });
-      setFilterData(res?.data?.data);
-      console.log("filter", res);
-      setAllTags(res?.data?.data?.tags);
+      if (res?.data?.data) {
+        setFilterData(res?.data?.data);
+        setAllTags(res?.data?.data?.tags);
+      }
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -152,9 +155,12 @@ const LibraryContent = () => {
   };
 
   const loadMoreClicked = () => {
-    setPageAllClicked(true);
-    setPage(2);
-    setType("rest");
+    let sp = page + 1;
+    getLibraryData(sp, filterObject, search, 1);
+    setPage(page + 1);
+    // setPageAllClicked(true);
+    // setPage(2);
+    // setType("rest");
   };
 
   const submitHandler = (event) => {
@@ -262,7 +268,7 @@ const LibraryContent = () => {
   const applyFilter = (e) => {
     e.preventDefault();
     setLibraryData([]);
-    console.log("filter", filterObject);
+
     setFilterObject(filterObject);
     getLibraryData(page, filterObject, search);
 
@@ -286,47 +292,68 @@ const LibraryContent = () => {
     }
   };
 
-  useEffect(() => {
-    getLibraryData(page, filterObject, search);
-  }, [page]);
-
-  const getLibraryData = async (page, obj, search) => {
+  const getLibraryData = async (page, obj, search, load = 0) => {
     try {
+      setIsLoaded(false);
+      if (load == 0) {
+        loader("show");
+      } else {
+        setPageAll(true);
+      }
+      setApiCallStatus(false);
       let data = {
         user_id: localStorage.getItem("user_id"),
         page: page,
         search: search,
         type: type,
+        limit: limit,
       };
 
       let body = { ...data, ...obj };
 
-      if (pageAllClicked == true) {
-        setPageAll(true);
-      } else {
-        loader("show");
-      }
+      // if (pageAllClicked == true) {
+      //   setPageAll(true);
+      // } else {
+      //   loader("show");
+      // }
 
       const res = await postData(ENDPOINT.LIBRARY, body);
 
+      if (totalCount != res?.data?.data?.total) {
+        setCount(res?.data?.data?.total);
+      }
+
+      let total_results = 0;
       if (libraryData?.length) {
-        setLibraryData((oldArray) => [
-          ...oldArray,
-          ...res?.data?.data?.library,
-        ]);
+        total_results = res?.data?.data?.library.length + libraryData.length;
+        if (res?.data?.data?.library) {
+          setLibraryData((oldArray) => [
+            ...oldArray,
+            ...res?.data?.data?.library,
+          ]);
+        }
       } else {
+        total_results = res?.data?.data?.library.length;
         setLibraryData(res?.data?.data?.library);
       }
-      // setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
-      loader("hide");
-      setPageAll(false);
-      setPageAllClicked(false);
-      if ((res?.data?.data?.library).length > 0) {
+
+      if (res?.data?.data?.total > total_results) {
         setIsLoaded(true);
-        setNoData(false);
       } else {
-        setNoData(true);
+        setIsLoaded(false);
       }
+
+      setPageAll(false);
+      setApiCallStatus(true);
+      loader("hide");
+      // setPageAllClicked(false);
+      // if((res?.data?.data?.library).length>0){
+      //   setIsLoaded(true);
+      //   setNoData(false)
+      // }
+      // else{
+      //   setNoData(true)
+      // }
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -398,7 +425,6 @@ const LibraryContent = () => {
 
       loader("hide");
     } catch (err) {
-      console.log("err");
       loader("hide");
     }
 
@@ -1600,23 +1626,21 @@ const LibraryContent = () => {
                       </>
                     );
                   })
-                ) : (
-                  <div>
-                    {noData == true && libraryData?.length <= 0 ? (
-                      <p style={{ fontSize: "30px" }}>No Data Found</p>
-                    ) : null}
+                ) : apiCallStatus ? (
+                  <div className="no_found">
+                    <p>No Data Found</p>
                   </div>
-                )}
+                ) : null}
               </>
             </div>
-            {page === 1 && isLoaded == true ? (
+            {isLoaded == true ? (
               <div className="load_more">
-                <button
+                <Button
                   className="btn btn-primary btn-filled"
                   onClick={loadMoreClicked}
                 >
                   Load More
-                </button>
+                </Button>
               </div>
             ) : null}
 

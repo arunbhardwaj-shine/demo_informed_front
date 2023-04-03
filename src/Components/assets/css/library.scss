@@ -397,9 +397,9 @@
     }
   }
   .form-group {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    margin: 18px 0 31px;
+    margin: 18px 0 20px;
     width: 100%;
     position: relative;
     label {
@@ -2549,6 +2549,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 .timeline-article-device {
   padding: 0 0 0 38px;
+  display: table;
 }
 .timeline-article-device tr .device-title {
   font-weight: 500;
@@ -2562,6 +2563,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   line-height: 16px;
   color: $dark-blue;
   padding: 0 0 14px;
+  text-transform: capitalize;
 }
 .timeline-article-device tr:last-child td,
 .timeline-article-device tr:last-child th {
@@ -2617,7 +2619,6 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-article-detail-full.active {
   flex-direction: column-reverse;
   display: flex;
-  width: 100%;
 }
 .timeline-article-detail-full .timeline-article-details-heading {
   text-align: center;
@@ -2656,7 +2657,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
-      margin: 0 0 0px;
+      margin: 20px 0 0px;
       .media {
         flex: 0 0 48%;
         padding: 15px;
@@ -2722,34 +2723,80 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   border-radius: 30px;
   background: $white;
   padding: 7px;
+  &:hover{
+      background: $primary-color;
+      svg{
+        path{
+            fill: $white;
+        }
+      }
+  }
 }
-.header-btn button.btn.print:hover {
-  background: $primary-color;
-}
-.header-btn button.btn.print:hover svg path {
-  fill: $white;
-}
+
 .page-title .back-btn {
-  border: none;
-  background: $white;
-  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
-  border-radius: 30px;
-  min-width: 40px;
-  padding: 7px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 21px 0 0;
+  @include header-back-btn;
+  &:hover{
+    background: $primary-color;
+    svg{
+        path{
+            fill: $white;
+        }
+    }
+  }
 }
-.page-title .back-btn:hover {
-  background: $primary-color;
+.header-btn-left .btn.back-btn{
+  @include header-back-btn;
+   &:hover{
+    background: $primary-color;
+    svg{
+        path{
+            fill: $white;
+        }
+    }
+  }
 }
-.page-title .back-btn:hover svg path {
-  fill: $white;
-}
+.page-top-nav{padding-left:0;padding-right:0;}
 .content_details .verify-email-detail {
   margin-bottom: 0;
+}
+.react-datepicker {border: 0;background: $white;box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);border-bottom: 2px solid $primary-color;}
+.react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::before, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before, .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::after, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+    left: -16px;
+}
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before {
+    border-bottom-color: $primary-color;
+    top: 2px;
+}
+.react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::before {
+    border-top-color: #ebebeb;
+}
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+    border-bottom-color: $primary-color;
+    top:1px;
+}
+.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range {
+    background-color: $dark-blue;
+}
+.react-datepicker__month-container .react-datepicker__header {
+    background: $primary-color;
+    border-color: $primary-color;
+}
+.react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected, .react-datepicker__year-text--keyboard-selected,.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range {
+    border-radius: 50%!important;
+}
+.react-datepicker__navigation-icon {
+    top: 6px;
+}
+.react-datepicker__day--today {
+    color: #004A89;
+    background: rgb(0 102 190 / 11%);
+    border-radius: 50%;
+}
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+    color: $white;
+}
+.react-datepicker__day-names .react-datepicker__day-name {
+    color: $white;
 }
 .content_details .mail-recipt .mail-recipt-left {
   border-right: 1px dashed var(--light-blue);
@@ -2920,7 +2967,6 @@ ul.tab-mail-list.data span.total-left {
   }
 }
 
-
 @media only screen and (max-width: 1599px) {
 .form-group.primary_phone .dropdown-basic-button.split-button-dropup > div:nth-child(3), .create-change-content .split-button-dropup > div:nth-child(3) {
     height: 43.5px;
@@ -2974,8 +3020,6 @@ ul.tab-mail-list.data span.total-left {
     padding-right: 35px;
   }
 }
-
-
 
 @media only screen and (max-width: 1500px) {
   .library_create .library_create-box,
@@ -3165,8 +3209,6 @@ ul.tab-mail-list.data span.total-left {
     padding: 3px 30px 3px 10px;
 }
 }
-
-
 
 @media (max-width: $layout-breakpoint-extraLarge) {
 .timeline-time-view {

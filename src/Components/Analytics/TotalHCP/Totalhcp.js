@@ -9,7 +9,6 @@ import exportData from "highcharts/modules/export-data";
 
 exporting(Highcharts);
 exportData(Highcharts);
-
 // base bar highchart
 const Totalhcp = () => {
   const [hcpOptions, setHcpOptions] = useState({
@@ -45,7 +44,6 @@ const Totalhcp = () => {
     },
     exporting: {
       enabled: true,
-      allowHTML: true,
     },
     series: [],
   });

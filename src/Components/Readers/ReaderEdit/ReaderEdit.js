@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Form } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import Select from "react-select";
@@ -258,15 +258,15 @@ const ReaderEdit = () => {
         <div className="custom-container">
           <Row>
             <div className="page-top-nav">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
+              <Row className="justify-content-end align-items-center">
+                <Col md="1">
                   <div className="header-btn-left">
                     <button className="btn btn-primary btn-bordered back">
                       <Link to="/readers-view">Back</Link>
                     </button>
                   </div>
-                </div>
-                <div className="col-12 col-md-9">
+                </Col>
+                <Col md="9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
                       <a href="">Edit CRM</a>
@@ -275,8 +275,8 @@ const ReaderEdit = () => {
                       <a href="">Review &amp; approve</a>
                     </li>
                   </ul>
-                </div>
-                <div className="col-12 col-md-2">
+                </Col>
+               <Col md="2">
                   <div className="header-btn">
                     <button className="btn btn-primary btn-bordered move-draft">
                       Cancel
@@ -289,18 +289,18 @@ const ReaderEdit = () => {
                       Next
                     </button>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
             </div>
             <div className="create-reader create-change-content reader_added">
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
                 </div>
-                <div className="row">
-                  <div className="col-12 col-md-7">
-                    <div className="form-group">
-                      <label htmlFor="">First name *</label>
+                <Row>
+                  <Col md="7">
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">First name *</Form.Label>
                       <input
                         type="text"
                         className="form-control"
@@ -316,9 +316,9 @@ const ReaderEdit = () => {
                       ) : (
                         ""
                       )}
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Middle name</label>
+                    </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Middle name</Form.Label>
                       <input
                         type="text"
                         className="form-control"
@@ -326,9 +326,9 @@ const ReaderEdit = () => {
                         defaultValue={userInputs?.middleName}
                         onChange={(e) => handleChange(e)}
                       />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Last name</label>
+                     </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Last name</Form.Label>
                       <input
                         type="text"
                         className="form-control"
@@ -336,9 +336,9 @@ const ReaderEdit = () => {
                         defaultValue={userInputs?.lastName}
                         onChange={(e) => handleChange(e)}
                       />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Primary email *</label>
+                     </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Primary email *</Form.Label>
                       <input
                         type="email"
                         className="form-control"
@@ -352,10 +352,10 @@ const ReaderEdit = () => {
                       ) : (
                         ""
                       )}
-                    </div>
+                     </Form.Group>
 
-                    <div className="form-group">
-                      <label htmlFor="">Alternative email </label>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Alternative email </Form.Label>
                       <input
                         type="email"
                         className="form-control"
@@ -364,9 +364,9 @@ const ReaderEdit = () => {
                         defaultValue={userInputs?.alternativeEmail}
                         onChange={(e) => handleChange(e)}
                       />
-                    </div>
-                    <div className="form-group primary_phone">
-                      <label htmlFor="">Primary phone *</label>
+                     </Form.Group>
+                    <Form.Group className="form-group primary_phone">
+                      <Form.Label htmlFor="">Primary phone *</Form.Label>
                       <Select
                         options={countryCode}
                         className="dropdown-basic-button split-button-dropup"
@@ -395,9 +395,9 @@ const ReaderEdit = () => {
                       ) : (
                         ""
                       )}
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Alternative phone</label>
+                    </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Alternative phone</Form.Label>
                       <input
                         type="number"
                         className="form-control"
@@ -405,9 +405,9 @@ const ReaderEdit = () => {
                         defaultValue={userInputs?.alternativePhone}
                         onChange={(e) => handleChange(e)}
                       />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Country *</label>
+                    </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Country *</Form.Label>
                       <Select
                         options={countryAll}
                         placeholder="Select country"
@@ -422,9 +422,9 @@ const ReaderEdit = () => {
                       ) : (
                         ""
                       )}
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Province</label>
+                    </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Province</Form.Label>
                       <Select
                         options={province}
                         placeholder="Select province"
@@ -434,9 +434,9 @@ const ReaderEdit = () => {
                         isClearable
                         onChange={(e) => handleChange(e?.value, "province")}
                       />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Hospital</label>
+                    </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Hospital</Form.Label>
                       <Select
                         options={hospital}
                         placeholder="Select hospital"
@@ -445,9 +445,9 @@ const ReaderEdit = () => {
                         isClearable
                         onChange={(e) => handleChange(e?.value, "hospital")}
                       />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Title</label>
+                    </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Title</Form.Label>
                       <input
                         type="text"
                         className="form-control"
@@ -455,9 +455,9 @@ const ReaderEdit = () => {
                         defaultValue={userInputs?.title}
                         onChange={(e) => handleChange(e)}
                       />
-                    </div>
-                    <div className="form-group margin-added">
-                      <label htmlFor="">Speciality</label>
+                    </Form.Group>
+                    <Form.Group className="form-group margin-added">
+                      <Form.Label htmlFor="">Speciality</Form.Label>
                       <Select
                         options={userDetail?.speciality}
                         placeholder="Select speciality"
@@ -476,9 +476,9 @@ const ReaderEdit = () => {
                           Add new Speciality +
                         </Button>
                       </div>
-                    </div>
-                    <div className="form-group margin-added">
-                      <label htmlFor="">Discipline</label>
+                    </Form.Group>
+                    <Form.Group className="form-group margin-added">
+                      <Form.Label htmlFor="">Discipline</Form.Label>
                       <Select
                         options={userDetail?.discipline}
                         placeholder="Select discipline"
@@ -497,9 +497,9 @@ const ReaderEdit = () => {
                           Add new Discipline +
                         </Button>
                       </div>
-                    </div>
-                    <div className="form-group margin-added">
-                      <label htmlFor="">Product</label>
+                    </Form.Group>
+                    <Form.Group className="form-group margin-added">
+                      <Form.Label htmlFor="">Product</Form.Label>
                       <Select
                         options={userDetail?.product}
                         placeholder="Select product"
@@ -514,12 +514,12 @@ const ReaderEdit = () => {
                           className="btn-bordered btn-voilet"
                           onClick={(e) => addNewProductClicked("product", e)}
                         >
-                          Add new product +
+                          Add new Product +
                         </Button>
                       </div>
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Interest area</label>
+                    </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Interest area</Form.Label>
                       <Select
                         options={productionAll}
                         placeholder="Select interest area"
@@ -528,9 +528,9 @@ const ReaderEdit = () => {
                         isClearable
                         onChange={(e) => handleChange(e?.value, "interestArea")}
                       />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Rep contact</label>
+                    </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Rep contact</Form.Label>
                       <input
                         type="text"
                         name="repContact"
@@ -538,11 +538,11 @@ const ReaderEdit = () => {
                         className="form-control"
                         onChange={(e) => handleChange(e)}
                       />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-5 d-flex justify-content-end align-items-start right-change">
-                    <div className="form-group justify-content-end">
-                      <label htmlFor="">Notes</label>
+                    </Form.Group>
+                  </Col>
+                  <Col md="5" classname="d-flex justify-content-end align-items-start right-change">
+                    <Form.Group className="form-group justify-content-end">
+                      <Form.Label htmlFor="">Notes</Form.Label>
                       <textarea
                         className="form-control"
                         name="notes"
@@ -551,9 +551,9 @@ const ReaderEdit = () => {
                         placeholder="Meeting note, special interest etc..."
                         onChange={(e) => handleChange(e)}
                       ></textarea>
-                    </div>
-                  </div>
-                </div>
+                    </Form.Group>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Row>

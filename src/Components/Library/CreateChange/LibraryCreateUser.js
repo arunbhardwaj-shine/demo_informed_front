@@ -11,16 +11,18 @@ import { postFormData, postData } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import CommonModel from "../../../Model/CommonModel";
+import moment from "moment";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
 const LibraryCreateUser = () => {
+  const newdate = new Date();
   const [counterFlag, setCounterFlag] = useState(0);
   const [reseller, setReseller] = useState([]);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
   const [id, setId] = useState(localStorage.getItem("user_id"));
   const handleClose = () => setShow(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
@@ -163,12 +165,7 @@ const LibraryCreateUser = () => {
     if (Object.keys(err)?.length) {
       setError(err);
       return;
-    }
-    // else {
-    //   setError();
-    //   console.log("Pharma", userInputs);
-    // }
-    else {
+    } else {
       loader("show");
       try {
         let formData = new FormData();
@@ -710,67 +707,6 @@ const LibraryCreateUser = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className="form-group justify-content-end">
-              <label htmlFor="">Reseller</label>
-              <div className="form-check-group">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    N/A
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller1"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller1"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller2"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller2"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-              </div>
-            </div> */}
             </div>
             {userDetail?.user?.[0]?.flag == 1 &&
             userDetail?.user?.[0]?.group_id == 3 ? (
@@ -884,10 +820,18 @@ const LibraryCreateUser = () => {
                 <label htmlFor="">Expiration date</label>
                 <DatePicker
                   selected={userInputs?.expDatetime}
+                  value={
+                    userInputs?.expDatetime != ""
+                      ? userInputs?.expDatetime
+                      : moment(new Date(), "DD/MM/YYYY")
+                          .add("years", 1)
+                          .format("DD/MM/YYYY")
+                  }
                   name="expDatetime"
                   onChange={(e) => handleChange(e, "expDatetime")}
                   dateFormat="dd/MM/yyyy"
                   className="form-control"
+                  minDate={currentDate}
                 />
               </div>
               <div className="form-group">
@@ -895,6 +839,7 @@ const LibraryCreateUser = () => {
                 <input
                   type="number"
                   name="limit"
+                  min="0"
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
                   onChange={handleChange}
@@ -968,11 +913,28 @@ const LibraryCreateUser = () => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                    <Link
+                    {/* <Link
                       className="btn btn-primary btn-bordered back"
                       to="/library-create"
                     >
                       Back
+                    </Link> */}
+                    <Link
+                      className="btn btn-primary btn-bordered back-btn"
+                      to="/library-create"
+                    >
+                      <svg
+                        width="14"
+                        height="24"
+                        viewBox="0 0 14 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                          fill="#97B6CF"
+                        />
+                      </svg>
                     </Link>
                   </div>
                 </div>
