@@ -38,10 +38,12 @@ const RenderPdf = ({
   const [modalMessage, setModalMessage] = useState('');
   const [modalBtn, setModalBtn] = useState('');
   const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
+  let total_pages = 1000;
   // let url = "https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/1679390009620.pdf";
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     // console.log("Asda");
+    total_pages = e.doc.numPages;
     setNumPages(e.doc.numPages);
     setModalMessage("");
     setModalBtn('');
@@ -69,8 +71,25 @@ const RenderPdf = ({
         // console.log(words);
   		}
   	}, 300);
+    // console.log(e.currentPage);
 
-      if(e.currentPage === (numPages -1)){
+    if(total_pages == '1000'){
+      // console.log('1000',total_pages,e.currentPage,numPages);
+        if(e.currentPage === (numPages -1)){
+            setModalMessage("");
+            let btn_val = "";
+            if (typeof next !=="undefined")
+            {
+              btn_val = next == 1 ? "Next" : "Publish";
+            }
+            setModalBtn(btn_val);
+            if(hidePopup == 0){
+              setCommanShow(true);
+            }
+          }
+    }else{
+      // console.log(total_pages,e.currentPage,numPages);
+      if(total_pages === 1){
         setModalMessage("");
         let btn_val = "";
         if (typeof next !=="undefined")
@@ -82,6 +101,7 @@ const RenderPdf = ({
           setCommanShow(true);
         }
       }
+    }
   };
 
     // const get_text = (el) => {
@@ -118,6 +138,7 @@ const RenderPdf = ({
       //   }
       // });
       handleNext(fd);
+      setWordData([]);
     }
  }
 
