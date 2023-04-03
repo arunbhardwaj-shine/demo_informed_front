@@ -43,8 +43,8 @@ const LibraryContent = () => {
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
-    { value: "Online", label: "Online" },
-    { value: "Offline", label: "Offline" },
+    { value: "Online Offer", label: "Online Offer" },
+    { value: "Offline Offer", label: "Offline Offer" },
     { value: "Sunshine", label: "Sunshine" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
@@ -968,7 +968,7 @@ const LibraryContent = () => {
             />
             {Object.keys(filterObject)?.length !== 0 ? (
               <div className="apply-filter">
-                <h6>Applied filters</h6>
+                {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {

@@ -1196,6 +1196,7 @@ ul.tabnav-link li {
 .btn.btn-bordered:active {
   background: var(--light-blue);
   color: var(--white);
+  border-color: var(--light-blue);
 }
 
 .header-btn .btn.send_btn {
