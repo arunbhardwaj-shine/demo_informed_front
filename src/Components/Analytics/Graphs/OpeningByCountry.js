@@ -15,6 +15,7 @@ const OpeningByCountry = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const selectFilter=useRef(null)
 
   const chart = useRef(null);
   Highcharts.setOptions({
@@ -90,13 +91,13 @@ const OpeningByCountry = () => {
     getDataFromApi();
   }, []);
 
-  const getDataFromApi = async (filter = "") => {
+  const getDataFromApi = async () => {
     loader("show");
 
     try {
       const requestBody = {
         type: "Openingcountry",
-        filter: filter,
+        filter: selectFilter?.current?.value?selectFilter?.current?.value:"",
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
@@ -146,6 +147,7 @@ const OpeningByCountry = () => {
 
   const filterData = (e) => {
     setIsDataFound(false);
+    selectFilter.current=e;
 
     getDataFromApi(e.value);
   };
@@ -179,6 +181,9 @@ const OpeningByCountry = () => {
                   }))}
                   placeholder="Filter By"
                   onChange={filterData}
+                  defaultValue={
+                    selectFilter?.current ? selectFilter?.current : null
+                  }
                   className="dropdown-basic-button split-button-dropup"
                   isClearable
                 />
