@@ -38,6 +38,7 @@ export const ENDPOINT = {
   READERSFILTER: `/reader/get-reader-filter`,
   READERACTIVITY: `/reader/reader-activity`,
   ANALYTICS: '/analytics/graph',
+  OPENING_BY_COUNTRY:'/analytics/reader-country',
   READER_DOWNLOAD: `/reader/reader-file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`
 

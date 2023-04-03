@@ -86,6 +86,8 @@ import EditConsentOptions from "./Components/Library/CreateChange/EditConsentOpt
 import ContentDetail from "./Components/Library/CreateChange/ContentDetail";
 import EditLibrary from "./Components/Library/CreateChange/EditLibrary";
 import LibraryEditListing from "./Components/Library/Content/LibraryEditListing";
+import OpeningByCountry from "./Components/Analytics/Graphs/OpeningByCountry";
+import SalesByCountry from "./Components/Analytics/Graphs/SalesByCountry";
 
 let platform = 0;
 let show = 0;
@@ -170,6 +172,11 @@ const Routing = () => {
                 {/* end webinar */}
                 <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
+                <Route path="/countrystats" element={<OpeningByCountry />} />
+                <Route path="/salesbycountry" element={<SalesByCountry />} />
+
+
+                
                 {/* <Route path="/country-registration" element={<CountryRegistration />} /> */}
                 <Route path="/readers-view" element={<NewReaders />} />
                 <Route path="/reader-edit" element={<ReaderEdit />} />
