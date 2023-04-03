@@ -819,14 +819,11 @@ const LibraryCreateUser = () => {
               <div className="form-group">
                 <label htmlFor="">Expiration date</label>
                 <DatePicker
-                  selected={userInputs?.expDatetime}
-                  value={
-                    userInputs?.expDatetime != ""
-                      ? userInputs?.expDatetime
-                      : moment(new Date(), "DD/MM/YYYY")
-                          .add("years", 1)
-                          .format("DD/MM/YYYY")
-                  }
+                  selected={userInputs?.expDatetime
+                    ? new Date(userInputs?.expDatetime)
+                    : new Date(moment(new Date(), "MM/DD/YYYY")
+                      .add("years", 1)
+                      .format("MM/DD/YYYY"))}
                   name="expDatetime"
                   onChange={(e) => handleChange(e, "expDatetime")}
                   dateFormat="dd/MM/yyyy"
