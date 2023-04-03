@@ -127,8 +127,8 @@ const SalesByCountry = () => {
     try {
       const requestBody = {
         type: "saleCountry",
-        dataType: dataType.current,
-        year: years.current,
+        dataType:dataType?.current?.value ?dataType?.current?.value:"",
+        year: years?.current?.value?years.current.value :"",
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
@@ -178,15 +178,13 @@ const SalesByCountry = () => {
   };
 
   const filterDataByDataType = (e) => {
-    setSelectedDatatype(e);
-    dataType.current = e.value;
+    dataType.current = e;
     setIsDataFound(false);
     getDataFromApi();
   };
 
   const filterDataByYears = (e) => {
-    setSelectedYear(e);
-    years.current = e.value;
+    years.current = e;
     setIsDataFound(false);
     getDataFromApi();
   };
@@ -229,7 +227,7 @@ const SalesByCountry = () => {
                         placeholder="All"
                         onChange={filterDataByDataType}
                         defaultValue={
-                          selectedDatatype ? selectedDatatype : null
+                          dataType?.current ? dataType?.current : null
                         }
                         name="first"
                         className="dropdown-basic-button split-button-dropup mr-2"
@@ -238,9 +236,9 @@ const SalesByCountry = () => {
                       <Select
                         options={Years}
                         name="years"
-                        defaultValue={selectedYear ? selectedYear : null}
                         placeholder="Filter By"
                         onChange={filterDataByYears}
+                        defaultValue={years?.current ? years?.current : null}
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                       />

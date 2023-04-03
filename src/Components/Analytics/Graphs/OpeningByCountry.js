@@ -14,7 +14,7 @@ exportData(Highcharts);
 const OpeningByCountry = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const chart = useRef(null);
   Highcharts.setOptions({
@@ -145,7 +145,6 @@ const OpeningByCountry = () => {
   };
 
   const filterData = (e) => {
-setSelectedValue(e)
     setIsDataFound(false);
 
     getDataFromApi(e.value);
@@ -154,7 +153,7 @@ setSelectedValue(e)
   return (
     <>
       <Col className="right-sidebar">
-
+      
         {isDataFound ? (
           <div className="custom-container">
             <Row>
@@ -181,7 +180,6 @@ setSelectedValue(e)
                   placeholder="Filter By"
                   onChange={filterData}
                   className="dropdown-basic-button split-button-dropup"
-                  defaultValue={selectedValue ?selectedValue: null}
                   isClearable
                 />
               </div>
