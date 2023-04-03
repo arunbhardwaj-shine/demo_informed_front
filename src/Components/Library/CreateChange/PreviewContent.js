@@ -175,7 +175,15 @@ const PreviewContent = () => {
       formData.append("file", userInputs?.uploadFile?.[0]);
 
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
-        formData.append("title", userInputs?.title);
+        if(typeof userInputs?.title != "undefined"){
+            formData.append("title", userInputs?.title);
+        }
+          // if(typeof userInputs?.title == "undefined"){
+          //   formData.append("title", templateName);
+          // }
+          // else{
+          //   formData.append("title", userInputs?.title);
+          // }
         formData.append("fileId", pdfFileId);
       }
       await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
@@ -215,7 +223,8 @@ const PreviewContent = () => {
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
         let pdfIndex = pdfData.ebookData.findIndex((el) => el.id === pdfFileId);
         pdfData.ebookData[pdfIndex].processed = 1;
-        pdfData.ebookData[pdfIndex].image = res?.data?.data?.image?.file;
+        // pdfData.ebookData[pdfIndex].image = res?.data?.data?.image?.file;
+        pdfData.ebookData[pdfIndex].image = res?.data?.data?.image;
 
         let nextItem = pdfData.ebookData[pdfIndex + 1];
         if (typeof nextItem !== "undefined") {

@@ -11,16 +11,18 @@ import { postFormData, postData } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import CommonModel from "../../../Model/CommonModel";
+import moment from "moment";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
 const LibraryCreateUser = () => {
+  const newdate = new Date();
   const [counterFlag, setCounterFlag] = useState(0);
   const [reseller, setReseller] = useState([]);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
   const [id, setId] = useState(localStorage.getItem("user_id"));
   const handleClose = () => setShow(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
@@ -49,7 +51,13 @@ const LibraryCreateUser = () => {
     allowDraft: false,
     allowVideo: false,
     trial: "",
+    comDatetime: "",
+    cpdValue: "",
   });
+  const [blindType, setBlindType] = useState([
+    { value: "blind", label: "blind" },
+    { value: "unblind", label: "unblind" },
+  ]);
   const [ebookFile, setEbookFile] = useState([]);
   const [chapter, setChapter] = useState([
     {
@@ -99,7 +107,7 @@ const LibraryCreateUser = () => {
     const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
       user_id: id,
     });
-
+    console.log("eee", hadData);
     let country = [];
     hadData?.data?.data?.country.reduce((objEntries, key) => {
       country.push({
@@ -125,6 +133,7 @@ const LibraryCreateUser = () => {
       product: hadData?.data?.data?.product,
       reseller: hadData?.data?.data?.reseller,
     });
+
     loader("hide");
   };
   useEffect(() => {
@@ -156,8 +165,7 @@ const LibraryCreateUser = () => {
     if (Object.keys(err)?.length) {
       setError(err);
       return;
-    } 
-    else {
+    } else {
       loader("show");
       try {
         let formData = new FormData();
@@ -184,6 +192,19 @@ const LibraryCreateUser = () => {
         formData.append("chapter", JSON.stringify(chapter));
         formData.append("specialRequirment", userInputs?.specialRequirment);
         formData.append("createdBy", id);
+
+        formData.append("category", userInputs?.category);
+        formData.append("format", userInputs?.format);
+        formData.append("ibu", userInputs?.ibu);
+        formData.append("allowOneSource", userInputs?.allowOneSource);
+        formData.append("allowLibrary", userInputs?.allowLibrary);
+        formData.append("allowRequest", userInputs?.allowRequest);
+        formData.append("allowDraft", userInputs?.allowDraft);
+        formData.append("allowVideo", userInputs?.allowVideo);
+        formData.append("trial", userInputs?.trial);
+        formData.append("blindType", userInputs?.blindType);
+        formData.append("comDatetime", userInputs?.comDatetime);
+        formData.append("cpdValue", userInputs?.cpdValue);
 
         const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
           header: {
@@ -546,23 +567,32 @@ const LibraryCreateUser = () => {
                 </div>
               )}
 
-              <div className="form-group">
-                {userDetail?.user?.[0]?.flag == 0 &&
-                userDetail?.user?.[0]?.group_id == 3 ? (
+              {userDetail?.user?.[0]?.flag == 0 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <div className="form-group">
                   <label htmlFor="">Business Unit</label>
-                ) : userDetail?.user?.[0]?.flag == 1 &&
-                  userDetail?.user?.[0]?.group_id == 3 ? (
-                  <label htmlFor="">HCP type</label>
-                ) : null}
+                  <Select
+                    options={userDetail?.ibu}
+                    placeholder="Select Business Unit"
+                    onChange={(e) => handleChange(e?.value, "ibu")}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                  />
+                </div>
+              ) : userDetail?.user?.[0]?.flag == 1 &&
+                userDetail?.user?.[0]?.group_id == 3 ? (
+                <div className="form-group">
+                  <label htmlFor="">Blind type</label>
+                  <Select
+                    options={blindType}
+                    placeholder="Select Business Unit"
+                    onChange={(e) => handleChange(e?.value, "blindType")}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                  />
+                </div>
+              ) : null}
 
-                <Select
-                  options={userDetail?.ibu}
-                  placeholder="Select Business Unit"
-                  onChange={(e) => handleChange(e?.value, "ibu")}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
@@ -677,68 +707,70 @@ const LibraryCreateUser = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className="form-group justify-content-end">
-              <label htmlFor="">Reseller</label>
-              <div className="form-check-group">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    N/A
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller1"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller1"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller2"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller2"
-                  >
-                    Reseller Name
-                  </label>
+            </div>
+            {userDetail?.user?.[0]?.flag == 1 &&
+            userDetail?.user?.[0]?.group_id == 3 ? (
+              <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+                <div className="form-group justify-content-end">
+                  <label htmlFor="">HCP Type</label>
+                  <div className="input-group w-100">
+                    <div className="input-group-prepend">
+                      <button
+                        className="btn btn-filled btn-primary"
+                        type="button"
+                        id="tags-add"
+                        data-bs-toggle="modal"
+                        data-bs-target="#tagsModal"
+                        onClick={(e) =>
+                          topicButtonClicked(userDetail?.user[0]?.group_id)
+                        }
+                      >
+                        Add HCP +
+                      </button>
+                    </div>
+                    <div className="tags_added">
+                      <div className="select-tags">
+                        {/* {data?.tags?.length
+                        ? JSON.parse(data.tags)?.map((data) => {
+                            return <div>{data}</div>;
+                          })
+                        : ""} */}
+                      </div>
+                      <ul>
+                        <li className="list1">
+                          Excessive bleedings{" "}
+                          <img
+                            src="componentAssets/images/filter-close.svg"
+                            alt="Close-filter"
+                          />
+                        </li>
+                        <li className="list1">
+                          New tag 3{" "}
+                          <img
+                            src="componentAssets/images/filter-close.svg"
+                            alt="Close-filter"
+                          />
+                        </li>
+                        <li className="list1">
+                          New tag 6{" "}
+                          <img
+                            src="componentAssets/images/filter-close.svg"
+                            alt="Close-filter"
+                          />
+                        </li>
+                        <li className="list1">
+                          global{" "}
+                          <img
+                            src="componentAssets/images/filter-close.svg"
+                            alt="Close-filter"
+                          />
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div> */}
-            </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -788,10 +820,18 @@ const LibraryCreateUser = () => {
                 <label htmlFor="">Expiration date</label>
                 <DatePicker
                   selected={userInputs?.expDatetime}
+                  value={
+                    userInputs?.expDatetime != ""
+                      ? userInputs?.expDatetime
+                      : moment(new Date(), "DD/MM/YYYY")
+                          .add("years", 1)
+                          .format("DD/MM/YYYY")
+                  }
                   name="expDatetime"
                   onChange={(e) => handleChange(e, "expDatetime")}
                   dateFormat="dd/MM/yyyy"
                   className="form-control"
+                  minDate={currentDate}
                 />
               </div>
               <div className="form-group">
@@ -799,6 +839,7 @@ const LibraryCreateUser = () => {
                 <input
                   type="number"
                   name="limit"
+                  min="0"
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
                   onChange={handleChange}
@@ -872,11 +913,28 @@ const LibraryCreateUser = () => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                    <Link
+                    {/* <Link
                       className="btn btn-primary btn-bordered back"
                       to="/library-create"
                     >
                       Back
+                    </Link> */}
+                    <Link
+                      className="btn btn-primary btn-bordered back-btn"
+                      to="/library-create"
+                    >
+                      <svg
+                        width="14"
+                        height="24"
+                        viewBox="0 0 14 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                          fill="#97B6CF"
+                        />
+                      </svg>
                     </Link>
                   </div>
                 </div>
@@ -922,6 +980,7 @@ const LibraryCreateUser = () => {
               ? docintelLink()
               : null}
             {userDetail?.user?.[0]?.group_id == 2 ? LimitAgreed() : null}
+
             <div className="create-change-content">
               <div className="form_action">
                 {userDetail?.user?.[0]?.group_id == 2 ? (
@@ -1046,7 +1105,6 @@ const LibraryCreateUser = () => {
                                       e.target?.checked,
                                       "allowDraft"
                                     );
-                                    // console.log("ee");
                                   }}
                                 />
                                 <span>
@@ -1255,6 +1313,9 @@ const LibraryCreateUser = () => {
                             <input
                               type="checkbox"
                               // onChange={(e) => includeVideoCheckboxChanged(e)}
+                              onChange={(e) => {
+                                handleChange(e.target?.checked, "allowVideo");
+                              }}
                             />
                             <span>
                               <span className="switch-btn active">No</span>

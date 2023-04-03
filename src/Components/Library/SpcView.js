@@ -130,12 +130,12 @@ const SpcView = () => {
                     </button>
                   </form>
                 </div>
-                 <button
+                 {/* <button
                     className="btn-bordered cancel btn btn-primary"
                     type="button"
                     onClick={() => navigate("/spc")}>
                     Close
-                  </button>
+                  </button> */}
               </div>
             </div>
 
