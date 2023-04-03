@@ -138,7 +138,6 @@ const EditLibrary = () => {
       product: hadData?.data?.data?.product,
       reseller: hadData?.data?.data?.reseller,
     });
-    console.log("user detail", userDetail);
     loader("hide");
   };
   const libraryDetail = async () => {
@@ -148,7 +147,6 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
-      console.log("library", hadData);
       setReseller(
         hadData?.data?.data?.pdfData?.multiple_publisher
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
@@ -184,6 +182,9 @@ const EditLibrary = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
+    if(userInputs.docintelFormat == "ebook"){
+      userInputs.chapter = chapter
+    }
     const err = LibraryEditValidation(userInputs);
 
     if (Object.keys(err)?.length) {
@@ -940,11 +941,6 @@ const EditLibrary = () => {
                   </div>
                 </div>
               </div>
-              {console.log(
-                "group id",
-                userDetail?.user?.[0]?.group_id,
-                userDetail?.user?.[0]?.flag == 0
-              )}
               {userDetail?.user?.[0]?.group_id == 2
                 ? publisherFun()
                 : userDetail?.user?.[0]?.flag == 0 &&
@@ -1095,7 +1091,6 @@ const EditLibrary = () => {
                                         e.target?.checked,
                                         "allow_draft"
                                       );
-                                      // console.log("ee");
                                     }}
                                   />
                                   <span>
@@ -1255,11 +1250,13 @@ const EditLibrary = () => {
                                     </Button>
                                   ) : null}
                                 </div>
-                                {error?.ebookErr ? (
+                                {
+                                error?.chapter?.[i] ?(
                                   <div className="login-validation-upload">
-                                    {error?.ebookErr}
-                                  </div>
-                                ) : null}
+                                  {error?.chapter?.[i]}
+                                </div>
+                                ):null
+                              }
                               </div>
                             </>
                           );
