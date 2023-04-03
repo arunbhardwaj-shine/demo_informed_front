@@ -26,7 +26,9 @@ const LibraryCreateUser = () => {
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
-    expDatetime: "",
+    expDatetime:new Date(moment(new Date(), "MM/DD/YYYY")
+    .add("years", 1)
+    .format("MM/DD/YYYY")),
     limit: "",
     uploadFile: "",
     contentTitle: "",
