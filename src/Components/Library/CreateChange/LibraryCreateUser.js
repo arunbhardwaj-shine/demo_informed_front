@@ -148,7 +148,10 @@ const LibraryCreateUser = () => {
 
   const nextButtonClicked = async (e) => {
     // e.preventDefault();
-
+    
+    if(userInputs.docintelFormat == "ebook"){
+      userInputs.chapter = chapter
+    }
     const err = createContent(
       userInputs,
       ebookFile,
@@ -1154,11 +1157,13 @@ const LibraryCreateUser = () => {
                                   </Button>
                                 ) : null}
                               </div>
-                              {error?.ebookErr ? (
-                                <div className="login-validation-upload">
-                                  {error?.ebookErr}
+                              {
+                                error?.chapter?.[i] ?(
+                                  <div className="login-validation-upload">
+                                  {error?.chapter?.[i]}
                                 </div>
-                              ) : null}
+                                ):null
+                              }
                             </div>
                           </>
                         );
