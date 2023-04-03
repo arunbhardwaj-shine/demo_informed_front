@@ -176,8 +176,8 @@ const Routing = () => {
                 <Route path="/totalhcp" element={<Totalhcp />} />
                 <Route path="/top-clients" element={<TopClients />} />
                 <Route path="/top-reseller" element={<TopReseller />} />
-                <Route path="/countrystats" element={<OpeningByCountry />} />
-                <Route path="/salesbycountry" element={<SalesByCountry />} />
+                <Route path="/openings-by-country" element={<OpeningByCountry />} />
+                <Route path="/sales-by-country" element={<SalesByCountry />} />
 
                 {/* <Route path="/country-registration" element={<CountryRegistration />} /> */}
                 <Route path="/readers-view" element={<NewReaders />} />
