@@ -10,9 +10,9 @@ const MessageModel = ({
   handleSubmit,
   handleQR,
 }) => {
-  const handleClose = () => {
-    onClose(false);
-  };
+  // const handleClose = () => {
+  //   onClose(false);
+  // };
 
   return (
     <>
@@ -30,7 +30,7 @@ const MessageModel = ({
             type="button"
             className="btn-close"
             data-bs-dismiss="modal"
-            onClick={handleClose}
+            onClick={onClose}
           ></button>
         </Modal.Header>
         <Modal.Body>
@@ -50,7 +50,7 @@ const MessageModel = ({
                 onClick={() => {
                   handleSubmit();
 
-                  handleClose();
+                  onClose();
                 }}
               >
                 {footerButton}
