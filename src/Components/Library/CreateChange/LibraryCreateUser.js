@@ -837,7 +837,7 @@ const LibraryCreateUser = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="">Set limit of usage</label>
+                <label htmlFor="">Set limit of usage *</label>
                 <input
                   type="number"
                   name="limit"

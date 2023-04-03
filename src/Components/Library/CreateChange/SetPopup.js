@@ -299,7 +299,7 @@ const SetPopup = (props) => {
       <div className="col right-sidebar">
         {popupData ? (
           <div className="custom-container">
-            <div className="row">
+            <Row>
               {articleId ? (
                 <>
                   <div className="page-top-nav">
@@ -618,7 +618,7 @@ const SetPopup = (props) => {
                   </Row>
                 </div>
               </section>
-            </div>
+            </Row>
           </div>
         ) : null}
       </div>
