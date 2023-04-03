@@ -18,10 +18,12 @@ const TopClients = () => {
   const [isDataFound, setIsDataFound] = useState(false);
 
   const [All, setAll] = useState([
+    { value: "", label: "All" },
     { value: "live", label: "Live" },
     { value: "expired", label: "Expired" },
   ]);
   const [Year, setYear] = useState([
+    { value: "", label: "All" },
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
     { value: "2021", label: "2021" },
@@ -29,8 +31,8 @@ const TopClients = () => {
     { value: "2019", label: "2019" },
   ]);
 
-  const dataType = useRef(null);
-  const year = useRef(null);
+  const dataType = useRef(All[0]);
+  const year = useRef(Year[0]);
   Highcharts.setOptions({
     colors: [
       "#FFBE2C",
