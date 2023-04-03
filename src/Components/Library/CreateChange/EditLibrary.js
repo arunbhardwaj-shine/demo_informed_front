@@ -17,7 +17,7 @@ import {
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import CommonModel from "../../../Model/CommonModel";
-
+import moment from "moment";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditLibrary = () => {
@@ -25,7 +25,7 @@ const EditLibrary = () => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
-
+  const [currentDate, setCurrentDate] = useState(new Date());
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   const [error, setError] = useState({});
@@ -46,7 +46,23 @@ const EditLibrary = () => {
     coverPhoto: "",
     productionNotes: "",
     specialRequirment: "",
+    category: "",
+    format: "",
+    ibu: "",
+    allow_oneSource: "",
+    allow_library: "",
+    allow_draft: "",
+    allow_request: "",
+    allow_video: "",
+    comDatetime: "",
+    trial: "",
+    cpdValue: "",
   });
+
+  const [blindType, setBlindType] = useState([
+    { value: "blind", label: "Blind" },
+    { value: "unblind", label: "UnBlind" },
+  ]);
   const [ebookFile, setEbookFile] = useState([]);
   const [libraryData, setLibraryData] = useState([]);
 
@@ -122,6 +138,7 @@ const EditLibrary = () => {
       product: hadData?.data?.data?.product,
       reseller: hadData?.data?.data?.reseller,
     });
+    console.log("user detail", userDetail);
     loader("hide");
   };
   const libraryDetail = async () => {
@@ -131,7 +148,7 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
-
+      console.log("library", hadData);
       setReseller(
         hadData?.data?.data?.pdfData?.multiple_publisher
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
@@ -212,6 +229,30 @@ const EditLibrary = () => {
 
         formData.append("specialRequirment", userInputs?.specialRequirment);
         formData.append("createdBy", id);
+
+        formData.append("category", userInputs?.category);
+        formData.append("format", userInputs?.format);
+        formData.append("ibu", userInputs?.ibu);
+
+        formData.append(
+          "allowOneSource",
+          JSON.stringify(userInputs?.allow_oneSource)
+        );
+        formData.append(
+          "allowLibrary",
+          JSON.stringify(userInputs?.allow_library)
+        );
+        formData.append(
+          "allowRequest",
+          JSON.stringify(userInputs?.allow_request)
+        );
+        formData.append("allowDraft", JSON.stringify(userInputs?.allow_draft));
+        formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
+
+        formData.append("trial", userInputs?.trial);
+        formData.append("blindType", userInputs?.blindType);
+        formData.append("comDatetime", userInputs?.comDatetime);
+        formData.append("cpdValue", userInputs?.cpdValue);
 
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
           header: {
@@ -444,9 +485,13 @@ const EditLibrary = () => {
               <div className="form-group">
                 <label htmlFor="">Category</label>
                 <Select
-                  options={userDetail?.category}
+                  options={userDetail?.category || []}
                   placeholder="Select category type for HCPs to sort"
-                  // onChange={(event) => onCountryChange(event)}
+                  defaultValue={{
+                    label: userInputs?.category,
+                    value: userInputs?.category,
+                  }}
+                  onChange={(e) => handleChange(e?.value, "category")}
                   className="dropdown-basic-button split-button-dropup"
                   isClearable
                 />
@@ -454,58 +499,143 @@ const EditLibrary = () => {
               <div className="form-group">
                 <label htmlFor="">Format</label>
                 <Select
-                  options={userDetail?.format}
+                  options={userDetail?.format || []}
                   placeholder="Select format for tracking"
-                  // onChange={(event) => onCountryChange(event)}
+                  defaultValue={{
+                    label: userInputs?.format,
+                    value: userInputs?.format,
+                  }}
+                  onChange={(e) => handleChange(e?.value, "format")}
                   className="dropdown-basic-button split-button-dropup"
                   isClearable
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="">Product</label>
-                <Select
-                  options={userDetail?.product}
-                  placeholder="Select the product this is for"
-                  // onChange={(event) => onCountryChange(event)}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="">Business Unit</label>
-                <Select
-                  options={userDetail?.ibu}
-                  placeholder="Select Business Unit"
-                  // onChange={(event) => onCountryChange(event)}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="">Content Use</label>
-                <fieldset id="group2">
-                  <input
-                    type="checkbox"
-                    value="value1"
-                    name="group2"
-                    onClick={(e) =>
-                      handleChange(e.target?.checked, "allowPrint")
-                    }
-                    id="limitagreed1"
+              {userDetail?.user?.[0]?.flag == 0 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <div className="form-group">
+                  <label htmlFor="">Product</label>
+                  <Select
+                    options={userDetail?.product || []}
+                    placeholder="Select the product this is for"
+                    defaultValue={{
+                      label: userInputs?.product,
+                      value: userInputs?.product,
+                    }}
+                    onChange={(e) => handleChange(e?.value, "product")}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
                   />
-                  <label htmlFor="limitagreed1">One Source</label>
-                  <input
-                    type="checkbox"
-                    value="value2"
-                    name="group2"
-                    onClick={(e) =>
-                      handleChange(e.target?.checked, "allowDownload")
-                    }
-                    id="limitagreed2"
+                </div>
+              ) : (
+                <div className="form-group">
+                  <label htmlFor="">Trial</label>
+                  <Select
+                    options={userDetail?.trial || []}
+                    placeholder="Select the product this is for"
+                    defaultValue={{
+                      label: userInputs?.trial,
+                      value: userInputs?.trial,
+                    }}
+                    onChange={(e) => handleChange(e?.value, "trial")}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
                   />
-                  <label htmlFor="limitagreed2">Library</label>
-                </fieldset>
-              </div>
+                </div>
+              )}
+              {userDetail?.user?.[0]?.flag == 0 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <div className="form-group">
+                  <label htmlFor="">Business Unit</label>
+                  <Select
+                    options={userDetail?.ibu || []}
+                    placeholder="Select Business Unit"
+                    defaultValue={{
+                      label: userInputs?.ibu,
+                      value: userInputs?.ibu,
+                    }}
+                    onChange={(e) => handleChange(e?.value, "ibu")}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                  />
+                </div>
+              ) : userDetail?.user?.[0]?.flag == 1 &&
+                userDetail?.user?.[0]?.group_id == 3 ? (
+                <div className="form-group">
+                  <label htmlFor="">Blind type</label>
+                  <Select
+                    options={blindType || []}
+                    placeholder="Select Business Unit"
+                    defaultValue={{
+                      label: userInputs?.blindType,
+                      value: userInputs?.blindType,
+                    }}
+                    onChange={(e) => handleChange(e?.value, "blindType")}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                  />
+                </div>
+              ) : null}
+              {userDetail?.user?.[0]?.flag == 0 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <div className="form-group">
+                  <label htmlFor="">Content Use</label>
+                  <fieldset id="group2">
+                    <input
+                      type="checkbox"
+                      value="value1"
+                      name="group2"
+                      defaultChecked={userInputs?.allow_oneSource}
+                      onClick={(e) =>
+                        handleChange(e.target?.checked, "allow_oneSource")
+                      }
+                      id="limitagreed1"
+                    />
+                    <label htmlFor="limitagreed1">One Source</label>
+                    <input
+                      type="checkbox"
+                      value="value2"
+                      name="group2"
+                      defaultChecked={userInputs?.allow_library}
+                      onClick={(e) =>
+                        handleChange(e.target?.checked, "allow_library")
+                      }
+                      id="limitagreed2"
+                    />
+                    <label htmlFor="limitagreed2">Library</label>
+                  </fieldset>
+                </div>
+              ) : null}
+
+              {userDetail?.user?.[0]?.flag == 1 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <>
+                  <div className="form-group">
+                    <label htmlFor="">Completion date</label>
+                    <DatePicker
+                      selected={
+                        userInputs?.comDatetime
+                          ? new Date(userInputs?.comDatetime)
+                          : ""
+                      }
+                      name="comDatetime"
+                      onChange={(e) => handleChange(e, "comDatetime")}
+                      dateFormat="dd/MM/yyyy"
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="">CPD value</label>
+                    <input
+                      type="number"
+                      name="cpdValue"
+                      className="form-control"
+                      placeholder="“0” value means unlimited limit"
+                      defaultValue={userInputs?.cpdValue}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </>
+              ) : null}
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
               <div className="form-group justify-content-end">
@@ -519,7 +649,7 @@ const EditLibrary = () => {
                       data-bs-toggle="modal"
                       data-bs-target="#tagsModal"
                     >
-                      Add Tag +
+                      Add Topic +
                     </button>
                   </div>
                   <div className="tags_added">
@@ -673,12 +803,15 @@ const EditLibrary = () => {
                   selected={
                     userInputs?.expDatetime
                       ? new Date(userInputs?.expDatetime)
-                      : ""
+                      : new Date(moment(new Date(), "MM/DD/YYYY")
+                        .add("years", 1)
+                        .format("MM/DD/YYYY"))
                   }
                   name="expDatetime"
                   onChange={(e) => handleChange(e, "expDatetime")}
                   dateFormat="dd/MM/yyyy"
                   className="form-control"
+                  minDate={currentDate}
                 />
               </div>
 
@@ -687,6 +820,7 @@ const EditLibrary = () => {
                 <input
                   type="number"
                   name="limit"
+                  min="0"
                   defaultValue={Number(userInputs?.limit)}
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
@@ -806,16 +940,34 @@ const EditLibrary = () => {
                   </div>
                 </div>
               </div>
+              {console.log(
+                "group id",
+                userDetail?.user?.[0]?.group_id,
+                userDetail?.user?.[0]?.flag == 0
+              )}
               {userDetail?.user?.[0]?.group_id == 2
                 ? publisherFun()
                 : userDetail?.user?.[0]?.flag == 0 &&
                   userDetail?.user?.[0]?.group_id == 3
                 ? docintelLink()
+                : userDetail?.user?.[0]?.flag == 1 &&
+                  userDetail?.user?.[0]?.group_id == 3
+                ? docintelLink()
                 : null}
               {userDetail?.user?.[0]?.group_id == 2 ? LimitAgreed() : null}
+
               <div className="create-change-content">
                 <div className="form_action">
-                  <h4>Creating the eprint</h4>
+                  {userDetail?.user?.[0]?.group_id == 2 ? (
+                    <h4>Creating the eprint</h4>
+                  ) : userDetail?.user?.[0]?.flag == 0 &&
+                    userDetail?.user?.[0]?.group_id == 3 ? (
+                    <h4>Creating the Docintel Link</h4>
+                  ) : userDetail?.user?.[0]?.flag == 1 &&
+                    userDetail?.user?.[0]?.group_id == 3 ? (
+                    <h4>Creating the Docintel Link</h4>
+                  ) : null}
+
                   <div className="row">
                     <div className="col-12 col-md-6">
                       <div className="form-group val">
@@ -836,7 +988,13 @@ const EditLibrary = () => {
                         ) : null}
                       </div>
                       <div className="form-group">
-                        <label htmlFor="">Journal title</label>
+                        {userDetail?.user?.[0]?.flag == 0 &&
+                        userDetail?.user?.[0]?.group_id == 3 ? (
+                          <label htmlFor="">Sub title</label>
+                        ) : (
+                          <label htmlFor="">Journal title</label>
+                        )}
+
                         <input
                           type="text"
                           name="journalTitle"
@@ -860,13 +1018,106 @@ const EditLibrary = () => {
                           onChange={handleChange}
                         />
                       </div>
+
+                      {(userDetail?.user?.[0]?.flag == 0 &&
+                        userDetail?.user?.[0]?.group_id == 3) ||
+                      (userDetail?.user?.[0]?.flag == 1 &&
+                        userDetail?.user?.[0]?.group_id == 3) ? (
+                        <>
+                          <div className="form-group">
+                            <label htmlFor="">Enable</label>
+                            <fieldset id="group2">
+                              <input
+                                type="checkbox"
+                                value="value1"
+                                name="group2"
+                                defaultChecked={userInputs?.allow_print}
+                                onClick={(e) =>
+                                  handleChange(e.target?.checked, "allow_print")
+                                }
+                                id="limitagreed1"
+                              />
+                              <label htmlFor="limitagreed1">Print</label>
+                              <input
+                                type="checkbox"
+                                value="value2"
+                                name="group2"
+                                defaultChecked={userInputs?.allow_download}
+                                onClick={(e) =>
+                                  handleChange(
+                                    e.target?.checked,
+                                    "allow_download"
+                                  )
+                                }
+                                id="limitagreed2"
+                              />
+                              <label htmlFor="limitagreed2">Download</label>
+                              <input
+                                type="checkbox"
+                                value="value3"
+                                defaultChecked={userInputs?.allow_share}
+                                onClick={(e) =>
+                                  handleChange(e.target?.checked, "allow_share")
+                                }
+                                name="group2"
+                                id="limitagreed3"
+                              />
+                              <label htmlFor="limitagreed3">Share</label>
+                              <input
+                                type="checkbox"
+                                value="value4"
+                                name="group2"
+                                defaultChecked={userInputs?.allow_request}
+                                onClick={(e) =>
+                                  handleChange(
+                                    e.target?.checked,
+                                    "allow_request"
+                                  )
+                                }
+                                id="limitagreed4"
+                              />
+                              <label htmlFor="limitagreed4">Request</label>
+                            </fieldset>
+                          </div>
+                          <div className="form-group">
+                            <label htmlFor="setasdraft1">Set as draft</label>
+                            <fieldset id="group2">
+                              <div className="switch">
+                                <label className="switch-light">
+                                  <input
+                                    type="checkbox"
+                                    value="value1"
+                                    name="group2"
+                                    id="setasdraft1"
+                                    defaultChecked={userInputs?.allow_draft}
+                                    onChange={(e) => {
+                                      handleChange(
+                                        e.target?.checked,
+                                        "allow_draft"
+                                      );
+                                      // console.log("ee");
+                                    }}
+                                  />
+                                  <span>
+                                    <span className="switch-btn active">
+                                      No
+                                    </span>
+                                    <span className="switch-btn ">Yes</span>
+                                  </span>
+                                  <a className="btn"></a>
+                                </label>
+                              </div>
+                            </fieldset>
+                          </div>
+                        </>
+                      ) : null}
+
                       <div className="form-group val">
                         <label htmlFor="">Docintel format *</label>
                         <Select
                           className="dropdown-basic-button split-button-dropup"
                           options={ePrintType}
                           defaultValue={
-                            // console.log("default", userInputs?.docintelFormat)
                             userInputs?.docintelFormat === "pdf"
                               ? ePrintType[0]
                               : userInputs?.docintelFormat == "ebook"
@@ -1069,6 +1320,45 @@ const EditLibrary = () => {
                         false
                       )}
                     </div> */}
+
+                      {(userDetail?.user?.[0]?.flag == 0 &&
+                        userDetail?.user?.[0]?.group_id == 3) ||
+                      (userDetail?.user?.[0]?.flag == 1 &&
+                        userDetail?.user?.[0]?.group_id == 3) ? (
+                        <div className="form-group">
+                          <label htmlFor="">Include video</label>
+                          <div className="switch">
+                            <label className="switch-light">
+                              <input
+                                type="checkbox"
+                                defaultChecked={userInputs?.allow_video}
+                                // onChange={(e) => includeVideoCheckboxChanged(e)}
+                                onChange={(e) => {
+                                  handleChange(
+                                    e.target?.checked,
+                                    "allow_video"
+                                  );
+                                }}
+                              />
+                              <span>
+                                <span className="switch-btn active">No</span>
+                                <span className="switch-btn">Yes</span>
+                              </span>
+                              <a className="btn"></a>
+                            </label>
+                          </div>
+                          {/* {checked == false ? ( */}
+                          {/* <Button
+                        className="btn-bordered btn-voilet"
+                        onClick={handleShow}
+                      >
+                        click to embed your Videos{" "}
+                      </Button> */}
+                          {/* ) : (
+                        false
+                      )} */}
+                        </div>
+                      ) : null}
                       <div className="form-group val">
                         <label htmlFor="">Content cover</label>
                         <div className="upload-file-box">
