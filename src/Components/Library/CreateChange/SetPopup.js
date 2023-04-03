@@ -90,6 +90,9 @@ const SetPopup = (props) => {
 
   useEffect(() => {
     getTemplateListData(0, "All", "");
+    
+    
+   // div_img.click();
   }, []);
 
   const dropDownSelected = (label, e) => {
@@ -190,6 +193,9 @@ const SetPopup = (props) => {
           }
           setTemplateList(data);
           loader("hide");
+          const div_img = document.querySelector("#template_dyn1");
+             div_img.click()
+           
         } else if (flag === 2) {
           const body = {
             userId: localStorage.getItem("user_id"),
