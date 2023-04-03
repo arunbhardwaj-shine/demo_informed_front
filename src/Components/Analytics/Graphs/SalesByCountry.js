@@ -10,6 +10,7 @@ import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
 
 import HighchartsReact from "highcharts-react-official";
+import "./highchart.css";
 
 exporting(Highcharts);
 exportData(Highcharts);
@@ -17,8 +18,13 @@ exportData(Highcharts);
 const SalesByCountry = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
+  Highcharts.setOptions({
+    colors: ['#FFBE2C', '#F58289', '#00D4C0', '#D61975', '#0066BE', '#FFBE2C', '#F0EEE4','#00003C']
+  });
+  
   const [isLoaded, setIsLoaded] = useState(false);
-  const  chart=useRef(null)
+  
+  const chart = useRef(null);
   const [All, setAll] = useState([
     { value: "live", label: "Live" },
     { value: "expired", label: "Expired" },
@@ -30,7 +36,9 @@ const SalesByCountry = () => {
     { value: "2020", label: "2020" },
     { value: "2019", label: "2019" },
   ]);
-
+  const dataType = useRef(null);
+  
+  const years = useRef(null);
   const [topClientOptions, setTopClientOptions] = useState({
     chart: {
       marginTop: 100,
@@ -100,10 +108,8 @@ const SalesByCountry = () => {
   useEffect(() => {
     getDataFromApi();
   }, []);
-const dataType=useRef(null);
-const years=useRef(null);
-  const getDataFromApi = async () => {
 
+  const getDataFromApi = async () => {
     loader("show");
 
     try {
@@ -119,6 +125,7 @@ const years=useRef(null);
       }
 
       const categories = hadData?.name;
+   
       const newSeries = [
         {
           name: `Readers (${hadData.readerTotal})`,
@@ -159,49 +166,49 @@ const years=useRef(null);
   };
 
   const filterDataByDataType = (e) => {
-    console.log(e.value)
-    dataType.current=e.value;
+    dataType.current = e.value;
+    setIsDataFound(false);
     getDataFromApi();
   };
+  
   const filterDataByYears = (e) => {
-    console.log(e.value)
-    years.current=e.value;
+    years.current = e.value;
+    setIsDataFound(false);
     getDataFromApi();
   };
 
   return (
     <>
       <Col className="right-sidebar">
+         <Row>
+              <div className="form-group d-flex align-items-center">
+                <label htmlFor="">Filter By</label>
+                <div className="d-flex">
+                  <Select
+                    options={All}
+                    placeholder="All"
+                    onChange={filterDataByDataType}
+                 
+                    className="dropdown-basic-button split-button-dropup mr-2"
+                    isClearable
+                  />
+                  <Select
+                    options={Years}
+                    
+                    placeholder="Years"
+                    onChange={filterDataByYears}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                  />
+                </div>
+              </div>
+            </Row>
         {isDataFound ? (
           <div className="custom-container">
-        <Row>
-  <div className="form-group d-flex align-items-center">
-    <label htmlFor="">Filter By</label>
-    <div className="d-flex">
-      <Select
-        options={All}
-        placeholder="All"
-        onChange={filterDataByDataType}
-        name="first"
-        className="dropdown-basic-button split-button-dropup mr-2"
-        isClearable
-      />
-      <Select
-        options={Years}
-        name="years"
+           
 
-        placeholder="Filter By"
-        onChange={filterDataByYears}
-        className="dropdown-basic-button split-button-dropup"
-        isClearable
-      />
-    </div>
-  </div>
-</Row>
-
-            
             <Row>
-              <div className="page-top-nav" >
+              <div className="page-top-nav">
                 <HighchartsReact
                   highcharts={Highcharts}
                   options={topClientOptions}

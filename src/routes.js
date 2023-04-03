@@ -172,8 +172,8 @@ const Routing = () => {
                 {/* end webinar */}
                 <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
-                <Route path="/countrystats" element={<OpeningByCountry />} />
-                <Route path="/salesbycountry" element={<SalesByCountry />} />
+                <Route path="/openings-by-country" element={<OpeningByCountry />} />
+                <Route path="/sales-by-country" element={<SalesByCountry />} />
 
 
                 

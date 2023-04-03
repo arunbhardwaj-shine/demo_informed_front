@@ -8,6 +8,8 @@ import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
 import HighchartsReact from "highcharts-react-official";
+import "./highchart.css";
+
 exporting(Highcharts);
 exportData(Highcharts);
 const OpeningByCountry = () => {
@@ -16,13 +18,16 @@ const OpeningByCountry = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const chart = useRef(null);
+  Highcharts.setOptions({
+    colors: ['#FFBE2C', '#F58289', '#00D4C0', '#D61975', '#0066BE', '#FFBE2C', '#F0EEE4','#00003C']
+  });
   const [topClientOptions, setTopClientOptions] = useState({
     chart: {
       marginTop: 100,
       type: "bar",
       events: {
         load: function () {
-          let categoryHeight = 30;
+          let categoryHeight = 35;
           this.update({
             chart: {
               height:
@@ -89,12 +94,11 @@ const OpeningByCountry = () => {
   const getDataFromApi = async (filter = "") => {
     loader("show");
 
-    
-      try {
-        const requestBody = {
-          type: "Openingcountry",
-          filter: filter,
-        };
+    try {
+      const requestBody = {
+        type: "Openingcountry",
+        filter: filter,
+      };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
@@ -102,6 +106,7 @@ const OpeningByCountry = () => {
       }
 
       const categories = hadData?.name;
+      
       const newSeries = [
         {
           name: `Readers (${hadData.readerTotal})`,
@@ -124,7 +129,6 @@ const OpeningByCountry = () => {
         ...topClientOptions,
         xAxis: { categories: categories },
         series: newSeries,
-       
       };
 
       setTopClientOptions(newClientOptions);
@@ -142,30 +146,30 @@ const OpeningByCountry = () => {
   };
 
   const filterData = (e) => {
+    setIsDataFound(false);
+
     getDataFromApi(e.value);
   };
 
   return (
     <>
       <Col className="right-sidebar">
+        <Row>
+          <div className="form-group ">
+            <Select
+              options={data?.pdfData?.map((pdf) => ({
+                label: pdf.title,
+                value: pdf.id,
+              }))}
+              placeholder="Filter By"
+              onChange={filterData}
+              className="dropdown-basic-button split-button-dropup"
+              isClearable
+            />
+          </div>
+        </Row>
         {isDataFound ? (
           <div className="custom-container">
-            <Row>
-              <div className="form-group ">
-                <label htmlFor="">Filter By</label>
-                <Select
-                  options={data?.pdfData?.map((pdf) => ({
-                    label: pdf.title,
-                    value: pdf.id,
-                  }))}
-                  placeholder="Filter By"
-                  onChange={filterData}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
-            </Row>
-
             <Row>
               <div className="page-top-nav">
                 <HighchartsReact
