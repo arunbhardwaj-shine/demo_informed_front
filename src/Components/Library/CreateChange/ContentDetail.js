@@ -318,8 +318,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Uploaded chapters</th>
                                                   <td>
-                                                    {data?.file_type == "ebook"
-                                                      ? "Yes"
+                                                    {data?.chapterCount
+                                                      ? data?.chapterCount
                                                       : "N/A"}
                                                   </td>
                                                 </tr>

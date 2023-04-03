@@ -87,6 +87,10 @@ const PreviewContent = () => {
         setNewTemplateClicked(true);
       }
       loader("hide");
+
+      const div_img = document.querySelector(".alice-carousel__wrapper img");
+      div_img.click()
+
     } catch (err) {
       loader("hide");
     }
@@ -265,6 +269,7 @@ const PreviewContent = () => {
           });
         }
         setPdfData(pdfData);
+ 
       } else {
         setPublishStatus(true);
         navigate("/content-detail", {

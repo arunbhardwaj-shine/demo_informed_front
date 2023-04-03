@@ -140,8 +140,8 @@ const RenderPdf = ({
       var fd = new FormData();
       fd.append("file", file);
       fd.append("data", JSON.stringify(wordData));
-      console.log(file);
-      console.log(wordData);
+      // console.log(file);
+      // console.log(wordData);
       // await postFormData(ENDPOINT.ADD_PDF_WORD,fd,{
       //   header:{
       //     "Content-Type": "multipart/form-data",
