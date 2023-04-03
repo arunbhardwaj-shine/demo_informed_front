@@ -27,6 +27,8 @@ import AnalyticsHeader from "./Components/Analytics/Layout/Header";
 import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
 import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 import CisStats from "./Components/Analytics/CisStats";
+import TopClients from "./Components/Analytics/TopClients";
+import TopReseller from "./Components/Analytics/TopReseller";
 // import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
@@ -172,11 +174,11 @@ const Routing = () => {
                 {/* end webinar */}
                 <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
+                <Route path="/top-clients" element={<TopClients />} />
+                <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/openings-by-country" element={<OpeningByCountry />} />
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
 
-
-                
                 {/* <Route path="/country-registration" element={<CountryRegistration />} /> */}
                 <Route path="/readers-view" element={<NewReaders />} />
                 <Route path="/reader-edit" element={<ReaderEdit />} />
