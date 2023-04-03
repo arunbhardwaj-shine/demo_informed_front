@@ -49,7 +49,13 @@ const LibraryCreateUser = () => {
     allowDraft: false,
     allowVideo: false,
     trial: "",
+    comDatetime: "",
+    cpdValue: "",
   });
+  const [blindType, setBlindType] = useState([
+    { value: "blind", label: "blind" },
+    { value: "unblind", label: "unblind" },
+  ]);
   const [ebookFile, setEbookFile] = useState([]);
   const [chapter, setChapter] = useState([
     {
@@ -99,7 +105,7 @@ const LibraryCreateUser = () => {
     const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
       user_id: id,
     });
-
+    console.log("eee", hadData);
     let country = [];
     hadData?.data?.data?.country.reduce((objEntries, key) => {
       country.push({
@@ -125,6 +131,7 @@ const LibraryCreateUser = () => {
       product: hadData?.data?.data?.product,
       reseller: hadData?.data?.data?.reseller,
     });
+
     loader("hide");
   };
   useEffect(() => {
@@ -156,55 +163,69 @@ const LibraryCreateUser = () => {
     if (Object.keys(err)?.length) {
       setError(err);
       return;
-    } else {
-      setError();
-      console.log("Pharma", userInputs);
     }
     // else {
-    //   loader("show");
-    //   try {
-    //     let formData = new FormData();
-
-    //     formData.append("productionNotes", userInputs?.productionNotes);
-    //     formData.append("expDatetime", userInputs?.expDatetime);
-    //     formData.append("limit", userInputs?.limit);
-    //     formData.append("file", userInputs?.uploadFile?.[0]);
-    //     formData.append("title", userInputs?.contentTitle);
-    //     formData.append("company", userInputs?.company);
-    //     formData.append("country", userInputs?.country);
-    //     formData.append("pdfSubTitle", userInputs?.journalTitle);
-    //     formData.append("keyAuthor", userInputs?.keyAuthor);
-    //     formData.append("multiplePublisher", JSON.stringify(reseller));
-    //     formData.append("allowShare", userInputs?.allowShare);
-    //     formData.append("allowDownload", userInputs?.allowDownload);
-    //     formData.append("allowPrint", userInputs?.allowPrint);
-    //     formData.append("product", userInputs?.product);
-    //     ebookFile?.forEach((item) => {
-    //       formData.append("ebookData", item);
-    //     });
-    //     formData.append("fileType", userInputs?.docintelFormat);
-    //     formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
-    //     formData.append("chapter", JSON.stringify(chapter));
-    //     formData.append("specialRequirment", userInputs?.specialRequirment);
-    //     formData.append("createdBy", id);
-
-    //     const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
-    //       header: {
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     });
-    //     loader("hide");
-    //     // navigate("/set-popup");
-    //     navigate("/set-popup", {
-    //       state: {
-    //         pdfId: res?.data?.data?.pdfId,
-    //         fileType: userInputs?.docintelFormat,
-    //       },
-    //     });
-    //   } catch (err) {
-    //     loader("hide");
-    //   }
+    //   setError();
+    //   console.log("Pharma", userInputs);
     // }
+    else {
+      loader("show");
+      try {
+        let formData = new FormData();
+
+        formData.append("productionNotes", userInputs?.productionNotes);
+        formData.append("expDatetime", userInputs?.expDatetime);
+        formData.append("limit", userInputs?.limit);
+        formData.append("file", userInputs?.uploadFile?.[0]);
+        formData.append("title", userInputs?.contentTitle);
+        formData.append("company", userInputs?.company);
+        formData.append("country", userInputs?.country);
+        formData.append("pdfSubTitle", userInputs?.journalTitle);
+        formData.append("keyAuthor", userInputs?.keyAuthor);
+        formData.append("multiplePublisher", JSON.stringify(reseller));
+        formData.append("allowShare", userInputs?.allowShare);
+        formData.append("allowDownload", userInputs?.allowDownload);
+        formData.append("allowPrint", userInputs?.allowPrint);
+        formData.append("product", userInputs?.product);
+        ebookFile?.forEach((item) => {
+          formData.append("ebookData", item);
+        });
+        formData.append("fileType", userInputs?.docintelFormat);
+        formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
+        formData.append("chapter", JSON.stringify(chapter));
+        formData.append("specialRequirment", userInputs?.specialRequirment);
+        formData.append("createdBy", id);
+
+        formData.append("category", userInputs?.category);
+        formData.append("format", userInputs?.format);
+        formData.append("ibu", userInputs?.ibu);
+        formData.append("allowOneSource", userInputs?.allowOneSource);
+        formData.append("allowLibrary", userInputs?.allowLibrary);
+        formData.append("allowRequest", userInputs?.allowRequest);
+        formData.append("allowDraft", userInputs?.allowDraft);
+        formData.append("allowVideo", userInputs?.allowVideo);
+        formData.append("trial", userInputs?.trial);
+        formData.append("blindType", userInputs?.blindType);
+        formData.append("comDatetime", userInputs?.comDatetime);
+        formData.append("cpdValue", userInputs?.cpdValue);
+
+        const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
+          header: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        loader("hide");
+        // navigate("/set-popup");
+        navigate("/set-popup", {
+          state: {
+            pdfId: res?.data?.data?.pdfId,
+            fileType: userInputs?.docintelFormat,
+          },
+        });
+      } catch (err) {
+        loader("hide");
+      }
+    }
   };
 
   const addMoreChClicked = () => {
@@ -549,23 +570,32 @@ const LibraryCreateUser = () => {
                 </div>
               )}
 
-              <div className="form-group">
-                {userDetail?.user?.[0]?.flag == 0 &&
-                userDetail?.user?.[0]?.group_id == 3 ? (
+              {userDetail?.user?.[0]?.flag == 0 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <div className="form-group">
                   <label htmlFor="">Business Unit</label>
-                ) : userDetail?.user?.[0]?.flag == 1 &&
-                  userDetail?.user?.[0]?.group_id == 3 ? (
-                  <label htmlFor="">HCP type</label>
-                ) : null}
+                  <Select
+                    options={userDetail?.ibu}
+                    placeholder="Select Business Unit"
+                    onChange={(e) => handleChange(e?.value, "ibu")}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                  />
+                </div>
+              ) : userDetail?.user?.[0]?.flag == 1 &&
+                userDetail?.user?.[0]?.group_id == 3 ? (
+                <div className="form-group">
+                  <label htmlFor="">Blind type</label>
+                  <Select
+                    options={blindType}
+                    placeholder="Select Business Unit"
+                    onChange={(e) => handleChange(e?.value, "blindType")}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                  />
+                </div>
+              ) : null}
 
-                <Select
-                  options={userDetail?.ibu}
-                  placeholder="Select Business Unit"
-                  onChange={(e) => handleChange(e?.value, "ibu")}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
@@ -742,6 +772,69 @@ const LibraryCreateUser = () => {
               </div>
             </div> */}
             </div>
+            {userDetail?.user?.[0]?.flag == 1 &&
+            userDetail?.user?.[0]?.group_id == 3 ? (
+              <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+                <div className="form-group justify-content-end">
+                  <label htmlFor="">HCP Type</label>
+                  <div className="input-group w-100">
+                    <div className="input-group-prepend">
+                      <button
+                        className="btn btn-filled btn-primary"
+                        type="button"
+                        id="tags-add"
+                        data-bs-toggle="modal"
+                        data-bs-target="#tagsModal"
+                        onClick={(e) =>
+                          topicButtonClicked(userDetail?.user[0]?.group_id)
+                        }
+                      >
+                        Add HCP +
+                      </button>
+                    </div>
+                    <div className="tags_added">
+                      <div className="select-tags">
+                        {/* {data?.tags?.length
+                        ? JSON.parse(data.tags)?.map((data) => {
+                            return <div>{data}</div>;
+                          })
+                        : ""} */}
+                      </div>
+                      <ul>
+                        <li className="list1">
+                          Excessive bleedings{" "}
+                          <img
+                            src="componentAssets/images/filter-close.svg"
+                            alt="Close-filter"
+                          />
+                        </li>
+                        <li className="list1">
+                          New tag 3{" "}
+                          <img
+                            src="componentAssets/images/filter-close.svg"
+                            alt="Close-filter"
+                          />
+                        </li>
+                        <li className="list1">
+                          New tag 6{" "}
+                          <img
+                            src="componentAssets/images/filter-close.svg"
+                            alt="Close-filter"
+                          />
+                        </li>
+                        <li className="list1">
+                          global{" "}
+                          <img
+                            src="componentAssets/images/filter-close.svg"
+                            alt="Close-filter"
+                          />
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -925,6 +1018,7 @@ const LibraryCreateUser = () => {
               ? docintelLink()
               : null}
             {userDetail?.user?.[0]?.group_id == 2 ? LimitAgreed() : null}
+
             <div className="create-change-content">
               <div className="form_action">
                 {userDetail?.user?.[0]?.group_id == 2 ? (
@@ -1049,7 +1143,6 @@ const LibraryCreateUser = () => {
                                       e.target?.checked,
                                       "allowDraft"
                                     );
-                                    // console.log("ee");
                                   }}
                                 />
                                 <span>
@@ -1258,6 +1351,9 @@ const LibraryCreateUser = () => {
                             <input
                               type="checkbox"
                               // onChange={(e) => includeVideoCheckboxChanged(e)}
+                              onChange={(e) => {
+                                handleChange(e.target?.checked, "allowVideo");
+                              }}
                             />
                             <span>
                               <span className="switch-btn active">No</span>
