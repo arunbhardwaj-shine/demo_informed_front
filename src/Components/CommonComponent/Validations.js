@@ -15,6 +15,15 @@ export const createContent = (data, fileCheck, groupId = 2) => {
   // if (!data?.keyAuthor) {
   //   error.keyAuthor = "Author Title is required!";
   // }
+  if(data.hasOwnProperty('chapter')){
+    data.chapter?.forEach((item,index) =>{
+      if(!item.uploadFile){
+        if(!error?.chapter?.[index]){
+          error.chapter = {...error.chapter,[index]:"Chapter is required"};
+        }
+      }
+    })
+  }
 
   if (groupId == 2 && !data?.limit) {
     error.limit = "Limit is required";
