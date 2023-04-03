@@ -176,7 +176,7 @@ const ReaderAdd = () => {
           name: "product",
           label: "Product",
           type: "input",
-          placeholder: "Type your product",
+          placeholder: "Type your product name",
         },
       ]);
 
