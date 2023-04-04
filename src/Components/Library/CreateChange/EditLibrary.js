@@ -121,23 +121,33 @@ const EditLibrary = () => {
     });
 
     let country = [];
-    hadData?.data?.data?.country.reduce((objEntries, key) => {
-      country.push({
-        label: key,
-        value: key,
+    if( hadData?.data?.data?.category?.length){
+      hadData?.data?.data?.country.reduce((objEntries, key) => {
+        country.push({
+          label: key,
+          value: key,
+        });
       });
-    });
+    }
+
+    
     let category = [];
-    hadData?.data?.data?.category.reduce((objEntries, key) => {
-      category.push({
-        label: key,
-        value: key,
+    if( hadData?.data?.data?.category?.length){
+      hadData?.data?.data?.category.reduce((objEntries, key) => {
+        category.push({
+          label: key,
+          value: key,
+        });
       });
-    });
+    }
+   
     let tags = [];
-    hadData?.data?.data?.tags.reduce((objEntries, key) => {
-      tags.push(key?.value);
-    });
+    if( hadData?.data?.data?.tags?.length){
+      hadData?.data?.data?.tags?.reduce((objEntries, key) => {
+        tags.push(key?.value);
+      });
+    }
+   
     setAllTags(tags)
 
     setUserDetail({
@@ -769,13 +779,14 @@ const EditLibrary = () => {
                     <ul>
 
                     {
-                        tagClickedFirst?.map(item =>{
+                        tagClickedFirst?.map((item,index) =>{
                           return (
                             <li className="list1">
                             {item}
                             <img
                               src="componentAssets/images/filter-close.svg"
                               alt="Close-filter"
+                              onClick={() => removeTagFinal(index)}
                             />
                            </li>
                           )

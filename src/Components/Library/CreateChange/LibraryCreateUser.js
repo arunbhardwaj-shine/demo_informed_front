@@ -189,7 +189,7 @@ const LibraryCreateUser = () => {
         formData.append("title", userInputs?.contentTitle);
         if(userDetail?.user?.[0]?.group_id == 3){
           formData.append("expDatetime",new Date(moment().year(2030)
-          .format("MM/DD/YYYY")),   );
+          .format("MM/DD/YYYY")));
         }else{
           formData.append("expDatetime", userInputs?.expDatetime);
         }
@@ -217,7 +217,7 @@ const LibraryCreateUser = () => {
         formData.append("allowOneSource", userInputs?.allowOneSource);
         formData.append("allowLibrary", userInputs?.allowLibrary);
         formData.append("allowRequest", userInputs?.allowRequest?1:0);
-        formData.append("allowDraft", userInputs?.allowDraft?1:0);
+        formData.append("allowDraft", userInputs?.allowDraft?JSON.stringify(userInputs?.allowDraft):JSON.stringify(false));
         formData.append("allowVideo", userInputs?.allowVideo?1:0);
         formData.append("trial", userInputs?.trial);
         formData.append("blindType", userInputs?.blindType);
@@ -669,21 +669,17 @@ const LibraryCreateUser = () => {
                   </div>
                   <div className="tags_added">
                     <div className="select-tags">
-                      {/* {data?.tags?.length
-                        ? JSON.parse(data.tags)?.map((data) => {
-                            return <div>{data}</div>;
-                          })
-                        : ""} */}
                     </div>
                     <ul>
                       {
-                        tagClickedFirst?.map(item =>{
+                        tagClickedFirst?.map((item,index) =>{
                           return (
                             <li className="list1">
                             {item}
                             <img
                               src="componentAssets/images/filter-close.svg"
                               alt="Close-filter"
+                              onClick={() => removeTagFinal(index)}
                             />
                            </li>
                           )

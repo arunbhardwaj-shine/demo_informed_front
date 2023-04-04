@@ -20,7 +20,8 @@ import QRCode from "qrcode.react";
 import { usePdf } from '@mikecousins/react-pdf';
 import PDF from "react-pdf-js";
 import packageJson from '../../../../package.json';
-import  Viewer, { Worker } from '@phuocng/react-pdf-viewer';
+// import  Viewer, { Worker } from '@phuocng/react-pdf-viewer';
+import  Viewer from '@phuocng/react-pdf-viewer';
 import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
 import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps  } from '@react-pdf-viewer/core';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -39,7 +40,7 @@ const RenderPdf = ({
   const [wordData, setWordData] = useState([]);
   const [modalMessage, setModalMessage] = useState('');
   const [modalBtn, setModalBtn] = useState('');
-  const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
+  // const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
   let total_pages = 1000;
   // let url = "https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/1679390009620.pdf";
 
@@ -231,7 +232,10 @@ const optimizeSinglePagePdf = () => {
                       handleSubmit={publishClicked}
                     />
 
-                    <Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}>
+                    {
+                      /*<Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}></Worker>*/
+                    }
+
                         <div style={{ height: '750px' }} id="pdf_view_box">
                           <div onScroll={scrollEve} className="scroll_pdf">
                           <Viewer
@@ -242,7 +246,7 @@ const optimizeSinglePagePdf = () => {
                           />
                           </div>
                         </div>
-                      </Worker>
+
                   </>
                 )
               }
