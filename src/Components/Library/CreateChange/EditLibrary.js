@@ -121,23 +121,33 @@ const EditLibrary = () => {
     });
 
     let country = [];
-    hadData?.data?.data?.country.reduce((objEntries, key) => {
-      country.push({
-        label: key,
-        value: key,
+    if( hadData?.data?.data?.category?.length){
+      hadData?.data?.data?.country.reduce((objEntries, key) => {
+        country.push({
+          label: key,
+          value: key,
+        });
       });
-    });
+    }
+
+    
     let category = [];
-    hadData?.data?.data?.category.reduce((objEntries, key) => {
-      category.push({
-        label: key,
-        value: key,
+    if( hadData?.data?.data?.category?.length){
+      hadData?.data?.data?.category.reduce((objEntries, key) => {
+        category.push({
+          label: key,
+          value: key,
+        });
       });
-    });
+    }
+   
     let tags = [];
-    hadData?.data?.data?.tags.reduce((objEntries, key) => {
-      tags.push(key?.value);
-    });
+    if( hadData?.data?.data?.tags?.length){
+      hadData?.data?.data?.tags?.reduce((objEntries, key) => {
+        tags.push(key?.value);
+      });
+    }
+   
     setAllTags(tags)
 
     setUserDetail({

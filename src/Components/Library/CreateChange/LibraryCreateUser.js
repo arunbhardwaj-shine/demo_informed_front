@@ -189,7 +189,7 @@ const LibraryCreateUser = () => {
         formData.append("title", userInputs?.contentTitle);
         if(userDetail?.user?.[0]?.group_id == 3){
           formData.append("expDatetime",new Date(moment().year(2030)
-          .format("MM/DD/YYYY")),   );
+          .format("MM/DD/YYYY")));
         }else{
           formData.append("expDatetime", userInputs?.expDatetime);
         }
