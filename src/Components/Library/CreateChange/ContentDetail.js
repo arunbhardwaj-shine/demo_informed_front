@@ -355,8 +355,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Saved as draft</th>
                                                   <td>
-                                                    {data?.save_draft
-                                                      ? data?.save_draft
+                                                    {data?.draft
+                                                      ? "Yes"
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
