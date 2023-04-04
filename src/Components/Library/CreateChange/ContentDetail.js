@@ -12,6 +12,7 @@ import { Button } from "react-bootstrap";
 const ContentDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [open, setOpen] = useState(false);
+  const [openProduction, setOpenProduction] = useState(false);
   const { state } = useLocation();
   const [libraryData, setLibraryData] = useState();
 
@@ -321,43 +322,21 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Invoice Notes</th>
                                                   <td>
-                                                    {/* {data?.special_requirment
-                                                      ?data?.special_requirment?.trim()
-                                                      : "N/A"} */}
-                                                    Lorem ipsum dolor sit amet,
-                                                    consectetur adipiscing elit,
+                                                    {data?.special_requirment
+                                                      ? data?.special_requirment?.trim()
+                                                          ?.length > 10
+                                                        ? data?.special_requirment?.substring(
+                                                            0,
+                                                            10
+                                                          )
+                                                        : data?.special_requirment?.trim()
+                                                      : "N/A"}
+
                                                     <Collapse in={open}>
                                                       <div id="collapse-text-view">
-                                                        sed do eiusmod tempor
-                                                        incididunt ut labore et
-                                                        dolore magna amet,
-                                                        consectetur adipiscing
-                                                        elit, sed do eiusmod
-                                                        tempor incididunt ut
-                                                        labore et dolore magna
-                                                        aliqua. Ut enim ad minim
-                                                        veniam, quis nostrud
-                                                        exercitation ullamco
-                                                        laboris nisi ut aliquip
-                                                        ex Lorem ipsum dolor sit
-                                                        amet, consectetur
-                                                        adipiscing elit, sed do
-                                                        eiusmod tempor
-                                                        incididunt ut labore et
-                                                        dolore magna aliqua. Ut
-                                                        enim ad minim veniam,
-                                                        quis nostrud
-                                                        exercitation ullamco
-                                                        laboris nisi ut aliquip
-                                                        ex Lorem ipsum dolor sit
-                                                        amet, consectetur
-                                                        adipiscing elit, sed do
-                                                        eiusmod tempor
-                                                        incididunt ut labore et
-                                                        dolore magna aliqua. Ut
-                                                        enim ad minim veniam,
-                                                        quis nostrud
-                                                        exercitation
+                                                        {data?.special_requirment
+                                                          ? data?.special_requirment?.trim()
+                                                          : ""}
                                                       </div>
                                                     </Collapse>
                                                     <span
@@ -428,7 +407,36 @@ const ContentDetail = () => {
                                                   <td>
                                                     {data?.production_notes
                                                       ? data?.production_notes?.trim()
+                                                          .length > 10
+                                                        ? data?.production_notes?.substring(
+                                                            0,
+                                                            10
+                                                          )
+                                                        : data?.production_notes.trim()
                                                       : "N/A"}
+                                                    <Collapse
+                                                      in={openProduction}
+                                                    >
+                                                      <div id="collapse-text-view">
+                                                        {data?.production_notes
+                                                          ? data?.production_notes?.trim()
+                                                          : ""}
+                                                      </div>
+                                                    </Collapse>
+                                                    <span
+                                                      className="show_more"
+                                                      onClick={() =>
+                                                        setOpenProduction(
+                                                          !openProduction
+                                                        )
+                                                      }
+                                                      aria-controls="example-collapse-text"
+                                                      aria-expanded={
+                                                        openProduction
+                                                      }
+                                                    >
+                                                      ...
+                                                    </span>
                                                   </td>
                                                 </tr>
                                               </tbody>
