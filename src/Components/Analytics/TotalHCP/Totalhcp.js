@@ -44,10 +44,10 @@ const Totalhcp = () => {
       },
     },
     exporting: {
-      enabled: true,
+      showTable: true
     },
     series: [],
-    
+
   });
 
   // base line highchart
@@ -85,15 +85,17 @@ const Totalhcp = () => {
     series: [],
   });
 
+  //  Table
+  
   // const [tableData, setTableData] = useState([]);
   const [isDataNotFound, setIsDataNotFound] = useState(false);
-  const [isLoaded ,setIsLoaded] = useState(false);
- 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const getDataFromApi = async () => {
     try {
       const response = await getData(ENDPOINT.ANALYTICS);
       const data = response.data.data;
-      if(data.length <= 0){
+      if (data.length <= 0) {
         setIsDataNotFound(true);
       }
       console.log(data);
@@ -103,6 +105,18 @@ const Totalhcp = () => {
         name: item.ibu + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
         data: JSON.parse(item.total_readers),
       }));
+      var totals = Array(newSeries[0].data.length).fill(0);
+      for (var i = 0; i < newSeries.length; i++) {
+        for (var j = 0; j < newSeries[i].data.length; j++) {
+          totals[j] += newSeries[i].data[j];
+        }
+      }
+      newSeries.push({
+        name: "Total",
+        data: totals
+      });
+
+      console.log(newSeries);
       const categories = JSON.parse(data[0].Months);
       const newHcpOptions = {
         ...hcpOptions,
@@ -130,25 +144,25 @@ const Totalhcp = () => {
       setLineOptions(newLineOptions);
 
 
-    //   // Create table data
-    //   const newTableData = data.map((item) => {
-    //     return {
-    //       ibu: item.ibu  + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
-    //       months: JSON.parse(item.Months),
-    //       // beforevalue: item.beforeValue,
-    //       totalsum: item.totalSum,
-    //     };
-    //   });
-    //  console.log(newTableData);
+      //   // Create table data
+      //   const newTableData = data.map((item) => {
+      //     return {
+      //       ibu: item.ibu  + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
+      //       months: JSON.parse(item.Months),
+      //       // beforevalue: item.beforeValue,
+      //       totalsum: item.totalSum,
+      //     };
+      //   });
+      //  console.log(newTableData);
 
-    // //  let monthsData=[];
-    // //  monthsData.push(newTableData[0].months.map((val,i)=>{
-    // //   return val;
-    // //  }))
+      // //  let monthsData=[];
+      // //  monthsData.push(newTableData[0].months.map((val,i)=>{
+      // //   return val;
+      // //  }))
 
-    // //  setMonthTable(monthsData)
-    //  //console.log(monthsData);
-    //  setTableData(newTableData);
+      // //  setMonthTable(monthsData)
+      //  //console.log(monthsData);
+      //  setTableData(newTableData);
 
 
     } catch (error) {
@@ -165,23 +179,23 @@ const Totalhcp = () => {
 
   return (
     <>
-   
+
       <Col className="right-sidebar">
-      {isDataNotFound && isLoaded ?<h3>Data Not Found</h3>: isLoaded?
-        <div className="custom-container">
-          <Row>
-            <div className="page-top-nav">
-              <HighchartsReact highcharts={Highcharts} options={hcpOptions} />
-            </div>
-          </Row>
-          <Row>
-            <div className="page-top-nav">
-              <HighchartsReact
-                highcharts={Highcharts} options={lineOptions} />
-            </div>
-          </Row>
-          
-        </div>:null }
+        {isDataNotFound && isLoaded ? <h3>Data Not Found</h3> : isLoaded ?
+          <div className="custom-container">
+            <Row>
+              <div className="page-top-nav">
+                <HighchartsReact highcharts={Highcharts} options={hcpOptions} />
+              </div>
+            </Row>
+            <Row>
+              <div className="page-top-nav">
+                <HighchartsReact
+                  highcharts={Highcharts} options={lineOptions} />
+              </div>
+            </Row>
+
+          </div> : null}
       </Col>
     </>
   );
