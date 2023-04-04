@@ -20,7 +20,8 @@ import QRCode from "qrcode.react";
 import { usePdf } from '@mikecousins/react-pdf';
 import PDF from "react-pdf-js";
 import packageJson from '../../../../package.json';
-import  Viewer, { Worker } from '@phuocng/react-pdf-viewer';
+// import  Viewer, { Worker } from '@phuocng/react-pdf-viewer';
+import  Viewer from '@phuocng/react-pdf-viewer';
 import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
 import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps  } from '@react-pdf-viewer/core';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -39,7 +40,7 @@ const RenderPdf = ({
   const [wordData, setWordData] = useState([]);
   const [modalMessage, setModalMessage] = useState('');
   const [modalBtn, setModalBtn] = useState('');
-  const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
+  // const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
   let total_pages = 1000;
   // let url = "https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/1679390009620.pdf";
 
@@ -95,21 +96,21 @@ const RenderPdf = ({
               setCommanShow(true);
             }
           }
-    }else{
-      // console.log(total_pages,e.currentPage,numPages);
-      if(total_pages === 1){
-        setModalMessage("");
-        let btn_val = "";
-        if (typeof next !=="undefined")
-        {
-          btn_val = next == 1 ? "Next" : "Publish";
-        }
-        setModalBtn(btn_val);
-        if(hidePopup == 0){
-          setCommanShow(true);
-        }
-      }
     }
+    // else{
+    //   if(total_pages === 1){
+    //     setModalMessage("");
+    //     let btn_val = "";
+    //     if (typeof next !=="undefined")
+    //     {
+    //       btn_val = next == 1 ? "Next" : "Publish";
+    //     }
+    //     setModalBtn(btn_val);
+    //     if(hidePopup == 0){
+    //       setCommanShow(true);
+    //     }
+    //   }
+    // }
   };
 
     // const get_text = (el) => {
@@ -167,6 +168,52 @@ const modalClose = (value) => {
     updatePublish();
 }
 
+const scrollEve = (event) => {
+  const target = event.target;
+  if(target.scrollHeight - target.scrollTop === target.clientHeight)
+   {
+     // console.log(numPages);
+     // console.log(typeof numPages);
+     if(numPages == 1){
+       optimizeSinglePagePdf();
+     }
+   }
+  // console.log("HEIRE");
+}
+
+const optimizeSinglePagePdf = () => {
+  // setPage(1);
+  var mainDiv = document.getElementsByClassName('viewer-layout-main')[0];
+  if(typeof mainDiv !== "undefined"){
+      let chd = mainDiv.getElementsByClassName("viewer-text-layer");
+      setTimeout(function(){
+        let node = chd[0];
+        if(typeof node !== "undefined"){
+          let string_val = node.textContent;
+          let words = string_val.split(' ').length;
+
+          let wordsInfo = {
+            "page" : 1,
+            "total" : words,
+          };
+
+          wordData.push(wordsInfo);
+          console.log(wordData);
+        }
+      }, 300);
+
+      setModalMessage("");
+      let btn_val = "";
+      if (typeof next !=="undefined")
+      {
+        btn_val = next == 1 ? "Next" : "Publish";
+      }
+      setModalBtn(btn_val);
+      if(hidePopup == 0){
+        setCommanShow(true);
+      }
+  }
+}
 
     return (
       <div className="sublink_right_block">
@@ -185,16 +232,21 @@ const modalClose = (value) => {
                       handleSubmit={publishClicked}
                     />
 
-                    <Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}>
-                        <div style={{ height: '750px' }}>
+                    {
+                      /*<Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}></Worker>*/
+                    }
+
+                        <div style={{ height: '750px' }} id="pdf_view_box">
+                          <div onScroll={scrollEve} className="scroll_pdf">
                           <Viewer
                             onPageChange={handlePageChange}
                             onDocumentLoad={handleDocumentLoad}
                             renderMode = "canvas"
                             fileUrl={url}
                           />
+                          </div>
                         </div>
-                      </Worker>
+
                   </>
                 )
               }

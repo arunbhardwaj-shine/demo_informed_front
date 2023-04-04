@@ -15,6 +15,7 @@ const OpeningByCountry = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const selectFilter=useRef(null)
 
   const chart = useRef(null);
   Highcharts.setOptions({
@@ -90,13 +91,13 @@ const OpeningByCountry = () => {
     getDataFromApi();
   }, []);
 
-  const getDataFromApi = async (filter = "") => {
+  const getDataFromApi = async () => {
     loader("show");
 
     try {
       const requestBody = {
         type: "Openingcountry",
-        filter: filter,
+        filter: selectFilter?.current?.value?selectFilter?.current?.value:"",
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
@@ -146,6 +147,7 @@ const OpeningByCountry = () => {
 
   const filterData = (e) => {
     setIsDataFound(false);
+    selectFilter.current=e;
 
     getDataFromApi(e.value);
   };
@@ -164,7 +166,7 @@ const OpeningByCountry = () => {
                     <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
                   </svg>
                 </Link>
-                <h2>Opening by country</h2>
+                <h2>Opening by Country</h2>
               </div>
             </div>
             <div className="create-change-content spc-content analytic-charts">
@@ -179,6 +181,9 @@ const OpeningByCountry = () => {
                   }))}
                   placeholder="Filter By"
                   onChange={filterData}
+                  defaultValue={
+                    selectFilter?.current ? selectFilter?.current : null
+                  }
                   className="dropdown-basic-button split-button-dropup"
                   isClearable
                 />

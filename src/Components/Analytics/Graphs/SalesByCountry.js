@@ -18,8 +18,7 @@ exportData(Highcharts);
 const SalesByCountry = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
-  const [selectedDatatype, setSelectedDatatype] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(null);
+
 
   Highcharts.setOptions({
     colors: [

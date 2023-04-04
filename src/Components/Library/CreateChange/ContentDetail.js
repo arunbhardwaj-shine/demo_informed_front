@@ -6,11 +6,21 @@ import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Collapse from "react-bootstrap/Collapse";
+import { Button } from "react-bootstrap";
 
 const ContentDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [open, setOpen] = useState(false);
+  const [openProduction, setOpenProduction] = useState(false);
   const { state } = useLocation();
   const [libraryData, setLibraryData] = useState();
+
+  const [enableData, setEnableData] = useState({
+    enable:"",
+    reseller:""
+  });
+
   const [reRender, setReRender] = useState(0);
   const navigate = useNavigate();
   const [articleId, setArticleId] = useState(
@@ -34,17 +44,58 @@ const ContentDetail = () => {
       let body = {
         pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
         apiType: "Library",
+        type:"content"
       };
 
       const res = await postData(ENDPOINT.LIBRARY, body);
 
       setLibraryData(res?.data?.data?.library);
+      let data = "";
+      if (res?.data?.data?.library?.[0]?.allow_print) {
+        data += "print,";
+      }
+      if (res?.data?.data?.library?.[0]?.allow_download) {
+        data += "Download,";
+      }
+      if (res?.data?.data?.library?.[0]?.allow_share) {
+        data += "Share,";
+      }
+      if (res?.data?.data?.library?.[0]?.chat_box) {
+        data += "Request,";
+      }
+      if (data) {
+        data = data.replace(/^,|,$/g, "");
+      }
+      setEnableData({enable:data,reseller:res?.data?.data?.resellerData.length?res?.data?.data?.resellerData?.join():""});
 
       loader("hide");
     } catch (err) {
       console.log("err");
       loader("hide");
     }
+  };
+
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea); // textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
   };
 
   const removeTopic = (id) => {
@@ -120,22 +171,12 @@ const ContentDetail = () => {
                                       <h6>
                                         <strong>Topics | </strong>
                                         <ul>
-                                          {data?.topic
-                                            ? data?.topic?.map((topic, id) => {
+                                          {data?.tags
+                                            ? JSON?.parse(data?.tags)?.map((topic, id) => {
                                                 return (
                                                   <>
                                                     <li className="list1">
                                                       {topic.innerHTML || topic}{" "}
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "filter-close.svg"
-                                                        }
-                                                        alt="Close-filter"
-                                                        onClick={() =>
-                                                          removeTopic(id)
-                                                        }
-                                                      />
                                                     </li>
                                                   </>
                                                 );
@@ -155,12 +196,7 @@ const ContentDetail = () => {
                                         <span
                                           className="copy-content"
                                           onClick={() => {
-                                            toast.success(
-                                              "content copied to the clipboard!"
-                                            );
-                                            window.navigator.clipboard.writeText(
-                                              data?.docintelLink
-                                            );
+                                            copyToClipboard(data?.docintelLink);
                                           }}
                                         >
                                           <img
@@ -230,8 +266,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Reseller</th>
                                                   <td>
-                                                    {data?.multiple_publisher
-                                                      ? "Yes"
+                                                    {enableData?.reseller
+                                                      ? enableData?.reseller
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -270,7 +306,7 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Set limit of usage</th>
                                                   <td>
-                                                    {data?.limit
+                                                    {data?.limit>=0
                                                       ? data?.limit
                                                       : "N/A"}
                                                   </td>
@@ -278,8 +314,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Enable</th>
                                                   <td>
-                                                    {data?.enable
-                                                      ? data?.enable
+                                                    {enableData?.enable
+                                                      ? enableData?.enable
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -287,8 +323,32 @@ const ContentDetail = () => {
                                                   <th>Invoice Notes</th>
                                                   <td>
                                                     {data?.special_requirment
-                                                      ?data?.special_requirment?.trim()
+                                                      ? data?.special_requirment?.trim()
+                                                          ?.length > 10
+                                                        ? data?.special_requirment?.substring(
+                                                            0,
+                                                            10
+                                                          )
+                                                        : data?.special_requirment?.trim()
                                                       : "N/A"}
+
+                                                    <Collapse in={open}>
+                                                      <div id="collapse-text-view">
+                                                        {data?.special_requirment
+                                                          ? data?.special_requirment?.trim()
+                                                          : ""}
+                                                      </div>
+                                                    </Collapse>
+                                                    <span
+                                                      className="show_more"
+                                                      onClick={() =>
+                                                        setOpen(!open)
+                                                      }
+                                                      aria-controls="example-collapse-text"
+                                                      aria-expanded={open}
+                                                    >
+                                                      ...
+                                                    </span>
                                                   </td>
                                                 </tr>
                                               </tbody>
@@ -334,8 +394,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Saved as draft</th>
                                                   <td>
-                                                    {data?.save_draft
-                                                      ? data?.save_draft
+                                                    {data?.draft
+                                                      ? "Yes"
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -347,7 +407,36 @@ const ContentDetail = () => {
                                                   <td>
                                                     {data?.production_notes
                                                       ? data?.production_notes?.trim()
+                                                          .length > 10
+                                                        ? data?.production_notes?.substring(
+                                                            0,
+                                                            10
+                                                          )
+                                                        : data?.production_notes.trim()
                                                       : "N/A"}
+                                                    <Collapse
+                                                      in={openProduction}
+                                                    >
+                                                      <div id="collapse-text-view">
+                                                        {data?.production_notes
+                                                          ? data?.production_notes?.trim()
+                                                          : ""}
+                                                      </div>
+                                                    </Collapse>
+                                                    <span
+                                                      className="show_more"
+                                                      onClick={() =>
+                                                        setOpenProduction(
+                                                          !openProduction
+                                                        )
+                                                      }
+                                                      aria-controls="example-collapse-text"
+                                                      aria-expanded={
+                                                        openProduction
+                                                      }
+                                                    >
+                                                      ...
+                                                    </span>
                                                   </td>
                                                 </tr>
                                               </tbody>

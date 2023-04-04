@@ -1045,7 +1045,7 @@ const LibraryContent = () => {
                                           </span>
                                         </h6>
                                       </li>
-                                      <li>
+                                      {/* <li>
                                         <h6 className="tab-content-title">
                                           SPC included
                                         </h6>
@@ -1054,12 +1054,12 @@ const LibraryContent = () => {
                                             ? "No"
                                             : "Yes"}
                                         </h6>
-                                      </li>
+                                      </li> */}
                                       <li>
                                         <h6 className="tab-content-title">
                                           Language
                                         </h6>
-                                        <h6>No</h6>
+                                        <h6>{data?.popup_email_content_language}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">

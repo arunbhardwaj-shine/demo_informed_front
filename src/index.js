@@ -5,12 +5,13 @@ import { createRoot } from 'react-dom/client';
 
 import "./index.scss";
 import App from "./App";
+import * as PDFJS from 'pdfjs-dist';
 import reportWebVitals from "./reportWebVitals";
-
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./reducers";
 import Routing from "./routes";
+PDFJS.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.js`;
 const root = createRoot(document.getElementById("root"));
 
 root.render(

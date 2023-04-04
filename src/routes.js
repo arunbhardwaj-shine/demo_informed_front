@@ -30,6 +30,8 @@ import CisStats from "./Components/Analytics/CisStats";
 import TopClients from "./Components/Analytics/TopClients";
 import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
+import TrendingTopics from "./Components/Analytics/TrendingTopics";
+
 // import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
@@ -178,6 +180,8 @@ const Routing = () => {
                 <Route path="/top-clients" element={<TopClients />} />
                 <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/top-sales" element={<TopSales />} />
+                <Route path="/trending-topics" element={<TrendingTopics />} />
+
                 <Route
                   path="/openings-by-country"
                   element={<OpeningByCountry />}

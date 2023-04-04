@@ -24,11 +24,18 @@ const EditLibrary = () => {
   const { state } = useLocation();
   const [counterFlag, setCounterFlag] = useState(0);
   const [show, setShow] = useState(false);
+  const [allTags, setAllTags] = useState({});
+  const [newTag, setNewTag] = useState("");
   const [commanShow, setCommanShow] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   const [error, setError] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const [finalTags, setFinalTags] = useState([]);
+  const [tagsReRender, setTagsReRender] = useState(0);
+  const [updateflag, setupdateFlag] = useState(0);
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: "",
     keyAuthor: "",
@@ -52,7 +59,7 @@ const EditLibrary = () => {
     allow_oneSource: "",
     allow_library: "",
     allow_draft: "",
-    allow_request: "",
+    chat_box: "",
     allow_video: "",
     comDatetime: "",
     trial: "",
@@ -100,6 +107,7 @@ const EditLibrary = () => {
     { value: "ebook", label: "eBook" },
   ]);
 
+  const [tagsCounter, setTagsCounter] = useState(0);
   const [chapterSelect, setChapterSelect] = useState("");
   const [videoSelect, setVideoSelect] = useState("");
   const [uploadNewVideo, setUploadNewVideo] = useState(false);
@@ -113,19 +121,34 @@ const EditLibrary = () => {
     });
 
     let country = [];
-    hadData?.data?.data?.country.reduce((objEntries, key) => {
-      country.push({
-        label: key,
-        value: key,
+    if( hadData?.data?.data?.category?.length){
+      hadData?.data?.data?.country.reduce((objEntries, key) => {
+        country.push({
+          label: key,
+          value: key,
+        });
       });
-    });
+    }
+
+    
     let category = [];
-    hadData?.data?.data?.category.reduce((objEntries, key) => {
-      category.push({
-        label: key,
-        value: key,
+    if( hadData?.data?.data?.category?.length){
+      hadData?.data?.data?.category.reduce((objEntries, key) => {
+        category.push({
+          label: key,
+          value: key,
+        });
       });
-    });
+    }
+   
+    let tags = [];
+    if( hadData?.data?.data?.tags?.length){
+      hadData?.data?.data?.tags?.reduce((objEntries, key) => {
+        tags.push(key?.value);
+      });
+    }
+   
+    setAllTags(tags)
 
     setUserDetail({
       user: hadData?.data?.data?.user,
@@ -147,6 +170,9 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
+      if(hadData?.data?.data?.pdfData?.tags){
+        setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags))
+      }
       setReseller(
         hadData?.data?.data?.pdfData?.multiple_publisher
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
@@ -166,6 +192,62 @@ const EditLibrary = () => {
     libraryDetail();
     initalFun();
   }, []);
+
+
+  const newTagChanged = (e) => {
+    setNewTag(e.target.value);
+    e.target.value = "";
+    const new_atg = document.getElementById("new-tag");
+    new_atg.value = "";
+  };
+
+  const tagClicked = (dd) => {
+    if (!tagClickedFirst.includes(dd)) {
+      setTagClickedFirst((oldArray) => [...oldArray, dd]);
+    } else {
+      toast.error("Tag already in list.");
+    }
+  };
+
+  const addTag = async () => {
+    if (typeof newTag == "undefined" || newTag.trim().length == 0) {
+      toast.error("Please input a tag");
+    } else {
+
+        loader("show");
+        await postData(ENDPOINT.ADD_TAGS, {
+          product: newTag,
+          type:2
+        });
+        loader("hide")
+      let temp_tags = tagClickedFirst.map((data) => {
+        return data.toLowerCase();
+      });
+      let alltemp_tags = [];
+      Object.entries(allTags).map((data) => {
+        return alltemp_tags.push(...data);
+      });
+      alltemp_tags = alltemp_tags.map((data) => {
+        return data.toLowerCase();
+      });
+
+      if (
+        !temp_tags.includes(newTag.toLowerCase()) &&
+        !alltemp_tags.includes(newTag.toLowerCase())
+      ) {
+        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          tags: newTag,
+        };
+      } else {
+        toast.error("Tag already in list.");
+      }
+      setNewTag("");
+      setTagsCounter(tagsCounter + 1);
+    }
+  };
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
@@ -218,7 +300,6 @@ const EditLibrary = () => {
 
         formData.append("fileType", userInputs?.docintelFormat);
         formData.append("product", userInputs?.product);
-        formData.append("product", userInputs?.product);
 
         ebookFile?.forEach((item) => {
           formData.append("ebookData", item);
@@ -245,15 +326,17 @@ const EditLibrary = () => {
         );
         formData.append(
           "allowRequest",
-          JSON.stringify(userInputs?.allow_request)
+          JSON.stringify(userInputs?.chat_box)
         );
-        formData.append("allowDraft", JSON.stringify(userInputs?.allow_draft));
+        formData.append("draft", JSON.stringify(userInputs?.draft));
         formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
 
         formData.append("trial", userInputs?.trial);
         formData.append("blindType", userInputs?.blindType);
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
+        formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
+
 
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
           header: {
@@ -319,6 +402,37 @@ const EditLibrary = () => {
     setChapter(list);
   };
 
+  const removeTagFinal = (index) => {
+    const tags = finalTags;
+    const tagsClickedFirst = tagClickedFirst;
+    tags.splice(index, 1);
+    tagsClickedFirst.splice(index, 1);
+    setFinalTags(tags);
+    setTagClickedFirst(tagsClickedFirst);
+
+    setTagsReRender(tagsReRender + 1);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+
+  const saveButtonClicked = async () => {
+    loader("show");
+
+    if (typeof finalTags != "undefined" && finalTags.length > 0) {
+      let prev_tags = finalTags;
+      let new_tags = prev_tags.concat(tagClickedFirst);
+      const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
+      setFinalTags(uniqueTags);
+    } else {
+      setFinalTags(tagClickedFirst);
+    }
+    setupdateFlag(updateflag + 1);
+    closeModal();
+    loader("hide");
+  };
+
   const handleOnEbookChange = (e, i) => {
     const value = e.target.files[0]?.name;
     const list = [...chapter];
@@ -346,6 +460,11 @@ const EditLibrary = () => {
     e.preventDefault();
     setCommanShow(true);
   };
+
+  const topicButtonClicked = (group_id) => {
+    setIsOpen(true);
+  };
+
   const publisherFun = () => {
     return (
       <div className="create-change-content">
@@ -543,7 +662,7 @@ const EditLibrary = () => {
                   />
                 </div>
               )}
-              {userDetail?.user?.[0]?.flag == 0 &&
+              {userDetail?.user?.[0]?.pharmaData == 1 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
                   <label htmlFor="">Business Unit</label>
@@ -649,20 +768,38 @@ const EditLibrary = () => {
                       id="tags-add"
                       data-bs-toggle="modal"
                       data-bs-target="#tagsModal"
+                      onClick={(e) =>
+                        topicButtonClicked(userDetail?.user[0]?.group_id)
+                      }
                     >
                       Add Topic +
                     </button>
                   </div>
                   <div className="tags_added">
                     <ul>
-                      <li className="list1">
+
+                    {
+                        tagClickedFirst?.map((item,index) =>{
+                          return (
+                            <li className="list1">
+                            {item}
+                            <img
+                              src="componentAssets/images/filter-close.svg"
+                              alt="Close-filter"
+                              onClick={() => removeTagFinal(index)}
+                            />
+                           </li>
+                          )
+                        })
+                      }
+                      {/* <li className="list1">
                         Excessive bleedings{" "}
                         <img
                           src="componentAssets/images/filter-close.svg"
                           alt="Close-filter"
                         />
-                      </li>
-                      <li className="list1">
+                      </li> */}
+                      {/* <li className="list1">
                         New tag 3{" "}
                         <img
                           src="componentAssets/images/filter-close.svg"
@@ -682,7 +819,7 @@ const EditLibrary = () => {
                           src="componentAssets/images/filter-close.svg"
                           alt="Close-filter"
                         />
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>
@@ -1063,11 +1200,11 @@ const EditLibrary = () => {
                                 type="checkbox"
                                 value="value4"
                                 name="group2"
-                                defaultChecked={userInputs?.allow_request}
+                                defaultChecked={userInputs?.chat_box}
                                 onClick={(e) =>
                                   handleChange(
                                     e.target?.checked,
-                                    "allow_request"
+                                    "chat_box"
                                   )
                                 }
                                 id="limitagreed4"
@@ -1082,22 +1219,21 @@ const EditLibrary = () => {
                                 <label className="switch-light">
                                   <input
                                     type="checkbox"
-                                    value="value1"
                                     name="group2"
                                     id="setasdraft1"
-                                    defaultChecked={userInputs?.allow_draft}
+                                    defaultChecked={userInputs?.draft?true:false}
                                     onChange={(e) => {
                                       handleChange(
-                                        e.target?.checked,
-                                        "allow_draft"
+                                        !e.target?.checked,
+                                        "draft"
                                       );
                                     }}
                                   />
                                   <span>
-                                    <span className="switch-btn active">
+                                    <span className={`switch-btn ${userInputs?.draft == 0?" Active":""}`}>
                                       No
                                     </span>
-                                    <span className="switch-btn ">Yes</span>
+                                    <span className={`switch-btn ${userInputs?.draft == 1?" Active":""}`}>Yes</span>
                                   </span>
                                   <a className="btn"></a>
                                 </label>
@@ -1549,6 +1685,88 @@ const EditLibrary = () => {
           >
             Save
           </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal id="tagsModal" show={isOpen}>
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+            Add Topic
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={closeModal}
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="select-tags">
+            <h6>Select Topic :</h6>
+            <div className="tag-lists">
+              <div className="tag-lists-view">
+                {Object.values(allTags).map((data) => {
+                  return (
+                    <>
+                      <div onClick={(event) => tagClicked(data)}>{data} </div>
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="selected-tags">
+            <h6>
+              Selected Topic <span>| {tagClickedFirst.length}</span>
+            </h6>
+
+            <div className="total-selected">
+              {tagClickedFirst.map((data, index) => {
+                return (
+                  <>
+                    <div className="tag-cross">
+                      {data.innerHTML || data}
+                      <img
+                        src={path_image + "filter-close.svg"}
+                        alt="Close-filter"
+                        onClick={() => removeTagFinal(index)}
+                      />
+                    </div>
+                  </>
+                );
+              })}
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <form>
+            <div className="form-group">
+              <label htmlFor="new-tag">New Tag</label>
+              <input
+                type="text"
+                className="form-control"
+                id="new-tag"
+                value={newTag}
+                onChange={(e) => newTagChanged(e)}
+              />
+
+              <button
+                onClick={addTag}
+                type="button"
+                className="btn btn-primary add btn-bordered"
+              >
+                Add
+              </button>
+            </div>
+          </form>
+          <button
+            type="button"
+            className="btn btn-primary save btn-filled"
+            onClick={saveButtonClicked}
+          >
+            Save
+          </button>
         </Modal.Footer>
       </Modal>
 

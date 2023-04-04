@@ -147,9 +147,9 @@ const LibraryContent = () => {
         setFilterData(res?.data?.data);
         setAllTags(res?.data?.data?.tags);
       }
-      loader("hide");
+      // loader("hide");
     } catch (err) {
-      loader("hide");
+      // loader("hide");
       console.log("err");
     }
   };
@@ -192,57 +192,28 @@ const LibraryContent = () => {
 
   const tabClicked = async (event, id) => {
     setFlag(0);
-
-    let normal_data = opening_details;
     setUserId(id);
 
-    let contains_already;
-
     if (event == "data-tab") {
-      normal_data?.filter((data) => {
-        if (data?.pdf_id == id) {
-          contains_already = true;
-          setFlag(1);
-        }
-      });
-
-      setOpeningDetails(normal_data);
-
-      if (contains_already != true) {
-        try {
-          let body = {
-            pdfId: [id],
-          };
-          const res = await postData(ENDPOINT.LIBRARYSTATS, body);
-
-          const status = normal_data?.map((datas) => {
-            if (datas?.pdf_id == id) {
-              return "true";
-            } else {
-              return "false";
+        // setOpeningDetails(normal_data);
+        let index = opening_details.findIndex((el) => el.pdfId == id);
+        if(index === -1){
+            let normal_data = opening_details;
+          try{
+            let body = {
+              pdfId: [id],
+            };
+            const res = await postData(ENDPOINT.LIBRARYSTATS, body);
+            if(res?.data?.data?.[0]){
+              let new_data = res?.data?.data?.[0];
+              normal_data.push(new_data);
+              setOpeningDetails(normal_data);
+              setFlag(flag + 1);
             }
-          });
-          if (status?.every((ele) => ele == "false")) {
-            normal_data?.push({
-              pdf_id: id,
-              uniqueReader: res?.data?.data[0]?.unique,
-              opening: res?.data?.data[0]?.opening,
-              registeredReader: res?.data?.data[0]?.reader,
-              limit: res?.data?.data[0]?.limit,
-            });
+          }catch(err){
+            console.log(err);
           }
-
-          setOpeningDetails(normal_data);
-          setFlag(1);
-
-          setUpdate(update + 1);
-
-          loader("hide");
-        } catch (err) {
-          console.log("err");
-          loader("hide");
         }
-      }
     }
   };
 
@@ -1281,56 +1252,50 @@ const LibraryContent = () => {
                                           />
                                         </LinkWithTooltip>
                                       </h6>
-
-                                      {flag == 0 && userId == data?.id ? (
-                                        <div className="data-progress limited">
-                                          <ProgressBar
-                                            variant="default"
-                                            now={100}
-                                            label={"Loading"}
-                                          />
-                                        </div>
-                                      ) : (
-                                        opening_details?.map((details) => {
-                                          if (details?.pdf_id == data?.id) {
-                                            return (
-                                              <>
-                                                <div className="data-progress limited">
-                                                  <ProgressBar
-                                                    variant="warning"
-                                                    now={
-                                                      details?.limit == 0
-                                                        ? (details?.uniqueReader /
-                                                            1000) *
-                                                          100
-                                                        : (details?.uniqueReader /
-                                                            details?.limit) *
-                                                          100
-                                                    }
-                                                    label={
-                                                      details?.uniqueReader
-                                                    }
-                                                  />
-                                                  <span>
-                                                    Agreed Limit |&nbsp;
-                                                    {details?.limit == 0
-                                                      ? 1000
-                                                      : details?.limit}
-                                                  </span>
-                                                </div>
-                                                <span className="total-left">
-                                                  {details?.limit == 0
-                                                    ? 1000 -
-                                                      details?.uniqueReader
-                                                    : details?.limit -
-                                                      details?.uniqueReader}
-                                                  <small>Left</small>
-                                                </span>
-                                              </>
-                                            );
+                                      <div className="data-progress send">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ? "warning" : "default"
                                           }
-                                        })
-                                      )}
+                                          now={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique/
+                                						opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                            :
+                                            "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
+                                            :
+                                            "Loading"
+                                          }
+                                        />
+                                        <span>
+                                  				Agreed Limit |&nbsp;
+                                  				{
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
+                                            :
+                                            1000
+                                          }
+                                			  </span>
+                                      </div>
+                                      <span className="total-left">
+                                			  {
+                                          opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                          ?
+                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
+                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
+                                          :
+                                          1000
+                                        }
+                                			  <small>Left</small>
+                                			</span>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
@@ -1348,49 +1313,28 @@ const LibraryContent = () => {
                                           />
                                         </LinkWithTooltip>
                                       </h6>
-                                      {flag == 0 && userId == data?.id ? (
                                         <div className="data-progress limited">
-                                          <ProgressBar
-                                            variant="default"
-                                            now={100}
-                                            label={"loading"}
-                                          />
+                                            <ProgressBar
+                                              variant={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ? "success" : "default"
+                                              }
+                                              now={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ?
+                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening
+                                                :
+                                                "100"
+                                              }
+                                              label={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ?
+                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening
+                                                :
+                                                "Loading"
+                                              }
+                                            />
                                         </div>
-                                      ) : (
-                                        opening_details?.map((details) => {
-                                          if (details?.pdf_id == data?.id) {
-                                            return (
-                                              <>
-                                                <div className="data-progress success-progress">
-                                                  <ProgressBar
-                                                    variant="success"
-                                                    now={
-                                                      details.opening == 0
-                                                        ? 0
-                                                        : 100
-                                                    }
-                                                    label={details?.opening}
-                                                  />
-                                                  {/* <ProgressBar
-                                                    variant="success"
-                                                    now={
-                                                      details.limit == 0
-                                                        ? (details.opening /
-                                                            1000) *
-                                                          100
-                                                        : (details.opening /
-                                                            details.limit) *
-                                                          100
-                                                    }
-                                                    now={100}
-                                                    label={details.opening}
-                                                  /> */}
-                                                </div>
-                                              </>
-                                            );
-                                          }
-                                        })
-                                      )}
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
@@ -1408,42 +1352,29 @@ const LibraryContent = () => {
                                           />
                                         </LinkWithTooltip>
                                       </h6>
-                                      {flag == 0 && userId == data.id ? (
-                                        <div className="data-progress limited">
-                                          <ProgressBar
-                                            variant="default"
-                                            now={100}
-                                            label={"loading"}
-                                          />
-                                        </div>
-                                      ) : (
-                                        opening_details.map((details) => {
-                                          if (details.pdf_id == data.id) {
-                                            return (
-                                              <>
-                                                <div className="data-progress">
-                                                  {/* <span>{details.registeredReader}</span> */}
-                                                  <ProgressBar
-                                                    variant="danger"
-                                                    now={
-                                                      details.limit == 0
-                                                        ? (details.registeredReader /
-                                                            1000) *
-                                                          100
-                                                        : (details.registeredReader /
-                                                            details.limit) *
-                                                          100
-                                                    }
-                                                    label={
-                                                      details.registeredReader
-                                                    }
-                                                  />
-                                                </div>
-                                              </>
-                                            );
+                                      <div className="data-progress">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ? "danger" : "default"
                                           }
-                                        })
-                                      )}
+                                          now={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.reader/
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                            :
+                                            "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].reader
+                                            :
+                                            "Loading"
+                                          }
+                                        />
+                                      </div>
                                     </li>
                                   </ul>
                                 </div>

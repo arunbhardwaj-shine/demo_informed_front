@@ -17,18 +17,22 @@ const TopReseller = () => {
   const [isDataFound, setIsDataFound] = useState(false);
 
   const [All, setAll] = useState([
+    { value: "", label: "All" },
     { value: "live", label: "Live" },
     { value: "expired", label: "Expired" },
   ]);
   const [Year, setYear] = useState([
+    { value: "", label: "All" },
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
     { value: "2021", label: "2021" },
     { value: "2020", label: "2020" },
     { value: "2019", label: "2019" },
   ]);
-  const dataType = useRef(null);
-  const year = useRef(null);
+  const dataType = useRef(All[0]);
+  const year = useRef(Year[0]);
+  // const [userType, setUserType] = useState("topSeller");
+  const userType = useRef("topSeller");
   Highcharts.setOptions({
     colors: [
       "#FFBE2C",
@@ -113,11 +117,13 @@ const TopReseller = () => {
   const getDataFromApi = async () => {
     try {
       loader("show");
+
       let data = {
-        type: "topSeller",
+        type: userType.current,
         dataType: dataType.current,
         year: year.current,
       };
+
       const response = await postData(ENDPOINT.TOPRESELLER, data);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
@@ -141,13 +147,13 @@ const TopReseller = () => {
           color: Highcharts?.getOptions()?.colors[0],
         },
       ];
-
       const newResellerOptions = {
         ...topResellerOptions,
         xAxis: { categories: categories },
         series: newSeries,
       };
       setTopResellerOptions(newResellerOptions);
+
       setIsDataFound(true);
       loader("hide");
     } catch (err) {
@@ -158,11 +164,22 @@ const TopReseller = () => {
   };
 
   const filterDataByDataType = (e) => {
+    if (!e?.value == "") {
+      userType.current = "topSellerAjax";
+    } else if (e?.value == "") {
+      userType.current = "topSeller";
+    }
     dataType.current = e?.value;
     setIsDataFound(false);
-    getDataFromApi(e.value);
+    getDataFromApi();
   };
   const filterDataByYear = (e) => {
+    if (!e?.value == "") {
+      userType.current = "topSellerAjax";
+    } else if (e?.value == "") {
+      userType.current = "topSeller";
+    }
+
     year.current = e?.value;
     setIsDataFound(false);
     getDataFromApi();
@@ -192,7 +209,7 @@ const TopReseller = () => {
                     />
                   </svg>
                 </Link>
-                <h2>Top reseller</h2>
+                <h2>Top Reseller</h2>
               </div>
             </div>
             <div className="create-change-content spc-content analytic-charts">
