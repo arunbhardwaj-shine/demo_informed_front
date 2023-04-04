@@ -147,9 +147,9 @@ const LibraryContent = () => {
         setFilterData(res?.data?.data);
         setAllTags(res?.data?.data?.tags);
       }
-      loader("hide");
+      // loader("hide");
     } catch (err) {
-      loader("hide");
+      // loader("hide");
       console.log("err");
     }
   };
