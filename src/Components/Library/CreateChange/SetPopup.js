@@ -90,8 +90,8 @@ const SetPopup = (props) => {
 
   useEffect(() => {
     getTemplateListData(0, "All", "");
-    
-    
+
+
    // div_img.click();
   }, []);
 
@@ -112,8 +112,9 @@ const SetPopup = (props) => {
   };
 
   const getTemplateListData = async (flag = 1, lng, consent) => {
-      console.log(lng);
-      console.log(consent);
+      // console.log(flag);
+      // console.log(lng);
+      // console.log(consent);
       loader("show");
 
       try {
@@ -193,9 +194,14 @@ const SetPopup = (props) => {
           }
           setTemplateList(data);
           loader("hide");
-          const div_img = document.querySelector("#template_dyn1");
-             div_img.click()
-           
+
+          setTimeout(function () {
+            const div_img = document.querySelector("#template_dyn1");
+            if(div_img !== null && typeof div_img != "undefined"){
+              div_img.click()
+            }
+          }, 400);
+
         } else if (flag === 2) {
           const body = {
             userId: localStorage.getItem("user_id"),
@@ -212,6 +218,13 @@ const SetPopup = (props) => {
           setTemplateList(res?.data?.data?.popupData);
           loader("hide");
           setTemplateId(res?.data?.data?.popupTempId);
+
+          setTimeout(function () {
+            const div_img = document.querySelector("#template_dyn1");
+            if(div_img !== null && typeof div_img != "undefined"){
+              div_img.click()
+            }
+          }, 400);
         }
       } catch (err) {
         loader("hide");
@@ -551,43 +564,46 @@ const SetPopup = (props) => {
                             {templateName != "" && (
                               <>
                                 {isOnline == false && (
+                                  <>
                                   <div className="template_name">
                                     <h4>{templateName}</h4>
                                   </div>
+
+                                  {editableTemplate ? (
+                                    <div className="form-buttons form-buttons-template right-sided">
+                                      <Button
+                                        className="btn btn-primary btn-filled"
+                                        onClick={(e) => saveTemplateEdit(e)}
+                                      >
+                                        Save
+                                      </Button>
+                                      <Button
+                                        className="btn btn-primary btn-bordered"
+                                        onClick={(e) => closeTemplateEdit(e)}
+                                      >
+                                        Cancel
+                                      </Button>
+                                    </div>
+                                  ) : (
+                                    <div className="form-buttons form-buttons-template right-side">
+                                      {templateClickedd ? (
+                                        <>
+                                          <Button
+                                            className="btn btn-primary btn-filled"
+                                            onClick={(e) => {
+                                              updateTemplate(e);
+                                              e.preventDefault();
+                                            }}
+                                          >
+                                            Save
+                                          </Button>
+                                        </>
+                                      ) : null}
+                                    </div>
+                                  )}
+                                  </>
                                 )}
                               </>
-                            )}
-                            {editableTemplate ? (
-                              <div className="form-buttons form-buttons-template right-sided">
-                                <Button
-                                  className="btn btn-primary btn-filled"
-                                  onClick={(e) => saveTemplateEdit(e)}
-                                >
-                                  Save
-                                </Button>
-                                <Button
-                                  className="btn btn-primary btn-bordered"
-                                  onClick={(e) => closeTemplateEdit(e)}
-                                >
-                                  Cancel
-                                </Button>
-                              </div>
-                            ) : (
-                              <div className="form-buttons form-buttons-template right-side">
-                                {templateClickedd ? (
-                                  <>
-                                    <Button
-                                      className="btn btn-primary btn-filled"
-                                      onClick={(e) => {
-                                        updateTemplate(e);
-                                        e.preventDefault();
-                                      }}
-                                    >
-                                      Save
-                                    </Button>
-                                  </>
-                                ) : null}
-                              </div>
                             )}
                           </div>
                         </div>
@@ -596,7 +612,7 @@ const SetPopup = (props) => {
                   </Row>
 
                   <Row>
-                    {templateClickedd ? (
+                    {templateClickedd && isOnline == false ? (
                       <Editor
                         apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                         onInit={(evt, editor) => (editorRef.current = editor)}
@@ -615,7 +631,7 @@ const SetPopup = (props) => {
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
                         }}
-                      
+
                         onEditorChange={(content) => {
                           setTemplateSaving(content);
                         }}
