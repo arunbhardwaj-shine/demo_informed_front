@@ -779,13 +779,14 @@ const EditLibrary = () => {
                     <ul>
 
                     {
-                        tagClickedFirst?.map(item =>{
+                        tagClickedFirst?.map((item,index) =>{
                           return (
                             <li className="list1">
                             {item}
                             <img
                               src="componentAssets/images/filter-close.svg"
                               alt="Close-filter"
+                              onClick={() => removeTagFinal(index)}
                             />
                            </li>
                           )
