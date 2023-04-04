@@ -15,7 +15,10 @@ const ContentDetail = () => {
   const { state } = useLocation();
   const [libraryData, setLibraryData] = useState();
 
-  const [enableData, setEnableData] = useState("");
+  const [enableData, setEnableData] = useState({
+    enable:"",
+    reseller:""
+  });
 
   const [reRender, setReRender] = useState(0);
   const navigate = useNavigate();
@@ -40,6 +43,7 @@ const ContentDetail = () => {
       let body = {
         pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
         apiType: "Library",
+        type:"content"
       };
 
       const res = await postData(ENDPOINT.LIBRARY, body);
@@ -61,7 +65,7 @@ const ContentDetail = () => {
       if (data) {
         data = data.replace(/^,|,$/g, "");
       }
-      setEnableData(data);
+      setEnableData({enable:data,reseller:res?.data?.data?.resellerData.length?res?.data?.data?.resellerData?.join():""});
 
       loader("hide");
     } catch (err) {
@@ -166,22 +170,12 @@ const ContentDetail = () => {
                                       <h6>
                                         <strong>Topics | </strong>
                                         <ul>
-                                          {data?.topic
-                                            ? data?.topic?.map((topic, id) => {
+                                          {data?.tags
+                                            ? JSON?.parse(data?.tags)?.map((topic, id) => {
                                                 return (
                                                   <>
                                                     <li className="list1">
                                                       {topic.innerHTML || topic}{" "}
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "filter-close.svg"
-                                                        }
-                                                        alt="Close-filter"
-                                                        onClick={() =>
-                                                          removeTopic(id)
-                                                        }
-                                                      />
                                                     </li>
                                                   </>
                                                 );
@@ -269,10 +263,11 @@ const ContentDetail = () => {
                                                   </td>
                                                 </tr>
                                                 <tr>
+                                                  {console.log("-dfdfd",enableData?.reseller)}
                                                   <th>Reseller</th>
                                                   <td>
-                                                    {data?.multiple_publisher
-                                                      ? "Yes"
+                                                    {enableData?.reseller
+                                                      ? enableData?.reseller
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -319,8 +314,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Enable</th>
                                                   <td>
-                                                    {enableData
-                                                      ? enableData
+                                                    {enableData?.enable
+                                                      ? enableData?.enable
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
