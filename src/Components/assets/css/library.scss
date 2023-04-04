@@ -411,6 +411,7 @@
     .form-control {
       @include custom-input-drop;
       margin-bottom: 5px;
+      color: $dark-blue;
     }
     .dropdown-basic-button {
       width: 100%;
@@ -446,8 +447,7 @@
       > div {
         div {
           font-size: 16px;
-          color: $light-gray;
-          color: $primary-color;
+          color: $dark-blue;
           font-weight: 400;
         }
         div.css-14el2xx-placeholder {
@@ -647,6 +647,9 @@
 }
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
     flex: 0 0 130px;
+}
+input:-webkit-autofill {
+-webkit-text-fill-color: $dark-blue !important;
 }
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change h6.tab-content-title {
     flex: 0 0 95px;
