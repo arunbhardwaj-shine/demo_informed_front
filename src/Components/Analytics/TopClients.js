@@ -199,7 +199,7 @@ const TopClients = () => {
                     />
                   </svg>
                 </Link>
-                <h2>Top clients</h2>
+                <h2>Top Clients</h2>
               </div>
             </div>
             <div className="create-change-content spc-content analytic-charts">
