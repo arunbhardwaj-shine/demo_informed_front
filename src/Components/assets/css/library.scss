@@ -411,7 +411,6 @@
     .form-control {
       @include custom-input-drop;
       margin-bottom: 5px;
-      color: $dark-blue;
     }
     .dropdown-basic-button {
       width: 100%;
@@ -652,6 +651,9 @@
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change h6.tab-content-title {
     flex: 0 0 95px;
 }
+.sublink_right .edit_pdf_title {
+    max-width: 38%;
+}
 .sublink_right .blink_text {
   margin: 0 auto;
   text-align: center;
@@ -665,7 +667,11 @@
   animation: 1s linear blinker infinite;
 }
 .viewer-layout-container .viewer-layout-toolbar {
-  background: #dbe7f2;
+    background: #dbe7f2;
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 1;
 }
 .viewer-layout-container .viewer-layout-toolbar .viewer-toolbar-center,
 .viewer-layout-container .viewer-layout-toolbar .viewer-toolbar-right,
@@ -2119,6 +2125,7 @@ form.product-unit button {
   justify-content: center;
   height: 32px;
   margin-left: 10px;
+  flex: 0 0 32px;
 }
 
 .btn-filled.btn-disabled,
@@ -2875,16 +2882,18 @@ section.verify_email.content_details {
   vertical-align: top;
 }
 .viewer-layout-container {
-    border: 0.5px solid #97B6CF;
+    border: none;
     height: auto;
 }
 .scroll_pdf{
   overflow-y: auto;
   overflow-x: hidden;
   height:100%;
+  border:0.5px solid #97B6CF;
 }
 .viewer-layout-container .viewer-layout-main {
     overflow: unset;
+    padding: 15px 0;
 }
 .dropdown-menu.filter-options .accordion .card-header button {
     text-transform: capitalize;
