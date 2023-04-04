@@ -208,22 +208,34 @@ const PreviewContent = () => {
           // }
         formData.append("fileId", pdfFileId);
       }
-      await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
+     const res = await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
         header: {
           "Content-Type": "multipart/form-data",
         },
       });
-      getArticleData();
+      // getArticleData();
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
         setUserInputs({ ...userInputs, title: "" });
       }
+
+      if (pdfData?.file_type && pdfData.file_type == "ebook") {
+        let pdfIndex = pdfData.ebookData.findIndex((el) => el.id === pdfFileId);
+        pdfData.ebookData[pdfIndex].title = res?.data?.data?.title;
+        pdfData.ebookData[pdfIndex].file_name = res?.data?.data?.pdf;
+        setTemplatePdf(res?.data?.data?.pdf);
+      }else{
+        pdfData.file_name = res?.data?.data?.pdf;
+        pdfData.title = res?.data?.data?.title;
+        setTemplatePdf(res?.data?.data?.pdf);
+      }
+      loader("hide");
     } catch (err) {
       loader("hide");
     }
     handleClose();
     setUpdateFlag(0);
     setPublishStatus(false);
-    setNewTemplateClicked(false);
+    // setNewTemplateClicked(false);
   };
 
   const imageOnError = (event) => {
@@ -269,7 +281,7 @@ const PreviewContent = () => {
           });
         }
         setPdfData(pdfData);
- 
+
       } else {
         setPublishStatus(true);
         navigate("/content-detail", {
