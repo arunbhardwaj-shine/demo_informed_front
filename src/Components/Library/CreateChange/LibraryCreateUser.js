@@ -50,8 +50,8 @@ const LibraryCreateUser = () => {
     allowOneSource: "",
     allowLibrary: "",
     allowRequest: "",
-    allowDraft: false,
-    allowVideo: false,
+    allowDraft: true,
+    allowVideo: true,
     trial: "",
     comDatetime: "",
     cpdValue: "",
@@ -109,30 +109,39 @@ const LibraryCreateUser = () => {
     const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
       user_id: id,
     });
-    console.log("eee", hadData);
     let country = [];
-    hadData?.data?.data?.country.reduce((objEntries, key) => {
+    hadData?.data?.data?.country?.reduce((objEntries, key) => {
       country.push({
         label: key,
         value: key,
       });
     });
     let category = [];
-    hadData?.data?.data?.category.reduce((objEntries, key) => {
-      category.push({
-        label: key,
-        value: key,
+    if(hadData?.data?.data?.category?.length){
+      hadData?.data?.data?.category?.reduce((objEntries, key) => {
+        category.push({
+          label: key,
+          value: key,
+        });
       });
-    });
+      }
+    let tags = [];
+    if(hadData?.data?.data?.tags?.length){
+      hadData?.data?.data?.tags?.reduce((objEntries, key) => {
+        tags.push(key?.value);
+      });
+    }
+   
+    setAllTags(tags)
     setUserDetail({
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
       country: country,
       sales: hadData?.data?.data?.sale,
-      format: hadData?.data?.data?.format,
-      category: category,
+      format: hadData?.data?.data?.format?.sort((a, b) => a.value > b.value ? 1 : -1),
+      category: category?.sort((a, b) => a.value > b.value ? 1 : -1),
       ibu: hadData?.data?.data?.ibu,
-      product: hadData?.data?.data?.product,
+      product: hadData?.data?.data?.product?.sort((a, b) => a.value > b.value ? 1 : -1),
       reseller: hadData?.data?.data?.reseller,
     });
 
@@ -155,9 +164,8 @@ const LibraryCreateUser = () => {
     });
   };
 
+
   const nextButtonClicked = async (e) => {
-    // e.preventDefault();
-    
     if(userInputs.docintelFormat == "ebook"){
       userInputs.chapter = chapter
     }
@@ -176,10 +184,15 @@ const LibraryCreateUser = () => {
         let formData = new FormData();
 
         formData.append("productionNotes", userInputs?.productionNotes);
-        formData.append("expDatetime", userInputs?.expDatetime);
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
+        if(userDetail?.user?.[0]?.group_id == 3){
+          formData.append("expDatetime",new Date(moment().year(2030)
+          .format("MM/DD/YYYY")),   );
+        }else{
+          formData.append("expDatetime", userInputs?.expDatetime);
+        }
         formData.append("company", userInputs?.company);
         formData.append("country", userInputs?.country);
         formData.append("pdfSubTitle", userInputs?.journalTitle);
@@ -203,13 +216,15 @@ const LibraryCreateUser = () => {
         formData.append("ibu", userInputs?.ibu);
         formData.append("allowOneSource", userInputs?.allowOneSource);
         formData.append("allowLibrary", userInputs?.allowLibrary);
-        formData.append("allowRequest", userInputs?.allowRequest);
-        formData.append("allowDraft", userInputs?.allowDraft);
-        formData.append("allowVideo", userInputs?.allowVideo);
+        formData.append("allowRequest", userInputs?.allowRequest?1:0);
+        formData.append("allowDraft", userInputs?.allowDraft?1:0);
+        formData.append("allowVideo", userInputs?.allowVideo?1:0);
         formData.append("trial", userInputs?.trial);
         formData.append("blindType", userInputs?.blindType);
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
+        formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
+
 
         const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
           header: {
@@ -217,7 +232,6 @@ const LibraryCreateUser = () => {
           },
         });
         loader("hide");
-        // navigate("/set-popup");
         navigate("/set-popup", {
           state: {
             pdfId: res?.data?.data?.pdfId,
@@ -336,10 +350,16 @@ const LibraryCreateUser = () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       toast.error("Please input a tag");
     } else {
+      
+        loader("show");
+        const hadData = await postData(ENDPOINT.ADD_TAGS, {
+          product: newTag,
+          type:2
+        });
+        loader("hide")
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
-      //  console.log(allTags)
       let alltemp_tags = [];
       Object.entries(allTags).map((data) => {
         return alltemp_tags.push(...data);
@@ -358,7 +378,6 @@ const LibraryCreateUser = () => {
           user_id: localStorage.getItem("user_id"),
           tags: newTag,
         };
-        //console.log(body);
       } else {
         toast.error("Tag already in list.");
       }
@@ -369,38 +388,15 @@ const LibraryCreateUser = () => {
 
   const saveButtonClicked = async () => {
     loader("show");
-    // let payload = {
-    //   pdfId: pdftagsid,
-    // };
+   
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
       let prev_tags = finalTags;
       let new_tags = prev_tags.concat(tagClickedFirst);
       const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
       setFinalTags(uniqueTags);
-      // payload.tags = JSON.stringify(uniqueTags);
-      // if (pdftagsid != "") {
-      //   const lib_data_index = libraryData.findIndex(
-      //     (el) => el.id === pdftagsid
-      //   );
-      //   libraryData[lib_data_index].tags = JSON.stringify(uniqueTags);
-      // }
     } else {
       setFinalTags(tagClickedFirst);
-      // payload.tags = JSON.stringify(tagClickedFirst);
-      // if (pdftagsid != "") {
-      //   const lib_data_index = libraryData.findIndex(
-      //     (el) => el.id === pdftagsid
-      //   );
-      //   libraryData[lib_data_index].tags = JSON.stringify(tagClickedFirst);
-      // }
     }
-    // try {
-    //   const res = await updateTags(ENDPOINT.LIBRARYREUPDATETAGS, payload);
-    // } catch (err) {
-    //   loader("hide");
-    // }
-
-    // setLibraryData(libraryData);
     setupdateFlag(updateflag + 1);
     closeModal();
     loader("hide");
@@ -572,7 +568,7 @@ const LibraryCreateUser = () => {
                 </div>
               )}
 
-              {userDetail?.user?.[0]?.flag == 0 &&
+              {userDetail?.user?.[0]?.pharmaData == 1 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
                   <label htmlFor="">Business Unit</label>
@@ -680,34 +676,19 @@ const LibraryCreateUser = () => {
                         : ""} */}
                     </div>
                     <ul>
-                      <li className="list1">
-                        Excessive bleedings{" "}
-                        <img
-                          src="componentAssets/images/filter-close.svg"
-                          alt="Close-filter"
-                        />
-                      </li>
-                      <li className="list1">
-                        New tag 3{" "}
-                        <img
-                          src="componentAssets/images/filter-close.svg"
-                          alt="Close-filter"
-                        />
-                      </li>
-                      <li className="list1">
-                        New tag 6{" "}
-                        <img
-                          src="componentAssets/images/filter-close.svg"
-                          alt="Close-filter"
-                        />
-                      </li>
-                      <li className="list1">
-                        global{" "}
-                        <img
-                          src="componentAssets/images/filter-close.svg"
-                          alt="Close-filter"
-                        />
-                      </li>
+                      {
+                        tagClickedFirst?.map(item =>{
+                          return (
+                            <li className="list1">
+                            {item}
+                            <img
+                              src="componentAssets/images/filter-close.svg"
+                              alt="Close-filter"
+                            />
+                           </li>
+                          )
+                        })
+                      }
                     </ul>
                   </div>
                 </div>
@@ -909,6 +890,7 @@ const LibraryCreateUser = () => {
   return (
     <>
       <div className="col right-sidebar">
+   
         <div className="custom-container">
           <div className="row">
             <div className="page-top-nav">
@@ -1104,8 +1086,8 @@ const LibraryCreateUser = () => {
                                   id="setasdraft1"
                                   onChange={(e) => {
                                     handleChange(
-                                      e.target?.checked,
-                                      "allowDraft"
+                                      !e.target?.checked,
+                                      "draft"
                                     );
                                   }}
                                 />
@@ -1116,16 +1098,6 @@ const LibraryCreateUser = () => {
                                 <a className="btn"></a>
                               </label>
                             </div>
-                            {/* {checked == false ? ( */}
-                            {/* <Button
-                        className="btn-bordered btn-voilet"
-                        onClick={handleShow}
-                      >
-                        click to embed your Videos{" "}
-                      </Button> */}
-                            {/* ) : (
-                        false
-                      )} */}
                           </fieldset>
                         </div>
                       </>
@@ -1328,16 +1300,6 @@ const LibraryCreateUser = () => {
                             <a className="btn"></a>
                           </label>
                         </div>
-                        {/* {checked == false ? ( */}
-                        {/* <Button
-                        className="btn-bordered btn-voilet"
-                        onClick={handleShow}
-                      >
-                        click to embed your Videos{" "}
-                      </Button> */}
-                        {/* ) : (
-                        false
-                      )} */}
                       </div>
                     ) : null}
                     <div className="form-group val">
@@ -1363,18 +1325,8 @@ const LibraryCreateUser = () => {
                               <span>(Recommended size 00 X 00)</span>
                             </p>
                           )}
-                          {/* <p>
-                            Upload your cover image
-                            <br />
-                            <span>(Recommended size 00 X 00)</span>
-                          </p> */}
                         </div>
                       </div>
-                      {/* {error?.image ? (
-                        <div className="login-validation-upload">
-                          {error?.image}
-                        </div>
-                      ) : null} */}
                     </div>
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
@@ -1455,12 +1407,6 @@ const LibraryCreateUser = () => {
               </p>
               <Form.Group className="formgroup">
                 <Form.Label>Videos *</Form.Label>
-                {/* <ReactSelect
-                  placeholder="Select your chapter"
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                /> */}
-
                 <DropdownButton
                   className="dropdown-basic-button split-button-dropup "
                   title={videoSelect != "" ? videoSelect : "Select your video"}
@@ -1489,16 +1435,6 @@ const LibraryCreateUser = () => {
                 </DropdownButton>
 
                 <div className="upload-file-box">
-                  {/* <input
-                    type="file"
-                    name="file-10[]"
-                    id="file-10"
-                    className="inputfile inputfile-6"
-                    accept=".mp4"
-                  />
-                  <label htmlFor="file-10">
-                    <span>Upload new Video +</span>
-                  </label> */}
                   <Button
                     className="btn-filled"
                     onClick={onUploadNewVideoClicked}
