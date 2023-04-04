@@ -193,7 +193,7 @@ const EditLibrary = () => {
     initalFun();
   }, []);
 
-  
+
   const newTagChanged = (e) => {
     setNewTag(e.target.value);
     e.target.value = "";
@@ -213,7 +213,7 @@ const EditLibrary = () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       toast.error("Please input a tag");
     } else {
-      
+
         loader("show");
         await postData(ENDPOINT.ADD_TAGS, {
           product: newTag,
@@ -275,7 +275,6 @@ const EditLibrary = () => {
     } else {
       try {
         loader("show");
-        console.log("---------->>",userInputs)
         let formData = new FormData();
         formData.append("keyAuthor", userInputs?.keyAuthor);
         formData.append("expDatetime", userInputs?.expDatetime);
@@ -420,7 +419,7 @@ const EditLibrary = () => {
 
   const saveButtonClicked = async () => {
     loader("show");
-   
+
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
       let prev_tags = finalTags;
       let new_tags = prev_tags.concat(tagClickedFirst);

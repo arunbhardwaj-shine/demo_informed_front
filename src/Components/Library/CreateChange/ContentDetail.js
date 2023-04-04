@@ -6,14 +6,17 @@ import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Collapse from 'react-bootstrap/Collapse';
+import Collapse from "react-bootstrap/Collapse";
 import { Button } from "react-bootstrap";
 
 const ContentDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-   const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const { state } = useLocation();
   const [libraryData, setLibraryData] = useState();
+
+  const [enableData, setEnableData] = useState("");
+
   const [reRender, setReRender] = useState(0);
   const navigate = useNavigate();
   const [articleId, setArticleId] = useState(
@@ -42,12 +45,52 @@ const ContentDetail = () => {
       const res = await postData(ENDPOINT.LIBRARY, body);
 
       setLibraryData(res?.data?.data?.library);
+      let data = "";
+      if (res?.data?.data?.library?.[0]?.allow_print) {
+        data += "print,";
+      }
+      if (res?.data?.data?.library?.[0]?.allow_download) {
+        data += "Download,";
+      }
+      if (res?.data?.data?.library?.[0]?.allow_share) {
+        data += "Share,";
+      }
+      if (res?.data?.data?.library?.[0]?.chat_box) {
+        data += "Request,";
+      }
+      if (data) {
+        data = data.replace(/^,|,$/g, "");
+      }
+      setEnableData(data);
 
       loader("hide");
     } catch (err) {
       console.log("err");
       loader("hide");
     }
+  };
+
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea); // textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
   };
 
   const removeTopic = (id) => {
@@ -158,12 +201,7 @@ const ContentDetail = () => {
                                         <span
                                           className="copy-content"
                                           onClick={() => {
-                                            toast.success(
-                                              "content copied to the clipboard!"
-                                            );
-                                            window.navigator.clipboard.writeText(
-                                              data?.docintelLink
-                                            );
+                                            copyToClipboard(data?.docintelLink);
                                           }}
                                         >
                                           <img
@@ -281,8 +319,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Enable</th>
                                                   <td>
-                                                    {data?.enable
-                                                      ? data?.enable
+                                                    {enableData
+                                                      ? enableData
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -292,24 +330,52 @@ const ContentDetail = () => {
                                                     {/* {data?.special_requirment
                                                       ?data?.special_requirment?.trim()
                                                       : "N/A"} */}
-                                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,  
-                                                      <Collapse in={open}>
-                                                      <div id="collapse-text-view">sed do eiusmod tempor incididunt ut labore et dolore magna amet, 
-                                                      consectetur adipiscing elit,
-                                                              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                                              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                                              nisi ut aliquip ex Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                              elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                                              aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                                              laboris nisi ut aliquip ex Lorem ipsum dolor sit amet, consectetur
-                                                              adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                                                              magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                                        </div>
-                                                     </Collapse>
-                                                     <span className="show_more"
-                                                              onClick={() => setOpen(!open)}
-                                                              aria-controls="example-collapse-text"
-                                                              aria-expanded={open}>...</span>
+                                                    Lorem ipsum dolor sit amet,
+                                                    consectetur adipiscing elit,
+                                                    <Collapse in={open}>
+                                                      <div id="collapse-text-view">
+                                                        sed do eiusmod tempor
+                                                        incididunt ut labore et
+                                                        dolore magna amet,
+                                                        consectetur adipiscing
+                                                        elit, sed do eiusmod
+                                                        tempor incididunt ut
+                                                        labore et dolore magna
+                                                        aliqua. Ut enim ad minim
+                                                        veniam, quis nostrud
+                                                        exercitation ullamco
+                                                        laboris nisi ut aliquip
+                                                        ex Lorem ipsum dolor sit
+                                                        amet, consectetur
+                                                        adipiscing elit, sed do
+                                                        eiusmod tempor
+                                                        incididunt ut labore et
+                                                        dolore magna aliqua. Ut
+                                                        enim ad minim veniam,
+                                                        quis nostrud
+                                                        exercitation ullamco
+                                                        laboris nisi ut aliquip
+                                                        ex Lorem ipsum dolor sit
+                                                        amet, consectetur
+                                                        adipiscing elit, sed do
+                                                        eiusmod tempor
+                                                        incididunt ut labore et
+                                                        dolore magna aliqua. Ut
+                                                        enim ad minim veniam,
+                                                        quis nostrud
+                                                        exercitation
+                                                      </div>
+                                                    </Collapse>
+                                                    <span
+                                                      className="show_more"
+                                                      onClick={() =>
+                                                        setOpen(!open)
+                                                      }
+                                                      aria-controls="example-collapse-text"
+                                                      aria-expanded={open}
+                                                    >
+                                                      ...
+                                                    </span>
                                                   </td>
                                                 </tr>
                                               </tbody>
