@@ -166,6 +166,7 @@ const LibraryCreateUser = () => {
 
 
   const nextButtonClicked = async (e) => {
+
     if(userInputs.docintelFormat == "ebook"){
       userInputs.chapter = chapter
     }
@@ -201,7 +202,7 @@ const LibraryCreateUser = () => {
         formData.append("allowShare", userInputs?.allowShare);
         formData.append("allowDownload", userInputs?.allowDownload);
         formData.append("allowPrint", userInputs?.allowPrint);
-        formData.append("product", userInputs?.product);
+        formData.append("product", userInputs?.product?.value?userInputs?.product?.value:"");
         ebookFile?.forEach((item) => {
           formData.append("ebookData", item);
         });
@@ -432,7 +433,8 @@ const LibraryCreateUser = () => {
                 <label htmlFor="">Client product</label>
                 <Select
                   options={userDetail?.product}
-                  onChange={(e) => handleChange(e?.value, "product")}
+                  value={userInputs?.product}
+                  onChange={(e) => handleChange(e, "product")}
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
@@ -773,6 +775,10 @@ const LibraryCreateUser = () => {
         type: 1,
       };
       const res = await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
+      setCreateLibraryInputs({
+        ...userInputs,
+        product:{value: userDetail?.newValue, label: userDetail?.newValue}
+      });
       setUserDetail({ ...userDetail, product: newAr });
     } catch (err) {
       console.log("err", err);
