@@ -99,9 +99,9 @@ const SpcView = () => {
                   </svg>
                 </Link>
                 <h2>
-                  {location?.state?.data == "edit"
-                    ? "View | Edit SPC"
-                    : "Delete SPC"}
+                  {location?.state?.data == "delete"
+                    ? "Delete SPC"
+                    : "View | Edit SPC"}
                 </h2>
               </div>
               <div className="top-right-action">
@@ -202,7 +202,7 @@ const SpcView = () => {
 								  <div className="smartlist-buttons">
 									{
 									  <>
-										{location?.state?.data == "edit" ? (
+										{location?.state?.data != "delete" ? (
                       <Link
                         to="/spc-edit"
                         state={{ spcId: data.id }}
@@ -222,7 +222,7 @@ const SpcView = () => {
 									  </>
 									}
 								  </div>
-								  {location?.state?.data != "edit" ? (
+								  {location?.state?.data == "delete" ? (
 									<div className="dlt_btn">
 									  <button onClick={
 										  (e) => {
