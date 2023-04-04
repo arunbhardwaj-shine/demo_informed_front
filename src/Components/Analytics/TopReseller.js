@@ -31,6 +31,8 @@ const TopReseller = () => {
   ]);
   const dataType = useRef(All[0]);
   const year = useRef(Year[0]);
+  // const [userType, setUserType] = useState("topSeller");
+  const userType = useRef("topSeller");
   Highcharts.setOptions({
     colors: [
       "#FFBE2C",
@@ -115,11 +117,13 @@ const TopReseller = () => {
   const getDataFromApi = async () => {
     try {
       loader("show");
+
       let data = {
-        type: "topSeller",
+        type: userType.current,
         dataType: dataType.current,
         year: year.current,
       };
+
       const response = await postData(ENDPOINT.TOPRESELLER, data);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
@@ -143,13 +147,13 @@ const TopReseller = () => {
           color: Highcharts?.getOptions()?.colors[0],
         },
       ];
-
       const newResellerOptions = {
         ...topResellerOptions,
         xAxis: { categories: categories },
         series: newSeries,
       };
       setTopResellerOptions(newResellerOptions);
+
       setIsDataFound(true);
       loader("hide");
     } catch (err) {
@@ -160,11 +164,22 @@ const TopReseller = () => {
   };
 
   const filterDataByDataType = (e) => {
+    if (!e?.value == "") {
+      userType.current = "topSellerAjax";
+    } else if (e?.value == "") {
+      userType.current = "topSeller";
+    }
     dataType.current = e?.value;
     setIsDataFound(false);
-    getDataFromApi(e.value);
+    getDataFromApi();
   };
   const filterDataByYear = (e) => {
+    if (!e?.value == "") {
+      userType.current = "topSellerAjax";
+    } else if (e?.value == "") {
+      userType.current = "topSeller";
+    }
+
     year.current = e?.value;
     setIsDataFound(false);
     getDataFromApi();
