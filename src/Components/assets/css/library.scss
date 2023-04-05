@@ -450,7 +450,7 @@
           color: $dark-blue;
           font-weight: 400;
         }
-        div.css-14el2xx-placeholder {
+        div[class*="css-"] {
           color: $light-gray;
           font-weight: 300;
         }
@@ -723,15 +723,19 @@ input:-webkit-autofill {
   right: 130px;
 }
 .create-change-content .input-group #tags-add {
-  border: 1px solid var(--light-blue);
+  border: 1px solid $primary-color;
   box-sizing: border-box;
   border-radius: 30px;
   font-size: 16px;
   line-height: 19px;
-  color: var(--light-blue);
-  background: transparent;
+  color: $white;
+  background: $primary-color;
   font-weight: 500;
-  padding: 9px 16px;
+  padding: 9px 10px;
+  min-width: 106px;
+}
+.create-change-content .input-group #tags-add:hover {
+  background: $dark-blue;
 }
 .create-change-content .input-group .tags_added ul {
   padding: 0;
@@ -1474,9 +1478,9 @@ form.product-unit button {
   font-weight: 400;
   padding-right: 20px;
 }
-.create-change-content .form-group fieldset label[for="limitagreed2"] {
-  padding-right: 32px;
-}
+// .create-change-content .form-group fieldset label[for="limitagreed2"] {
+//   padding-right: 32px;
+// }
 .create-change-content .form-group input:checked[type="checkbox"],
 .create-change-content
   .form-group
@@ -1545,6 +1549,9 @@ form.product-unit button {
   font-weight: 500;
   min-width: 171px;
   text-align: center;
+}
+.create-change-content .inputfile ~ label:hover {
+background: $dark-blue;
 }
 .create-change-content .upload-file-box .box p {
   margin: 0;
