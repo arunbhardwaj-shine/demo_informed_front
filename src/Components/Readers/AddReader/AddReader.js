@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 const ReaderAdd = () => {
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
+  const [groupId, setGroupId] = useState(2);
+  const [flag, setFlag] = useState(1);
 
   const [countryAll, setCountryAll] = useState([]);
   const [province, setProvince] = useState([]);
@@ -24,44 +26,43 @@ const ReaderAdd = () => {
   ]);
   const [hospital, setHospital] = useState([]);
   const [countryCode, setCountryCode] = useState([
-    {value : "Afghanistan",  label : "+93"},
+    { value: "Afghanistan", label: "+93" },
 
-    {value : "Albania",  label : "+355"},
+    { value: "Albania", label: "+355" },
 
-    {value : "Algeria",  label : "+213"},
+    { value: "Algeria", label: "+213" },
 
-    {value : "American Samoa",  label : "+1-684"},
+    { value: "American Samoa", label: "+1-684" },
 
-    {value : "Andorra",  label : "+376"},
+    { value: "Andorra", label: "+376" },
 
-    {value : "Angola",  label : "+244"},
+    { value: "Angola", label: "+244" },
 
-    {value : "Anguilla",  label : "+1-264"},
+    { value: "Anguilla", label: "+1-264" },
 
-    {value : "Antarctica",  label : "+672"},
+    { value: "Antarctica", label: "+672" },
 
-    {value : "Antigua and Barbuda",  label : "+1-268"},
+    { value: "Antigua and Barbuda", label: "+1-268" },
 
-    {value : "Argentina",  label : "+54"},
+    { value: "Argentina", label: "+54" },
 
-    {value : "Armenia",  label : "+374"},
+    { value: "Armenia", label: "+374" },
 
-    {value : "India",  label : "+91"},
+    { value: "India", label: "+91" },
 
-    {value : "Azerbaijan",  label : "+994"},
+    { value: "Azerbaijan", label: "+994" },
 
-    {value : "Bahamas",  label : "+1-242"},
+    { value: "Bahamas", label: "+1-242" },
 
-    {value : "Bahrain",  label : "+973"},
+    { value: "Bahrain", label: "+973" },
 
-    {value : "Bangladesh",  label : "+880"},
+    { value: "Bangladesh", label: "+880" },
 
-    {value : "Barbados",  label : "+1-246"},
+    { value: "Barbados", label: "+1-246" },
 
-    {value : "Belarus",  label : "+375"},
+    { value: "Belarus", label: "+375" },
 
-    {value : "Belgium",  label : "+32"},
-
+    { value: "Belgium", label: "+32" },
   ]);
   const [id, setId] = useState(localStorage.getItem("user_id"));
   const [userInputs, setAddReaderInputs] = useState({});
@@ -317,11 +318,23 @@ const ReaderAdd = () => {
               <div className="row justify-content-end align-items-center">
                 <Col md="1">
                   <div className="header-btn-left">
-                    <Link className="btn btn-primary btn-bordered back-btn" to="/readers-view">
-                        <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
-                        </svg>
-                      </Link>
+                    <Link
+                      className="btn btn-primary btn-bordered back-btn"
+                      to="/readers-view"
+                    >
+                      <svg
+                        width="14"
+                        height="24"
+                        viewBox="0 0 14 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                          fill="#97B6CF"
+                        />
+                      </svg>
+                    </Link>
                     {/* <button className="btn btn-primary btn-bordered back">
                       <Link to="/readers-view">Back</Link>
                     </button> */}
@@ -331,7 +344,7 @@ const ReaderAdd = () => {
                   
                 </div> */}
                 <Col md="9">
-                   <ul className="tabnav-link">
+                  <ul className="tabnav-link">
                     <li className="active active-main">
                       <a href="">Create CRM</a>
                     </li>
@@ -416,6 +429,22 @@ const ReaderAdd = () => {
                       />
                     </Form.Group>
                     <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Country *</Form.Label>
+                      <Select
+                        options={countryAll}
+                        placeholder="Select country"
+                        name="country"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                        onChange={(e) => handleChange(e?.value, "country")}
+                      />
+                      {error?.phoneNumber ? (
+                        <div className="login-validation">{error?.country}</div>
+                      ) : (
+                        ""
+                      )}
+                    </Form.Group>
+                    <Form.Group className="form-group">
                       <Form.Label htmlFor="">Primary email *</Form.Label>
                       <input
                         type="email"
@@ -480,22 +509,7 @@ const ReaderAdd = () => {
                         onChange={(e) => handleChange(e)}
                       />
                     </Form.Group>
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Country *</Form.Label>
-                      <Select
-                        options={countryAll}
-                        placeholder="Select country"
-                        name="country"
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        onChange={(e) => handleChange(e?.value, "country")}
-                      />
-                      {error?.phoneNumber ? (
-                        <div className="login-validation">{error?.country}</div>
-                      ) : (
-                        ""
-                      )}
-                    </Form.Group>
+
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">Province</Form.Label>
                       <Select
@@ -608,7 +622,10 @@ const ReaderAdd = () => {
                       />
                     </Form.Group>
                   </Col>
-                   <Col md="5" className="d-flex justify-content-end align-items-start right-change">
+                  <Col
+                    md="5"
+                    className="d-flex justify-content-end align-items-start right-change"
+                  >
                     <Form.Group className="form-group justify-content-end">
                       <Form.Label htmlFor="">Notes</Form.Label>
                       <textarea

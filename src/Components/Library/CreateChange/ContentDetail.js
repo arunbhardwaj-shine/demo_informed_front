@@ -17,8 +17,8 @@ const ContentDetail = () => {
   const [libraryData, setLibraryData] = useState();
 
   const [enableData, setEnableData] = useState({
-    enable:"",
-    reseller:""
+    enable: "",
+    reseller: "",
   });
 
   const [reRender, setReRender] = useState(0);
@@ -44,7 +44,7 @@ const ContentDetail = () => {
       let body = {
         pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
         apiType: "Library",
-        type:"content"
+        type: "content",
       };
 
       const res = await postData(ENDPOINT.LIBRARY, body);
@@ -66,7 +66,12 @@ const ContentDetail = () => {
       if (data) {
         data = data.replace(/^,|,$/g, "");
       }
-      setEnableData({enable:data,reseller:res?.data?.data?.resellerData.length?res?.data?.data?.resellerData?.join():""});
+      setEnableData({
+        enable: data,
+        reseller: res?.data?.data?.resellerData.length
+          ? res?.data?.data?.resellerData?.join()
+          : "",
+      });
 
       loader("hide");
     } catch (err) {
@@ -172,15 +177,18 @@ const ContentDetail = () => {
                                         <strong>Topics | </strong>
                                         <ul>
                                           {data?.tags
-                                            ? JSON?.parse(data?.tags)?.map((topic, id) => {
-                                                return (
-                                                  <>
-                                                    <li className="list1">
-                                                      {topic.innerHTML || topic}{" "}
-                                                    </li>
-                                                  </>
-                                                );
-                                              })
+                                            ? JSON?.parse(data?.tags)?.map(
+                                                (topic, id) => {
+                                                  return (
+                                                    <>
+                                                      <li className="list1">
+                                                        {topic.innerHTML ||
+                                                          topic}{" "}
+                                                      </li>
+                                                    </>
+                                                  );
+                                                }
+                                              )
                                             : "N/A"}
                                         </ul>
                                       </h6>
@@ -306,7 +314,7 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Set limit of usage</th>
                                                   <td>
-                                                    {data?.limit>=0
+                                                    {data?.limit >= 0
                                                       ? data?.limit
                                                       : "N/A"}
                                                   </td>
@@ -339,16 +347,20 @@ const ContentDetail = () => {
                                                           : ""}
                                                       </div>
                                                     </Collapse>
-                                                    <span
-                                                      className="show_more"
-                                                      onClick={() =>
-                                                        setOpen(!open)
-                                                      }
-                                                      aria-controls="example-collapse-text"
-                                                      aria-expanded={open}
-                                                    >
-                                                      ...
-                                                    </span>
+                                                    {data?.special_requirment ? (
+                                                      <span
+                                                        className="show_more"
+                                                        onClick={() =>
+                                                          setOpen(!open)
+                                                        }
+                                                        aria-controls="example-collapse-text"
+                                                        aria-expanded={open}
+                                                      >
+                                                        ...
+                                                      </span>
+                                                    ) : (
+                                                      ""
+                                                    )}
                                                   </td>
                                                 </tr>
                                               </tbody>
@@ -423,20 +435,24 @@ const ContentDetail = () => {
                                                           : ""}
                                                       </div>
                                                     </Collapse>
-                                                    <span
-                                                      className="show_more"
-                                                      onClick={() =>
-                                                        setOpenProduction(
-                                                          !openProduction
-                                                        )
-                                                      }
-                                                      aria-controls="example-collapse-text"
-                                                      aria-expanded={
-                                                        openProduction
-                                                      }
-                                                    >
-                                                      ...
-                                                    </span>
+                                                    {data?.production_notes ? (
+                                                      <span
+                                                        className="show_more"
+                                                        onClick={() =>
+                                                          setOpenProduction(
+                                                            !openProduction
+                                                          )
+                                                        }
+                                                        aria-controls="example-collapse-text"
+                                                        aria-expanded={
+                                                          openProduction
+                                                        }
+                                                      >
+                                                        ...
+                                                      </span>
+                                                    ) : (
+                                                      ""
+                                                    )}
                                                   </td>
                                                 </tr>
                                               </tbody>
