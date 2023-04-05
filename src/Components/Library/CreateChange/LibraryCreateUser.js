@@ -728,7 +728,7 @@ const LibraryCreateUser = () => {
                 <label htmlFor="">HCP</label>
                 <div className="input-group w-100">
                   <div className="tags_added">
-                    <div className="select-tags"></div>
+                    <div className="select-tags">
                     <ul>
                       {userDetail?.hcp?.map((item, index) => {
                         return (
@@ -738,8 +738,8 @@ const LibraryCreateUser = () => {
                         );
                       })}
                     </ul>
-                    <div className="select-tags"></div>
-                    <ul>
+                    <div className="after-selected">
+                      <ul className="after-tag-selected">
                       {hcpClickedFirst.map((item, index) => {
                         return (
                           <li className="list1">
@@ -752,7 +752,9 @@ const LibraryCreateUser = () => {
                           </li>
                         );
                       })}
-                    </ul>
+                      </ul>
+                    </div>
+                    </div>
                   </div>
                 </div>
               </div>
