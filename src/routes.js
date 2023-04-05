@@ -105,6 +105,12 @@ import EditLibrary from "./Components/Library/CreateChange/EditLibrary";
 import LibraryEditListing from "./Components/Library/Content/LibraryEditListing";
 import OpeningByCountry from "./Components/Analytics/Graphs/OpeningByCountry";
 import SalesByCountry from "./Components/Analytics/Graphs/SalesByCountry";
+import CampaignStats from "./Components/Analytics/Graphs/CampaignStats";
+import DeliveryTrends from "./Components/Analytics/Graphs/DeliveryTrends";
+import RegistrationType from "./Components/Analytics/Graphs/RegistrationType";
+
+
+
 
 let platform = 0;
 let show = 0;
@@ -198,7 +204,16 @@ const Routing = () => {
                   path="/openings-by-country"
                   element={<OpeningByCountry />}
                 />
+                 <Route
+                  path="/campaign-stats"
+                  element={<CampaignStats />}
+                />
+                  <Route
+                  path="/delivery-stats"
+                  element={<DeliveryTrends />}
+                />
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
+                <Route path="/registration-type" element={<RegistrationType/>} />
 
                 {/* <Route path="/country-registration" element={<CountryRegistration />} /> */}
                 <Route path="/readers-view" element={<NewReaders />} />
