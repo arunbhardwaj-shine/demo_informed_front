@@ -348,16 +348,21 @@ const ContentDetail = () => {
                                                       </div>
                                                     </Collapse>
                                                     {data?.special_requirment ? (
-                                                      <span
-                                                        className="show_more"
-                                                        onClick={() =>
-                                                          setOpen(!open)
-                                                        }
-                                                        aria-controls="example-collapse-text"
-                                                        aria-expanded={open}
-                                                      >
-                                                        ...
-                                                      </span>
+                                                      data?.special_requirment?.trim()
+                                                        ?.length > 10 ? (
+                                                        <span
+                                                          className="show_more"
+                                                          onClick={() =>
+                                                            setOpen(!open)
+                                                          }
+                                                          aria-controls="example-collapse-text"
+                                                          aria-expanded={open}
+                                                        >
+                                                          ...
+                                                        </span>
+                                                      ) : (
+                                                        ""
+                                                      )
                                                     ) : (
                                                       ""
                                                     )}
@@ -436,20 +441,25 @@ const ContentDetail = () => {
                                                       </div>
                                                     </Collapse>
                                                     {data?.production_notes ? (
-                                                      <span
-                                                        className="show_more"
-                                                        onClick={() =>
-                                                          setOpenProduction(
-                                                            !openProduction
-                                                          )
-                                                        }
-                                                        aria-controls="example-collapse-text"
-                                                        aria-expanded={
-                                                          openProduction
-                                                        }
-                                                      >
-                                                        ...
-                                                      </span>
+                                                      data?.production_notes?.trim()
+                                                        .length > 10 ? (
+                                                        <span
+                                                          className="show_more"
+                                                          onClick={() =>
+                                                            setOpenProduction(
+                                                              !openProduction
+                                                            )
+                                                          }
+                                                          aria-controls="example-collapse-text"
+                                                          aria-expanded={
+                                                            openProduction
+                                                          }
+                                                        >
+                                                          ...
+                                                        </span>
+                                                      ) : (
+                                                        ""
+                                                      )
                                                     ) : (
                                                       ""
                                                     )}
