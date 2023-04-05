@@ -20,7 +20,7 @@ import CommonModel from "../../../Model/CommonModel";
 import moment from "moment";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const EditLibrary = () => {
+const EditLicense = () => {
   const { state } = useLocation();
   const [counterFlag, setCounterFlag] = useState(0);
   const [show, setShow] = useState(false);
@@ -89,10 +89,6 @@ const EditLibrary = () => {
     format: [],
     product: [],
     costCenter: [],
-    hcp:["test","abc","avdfdd","dfdfd"],
-    trial: [
-      {label:"LEXx210",value:"3972"}
-    ],
     // reseller:[]
   });
   const [id, setId] = useState(localStorage.getItem("user_id"));
@@ -117,8 +113,6 @@ const EditLibrary = () => {
   const [uploadNewVideo, setUploadNewVideo] = useState(false);
   const [changeEmbeddedVideo, setChangeEmbeddedVideo] = useState("");
   const [showFlag, setShowFlag] = useState(false);
-  const [hcpClickedFirst, setHcpClickedFirst] = useState([]);
-
 
   const initalFun = async () => {
     loader("show");
@@ -136,7 +130,7 @@ const EditLibrary = () => {
       });
     }
 
-    
+
     let category = [];
     if( hadData?.data?.data?.category?.length){
       hadData?.data?.data?.category.reduce((objEntries, key) => {
@@ -146,18 +140,17 @@ const EditLibrary = () => {
         });
       });
     }
-   
+
     let tags = [];
     if( hadData?.data?.data?.tags?.length){
-      hadData?.data?.data?.tags?.forEach((item) => {
-        tags.push(item?.value);
+      hadData?.data?.data?.tags?.reduce((objEntries, key) => {
+        tags.push(key?.value);
       });
     }
-   
+
     setAllTags(tags)
 
     setUserDetail({
-      ...userDetail,
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
       country: country,
@@ -168,8 +161,6 @@ const EditLibrary = () => {
       product: hadData?.data?.data?.product,
       reseller: hadData?.data?.data?.reseller,
     });
-    
-    
     loader("hide");
   };
   const libraryDetail = async () => {
@@ -179,11 +170,8 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
-      if(hadData?.data?.data?.pdfData?.tags?.length){
+      if(hadData?.data?.data?.pdfData?.tags){
         setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags))
-      }
-      if(hadData?.data?.data?.pdfData?.trail_user_type?.length){
-        setHcpClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type))
       }
       setReseller(
         hadData?.data?.data?.pdfData?.multiple_publisher
@@ -204,22 +192,6 @@ const EditLibrary = () => {
     libraryDetail();
     initalFun();
   }, []);
-
-  const removeHcp = (data) => {
-    const hcpData = hcpClickedFirst.filter(item =>item != data)
-
-    setHcpClickedFirst(hcpData);
- };
-
- const hcpClicked = (dd) => {
-  if (!hcpClickedFirst.includes(dd)) {
-    setHcpClickedFirst((oldArray) => [...oldArray, dd]);
-  } else {
-    toast.error("Tag already in Selected.");
-  }
-};
-
-
 
 
   const newTagChanged = (e) => {
@@ -295,16 +267,6 @@ const EditLibrary = () => {
     if(userInputs.docintelFormat == "ebook"){
       userInputs.chapter = chapter
     }
-    if(userDetail?.user?.[0]?.flag == 1 &&
-      userDetail?.user?.[0]?.group_id == 3){
-        userInputs.chapter = chapter
-        if(!userInputs?.trial){
-          userInputs.trial = ""
-        }
-        if(!userInputs?.blindType){
-          userInputs.blindType = ""
-        }
-      }
     const err = LibraryEditValidation(userInputs);
 
     if (Object.keys(err)?.length) {
@@ -320,13 +282,6 @@ const EditLibrary = () => {
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
         formData.append("allowShare", JSON.stringify(userInputs?.allow_share));
-        if (userDetail?.user?.[0]?.group_id == 3 && userDetail?.user?.[0]?.flag == 1) {
-          formData.append("blindType", userInputs?.blindType);
-          formData.append("trial", userInputs?.trial);
-          formData.append("mandatory", userInputs?.reader_mandatory?JSON.stringify(userInputs?.reader_mandatory):JSON.stringify(false));
-          formData.append("trail_user_type", hcpClickedFirst?.length?JSON.stringify(hcpClickedFirst):"");
-        }
-
         formData.append(
           "multiplePublisher",
           reseller?.length ? JSON.stringify(reseller) : ""
@@ -375,7 +330,9 @@ const EditLibrary = () => {
         );
         formData.append("draft", JSON.stringify(userInputs?.draft));
         formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
-       
+
+        formData.append("trial", userInputs?.trial);
+        formData.append("blindType", userInputs?.blindType);
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
@@ -387,7 +344,7 @@ const EditLibrary = () => {
           },
         });
         loader("hide");
-        navigate("/set-popup", {
+        navigate("/license-set-popup", {
           state: {
             pdfId: state?.pdfid,
             fileType: userInputs?.docintelFormat,
@@ -691,23 +648,18 @@ const EditLibrary = () => {
                 </div>
               ) : (
                 <div className="form-group">
-                  <label htmlFor="">Trial*</label>
-
+                  <label htmlFor="">Trial</label>
                   <Select
                     options={userDetail?.trial || []}
-                    placeholder="Select the trial "
+                    placeholder="Select the product this is for"
                     defaultValue={{
-                      label:userInputs?.trial?userDetail?.trial?.[0].value == userInputs?.trial?userDetail?.trial?.[0].label:"":"",
-                      value: userInputs?.trial?userDetail?.trial?.[0].value == userInputs?.trial?userDetail?.trial?.[0].value:"":"",
+                      label: userInputs?.trial,
+                      value: userInputs?.trial,
                     }}
                     onChange={(e) => handleChange(e?.value, "trial")}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                   />
-
-                    {error?.trial ? (
-                  <div className="login-validation">{error?.trial}</div>
-                ) : null}
                 </div>
               )}
               {userDetail?.user?.[0]?.pharmaData == 1 &&
@@ -729,10 +681,10 @@ const EditLibrary = () => {
               ) : userDetail?.user?.[0]?.flag == 1 &&
                 userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
-                  <label htmlFor="">Blind type*</label>
+                  <label htmlFor="">Blind type</label>
                   <Select
                     options={blindType || []}
-                    placeholder="Select Blind Type"
+                    placeholder="Select Business Unit"
                     defaultValue={{
                       label: userInputs?.blindType,
                       value: userInputs?.blindType,
@@ -741,9 +693,6 @@ const EditLibrary = () => {
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                   />
-                   {error?.blindType ? (
-                  <div className="login-validation">{error?.blindType}</div>
-                ) : null}
                 </div>
               ) : null}
               {userDetail?.user?.[0]?.flag == 0 &&
@@ -777,9 +726,38 @@ const EditLibrary = () => {
                 </div>
               ) : null}
 
+              {userDetail?.user?.[0]?.flag == 1 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <>
+                  <div className="form-group">
+                    <label htmlFor="">Completion date</label>
+                    <DatePicker
+                      selected={
+                        userInputs?.comDatetime
+                          ? new Date(userInputs?.comDatetime)
+                          : ""
+                      }
+                      name="comDatetime"
+                      onChange={(e) => handleChange(e, "comDatetime")}
+                      dateFormat="dd/MM/yyyy"
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="">CPD value</label>
+                    <input
+                      type="number"
+                      name="cpdValue"
+                      className="form-control"
+                      placeholder="“0” value means unlimited limit"
+                      defaultValue={userInputs?.cpdValue}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </>
+              ) : null}
             </div>
-            {console.log("---->>",error)}
-            <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change flex-column">
+            <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
               <div className="form-group justify-content-end">
                 <label htmlFor="">Topics</label>
                 <div className="input-group w-100">
@@ -814,45 +792,38 @@ const EditLibrary = () => {
                           )
                         })
                       }
+                      {/* <li className="list1">
+                        Excessive bleedings{" "}
+                        <img
+                          src="componentAssets/images/filter-close.svg"
+                          alt="Close-filter"
+                        />
+                      </li> */}
+                      {/* <li className="list1">
+                        New tag 3{" "}
+                        <img
+                          src="componentAssets/images/filter-close.svg"
+                          alt="Close-filter"
+                        />
+                      </li>
+                      <li className="list1">
+                        New tag 6{" "}
+                        <img
+                          src="componentAssets/images/filter-close.svg"
+                          alt="Close-filter"
+                        />
+                      </li>
+                      <li className="list1">
+                        global{" "}
+                        <img
+                          src="componentAssets/images/filter-close.svg"
+                          alt="Close-filter"
+                        />
+                      </li> */}
                     </ul>
                   </div>
                 </div>
               </div>
-              { userDetail?.user?.[0]?.flag == 1 &&
-              userDetail?.user?.[0]?.group_id == 3?(
-               <div className="form-group justify-content-end ">
-                <label htmlFor="">HCP</label>
-                <div className="input-group w-100">
-                  <div className="tags_added">
-                    <div className="select-tags"></div>
-                    <ul>
-                      {userDetail?.hcp?.map((item, index) => {
-                        return (
-                          <li className="list1" onClick={()=>{hcpClicked(item)}}>
-                            {item}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    <div className="select-tags"></div>
-                    <ul>
-                      {hcpClickedFirst.map((item, index) => {
-                        return (
-                          <li className="list1">
-                            {item}
-                            <img
-                              src="componentAssets/images/filter-close.svg"
-                              alt="Close-filter"
-                              onClick={() => removeHcp(item)}
-                            />
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              ):null }
               {/* <div className="form-group justify-content-end">
               <label htmlFor="">Reseller</label>
               <div className="form-check-group">
@@ -1069,7 +1040,7 @@ const EditLibrary = () => {
                     <div className="header-btn-left">
                       <Link
                         className="btn btn-primary btn-bordered back"
-                        to="/library-content"
+                        to="/license-content"
                       >
                         Back
                       </Link>
@@ -1092,7 +1063,7 @@ const EditLibrary = () => {
                     <div className="header-btn">
                       <Link
                         className="btn btn-primary btn-bordered move-draft"
-                        to="/library-content"
+                        to="/license-content"
                       >
                         Cancel
                       </Link>
@@ -1182,7 +1153,9 @@ const EditLibrary = () => {
                       </div>
 
                       {(userDetail?.user?.[0]?.flag == 0 &&
-                        userDetail?.user?.[0]?.group_id == 3)? (
+                        userDetail?.user?.[0]?.group_id == 3) ||
+                      (userDetail?.user?.[0]?.flag == 1 &&
+                        userDetail?.user?.[0]?.group_id == 3) ? (
                         <>
                           <div className="form-group">
                             <label htmlFor="">Enable</label>
@@ -1269,39 +1242,6 @@ const EditLibrary = () => {
                           </div>
                         </>
                       ) : null}
-                       
-                     { (userDetail?.user?.[0]?.flag == 1 &&
-                        userDetail?.user?.[0]?.group_id == 3)?(
-                          <div className="form-group">
-                          <label htmlFor="setasdraft1">Mandatory</label>
-                          <fieldset id="group2">
-                            <div className="switch">
-                              <label className="switch-light">
-                                <input
-                                  type="checkbox"
-                                  name="group2"
-                                  id="setasdraft1"
-                                  defaultChecked={userInputs?.reader_mandatory?true:false}
-                                  onChange={(e) => {
-                                    handleChange(
-                                      e.target?.checked,
-                                      "reader_mandatory"
-                                    );
-                                  }}
-                                />
-                                <span>
-                                  <span className={`switch-btn ${userInputs?.draft == 0?" Active":""}`}>
-                                    No
-                                  </span>
-                                  <span className={`switch-btn ${userInputs?.draft == 1?" Active":""}`}>Yes</span>
-                                </span>
-                                <a className="btn"></a>
-                              </label>
-                            </div>
-                          </fieldset>
-                        </div>
-                        ):null  }
-                        
 
                       <div className="form-group val">
                         <label htmlFor="">Docintel format *</label>
@@ -1910,4 +1850,4 @@ const EditLibrary = () => {
     </>
   );
 };
-export default EditLibrary;
+export default EditLicense;
