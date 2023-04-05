@@ -89,7 +89,7 @@ const EditLibrary = () => {
     format: [],
     product: [],
     costCenter: [],
-    hcp:["test","abc","avdfdd","dfdfd"],
+    hcp:["General information","Investigator","Investigator Meeting Winter 2023","IRT","Octapharma CRO","Pharmacist","Site User"],
     trial: [
       {label:"LEXx210",value:"3972"}
     ],
@@ -778,7 +778,6 @@ const EditLibrary = () => {
               ) : null}
 
             </div>
-            {console.log("---->>",error)}
             <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change flex-column">
               <div className="form-group justify-content-end">
                 <label htmlFor="">Topics</label>

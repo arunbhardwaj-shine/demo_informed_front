@@ -77,7 +77,7 @@ const LibraryCreateUser = () => {
     country: [],
     format: [],
     product: [],
-    hcp:["test","abc","avdfdd","dfdfd"]
+    hcp:["General information","Investigator","Investigator Meeting Winter 2023","IRT","Octapharma CRO","Pharmacist","Site User"]
     
   });
 
@@ -796,6 +796,7 @@ const LibraryCreateUser = () => {
           <h4>Limits agreed</h4>
           <div className="row">
             <div className="col-12 col-md-6">
+
               {userDetail?.costCenter ? (
                 <div className="form-group">
                   <label htmlFor="">Cost centre</label>
