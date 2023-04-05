@@ -1376,6 +1376,139 @@ const LibraryContent = () => {
                                         />
                                       </div>
                                     </li>
+
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        SubLinks
+                                        <LinkWithTooltip
+                                          tooltip="Number of sublinks with content."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <div className="data-progress">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ? "sublink" : "default"
+                                          }
+                                          now={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.subLink/
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                            :
+                                            "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].subLink
+                                            :
+                                            "Loading"
+                                          }
+                                        />
+                                      </div>
+                                    </li>
+
+                                    {
+                                    	data?.allow_print
+                                    	?
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Printed
+                                          <LinkWithTooltip
+                                            tooltip="Number of HCPs who have print the content."
+                                            href="#"
+                                          >
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ? "print" : "default"
+                                            }
+                                            now={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.print/
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                              :
+                                              "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].print
+                                              :
+                                              "Loading"
+                                            }
+                                          />
+                                        </div>
+                                      </li>
+                                    	: null
+                                    }
+
+                                    {
+                                    	data?.allow_download
+                                    	?
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Downloaded
+                                          <LinkWithTooltip
+                                            tooltip="Number of HCPs who have download the content."
+                                            href="#"
+                                          >
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ? "download" : "default"
+                                            }
+                                            now={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.download/
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                              :
+                                              "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].download
+                                              :
+                                              "Loading"
+                                            }
+                                          />
+                                        </div>
+                                      </li>
+                                    	: null
+                                    }
                                   </ul>
                                 </div>
                                 <div className="data-main-footer-sec">

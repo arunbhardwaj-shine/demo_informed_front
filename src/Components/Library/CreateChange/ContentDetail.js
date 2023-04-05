@@ -314,9 +314,9 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Set limit of usage</th>
                                                   <td>
-                                                    {data?.limit >= 0
+                                                    {data?.limit > 0
                                                       ? data?.limit
-                                                      : "N/A"}
+                                                      : "Unlimted"}
                                                   </td>
                                                 </tr>
                                                 <tr>

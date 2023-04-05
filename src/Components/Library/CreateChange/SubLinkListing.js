@@ -72,7 +72,7 @@ const SubLinkListing = ({
           </div>
           : ''
         }
-      {typeof subLinkData === 'undefined' ? (
+      {typeof subLinkData === 'undefined' || subLinkData.length == 0 ? (
         <div className="no-sublink">
           <img src={path_image + "dummy-sublink.png"} alt="" />
         </div>
