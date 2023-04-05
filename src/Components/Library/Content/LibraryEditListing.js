@@ -677,6 +677,30 @@ const LibraryEditListing = () => {
     document.body.removeChild(textArea);
   };
 
+  const changeFormatForPrint = (value) => {
+    let data = "";
+    if (value?.allow_print) {
+      data += "Print | ";
+    }
+    if (value?.allow_download) {
+      data += "Download | ";
+    }
+    if (value?.allow_share) {
+      data += "Share | ";
+    }
+    if (value?.chat_box) {
+      data += "Request | ";
+    }
+    if (data) {
+      // data = data.replace(/^,|,$/g, "");
+      data = data.trim().slice(0, -1);
+    }else{
+      data = "N/A"
+    }
+
+    return data;
+  }
+
   return (
     <>
       <Col className="right-sidebar">
@@ -1017,7 +1041,7 @@ const LibraryEditListing = () => {
                             </div>
                             <div className="doc-content">
                               <h5>{data?.title}</h5>
-                              <h6>{data?.pdf_sub_title}</h6>
+                              <h6>{data?.pdf_sub_title ? data.pdf_sub_title : data?.folder_name }</h6>
                               <p>{data?.key_author}</p>
                               <div className="select-tags">
                                 {data?.tags?.length
@@ -1559,20 +1583,35 @@ const LibraryEditListing = () => {
                               >
                                 <div className="tab-panel">
                                   <ul className="tab-mail-list">
-                                    {data.licensed == 1 && (
-                                      <>
+                                  {localStorage.getItem("group_id") == 2 && (
+                                    <>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Publisher
+                                        </h6>
+                                        <h6>{data?.publisherName ?  data.publisherName : "N/A"}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Cost Center
+                                        </h6>
+                                        <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Production person
+                                        </h6>
+                                        <h6>{data?.productName ?  data.productName : "N/A"}</h6>
+                                      </li>
+                                      {
+                                        /*
                                         <li>
                                           <h6 className="tab-content-title">
                                             Sales person
                                           </h6>
                                           <h6>{data?.saleName}</h6>
                                         </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Production person
-                                          </h6>
-                                          <h6>{data?.productName}</h6>
-                                        </li>
+
                                         <li>
                                           <h6 className="tab-content-title">
                                             Client name
@@ -1587,32 +1626,38 @@ const LibraryEditListing = () => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Client country
+                                            Country
                                           </h6>
                                           <h6>{data?.country}</h6>
                                         </li>
-                                      </>
-                                    )}
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Opening limit
-                                      </h6>
-                                      <h6>{data?.limit}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Link type
-                                      </h6>
-                                      <h6>{data?.linkType}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Print
-                                      </h6>
-                                      <h6>
-                                        {data?.allow_print ? "Yes" : "No"}
-                                      </h6>
-                                    </li>
+                                        */
+                                      }
+                                    </>
+                                  )}
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Opening limit
+                                    </h6>
+                                    <h6>{data?.limit}</h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Link type
+                                    </h6>
+                                    <h6>{data?.linkType}</h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Enable
+                                    </h6>
+                                    <h6>
+                                      {
+                                        changeFormatForPrint(data)
+                                      }
+                                    </h6>
+                                  </li>
+                                  {
+                                    /*
                                     <li>
                                       <h6 className="tab-content-title">
                                         Download
@@ -1621,22 +1666,24 @@ const LibraryEditListing = () => {
                                         {data?.allow_download ? "Yes" : "No"}
                                       </h6>
                                     </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Upload date
-                                      </h6>
-                                      <h6>{data?.uploadedDate}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Expiration date
-                                      </h6>
-                                      <h6>
-                                        {data?.expireDate
-                                          ? data.expireDate
-                                          : "N/A"}
-                                      </h6>
-                                    </li>
+                                    */
+                                  }
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Upload date
+                                    </h6>
+                                    <h6>{data?.uploadedDate}</h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Expiration date
+                                    </h6>
+                                    <h6>
+                                      {data?.expireDate
+                                        ? data.expireDate
+                                        : "N/A"}
+                                    </h6>
+                                  </li>
                                   </ul>
                                 </div>
                               </Tab>
