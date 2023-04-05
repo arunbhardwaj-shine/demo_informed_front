@@ -411,6 +411,7 @@
     .form-control {
       @include custom-input-drop;
       margin-bottom: 5px;
+      color: $dark-blue;
     }
     .dropdown-basic-button {
       width: 100%;
@@ -446,8 +447,7 @@
       > div {
         div {
           font-size: 16px;
-          color: $light-gray;
-          color: $primary-color;
+          color: $dark-blue;
           font-weight: 400;
         }
         div.css-14el2xx-placeholder {
@@ -647,6 +647,9 @@
 }
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
     flex: 0 0 130px;
+}
+input:-webkit-autofill {
+-webkit-text-fill-color: $dark-blue !important;
 }
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change h6.tab-content-title {
     flex: 0 0 95px;
@@ -1730,7 +1733,7 @@ form.product-unit button {
         font-weight: 500;
         font-size: 14px;
         line-height: 22px;
-        color: $light-gray;
+        color: $white;
         &:last-child {
           left: 50%;
         }
@@ -1740,13 +1743,13 @@ form.product-unit button {
       & + span {
         span {
           &:last-child {
-            color: rgba(0, 20, 137, 0.4);
+            color: $white;
           }
         }
       }
       & ~ a {
         &.btn {
-          right: 50%;
+          right: 0%;
         }
       }
     }
@@ -1764,7 +1767,7 @@ form.product-unit button {
   a {
     &.btn {
       position: absolute;
-      right: 0%;
+      right: 50%;
       top: 1px;
       z-index: 4;
       display: block;
@@ -1782,7 +1785,7 @@ form.product-unit button {
 }
 .switch-light input[type="checkbox"]:not(:checked) + span span:last-child,
 .switch-light input[type="checkbox"]:checked + span span:first-child {
-  color: $white;
+  color: $light-gray;
 }
 
 .form-group .add_product span {

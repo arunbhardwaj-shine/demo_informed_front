@@ -264,7 +264,6 @@ const ContentDetail = () => {
                                                   </td>
                                                 </tr>
                                                 <tr>
-                                                  {console.log("-dfdfd",enableData?.reseller)}
                                                   <th>Reseller</th>
                                                   <td>
                                                     {enableData?.reseller
@@ -307,7 +306,7 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Set limit of usage</th>
                                                   <td>
-                                                    {data?.limit
+                                                    {data?.limit>=0
                                                       ? data?.limit
                                                       : "N/A"}
                                                   </td>
