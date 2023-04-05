@@ -38,7 +38,7 @@ import QRCode from "qrcode.react";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LibraryContent = () => {
+const LicenseContent = () => {
   const limit = 24;
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
@@ -278,6 +278,7 @@ const LibraryContent = () => {
         search: search,
         type: type,
         limit: limit,
+        license: 1,
       };
 
       let body = { ...data, ...obj };
@@ -352,7 +353,7 @@ const LibraryContent = () => {
         message1:
           "You are about to remove this content from any reader and every device forever.",
         message2: "Are you sure you want to do this?",
-        footerButton: "Yes Please  !",
+        footerButton: "Yes Please!",
       });
       if (confirmationpopup) {
         setConfirmationPopup(false);
@@ -947,7 +948,7 @@ const LibraryContent = () => {
                   <div className="clear-search">
                     <button
                       className="btn btn-outline-primary cancel"
-                      onClick={(e) => navigate("/library-create")}
+                      onClick={(e) => navigate("/license-create")}
                     >
                       Cancel
                     </button>
@@ -1598,7 +1599,7 @@ const LibraryContent = () => {
                                         Edit Docintel Link
                                       </Button> */}
                                     <Link
-                                      to="/library-edit"
+                                      to="/license-edit"
                                       state={{ pdfid: data.id }}
                                       className="footer-btn"
                                     >
@@ -1611,7 +1612,7 @@ const LibraryContent = () => {
                                       Add / Remove tags
                                     </Button>
                                     <Link
-                                      to="/library-sublink"
+                                      to="/license-sublink"
                                       state={{ pdfid: data.id }}
                                       className="footer-btn"
                                     >
@@ -1627,107 +1628,103 @@ const LibraryContent = () => {
                               >
                                 <div className="tab-panel">
                                   <ul className="tab-mail-list">
-                                    {localStorage.getItem("group_id") == 2 && (
-                                      <>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Publisher
-                                          </h6>
-                                          <h6>{data?.publisherName ?  data.publisherName : "N/A"}</h6>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Cost Center
-                                          </h6>
-                                          <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Production person
-                                          </h6>
-                                          <h6>{data?.productName ?  data.productName : "N/A"}</h6>
-                                        </li>
-                                        {
-                                          /*
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Sales person
-                                            </h6>
-                                            <h6>{data?.saleName}</h6>
-                                          </li>
-
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client name
-                                            </h6>
-                                            <h6>{data?.company}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client product
-                                            </h6>
-                                            <h6>{data?.product}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Country
-                                            </h6>
-                                            <h6>{data?.country}</h6>
-                                          </li>
-                                          */
-                                        }
-                                      </>
-                                    )}
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Opening limit
-                                      </h6>
-                                      <h6>{data?.limit}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Link type
-                                      </h6>
-                                      <h6>{data?.linkType}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Enable
-                                      </h6>
-                                      <h6>
-                                        {
-                                          changeFormatForPrint(data)
-                                        }
-                                      </h6>
-                                    </li>
-                                    {
-                                      /*
+                                  {localStorage.getItem("group_id") == 2 && (
+                                    <>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Download
+                                          Cost Center
                                         </h6>
-                                        <h6>
-                                          {data?.allow_download ? "Yes" : "No"}
-                                        </h6>
+                                        <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
                                       </li>
-                                      */
-                                    }
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Production person
+                                        </h6>
+                                        <h6>{data?.productName ?  data.productName : "N/A"}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Client name
+                                        </h6>
+                                        <h6>{data?.company +" "+ data?.product + " " + data?.country}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Sales person
+                                        </h6>
+                                        <h6>{data?.saleName ? data.saleName : "N/A" }</h6>
+                                      </li>
+                                      {
+                                        /*
+
+
+
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Client product
+                                          </h6>
+                                          <h6>{data?.product}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Country
+                                          </h6>
+                                          <h6>{data?.country}</h6>
+                                        </li>
+                                        */
+                                      }
+                                    </>
+                                  )}
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Opening limit
+                                    </h6>
+                                    <h6>{data?.limit}</h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Link type
+                                    </h6>
+                                    <h6>{data?.linkType}</h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Enable
+                                    </h6>
+                                    <h6>
+                                      {
+                                        changeFormatForPrint(data)
+                                      }
+                                    </h6>
+                                  </li>
+                                  {
+                                    /*
                                     <li>
                                       <h6 className="tab-content-title">
-                                        Upload date
-                                      </h6>
-                                      <h6>{data?.uploadedDate}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Expiration date
+                                        Download
                                       </h6>
                                       <h6>
-                                        {data?.expireDate
-                                          ? data.expireDate
-                                          : "N/A"}
+                                        {data?.allow_download ? "Yes" : "No"}
                                       </h6>
                                     </li>
+                                    */
+                                  }
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Upload date
+                                    </h6>
+                                    <h6>{data?.uploadedDate}</h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Expiration date
+                                    </h6>
+                                    <h6>
+                                      {data?.expireDate
+                                        ? data.expireDate
+                                        : "N/A"}
+                                    </h6>
+                                  </li>
                                   </ul>
                                 </div>
                               </Tab>
@@ -1875,4 +1872,4 @@ const LibraryContent = () => {
   );
 };
 
-export default LibraryContent;
+export default LicenseContent;

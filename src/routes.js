@@ -22,6 +22,18 @@ import Spc from "./Components/Library/Spc";
 import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
 
+//License routes
+import LicenseContent from "./Components/License/Content/LicenseContent";
+import LicenseEditListing from "./Components/License/Content/LicenseEditListing";
+import LicenseCreate from "./Components/License/CreateChange/LicenseCreate";
+import LicenseCreateUser from "./Components/License/CreateChange/LicenseCreateUser";
+import LicenseSublink from "./Components/License/CreateChange/LicenseSublink";
+import LicenseSetPopup from "./Components/License/CreateChange/SetPopup";
+import LicenseTopics from "./Components/License/CreateChange/LicenseTopics";
+import LicensePreviewContent from "./Components/License/CreateChange/LicensePreviewContent";
+import LicenseContentDetail from "./Components/License/CreateChange/LicenseContentDetail";
+import EditLicense from "./Components/License/CreateChange/EditLicense";
+
 //Analytics routes
 import AnalyticsHeader from "./Components/Analytics/Layout/Header";
 import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
@@ -93,6 +105,12 @@ import EditLibrary from "./Components/Library/CreateChange/EditLibrary";
 import LibraryEditListing from "./Components/Library/Content/LibraryEditListing";
 import OpeningByCountry from "./Components/Analytics/Graphs/OpeningByCountry";
 import SalesByCountry from "./Components/Analytics/Graphs/SalesByCountry";
+import CampaignStats from "./Components/Analytics/Graphs/CampaignStats";
+import DeliveryTrends from "./Components/Analytics/Graphs/DeliveryTrends";
+import RegistrationType from "./Components/Analytics/Graphs/RegistrationType";
+
+
+
 
 let platform = 0;
 let show = 0;
@@ -186,7 +204,16 @@ const Routing = () => {
                   path="/openings-by-country"
                   element={<OpeningByCountry />}
                 />
+                 <Route
+                  path="/campaign-stats"
+                  element={<CampaignStats />}
+                />
+                  <Route
+                  path="/delivery-stats"
+                  element={<DeliveryTrends />}
+                />
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
+                <Route path="/registration-type" element={<RegistrationType/>} />
 
                 {/* <Route path="/country-registration" element={<CountryRegistration />} /> */}
                 <Route path="/readers-view" element={<NewReaders />} />
@@ -266,6 +293,18 @@ const Routing = () => {
                 <Route path="/ViewTable" element={<ViewTable />} />
                 <Route path="/EmailStatss" element={<EmailStatss />} />
                 <Route path="/get-details" element={<GetDetails />} />
+
+                <Route path="/license-content" element={<LicenseContent />} />
+                <Route path="/license-edit-listing" element={<LicenseEditListing />} />
+                <Route path="/license-create" element={<LicenseCreate />} />
+                <Route path="/license-create-user" element={<LicenseCreateUser />} />
+                <Route path="/license-sublink" element={<LicenseSublink />} />
+                <Route path="/license-set-popup" element={<LicenseSetPopup />} />
+                <Route path="/license-topics" element={<LicenseTopics />} />
+                <Route path="/license-preview-content" element={<LicensePreviewContent />} />
+                <Route path="/license-content-detail" element={<LicenseContentDetail />} />
+                <Route path="/license-edit" element={<EditLicense />} />
+
               </Routes>
             </div>
           </div>

@@ -38,7 +38,7 @@ import QRCode from "qrcode.react";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LibraryContent = () => {
+const LicenseEditListing = () => {
   const limit = 24;
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
@@ -278,6 +278,7 @@ const LibraryContent = () => {
         search: search,
         type: type,
         limit: limit,
+        license: 1,
       };
 
       let body = { ...data, ...obj };
@@ -707,7 +708,12 @@ const LibraryContent = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header">
-              <div className="page-title">
+              <div className="page-title d-flex">
+                <Link className="btn btn-primary btn-bordered back-btn" to="/license-create">
+                  <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
+                  </svg>
+                </Link>
                 <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2>
               </div>
               <div className="top-right-action">
@@ -943,16 +949,16 @@ const LibraryContent = () => {
                   </div>
                 ) : null}
 
-                {location?.state?.data == "edit" ? (
+                {/*location?.state?.data == "edit" ? (
                   <div className="clear-search">
                     <button
                       className="btn btn-outline-primary cancel"
-                      onClick={(e) => navigate("/library-create")}
+                      onClick={(e) => navigate("/license-create")}
                     >
                       Cancel
                     </button>
                   </div>
-                ) : null}
+                ) : null*/}
               </div>
             </div>
             <QRCode
@@ -1048,25 +1054,22 @@ const LibraryContent = () => {
                             </div>
                             {location?.state?.data == "edit" ? (
                               <div className="dlt_btn">
-                                <button>
-                                  <img
-                                    src={path_image + "edit-white.svg"}
-                                    alt="Delete Row"
-                                  />
-                                </button>
-                              </div>
+                                  <Link
+                                    to="/license-edit"
+                                    state={{ pdfid: data.id }}
+                                    className="footer-btn"
+                                  >
+                                    <button>
+                                      <img
+                                        src={path_image + "edit-white.svg"}
+                                        alt="Delete Row"
+                                      />
+                                    </button>
+                                  </Link>
+                                </div>
                             ) : deletestatus ? (
                               <div className="dlt_btn">
-                                <button
-                                  onClick={(e) =>
-                                    showConfirmationPopup("delete", e, data?.id)
-                                  }
-                                >
-                                  <img
-                                    src={path_image + "delete.svg"}
-                                    alt="Delete Row"
-                                  />
-                                </button>
+                                <div className="dlt_btn"></div>
                               </div>
                             ) : null}
                           </div>
@@ -1362,7 +1365,7 @@ const LibraryContent = () => {
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
-                                        Registered readers{" "}
+                                        Registered readers
                                         <LinkWithTooltip
                                           tooltip="Number of HCPs who have register for or activated the content."
                                           href="#"
@@ -1535,25 +1538,6 @@ const LibraryContent = () => {
                                     }
                                   </ul>
                                 </div>
-                                <div className="data-main-footer-sec">
-                                  <div className="footer-btn-wrapper">
-                                    <Button className="footer-btn">
-                                      Analytics
-                                    </Button>
-                                    <Button
-                                      className="footer-btn reset"
-                                      onClick={(e) =>
-                                        showConfirmationPopup(
-                                          "reset",
-                                          e,
-                                          data?.id
-                                        )
-                                      }
-                                    >
-                                      Reset the collected data
-                                    </Button>
-                                  </div>
-                                </div>
                               </Tab>
                               <Tab
                                 className="change-tab flex-column justify-content-between"
@@ -1592,33 +1576,6 @@ const LibraryContent = () => {
                                     </div>
                                   </ul>
                                 </div>
-                                <div className="data-main-footer-sec">
-                                  <div className="footer-btn-wrapper">
-                                    {/* <Button className="footer-btn">
-                                        Edit Docintel Link
-                                      </Button> */}
-                                    <Link
-                                      to="/library-edit"
-                                      state={{ pdfid: data.id }}
-                                      className="footer-btn"
-                                    >
-                                      Edit Docintel link
-                                    </Link>
-                                    <Button
-                                      className="footer-btn"
-                                      onClick={(e) => tagButtonClicked(data.id)}
-                                    >
-                                      Add / Remove tags
-                                    </Button>
-                                    <Link
-                                      to="/library-sublink"
-                                      state={{ pdfid: data.id }}
-                                      className="footer-btn"
-                                    >
-                                      New sublink
-                                    </Link>
-                                  </div>
-                                </div>
                               </Tab>
                               <Tab
                                 eventKey="sales"
@@ -1627,107 +1584,103 @@ const LibraryContent = () => {
                               >
                                 <div className="tab-panel">
                                   <ul className="tab-mail-list">
-                                    {localStorage.getItem("group_id") == 2 && (
-                                      <>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Publisher
-                                          </h6>
-                                          <h6>{data?.publisherName ?  data.publisherName : "N/A"}</h6>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Cost Center
-                                          </h6>
-                                          <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Production person
-                                          </h6>
-                                          <h6>{data?.productName ?  data.productName : "N/A"}</h6>
-                                        </li>
-                                        {
-                                          /*
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Sales person
-                                            </h6>
-                                            <h6>{data?.saleName}</h6>
-                                          </li>
-
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client name
-                                            </h6>
-                                            <h6>{data?.company}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client product
-                                            </h6>
-                                            <h6>{data?.product}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Country
-                                            </h6>
-                                            <h6>{data?.country}</h6>
-                                          </li>
-                                          */
-                                        }
-                                      </>
-                                    )}
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Opening limit
-                                      </h6>
-                                      <h6>{data?.limit}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Link type
-                                      </h6>
-                                      <h6>{data?.linkType}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Enable
-                                      </h6>
-                                      <h6>
-                                        {
-                                          changeFormatForPrint(data)
-                                        }
-                                      </h6>
-                                    </li>
-                                    {
-                                      /*
+                                  {localStorage.getItem("group_id") == 2 && (
+                                    <>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Download
+                                          Cost Center
                                         </h6>
-                                        <h6>
-                                          {data?.allow_download ? "Yes" : "No"}
-                                        </h6>
+                                        <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
                                       </li>
-                                      */
-                                    }
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Production person
+                                        </h6>
+                                        <h6>{data?.productName ?  data.productName : "N/A"}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Client name
+                                        </h6>
+                                        <h6>{data?.company +" "+ data?.product + " " + data?.country}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Sales person
+                                        </h6>
+                                        <h6>{data?.saleName ? data.saleName : "N/A" }</h6>
+                                      </li>
+                                      {
+                                        /*
+
+
+
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Client product
+                                          </h6>
+                                          <h6>{data?.product}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Country
+                                          </h6>
+                                          <h6>{data?.country}</h6>
+                                        </li>
+                                        */
+                                      }
+                                    </>
+                                  )}
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Opening limit
+                                    </h6>
+                                    <h6>{data?.limit}</h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Link type
+                                    </h6>
+                                    <h6>{data?.linkType}</h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Enable
+                                    </h6>
+                                    <h6>
+                                      {
+                                        changeFormatForPrint(data)
+                                      }
+                                    </h6>
+                                  </li>
+                                  {
+                                    /*
                                     <li>
                                       <h6 className="tab-content-title">
-                                        Upload date
-                                      </h6>
-                                      <h6>{data?.uploadedDate}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Expiration date
+                                        Download
                                       </h6>
                                       <h6>
-                                        {data?.expireDate
-                                          ? data.expireDate
-                                          : "N/A"}
+                                        {data?.allow_download ? "Yes" : "No"}
                                       </h6>
                                     </li>
+                                    */
+                                  }
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Upload date
+                                    </h6>
+                                    <h6>{data?.uploadedDate}</h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Expiration date
+                                    </h6>
+                                    <h6>
+                                      {data?.expireDate
+                                        ? data.expireDate
+                                        : "N/A"}
+                                    </h6>
+                                  </li>
                                   </ul>
                                 </div>
                               </Tab>
@@ -1875,4 +1828,4 @@ const LibraryContent = () => {
   );
 };
 
-export default LibraryContent;
+export default LicenseEditListing;

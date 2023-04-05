@@ -30,9 +30,11 @@ const Header = () => {
       if (user_id) {
         if (user_id != queryParams.id) {
           localStorage.setItem("user_id", queryParams.id);
+          localStorage.setItem("group_id", 2);
         }
       } else {
         localStorage.setItem("user_id", queryParams.id);
+        localStorage.setItem("group_id", 2);
       }
     } else {
       let user_id = localStorage.getItem("user_id");
@@ -40,6 +42,7 @@ const Header = () => {
       } else {
         //localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
         localStorage.setItem("user_id", "");
+        localStorage.setItem("group_id", "");
       }
     }
     if (queryParams?.decrypted_token && queryParams?.decrypted_token != "") {
@@ -174,6 +177,34 @@ const Header = () => {
                   href="https://informed.pro/Distributes/MailEngine"
                 >
                   EMAIL
+                </a>
+              </li>
+
+              <li className={
+                    window.location.pathname == "/license-create-pharma" ||
+                    window.location.pathname == "/license-delete" ||
+                    window.location.pathname == "/license-campaign" ||
+                    window.location.pathname == "/license-content" ||
+                    window.location.pathname == "/license-create" ||
+                    window.location.pathname == "/license-edit" ||
+                    window.location.pathname == "/license-sublink" ||
+                    window.location.pathname == "/license-topics" ||
+                    window.location.pathname == "/license-set-popup" ||
+                    window.location.pathname == "/license-preview-content" ||
+                    window.location.pathname == "/license-create-user" ||
+                    window.location.pathname == "/license-content-detail" ||
+                    window.location.pathname == "/license-edit-listing" ||
+                    window.location.pathname == "/license-create"
+                    ? "nav-item active active-main"
+                      : "nav-item"
+                  }
+
+              >
+                <a
+                  className="nav-link"
+                  href="/license-content"
+                >
+                  LICENSED
                 </a>
               </li>
 
