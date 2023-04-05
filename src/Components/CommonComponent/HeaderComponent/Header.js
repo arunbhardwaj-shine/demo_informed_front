@@ -177,6 +177,34 @@ const Header = () => {
                 </a>
               </li>
 
+              <li className={
+                    window.location.pathname == "/license-create-pharma" ||
+                    window.location.pathname == "/license-delete" ||
+                    window.location.pathname == "/license-campaign" ||
+                    window.location.pathname == "/license-content" ||
+                    window.location.pathname == "/license-create" ||
+                    window.location.pathname == "/license-edit" ||
+                    window.location.pathname == "/license-sublink" ||
+                    window.location.pathname == "/license-topics" ||
+                    window.location.pathname == "/license-set-popup" ||
+                    window.location.pathname == "/license-preview-content" ||
+                    window.location.pathname == "/license-create-user" ||
+                    window.location.pathname == "/license-content-detail" ||
+                    window.location.pathname == "/license-edit-listing" ||
+                    window.location.pathname == "/license-create"
+                    ? "nav-item active active-main"
+                      : "nav-item"
+                  }
+
+              >
+                <a
+                  className="nav-link"
+                  href="/license-content"
+                >
+                  LICENSED
+                </a>
+              </li>
+
               {queryParams?.webinar_flag && queryParams.webinar_flag == 1 ? (
                 <li className="nav-item">
                   <a
