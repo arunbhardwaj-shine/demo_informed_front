@@ -488,7 +488,7 @@ const ReaderAdd = () => {
                 <div className="row">
                   <Col md="7">
                     <Form.Group className="form-group">
-                      <Form.Label htmlFor="">First name </Form.Label>
+                      <Form.Label htmlFor="">First name *</Form.Label>
                       <input
                         type="text"
                         placeholder="First name"
