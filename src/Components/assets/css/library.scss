@@ -300,7 +300,7 @@
       }
       .tab-mail-list.data {
         li {
-          padding: 18px 0 18px;
+          padding: 14px 0 12px;
           .select-dropdown-wrapper {
             flex: 1 1;
             .select {
@@ -792,6 +792,8 @@ ul.tab-mail-list.data span.total-left {
   font-size: 14px;
   line-height: 16px;
   color: rgba(0, 74, 137, 0.5);
+  position: relative;
+  top: 4px;
 }
 ul.tab-mail-list.data span.total-left small {
   font-size: 12px;
@@ -871,6 +873,18 @@ ul.tab-mail-list.data span.total-left small {
 .tab-mail-list.data .progress .progress-bar.bg-danger {
   color: #a53239;
   background: #f58289 !important;
+}
+.tab-mail-list.data .progress .progress-bar.bg-sublink {
+  color: #530969;
+  background: #8A4E9C !important;
+}
+.tab-mail-list.data .progress .progress-bar.bg-print {
+  color: rgba(255, 255, 255, 0.62);
+  background: $primary-color !important;
+}
+.tab-mail-list.data .progress .progress-bar.bg-download {
+  color: rgba(255, 255, 255, 0.62);
+  background: $dark-blue !important;
 }
 .tab-mail-list.data .progress .progress-bar.bg-default {
   background: rgba(151, 182, 207, 0.2);
