@@ -38,21 +38,24 @@ import QRCode from "qrcode.react";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LibraryContent = () => {
+const LibraryEditListing = () => {
+  const limit = 24;
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
-    { value: "Online", label: "Online" },
-    { value: "Offline", label: "Offline" },
+    { value: "Online Offer", label: "Online Offer" },
+    { value: "Offline Offer", label: "Offline Offer" },
     { value: "Sunshine", label: "Sunshine" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
+  const [totalCount, setCount] = useState(0);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
+  const [noData, setNoData] = useState(false);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
   const [opening_details, setOpeningDetails] = useState([]);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [finalTags, setFinalTags] = useState([]);
@@ -85,7 +88,9 @@ const LibraryContent = () => {
   const [libraryData, setLibraryData] = useState([]);
   const [changeConsent, setchangeConsent] = useState([]);
   const [updateflag, setupdateFlag] = useState(0);
-
+  const [qrState, setQr] = useState({
+    value: "",
+  });
   const [qrSize, setQrSize] = useState(290);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -129,6 +134,7 @@ const LibraryContent = () => {
 
   useEffect(() => {
     applyFilters();
+    getLibraryData(page, filterObject, search);
   }, []);
 
   const applyFilters = async () => {
@@ -137,21 +143,24 @@ const LibraryContent = () => {
       const res = await postData(ENDPOINT.FILTERS, {
         user_id: localStorage.getItem("user_id"),
       });
-      if(res?.data?.data){
+      if (res?.data?.data) {
         setFilterData(res?.data?.data);
         setAllTags(res?.data?.data?.tags);
       }
-      loader("hide");
+      // loader("hide");
     } catch (err) {
-      loader("hide");
+      // loader("hide");
       console.log("err");
     }
   };
 
   const loadMoreClicked = () => {
-    setPageAllClicked(true);
-    setPage(2);
-    setType("rest");
+    let sp = page + 1;
+    getLibraryData(sp, filterObject, search, 1);
+    setPage(page + 1);
+    // setPageAllClicked(true);
+    // setPage(2);
+    // setType("rest");
   };
 
   const submitHandler = (event) => {
@@ -183,57 +192,28 @@ const LibraryContent = () => {
 
   const tabClicked = async (event, id) => {
     setFlag(0);
-
-    let normal_data = opening_details;
     setUserId(id);
 
-    let contains_already;
-
     if (event == "data-tab") {
-      normal_data?.filter((data) => {
-        if (data?.pdf_id == id) {
-          contains_already = true;
-          setFlag(1);
-        }
-      });
-
-      setOpeningDetails(normal_data);
-
-      if (contains_already != true) {
-        try {
-          let body = {
-            pdfId: [id],
-          };
-          const res = await postData(ENDPOINT.LIBRARYSTATS, body);
-
-          const status = normal_data?.map((datas) => {
-            if (datas?.pdf_id == id) {
-              return "true";
-            } else {
-              return "false";
+        // setOpeningDetails(normal_data);
+        let index = opening_details.findIndex((el) => el.pdfId == id);
+        if(index === -1){
+            let normal_data = opening_details;
+          try{
+            let body = {
+              pdfId: [id],
+            };
+            const res = await postData(ENDPOINT.LIBRARYSTATS, body);
+            if(res?.data?.data?.[0]){
+              let new_data = res?.data?.data?.[0];
+              normal_data.push(new_data);
+              setOpeningDetails(normal_data);
+              setFlag(flag + 1);
             }
-          });
-          if (status?.every((ele) => ele == "false")) {
-            normal_data?.push({
-              pdf_id: id,
-              uniqueReader: res?.data?.data[0]?.unique,
-              opening: res?.data?.data[0]?.opening,
-              registeredReader: res?.data?.data[0]?.reader,
-              limit: res?.data?.data[0]?.limit,
-            });
+          }catch(err){
+            console.log(err);
           }
-
-          setOpeningDetails(normal_data);
-          setFlag(1);
-
-          setUpdate(update + 1);
-
-          loader("hide");
-        } catch (err) {
-          console.log("err");
-          loader("hide");
         }
-      }
     }
   };
 
@@ -272,6 +252,7 @@ const LibraryContent = () => {
     if (e == "L") {
       setQrSize(490);
     }
+    setQr({ ...qrState, level: e });
   };
 
   const showDeleteButtons = () => {
@@ -282,34 +263,68 @@ const LibraryContent = () => {
     }
   };
 
-  useEffect(() => {
-    getLibraryData(page, filterObject, search);
-  }, [page]);
-
-  const getLibraryData = async (page, obj, search) => {
+  const getLibraryData = async (page, obj, search, load = 0) => {
     try {
+      setIsLoaded(false);
+      if (load == 0) {
+        loader("show");
+      } else {
+        setPageAll(true);
+      }
+      setApiCallStatus(false);
       let data = {
         user_id: localStorage.getItem("user_id"),
         page: page,
         search: search,
         type: type,
+        limit: limit,
       };
 
       let body = { ...data, ...obj };
 
-      if (pageAllClicked == true) {
-        setPageAll(true);
-      } else {
-        loader("show");
-      }
+      // if (pageAllClicked == true) {
+      //   setPageAll(true);
+      // } else {
+      //   loader("show");
+      // }
+
       const res = await postData(ENDPOINT.LIBRARY, body);
-      if(res?.data?.data?.library){
-        setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
+
+      if (totalCount != res?.data?.data?.total) {
+        setCount(res?.data?.data?.total);
       }
+
+      let total_results = 0;
+      if (libraryData?.length) {
+        total_results = res?.data?.data?.library.length + libraryData.length;
+        if (res?.data?.data?.library) {
+          setLibraryData((oldArray) => [
+            ...oldArray,
+            ...res?.data?.data?.library,
+          ]);
+        }
+      } else {
+        total_results = res?.data?.data?.library.length;
+        setLibraryData(res?.data?.data?.library);
+      }
+
+      if (res?.data?.data?.total > total_results) {
+        setIsLoaded(true);
+      } else {
+        setIsLoaded(false);
+      }
+
       setPageAll(false);
-      setIsLoaded(true);
-      setPageAllClicked(false);
+      setApiCallStatus(true);
       loader("hide");
+      // setPageAllClicked(false);
+      // if((res?.data?.data?.library).length>0){
+      //   setIsLoaded(true);
+      //   setNoData(false)
+      // }
+      // else{
+      //   setNoData(true)
+      // }
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -317,12 +332,47 @@ const LibraryContent = () => {
   };
 
   const searchChange = (e) => {
+    setIsLoaded(false);
+    setNoData(false);
     setSearch(e?.target?.value);
     if (e?.target?.value === "") {
       setLibraryData([]);
       setPageAllClicked(false);
 
       getLibraryData(page, filterObject, "");
+    }
+  };
+
+  const showConfirmationPopup = (stateMsg, e, id) => {
+    if (stateMsg == "delete") {
+      // setUserId(id);
+      setResetDataId(id);
+      setCommonConfirmModelFun(() => deleteUser);
+      setPopupMessage({
+        message1:
+          "You are about to remove this content from any reader and every device forever.",
+        message2: "Are you sure you want to do this?",
+        footerButton: "Yes Please  !",
+      });
+      if (confirmationpopup) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
+      }
+    } else {
+      // setDeleteStatus(false);
+      setResetDataId(id);
+      setCommonConfirmModelFun(() => resetCollection);
+      setPopupMessage({
+        message1: " You are about to reset the collected data",
+        message2: "Are you sure you want to do this?",
+        footerButton: "Reset Collection",
+      });
+      if (confirmationpopup) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
+      }
     }
   };
 
@@ -338,17 +388,22 @@ const LibraryContent = () => {
           type: "success",
           redirect: "",
         });
-        setLibraryData([]);
-        getLibraryData(page, filterObject, search);
+        const updatedRes = libraryData.filter((item) => item.id !== id);
+        setLibraryData(updatedRes);
+        // setLibraryData([]);
+        // getLibraryData(page, filterObject, search);
       }
 
       loader("hide");
     } catch (err) {
-      console.log("err");
       loader("hide");
     }
 
     hideConfirmationModal();
+  };
+
+  const commonModelFun = () => {
+    setShow(true);
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -474,6 +529,21 @@ const LibraryContent = () => {
     hideConfirmationModal();
   };
 
+  const tagButtonClicked = (pdf_id) => {
+    const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
+    let get_tags = libraryData[lib_data_index]?.tags;
+    if (get_tags != "") {
+      let parsed_tag = JSON.parse(get_tags);
+      setTagClickedFirst(parsed_tag);
+    } else {
+      setTagClickedFirst([]);
+    }
+    setFinalTags([]);
+    setpdftagsid(pdf_id);
+    setIsOpen(true);
+    setModalCounter(modalCounter + 1);
+  };
+
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -583,6 +653,30 @@ const LibraryContent = () => {
     loader("hide");
   };
 
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    // textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
+  };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -590,11 +684,11 @@ const LibraryContent = () => {
           <Row>
             <div className="top-header">
               <div className="page-title d-flex">
-                <Link className="btn btn-primary btn-bordered back-btn" to="/library-create">
-                  <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
-                  </svg>
-                </Link>
+                  <Link className="btn btn-primary btn-bordered back-btn" to="/library-create">
+                    <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
+                    </svg>
+                  </Link>
                 <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2>
               </div>
               <div className="top-right-action">
@@ -787,7 +881,7 @@ const LibraryContent = () => {
                         onClick={(e) => showDeleteButtons()}
                       >
                         Cancel
-                    </button>
+                      </button>
                     ) : (
                       <button
                         className="btn btn-outline-primary"
@@ -842,10 +936,17 @@ const LibraryContent = () => {
                 ) : null*/}
               </div>
             </div>
-
+            <QRCode
+              style={{ display: "none" }}
+              id="qr-gen"
+              value={qrState?.value}
+              size={qrSize}
+              level={qrState?.level}
+              includeMargin={true}
+            />
             {Object.keys(filterObject)?.length !== 0 ? (
               <div className="apply-filter">
-                <h6>Applied filters</h6>
+                {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
@@ -898,36 +999,36 @@ const LibraryContent = () => {
           <Row>
             <div className="library-content-box-layuot d-flex">
               <>
-                {libraryData?.length || updateflag
-                  ? libraryData?.map((data, index) => {
-                      return (
-                        <>
-                          <div className="doc-content-main-box col">
-                            <div className="doc-content-header">
-                              <div className="doc-content-header-logo">
-                                <a href="#">
-                                  <img
-                                    alt="doc-logo"
-                                    src={data?.coverImage}
-                                    onError={imageOnError}
-                                    style={{ width: "67px" }}
-                                  />
-                                </a>
+                {libraryData?.length || updateflag ? (
+                  libraryData?.map((data, index) => {
+                    return (
+                      <>
+                        <div className="doc-content-main-box col">
+                          <div className="doc-content-header">
+                            <div className="doc-content-header-logo">
+                              <a href="#">
+                                <img
+                                  alt="doc-logo"
+                                  src={data?.coverImage}
+                                  onError={imageOnError}
+                                  style={{ width: "67px" }}
+                                />
+                              </a>
+                            </div>
+                            <div className="doc-content">
+                              <h5>{data?.title}</h5>
+                              <h6>{data?.pdf_sub_title}</h6>
+                              <p>{data?.key_author}</p>
+                              <div className="select-tags">
+                                {data?.tags?.length
+                                  ? JSON.parse(data.tags)?.map((data) => {
+                                      return <div>{data}</div>;
+                                    })
+                                  : ""}
                               </div>
-                              <div className="doc-content">
-                                <h5>{data?.title}</h5>
-                                <h6>{data?.pdf_sub_title}</h6>
-                                <p>{data?.key_author}</p>
-                                <div className="select-tags">
-                                  {data?.tags?.length
-                                    ? JSON.parse(data.tags)?.map((data) => {
-                                        return <div>{data}</div>;
-                                      })
-                                    : ""}
-                                </div>
-                              </div>
-                              {location?.state?.data == "edit" ? (
-                                <div className="dlt_btn">
+                            </div>
+                            {location?.state?.data == "edit" ? (
+                              <div className="dlt_btn">
                                   <Link
                                     to="/library-edit"
                                     state={{ pdfid: data.id }}
@@ -941,97 +1042,87 @@ const LibraryContent = () => {
                                     </button>
                                   </Link>
                                 </div>
-                              ) : deletestatus ? (
+                            ) : deletestatus ? (
+                              <div className="dlt_btn">
                                 <div className="dlt_btn"></div>
-                              ) : null}
-                            </div>
-                            <div className="tabs-data">
-                              <Tabs
-                                onSelect={(key) => tabClicked(key, data?.id)}
-                                defaultActiveKey="docintel-link"
-                                fill
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="tabs-data">
+                            <Tabs
+                              onSelect={(key) => tabClicked(key, data?.id)}
+                              defaultActiveKey="docintel-link"
+                              fill
+                            >
+                              <Tab
+                                eventKey="docintel-link"
+                                title="Docintel Link"
+                                className="flex-column justify-content-between"
                               >
-                                <Tab
-                                  eventKey="docintel-link"
-                                  title="Docintel Link"
-                                  className="flex-column justify-content-between"
-                                >
-                                  <div className="tab-panel d-flex flex-column justify-content-between">
-                                    <div className="tab-content-links">
-                                      <a
-                                        href={data?.docintelLink}
-                                        className="doc-link"
-                                        target="_blank"
-                                      >
-                                        {data?.docintelLink}
-                                      </a>
-                                      <span
-                                        className="copy-content"
-                                        onClick={() => {
-                                          toast.success(
-                                            "content copied to the clipboard!"
-                                          );
-                                          window.navigator.clipboard.writeText(
-                                            data?.docintelLink
-                                          );
-                                        }}
-                                      >
-                                        <img
-                                          src={path_image + "copy-content.svg"}
-                                          alt="Copy"
-                                        />
-                                      </span>
-                                    </div>
-                                    <ul className="tab-mail-list">
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Upload date
-                                        </h6>
-                                        <h6>
-                                          {moment(data?.created).format(
-                                            "DD MMM, YYYY"
-                                          )}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          inforMedGo code
-                                        </h6>
-                                        <h6>
-                                          {data?.code}
+                                <div className="tab-panel d-flex flex-column justify-content-between">
+                                  <div className="tab-content-links">
+                                    <a
+                                      href={data?.docintelLink}
+                                      className="doc-link"
+                                      target="_blank"
+                                    >
+                                      {data?.docintelLink}
+                                    </a>
+                                    <span
+                                      className="copy-content"
+                                      onClick={() => {
+                                        copyToClipboard(data?.docintelLink);
+                                      }}
+                                    >
+                                      <img
+                                        src={path_image + "copy-content.svg"}
+                                        alt="Copy"
+                                      />
+                                    </span>
+                                  </div>
+                                  <ul className="tab-mail-list">
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Upload date
+                                      </h6>
+                                      <h6>
+                                        {moment(data?.created).format(
+                                          "DD MMM, YYYY"
+                                        )}
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        inforMedGo code
+                                      </h6>
+                                      <h6>
+                                        {data?.code}
+                                        <span
+                                          className="copy-content"
+                                          onClick={() => {
+                                            copyToClipboard(data?.code);
+                                          }}
+                                        >
+                                          <img
+                                            src={
+                                              path_image + "copy-content.svg"
+                                            }
+                                            alt="Copy"
+                                          />
+                                        </span>
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Docintel code
+                                      </h6>
+                                      <h6>
+                                        {data.docintel_code}
+                                        {
                                           <span
                                             className="copy-content"
                                             onClick={() => {
-                                              toast.success(
-                                                "content copied to the clipboard!"
-                                              );
-                                              navigator.clipboard.writeText(
-                                                data?.code
-                                              );
-                                            }}
-                                          >
-                                            <img
-                                              src={
-                                                path_image + "copy-content.svg"
-                                              }
-                                              alt="Copy"
-                                            />
-                                          </span>
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Docintel code
-                                        </h6>
-                                        <h6>
-                                          {data.docintel_code}
-                                          <span
-                                            className="copy-content"
-                                            onClick={() => {
-                                              toast.success(
-                                                "content copied to the clipboard!"
-                                              );
-                                              navigator.clipboard.writeText(
+                                              copyToClipboard(
                                                 data?.docintel_code
                                               );
                                             }}
@@ -1043,412 +1134,533 @@ const LibraryContent = () => {
                                               alt="Copy"
                                             />
                                           </span>
-                                        </h6>
-                                      </li>
-                                      {/* <li>
-                                        <h6 className="tab-content-title">
-                                          SPC included
-                                        </h6>
-                                        <h6>
-                                          {data?.spc_included == 0
-                                            ? "No"
-                                            : "Yes"}
-                                        </h6>
-                                      </li> */}
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Language
-                                        </h6>
-                                        <h6>{data?.popup_email_content_language}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Link type
-                                        </h6>
-                                        <h6>{data?.linkType}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Include
-                                        </h6>
-                                        <div className="include-links">
-                                          {data?.spc_included ? (
-                                            <img
-                                              src={path_image + "spc-img.png"}
-                                              alt=""
-                                            />
-                                          ) : (
-                                            ""
-                                          )}
-
-                                          {data?.linkRelations ? (
-                                            <img
-                                              src={path_image + "video-img.png"}
-                                              alt=""
-                                            />
-                                          ) : (
-                                            ""
-                                          )}
-                                          {data?.pdfLinks ? (
-                                            <img
-                                              src={path_image + "link-img.png"}
-                                              alt=""
-                                            />
-                                          ) : (
-                                            ""
-                                          )}
-
-                                          {data.spc_included == 0 &&
-                                            data.linkRelations == 0 &&
-                                            data.pdfLinks == 0 && <h6>N/A</h6>}
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </Tab>
-                                <Tab
-                                  eventKey="data-tab"
-                                  title="Data"
-                                  className="flex-column justify-content-between"
-                                >
-                                  <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
-                                    <ul className="tab-mail-list data">
-                                      <li className="d-flex align-center">
-                                        <h6 className="tab-content-title">
-                                          Unique Reader (total)
-                                          <LinkWithTooltip
-                                            tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
-                                            href="#"
-                                          >
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-
-                                        {flag == 0 && userId == data?.id ? (
-                                          <div className="data-progress limited">
-                                            <ProgressBar
-                                              variant="default"
-                                              now={100}
-                                              label={"Loading"}
-                                            />
-                                          </div>
+                                        }
+                                      </h6>
+                                    </li>
+                                    {/* <li>
+                                      <h6 className="tab-content-title">
+                                        SPC included
+                                      </h6>
+                                      <h6>
+                                        {data?.spc_included == 0 ? "No" : "Yes"}
+                                      </h6>
+                                    </li> */}
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Language
+                                      </h6>
+                                      <h6>{data?.popup_email_content_language?data?.popup_email_content_language:"No"}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Link type
+                                      </h6>
+                                      <h6>{data?.linkType}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Include
+                                      </h6>
+                                      <div className="include-links">
+                                        {data?.spc_included ? (
+                                          <img
+                                            src={path_image + "spc-img.png"}
+                                            alt=""
+                                          />
                                         ) : (
-                                          opening_details?.map((details) => {
-                                            if (details?.pdf_id == data?.id) {
-                                              return (
-                                                <>
-                                                  <div className="data-progress limited">
-                                                    <ProgressBar
-                                                      variant="warning"
-                                                      now={
-                                                        details?.limit == 0
-                                                          ? (details?.uniqueReader /
-                                                              1000) *
-                                                            100
-                                                          : (details?.uniqueReader /
-                                                              details?.limit) *
-                                                            100
-                                                      }
-                                                      label={
-                                                        details?.uniqueReader
-                                                      }
-                                                    />
-                                                    <span>
-                                                      Agreed Limit |&nbsp;
-                                                      {details?.limit == 0
-                                                        ? 1000
-                                                        : details?.limit}
-                                                    </span>
-                                                  </div>
-                                                  <span className="total-left">
-                                                    {details?.limit == 0
-                                                      ? 1000 -
-                                                        details?.uniqueReader
-                                                      : details?.limit -
-                                                        details?.uniqueReader}
-                                                    <small>Left</small>
-                                                  </span>
-                                                </>
-                                              );
-                                            }
-                                          })
+                                          ""
                                         )}
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Openings (total){" "}
-                                          <LinkWithTooltip
-                                            tooltip="Number of opening counts for specific article."
-                                            href="#"
-                                          >
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-                                        {flag == 0 && userId == data?.id ? (
-                                          <div className="data-progress limited">
-                                            <ProgressBar
-                                              variant="default"
-                                              now={100}
-                                              label={"loading"}
-                                            />
-                                          </div>
+
+                                        {data?.linkRelations ? (
+                                          <img
+                                            src={path_image + "video-img.png"}
+                                            alt=""
+                                          />
                                         ) : (
-                                          opening_details?.map((details) => {
-                                            if (details?.pdf_id == data?.id) {
-                                              return (
-                                                <>
-                                                  <div className="data-progress success-progress">
-                                                    <ProgressBar
-                                                      variant="success"
-                                                      now={
-                                                        details.opening == 0
-                                                          ? 0
-                                                          : 100
-                                                      }
-                                                      label={details?.opening}
-                                                    />
-                                                    {/* <ProgressBar
-                                                    variant="success"
-                                                    now={
-                                                      details.limit == 0
-                                                        ? (details.opening /
-                                                            1000) *
-                                                          100
-                                                        : (details.opening /
-                                                            details.limit) *
-                                                          100
-                                                    }
-                                                    now={100}
-                                                    label={details.opening}
-                                                  /> */}
-                                                  </div>
-                                                </>
-                                              );
-                                            }
-                                          })
+                                          ""
                                         )}
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Registered readers{" "}
-                                          <LinkWithTooltip
-                                            tooltip="Number of HCPs who have register for or activated the content."
-                                            href="#"
-                                          >
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-                                        {flag == 0 && userId == data.id ? (
-                                          <div className="data-progress limited">
-                                            <ProgressBar
-                                              variant="default"
-                                              now={100}
-                                              label={"loading"}
-                                            />
-                                          </div>
+                                        {data?.pdfLinks ? (
+                                          <img
+                                            src={path_image + "link-img.png"}
+                                            alt=""
+                                          />
                                         ) : (
-                                          opening_details.map((details) => {
-                                            if (details.pdf_id == data.id) {
-                                              return (
-                                                <>
-                                                  <div className="data-progress">
-                                                    {/* <span>{details.registeredReader}</span> */}
-                                                    <ProgressBar
-                                                      variant="danger"
-                                                      now={
-                                                        details.limit == 0
-                                                          ? (details.registeredReader /
-                                                              1000) *
-                                                            100
-                                                          : (details.registeredReader /
-                                                              details.limit) *
-                                                            100
-                                                      }
-                                                      label={
-                                                        details.registeredReader
-                                                      }
-                                                    />
-                                                  </div>
-                                                </>
-                                              );
-                                            }
-                                          })
+                                          ""
                                         )}
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <div className="data-main-footer-sec">
-                                    <div className="footer-btn-wrapper"></div>
-                                  </div>
-                                </Tab>
-                                <Tab
-                                  className="change-tab flex-column justify-content-between"
-                                  eventKey="change-tab"
-                                  title="Change"
-                                >
-                                  <div className="data-main-box change-tab-main-box tab-panel">
-                                    <ul className="tab-mail-list data change">
-                                      <div className="form-group d-flex align-items-center">
-                                        <label htmlFor="">Consent type</label>
-                                        <Select
-                                          options={types}
-                                          defaultValue={
-                                            data.linkType == "Online"
-                                              ? types[0]
-                                              : data.linkType == "Offline"
-                                              ? types[1]
-                                              : data.linkType == "Sunshine"
-                                              ? types[2]
-                                              : "Select"
-                                          }
-                                          onChange={(event) =>
-                                            onConsentChange(event, data.id)
-                                          }
-                                          id={"consent_dropdown_" + index}
-                                          className="dropdown-basic-button split-button-dropup"
-                                          isClearable
-                                        />
-                                        <Button
-                                          onClick={(e) =>
-                                            updateConset(data.id, index)
-                                          }
-                                        >
-                                          Update
-                                        </Button>
+
+                                        {data.spc_included == 0 &&
+                                          data.linkRelations == 0 &&
+                                          data.pdfLinks == 0 && <h6>N/A</h6>}
                                       </div>
-                                    </ul>
-                                  </div>
+                                    </li>
+                                  </ul>
+                                </div>
+
+                                {location?.state?.data != "edit" &&
+                                deletestatus == false ? (
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn-wrapper">
-                                      {/* <Button className="footer-btn">
-                                        Edit Docintel Link
-                                      </Button> */}
+                                      <a
+                                        className="footer-btn"
+                                        href={data?.previewArticle}
+                                        target="_blank"
+                                      >
+                                        Preview aritcle
+                                      </a>
+                                      <Button
+                                        onClick={() => {
+                                          commonModelFun();
+                                          setQr({
+                                            ...qrState,
+                                            value: data?.docintelLink,
+                                          });
+                                        }}
+                                        className="footer-btn"
+                                      >
+                                        Download QR
+                                      </Button>
+                                      <Button
+                                        className="footer-btn"
+                                        onClick={() => {
+                                          navigate("/CreateEmail");
+                                        }}
+                                      >
+                                        Send in email
+                                      </Button>
                                     </div>
                                   </div>
-                                </Tab>
-                                <Tab
-                                  eventKey="sales"
-                                  title="Sales"
-                                  className="flex-column justify-content-between"
-                                >
-                                  <div className="tab-panel">
-                                    <ul className="tab-mail-list">
-                                      {data.licensed == 1 && (
-                                        <>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Sales person
-                                            </h6>
-                                            <h6>{data?.saleName}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Production person
-                                            </h6>
-                                            <h6>{data?.productName}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client name
-                                            </h6>
-                                            <h6>{data?.company}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client product
-                                            </h6>
-                                            <h6>{data?.product}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client country
-                                            </h6>
-                                            <h6>{data?.country}</h6>
-                                          </li>
-                                        </>
-                                      )}
+                                ) : null}
+                              </Tab>
+                              <Tab
+                                eventKey="data-tab"
+                                title="Data"
+                                className="flex-column justify-content-between"
+                              >
+                                <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
+                                  <ul className="tab-mail-list data">
+                                    <li className="d-flex align-center">
+                                      <h6 className="tab-content-title">
+                                        Unique Reader (total)
+                                        <LinkWithTooltip
+                                          tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <div className="data-progress send">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ? "warning" : "default"
+                                          }
+                                          now={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique/
+                                						opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                            :
+                                            "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
+                                            :
+                                            "Loading"
+                                          }
+                                        />
+                                        <span>
+                                  				Agreed Limit |&nbsp;
+                                  				{
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
+                                            :
+                                            1000
+                                          }
+                                			  </span>
+                                      </div>
+                                      <span className="total-left">
+                                			  {
+                                          opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                          ?
+                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
+                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
+                                          :
+                                          1000
+                                        }
+                                			  <small>Left</small>
+                                			</span>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Openings (total){" "}
+                                        <LinkWithTooltip
+                                          tooltip="Number of opening counts for specific article."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                        <div className="data-progress limited">
+                                            <ProgressBar
+                                              variant={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ? "success" : "default"
+                                              }
+                                              now={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ?
+                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening
+                                                :
+                                                "100"
+                                              }
+                                              label={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ?
+                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening
+                                                :
+                                                "Loading"
+                                              }
+                                            />
+                                        </div>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Registered readers
+                                        <LinkWithTooltip
+                                          tooltip="Number of HCPs who have register for or activated the content."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <div className="data-progress">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ? "danger" : "default"
+                                          }
+                                          now={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.reader/
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                            :
+                                            "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].reader
+                                            :
+                                            "Loading"
+                                          }
+                                        />
+                                      </div>
+                                    </li>
+
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        SubLinks
+                                        <LinkWithTooltip
+                                          tooltip="Number of sublinks with content."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <div className="data-progress">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ? "sublink" : "default"
+                                          }
+                                          now={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.subLink/
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                            :
+                                            "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].subLink
+                                            :
+                                            "Loading"
+                                          }
+                                        />
+                                      </div>
+                                    </li>
+
+                                    {
+                                    	data?.allow_print
+                                    	?
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Opening limit
+                                          Printed
+                                          <LinkWithTooltip
+                                            tooltip="Number of HCPs who have print the content."
+                                            href="#"
+                                          >
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
                                         </h6>
-                                        <h6>{data?.limit}</h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ? "print" : "default"
+                                            }
+                                            now={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.print/
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                              :
+                                              "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].print
+                                              :
+                                              "Loading"
+                                            }
+                                          />
+                                        </div>
                                       </li>
+                                    	: null
+                                    }
+
+                                    {
+                                    	data?.allow_download
+                                    	?
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Link type
+                                          Downloaded
+                                          <LinkWithTooltip
+                                            tooltip="Number of HCPs who have download the content."
+                                            href="#"
+                                          >
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
                                         </h6>
-                                        <h6>{data?.linkType}</h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ? "download" : "default"
+                                            }
+                                            now={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.download/
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                              :
+                                              "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].download
+                                              :
+                                              "Loading"
+                                            }
+                                          />
+                                        </div>
                                       </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Print
-                                        </h6>
-                                        <h6>
-                                          {data?.allow_print ? "Yes" : "No"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Download
-                                        </h6>
-                                        <h6>
-                                          {data?.allow_download ? "Yes" : "No"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Upload date
-                                        </h6>
-                                        <h6>{data?.uploadedDate}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Expiration date
-                                        </h6>
-                                        <h6>
-                                          {data?.expireDate
-                                            ? data.expireDate
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </Tab>
-                              </Tabs>
-                            </div>
+                                    	: null
+                                    }
+                                  </ul>
+                                </div>
+                              </Tab>
+                              <Tab
+                                className="change-tab flex-column justify-content-between"
+                                eventKey="change-tab"
+                                title="Change"
+                              >
+                                <div className="data-main-box change-tab-main-box tab-panel">
+                                  <ul className="tab-mail-list data change">
+                                    <div className="form-group d-flex align-items-center">
+                                      <label htmlFor="">Consent type</label>
+                                      <Select
+                                        options={types}
+                                        defaultValue={
+                                          data.linkType == "Online"
+                                            ? types[0]
+                                            : data.linkType == "Offline"
+                                            ? types[1]
+                                            : data.linkType == "Sunshine"
+                                            ? types[2]
+                                            : "Select"
+                                        }
+                                        onChange={(event) =>
+                                          onConsentChange(event, data.id)
+                                        }
+                                        id={"consent_dropdown_" + index}
+                                        className="dropdown-basic-button split-button-dropup"
+                                        isClearable
+                                      />
+                                      <Button
+                                        onClick={(e) =>
+                                          updateConset(data.id, index)
+                                        }
+                                      >
+                                        Update
+                                      </Button>
+                                    </div>
+                                  </ul>
+                                </div>
+                              </Tab>
+                              <Tab
+                                eventKey="sales"
+                                title="Sales"
+                                className="flex-column justify-content-between"
+                              >
+                                <div className="tab-panel">
+                                  <ul className="tab-mail-list">
+                                    {data.licensed == 1 && (
+                                      <>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Sales person
+                                          </h6>
+                                          <h6>{data?.saleName}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Production person
+                                          </h6>
+                                          <h6>{data?.productName}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Client name
+                                          </h6>
+                                          <h6>{data?.company}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Client product
+                                          </h6>
+                                          <h6>{data?.product}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Client country
+                                          </h6>
+                                          <h6>{data?.country}</h6>
+                                        </li>
+                                      </>
+                                    )}
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Opening limit
+                                      </h6>
+                                      <h6>{data?.limit}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Link type
+                                      </h6>
+                                      <h6>{data?.linkType}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Print
+                                      </h6>
+                                      <h6>
+                                        {data?.allow_print ? "Yes" : "No"}
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Download
+                                      </h6>
+                                      <h6>
+                                        {data?.allow_download ? "Yes" : "No"}
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Upload date
+                                      </h6>
+                                      <h6>{data?.uploadedDate}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Expiration date
+                                      </h6>
+                                      <h6>
+                                        {data?.expireDate
+                                          ? data.expireDate
+                                          : "N/A"}
+                                      </h6>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </Tab>
+                            </Tabs>
                           </div>
-                        </>
-                      );
-                    })
-                  : null}
+                        </div>
+                      </>
+                    );
+                  })
+                ) : apiCallStatus ? (
+                  <div className="no_found">
+                    <p>No Data Found</p>
+                  </div>
+                ) : null}
               </>
             </div>
-            {page == 1 && isLoaded==true? (
+            {isLoaded == true ? (
               <div className="load_more">
-                <button
+                <Button
                   className="btn btn-primary btn-filled"
                   onClick={loadMoreClicked}
                 >
                   Load More
-                </button>
+                </Button>
               </div>
             ) : null}
 
@@ -1572,4 +1784,4 @@ const LibraryContent = () => {
   );
 };
 
-export default LibraryContent;
+export default LibraryEditListing;
