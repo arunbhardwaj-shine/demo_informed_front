@@ -9,9 +9,9 @@ export const AddReaderValidation = (data) => {
   if (!data?.email || regemail?.test(data?.email) === false) {
     error.email = "Email required with email pattern";
   }
-  if (!data?.phoneNumber) {
-    error.phoneNumber = "Phone number required with country code";
-  }
+  // if (!data?.phoneNumber) {
+  //   error.phoneNumber = "Phone number required with country code";
+  // }
   if (!data?.country) {
     error.country = "Please Select country";
   }
