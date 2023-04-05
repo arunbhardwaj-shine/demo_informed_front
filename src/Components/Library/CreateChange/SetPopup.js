@@ -89,7 +89,7 @@ const SetPopup = (props) => {
   };
 
   useEffect(() => {
-    getTemplateListData(0, "All", "");
+    getTemplateListData(0, "All", "",1);
 
 
    // div_img.click();
@@ -111,13 +111,14 @@ const SetPopup = (props) => {
     // getTemplateListData(2, e.value, selectedIbu);
   };
 
-  const getTemplateListData = async (flag = 1, lng, consent) => {
+  const getTemplateListData = async (flag = 1, lng, consent,firstFlag = 0) => {
       // console.log(flag);
       // console.log(lng);
       // console.log(consent);
       loader("show");
 
       try {
+        let first_consent = "";
         setTemplateClicked(false);
         let check_lng_index = 10;
         if (lng == "All") {
@@ -152,6 +153,9 @@ const SetPopup = (props) => {
                 typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
             };
             res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
+            if(firstFlag === 1){
+              first_consent = res?.data?.data?.linkType;
+            }
             setActualTemplateData(res);
             setPopupData(res?.data?.data);
             setIsTemplateData(false);
@@ -179,10 +183,10 @@ const SetPopup = (props) => {
           }
 
           let data = [];
-          if (consent == "Online") {
+          if (consent == "Online" || first_consent == "Online") {
             setIsOnline(true);
             data = [];
-          } else if (consent == "Offline") {
+          } else if (consent == "Offline" || first_consent == "Offline") {
             setIsOnline(false);
 
             data.push(res?.data?.data?.popupData[0]);
