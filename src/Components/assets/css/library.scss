@@ -2950,6 +2950,26 @@ section.verify_email.content_details {
  .send-confirm .modal-body .modal-buttons {
     justify-content: space-evenly;  
 }
+.create-change-content .input-group .tags_added .select-tags > ul li {
+    cursor: pointer;
+}
+.after-selected ul.after-tag-selected {
+    padding-top: 7px!important;
+    border-top: 1px dashed $primary-color;
+    margin-top: 5px!important;
+    min-height: 20px;
+}
+
+
+.after-selected ul.after-tag-selected li {
+    color: $white !important;
+    background: $voilet !important;
+    margin-bottom: 2px!important;
+}
+
+.after-selected ul.after-tag-selected li img {
+    filter: brightness(0) invert(1)!important;
+}
 /**Reader Style End**/
 
 
