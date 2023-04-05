@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
 import { Button } from "react-bootstrap";
 
-const ContentDetail = () => {
+const LicenseContentDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [open, setOpen] = useState(false);
   const [openProduction, setOpenProduction] = useState(false);
@@ -123,7 +123,7 @@ const ContentDetail = () => {
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
                     <Link
-                      to="/library-edit"
+                      to="/license-edit"
                       state={{ pdfid: state?.pdfId }}
                       className="btn btn-primary btn-bordered move-draft"
                     >
@@ -131,7 +131,7 @@ const ContentDetail = () => {
                     </Link>
                     <button
                       className="btn btn-primary btn-bordered next"
-                      onClick={() => navigate("/library-content")}
+                      onClick={() => navigate("/license-content")}
                     >
                       Close
                     </button>
@@ -314,9 +314,9 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Set limit of usage</th>
                                                   <td>
-                                                    {data?.limit > 0
+                                                    {data?.limit >= 0
                                                       ? data?.limit
-                                                      : "Unlimted"}
+                                                      : "N/A"}
                                                   </td>
                                                 </tr>
                                                 <tr>
@@ -489,4 +489,4 @@ const ContentDetail = () => {
   );
 };
 
-export default ContentDetail;
+export default LicenseContentDetail;

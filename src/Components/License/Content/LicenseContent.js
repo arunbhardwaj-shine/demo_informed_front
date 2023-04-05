@@ -38,7 +38,7 @@ import QRCode from "qrcode.react";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LibraryEditListing = () => {
+const LicenseContent = () => {
   const limit = 24;
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
@@ -278,6 +278,7 @@ const LibraryEditListing = () => {
         search: search,
         type: type,
         limit: limit,
+        license: 1,
       };
 
       let body = { ...data, ...obj };
@@ -352,7 +353,7 @@ const LibraryEditListing = () => {
         message1:
           "You are about to remove this content from any reader and every device forever.",
         message2: "Are you sure you want to do this?",
-        footerButton: "Yes Please  !",
+        footerButton: "Yes Please!",
       });
       if (confirmationpopup) {
         setConfirmationPopup(false);
@@ -683,12 +684,7 @@ const LibraryEditListing = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header">
-              <div className="page-title d-flex">
-                  <Link className="btn btn-primary btn-bordered back-btn" to="/library-create">
-                    <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
-                    </svg>
-                  </Link>
+              <div className="page-title">
                 <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2>
               </div>
               <div className="top-right-action">
@@ -924,16 +920,16 @@ const LibraryEditListing = () => {
                   </div>
                 ) : null}
 
-                {/*location?.state?.data == "edit" ? (
+                {location?.state?.data == "edit" ? (
                   <div className="clear-search">
                     <button
                       className="btn btn-outline-primary cancel"
-                      onClick={(e) => navigate("/library-create")}
+                      onClick={(e) => navigate("/license-create")}
                     >
                       Cancel
                     </button>
                   </div>
-                ) : null*/}
+                ) : null}
               </div>
             </div>
             <QRCode
@@ -1029,22 +1025,25 @@ const LibraryEditListing = () => {
                             </div>
                             {location?.state?.data == "edit" ? (
                               <div className="dlt_btn">
-                                  <Link
-                                    to="/library-edit"
-                                    state={{ pdfid: data.id }}
-                                    className="footer-btn"
-                                  >
-                                    <button>
-                                      <img
-                                        src={path_image + "edit-white.svg"}
-                                        alt="Delete Row"
-                                      />
-                                    </button>
-                                  </Link>
-                                </div>
+                                <button>
+                                  <img
+                                    src={path_image + "edit-white.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
+                              </div>
                             ) : deletestatus ? (
                               <div className="dlt_btn">
-                                <div className="dlt_btn"></div>
+                                <button
+                                  onClick={(e) =>
+                                    showConfirmationPopup("delete", e, data?.id)
+                                  }
+                                >
+                                  <img
+                                    src={path_image + "delete.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
                               </div>
                             ) : null}
                           </div>
@@ -1340,7 +1339,7 @@ const LibraryEditListing = () => {
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
-                                        Registered readers
+                                        Registered readers{" "}
                                         <LinkWithTooltip
                                           tooltip="Number of HCPs who have register for or activated the content."
                                           href="#"
@@ -1513,6 +1512,25 @@ const LibraryEditListing = () => {
                                     }
                                   </ul>
                                 </div>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <Button className="footer-btn">
+                                      Analytics
+                                    </Button>
+                                    <Button
+                                      className="footer-btn reset"
+                                      onClick={(e) =>
+                                        showConfirmationPopup(
+                                          "reset",
+                                          e,
+                                          data?.id
+                                        )
+                                      }
+                                    >
+                                      Reset the collected data
+                                    </Button>
+                                  </div>
+                                </div>
                               </Tab>
                               <Tab
                                 className="change-tab flex-column justify-content-between"
@@ -1550,6 +1568,33 @@ const LibraryEditListing = () => {
                                       </Button>
                                     </div>
                                   </ul>
+                                </div>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    {/* <Button className="footer-btn">
+                                        Edit Docintel Link
+                                      </Button> */}
+                                    <Link
+                                      to="/license-edit"
+                                      state={{ pdfid: data.id }}
+                                      className="footer-btn"
+                                    >
+                                      Edit Docintel link
+                                    </Link>
+                                    <Button
+                                      className="footer-btn"
+                                      onClick={(e) => tagButtonClicked(data.id)}
+                                    >
+                                      Add / Remove tags
+                                    </Button>
+                                    <Link
+                                      to="/license-sublink"
+                                      state={{ pdfid: data.id }}
+                                      className="footer-btn"
+                                    >
+                                      New sublink
+                                    </Link>
+                                  </div>
                                 </div>
                               </Tab>
                               <Tab
@@ -1784,4 +1829,4 @@ const LibraryEditListing = () => {
   );
 };
 
-export default LibraryEditListing;
+export default LicenseContent;

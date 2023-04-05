@@ -22,6 +22,18 @@ import Spc from "./Components/Library/Spc";
 import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
 
+//License routes
+import LicenseContent from "./Components/License/Content/LicenseContent";
+import LicenseEditListing from "./Components/License/Content/LicenseEditListing";
+import LicenseCreate from "./Components/License/CreateChange/LicenseCreate";
+import LicenseCreateUser from "./Components/License/CreateChange/LicenseCreateUser";
+import LicenseSublink from "./Components/License/CreateChange/LicenseSublink";
+import LicenseSetPopup from "./Components/License/CreateChange/SetPopup";
+import LicenseTopics from "./Components/License/CreateChange/LicenseTopics";
+import LicensePreviewContent from "./Components/License/CreateChange/LicensePreviewContent";
+import LicenseContentDetail from "./Components/License/CreateChange/LicenseContentDetail";
+import EditLicense from "./Components/License/CreateChange/EditLicense";
+
 //Analytics routes
 import AnalyticsHeader from "./Components/Analytics/Layout/Header";
 import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
@@ -30,6 +42,8 @@ import CisStats from "./Components/Analytics/CisStats";
 import TopClients from "./Components/Analytics/TopClients";
 import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
+import TrendingTopics from "./Components/Analytics/TrendingTopics";
+
 // import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
@@ -184,6 +198,8 @@ const Routing = () => {
                 <Route path="/top-clients" element={<TopClients />} />
                 <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/top-sales" element={<TopSales />} />
+                <Route path="/trending-topics" element={<TrendingTopics />} />
+
                 <Route
                   path="/openings-by-country"
                   element={<OpeningByCountry />}
@@ -277,6 +293,18 @@ const Routing = () => {
                 <Route path="/ViewTable" element={<ViewTable />} />
                 <Route path="/EmailStatss" element={<EmailStatss />} />
                 <Route path="/get-details" element={<GetDetails />} />
+
+                <Route path="/license-content" element={<LicenseContent />} />
+                <Route path="/license-edit-listing" element={<LicenseEditListing />} />
+                <Route path="/license-create" element={<LicenseCreate />} />
+                <Route path="/license-create-user" element={<LicenseCreateUser />} />
+                <Route path="/license-sublink" element={<LicenseSublink />} />
+                <Route path="/license-set-popup" element={<LicenseSetPopup />} />
+                <Route path="/license-topics" element={<LicenseTopics />} />
+                <Route path="/license-preview-content" element={<LicensePreviewContent />} />
+                <Route path="/license-content-detail" element={<LicenseContentDetail />} />
+                <Route path="/license-edit" element={<EditLicense />} />
+
               </Routes>
             </div>
           </div>
