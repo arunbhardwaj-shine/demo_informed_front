@@ -677,6 +677,30 @@ const LibraryContent = () => {
     document.body.removeChild(textArea);
   };
 
+  const changeFormatForPrint = (value) => {
+    let data = "";
+    if (value?.allow_print) {
+      data += "Print | ";
+    }
+    if (value?.allow_download) {
+      data += "Download | ";
+    }
+    if (value?.allow_share) {
+      data += "Share | ";
+    }
+    if (value?.chat_box) {
+      data += "Request | ";
+    }
+    if (data) {
+      // data = data.replace(/^,|,$/g, "");
+      data = data.trim().slice(0, -1);
+    }else{
+      data = "N/A"
+    }
+
+    return data;
+  }
+
   return (
     <>
       <Col className="right-sidebar">
@@ -1012,7 +1036,7 @@ const LibraryContent = () => {
                             </div>
                             <div className="doc-content">
                               <h5>{data?.title}</h5>
-                              <h6>{data?.pdf_sub_title}</h6>
+                              <h6>{data?.pdf_sub_title ? data.pdf_sub_title : data?.folder_name }</h6>
                               <p>{data?.key_author}</p>
                               <div className="select-tags">
                                 {data?.tags?.length
@@ -1376,6 +1400,139 @@ const LibraryContent = () => {
                                         />
                                       </div>
                                     </li>
+
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        SubLinks
+                                        <LinkWithTooltip
+                                          tooltip="Number of sublinks with content."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <div className="data-progress">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ? "sublink" : "default"
+                                          }
+                                          now={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.subLink/
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                            :
+                                            "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].subLink
+                                            :
+                                            "Loading"
+                                          }
+                                        />
+                                      </div>
+                                    </li>
+
+                                    {
+                                    	data?.allow_print
+                                    	?
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Printed
+                                          <LinkWithTooltip
+                                            tooltip="Number of HCPs who have print the content."
+                                            href="#"
+                                          >
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ? "print" : "default"
+                                            }
+                                            now={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.print/
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                              :
+                                              "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].print
+                                              :
+                                              "Loading"
+                                            }
+                                          />
+                                        </div>
+                                      </li>
+                                    	: null
+                                    }
+
+                                    {
+                                    	data?.allow_download
+                                    	?
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Downloaded
+                                          <LinkWithTooltip
+                                            tooltip="Number of HCPs who have download the content."
+                                            href="#"
+                                          >
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ? "download" : "default"
+                                            }
+                                            now={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.download/
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                              :
+                                              "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].download
+                                              :
+                                              "Loading"
+                                            }
+                                          />
+                                        </div>
+                                      </li>
+                                    	: null
+                                    }
                                   </ul>
                                 </div>
                                 <div className="data-main-footer-sec">
@@ -1470,38 +1627,55 @@ const LibraryContent = () => {
                               >
                                 <div className="tab-panel">
                                   <ul className="tab-mail-list">
-                                    {data.licensed == 1 && (
+                                    {localStorage.getItem("group_id") == 2 && (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Sales person
+                                            Publisher
                                           </h6>
-                                          <h6>{data?.saleName}</h6>
+                                          <h6>{data?.publisherName ?  data.publisherName : "N/A"}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Cost Center
+                                          </h6>
+                                          <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
                                             Production person
                                           </h6>
-                                          <h6>{data?.productName}</h6>
+                                          <h6>{data?.productName ?  data.productName : "N/A"}</h6>
                                         </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Client name
-                                          </h6>
-                                          <h6>{data?.company}</h6>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Client product
-                                          </h6>
-                                          <h6>{data?.product}</h6>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Client country
-                                          </h6>
-                                          <h6>{data?.country}</h6>
-                                        </li>
+                                        {
+                                          /*
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Sales person
+                                            </h6>
+                                            <h6>{data?.saleName}</h6>
+                                          </li>
+
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Client name
+                                            </h6>
+                                            <h6>{data?.company}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Client product
+                                            </h6>
+                                            <h6>{data?.product}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Country
+                                            </h6>
+                                            <h6>{data?.country}</h6>
+                                          </li>
+                                          */
+                                        }
                                       </>
                                     )}
                                     <li>
@@ -1518,20 +1692,26 @@ const LibraryContent = () => {
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
-                                        Print
+                                        Enable
                                       </h6>
                                       <h6>
-                                        {data?.allow_print ? "Yes" : "No"}
+                                        {
+                                          changeFormatForPrint(data)
+                                        }
                                       </h6>
                                     </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Download
-                                      </h6>
-                                      <h6>
-                                        {data?.allow_download ? "Yes" : "No"}
-                                      </h6>
-                                    </li>
+                                    {
+                                      /*
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Download
+                                        </h6>
+                                        <h6>
+                                          {data?.allow_download ? "Yes" : "No"}
+                                        </h6>
+                                      </li>
+                                      */
+                                    }
                                     <li>
                                       <h6 className="tab-content-title">
                                         Upload date

@@ -19,7 +19,6 @@ const SalesByCountry = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
 
-
   Highcharts.setOptions({
     colors: [
       "#FFBE2C",
@@ -37,19 +36,22 @@ const SalesByCountry = () => {
 
   const chart = useRef(null);
   const [All, setAll] = useState([
+    { value: "", label: "All" },
     { value: "live", label: "Live" },
     { value: "expired", label: "Expired" },
   ]);
   const [Years, setYears] = useState([
+    { value: "", label: "All" },
+
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
     { value: "2021", label: "2021" },
     { value: "2020", label: "2020" },
     { value: "2019", label: "2019" },
   ]);
-  const dataType = useRef(null);
+  const dataType = useRef(All[0]);
 
-  const years = useRef(null);
+  const years = useRef(Years[0]);
   const [topClientOptions, setTopClientOptions] = useState({
     chart: {
       marginTop: 100,
@@ -126,8 +128,8 @@ const SalesByCountry = () => {
     try {
       const requestBody = {
         type: "saleCountry",
-        dataType:dataType?.current?.value ?dataType?.current?.value:"",
-        year: years?.current?.value?years.current.value :"",
+        dataType: dataType?.current?.value ? dataType?.current?.value : "",
+        year: years?.current?.value ? years.current.value : "",
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;

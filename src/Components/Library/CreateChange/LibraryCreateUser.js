@@ -22,7 +22,7 @@ const LibraryCreateUser = () => {
   const [commanShow, setCommanShow] = useState(false);
   const [hcpClickedFirst, setHcpClickedFirst] = useState([]);
 
-  
+
   const [id, setId] = useState(localStorage.getItem("user_id"));
   const handleClose = () => setShow(false);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -77,7 +77,7 @@ const LibraryCreateUser = () => {
     country: [],
     format: [],
     product: [],
-    hcp:["test","abc","avdfdd","dfdfd"]
+    hcp:["General information","Investigator","Investigator Meeting Winter 2023","IRT","Octapharma CRO","Pharmacist","Site User"]
     
   });
 
@@ -142,6 +142,7 @@ const LibraryCreateUser = () => {
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
       country: country,
+      costCenter: hadData?.data?.data?.costCenter,
       sales: hadData?.data?.data?.sale,
       format: hadData?.data?.data?.format?.sort((a, b) =>
         a.value > b.value ? 1 : -1
@@ -206,6 +207,12 @@ const LibraryCreateUser = () => {
         let formData = new FormData();
 
         formData.append("productionNotes", userInputs?.productionNotes);
+        formData.append("production", userInputs?.production?userInputs?.production:0);
+        formData.append("sales", userInputs?.sales?userInputs?.sales:0);
+        formData.append("costCenter", userInputs?.costCenter?userInputs?.costCenter:"");
+
+
+        
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
@@ -505,7 +512,7 @@ const LibraryCreateUser = () => {
                 <label htmlFor="">Production</label>
                 <Select
                   options={userDetail?.production}
-                  onChange={(e) => handleChange(e?.value, "production")}
+                  onChange={(e) => handleChange(e?.id, "production")}
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
@@ -516,7 +523,7 @@ const LibraryCreateUser = () => {
                 <Select
                   options={userDetail?.sales}
                   placeholder="Who made the sale?"
-                  onChange={(e) => handleChange(e?.value, "sales")}
+                  onChange={(e) => handleChange(e?.id, "sales")}
                   className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                   isClearable
                 />
@@ -534,14 +541,14 @@ const LibraryCreateUser = () => {
                             <input
                               className="form-check-input"
                               value=""
-                              id="flexCheckDefault"
+                              id={"flexCheckDefault_"+index}
                               type="checkbox"
                               defaultValue={reseller.includes(item?.id)}
                               onClick={(e) => handleReseller(e, item)}
                             />
                             <label
                               className="form-check-label"
-                              htmlFor="flexCheckDefault"
+                              htmlFor={"flexCheckDefault_"+index}
                             >
                               {item?.value}
                             </label>
@@ -727,7 +734,7 @@ const LibraryCreateUser = () => {
                 <label htmlFor="">HCP</label>
                 <div className="input-group w-100">
                   <div className="tags_added">
-                    <div className="select-tags"></div>
+                    <div className="select-tags">
                     <ul>
                       {userDetail?.hcp?.map((item, index) => {
                         return (
@@ -737,8 +744,8 @@ const LibraryCreateUser = () => {
                         );
                       })}
                     </ul>
-                    <div className="select-tags"></div>
-                    <ul>
+                    <div className="after-selected">
+                      <ul className="after-tag-selected">
                       {hcpClickedFirst.map((item, index) => {
                         return (
                           <li className="list1">
@@ -751,13 +758,15 @@ const LibraryCreateUser = () => {
                           </li>
                         );
                       })}
-                    </ul>
+                      </ul>
+                    </div>
+                    </div>
                   </div>
                 </div>
               </div>
               ):null }
             </div>
-          
+
           </div>
         </div>
       </div>
@@ -796,6 +805,7 @@ const LibraryCreateUser = () => {
           <h4>Limits agreed</h4>
           <div className="row">
             <div className="col-12 col-md-6">
+
               {userDetail?.costCenter ? (
                 <div className="form-group">
                   <label htmlFor="">Cost centre</label>

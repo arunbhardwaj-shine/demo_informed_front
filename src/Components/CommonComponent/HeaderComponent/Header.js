@@ -30,9 +30,11 @@ const Header = () => {
       if (user_id) {
         if (user_id != queryParams.id) {
           localStorage.setItem("user_id", queryParams.id);
+          localStorage.setItem("group_id", 2);
         }
       } else {
         localStorage.setItem("user_id", queryParams.id);
+        localStorage.setItem("group_id", 2);
       }
     } else {
       let user_id = localStorage.getItem("user_id");
@@ -40,6 +42,7 @@ const Header = () => {
       } else {
         //localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
         localStorage.setItem("user_id", "");
+        localStorage.setItem("group_id", "");
       }
     }
     if (queryParams?.decrypted_token && queryParams?.decrypted_token != "") {
