@@ -137,6 +137,7 @@ const LicenseCreateUser = () => {
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
       country: country,
+      costCenter: hadData?.data?.data?.costCenter,
       sales: hadData?.data?.data?.sale,
       format: hadData?.data?.data?.format?.sort((a, b) =>
         a.value > b.value ? 1 : -1

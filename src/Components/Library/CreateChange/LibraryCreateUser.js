@@ -22,7 +22,7 @@ const LibraryCreateUser = () => {
   const [commanShow, setCommanShow] = useState(false);
   const [hcpClickedFirst, setHcpClickedFirst] = useState([]);
 
-  
+
   const [id, setId] = useState(localStorage.getItem("user_id"));
   const handleClose = () => setShow(false);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -78,7 +78,7 @@ const LibraryCreateUser = () => {
     format: [],
     product: [],
     hcp:["test","abc","avdfdd","dfdfd"]
-    
+
   });
 
   const product = [
@@ -142,6 +142,7 @@ const LibraryCreateUser = () => {
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
       country: country,
+      costCenter: hadData?.data?.data?.costCenter,
       sales: hadData?.data?.data?.sale,
       format: hadData?.data?.data?.format?.sort((a, b) =>
         a.value > b.value ? 1 : -1
@@ -534,14 +535,14 @@ const LibraryCreateUser = () => {
                             <input
                               className="form-check-input"
                               value=""
-                              id="flexCheckDefault"
+                              id={"flexCheckDefault_"+index}
                               type="checkbox"
                               defaultValue={reseller.includes(item?.id)}
                               onClick={(e) => handleReseller(e, item)}
                             />
                             <label
                               className="form-check-label"
-                              htmlFor="flexCheckDefault"
+                              htmlFor={"flexCheckDefault_"+index}
                             >
                               {item?.value}
                             </label>
@@ -759,7 +760,7 @@ const LibraryCreateUser = () => {
               </div>
               ):null }
             </div>
-          
+
           </div>
         </div>
       </div>
