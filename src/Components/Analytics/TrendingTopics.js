@@ -19,6 +19,8 @@ const TrendingTopics = () => {
     chart: {
       marginTop: 100,
       type: "depandency wheel",
+      width: 600,
+      height: 600,
     },
 
     title: {
@@ -161,18 +163,6 @@ const TrendingTopics = () => {
       enabled: false,
     },
   });
-
-  //   return (
-  //     <>
-  //       <div className="high_charts">
-  //         <HighchartsReact
-  //           highcharts={Highcharts}
-  //           //   options={getOptions("dependencywheel")}
-  //           options={options}
-  //         />
-  //       </div>
-  //     </>
-  //   );
 
   return (
     <>

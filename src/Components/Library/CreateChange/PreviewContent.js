@@ -215,7 +215,7 @@ const PreviewContent = () => {
       });
       // getArticleData();
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
-        setUserInputs({ ...userInputs, title: "" });
+        setUserInputs({ ...userInputs, title: "", uploadFile: ""});
       }
 
       if (pdfData?.file_type && pdfData.file_type == "ebook") {

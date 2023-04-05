@@ -26,9 +26,9 @@ const LibraryCreateUser = () => {
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
-    expDatetime:new Date(moment(new Date(), "MM/DD/YYYY")
-    .add("years", 1)
-    .format("MM/DD/YYYY")),
+    expDatetime: new Date(
+      moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+    ),
     limit: "",
     uploadFile: "",
     contentTitle: "",
@@ -117,31 +117,35 @@ const LibraryCreateUser = () => {
       });
     });
     let category = [];
-    if(hadData?.data?.data?.category?.length){
+    if (hadData?.data?.data?.category?.length) {
       hadData?.data?.data?.category?.reduce((objEntries, key) => {
         category.push({
           label: key,
           value: key,
         });
       });
-      }
+    }
     let tags = [];
-    if(hadData?.data?.data?.tags?.length){
+    if (hadData?.data?.data?.tags?.length) {
       hadData?.data?.data?.tags?.reduce((objEntries, key) => {
         tags.push(key?.value);
       });
     }
-   
-    setAllTags(tags)
+
+    setAllTags(tags);
     setUserDetail({
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
       country: country,
       sales: hadData?.data?.data?.sale,
-      format: hadData?.data?.data?.format?.sort((a, b) => a.value > b.value ? 1 : -1),
-      category: category?.sort((a, b) => a.value > b.value ? 1 : -1),
+      format: hadData?.data?.data?.format?.sort((a, b) =>
+        a.value > b.value ? 1 : -1
+      ),
+      category: category?.sort((a, b) => (a.value > b.value ? 1 : -1)),
       ibu: hadData?.data?.data?.ibu,
-      product: hadData?.data?.data?.product?.sort((a, b) => a.value > b.value ? 1 : -1),
+      product: hadData?.data?.data?.product?.sort((a, b) =>
+        a.value > b.value ? 1 : -1
+      ),
       reseller: hadData?.data?.data?.reseller,
     });
 
@@ -164,10 +168,9 @@ const LibraryCreateUser = () => {
     });
   };
 
-
   const nextButtonClicked = async (e) => {
-    if(userInputs.docintelFormat == "ebook"){
-      userInputs.chapter = chapter
+    if (userInputs.docintelFormat == "ebook") {
+      userInputs.chapter = chapter;
     }
     const err = createContent(
       userInputs,
@@ -187,10 +190,12 @@ const LibraryCreateUser = () => {
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
-        if(userDetail?.user?.[0]?.group_id == 3){
-          formData.append("expDatetime",new Date(moment().year(2030)
-          .format("MM/DD/YYYY")));
-        }else{
+        if (userDetail?.user?.[0]?.group_id == 3) {
+          formData.append(
+            "expDatetime",
+            new Date(moment().year(2030).format("MM/DD/YYYY"))
+          );
+        } else {
           formData.append("expDatetime", userInputs?.expDatetime);
         }
         formData.append("company", userInputs?.company);
@@ -201,7 +206,10 @@ const LibraryCreateUser = () => {
         formData.append("allowShare", userInputs?.allowShare);
         formData.append("allowDownload", userInputs?.allowDownload);
         formData.append("allowPrint", userInputs?.allowPrint);
-        formData.append("product", userInputs?.product);
+        formData.append(
+          "product",
+          userInputs?.product?.value ? userInputs?.product?.value : ""
+        );
         ebookFile?.forEach((item) => {
           formData.append("ebookData", item);
         });
@@ -216,15 +224,22 @@ const LibraryCreateUser = () => {
         formData.append("ibu", userInputs?.ibu);
         formData.append("allowOneSource", userInputs?.allowOneSource);
         formData.append("allowLibrary", userInputs?.allowLibrary);
-        formData.append("allowRequest", userInputs?.allowRequest?1:0);
-        formData.append("allowDraft", userInputs?.allowDraft?JSON.stringify(userInputs?.allowDraft):JSON.stringify(false));
-        formData.append("allowVideo", userInputs?.allowVideo?1:0);
+        formData.append("allowRequest", userInputs?.allowRequest ? 1 : 0);
+        formData.append(
+          "allowDraft",
+          userInputs?.allowDraft
+            ? JSON.stringify(userInputs?.allowDraft)
+            : JSON.stringify(false)
+        );
+        formData.append("allowVideo", userInputs?.allowVideo ? 1 : 0);
         formData.append("trial", userInputs?.trial);
         formData.append("blindType", userInputs?.blindType);
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
-        formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
-
+        formData.append(
+          "tags",
+          tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
+        );
 
         const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
           header: {
@@ -350,13 +365,12 @@ const LibraryCreateUser = () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       toast.error("Please input a tag");
     } else {
-      
-        loader("show");
-        const hadData = await postData(ENDPOINT.ADD_TAGS, {
-          product: newTag,
-          type:2
-        });
-        loader("hide")
+      loader("show");
+      const hadData = await postData(ENDPOINT.ADD_TAGS, {
+        product: newTag,
+        type: 2,
+      });
+      loader("hide");
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
@@ -388,7 +402,7 @@ const LibraryCreateUser = () => {
 
   const saveButtonClicked = async () => {
     loader("show");
-   
+
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
       let prev_tags = finalTags;
       let new_tags = prev_tags.concat(tagClickedFirst);
@@ -432,7 +446,8 @@ const LibraryCreateUser = () => {
                 <label htmlFor="">Client product</label>
                 <Select
                   options={userDetail?.product}
-                  onChange={(e) => handleChange(e?.value, "product")}
+                  value={userInputs?.product}
+                  onChange={(e) => handleChange(e, "product")}
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
@@ -668,23 +683,20 @@ const LibraryCreateUser = () => {
                     </button>
                   </div>
                   <div className="tags_added">
-                    <div className="select-tags">
-                    </div>
+                    <div className="select-tags"></div>
                     <ul>
-                      {
-                        tagClickedFirst?.map((item,index) =>{
-                          return (
-                            <li className="list1">
+                      {tagClickedFirst?.map((item, index) => {
+                        return (
+                          <li className="list1">
                             {item}
                             <img
                               src="componentAssets/images/filter-close.svg"
                               alt="Close-filter"
                               onClick={() => removeTagFinal(index)}
                             />
-                           </li>
-                          )
-                        })
-                      }
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 </div>
@@ -765,6 +777,7 @@ const LibraryCreateUser = () => {
   const handleSubmitModelFun = async (e) => {
     try {
       let newAr = userDetail?.product;
+
       newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
       let body = {
         user_id: localStorage.getItem("user_id"),
@@ -773,6 +786,10 @@ const LibraryCreateUser = () => {
         type: 1,
       };
       const res = await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
+      setCreateLibraryInputs({
+        ...userInputs,
+        product: { value: userDetail?.newValue, label: userDetail?.newValue },
+      });
       setUserDetail({ ...userDetail, product: newAr });
     } catch (err) {
       console.log("err", err);
@@ -801,11 +818,15 @@ const LibraryCreateUser = () => {
               <div className="form-group">
                 <label htmlFor="">Expiration date</label>
                 <DatePicker
-                  selected={userInputs?.expDatetime
-                    ? new Date(userInputs?.expDatetime)
-                    : new Date(moment(new Date(), "MM/DD/YYYY")
-                      .add("years", 1)
-                      .format("MM/DD/YYYY"))}
+                  selected={
+                    userInputs?.expDatetime
+                      ? new Date(userInputs?.expDatetime)
+                      : new Date(
+                          moment(new Date(), "MM/DD/YYYY")
+                            .add("years", 1)
+                            .format("MM/DD/YYYY")
+                        )
+                  }
                   name="expDatetime"
                   onChange={(e) => handleChange(e, "expDatetime")}
                   dateFormat="dd/MM/yyyy"
@@ -886,7 +907,6 @@ const LibraryCreateUser = () => {
   return (
     <>
       <div className="col right-sidebar">
-   
         <div className="custom-container">
           <div className="row">
             <div className="page-top-nav">
@@ -1081,10 +1101,7 @@ const LibraryCreateUser = () => {
                                   name="group2"
                                   id="setasdraft1"
                                   onChange={(e) => {
-                                    handleChange(
-                                      !e.target?.checked,
-                                      "draft"
-                                    );
+                                    handleChange(!e.target?.checked, "draft");
                                   }}
                                 />
                                 <span>
@@ -1233,13 +1250,11 @@ const LibraryCreateUser = () => {
                                   </Button>
                                 ) : null}
                               </div>
-                              {
-                                error?.chapter?.[i] ?(
-                                  <div className="login-validation-upload">
+                              {error?.chapter?.[i] ? (
+                                <div className="login-validation-upload">
                                   {error?.chapter?.[i]}
                                 </div>
-                                ):null
-                              }
+                              ) : null}
                             </div>
                           </>
                         );
