@@ -971,7 +971,6 @@ ul.tab-mail-list.data span.total-left small {
       label {
         font-size: 18px;
         line-height: 21px;
-        text-transform: capitalize;
         color: $dark-blue;
         margin-right: 16px;
         min-width: 65px;
@@ -989,6 +988,7 @@ ul.tab-mail-list.data span.total-left small {
           &.dropdown-toggle {
             max-width: 100%;
             width: 100%;
+            text-transform: unset;
           }
         }
         &.show {
@@ -2784,6 +2784,7 @@ input[type=number] {
 
 .page-title .back-btn {
   @include header-back-btn;
+  margin: 0 19px 0 -50px;
   &:hover{
     background: $primary-color;
     svg{
