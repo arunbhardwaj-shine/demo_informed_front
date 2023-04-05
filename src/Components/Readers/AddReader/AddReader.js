@@ -13,8 +13,12 @@ import { useNavigate } from "react-router-dom";
 const ReaderAdd = () => {
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
-  const [groupId, setGroupId] = useState(2);
-  const [flag, setFlag] = useState(1);
+  const [groupId, setGroupId] = useState(3);
+  const [flag, setFlag] = useState(2);
+  const [blindType, setBlindType] = useState([
+    { value: "blind", label: "blind" },
+    { value: "unblind", label: "unblind" },
+  ]);
 
   const [countryAll, setCountryAll] = useState([]);
   const [province, setProvince] = useState([]);
@@ -90,6 +94,17 @@ const ReaderAdd = () => {
       { value: "production2", label: "production2" },
       { value: "production3", label: "production3" },
     ],
+    ibu: [
+      { value: "critical care", label: "critical care" },
+      { value: "production2", label: "production2" },
+      { value: "production3", label: "production3" },
+    ],
+    irt: [
+      { value: "critical care", label: "critical care" },
+      { value: "production2", label: "production2" },
+      { value: "production3", label: "production3" },
+    ],
+    userType: [],
   });
   const [uploadShow, setUploadShow] = useState(false);
   const [updateFlag, setUpdateFlag] = useState(0);
@@ -309,6 +324,79 @@ const ReaderAdd = () => {
     }
   };
   //commme
+
+  const RDAccount = () => {
+    return (
+      <>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">Role </Form.Label>
+          <Select
+            options={userDetail?.role}
+            placeholder="Select Role"
+            name="role"
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "role")}
+          />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">Sub Role </Form.Label>
+          <Select
+            options={userDetail?.subRole}
+            placeholder="Select Sub Role"
+            name="subrole"
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "subrole")}
+          />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">Blind Type </Form.Label>
+          <Select
+            options={blindType}
+            placeholder="Select Blind Type"
+            name="blindType"
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "blindType")}
+          />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">IRT </Form.Label>
+          <Select
+            options={userDetail?.irt}
+            placeholder="Select IRT"
+            name="irt"
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "irt")}
+          />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">Site Number </Form.Label>
+          <Select
+            options={userDetail?.siteNumber}
+            placeholder="Select Site Number"
+            name="siteNumber"
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "siteNumber")}
+          />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">Site Name </Form.Label>
+          <Select
+            options={userDetail?.siteName}
+            placeholder="Select Site Name "
+            name="siteName"
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "siteName")}
+          />
+        </Form.Group>
+      </>
+    );
+  };
   return (
     <>
       <Col className="col right-sidebar">
@@ -384,36 +472,36 @@ const ReaderAdd = () => {
                   accept="application/pdf" */}
                   {/* onChange={handleFileUpload}
                   /> */}
-                  <Button
-                    className="btn-bordered"
-                    type="file"
-                    onClick={handleShow}
-                  >
-                    Upload Excel File
-                  </Button>
+
+                  {!(groupId == 3 && flag == 2) ? (
+                    <Button
+                      className="btn-bordered"
+                      type="file"
+                      onClick={handleShow}
+                    >
+                      Upload Excel File
+                    </Button>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div className="row">
                   <Col md="7">
                     <Form.Group className="form-group">
-                      <Form.Label htmlFor="">First name *</Form.Label>
+                      <Form.Label htmlFor="">First name </Form.Label>
                       <input
                         type="text"
+                        placeholder="First name"
                         className="form-control"
                         name="firstName"
                         onChange={(e) => handleChange(e)}
                       />
-                      {error?.firstName ? (
-                        <div className="login-validation">
-                          {error?.firstName}
-                        </div>
-                      ) : (
-                        ""
-                      )}
                     </Form.Group>
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">Middle name</Form.Label>
                       <input
                         type="text"
+                        placeholder="Middle name"
                         className="form-control"
                         name="middleName"
                         onChange={(e) => handleChange(e)}
@@ -423,6 +511,7 @@ const ReaderAdd = () => {
                       <Form.Label htmlFor="">Last name</Form.Label>
                       <input
                         type="text"
+                        placeholder="Last name"
                         className="form-control"
                         name="lastName"
                         onChange={(e) => handleChange(e)}
@@ -438,12 +527,173 @@ const ReaderAdd = () => {
                         isClearable
                         onChange={(e) => handleChange(e?.value, "country")}
                       />
-                      {error?.phoneNumber ? (
-                        <div className="login-validation">{error?.country}</div>
-                      ) : (
-                        ""
-                      )}
                     </Form.Group>
+
+                    {groupId == 2 ||
+                    (groupId == 3 && flag == 0) ||
+                    (groupId == 3 && flag == 2) ? (
+                      <>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Hospital</Form.Label>
+                          <Select
+                            options={hospital}
+                            placeholder="Select hospital"
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            onChange={(e) => handleChange(e?.value, "hospital")}
+                          />
+                        </Form.Group>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Title</Form.Label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="title"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="form-group margin-added">
+                          <Form.Label htmlFor="">Speciality</Form.Label>
+                          <Select
+                            options={userDetail?.speciality}
+                            placeholder="Select speciality"
+                            name="speciality"
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            onChange={(e) =>
+                              handleChange(e?.value, "speciality")
+                            }
+                          />
+                          <div className="add_product">
+                            <span>&nbsp;</span>
+                            <Button
+                              className="btn-bordered btn-voilet"
+                              onClick={(e) =>
+                                addNewProductClicked("speciality", e)
+                              }
+                            >
+                              Add new Speciality +
+                            </Button>
+                          </div>
+                        </Form.Group>
+
+                        {groupId == 2 || (groupId == 3 && flag == 0) ? (
+                          <>
+                            <Form.Group className="form-group margin-added">
+                              <Form.Label htmlFor="">Discipline</Form.Label>
+                              <Select
+                                options={userDetail?.discipline}
+                                placeholder="Select discipline"
+                                name="discipline"
+                                className="dropdown-basic-button split-button-dropup"
+                                isClearable
+                                onChange={(e) =>
+                                  handleChange(e?.value, "discipline")
+                                }
+                              />
+                              <div className="add_product">
+                                <span>&nbsp;</span>
+                                <Button
+                                  onClick={(e) =>
+                                    addNewProductClicked("discipline", e)
+                                  }
+                                  className="btn-bordered btn-voilet"
+                                >
+                                  Add new Discipline +
+                                </Button>
+                              </div>
+                            </Form.Group>
+
+                            <Form.Group className="form-group">
+                              <Form.Label htmlFor="">Province</Form.Label>
+                              <Select
+                                options={province}
+                                placeholder="Select province"
+                                name="province"
+                                className="dropdown-basic-button split-button-dropup"
+                                isClearable
+                                onChange={(e) =>
+                                  handleChange(e?.value, "province")
+                                }
+                              />
+                            </Form.Group>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                        {groupId == 3 && flag == 2 ? (
+                          <Form.Group className="form-group">
+                            <Form.Label htmlFor="">Bussiness Unit</Form.Label>
+                            <Select
+                              options={userDetail?.ibu}
+                              placeholder="Select Bussiness Unit"
+                              name="ibu"
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                              onChange={(e) => handleChange(e?.value, "ibu")}
+                            />
+                          </Form.Group>
+                        ) : (
+                          ""
+                        )}
+
+                        <Form.Group className="form-group margin-added">
+                          <Form.Label htmlFor="">Product</Form.Label>
+                          <Select
+                            options={userDetail?.product}
+                            placeholder="Select product"
+                            name="product"
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            onChange={(e) => handleChange(e?.value, "product")}
+                          />
+                          <div className="add_product">
+                            <span>&nbsp;</span>
+                            <Button
+                              className="btn-bordered btn-voilet"
+                              onClick={(e) =>
+                                addNewProductClicked("product", e)
+                              }
+                            >
+                              Add new Product +
+                            </Button>
+                          </div>
+                        </Form.Group>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Interest area</Form.Label>
+                          <Select
+                            options={productionAll}
+                            placeholder="Select interest area"
+                            name="interestArea"
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            onChange={(e) =>
+                              handleChange(e?.value, "interestArea")
+                            }
+                          />
+                        </Form.Group>
+                        {groupId == 3 && flag == 0 ? (
+                          <Form.Group className="form-group">
+                            <Form.Label htmlFor="">Select User Type</Form.Label>
+                            <Select
+                              options={userDetail?.userType}
+                              placeholder="Select province"
+                              name="userType"
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                              onChange={(e) =>
+                                handleChange(e?.value, "UserType")
+                              }
+                            />
+                          </Form.Group>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    ) : (
+                      ""
+                    )}
 
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">Primary email *</Form.Label>
@@ -460,185 +710,104 @@ const ReaderAdd = () => {
                         ""
                       )}
                     </Form.Group>
+                    {groupId == 2 ||
+                    (groupId == 3 && flag == 0) ||
+                    (groupId == 3 && flag == 2) ? (
+                      <>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Alternative email </Form.Label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="example@email.com"
+                            name="alternativeEmail"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+                        <Form.Group className="form-group primary_phone">
+                          <Form.Label htmlFor="">Primary phone *</Form.Label>
+                          <Select
+                            options={countryCode}
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            placeholder=""
+                            onChange={(e) =>
+                              handleChange(e?.value, "countryCode")
+                            }
+                          />
+                          {error?.countryCode ? (
+                            <div className="login-validation">
+                              {error?.countryCode}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                          <input
+                            type="number"
+                            className="form-control"
+                            name="phoneNumber"
+                            onChange={(e) => handleChange(e)}
+                          />
+                          {error?.phoneNumber ? (
+                            <div className="login-validation">
+                              {error?.phoneNumber}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </Form.Group>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Alternative phone</Form.Label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            name="alternativePhone"
+                            placeholder="Alternative phone"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
 
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Alternative email </Form.Label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        placeholder="example@email.com"
-                        name="alternativeEmail"
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </Form.Group>
-                    <Form.Group className="form-group primary_phone">
-                      <Form.Label htmlFor="">Primary phone *</Form.Label>
-                      <Select
-                        options={countryCode}
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        placeholder=""
-                        onChange={(e) => handleChange(e?.value, "countryCode")}
-                      />
-                      {error?.countryCode ? (
-                        <div className="login-validation">
-                          {error?.countryCode}
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      <input
-                        type="number"
-                        className="form-control"
-                        name="phoneNumber"
-                        onChange={(e) => handleChange(e)}
-                      />
-                      {error?.phoneNumber ? (
-                        <div className="login-validation">
-                          {error?.phoneNumber}
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </Form.Group>
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Alternative phone</Form.Label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        name="alternativePhone"
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </Form.Group>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Rep contact</Form.Label>
+                          <input
+                            type="text"
+                            name="repContact"
+                            placeholder="Who is Rep contact?"
+                            className="form-control"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+                      </>
+                    ) : (
+                      ""
+                    )}
 
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Province</Form.Label>
-                      <Select
-                        options={province}
-                        placeholder="Select province"
-                        // name="provience"
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        onChange={(e) => handleChange(e?.value, "province")}
-                      />
-                    </Form.Group>
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Hospital</Form.Label>
-                      <Select
-                        options={hospital}
-                        placeholder="Select hospital"
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        onChange={(e) => handleChange(e?.value, "hospital")}
-                      />
-                    </Form.Group>
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Title</Form.Label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="title"
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </Form.Group>
-                    <Form.Group className="form-group margin-added">
-                      <Form.Label htmlFor="">Speciality</Form.Label>
-                      <Select
-                        options={userDetail?.speciality}
-                        placeholder="Select speciality"
-                        // name="speciality"
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        onChange={(e) => handleChange(e?.value, "speciality")}
-                      />
-                      <div className="add_product">
-                        <span>&nbsp;</span>
-                        <Button
-                          className="btn-bordered btn-voilet"
-                          onClick={(e) => addNewProductClicked("speciality", e)}
-                        >
-                          Add new Speciality +
-                        </Button>
-                      </div>
-                    </Form.Group>
-                    <Form.Group className="form-group margin-added">
-                      <Form.Label htmlFor="">Discipline</Form.Label>
-                      <Select
-                        options={userDetail?.discipline}
-                        placeholder="Select discipline"
-                        // name="discipline"
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        onChange={(e) => handleChange(e?.value, "discipline")}
-                      />
-                      <div className="add_product">
-                        <span>&nbsp;</span>
-                        <Button
-                          onClick={(e) => addNewProductClicked("discipline", e)}
-                          className="btn-bordered btn-voilet"
-                        >
-                          Add new Discipline +
-                        </Button>
-                      </div>
-                    </Form.Group>
-                    <Form.Group className="form-group margin-added">
-                      <Form.Label htmlFor="">Product</Form.Label>
-                      <Select
-                        options={userDetail?.product}
-                        placeholder="Select product"
-                        // name="product"
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        onChange={(e) => handleChange(e?.value, "product")}
-                      />
-                      <div className="add_product">
-                        <span>&nbsp;</span>
-                        <Button
-                          className="btn-bordered btn-voilet"
-                          onClick={(e) => addNewProductClicked("product", e)}
-                        >
-                          Add new Product +
-                        </Button>
-                      </div>
-                    </Form.Group>
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Interest area</Form.Label>
-                      <Select
-                        options={productionAll}
-                        placeholder="Select interest area"
-                        // name="interestArea"
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        onChange={(e) => handleChange(e?.value, "interestArea")}
-                      />
-                    </Form.Group>
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Rep contact</Form.Label>
-                      <input
-                        type="text"
-                        name="repContact"
-                        placeholder="Who is Rep contact?"
-                        className="form-control"
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </Form.Group>
+                    {groupId == 3 && flag == 1 ? RDAccount() : ""}
                   </Col>
-                  <Col
-                    md="5"
-                    className="d-flex justify-content-end align-items-start right-change"
-                  >
-                    <Form.Group className="form-group justify-content-end">
-                      <Form.Label htmlFor="">Notes</Form.Label>
-                      <textarea
-                        className="form-control"
-                        name="notes"
-                        id="formControlTextarea"
-                        rows="5"
-                        placeholder="Meeting note, special interest etc..."
-                        onChange={(e) => handleChange(e)}
-                      ></textarea>
-                    </Form.Group>
-                  </Col>
+                  {groupId == 2 ||
+                  (groupId == 3 && flag == 0) ||
+                  (groupId == 3 && flag == 2) ? (
+                    <>
+                      <Col
+                        md="5"
+                        className="d-flex justify-content-end align-items-start right-change"
+                      >
+                        <Form.Group className="form-group justify-content-end">
+                          <Form.Label htmlFor="">Notes</Form.Label>
+                          <textarea
+                            className="form-control"
+                            name="notes"
+                            id="formControlTextarea"
+                            rows="5"
+                            placeholder="Meeting note, special interest etc..."
+                            onChange={(e) => handleChange(e)}
+                          ></textarea>
+                        </Form.Group>
+                      </Col>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 {/* <Form className="d-flex flex-wrap row">
                 <Form.Group className="mb-3 col-6 form-group">
