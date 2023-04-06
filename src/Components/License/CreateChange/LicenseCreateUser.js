@@ -515,14 +515,14 @@ const LicenseCreateUser = () => {
                             <input
                               className="form-check-input"
                               value=""
-                              id="flexCheckDefault"
+                              id={"flexCheckDefault_"+index}
                               type="checkbox"
                               defaultValue={reseller.includes(item?.id)}
                               onClick={(e) => handleReseller(e, item)}
                             />
                             <label
                               className="form-check-label"
-                              htmlFor="flexCheckDefault"
+                              htmlFor={"flexCheckDefault_"+index}
                             >
                               {item?.value}
                             </label>
@@ -891,16 +891,21 @@ const LicenseCreateUser = () => {
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
-                  <input
-                    type="checkbox"
-                    value="value3"
-                    onClick={(e) =>
-                      handleChange(e.target?.checked, "allowShare")
-                    }
-                    name="group2"
-                    id="limitagreed3"
-                  />
-                  <label htmlFor="limitagreed3">Share</label>
+                  {
+                    /*
+                    <input
+                      type="checkbox"
+                      value="value3"
+                      onClick={(e) =>
+                        handleChange(e.target?.checked, "allowShare")
+                      }
+                      name="group2"
+                      id="limitagreed3"
+                    />
+                    <label htmlFor="limitagreed3">Share</label>
+                    */
+                  }
+
                 </fieldset>
               </div>
             </div>
