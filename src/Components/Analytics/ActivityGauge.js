@@ -8,7 +8,7 @@ highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
 export default function ActivityGauge({ series, label, list }) {
-
+console.log("klength ",series.length)
   const [options, setOptions] = useState({
     chart: {
       type: "solidgauge",

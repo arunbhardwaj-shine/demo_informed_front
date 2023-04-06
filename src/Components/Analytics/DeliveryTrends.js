@@ -382,6 +382,7 @@ const DeliveryTrends = () => {
         {isDataFound ? (
           <div className="custom-container">
             <Row>
+              <div className="delivery-trends">
               <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
                 <Tab eventKey="1" title="All Business Units">
                   <GaugeComponent tab={data.tab} list={listData.tab} />
@@ -396,6 +397,8 @@ const DeliveryTrends = () => {
                   <GaugeComponent tab={data.tab} list={listData.tab} />
                 </Tab>
               </Tabs>
+              </div>
+              
             </Row>
           </div>
         ) : null}
