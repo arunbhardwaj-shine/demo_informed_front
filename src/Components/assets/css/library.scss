@@ -3064,12 +3064,14 @@ input.viewer-toolbar-current-page-input {
 .delivery-trends {
     max-width: 1300px;
     margin: 0 auto;
+    padding: 10px;
+    background: $white;
     .nav-tabs{
       border-bottom: 1px solid rgb(11 58 129);
       .nav-item{
         width: 25%;
         text-align: center;
-        border: 1px solid #eee;
+        border: 1px solid $white;
         &:first-child{
           border-left:0;
         }
