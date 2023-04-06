@@ -15,10 +15,10 @@ const ReaderEdit = () => {
   const navigate = useNavigate();
   const [groupId, setGroupId] = useState();
   const [flag, setFlag] = useState();
-  const [blindType, setBlindType] = useState([
-    { value: "blind", label: "blind" },
-    { value: "unblind", label: "unblind" },
-  ]);
+  // const [blindType, setBlindType] = useState([
+  //   { value: "blind", label: "blind" },
+  //   { value: "unblind", label: "unblind" },
+  // ]);
 
   const [countryAll, setCountryAll] = useState([]);
   const [province, setProvince] = useState([]);
@@ -79,9 +79,7 @@ const ReaderEdit = () => {
     label: "",
     value: "",
   });
-  const [userInputs, setAddReaderInputs] = useState({
-    country: "",
-  });
+  const [userInputs, setAddReaderInputs] = useState({});
   const [userDetail, setUserDetail] = useState({
     speciality: [
       { value: "speciality1", label: "speciality1" },
@@ -98,6 +96,7 @@ const ReaderEdit = () => {
       { value: "production2", label: "production2" },
       { value: "production3", label: "production3" },
     ],
+    blind_type: [],
   });
 
   const handleModelFun = (e) => {
@@ -232,39 +231,46 @@ const ReaderEdit = () => {
   const nextButtonClicked = async (e) => {
     e.preventDefault();
 
-    try {
-      loader("show");
-      let data = {
-        createdBy: userId,
-        firstName: userInputs?.firstName,
-        middleName: userInputs?.middleName,
-        lastName: userInputs?.lastName,
-        email: userInputs?.email,
-        alternativeEmail: userInputs?.alternativeEmail,
-        // countryCode: userInputs?.countryCode,
-        primary_phone: userInputs?.phoneNumber,
-        alternativePhone: userInputs?.alternativePhone,
-        country: userInputs?.country,
-        province: userInputs?.province,
-        hospital: userInputs?.hospital,
-        title: userInputs?.title,
-        speciality: userInputs?.speciality,
-        Discipline: userInputs?.discipline,
-        product: userInputs?.product,
-        interestArea: userInputs?.interestArea,
-        repContact: userInputs?.repContact,
-        notes: userInputs?.notes,
-        siteNumber: "",
-        Blind: "",
-        siteName: "",
-        irt: "",
-      };
-      await postData(ENDPOINT.READER_CREATE, data);
-      loader("hide");
-      navigate("/readers-view");
-    } catch (err) {
-      console.log(err);
-      loader("hide");
+    const result = AddReaderValidation(userInputs, groupId);
+
+    if (Object.keys(result)?.length) {
+      setError(result);
+      return;
+    } else {
+      try {
+        loader("show");
+        let data = {
+          createdBy: userId,
+          firstName: userInputs?.firstName,
+          middleName: userInputs?.middleName,
+          lastName: userInputs?.lastName,
+          email: userInputs?.email,
+          alternativeEmail: userInputs?.alternativeEmail,
+          // countryCode: userInputs?.countryCode,
+          primary_phone: userInputs?.primary_phone,
+          alternativePhone: userInputs?.alternativePhone,
+          country: userInputs?.country,
+          province: userInputs?.province,
+          hospital: userInputs?.hospital,
+          title: userInputs?.title,
+          speciality: userInputs?.speciality,
+          Discipline: userInputs?.discipline,
+          product: userInputs?.product,
+          interestArea: userInputs?.interestArea,
+          repContact: userInputs?.repContact,
+          notes: userInputs?.notes,
+          siteNumber: "",
+          Blind: "",
+          siteName: "",
+          irt: "",
+        };
+        await postData(ENDPOINT.READER_CREATE, data);
+        loader("hide");
+        navigate("/readers-view");
+      } catch (err) {
+        console.log(err);
+        loader("hide");
+      }
     }
   };
 
@@ -303,11 +309,12 @@ const ReaderEdit = () => {
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Blind Type </Form.Label>
+
           <Select
             options={userDetail?.blind_type}
             defaultValue={{
-              label: userInputs?.blind_type,
-              value: userInputs?.blind_type,
+              label: userInputs?.blinded,
+              value: userInputs?.blinded,
             }}
             placeholder="Select Blind Type"
             name="blind_type"
@@ -422,26 +429,27 @@ const ReaderEdit = () => {
                 </Col>
               </Row>
             </div>
-            {userInputs ? (
-              <>
-                <div className="create-reader create-change-content reader_added">
-                  <div className="form_action">
-                    <div className="create-reader-form-header">
-                      <h4>Please fill the following details</h4>
-                      {!(groupId == 3 && flag == 2) ? (
-                        <Button
-                          className="btn-bordered"
-                          type="file"
-                          // onClick={handleShow}
-                        >
-                          Upload Excel File
-                        </Button>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                    <Row>
-                      <Col md="7">
+
+            <div className="create-reader create-change-content reader_added">
+              <div className="form_action">
+                <div className="create-reader-form-header">
+                  <h4>Please fill the following details</h4>
+                  {!(groupId == 3 && flag == 2) ? (
+                    <Button
+                      className="btn-bordered"
+                      type="file"
+                      // onClick={handleShow}
+                    >
+                      Upload Excel File
+                    </Button>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <Row>
+                  <Col md="7">
+                    {userInputs ? (
+                      <>
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">First name *</Form.Label>
                           <input
@@ -451,6 +459,7 @@ const ReaderEdit = () => {
                             defaultValue={userInputs?.firstName}
                             onChange={(e) => handleChange(e)}
                           />
+
                           {error?.firstName ? (
                             <div className="login-validation">
                               {error?.firstName}
@@ -480,8 +489,103 @@ const ReaderEdit = () => {
                           />
                         </Form.Group>
                         <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Primary email *</Form.Label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="example@email.com"
+                            name="email"
+                            defaultValue={userInputs?.email}
+                            onChange={(e) => handleChange(e)}
+                          />
+                          {error?.email ? (
+                            <div className="login-validation">
+                              {error?.email}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </Form.Group>
+                      </>
+                    ) : (
+                      ""
+                    )}
+
+                    {groupId == 2 ||
+                    (groupId == 3 && flag == 0) ||
+                    (groupId == 3 && flag == 2) ? (
+                      <>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Alternative email </Form.Label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="example@email.com"
+                            name="alternativeEmail"
+                            defaultValue={userInputs?.alternativeEmail}
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="form-group primary_phone">
+                          <Form.Label htmlFor="">Primary phone *</Form.Label>
+                          <Select
+                            options={countryCode}
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            placeholder=""
+                            onChange={(e) =>
+                              handleChange(e?.value, "countryCode")
+                            }
+                          />
+                          {error?.countryCode ? (
+                            <div className="login-validation">
+                              {error?.countryCode}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+
+                          <input
+                            type="number"
+                            className="form-control"
+                            name="primary_phone"
+                            defaultValue={userInputs?.primary_phone?.slice(-10)}
+                            onChange={(e) => handleChange(e)}
+                          />
+                          {error?.primary_phone ? (
+                            <div className="login-validation">
+                              {error?.primary_phone}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </Form.Group>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Alternative phone</Form.Label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            name="alternativePhone"
+                            defaultValue={userInputs?.alternativePhone}
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+                      </>
+                    ) : (
+                      ""
+                    )}
+
+                    {userInputs ? (
+                      <>{groupId == 3 && flag == 1 ? RDAccount() : ""}</>
+                    ) : (
+                      ""
+                    )}
+                    {userInputs?.country ? (
+                      <>
+                        <Form.Group className="form-group">
                           <Form.Label htmlFor="">Country *</Form.Label>
-                          {console.log("userInputs", userInputs)}
+
                           <Select
                             options={countryAll}
                             placeholder="Select country"
@@ -490,12 +594,11 @@ const ReaderEdit = () => {
                               label: userInputs?.country,
                               value: userInputs?.country,
                             }}
-                            // defaultValue={userInputs?.country}
                             className="dropdown-basic-button split-button-dropup"
                             isClearable
                             onChange={(e) => handleChange(e?.value, "country")}
                           />
-                          {error?.phoneNumber ? (
+                          {error?.country ? (
                             <div className="login-validation">
                               {error?.country}
                             </div>
@@ -503,6 +606,34 @@ const ReaderEdit = () => {
                             ""
                           )}
                         </Form.Group>
+                      </>
+                    ) : (
+                      ""
+                    )}
+
+                    {userInputs ? (
+                      <>
+                        {groupId == 2 || (groupId == 3 && flag == 0) ? (
+                          <Form.Group className="form-group">
+                            <Form.Label htmlFor="">Province</Form.Label>
+                            <Select
+                              options={province}
+                              placeholder="Select province"
+                              name="provience"
+                              defaultValue={{
+                                label: userInputs?.province,
+                                value: userInputs?.province,
+                              }}
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                              onChange={(e) =>
+                                handleChange(e?.value, "province")
+                              }
+                            />
+                          </Form.Group>
+                        ) : (
+                          ""
+                        )}
 
                         {groupId == 2 ||
                         (groupId == 3 && flag == 0) ||
@@ -540,7 +671,7 @@ const ReaderEdit = () => {
                               <Select
                                 options={userDetail?.speciality}
                                 placeholder="Select speciality"
-                                // name="speciality"
+                                name="speciality"
                                 defaultValue={{
                                   label: userInputs?.speciality,
                                   value: userInputs?.speciality,
@@ -571,7 +702,7 @@ const ReaderEdit = () => {
                                   <Select
                                     options={userDetail?.discipline}
                                     placeholder="Select discipline"
-                                    // name="discipline"
+                                    name="discipline"
                                     className="dropdown-basic-button split-button-dropup"
                                     isClearable
                                     defaultValue={{
@@ -593,23 +724,6 @@ const ReaderEdit = () => {
                                       Add new Discipline +
                                     </Button>
                                   </div>
-                                </Form.Group>
-                                <Form.Group className="form-group">
-                                  <Form.Label htmlFor="">Province</Form.Label>
-                                  <Select
-                                    options={province}
-                                    placeholder="Select province"
-                                    // name="provience"
-                                    defaultValue={{
-                                      label: userInputs?.province,
-                                      value: userInputs?.province,
-                                    }}
-                                    className="dropdown-basic-button split-button-dropup"
-                                    isClearable
-                                    onChange={(e) =>
-                                      handleChange(e?.value, "province")
-                                    }
-                                  />
                                 </Form.Group>
                               </>
                             ) : (
@@ -641,9 +755,12 @@ const ReaderEdit = () => {
                               <Form.Label htmlFor="">Product</Form.Label>
                               <Select
                                 options={userDetail?.product}
-                                defaultValue={userInputs?.product}
+                                defaultValue={{
+                                  label: userInputs?.product,
+                                  value: userInputs?.product,
+                                }}
                                 placeholder="Select product"
-                                // name="product"
+                                name="product"
                                 className="dropdown-basic-button split-button-dropup"
                                 isClearable
                                 onChange={(e) =>
@@ -696,94 +813,6 @@ const ReaderEdit = () => {
                             ) : (
                               ""
                             )}
-                          </>
-                        ) : (
-                          ""
-                        )}
-
-                        <Form.Group className="form-group">
-                          <Form.Label htmlFor="">Primary email *</Form.Label>
-                          <input
-                            type="email"
-                            className="form-control"
-                            placeholder="example@email.com"
-                            name="email"
-                            defaultValue={userInputs?.email}
-                            onChange={(e) => handleChange(e)}
-                          />
-                          {error?.email ? (
-                            <div className="login-validation">
-                              {error?.email}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </Form.Group>
-
-                        {groupId == 2 ||
-                        (groupId == 3 && flag == 0) ||
-                        (groupId == 3 && flag == 2) ? (
-                          <>
-                            <Form.Group className="form-group">
-                              <Form.Label htmlFor="">
-                                Alternative email{" "}
-                              </Form.Label>
-                              <input
-                                type="email"
-                                className="form-control"
-                                placeholder="example@email.com"
-                                name="alternativeEmail"
-                                defaultValue={userInputs?.alternativeEmail}
-                                onChange={(e) => handleChange(e)}
-                              />
-                            </Form.Group>
-                            <Form.Group className="form-group primary_phone">
-                              <Form.Label htmlFor="">
-                                Primary phone *
-                              </Form.Label>
-                              <Select
-                                options={countryCode}
-                                className="dropdown-basic-button split-button-dropup"
-                                isClearable
-                                placeholder=""
-                                onChange={(e) =>
-                                  handleChange(e?.value, "countryCode")
-                                }
-                              />
-                              {error?.countryCode ? (
-                                <div className="login-validation">
-                                  {error?.countryCode}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                              <input
-                                type="number"
-                                className="form-control"
-                                name="phoneNumber"
-                                defaultValue={userInputs?.phoneNumber}
-                                onChange={(e) => handleChange(e)}
-                              />
-                              {error?.phoneNumber ? (
-                                <div className="login-validation">
-                                  {error?.phoneNumber}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </Form.Group>
-                            <Form.Group className="form-group">
-                              <Form.Label htmlFor="">
-                                Alternative phone
-                              </Form.Label>
-                              <input
-                                type="number"
-                                className="form-control"
-                                name="alternativePhone"
-                                defaultValue={userInputs?.alternativePhone}
-                                onChange={(e) => handleChange(e)}
-                              />
-                            </Form.Group>
 
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Rep contact</Form.Label>
@@ -800,41 +829,39 @@ const ReaderEdit = () => {
                         ) : (
                           ""
                         )}
-
-                        {groupId == 3 && flag == 1 ? RDAccount() : ""}
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </Col>
+                  {groupId == 2 ||
+                  (groupId == 3 && flag == 0) ||
+                  (groupId == 3 && flag == 2) ? (
+                    <>
+                      <Col
+                        md="5"
+                        classname="d-flex justify-content-end align-items-start right-change"
+                      >
+                        <Form.Group className="form-group justify-content-end">
+                          <Form.Label htmlFor="">Notes</Form.Label>
+                          <textarea
+                            className="form-control"
+                            defaultValue={userInputs?.notes}
+                            name="notes"
+                            id="formControlTextarea"
+                            rows="5"
+                            placeholder="Meeting note, special interest etc..."
+                            onChange={(e) => handleChange(e)}
+                          ></textarea>
+                        </Form.Group>
                       </Col>
-                      {groupId == 2 ||
-                      (groupId == 3 && flag == 0) ||
-                      (groupId == 3 && flag == 2) ? (
-                        <>
-                          <Col
-                            md="5"
-                            classname="d-flex justify-content-end align-items-start right-change"
-                          >
-                            <Form.Group className="form-group justify-content-end">
-                              <Form.Label htmlFor="">Notes</Form.Label>
-                              <textarea
-                                className="form-control"
-                                defaultValue={userInputs?.notes}
-                                name="notes"
-                                id="formControlTextarea"
-                                rows="5"
-                                placeholder="Meeting note, special interest etc..."
-                                onChange={(e) => handleChange(e)}
-                              ></textarea>
-                            </Form.Group>
-                          </Col>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </Row>
-                  </div>
-                </div>
-              </>
-            ) : (
-              ""
-            )}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </Row>
+              </div>
+            </div>
           </Row>
         </div>
         <CommonModel

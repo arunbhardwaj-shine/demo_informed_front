@@ -48,6 +48,7 @@ const LibraryEditListing = () => {
     { value: "Sunshine", label: "Sunshine" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
+  const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [totalCount, setCount] = useState(0);
   const [update, setUpdate] = useState(0);
@@ -176,6 +177,10 @@ const LibraryEditListing = () => {
     }
 
     if (e?.target?.checked == true) {
+      if(key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
+      key == "SPC Included" || key == "Blinded" || key == "Mandatory"){
+        filterObject[key] = [];
+      }
       filterObject[key]?.push(item);
     } else {
       const index = filterObject[key]?.indexOf(item);
@@ -227,19 +232,20 @@ const LibraryEditListing = () => {
     });
 
     obj = {};
-    setFilterObject({});
-    setLibraryData([]);
+    if (filterApplyflag > 0) {
+      setFilterObject({});
+      setLibraryData([]);
 
-    getLibraryData(page, {}, search);
-    setSearch("");
-
+      getLibraryData(page, {}, search);
+      setSearch("");
+    }
     setShowFilter(false);
   };
 
   const applyFilter = (e) => {
     e.preventDefault();
+    setFilterApplyflag(1);
     setLibraryData([]);
-
     setFilterObject(filterObject);
     getLibraryData(page, filterObject, search);
 
@@ -832,9 +838,13 @@ const LibraryEditListing = () => {
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
-                                                      type="checkbox"
+                                                    type={
+                                                      key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
+                                                      key == "SPC Included" || key == "Blinded" || key == "Mandatory"
+                                                      ? "radio" : "checkbox" }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
+                                                      name={key}
                                                       defaultChecked={
                                                         filterObject?.hasOwnProperty(
                                                           key
@@ -845,7 +855,7 @@ const LibraryEditListing = () => {
                                                             -1
                                                           : false
                                                       }
-                                                      name="tags[]"
+
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
                                                           e,
@@ -968,7 +978,7 @@ const LibraryEditListing = () => {
               level={qrState?.level}
               includeMargin={true}
             />
-            {Object.keys(filterObject)?.length !== 0 ? (
+            {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
                 {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
@@ -1578,7 +1588,7 @@ const LibraryEditListing = () => {
                               </Tab>
                               <Tab
                                 eventKey="sales"
-                                title="Sales"
+                                title={ localStorage.getItem("group_id") == "3" ? "About" :"Sales" }
                                 className="flex-column justify-content-between"
                               >
                                 <div className="tab-panel">
@@ -1587,21 +1597,27 @@ const LibraryEditListing = () => {
                                     <>
                                       <li>
                                         <h6 className="tab-content-title">
+                                          Production person
+                                        </h6>
+                                        <h6>{data?.productName ?  data.productName : "N/A"}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
                                           Publisher
                                         </h6>
                                         <h6>{data?.publisherName ?  data.publisherName : "N/A"}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Cost Center
+                                          Country
                                         </h6>
-                                        <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
+                                        <h6>{data?.country}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Production person
+                                          Cost Center
                                         </h6>
-                                        <h6>{data?.productName ?  data.productName : "N/A"}</h6>
+                                        <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
                                       </li>
                                       {
                                         /*
@@ -1624,27 +1640,57 @@ const LibraryEditListing = () => {
                                           </h6>
                                           <h6>{data?.product}</h6>
                                         </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Country
-                                          </h6>
-                                          <h6>{data?.country}</h6>
-                                        </li>
+
                                         */
                                       }
                                     </>
                                   )}
+
+                                  {
+                                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
+                                    localStorage.getItem("group_id") == "3"
+                                    ?
+                                    <>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Blind Type
+                                        </h6>
+                                        <h6>{ data?.blindType ? data.blindType == "blinded" ? "Yes" : "No"  : "No" }</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Mandatory
+                                        </h6>
+                                        <h6>{ data?.reader_mandatory ? "Yes" : "No" }</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          User Types
+                                        </h6>
+                                        <h6>
+                                        {data?.trail_user_type
+                                          ?
+                                            typeof data?.trail_user_type == "string" && data?.trail_user_type != ""
+                                            ?
+                                            JSON.parse(data?.trail_user_type).join()
+                                            : "N/A"
+                                          : "N/A"
+                                        }
+                                        </h6>
+                                      </li>
+                                    </>
+                                    :
+                                    null
+                                  }
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Opening limit
+                                      Usage limit
                                     </h6>
-                                    <h6>{data?.limit}</h6>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Link type
+                                    <h6>
+                                    {
+                                      data?.limit > 0? data?.limit: "Unlimted"
+                                    }
                                     </h6>
-                                    <h6>{data?.linkType}</h6>
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
@@ -1655,6 +1701,12 @@ const LibraryEditListing = () => {
                                         changeFormatForPrint(data)
                                       }
                                     </h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Link type
+                                    </h6>
+                                    <h6>{data?.linkType}</h6>
                                   </li>
                                   {
                                     /*
@@ -1764,13 +1816,13 @@ const LibraryEditListing = () => {
             <h6>Select Tag :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
+                {allTags?.length?Object.values(allTags).map((data) => {
                   return (
                     <>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
                     </>
                   );
-                })}
+                }):null}
               </div>
             </div>
           </div>
@@ -1780,7 +1832,7 @@ const LibraryEditListing = () => {
             </h6>
 
             <div className="total-selected">
-              {tagClickedFirst.map((data, index) => {
+              {tagClickedFirst?.length?tagClickedFirst?.map((data, index) => {
                 return (
                   <>
                     <div className="tag-cross">
@@ -1793,7 +1845,7 @@ const LibraryEditListing = () => {
                     </div>
                   </>
                 );
-              })}
+              }):null}
             </div>
           </div>
         </Modal.Body>

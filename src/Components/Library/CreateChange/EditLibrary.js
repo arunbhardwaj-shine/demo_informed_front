@@ -66,8 +66,8 @@ const EditLibrary = () => {
   });
 
   const [blindType, setBlindType] = useState([
-    { value: "blind", label: "Blind" },
-    { value: "unblind", label: "UnBlind" },
+    { value: "blinded", label: "blind" },
+    { value: "unblinded", label: "unblind" },
   ]);
   const [ebookFile, setEbookFile] = useState([]);
   const [libraryData, setLibraryData] = useState([]);
@@ -135,7 +135,7 @@ const EditLibrary = () => {
       });
     }
 
-    
+
     let category = [];
     if( hadData?.data?.data?.category?.length){
       hadData?.data?.data?.category.reduce((objEntries, key) => {
@@ -145,14 +145,14 @@ const EditLibrary = () => {
         });
       });
     }
-   
+
     let tags = [];
     if( hadData?.data?.data?.tags?.length){
       hadData?.data?.data?.tags?.forEach((item) => {
         tags.push(item?.value);
       });
     }
-   
+
     setAllTags(tags)
 
     setUserDetail({
@@ -168,8 +168,8 @@ const EditLibrary = () => {
       product: hadData?.data?.data?.product,
       reseller: hadData?.data?.data?.reseller,
     });
-    
-    
+
+
     loader("hide");
   };
   const libraryDetail = async () => {
@@ -296,7 +296,6 @@ const EditLibrary = () => {
     }
     if(userDetail?.user?.[0]?.flag == 1 &&
       userDetail?.user?.[0]?.group_id == 3){
-        userInputs.chapter = chapter
         if(!userInputs?.trial){
           userInputs.trial = ""
         }
@@ -308,7 +307,6 @@ const EditLibrary = () => {
         delete userInputs.trial
       }
     const err = LibraryEditValidation(userInputs);
-console.log("-er",err)
     if (Object.keys(err)?.length) {
       setError(err);
       return;
@@ -316,10 +314,9 @@ console.log("-er",err)
       try {
         loader("show");
         let formData = new FormData();
-        console.log("-----------=->",userInputs)
         formData.append("keyAuthor", userInputs?.keyAuthor);
-        formData.append("production", userInputs?.production?userInputs?.production:0);
-        formData.append("sales", userInputs?.sales?userInputs?.sales:0);
+        formData.append("production", userInputs?.production_id?userInputs?.production_id:0);
+        formData.append("sales", userInputs?.sales_id?userInputs?.sales_id:0);
         formData.append("costCenter", userInputs?.cost_center?userInputs?.cost_center:"");
 
 
@@ -384,24 +381,24 @@ console.log("-er",err)
         );
         formData.append("draft", JSON.stringify(userInputs?.draft));
         formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
-       
+
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
 
 
-        await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
-          header: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        loader("hide");
-        navigate("/set-popup", {
-          state: {
-            pdfId: state?.pdfid,
-            fileType: userInputs?.docintelFormat,
-          },
-        });
+        // await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
+        //   header: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+        // });
+        // loader("hide");
+        // navigate("/set-popup", {
+        //   state: {
+        //     pdfId: state?.pdfid,
+        //     fileType: userInputs?.docintelFormat,
+        //   },
+        // });
       } catch (err) {
         console.log(err);
       }
@@ -575,9 +572,9 @@ console.log("-er",err)
                 <label htmlFor="">Production</label>
                 <Select
                   options={userDetail?.production}
-                  onChange={(e) => handleChange(e?.id, "production")}
+                  onChange={(e) => handleChange(e?.id, "production_id")}
                   defaultValue={
-                    userDetail?.production[userDetail?.production.findIndex(el => el.id == userInputs?.production_id)]
+                    userDetail?.production?.length?userDetail?.production[userDetail?.production?.findIndex(el => el.id == userInputs?.production_id)]:""
                   }
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -589,10 +586,10 @@ console.log("-er",err)
                 <Select
                   options={userDetail?.sales}
                   defaultValue={
-                    userDetail?.production[userDetail?.sales.findIndex(el => el.id == userInputs?.sales_id)]
+                    userDetail?.sales?.length?userDetail?.sales[userDetail?.sales?.findIndex(el => el?.id == userInputs?.sales_id)]:""
                   }
                   placeholder="Who made the sale?"
-                  onChange={(e) => handleChange(e?.id, "sales")}
+                  onChange={(e) => handleChange(e?.id, "sales_id")}
                   className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                   isClearable
                 />
@@ -660,6 +657,10 @@ console.log("-er",err)
           <h4>About the Docintel link you're making</h4>
           <div className="row">
             <div className="col-12 col-md-6">
+            {
+              userDetail?.user?.[0]?.flag != 1 &&
+              userDetail?.user?.[0]?.group_id == 3 ?
+              <>
               <div className="form-group">
                 <label htmlFor="">Category</label>
                 <Select
@@ -688,6 +689,9 @@ console.log("-er",err)
                   isClearable
                 />
               </div>
+              </>
+              : null
+            }
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
@@ -761,6 +765,45 @@ console.log("-er",err)
                 ) : null}
                 </div>
               ) : null}
+
+              { userDetail?.user?.[0]?.flag == 1 &&
+              userDetail?.user?.[0]?.group_id == 3?(
+               <div className="form-group">
+                <label htmlFor="">HCP</label>
+                <div className="input-group w-100">
+                  <div className="tags_added">
+                    <div className="select-tags">
+                    <ul>
+                      {userDetail?.hcp?.map((item, index) => {
+                        return (
+                          <li className="list1" onClick={()=>{hcpClicked(item)}}>
+                            {item}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <div className="after-selected">
+                    <ul className="after-tag-selected">
+                      {hcpClickedFirst.map((item, index) => {
+                        return (
+                          <li className="list1">
+                            {item}
+                            <img
+                              src="componentAssets/images/filter-close.svg"
+                              alt="Close-filter"
+                              onClick={() => removeHcp(item)}
+                            />
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              ):null }
+
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
@@ -832,41 +875,6 @@ console.log("-er",err)
                   </div>
                 </div>
               </div>
-              { userDetail?.user?.[0]?.flag == 1 &&
-              userDetail?.user?.[0]?.group_id == 3?(
-               <div className="form-group justify-content-end ">
-                <label htmlFor="">HCP</label>
-                <div className="input-group w-100">
-                  <div className="tags_added">
-                    <div className="select-tags"></div>
-                    <ul>
-                      {userDetail?.hcp?.map((item, index) => {
-                        return (
-                          <li className="list1" onClick={()=>{hcpClicked(item)}}>
-                            {item}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    <div className="select-tags"></div>
-                    <ul>
-                      {hcpClickedFirst.map((item, index) => {
-                        return (
-                          <li className="list1">
-                            {item}
-                            <img
-                              src="componentAssets/images/filter-close.svg"
-                              alt="Close-filter"
-                              onClick={() => removeHcp(item)}
-                            />
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              ):null }
               {/* <div className="form-group justify-content-end">
               <label htmlFor="">Reseller</label>
               <div className="form-check-group">
@@ -1037,17 +1045,22 @@ console.log("-er",err)
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
-                  <input
-                    type="checkbox"
-                    value="value3"
-                    defaultChecked={libraryData?.allow_share}
-                    onClick={(e) =>
-                      handleChange(e.target?.checked, "allow_share")
-                    }
-                    name="group2"
-                    id="limitagreed3"
-                  />
-                  <label htmlFor="limitagreed3">Share</label>
+                  {
+                    /*
+                    <input
+                      type="checkbox"
+                      value="value3"
+                      defaultChecked={libraryData?.allow_share}
+                      onClick={(e) =>
+                        handleChange(e.target?.checked, "allow_share")
+                      }
+                      name="group2"
+                      id="limitagreed3"
+                    />
+                    <label htmlFor="limitagreed3">Share</label>
+                    */
+                  }
+
                 </fieldset>
               </div>
             </div>
@@ -1196,6 +1209,42 @@ console.log("-er",err)
                         />
                       </div>
 
+                      {
+                        (userDetail?.user?.[0]?.flag == 1 &&
+                        userDetail?.user?.[0]?.group_id == 3)? (
+                          <>
+                          <div className="form-group">
+                            <label htmlFor="setasdraft1">Set as draft</label>
+                            <fieldset id="group2">
+                              <div className="switch">
+                                <label className="switch-light">
+                                  <input
+                                    type="checkbox"
+                                    name="group2"
+                                    id="setasdraft1"
+                                    defaultChecked={userInputs?.draft?true:false}
+                                    onChange={(e) => {
+                                      handleChange(
+                                        e.target?.checked,
+                                        "draft"
+                                      );
+                                    }}
+                                  />
+                                  <span>
+                                    <span className={`switch-btn ${userInputs?.draft == 0?" Active":""}`}>
+                                      No
+                                    </span>
+                                    <span className={`switch-btn ${userInputs?.draft == 1?" Active":""}`}>Yes</span>
+                                  </span>
+                                  <a className="btn"></a>
+                                </label>
+                              </div>
+                            </fieldset>
+                          </div>
+                          </>
+                        ) : null
+                      }
+
                       {(userDetail?.user?.[0]?.flag == 0 &&
                         userDetail?.user?.[0]?.group_id == 3)? (
                         <>
@@ -1266,7 +1315,7 @@ console.log("-er",err)
                                     defaultChecked={userInputs?.draft?true:false}
                                     onChange={(e) => {
                                       handleChange(
-                                        !e.target?.checked,
+                                        e.target?.checked,
                                         "draft"
                                       );
                                     }}
@@ -1284,7 +1333,7 @@ console.log("-er",err)
                           </div>
                         </>
                       ) : null}
-                       
+
                      { (userDetail?.user?.[0]?.flag == 1 &&
                         userDetail?.user?.[0]?.group_id == 3)?(
                           <div className="form-group">
@@ -1316,7 +1365,7 @@ console.log("-er",err)
                           </fieldset>
                         </div>
                         ):null  }
-                        
+
 
                       <div className="form-group val">
                         <label htmlFor="">Docintel format *</label>
@@ -1530,8 +1579,6 @@ console.log("-er",err)
                     </div> */}
 
                       {(userDetail?.user?.[0]?.flag == 0 &&
-                        userDetail?.user?.[0]?.group_id == 3) ||
-                      (userDetail?.user?.[0]?.flag == 1 &&
                         userDetail?.user?.[0]?.group_id == 3) ? (
                         <div className="form-group">
                           <label htmlFor="">Include video</label>
