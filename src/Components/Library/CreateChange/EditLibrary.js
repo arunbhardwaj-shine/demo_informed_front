@@ -57,7 +57,6 @@ const EditLibrary = () => {
     format: "",
     ibu: "",
     allow_oneSource: "",
-    allow_library: "",
     allow_draft: "",
     chat_box: "",
     allow_video: "",
@@ -323,6 +322,7 @@ const EditLibrary = () => {
       try {
         loader("show");
         let formData = new FormData();
+        console.log("------>>>",userInputs)
         formData.append("keyAuthor", userInputs?.keyAuthor);
         formData.append("production", userInputs?.production_id?userInputs?.production_id:0);
         formData.append("sales", userInputs?.sales_id?userInputs?.sales_id:0);
@@ -386,7 +386,7 @@ const EditLibrary = () => {
         );
         formData.append(
           "allowLibrary",
-          JSON.stringify(userInputs?.allow_library)
+         userInputs?.allow_library
         );
         formData.append(
           "allowRequest",

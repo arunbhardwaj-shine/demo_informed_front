@@ -267,8 +267,8 @@ const LibraryCreateUser = () => {
         formData.append("allowRequest", userInputs?.allowRequest ? 1 : 0);
         formData.append(
           "allowDraft",
-          userInputs?.allowDraft
-            ? JSON.stringify(userInputs?.allowDraft)
+          userInputs?.draft
+            ? JSON.stringify(userInputs?.draft)
             : JSON.stringify(false)
         );
         formData.append("allowVideo", userInputs?.allowVideo ? 1 : 0);
