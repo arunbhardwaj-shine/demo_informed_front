@@ -151,8 +151,10 @@ const EditLicense = () => {
     setAllTags(tags)
 
     setUserDetail({
+      ...userDetail,
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
+      costCenter: hadData?.data?.data?.costCenter,
       country: country,
       sales: hadData?.data?.data?.sale,
       format: hadData?.data?.data?.format,
@@ -267,6 +269,19 @@ const EditLicense = () => {
     if(userInputs.docintelFormat == "ebook"){
       userInputs.chapter = chapter
     }
+    if(userDetail?.user?.[0]?.flag == 1 &&
+      userDetail?.user?.[0]?.group_id == 3){
+        userInputs.chapter = chapter
+        if(!userInputs?.trial){
+          userInputs.trial = ""
+        }
+        if(!userInputs?.blindType){
+          userInputs.blindType = ""
+        }
+      }else{
+        delete userInputs.blindType
+        delete userInputs.trial
+      }
     const err = LibraryEditValidation(userInputs);
 
     if (Object.keys(err)?.length) {
@@ -276,7 +291,17 @@ const EditLicense = () => {
       try {
         loader("show");
         let formData = new FormData();
+
         formData.append("keyAuthor", userInputs?.keyAuthor);
+        formData.append("production", userInputs?.production_id?userInputs?.production_id:0);
+        formData.append("sales", userInputs?.sales_id?userInputs?.sales_id:0);
+        formData.append("costCenter", userInputs?.cost_center?userInputs?.cost_center:"");
+
+
+
+
+
+
         formData.append("expDatetime", userInputs?.expDatetime);
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
@@ -523,7 +548,10 @@ const EditLicense = () => {
                 <label htmlFor="">Production</label>
                 <Select
                   options={userDetail?.production}
-                  onChange={(e) => handleChange(e?.value, "production")}
+                  defaultValue={
+                    userDetail?.production[userDetail?.production.findIndex(el => el.id == userInputs?.production_id)]
+                  }
+                  onChange={(e) => handleChange(e?.id, "production_id")}
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
@@ -534,7 +562,10 @@ const EditLicense = () => {
                 <Select
                   options={userDetail?.sales}
                   placeholder="Who made the sale?"
-                  onChange={(e) => handleChange(e?.value, "sales")}
+                  defaultValue={
+                    userDetail?.sales[userDetail?.sales.findIndex(el => el.id == userInputs?.sales_id)]
+                  }
+                  onChange={(e) => handleChange(e?.id, "sales_id")}
                   className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                   isClearable
                 />
@@ -925,10 +956,11 @@ const EditLicense = () => {
                   <label htmlFor="">Cost centre</label>
                   <Select
                     options={userDetail?.costCenter}
+                    defaultValue={{label:userInputs?.cost_center,value:userInputs?.cost_center}}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                     placeholder="Select cost center"
-                    onChange={(e) => handleChange(e, "costCenter")}
+                    onChange={(e) => handleChange(e?.value, "cost_center")}
                   />
                 </div>
               ) : (

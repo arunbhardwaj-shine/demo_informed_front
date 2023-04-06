@@ -52,7 +52,6 @@ const LicenseCreateUser = () => {
     allowRequest: "",
     allowDraft: false,
     allowVideo: false,
-    trial: "",
     comDatetime: "",
     cpdValue: "",
   });
@@ -173,11 +172,27 @@ const LicenseCreateUser = () => {
     if (userInputs.docintelFormat == "ebook") {
       userInputs.chapter = chapter;
     }
+
+    if(userDetail?.user?.[0]?.flag == 1 &&
+      userDetail?.user?.[0]?.group_id == 3){
+        userInputs.chapter = chapter
+        if(!userInputs?.trial){
+          userInputs.trial = ""
+        }
+        if(!userInputs?.blindType){
+          userInputs.blindType = ""
+        }
+      }else{
+
+      }
+
     const err = createContent(
       userInputs,
       ebookFile,
       userDetail?.user?.[0]?.group_id
     );
+    console.log("-err",err)
+
 
     if (Object.keys(err)?.length) {
       setError(err);
@@ -191,6 +206,10 @@ const LicenseCreateUser = () => {
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
+        formData.append("production", userInputs?.production?userInputs?.production:0);
+        formData.append("sales", userInputs?.sales?userInputs?.sales:0);
+        formData.append("costCenter", userInputs?.costCenter?userInputs?.costCenter:"");
+
         if (userDetail?.user?.[0]?.group_id == 3) {
           formData.append(
             "expDatetime",
@@ -467,7 +486,7 @@ const LicenseCreateUser = () => {
                 <label htmlFor="">Production</label>
                 <Select
                   options={userDetail?.production}
-                  onChange={(e) => handleChange(e?.value, "production")}
+                  onChange={(e) => handleChange(e?.id, "production")}
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
@@ -478,7 +497,7 @@ const LicenseCreateUser = () => {
                 <Select
                   options={userDetail?.sales}
                   placeholder="Who made the sale?"
-                  onChange={(e) => handleChange(e?.value, "sales")}
+                  onChange={(e) => handleChange(e?.id, "sales")}
                   className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                   isClearable
                 />
