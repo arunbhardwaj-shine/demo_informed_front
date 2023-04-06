@@ -59,8 +59,8 @@ const LibraryCreateUser = () => {
     cpdValue: "",
   });
   const [blindType, setBlindType] = useState([
-    { value: "blind", label: "blind" },
-    { value: "unblind", label: "unblind" },
+    { value: "blinded", label: "blind" },
+    { value: "unblinded", label: "unblind" },
   ]);
   const [ebookFile, setEbookFile] = useState([]);
   const [chapter, setChapter] = useState([

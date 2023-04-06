@@ -66,8 +66,8 @@ const EditLibrary = () => {
   });
 
   const [blindType, setBlindType] = useState([
-    { value: "blind", label: "Blind" },
-    { value: "unblind", label: "UnBlind" },
+    { value: "blinded", label: "blind" },
+    { value: "unblinded", label: "unblind" },
   ]);
   const [ebookFile, setEbookFile] = useState([]);
   const [libraryData, setLibraryData] = useState([]);
@@ -387,18 +387,18 @@ const EditLibrary = () => {
         formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
 
 
-        await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
-          header: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        loader("hide");
-        navigate("/set-popup", {
-          state: {
-            pdfId: state?.pdfid,
-            fileType: userInputs?.docintelFormat,
-          },
-        });
+        // await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
+        //   header: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+        // });
+        // loader("hide");
+        // navigate("/set-popup", {
+        //   state: {
+        //     pdfId: state?.pdfid,
+        //     fileType: userInputs?.docintelFormat,
+        //   },
+        // });
       } catch (err) {
         console.log(err);
       }
@@ -574,7 +574,7 @@ const EditLibrary = () => {
                   options={userDetail?.production}
                   onChange={(e) => handleChange(e?.id, "production_id")}
                   defaultValue={
-                    userDetail?.production[userDetail?.production.findIndex(el => el.id == userInputs?.production_id)]
+                    userDetail?.production?.length?userDetail?.production[userDetail?.production?.findIndex(el => el.id == userInputs?.production_id)]:""
                   }
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -586,7 +586,7 @@ const EditLibrary = () => {
                 <Select
                   options={userDetail?.sales}
                   defaultValue={
-                    userDetail?.sales[userDetail?.sales.findIndex(el => el.id == userInputs?.sales_id)]
+                    userDetail?.sales?.length?userDetail?.sales[userDetail?.sales?.findIndex(el => el?.id == userInputs?.sales_id)]:""
                   }
                   placeholder="Who made the sale?"
                   onChange={(e) => handleChange(e?.id, "sales_id")}
