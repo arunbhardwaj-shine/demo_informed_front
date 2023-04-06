@@ -51,7 +51,6 @@ const LibraryCreateUser = () => {
     format: "",
     ibu: "",
     allowOneSource: "",
-    allowLibrary: "",
     allowRequest: "",
     allowDraft: false,
     allowVideo: false,
@@ -207,6 +206,7 @@ const LibraryCreateUser = () => {
 
         formData.append("productionNotes", userInputs?.productionNotes);
         formData.append("production", userInputs?.production?userInputs?.production:0);
+
         formData.append("sales", userInputs?.sales?userInputs?.sales:0);
         formData.append("costCenter", userInputs?.costCenter?userInputs?.costCenter:"");
 
@@ -220,6 +220,10 @@ const LibraryCreateUser = () => {
           formData.append("trial", userInputs?.trial);
           formData.append("mandatory", userInputs?.mandatory?JSON.stringify(userInputs?.mandatory):JSON.stringify(false));
           formData.append("trail_user_type", hcpClickedFirst?.length?JSON.stringify(hcpClickedFirst):"");
+        }
+
+        if(userDetail?.user?.[0]?.group_id == 3 && userDetail?.user?.[0]?.octaLach == 1){
+          formData.append("medical", userInputs?.medical?JSON.stringify(userInputs?.medical):JSON.stringify(false));
         }
 
         if (userDetail?.user?.[0]?.group_id == 3) {
@@ -710,26 +714,28 @@ const LibraryCreateUser = () => {
                 <div className="form-group">
                   <label htmlFor="">Content Use</label>
                   <fieldset id="group2">
+
                     <input
-                      type="checkbox"
-                      value="value1"
-                      name="group2"
-                      onClick={(e) =>
-                        handleChange(e.target?.checked, "allowOneSource")
-                      }
-                      id="limitagreed1"
-                    />
-                    <label htmlFor="limitagreed1">One Source</label>
-                    <input
-                      type="checkbox"
+                      type="radio"
                       value="value2"
                       name="group2"
                       onClick={(e) =>
-                        handleChange(e.target?.checked, "allowLibrary")
+                        handleChange(1, "allowLibrary")
                       }
                       id="limitagreed2"
                     />
                     <label htmlFor="limitagreed2">Library</label>
+
+                    <input
+                      type="radio"
+                      value="value1"
+                      name="group2"
+                      onClick={(e) =>
+                        handleChange(2, "allowLibrary")
+                      }
+                      id="limitagreed1"
+                    />
+                    <label htmlFor="limitagreed1">Congress</label>
                   </fieldset>
                 </div>
               ) : null}
@@ -1156,6 +1162,38 @@ const LibraryCreateUser = () => {
                         </div>
                       </>
                     ) : null}
+
+                    {userDetail?.user?.[0]?.octaLach == 1 &&
+                      userDetail?.user?.[0]?.group_id == 3 ?
+                      (
+                        <>
+                          <div className="form-group">
+                            <label htmlFor="setasdraft1">Medical</label>
+                            <fieldset id="group2">
+                              <div className="switch">
+                                <label className="switch-light">
+                                  <input
+                                    type="checkbox"
+                                    value="value1"
+                                    name="group2"
+                                    id="setasdraft1"
+                                    onChange={(e) => {
+                                      handleChange(e.target?.checked, "medical");
+                                    }}
+                                  />
+                                  <span>
+                                    <span className="switch-btn active">No</span>
+                                    <span className="switch-btn ">Yes</span>
+                                  </span>
+                                  <a className="btn"></a>
+                                </label>
+                              </div>
+                            </fieldset>
+                          </div>
+                        </>
+                      )
+                      : null
+                    }
                        { (userDetail?.user?.[0]?.flag == 1 &&
                         userDetail?.user?.[0]?.group_id == 3)?(
                           <div className="form-group">
@@ -1363,25 +1401,31 @@ const LibraryCreateUser = () => {
                     {(userDetail?.user?.[0]?.flag == 0 &&
                       userDetail?.user?.[0]?.group_id == 3)
                      ? (
-                      <div className="form-group">
-                        <label htmlFor="">Include video</label>
-                        <div className="switch">
-                          <label className="switch-light">
-                            <input
-                              type="checkbox"
-                              // onChange={(e) => includeVideoCheckboxChanged(e)}
-                              onChange={(e) => {
-                                handleChange(e.target?.checked, "allowVideo");
-                              }}
-                            />
-                            <span>
-                              <span className="switch-btn active">No</span>
-                              <span className="switch-btn">Yes</span>
-                            </span>
-                            <a className="btn"></a>
-                          </label>
-                        </div>
-                      </div>
+                       <>
+                       {
+                         /*
+                         <div className="form-group">
+                           <label htmlFor="">Include video</label>
+                           <div className="switch">
+                             <label className="switch-light">
+                               <input
+                                 type="checkbox"
+                                 // onChange={(e) => includeVideoCheckboxChanged(e)}
+                                 onChange={(e) => {
+                                   handleChange(e.target?.checked, "allowVideo");
+                                 }}
+                               />
+                               <span>
+                                 <span className="switch-btn active">No</span>
+                                 <span className="switch-btn">Yes</span>
+                               </span>
+                               <a className="btn"></a>
+                             </label>
+                           </div>
+                         </div>
+                         */
+                       }
+                      </>
                     ) : null}
                     <div className="form-group val">
                       <label htmlFor="">Content cover</label>
