@@ -146,7 +146,7 @@ const Header = () => {
                   }} 
                 
               >
-                  READERSfff
+                  READERS
                 </a>
               </li>
               <li className="nav-item">
