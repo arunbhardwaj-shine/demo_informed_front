@@ -289,7 +289,8 @@ const ReaderAdd = () => {
   const nextButtonClicked = async (e) => {
     e.preventDefault();
 
-    const result = AddReaderValidation(userInputs);
+    const result = AddReaderValidation(userInputs, groupId);
+
     if (Object.keys(result)?.length) {
       setError(result);
       return;
@@ -304,7 +305,10 @@ const ReaderAdd = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
           // countryCode: userInputs?.countryCode,
-          primary_phone: userInputs?.primary_phone,
+          primary_phone: (userInputs?.countryCode?.label).concat(
+            "-",
+            userInputs?.primary_phone
+          ),
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province,
@@ -510,7 +514,15 @@ const ReaderAdd = () => {
                         name="firstName"
                         onChange={(e) => handleChange(e)}
                       />
+                      {error?.firstName ? (
+                        <div className="login-validation">
+                          {error?.firstName}
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </Form.Group>
+
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">Middle name</Form.Label>
                       <input
@@ -567,9 +579,7 @@ const ReaderAdd = () => {
                             className="dropdown-basic-button split-button-dropup"
                             isClearable
                             placeholder=""
-                            onChange={(e) =>
-                              handleChange(e?.value, "countryCode")
-                            }
+                            onChange={(e) => handleChange(e, "countryCode")}
                           />
                           {error?.countryCode ? (
                             <div className="login-validation">
