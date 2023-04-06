@@ -1035,17 +1035,22 @@ const EditLibrary = () => {
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
-                  <input
-                    type="checkbox"
-                    value="value3"
-                    defaultChecked={libraryData?.allow_share}
-                    onClick={(e) =>
-                      handleChange(e.target?.checked, "allow_share")
-                    }
-                    name="group2"
-                    id="limitagreed3"
-                  />
-                  <label htmlFor="limitagreed3">Share</label>
+                  {
+                    /*
+                    <input
+                      type="checkbox"
+                      value="value3"
+                      defaultChecked={libraryData?.allow_share}
+                      onClick={(e) =>
+                        handleChange(e.target?.checked, "allow_share")
+                      }
+                      name="group2"
+                      id="limitagreed3"
+                    />
+                    <label htmlFor="limitagreed3">Share</label>
+                    */
+                  }
+
                 </fieldset>
               </div>
             </div>

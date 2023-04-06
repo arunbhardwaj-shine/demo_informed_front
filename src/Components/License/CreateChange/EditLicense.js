@@ -583,7 +583,7 @@ const EditLicense = () => {
                             <input
                               className="form-check-input"
                               value=""
-                              id="flexCheckDefault"
+                              id={"flexCheckDefault_"+item?.id}
                               type="checkbox"
                               // userInputs
                               defaultChecked={reseller.includes(item?.id)}
@@ -591,7 +591,7 @@ const EditLicense = () => {
                             />
                             <label
                               className="form-check-label"
-                              htmlFor="flexCheckDefault"
+                              htmlFor={"flexCheckDefault_"+item?.id}
                             >
                               {item?.value}
                             </label>
@@ -1025,17 +1025,22 @@ const EditLicense = () => {
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
-                  <input
-                    type="checkbox"
-                    value="value3"
-                    defaultChecked={libraryData?.allow_share}
-                    onClick={(e) =>
-                      handleChange(e.target?.checked, "allow_share")
-                    }
-                    name="group2"
-                    id="limitagreed3"
-                  />
-                  <label htmlFor="limitagreed3">Share</label>
+                  {
+                    /*
+                    <input
+                      type="checkbox"
+                      value="value3"
+                      defaultChecked={libraryData?.allow_share}
+                      onClick={(e) =>
+                        handleChange(e.target?.checked, "allow_share")
+                      }
+                      name="group2"
+                      id="limitagreed3"
+                    />
+                    <label htmlFor="limitagreed3">Share</label>
+                    */
+                  }
+
                 </fieldset>
               </div>
             </div>
