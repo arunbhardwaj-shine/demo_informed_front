@@ -284,7 +284,8 @@
         h6.tab-content-title {
           font-weight: 500;
           color: $library-box-heading;
-          flex: 0 0 116px;
+          flex: 0 0 122px;
+          word-break: break-word;
           margin: 0;
           img {
             width: 12px;
