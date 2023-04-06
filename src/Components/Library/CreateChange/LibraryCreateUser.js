@@ -114,12 +114,15 @@ const LibraryCreateUser = () => {
       user_id: id,
     });
     let country = [];
-    hadData?.data?.data?.country?.reduce((objEntries, key) => {
-      country.push({
-        label: key,
-        value: key,
+    if(hadData?.data?.data?.country){
+      hadData?.data?.data?.country?.reduce((objEntries, key) => {
+        country.push({
+          label: key,
+          value: key,
+        });
       });
-    });
+    }
+   
     let category = [];
     if (hadData?.data?.data?.category?.length) {
       hadData?.data?.data?.category?.reduce((objEntries, key) => {
@@ -241,7 +244,7 @@ const LibraryCreateUser = () => {
         formData.append("allowPrint", userInputs?.allowPrint);
         formData.append(
           "product",
-          userInputs?.product?.value ? userInputs?.product?.value : ""
+          userInputs?.product ? userInputs?.product : ""
         );
         ebookFile?.forEach((item) => {
           formData.append("ebookData", item);
@@ -982,6 +985,7 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
+            {console.log("-----useDet",userDetail)}
             {userDetail?.user?.[0]?.group_id == 2
               ? publisherFun()
               : userDetail?.user?.[0]?.flag == 0 &&

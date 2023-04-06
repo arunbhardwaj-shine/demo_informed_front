@@ -92,7 +92,6 @@ const EditLibrary = () => {
     trial: [
       {label:"LEXx210",value:"3972"}
     ],
-    // reseller:[]
   });
   const [id, setId] = useState(localStorage.getItem("user_id"));
 
@@ -126,13 +125,23 @@ const EditLibrary = () => {
     });
 
     let country = [];
-    if( hadData?.data?.data?.category?.length){
-      hadData?.data?.data?.country.reduce((objEntries, key) => {
-        country.push({
-          label: key,
-          value: key,
+    if( hadData?.data?.data?.country?.length){
+      if(typeof hadData?.data?.data?.country == "string"){
+        JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
+          country.push({
+            label: key,
+            value: key,
+          });
         });
-      });
+      }else{
+        hadData?.data?.data?.country?.reduce((objEntries, key) => {
+          country.push({
+            label: key,
+            value: key,
+          });
+        });
+
+      }
     }
 
 
