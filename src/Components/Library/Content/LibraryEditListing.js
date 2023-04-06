@@ -1578,7 +1578,7 @@ const LibraryEditListing = () => {
                               </Tab>
                               <Tab
                                 eventKey="sales"
-                                title="Sales"
+                                title={ localStorage.getItem("group_id") == "3" ? "About" :"Sales" }
                                 className="flex-column justify-content-between"
                               >
                                 <div className="tab-panel">
@@ -1635,6 +1635,43 @@ const LibraryEditListing = () => {
                                       }
                                     </>
                                   )}
+
+                                  {
+                                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
+                                    localStorage.getItem("group_id") == "3"
+                                    ?
+                                    <>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Blind Type
+                                        </h6>
+                                        <h6>{ data?.blindType ? data.blindType == "blinded" ? "Yes" : "No"  : "No" }</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Mandatory
+                                        </h6>
+                                        <h6>{ data?.reader_mandatory ? "Yes" : "No" }</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          User Types
+                                        </h6>
+                                        <h6>
+                                        {data?.trail_user_type
+                                          ?
+                                            typeof data?.trail_user_type == "string" && data?.trail_user_type != ""
+                                            ?
+                                            JSON.parse(data?.trail_user_type).join()
+                                            : "N/A"
+                                          : "N/A"
+                                        }
+                                        </h6>
+                                      </li>
+                                    </>
+                                    :
+                                    null
+                                  }
                                   <li>
                                     <h6 className="tab-content-title">
                                       Usage limit

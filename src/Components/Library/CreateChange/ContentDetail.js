@@ -249,7 +249,7 @@ const ContentDetail = () => {
                                                     <td>
                                                       {data?.trail_user_type
                                                         ?
-                                                          typeof data?.trail_user_type == "string"
+                                                          typeof data?.trail_user_type == "string" && data?.trail_user_type != ""
                                                           ?
                                                           JSON.parse(data?.trail_user_type).join()
                                                           : "N/A"
@@ -261,7 +261,7 @@ const ContentDetail = () => {
                                                   <tr>
                                                     <th>Blind Type</th>
                                                     <td>
-                                                      { data?.blindType ? data.blindType == "blind" ? "Yes" : "No"  : "No" }
+                                                      { data?.blindType ? data.blindType == "blinded" ? "Yes" : "No"  : "No" }
                                                     </td>
                                                   </tr>
                                                   <tr>
@@ -339,6 +339,8 @@ const ContentDetail = () => {
                                           <div className="mailbox-table">
                                             <table>
                                               <tbody>
+                                              {
+                                                localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
                                                 <tr>
                                                   <th>Cost center</th>
                                                   <td>
@@ -347,6 +349,9 @@ const ContentDetail = () => {
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
+                                                :
+                                                null
+                                              }
                                                 <tr>
                                                   <th>Expiration date</th>
                                                   <td>
@@ -464,7 +469,7 @@ const ContentDetail = () => {
                                                   <td>
                                                     {data?.draft
                                                       ? "Yes"
-                                                      : "N/A"}
+                                                      : "No"}
                                                   </td>
                                                 </tr>
                                                 <tr>
