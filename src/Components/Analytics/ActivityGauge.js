@@ -8,8 +8,42 @@ highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
 export default function ActivityGauge({ series, label, list }) {
-  console.log(series.length, label);
+  const [bgColors, setBgColors] = useState([
+    {
+      outerRadius: "112%",
+      innerRadius: "88%",
+      backgroundColor: Highcharts.color(Highcharts.getOptions().colors[0])
+        .setOpacity(0.3)
+        .get(),
+      borderWidth: 0,
+    },
+    {
+      outerRadius: "87%",
+      innerRadius: "63%",
+      backgroundColor: Highcharts.color(Highcharts.getOptions().colors[1])
+        .setOpacity(0.3)
+        .get(),
+      borderWidth: 0,
+    },
+    {
+      outerRadius: "62%",
+      innerRadius: "38%",
+      backgroundColor: Highcharts.color(Highcharts.getOptions().colors[2])
+        .setOpacity(0.3)
+        .get(),
+      borderWidth: 0,
+    },
+    {
+      outerRadius: "37%",
+      innerRadius: "13%",
+      backgroundColor: Highcharts.color(Highcharts.getOptions().colors[3])
+        .setOpacity(0.3)
+        .get(),
+      borderWidth: 0,
+    },
+  ].slice(4-series.length, series.length+1),)
 
+console.log("colors ",bgColors)
   const [options, setOptions] = useState({
     chart: {
       type: "solidgauge",
@@ -44,40 +78,7 @@ export default function ActivityGauge({ series, label, list }) {
     pane: {
       startAngle: 0,
       endAngle: 360,
-      background: [
-        {
-          outerRadius: "112%",
-          innerRadius: "88%",
-          backgroundColor: Highcharts.color(Highcharts.getOptions().colors[0])
-            .setOpacity(0.3)
-            .get(),
-          borderWidth: 0,
-        },
-        {
-          outerRadius: "87%",
-          innerRadius: "63%",
-          backgroundColor: Highcharts.color(Highcharts.getOptions().colors[1])
-            .setOpacity(0.3)
-            .get(),
-          borderWidth: 0,
-        },
-        {
-          outerRadius: "62%",
-          innerRadius: "38%",
-          backgroundColor: Highcharts.color(Highcharts.getOptions().colors[2])
-            .setOpacity(0.3)
-            .get(),
-          borderWidth: 0,
-        },
-        {
-          outerRadius: "37%",
-          innerRadius: "13%",
-          backgroundColor: Highcharts.color(Highcharts.getOptions().colors[3])
-            .setOpacity(0.3)
-            .get(),
-          borderWidth: 0,
-        },
-      ].slice(0, series.length),
+      background: bgColors,
     },
     yAxis: {
       min: 0,
@@ -105,13 +106,13 @@ export default function ActivityGauge({ series, label, list }) {
     <Col>
       <HighchartsReact highcharts={Highcharts} options={options} />
       <div class="stats_precenage">
-        <ul class="ul_stats_first">
+        <ul class="ul_stats_first" style={{listStyle:"none"}}>
           {list.map((item, index) => {
             const key = Object.keys(item)[0];
             const value = item[key];
             return (
               <li key={index}>
-                <span>{key}</span> {value}
+                <span>{key}</span>  <span >{value}</span>
               </li>
             );
           })}

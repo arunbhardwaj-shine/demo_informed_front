@@ -342,6 +342,10 @@ const EditLibrary = () => {
           formData.append("trail_user_type", hcpClickedFirst?.length?JSON.stringify(hcpClickedFirst):"");
         }
 
+        if(userDetail?.user?.[0]?.group_id == 3 && userDetail?.user?.[0]?.octaLach == 1){
+          formData.append("medical", userInputs?.medical?JSON.stringify(userInputs?.medical):JSON.stringify(false));
+        }
+
         formData.append(
           "multiplePublisher",
           reseller?.length ? JSON.stringify(reseller) : ""
@@ -396,18 +400,18 @@ const EditLibrary = () => {
         formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
 
 
-        // await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
-        //   header: {
-        //     "Content-Type": "multipart/form-data",
-        //   },
-        // });
-        // loader("hide");
-        // navigate("/set-popup", {
-        //   state: {
-        //     pdfId: state?.pdfid,
-        //     fileType: userInputs?.docintelFormat,
-        //   },
-        // });
+        await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
+          header: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        loader("hide");
+        navigate("/set-popup", {
+          state: {
+            pdfId: state?.pdfid,
+            fileType: userInputs?.docintelFormat,
+          },
+        });
       } catch (err) {
         console.log(err);
       }
@@ -818,28 +822,29 @@ const EditLibrary = () => {
                 <div className="form-group">
                   <label htmlFor="">Content Use</label>
                   <fieldset id="group2">
-                    <input
-                      type="checkbox"
-                      value="value1"
-                      name="group2"
-                      defaultChecked={userInputs?.allow_oneSource}
-                      onClick={(e) =>
-                        handleChange(e.target?.checked, "allow_oneSource")
-                      }
-                      id="limitagreed1"
-                    />
-                    <label htmlFor="limitagreed1">One Source</label>
-                    <input
-                      type="checkbox"
-                      value="value2"
-                      name="group2"
-                      defaultChecked={userInputs?.allow_library}
-                      onClick={(e) =>
-                        handleChange(e.target?.checked, "allow_library")
-                      }
-                      id="limitagreed2"
-                    />
-                    <label htmlFor="limitagreed2">Library</label>
+                  <input
+                    type="radio"
+                    value="value2"
+                    name="group2"
+                    defaultChecked={userInputs?.article_platform == 1 ? true : false}
+                    onClick={(e) =>
+                      handleChange(1, "allowLibrary")
+                    }
+                    id="limitagreed2"
+                  />
+                  <label htmlFor="limitagreed2">Library</label>
+
+                  <input
+                    type="radio"
+                    value="value1"
+                    name="group2"
+                    defaultChecked={userInputs?.article_platform == 2 ? true : false}
+                    onClick={(e) =>
+                      handleChange(2, "allowLibrary")
+                    }
+                    id="limitagreed1"
+                  />
+                  <label htmlFor="limitagreed1">Congress</label>
                   </fieldset>
                 </div>
               ) : null}
@@ -1343,6 +1348,41 @@ const EditLibrary = () => {
                         </>
                       ) : null}
 
+                      {userDetail?.user?.[0]?.octaLach == 1 &&
+                        userDetail?.user?.[0]?.group_id == 3 ?
+                        (
+                          <>
+                            <div className="form-group">
+                              <label htmlFor="setasdraft1">Medical</label>
+                              <fieldset id="group2">
+                                <div className="switch">
+                                  <label className="switch-light">
+                                    <input
+                                      type="checkbox"
+                                      value="value1"
+                                      name="group2"
+                                      id="setasdraft1"
+                                      defaultChecked={userInputs?.medical?true:false}
+                                      onChange={(e) => {
+                                        handleChange(e.target?.checked, "medical");
+                                      }}
+                                    />
+                                    <span>
+                                      <span className={`switch-btn ${userInputs?.medical == 0?" Active":""}`}>
+                                        No
+                                      </span>
+                                      <span className={`switch-btn ${userInputs?.medical == 1?" Active":""}`}>Yes</span>
+                                    </span>
+                                    <a className="btn"></a>
+                                  </label>
+                                </div>
+                              </fieldset>
+                            </div>
+                          </>
+                        )
+                        : null
+                      }
+
                      { (userDetail?.user?.[0]?.flag == 1 &&
                         userDetail?.user?.[0]?.group_id == 3)?(
                           <div className="form-group">
@@ -1589,28 +1629,35 @@ const EditLibrary = () => {
 
                       {(userDetail?.user?.[0]?.flag == 0 &&
                         userDetail?.user?.[0]?.group_id == 3) ? (
-                        <div className="form-group">
-                          <label htmlFor="">Include video</label>
-                          <div className="switch">
-                            <label className="switch-light">
-                              <input
-                                type="checkbox"
-                                defaultChecked={userInputs?.allow_video}
-                                // onChange={(e) => includeVideoCheckboxChanged(e)}
-                                onChange={(e) => {
-                                  handleChange(
-                                    e.target?.checked,
-                                    "allow_video"
-                                  );
-                                }}
-                              />
-                              <span>
-                                <span className="switch-btn active">No</span>
-                                <span className="switch-btn">Yes</span>
-                              </span>
-                              <a className="btn"></a>
-                            </label>
-                          </div>
+                          <>
+
+                          {
+                            /*
+                            <div className="form-group">
+                              <label htmlFor="">Include video</label>
+                              <div className="switch">
+                                <label className="switch-light">
+                                  <input
+                                    type="checkbox"
+                                    defaultChecked={userInputs?.allow_video}
+                                    // onChange={(e) => includeVideoCheckboxChanged(e)}
+                                    onChange={(e) => {
+                                      handleChange(
+                                        e.target?.checked,
+                                        "allow_video"
+                                      );
+                                    }}
+                                  />
+                                  <span>
+                                    <span className="switch-btn active">No</span>
+                                    <span className="switch-btn">Yes</span>
+                                  </span>
+                                  <a className="btn"></a>
+                                </label>
+                              </div>
+                            */
+                          }
+
                           {/* {checked == false ? ( */}
                           {/* <Button
                         className="btn-bordered btn-voilet"
@@ -1620,8 +1667,9 @@ const EditLibrary = () => {
                       </Button> */}
                           {/* ) : (
                         false
-                      )} */}
-                        </div>
+                      )}
+                        </div>*/}
+                        </>
                       ) : null}
                       <div className="form-group val">
                         <label htmlFor="">Content cover</label>

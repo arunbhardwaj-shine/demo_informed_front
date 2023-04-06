@@ -1322,7 +1322,7 @@ select::-ms-expand {
 
 .login-validation {
   color: $pink;
-  font-size: 12px;
+  font-size: 14px;
   position: absolute;
   right: 0px;
   top: 55px;
@@ -1330,10 +1330,10 @@ select::-ms-expand {
 
 .login-validation-upload {
   color: $pink;
-  font-size: 12px;
+  font-size: 14px;
   position: absolute;
-  left: auto;
-  right: 0px;
+  left:0!important;
+  right: auto;
   bottom: -10px;
 }
 
@@ -1500,7 +1500,6 @@ form.product-unit button {
 .create-change-content .form-group input:checked[type="checkbox"],
 .create-change-content
   .form-group
-  .form-check-group
   input:checked[type="radio"] {
   background-color: $secondary-green;
   border-color: $secondary-green;
@@ -3061,6 +3060,66 @@ input.viewer-toolbar-current-page-input {
     font-size: 20px;
     cursor: pointer;
     color: #70899E;
+}
+.delivery-trends {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 10px;
+    background: $white;
+    .nav-tabs{
+      border-bottom: 1px solid rgb(11 58 129);
+      .nav-item{
+        width: 25%;
+        text-align: center;
+        border: 1px solid $white;
+        &:first-child{
+          border-left:0;
+        }
+        .nav-link{
+          width:100%;
+          color: #0b3a81;
+          background: rgb(11 58 129 / 16%);
+          font-weight: 500;
+          font-size: 18px;
+         &.active{
+          background: #0b3a81;
+          border-bottom: 1px solid #0b3a81;
+          color:$white;
+         }
+        }
+      }
+    }
+    .stats_precenage {
+      ul {
+        padding: 0 5px;
+        margin: 0 auto;
+        text-align: right;
+        li {
+          display: flex;
+          padding: 0;
+          justify-content: space-between;
+          list-style: none;
+          margin: 0 auto;
+          font-size: 14px;
+          color: #000000;
+          font-weight: 500;
+          span {
+            color: #ababab;
+            font-weight: 400;
+            &:last-child{
+              color: #000000;
+            }
+        }
+        }
+    }
+}
+
+}
+.delivery-trends .tab-content .col .highcharts-container text.highcharts-title {
+    font-size: 15px!important;
+    font-weight: 500;
+    color: #0b3a81!important;
+    fill: #0b3a81!important;
 }
 /**Analytics end**/
 
