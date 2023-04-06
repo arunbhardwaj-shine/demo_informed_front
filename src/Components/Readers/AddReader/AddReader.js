@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 const ReaderAdd = () => {
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
-  const [groupId, setGroupId] = useState(2);
+  const [groupId, setGroupId] = useState();
   const [flag, setFlag] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
@@ -152,6 +152,8 @@ const ReaderAdd = () => {
     setCountryAll(country);
     setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
+    setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
+    setFlag(hasData?.data?.data?.user?.[0]?.flag);
 
     setUserDetail({
       ...userDetail,
@@ -324,7 +326,7 @@ const ReaderAdd = () => {
         console.log("data", data);
         await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
-        // navigate("/readers-view");
+
         navigate("/reader-review", {
           state: {
             data: data,
@@ -529,6 +531,83 @@ const ReaderAdd = () => {
                         onChange={(e) => handleChange(e)}
                       />
                     </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Primary email *</Form.Label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="example@email.com"
+                        name="email"
+                        onChange={(e) => handleChange(e)}
+                      />
+                      {error?.email ? (
+                        <div className="login-validation">{error?.email}</div>
+                      ) : (
+                        ""
+                      )}
+                    </Form.Group>
+                    {groupId == 2 ||
+                    (groupId == 3 && flag == 0) ||
+                    (groupId == 3 && flag == 2) ? (
+                      <>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Alternative email </Form.Label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="example@email.com"
+                            name="alternativeEmail"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+                        <Form.Group className="form-group primary_phone">
+                          <Form.Label htmlFor="">Primary phone *</Form.Label>
+                          <Select
+                            options={countryCode}
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            placeholder=""
+                            onChange={(e) =>
+                              handleChange(e?.value, "countryCode")
+                            }
+                          />
+                          {error?.countryCode ? (
+                            <div className="login-validation">
+                              {error?.countryCode}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                          <input
+                            type="number"
+                            className="form-control"
+                            name="primary_phone"
+                            onChange={(e) => handleChange(e)}
+                          />
+                          {error?.primary_phone ? (
+                            <div className="login-validation">
+                              {error?.primary_phone}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </Form.Group>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Alternative phone</Form.Label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            name="alternativePhone"
+                            placeholder="Alternative phone"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+                      </>
+                    ) : (
+                      ""
+                    )}
+
+                    {groupId == 3 && flag == 1 ? RDAccount() : ""}
 
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">Country *</Form.Label>
@@ -546,6 +625,22 @@ const ReaderAdd = () => {
                         ""
                       )}
                     </Form.Group>
+
+                    {groupId == 2 || (groupId == 3 && flag == 0) ? (
+                      <Form.Group className="form-group">
+                        <Form.Label htmlFor="">Province</Form.Label>
+                        <Select
+                          options={province}
+                          placeholder="Select province"
+                          name="province"
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                          onChange={(e) => handleChange(e?.value, "province")}
+                        />
+                      </Form.Group>
+                    ) : (
+                      ""
+                    )}
 
                     {groupId == 2 ||
                     (groupId == 3 && flag == 0) ||
@@ -622,38 +717,21 @@ const ReaderAdd = () => {
                                 </Button>
                               </div>
                             </Form.Group>
-
+                          </>
+                        ) : (
+                          <>
                             <Form.Group className="form-group">
-                              <Form.Label htmlFor="">Province</Form.Label>
+                              <Form.Label htmlFor="">Bussiness Unit</Form.Label>
                               <Select
-                                options={province}
-                                placeholder="Select province"
-                                name="province"
+                                options={userDetail?.ibu}
+                                placeholder="Select Bussiness Unit"
+                                name="ibu"
                                 className="dropdown-basic-button split-button-dropup"
                                 isClearable
-                                onChange={(e) =>
-                                  handleChange(e?.value, "province")
-                                }
+                                onChange={(e) => handleChange(e?.value, "ibu")}
                               />
                             </Form.Group>
                           </>
-                        ) : (
-                          ""
-                        )}
-                        {groupId == 3 && flag == 2 ? (
-                          <Form.Group className="form-group">
-                            <Form.Label htmlFor="">Bussiness Unit</Form.Label>
-                            <Select
-                              options={userDetail?.ibu}
-                              placeholder="Select Bussiness Unit"
-                              name="ibu"
-                              className="dropdown-basic-button split-button-dropup"
-                              isClearable
-                              onChange={(e) => handleChange(e?.value, "ibu")}
-                            />
-                          </Form.Group>
-                        ) : (
-                          ""
                         )}
 
                         <Form.Group className="form-group margin-added">
@@ -678,6 +756,7 @@ const ReaderAdd = () => {
                             </Button>
                           </div>
                         </Form.Group>
+
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">Interest area</Form.Label>
                           <Select
@@ -691,100 +770,6 @@ const ReaderAdd = () => {
                             }
                           />
                         </Form.Group>
-                        {groupId == 3 && flag == 0 ? (
-                          <Form.Group className="form-group">
-                            <Form.Label htmlFor="">Select User Type</Form.Label>
-                            <Select
-                              options={userDetail?.userType}
-                              placeholder="Select province"
-                              name="userType"
-                              className="dropdown-basic-button split-button-dropup"
-                              isClearable
-                              onChange={(e) =>
-                                handleChange(e?.value, "UserType")
-                              }
-                            />
-                          </Form.Group>
-                        ) : (
-                          ""
-                        )}
-                      </>
-                    ) : (
-                      ""
-                    )}
-
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Primary email *</Form.Label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        placeholder="example@email.com"
-                        name="email"
-                        onChange={(e) => handleChange(e)}
-                      />
-                      {error?.email ? (
-                        <div className="login-validation">{error?.email}</div>
-                      ) : (
-                        ""
-                      )}
-                    </Form.Group>
-                    {groupId == 2 ||
-                    (groupId == 3 && flag == 0) ||
-                    (groupId == 3 && flag == 2) ? (
-                      <>
-                        <Form.Group className="form-group">
-                          <Form.Label htmlFor="">Alternative email </Form.Label>
-                          <input
-                            type="email"
-                            className="form-control"
-                            placeholder="example@email.com"
-                            name="alternativeEmail"
-                            onChange={(e) => handleChange(e)}
-                          />
-                        </Form.Group>
-                        <Form.Group className="form-group primary_phone">
-                          <Form.Label htmlFor="">Primary phone *</Form.Label>
-                          <Select
-                            options={countryCode}
-                            className="dropdown-basic-button split-button-dropup"
-                            isClearable
-                            placeholder=""
-                            onChange={(e) =>
-                              handleChange(e?.value, "countryCode")
-                            }
-                          />
-                          {error?.countryCode ? (
-                            <div className="login-validation">
-                              {error?.countryCode}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          <input
-                            type="number"
-                            className="form-control"
-                            name="primary_phone"
-                            onChange={(e) => handleChange(e)}
-                          />
-                          {error?.primary_phone ? (
-                            <div className="login-validation">
-                              {error?.primary_phone}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </Form.Group>
-                        <Form.Group className="form-group">
-                          <Form.Label htmlFor="">Alternative phone</Form.Label>
-                          <input
-                            type="number"
-                            className="form-control"
-                            name="alternativePhone"
-                            placeholder="Alternative phone"
-                            onChange={(e) => handleChange(e)}
-                          />
-                        </Form.Group>
-
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">Rep contact</Form.Label>
                           <input
@@ -800,7 +785,21 @@ const ReaderAdd = () => {
                       ""
                     )}
 
-                    {groupId == 3 && flag == 1 ? RDAccount() : ""}
+                    {groupId == 3 && flag == 0 ? (
+                      <Form.Group className="form-group">
+                        <Form.Label htmlFor="">Select User Type</Form.Label>
+                        <Select
+                          options={userDetail?.userType}
+                          placeholder="Select province"
+                          name="userType"
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                          onChange={(e) => handleChange(e?.value, "UserType")}
+                        />
+                      </Form.Group>
+                    ) : (
+                      ""
+                    )}
                   </Col>
                   {groupId == 2 ||
                   (groupId == 3 && flag == 0) ||
@@ -827,7 +826,8 @@ const ReaderAdd = () => {
                     ""
                   )}
                 </div>
-                {/* <Form className="d-flex flex-wrap row">
+                {/* 
+                <Form className="d-flex flex-wrap row">
                 <Form.Group className="mb-3 col-6 form-group">
                   <Form.Label>First name</Form.Label>
                   <Form.Control
