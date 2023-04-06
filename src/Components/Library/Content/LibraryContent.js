@@ -1817,13 +1817,14 @@ const LibraryContent = () => {
             <h6>Select Tag :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
+              
+                {allTags?.length?Object?.values(allTags).map((data) => {
                   return (
                     <>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
                     </>
                   );
-                })}
+                }):null}
               </div>
             </div>
           </div>

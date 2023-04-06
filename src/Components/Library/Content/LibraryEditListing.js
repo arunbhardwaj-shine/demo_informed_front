@@ -1769,13 +1769,13 @@ const LibraryEditListing = () => {
             <h6>Select Tag :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
+                {allTags?.length?Object.values(allTags).map((data) => {
                   return (
                     <>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
                     </>
                   );
-                })}
+                }):null}
               </div>
             </div>
           </div>
@@ -1785,7 +1785,7 @@ const LibraryEditListing = () => {
             </h6>
 
             <div className="total-selected">
-              {tagClickedFirst.map((data, index) => {
+              {tagClickedFirst?.length?tagClickedFirst?.map((data, index) => {
                 return (
                   <>
                     <div className="tag-cross">
@@ -1798,7 +1798,7 @@ const LibraryEditListing = () => {
                     </div>
                   </>
                 );
-              })}
+              }):null}
             </div>
           </div>
         </Modal.Body>
