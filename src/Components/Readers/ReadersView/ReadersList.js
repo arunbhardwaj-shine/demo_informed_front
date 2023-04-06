@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { postData, getData,postFormData } from "../../../axios/apiHelper";
+import { postData, getData, postFormData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
@@ -82,14 +82,14 @@ const NewReaders = () => {
     }
   };
 
-  const getReaderListData = async (page, obj, search,load=0) => {
+  const getReaderListData = async (page, obj, search, load = 0) => {
     try {
       setIsLoaded(false);
-      if(load == 0){
+      if (load == 0) {
         loader("show");
         setPage(1);
         page = 1;
-      }else{
+      } else {
         setPageAll(true);
       }
       setApiCallStatus(false);
@@ -99,7 +99,7 @@ const NewReaders = () => {
         search: search,
         type: "",
         page: page,
-        limit:limit
+        limit: limit,
       };
 
       let payload = { ...data, ...obj };
@@ -110,50 +110,53 @@ const NewReaders = () => {
       // }
       const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
 
-      if(spcFlag == 0){
-          let body = {
-            "user_id": localStorage.getItem("user_id")
-          };
-          const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING, body);
-          let countries = [];
-          Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
-            countries.push({
-              value: item,
-              label: item == "B&H" ? "Bosnia and Herzegovina" : item,
-            });
-            setCountryAll(countries);
+      if (spcFlag == 0) {
+        let body = {
+          user_id: localStorage.getItem("user_id"),
+        };
+        const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING, body);
+        let countries = [];
+        Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
+          countries.push({
+            value: item,
+            label: item == "B&H" ? "Bosnia and Herzegovina" : item,
           });
-          setSpcFlag(1);
+          setCountryAll(countries);
+        });
+        setSpcFlag(1);
       }
 
-    if(totalCount != res?.data?.data?.total){
-      setCount(res?.data?.data?.total);
-    }
+      if (totalCount != res?.data?.data?.total) {
+        setCount(res?.data?.data?.total);
+      }
 
-    let total_results = 0;
-    if(page != 1){
-      total_results = res?.data?.data?.result.length + readerDataList.length;
-      setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data?.result]);
-    }else{
-      total_results = res?.data?.data?.result.length;
-      setReaderDataList(res?.data?.data?.result);
-    }
+      let total_results = 0;
+      if (page != 1) {
+        total_results = res?.data?.data?.result.length + readerDataList.length;
+        setReaderDataList((oldArray) => [
+          ...oldArray,
+          ...res?.data?.data?.result,
+        ]);
+      } else {
+        total_results = res?.data?.data?.result.length;
+        setReaderDataList(res?.data?.data?.result);
+      }
 
-    if(res?.data?.data?.total > total_results){
-      setIsLoaded(true);
-    }else{
-      setIsLoaded(false);
-    }
+      if (res?.data?.data?.total > total_results) {
+        setIsLoaded(true);
+      } else {
+        setIsLoaded(false);
+      }
 
-    // if(res?.data?.data){
-    //     let count = res?.data?.data.length;
-    //     if(count < limit){
-    //       setIsLoaded(false);
-    //     }else{
-    //       setIsLoaded(true);
-    //       setPage(page + 1);
-    //     }
-    // }
+      // if(res?.data?.data){
+      //     let count = res?.data?.data.length;
+      //     if(count < limit){
+      //       setIsLoaded(false);
+      //     }else{
+      //       setIsLoaded(true);
+      //       setPage(page + 1);
+      //     }
+      // }
 
       // setPageAll(false);
       // setPageAllClicked(false);
@@ -178,14 +181,14 @@ const NewReaders = () => {
       };
 
       let payload = { ...data, ...filterObject };
-      const res = await postFormData(ENDPOINT.READER_DOWNLOAD,payload,{
-        responseType: 'blob'
+      const res = await postFormData(ENDPOINT.READER_DOWNLOAD, payload, {
+        responseType: "blob",
       });
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       // console.log(url);
       link.href = url;
-      link.download = 'readers.xlsx';
+      link.download = "readers.xlsx";
       link.click();
       loader("hide");
     } catch (err) {
@@ -194,11 +197,10 @@ const NewReaders = () => {
     }
   };
 
-
   const loadMoreClicked = () => {
     // setPageAllClicked(true);
     let sp = page + 1;
-    getReaderListData(sp, filterObject, search,1);
+    getReaderListData(sp, filterObject, search, 1);
     setPage(page + 1);
     // setType("rest");
   };
@@ -226,7 +228,7 @@ const NewReaders = () => {
     }
 
     if (e?.target?.checked == true) {
-      if(key == "status" || key == "contactType"){
+      if (key == "status" || key == "contactType") {
         filterObject[key] = [];
       }
       filterObject[key]?.push(item);
@@ -286,7 +288,6 @@ const NewReaders = () => {
       changeUserType[index].value = consetValue;
     }
   };
-
 
   const updateReaderDetails = async (reader_id, index) => {
     try {
@@ -380,27 +381,27 @@ const NewReaders = () => {
     getReaderListData(page, old_object);
   };
 
-  const tabClicked = async(key,userId) => {
-      if(key == "usage"){
-        let index = emailStats.findIndex((el) => el.userId == userId);
-        if(index === -1){
-            let normal_data = emailStats;
-          try{
-            let body = {
-              "readerId" : userId
-            };
-            const res = await postData(ENDPOINT.READERACTIVITY, body);
-            if(res?.data?.data){
-              let new_data = res?.data?.data;
-              normal_data.push(new_data);
-              setEmailStats(normal_data);
-              setStatsFlag(statsFlag + 1);
-            }
-          }catch(err){
-            console.log(err);
+  const tabClicked = async (key, userId) => {
+    if (key == "usage") {
+      let index = emailStats.findIndex((el) => el.userId == userId);
+      if (index === -1) {
+        let normal_data = emailStats;
+        try {
+          let body = {
+            readerId: userId,
+          };
+          const res = await postData(ENDPOINT.READERACTIVITY, body);
+          if (res?.data?.data) {
+            let new_data = res?.data?.data;
+            normal_data.push(new_data);
+            setEmailStats(normal_data);
+            setStatsFlag(statsFlag + 1);
           }
+        } catch (err) {
+          console.log(err);
         }
       }
+    }
   };
 
   return (
@@ -413,7 +414,6 @@ const NewReaders = () => {
                 <h2>Readers</h2>
               </div>
               <div className="top-right-action library_content_view">
-
                 <div className="search-bar">
                   <Form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
@@ -525,7 +525,12 @@ const NewReaders = () => {
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
-                                                      type={key == "status" || key == "contactType"  ? "radio" : "checkbox" }
+                                                      type={
+                                                        key == "status" ||
+                                                        key == "contactType"
+                                                          ? "radio"
+                                                          : "checkbox"
+                                                      }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
                                                       name={key}
@@ -575,12 +580,14 @@ const NewReaders = () => {
                       <div className="filter-footer">
                         <Button
                           className="btn btn-primary btn-bordered"
-                          onClick={clearFilter}>
+                          onClick={clearFilter}
+                        >
                           Clear
                         </Button>
                         <Button
                           className="btn btn-primary btn-filled"
-                          onClick={applyFilter}>
+                          onClick={applyFilter}
+                        >
                           Apply
                         </Button>
                       </div>
@@ -588,17 +595,30 @@ const NewReaders = () => {
                   )}
                 </div>
 
-                  <div className="clear-search">
-                    <button className="btn print"
-                      onClick={()=>{
-                        getDownloadData(page, obj, search)
-                      }}
-                      >
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z" fill="#0066BE"/>
-                        <path d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z" fill="#0066BE"/>
-                        </svg>
-                    </button>
+                <div className="clear-search">
+                  <button
+                    className="btn print"
+                    onClick={() => {
+                      getDownloadData(page, obj, search);
+                    }}
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                        fill="#0066BE"
+                      />
+                      <path
+                        d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                        fill="#0066BE"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
@@ -658,425 +678,481 @@ const NewReaders = () => {
               <h4>
                 <span>Total HCP</span> | {totalCount}
               </h4>
-              {readerDataList?.length || updateflag
-                ? readerDataList.map((data, index) => {
-                    return (
-                      <>
-                        <div className="doc-content-main-box col" key={index}>
-                          <div className="doc-content-header">
-                            <div className="doc-content">
-                              <h4>{data?.name}</h4>
-                            </div>
+              {readerDataList?.length || updateflag ? (
+                readerDataList.map((data, index) => {
+                  return (
+                    <>
+                      <div className="doc-content-main-box col" key={index}>
+                        <div className="doc-content-header">
+                          <div className="doc-content">
+                            <h4>{data?.name}</h4>
                           </div>
-                          <div className="tabs-data">
-                            <Tabs
+                        </div>
+                        <div className="tabs-data">
+                          <Tabs
                             onSelect={(key) => tabClicked(key, data?.id)}
-                            defaultActiveKey="personal-details" fill>
-                              <Tab
-                                eventKey="personal-details"
-                                title="Personal Details"
-                                className="flex-column justify-content-between"
-                              >
-                                <div className="tab-panel d-flex flex-column justify-content-between">
-                                  <ul className="tab-mail-list">
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Email
-                                      </h6>
-                                      <h6>
-                                        {data?.email ? data?.email : "N/A"}
-                                      </h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Country
-                                      </h6>
-                                      <h6>
-                                        {data?.country
-                                          ? data?.country == "B&H"
-                                            ? "Bosnia and Herzegovina"
-                                            : data?.country
-                                          : "N/A"}
-                                      </h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        User Status
-                                      </h6>
-                                      <h6>
-                                        {data?.user_status}
-                                      </h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Interests
-                                      </h6>
-                                      <h6>
-                                        {data?.interests
-                                          ? data?.interests
-                                          : "N/A"}
-                                      </h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Last Email
-                                      </h6>
-                                      <h6>
-                                        {data?.last_email
-                                          ? data?.last_email
-                                          : "N/A"}
-                                      </h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Last Activity
-                                      </h6>
-                                      <h6>
-                                        {data?.last_activity
-                                          ? data?.last_activity
-                                          : "N/A"}
-                                      </h6>
-                                    </li>
-                                  </ul>
-                                </div>
-                                <div className="data-main-footer-sec">
-                                  <div className="data-main-footer-sec-inner">
-                                    <div className="footer-btn d-flex justify-content-end">
-                                      <Link
-                                        to="/reader-edit"
-                                        className="btn btn-primary btn-filled"
-                                        state={{ id: data.id }}
-                                      >
-                                        Edit
-                                      </Link>
-                                    </div>
+                            defaultActiveKey="personal-details"
+                            fill
+                          >
+                            <Tab
+                              eventKey="personal-details"
+                              title="Personal Details"
+                              className="flex-column justify-content-between"
+                            >
+                              <div className="tab-panel d-flex flex-column justify-content-between">
+                                <ul className="tab-mail-list">
+                                  <li>
+                                    <h6 className="tab-content-title">Email</h6>
+                                    <h6>{data?.email ? data?.email : "N/A"}</h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Country
+                                    </h6>
+                                    <h6>
+                                      {data?.country
+                                        ? data?.country == "B&H"
+                                          ? "Bosnia and Herzegovina"
+                                          : data?.country
+                                        : "N/A"}
+                                    </h6>
+                                  </li>
+
+                                  {localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" &&
+                                  localStorage.getItem("group_id") == "3" ? (
+                                    <>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Role
+                                        </h6>
+                                        <h6>
+                                          {data?.role ? data?.role : "N/A"}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Blinded/Unblinded
+                                        </h6>
+                                        <h6>
+                                          {data?.binded ? data?.binded : "N/A"}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          IRT
+                                        </h6>
+                                        <h6>{data?.irt ? data?.irt : "N/A"}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Site Number
+                                        </h6>
+                                        <h6>
+                                          {data?.siteNumber
+                                            ? data?.siteNumber
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          User Status
+                                        </h6>
+                                        <h6>{data?.user_status}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Interests
+                                        </h6>
+                                        <h6>
+                                          {data?.interests
+                                            ? data?.interests
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Last Email
+                                        </h6>
+                                        <h6>
+                                          {data?.last_email
+                                            ? data?.last_email
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Last Activity
+                                        </h6>
+                                        <h6>
+                                          {data?.last_activity
+                                            ? data?.last_activity
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                    </>
+                                  )}
+                                </ul>
+                              </div>
+                              <div className="data-main-footer-sec">
+                                <div className="data-main-footer-sec-inner">
+                                  <div className="footer-btn d-flex justify-content-end">
+                                    <Link
+                                      to="/reader-edit"
+                                      className="btn btn-primary btn-filled"
+                                      state={{ id: data.id }}
+                                    >
+                                      Edit
+                                    </Link>
                                   </div>
                                 </div>
-                              </Tab>
-                              <Tab
-                                eventKey="usage"
-                                title="Usage"
-                                className="flex-column justify-content-between"
-                              >
-                                <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
-                                  <ul className="tab-mail-list data">
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Emails Sent
-                                        <LinkWithTooltip
-                                          tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
-                                          href="#"
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress send">
-                                        <ProgressBar
-                                          variant="default"
-                                          now={100}
-                                          label={
-                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
-                                            ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.emailSent
-                                              :
-                                              "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Emails Opened
-                                        <LinkWithTooltip
-                                          tooltip="Number of opening counts for specific article."
-                                          href="#"
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress open">
-                                        <ProgressBar
-                                          variant="default"
-                                          now={15}
-                                          label={
-                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
-                                            ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.emailOpen
-                                              :
-                                              "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Content Delivered
-                                        <LinkWithTooltip
-                                          tooltip="Number of HCPs who have register for or activated the content."
-                                          href="#"
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress delivered">
-                                        <ProgressBar
-                                          variant="default"
-                                          now={2}
-                                          label={
-                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
-                                            ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.contentDeliverd
-                                              :
-                                              "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Content with RTR
-                                        <LinkWithTooltip
-                                          tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
-                                          href="#"
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress rtr">
-                                        <ProgressBar
-                                          variant="default"
-                                          now={5}
-                                          label={
-                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
-                                            ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.rtr
-                                              :
-                                              "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        QR Openings
-                                        <LinkWithTooltip
-                                          tooltip="Number of opening counts for specific article."
-                                          href="#"
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress qr-opening">
-                                        <ProgressBar
-                                          variant="default"
-                                          now={11}
-                                          label={
-                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
-                                            ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.qr
-                                              :
-                                              "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        GO Openings
-                                        <LinkWithTooltip
-                                          tooltip="Number of HCPs who have register for or activated the content."
-                                          href="#"
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress go-opening">
-                                        <ProgressBar
-                                          variant="default"
-                                          now={25}
-                                          label={
-                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
-                                            ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.go
-                                              :
-                                              "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Content Openings
-                                        <LinkWithTooltip
-                                          tooltip="Number of HCPs who have register for or activated the content."
-                                          href="#"
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress content-opening">
-                                        <ProgressBar
-                                          variant="default"
-                                          now={19}
-                                          label={
-                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
-                                            ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.contentOpening
-                                              :
-                                              "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
-                                  </ul>
-                                </div>
-                                <div className="data-main-footer-sec">
-                                  <div className="data-main-footer-sec-inner">
-                                    <div className="footer-btn d-flex justify-content-end">
-                                      <Link
-                                        className="btn btn-primary btn-bordered"
-                                        to="/timeline-detail"
-                                        state={{ readerId: data?.id }}
+                              </div>
+                            </Tab>
+                            <Tab
+                              eventKey="usage"
+                              title="Usage"
+                              className="flex-column justify-content-between"
+                            >
+                              <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
+                                <ul className="tab-mail-list data">
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Emails Sent
+                                      <LinkWithTooltip
+                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                        href="#"
                                       >
-                                        See time line
-                                      </Link>
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h6>
+                                    <div className="data-progress send">
+                                      <ProgressBar
+                                        variant="default"
+                                        now={100}
+                                        label={
+                                          emailStats.findIndex(
+                                            (el) => el.userId == data?.id
+                                          ) !== -1
+                                            ? emailStats[
+                                                emailStats.findIndex(
+                                                  (el) => el.userId == data?.id
+                                                )
+                                              ]?.emailSent
+                                            : "Loading"
+                                        }
+                                      />
                                     </div>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Emails Opened
+                                      <LinkWithTooltip
+                                        tooltip="Number of opening counts for specific article."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h6>
+                                    <div className="data-progress open">
+                                      <ProgressBar
+                                        variant="default"
+                                        now={15}
+                                        label={
+                                          emailStats.findIndex(
+                                            (el) => el.userId == data?.id
+                                          ) !== -1
+                                            ? emailStats[
+                                                emailStats.findIndex(
+                                                  (el) => el.userId == data?.id
+                                                )
+                                              ]?.emailOpen
+                                            : "Loading"
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Content Delivered
+                                      <LinkWithTooltip
+                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h6>
+                                    <div className="data-progress delivered">
+                                      <ProgressBar
+                                        variant="default"
+                                        now={2}
+                                        label={
+                                          emailStats.findIndex(
+                                            (el) => el.userId == data?.id
+                                          ) !== -1
+                                            ? emailStats[
+                                                emailStats.findIndex(
+                                                  (el) => el.userId == data?.id
+                                                )
+                                              ]?.contentDeliverd
+                                            : "Loading"
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Content with RTR
+                                      <LinkWithTooltip
+                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h6>
+                                    <div className="data-progress rtr">
+                                      <ProgressBar
+                                        variant="default"
+                                        now={5}
+                                        label={
+                                          emailStats.findIndex(
+                                            (el) => el.userId == data?.id
+                                          ) !== -1
+                                            ? emailStats[
+                                                emailStats.findIndex(
+                                                  (el) => el.userId == data?.id
+                                                )
+                                              ]?.rtr
+                                            : "Loading"
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      QR Openings
+                                      <LinkWithTooltip
+                                        tooltip="Number of opening counts for specific article."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h6>
+                                    <div className="data-progress qr-opening">
+                                      <ProgressBar
+                                        variant="default"
+                                        now={11}
+                                        label={
+                                          emailStats.findIndex(
+                                            (el) => el.userId == data?.id
+                                          ) !== -1
+                                            ? emailStats[
+                                                emailStats.findIndex(
+                                                  (el) => el.userId == data?.id
+                                                )
+                                              ]?.qr
+                                            : "Loading"
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      GO Openings
+                                      <LinkWithTooltip
+                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h6>
+                                    <div className="data-progress go-opening">
+                                      <ProgressBar
+                                        variant="default"
+                                        now={25}
+                                        label={
+                                          emailStats.findIndex(
+                                            (el) => el.userId == data?.id
+                                          ) !== -1
+                                            ? emailStats[
+                                                emailStats.findIndex(
+                                                  (el) => el.userId == data?.id
+                                                )
+                                              ]?.go
+                                            : "Loading"
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Content Openings
+                                      <LinkWithTooltip
+                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h6>
+                                    <div className="data-progress content-opening">
+                                      <ProgressBar
+                                        variant="default"
+                                        now={19}
+                                        label={
+                                          emailStats.findIndex(
+                                            (el) => el.userId == data?.id
+                                          ) !== -1
+                                            ? emailStats[
+                                                emailStats.findIndex(
+                                                  (el) => el.userId == data?.id
+                                                )
+                                              ]?.contentOpening
+                                            : "Loading"
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div className="data-main-footer-sec">
+                                <div className="data-main-footer-sec-inner">
+                                  <div className="footer-btn d-flex justify-content-end">
+                                    <Link
+                                      className="btn btn-primary btn-bordered"
+                                      to="/timeline-detail"
+                                      state={{ readerId: data?.id }}
+                                    >
+                                      See time line
+                                    </Link>
                                   </div>
                                 </div>
-                              </Tab>
-                              <Tab eventKey="change-tab" title="Change">
-                                <div className="data-main-box change-tab-main-box">
-                                  <ul className="tab-mail-list data change">
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        User Status
-                                      </h6>
-                                      <div className="select-dropdown-wrapper">
-                                        {
-                                          /*console.log(
+                              </div>
+                            </Tab>
+                            <Tab eventKey="change-tab" title="Change">
+                              <div className="data-main-box change-tab-main-box">
+                                <ul className="tab-mail-list data change">
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      User Status
+                                    </h6>
+                                    <div className="select-dropdown-wrapper">
+                                      {/*console.log(
                                             types.findIndex(
                                               (el) =>
                                               el.label.toLowerCase() == data?.user_status.toLowerCase()
-                                            ))*/
-                                        }
-                                        <div className="select">
-                                          <Select
-                                            options={types}
-                                            defaultValue={
-                                              types[
-                                                types.findIndex(
-                                                  (el) =>
-                                                  el.label.toLowerCase() == data?.user_status?.toLowerCase()
-                                                )
-                                              ]
-                                            }
-                                            onChange={(event) =>
-                                              onUserChange(event, data.id)
-                                            }
-                                            id={"user_type_" + data?.id}
-                                            className="dropdown-basic-button split-button-dropup"
-                                            isClearable
-                                          />
-                                        </div>
+                                            ))*/}
+                                      <div className="select">
+                                        <Select
+                                          options={types}
+                                          defaultValue={
+                                            types[
+                                              types.findIndex(
+                                                (el) =>
+                                                  el.label.toLowerCase() ==
+                                                  data?.user_status?.toLowerCase()
+                                              )
+                                            ]
+                                          }
+                                          onChange={(event) =>
+                                            onUserChange(event, data.id)
+                                          }
+                                          id={"user_type_" + data?.id}
+                                          className="dropdown-basic-button split-button-dropup"
+                                          isClearable
+                                        />
                                       </div>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        User Country
-                                      </h6>
-                                      <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                          <Select
-                                            options={countryAll}
-                                            defaultValue={
-                                              countryAll[
-                                                countryAll.findIndex(
-                                                  (el) =>
-                                                    el.value == data?.country
-                                                )
-                                              ]
-                                            }
-                                            onChange={(event) =>
-                                              onCountryChange(event, data.id)
-                                            }
-                                            id={"country_" + data?.id}
-                                            className="dropdown-basic-button split-button-dropup"
-                                            isClearable
-                                          />
-                                        </div>
-                                      </div>
-                                    </li>
-                                  </ul>
-                                  <div className="data-main-footer-sec">
-                                    <div className="footer-btn d-flex justify-content-end">
-                                      <Button
-                                        className="btn btn-primary btn-filled update"
-                                        onClick={(e) =>
-                                          updateReaderDetails(data?.id, index)
-                                        }
-                                        id={data?.id}
-                                      >
-                                        Update
-                                      </Button>
                                     </div>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      User Country
+                                    </h6>
+                                    <div className="select-dropdown-wrapper">
+                                      <div className="select">
+                                        <Select
+                                          options={countryAll}
+                                          defaultValue={
+                                            countryAll[
+                                              countryAll.findIndex(
+                                                (el) =>
+                                                  el.value == data?.country
+                                              )
+                                            ]
+                                          }
+                                          onChange={(event) =>
+                                            onCountryChange(event, data.id)
+                                          }
+                                          id={"country_" + data?.id}
+                                          className="dropdown-basic-button split-button-dropup"
+                                          isClearable
+                                        />
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn d-flex justify-content-end">
+                                    <Button
+                                      className="btn btn-primary btn-filled update"
+                                      onClick={(e) =>
+                                        updateReaderDetails(data?.id, index)
+                                      }
+                                      id={data?.id}
+                                    >
+                                      Update
+                                    </Button>
                                   </div>
                                 </div>
-                              </Tab>
-                            </Tabs>
-                          </div>
+                              </div>
+                            </Tab>
+                          </Tabs>
                         </div>
-                      </>
-                    );
-                  })
-                :
-                apiCallStatus ?
+                      </div>
+                    </>
+                  );
+                })
+              ) : apiCallStatus ? (
                 <div className="no_found">
-                       <p>No Data Found</p>
-                 </div>
-                 : null
-              }
+                  <p>No Data Found</p>
+                </div>
+              ) : null}
             </div>
             {isLoaded == true ? (
               <div className="load_more">
@@ -1089,8 +1165,7 @@ const NewReaders = () => {
               </div>
             ) : null}
 
-            {
-              pageAll == true ? (
+            {pageAll == true ? (
               <div
                 className="load_more"
                 style={{
