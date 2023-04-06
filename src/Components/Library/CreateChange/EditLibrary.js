@@ -62,7 +62,6 @@ const EditLibrary = () => {
     chat_box: "",
     allow_video: "",
     comDatetime: "",
-    trial: "",
     cpdValue: "",
   });
 
@@ -89,7 +88,7 @@ const EditLibrary = () => {
     format: [],
     product: [],
     costCenter: [],
-    hcp:["test","abc","avdfdd","dfdfd"],
+    hcp:["General information","Investigator","Investigator Meeting Winter 2023","IRT","Octapharma CRO","Pharmacist","Site User"],
     trial: [
       {label:"LEXx210",value:"3972"}
     ],
@@ -136,7 +135,7 @@ const EditLibrary = () => {
       });
     }
 
-    
+
     let category = [];
     if( hadData?.data?.data?.category?.length){
       hadData?.data?.data?.category.reduce((objEntries, key) => {
@@ -146,14 +145,14 @@ const EditLibrary = () => {
         });
       });
     }
-   
+
     let tags = [];
     if( hadData?.data?.data?.tags?.length){
       hadData?.data?.data?.tags?.forEach((item) => {
         tags.push(item?.value);
       });
     }
-   
+
     setAllTags(tags)
 
     setUserDetail({
@@ -161,6 +160,7 @@ const EditLibrary = () => {
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
       country: country,
+      costCenter: hadData?.data?.data?.costCenter,
       sales: hadData?.data?.data?.sale,
       format: hadData?.data?.data?.format,
       category: category,
@@ -168,8 +168,8 @@ const EditLibrary = () => {
       product: hadData?.data?.data?.product,
       reseller: hadData?.data?.data?.reseller,
     });
-    
-    
+
+
     loader("hide");
   };
   const libraryDetail = async () => {
@@ -207,7 +207,6 @@ const EditLibrary = () => {
 
   const removeHcp = (data) => {
     const hcpData = hcpClickedFirst.filter(item =>item != data)
-
     setHcpClickedFirst(hcpData);
  };
 
@@ -304,9 +303,11 @@ const EditLibrary = () => {
         if(!userInputs?.blindType){
           userInputs.blindType = ""
         }
+      }else{
+        delete userInputs.blindType
+        delete userInputs.trial
       }
     const err = LibraryEditValidation(userInputs);
-
     if (Object.keys(err)?.length) {
       setError(err);
       return;
@@ -315,6 +316,12 @@ const EditLibrary = () => {
         loader("show");
         let formData = new FormData();
         formData.append("keyAuthor", userInputs?.keyAuthor);
+        formData.append("production", userInputs?.production_id?userInputs?.production_id:0);
+        formData.append("sales", userInputs?.sales_id?userInputs?.sales_id:0);
+        formData.append("costCenter", userInputs?.cost_center?userInputs?.cost_center:"");
+
+
+
         formData.append("expDatetime", userInputs?.expDatetime);
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
@@ -375,7 +382,7 @@ const EditLibrary = () => {
         );
         formData.append("draft", JSON.stringify(userInputs?.draft));
         formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
-       
+
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
@@ -566,7 +573,10 @@ const EditLibrary = () => {
                 <label htmlFor="">Production</label>
                 <Select
                   options={userDetail?.production}
-                  onChange={(e) => handleChange(e?.value, "production")}
+                  onChange={(e) => handleChange(e?.id, "production_id")}
+                  defaultValue={
+                    userDetail?.production[userDetail?.production.findIndex(el => el.id == userInputs?.production_id)]
+                  }
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
@@ -576,8 +586,11 @@ const EditLibrary = () => {
                 <label htmlFor="">Sales</label>
                 <Select
                   options={userDetail?.sales}
+                  defaultValue={
+                    userDetail?.sales[userDetail?.sales.findIndex(el => el.id == userInputs?.sales_id)]
+                  }
                   placeholder="Who made the sale?"
-                  onChange={(e) => handleChange(e?.value, "sales")}
+                  onChange={(e) => handleChange(e?.id, "sales_id")}
                   className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                   isClearable
                 />
@@ -778,7 +791,6 @@ const EditLibrary = () => {
               ) : null}
 
             </div>
-            {console.log("---->>",error)}
             <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change flex-column">
               <div className="form-group justify-content-end">
                 <label htmlFor="">Topics</label>
@@ -954,10 +966,11 @@ const EditLibrary = () => {
                   <label htmlFor="">Cost centre</label>
                   <Select
                     options={userDetail?.costCenter}
+                    defaultValue={{label:userInputs?.cost_center,value:userInputs?.cost_center}}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                     placeholder="Select cost center"
-                    onChange={(e) => handleChange(e, "costCenter")}
+                    onChange={(e) => handleChange(e?.value, "cost_center")}
                   />
                 </div>
               ) : (
@@ -1269,7 +1282,7 @@ const EditLibrary = () => {
                           </div>
                         </>
                       ) : null}
-                       
+
                      { (userDetail?.user?.[0]?.flag == 1 &&
                         userDetail?.user?.[0]?.group_id == 3)?(
                           <div className="form-group">
@@ -1301,7 +1314,7 @@ const EditLibrary = () => {
                           </fieldset>
                         </div>
                         ):null  }
-                        
+
 
                       <div className="form-group val">
                         <label htmlFor="">Docintel format *</label>

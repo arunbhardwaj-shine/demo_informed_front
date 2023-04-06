@@ -77,7 +77,7 @@ const LibraryCreateUser = () => {
     country: [],
     format: [],
     product: [],
-    hcp:["test","abc","avdfdd","dfdfd"]
+    hcp:["General information","Investigator","Investigator Meeting Winter 2023","IRT","Octapharma CRO","Pharmacist","Site User"]
 
   });
 
@@ -207,6 +207,12 @@ const LibraryCreateUser = () => {
         let formData = new FormData();
 
         formData.append("productionNotes", userInputs?.productionNotes);
+        formData.append("production", userInputs?.production?userInputs?.production:0);
+        formData.append("sales", userInputs?.sales?userInputs?.sales:0);
+        formData.append("costCenter", userInputs?.costCenter?userInputs?.costCenter:"");
+
+
+
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
@@ -506,7 +512,7 @@ const LibraryCreateUser = () => {
                 <label htmlFor="">Production</label>
                 <Select
                   options={userDetail?.production}
-                  onChange={(e) => handleChange(e?.value, "production")}
+                  onChange={(e) => handleChange(e?.id, "production")}
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
@@ -517,7 +523,7 @@ const LibraryCreateUser = () => {
                 <Select
                   options={userDetail?.sales}
                   placeholder="Who made the sale?"
-                  onChange={(e) => handleChange(e?.value, "sales")}
+                  onChange={(e) => handleChange(e?.id, "sales")}
                   className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                   isClearable
                 />
@@ -799,6 +805,7 @@ const LibraryCreateUser = () => {
           <h4>Limits agreed</h4>
           <div className="row">
             <div className="col-12 col-md-6">
+
               {userDetail?.costCenter ? (
                 <div className="form-group">
                   <label htmlFor="">Cost centre</label>
@@ -867,6 +874,7 @@ const LibraryCreateUser = () => {
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
+                  {/*
                   <input
                     type="checkbox"
                     value="value3"
@@ -877,6 +885,7 @@ const LibraryCreateUser = () => {
                     id="limitagreed3"
                   />
                   <label htmlFor="limitagreed3">Share</label>
+                */}
                 </fieldset>
               </div>
             </div>

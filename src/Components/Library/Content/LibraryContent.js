@@ -1604,12 +1604,16 @@ const LibraryContent = () => {
                                     >
                                       Edit Docintel link
                                     </Link>
-                                    <Button
-                                      className="footer-btn"
-                                      onClick={(e) => tagButtonClicked(data.id)}
-                                    >
-                                      Add / Remove tags
-                                    </Button>
+                                    {
+                                      localStorage.getItem("group_id") == 3 ?
+                                      <Button
+                                        className="footer-btn"
+                                        onClick={(e) => tagButtonClicked(data.id)}
+                                      >
+                                        Add / Remove tags
+                                      </Button>
+                                      : null
+                                    }
                                     <Link
                                       to="/library-sublink"
                                       state={{ pdfid: data.id }}
@@ -1631,21 +1635,27 @@ const LibraryContent = () => {
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
+                                            Production person
+                                          </h6>
+                                          <h6>{data?.productName ?  data.productName : "N/A"}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
                                             Publisher
                                           </h6>
                                           <h6>{data?.publisherName ?  data.publisherName : "N/A"}</h6>
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Cost Center
+                                            Country
                                           </h6>
-                                          <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
+                                          <h6>{data?.country}</h6>
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Production person
+                                            Cost Center
                                           </h6>
-                                          <h6>{data?.productName ?  data.productName : "N/A"}</h6>
+                                          <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
                                         </li>
                                         {
                                           /*
@@ -1668,27 +1678,20 @@ const LibraryContent = () => {
                                             </h6>
                                             <h6>{data?.product}</h6>
                                           </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Country
-                                            </h6>
-                                            <h6>{data?.country}</h6>
-                                          </li>
+
                                           */
                                         }
                                       </>
                                     )}
                                     <li>
                                       <h6 className="tab-content-title">
-                                        Opening limit
+                                        Usage limit
                                       </h6>
-                                      <h6>{data?.limit}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Link type
+                                      <h6>
+                                      {
+                                        data?.limit > 0? data?.limit: "Unlimted"
+                                      }
                                       </h6>
-                                      <h6>{data?.linkType}</h6>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
@@ -1699,6 +1702,12 @@ const LibraryContent = () => {
                                           changeFormatForPrint(data)
                                         }
                                       </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Link type
+                                      </h6>
+                                      <h6>{data?.linkType}</h6>
                                     </li>
                                     {
                                       /*
