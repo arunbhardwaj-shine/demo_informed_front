@@ -1322,7 +1322,7 @@ select::-ms-expand {
 
 .login-validation {
   color: $pink;
-  font-size: 12px;
+  font-size: 14px;
   position: absolute;
   right: 0px;
   top: 55px;
@@ -1330,10 +1330,10 @@ select::-ms-expand {
 
 .login-validation-upload {
   color: $pink;
-  font-size: 12px;
+  font-size: 14px;
   position: absolute;
-  left: auto;
-  right: 0px;
+  left:0!important;
+  right: auto;
   bottom: -10px;
 }
 
