@@ -59,8 +59,8 @@ const LibraryCreateUser = () => {
     cpdValue: "",
   });
   const [blindType, setBlindType] = useState([
-    { value: "blind", label: "blind" },
-    { value: "unblind", label: "unblind" },
+    { value: "blinded", label: "blind" },
+    { value: "unblinded", label: "unblind" },
   ]);
   const [ebookFile, setEbookFile] = useState([]);
   const [chapter, setChapter] = useState([
@@ -183,7 +183,6 @@ const LibraryCreateUser = () => {
     }
     if(userDetail?.user?.[0]?.flag == 1 &&
       userDetail?.user?.[0]?.group_id == 3){
-        userInputs.chapter = chapter
         if(!userInputs?.trial){
           userInputs.trial = ""
         }
@@ -196,7 +195,7 @@ const LibraryCreateUser = () => {
       ebookFile,
       userDetail?.user?.[0]?.group_id
     );
-
+    console.log(err);
     if (Object.keys(err)?.length) {
       setError(err);
       return;
@@ -584,6 +583,10 @@ const LibraryCreateUser = () => {
           <h4>About the Docintel link you're making</h4>
           <div className="row">
             <div className="col-12 col-md-6">
+            {
+              userDetail?.user?.[0]?.flag != 1 &&
+              userDetail?.user?.[0]?.group_id == 3 ?
+              <>
               <div className="form-group">
                 <label htmlFor="">Category</label>
                 <Select
@@ -604,6 +607,9 @@ const LibraryCreateUser = () => {
                   isClearable
                 />
               </div>
+              </>
+              : null
+            }
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
@@ -660,6 +666,44 @@ const LibraryCreateUser = () => {
                 ) : null}
                 </div>
               ) : null}
+
+              { userDetail?.user?.[0]?.flag == 1 &&
+               userDetail?.user?.[0]?.group_id == 3?(
+                <div className="form-group">
+                 <label htmlFor="">HCP</label>
+                 <div className="input-group w-100">
+                   <div className="tags_added">
+                     <div className="select-tags">
+                     <ul>
+                       {userDetail?.hcp?.map((item, index) => {
+                         return (
+                           <li className="list1" onClick={()=>{hcpClicked(item)}}>
+                             {item}
+                           </li>
+                         );
+                       })}
+                     </ul>
+                     <div className="after-selected">
+                       <ul className="after-tag-selected">
+                       {hcpClickedFirst.map((item, index) => {
+                         return (
+                           <li className="list1">
+                             {item}
+                             <img
+                               src="componentAssets/images/filter-close.svg"
+                               alt="Close-filter"
+                               onClick={() => removeHcp(item)}
+                             />
+                           </li>
+                         );
+                       })}
+                       </ul>
+                     </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+               ):null }
 
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
@@ -728,43 +772,6 @@ const LibraryCreateUser = () => {
                   </div>
                 </div>
               </div>
-             { userDetail?.user?.[0]?.flag == 1 &&
-              userDetail?.user?.[0]?.group_id == 3?(
-               <div className="form-group justify-content-end ">
-                <label htmlFor="">HCP</label>
-                <div className="input-group w-100">
-                  <div className="tags_added">
-                    <div className="select-tags">
-                    <ul>
-                      {userDetail?.hcp?.map((item, index) => {
-                        return (
-                          <li className="list1" onClick={()=>{hcpClicked(item)}}>
-                            {item}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    <div className="after-selected">
-                      <ul className="after-tag-selected">
-                      {hcpClickedFirst.map((item, index) => {
-                        return (
-                          <li className="list1">
-                            {item}
-                            <img
-                              src="componentAssets/images/filter-close.svg"
-                              alt="Close-filter"
-                              onClick={() => removeHcp(item)}
-                            />
-                          </li>
-                        );
-                      })}
-                      </ul>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              ):null }
             </div>
 
           </div>
@@ -1045,6 +1052,37 @@ const LibraryCreateUser = () => {
                         onChange={handleChange}
                       />
                     </div>
+
+                    {
+                      (userDetail?.user?.[0]?.flag == 1 &&
+                      userDetail?.user?.[0]?.group_id == 3)? (
+                        <>
+                        <div className="form-group">
+                          <label htmlFor="setasdraft1">Set as draft</label>
+                          <fieldset id="group2">
+                            <div className="switch">
+                              <label className="switch-light">
+                                <input
+                                  type="checkbox"
+                                  value="value1"
+                                  name="group2"
+                                  id="setasdraft1"
+                                  onChange={(e) => {
+                                    handleChange(e.target?.checked, "draft");
+                                  }}
+                                />
+                                <span>
+                                  <span className="switch-btn active">No</span>
+                                  <span className="switch-btn ">Yes</span>
+                                </span>
+                                <a className="btn"></a>
+                              </label>
+                            </div>
+                          </fieldset>
+                        </div>
+                        </>
+                      ) : null
+                    }
                     {(userDetail?.user?.[0]?.flag == 0 &&
                       userDetail?.user?.[0]?.group_id == 3)? (
                       <>
@@ -1104,7 +1142,7 @@ const LibraryCreateUser = () => {
                                   name="group2"
                                   id="setasdraft1"
                                   onChange={(e) => {
-                                    handleChange(!e.target?.checked, "draft");
+                                    handleChange(e.target?.checked, "draft");
                                   }}
                                 />
                                 <span>
@@ -1323,9 +1361,8 @@ const LibraryCreateUser = () => {
                     null}
 
                     {(userDetail?.user?.[0]?.flag == 0 &&
-                      userDetail?.user?.[0]?.group_id == 3) ||
-                    (userDetail?.user?.[0]?.flag == 1 &&
-                      userDetail?.user?.[0]?.group_id == 3) ? (
+                      userDetail?.user?.[0]?.group_id == 3)
+                     ? (
                       <div className="form-group">
                         <label htmlFor="">Include video</label>
                         <div className="switch">
