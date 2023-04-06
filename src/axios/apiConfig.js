@@ -44,5 +44,5 @@ export const ENDPOINT = {
   DELIVERYTRENDS: "analytics/trend",
   READER_DOWNLOAD: `/reader/reader-file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`,
-  ADD_TAGS:"/library/add-tags"
+  COUNTRY_REGISTRATION:`analytics/country`,
 };
