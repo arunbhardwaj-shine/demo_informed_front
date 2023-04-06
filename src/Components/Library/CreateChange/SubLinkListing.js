@@ -19,7 +19,7 @@ import QRCode from "qrcode.react";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SubLinkListing = ({
-  pdfid,render
+  pdfid,render,count
 }) => {
   const [sectionLoader, setSectionLoader] = useState(false);
   const [subLinkData, setSubLinkData] = useState([]);
@@ -27,7 +27,7 @@ const SubLinkListing = ({
 
   useEffect(() => {
     getSubLinkListingData();
-  }, [pdfid,render]);
+  }, [pdfid,render,count]);
 
   const getSubLinkListingData = async () => {
     if(typeof pdfid !== 'undefined'){

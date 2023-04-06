@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Modal } from "react-bootstrap";
+import { Modal, Row, Table } from "react-bootstrap";
 import { popup_alert } from "../../popup_alert";
 import {ENDPOINT} from "../../axios/apiConfig";
 import {postData, deleteData} from "../../axios/apiHelper";
@@ -63,7 +63,7 @@ const SpcView = () => {
 		  const res = await deleteData(ENDPOINT.LIBRARYSPCDELETE,spcDeletedId);
 		  popup_alert({
 			visible: "show",
-			message: "Your content has been deleted <br />successfully !",
+			message: "The SPC file has been deleted <br />successfully !",
 			type: "success",
 			redirect: "",
 		  });
@@ -90,7 +90,7 @@ const SpcView = () => {
     <>
       <div className="col right-sidebar">
         <div className="custom-container">
-          <div className="row">
+          <Row>
             <div className="top-header">
               <div className="page-title d-flex">
                 <Link className="btn btn-primary btn-bordered back-btn" to="/spc">
@@ -130,12 +130,12 @@ const SpcView = () => {
                     </button>
                   </form>
                 </div>
-                 <button
+                 {/* <button
                     className="btn-bordered cancel btn btn-primary"
                     type="button"
                     onClick={() => navigate("/spc")}>
                     Close
-                  </button>
+                  </button> */}
               </div>
             </div>
 
@@ -155,7 +155,7 @@ const SpcView = () => {
 									{data?.title}
 									</h5>
 
-									<table>
+									<Table>
 									  <tbody>
 										<tr>
 										  <th>Country</th>
@@ -197,7 +197,7 @@ const SpcView = () => {
 										  </td>
 										</tr>
 									  </tbody>
-									</table>
+									</Table>
 								  </div>
 								  <div className="smartlist-buttons">
 									{
@@ -253,7 +253,7 @@ const SpcView = () => {
 
               </div>
             </div>
-          </div>
+          </Row>
         </div>
       </div>
 
@@ -265,9 +265,9 @@ const SpcView = () => {
         resetDataId={spcDeletedId}
         popupMessage={
          {
-           "message1":"You are about to remove this Spc.",
-           "message2":" Are you sure you want to do this?",
-           "footerButton":" Yes Please!"
+           "message1":"The SPC file will be deleted.",
+           "message2":"Are you sure you want to delete it?",
+           "footerButton":"Yes Please!"
          }
         }
         path_image={path_image}

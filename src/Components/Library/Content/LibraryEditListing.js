@@ -787,7 +787,7 @@ const LibraryContent = () => {
                         onClick={(e) => showDeleteButtons()}
                       >
                         Cancel
-                      </button>
+                    </button>
                     ) : (
                       <button
                         className="btn btn-outline-primary"
@@ -830,7 +830,7 @@ const LibraryContent = () => {
                   </div>
                 ) : null}
 
-                {location?.state?.data == "edit" ? (
+                {/*location?.state?.data == "edit" ? (
                   <div className="clear-search">
                     <button
                       className="btn btn-outline-primary cancel"
@@ -839,7 +839,7 @@ const LibraryContent = () => {
                       Cancel
                     </button>
                   </div>
-                ) : null}
+                ) : null*/}
               </div>
             </div>
 
@@ -1045,7 +1045,7 @@ const LibraryContent = () => {
                                           </span>
                                         </h6>
                                       </li>
-                                      <li>
+                                      {/* <li>
                                         <h6 className="tab-content-title">
                                           SPC included
                                         </h6>
@@ -1054,12 +1054,12 @@ const LibraryContent = () => {
                                             ? "No"
                                             : "Yes"}
                                         </h6>
-                                      </li>
+                                      </li> */}
                                       <li>
                                         <h6 className="tab-content-title">
                                           Language
                                         </h6>
-                                        <h6>No</h6>
+                                        <h6>{data?.popup_email_content_language}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">

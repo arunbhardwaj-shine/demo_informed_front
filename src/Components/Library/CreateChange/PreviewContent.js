@@ -39,6 +39,7 @@ const PreviewContent = () => {
   const [pdfData, setPdfData] = useState([]);
   const [editTitle, setEditTitle] = useState(false);
   const [publishStatus, setPublishStatus] = useState(false);
+  const [trigger, setTrigger] = useState(0);
   const [titleChange, setTitleChange] = useState("");
   const responsive = {
     0: { items: 1 },
@@ -86,20 +87,45 @@ const PreviewContent = () => {
         setNewTemplateClicked(true);
       }
       loader("hide");
+
+      const div_img = document.querySelector(".alice-carousel__wrapper img");
+      div_img.click()
+
     } catch (err) {
       loader("hide");
     }
   };
 
-  const updateArticleTitle = (title) => {
-    // if(pdfData?.file_type && pdfData.file_type == "ebook") {
-    // 	let pdfIndex = pdfData.ebookData.findIndex(el => el.id === pdfFileId);
-    // 	pdfData.ebookData[pdfIndex].title = title;
-    // 	setPdfData(pdfData);
-    // 	setTemplateName(title);
-    // }else{
-    pdfData.title = title;
-    // }
+  const updateArticleTitle = async(title) => {
+    try {
+      loader("show");
+      let formData = new FormData();
+      formData.append("pdfId", articleId);
+      formData.append("type", pdfData?.file_type);
+      formData.append("userId", localStorage.getItem("user_id"));
+      formData.append("title", title);
+      if (pdfData?.file_type && pdfData.file_type == "ebook") {
+          formData.append("fileId", pdfFileId);
+      }
+      await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
+        header: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if(pdfData?.file_type && pdfData.file_type == "ebook") {
+      	let pdfIndex = pdfData.ebookData.findIndex(el => el.id === pdfFileId);
+      	pdfData.ebookData[pdfIndex].title = title;
+      	setPdfData(pdfData);
+      	setTemplateName(title);
+      }else{
+        pdfData.title = title;
+      }
+      loader("hide");
+    } catch (err) {
+      console.log(err);
+      loader("hide");
+    }
   };
 
   const templateClicked = (template, e) => {
@@ -120,7 +146,7 @@ const PreviewContent = () => {
     } else {
       setNextFlag(0);
     }
-
+    setPublishStatus(false);
     setTemplatePdf(template?.file_name);
     setTemplateName(template?.title);
     setTemplateClicked(true);
@@ -167,31 +193,59 @@ const PreviewContent = () => {
       let formData = new FormData();
       formData.append("pdfId", articleId);
       formData.append("type", pdfData.file_type);
-      formData.append("userId", 18207);
+      formData.append("userId", localStorage.getItem("user_id"));
       formData.append("file", userInputs?.uploadFile?.[0]);
 
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
-        formData.append("title", userInputs?.title);
+        if(typeof userInputs?.title != "undefined"){
+            formData.append("title", userInputs?.title);
+        }
+          // if(typeof userInputs?.title == "undefined"){
+          //   formData.append("title", templateName);
+          // }
+          // else{
+          //   formData.append("title", userInputs?.title);
+          // }
         formData.append("fileId", pdfFileId);
       }
-      await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
+     const res = await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
         header: {
           "Content-Type": "multipart/form-data",
         },
       });
-      getArticleData();
+      // getArticleData();
+      if (pdfData?.file_type && pdfData.file_type == "ebook") {
+        setUserInputs({ ...userInputs, title: "" });
+      }
+
+      if (pdfData?.file_type && pdfData.file_type == "ebook") {
+        let pdfIndex = pdfData.ebookData.findIndex((el) => el.id === pdfFileId);
+        pdfData.ebookData[pdfIndex].title = res?.data?.data?.title;
+        pdfData.ebookData[pdfIndex].file_name = res?.data?.data?.pdf;
+        setTemplatePdf(res?.data?.data?.pdf);
+      }else{
+        pdfData.file_name = res?.data?.data?.pdf;
+        pdfData.title = res?.data?.data?.title;
+        setTemplatePdf(res?.data?.data?.pdf);
+      }
+      loader("hide");
     } catch (err) {
       loader("hide");
     }
     handleClose();
     setUpdateFlag(0);
-    setNewTemplateClicked(false);
+    setPublishStatus(false);
+    // setNewTemplateClicked(false);
   };
 
   const imageOnError = (event) => {
     event.currentTarget.src = BrokenImage;
     event.currentTarget.className = "error";
   };
+
+  const updatePublish = () => {
+    setPublishStatus(true);
+  }
 
   const handleNext = async (obj) => {
     loader("show");
@@ -210,10 +264,12 @@ const PreviewContent = () => {
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
         let pdfIndex = pdfData.ebookData.findIndex((el) => el.id === pdfFileId);
         pdfData.ebookData[pdfIndex].processed = 1;
-        pdfData.ebookData[pdfIndex].image = res?.data?.data?.image?.file;
+        // pdfData.ebookData[pdfIndex].image = res?.data?.data?.image?.file;
+        pdfData.ebookData[pdfIndex].image = res?.data?.data?.image;
 
         let nextItem = pdfData.ebookData[pdfIndex + 1];
         if (typeof nextItem !== "undefined") {
+          setPublishStatus(false);
           pdfData.ebookData[pdfIndex + 1].processed = 1;
           let get_next_id = nextItem.id;
           var link = document.getElementById("template_dyn" + get_next_id);
@@ -225,6 +281,7 @@ const PreviewContent = () => {
           });
         }
         setPdfData(pdfData);
+
       } else {
         setPublishStatus(true);
         navigate("/content-detail", {
@@ -278,9 +335,10 @@ const PreviewContent = () => {
                     Cancel
                   </Link>
 
-                  <Link
-                    to="/content-detail"
-                    state={{ pdfId: articleId }}
+                  <Button
+                    onClick={() => {
+                       setTrigger((trigger) => trigger + 1);
+                     }}
                     className={
                       publishStatus
                         ? "btn btn-primary btn-filled next"
@@ -288,7 +346,7 @@ const PreviewContent = () => {
                     }
                   >
                     Publish
-                  </Link>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -362,7 +420,10 @@ const PreviewContent = () => {
                               onChange={(e) => setTitleChange(e.target.value)}
                             />
                           ) : (
-                            pdfData?.title
+                            pdfData?.file_type && pdfData.file_type == "ebook" ?
+                             templateName != '' ? templateName : pdfData?.ebookData[0].title
+                             :
+                            titleChange != "" ? titleChange : pdfData?.title
                           )}
 
                           {editTitle ? (
@@ -391,7 +452,12 @@ const PreviewContent = () => {
                               className="btn btn-edit"
                               onClick={(e) => {
                                 setEditTitle(true);
-                                setTitleChange(pdfData?.title);
+                                setTitleChange(
+                  								pdfData?.file_type && pdfData.file_type == "ebook" ?
+                  								templateName != '' ? templateName : pdfData?.title
+                  								  :
+                  								pdfData?.title
+                							  )
                               }}
                             >
                               <img
@@ -419,6 +485,8 @@ const PreviewContent = () => {
                           url={templatePdf}
                           handleNext={handleNext}
                           hidePopup="0"
+                          trigger={trigger}
+                          updatePublish={updatePublish}
                         />
                       ) : (
                         <RenderPdf
@@ -426,6 +494,8 @@ const PreviewContent = () => {
                           url={pdfData?.file_name}
                           handleNext={handleNext}
                           hidePopup="0"
+                          trigger={trigger}
+                          updatePublish={updatePublish}
                         />
                       )
                     ) : null}

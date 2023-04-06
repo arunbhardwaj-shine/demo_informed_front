@@ -397,9 +397,9 @@
     }
   }
   .form-group {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    margin: 18px 0 31px;
+    margin: 18px 0 20px;
     width: 100%;
     position: relative;
     label {
@@ -946,7 +946,7 @@ ul.tab-mail-list.data span.total-left small {
         text-transform: capitalize;
         color: $dark-blue;
         margin-right: 16px;
-        min-width: 89px;
+        min-width: 65px;
         flex: 0 0 auto;
       }
       .split-button-dropup {
@@ -1354,6 +1354,9 @@ select::-ms-expand {
         padding-left: 32px;
         &:first-child {
           padding-left: 0px;
+          ul{
+            padding-right:20px;
+          }
         }
         &:last-child {
           ul {
@@ -2386,6 +2389,9 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   min-width: 171px;
   text-align: center;
 }
+.modal .inputfile ~ label:hover {
+ background: $dark-blue;
+}
 .modal .upload-file-box .box p {
   margin: 0;
   font-size: 16px;
@@ -2549,6 +2555,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 .timeline-article-device {
   padding: 0 0 0 38px;
+  display: table;
 }
 .timeline-article-device tr .device-title {
   font-weight: 500;
@@ -2562,6 +2569,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   line-height: 16px;
   color: $dark-blue;
   padding: 0 0 14px;
+  text-transform: capitalize;
 }
 .timeline-article-device tr:last-child td,
 .timeline-article-device tr:last-child th {
@@ -2617,7 +2625,6 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-article-detail-full.active {
   flex-direction: column-reverse;
   display: flex;
-  width: 100%;
 }
 .timeline-article-detail-full .timeline-article-details-heading {
   text-align: center;
@@ -2656,7 +2663,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
-      margin: 0 0 0px;
+      margin: 20px 0 0px;
       .media {
         flex: 0 0 48%;
         padding: 15px;
@@ -2722,34 +2729,80 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   border-radius: 30px;
   background: $white;
   padding: 7px;
+  &:hover{
+      background: $primary-color;
+      svg{
+        path{
+            fill: $white;
+        }
+      }
+  }
 }
-.header-btn button.btn.print:hover {
-  background: $primary-color;
-}
-.header-btn button.btn.print:hover svg path {
-  fill: $white;
-}
+
 .page-title .back-btn {
-  border: none;
-  background: $white;
-  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
-  border-radius: 30px;
-  min-width: 40px;
-  padding: 7px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 21px 0 0;
+  @include header-back-btn;
+  &:hover{
+    background: $primary-color;
+    svg{
+        path{
+            fill: $white;
+        }
+    }
+  }
 }
-.page-title .back-btn:hover {
-  background: $primary-color;
+.header-btn-left .btn.back-btn{
+  @include header-back-btn;
+   &:hover{
+    background: $primary-color;
+    svg{
+        path{
+            fill: $white;
+        }
+    }
+  }
 }
-.page-title .back-btn:hover svg path {
-  fill: $white;
-}
+.page-top-nav{padding-left:0;padding-right:0;}
 .content_details .verify-email-detail {
   margin-bottom: 0;
+}
+.react-datepicker {border: 0;background: $white;box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);border-bottom: 2px solid $primary-color;}
+.react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::before, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before, .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::after, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+    left: -16px;
+}
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before {
+    border-bottom-color: $primary-color;
+    top: 2px;
+}
+.react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::before {
+    border-top-color: #ebebeb;
+}
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+    border-bottom-color: $primary-color;
+    top:1px;
+}
+.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range {
+    background-color: $dark-blue;
+}
+.react-datepicker__month-container .react-datepicker__header {
+    background: $primary-color;
+    border-color: $primary-color;
+}
+.react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected, .react-datepicker__year-text--keyboard-selected,.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range {
+    border-radius: 50%!important;
+}
+.react-datepicker__navigation-icon {
+    top: 6px;
+}
+.react-datepicker__day--today {
+    color: #004A89;
+    background: rgb(0 102 190 / 11%);
+    border-radius: 50%;
+}
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+    color: $white;
+}
+.react-datepicker__day-names .react-datepicker__day-name {
+    color: $white;
 }
 .content_details .mail-recipt .mail-recipt-left {
   border-right: 1px dashed var(--light-blue);
@@ -2769,6 +2822,8 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   color: $dark-blue;
   font-size: 18px;
   line-height: 21px;
+  vertical-align: top;
+  min-width: 126px;
 }
 .content_details .smartlist-view .mailbox-table td {
   font-size: 18px;
@@ -2821,12 +2876,23 @@ section.verify_email.content_details {
 }
 .viewer-layout-container {
     border: 0.5px solid #97B6CF;
+    height: auto;
+}
+.scroll_pdf{
+  overflow-y: auto;
+  overflow-x: hidden;
+  height:100%;
 }
 .viewer-layout-container .viewer-layout-main {
-    overflow-x: hidden;
+    overflow: unset;
 }
 .dropdown-menu.filter-options .accordion .card-header button {
     text-transform: capitalize;
+}
+.split-button-dropup.edit-country-dropdown div:nth-child(3)>div div {
+    color: #70899E;
+    line-height: 21px;
+    font-weight: 300;
 }
 .top-header {
     align-items: center;
@@ -2850,10 +2916,94 @@ section.verify_email.content_details {
 .no_found {
     min-height: 60vh;
 }
+ .send-confirm .modal-body .modal-buttons {
+    justify-content: space-evenly;  
+}
 /**Reader Style End**/
 
-/**Library Responsive**/
 
+/**Analytics**/
+.highcharts-container svg {
+    font-family: 'Roboto'!important;
+}
+.analytic-charts {
+    max-width: 1200px;
+    margin: 0 auto ;
+}
+.analytic-charts .high_charts {
+    margin-top: 30px;
+}
+.create-change-content.analytic-charts .high_charts {
+    margin-top: 30px;
+}
+
+.high_charts .highcharts-data-table {
+    margin-top: 30px;
+}
+
+.high_charts .highcharts-data-table table {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #dee2e6;
+    background: #fff;
+}
+
+.high_charts .highcharts-data-table table thead tr {
+    background: #F5F5FA;
+}
+
+.high_charts .highcharts-data-table table thead tr th {
+    font-weight: 500;
+    color: #0b3a81;
+}
+.create-change-content.analytic-charts .product-unit .form-group {
+    flex: 0 0 600px;
+}
+
+.high_charts .highcharts-data-table table tr th, .high_charts .highcharts-data-table table tr td {
+    font-family: 'Roboto';
+    border: 1px solid #ececec;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px 8px;
+    vertical-align: middle;
+    color: #212529;
+}
+input.viewer-toolbar-current-page-input {
+  pointer-events: none;
+}
+.high_charts .highcharts-data-table table tr th {
+    font-weight: 500;
+    color: #0b3a81;
+}
+.create-change-content.analytic-charts .product-unit .form-group label {
+    flex: 0 0 auto;
+    margin-right: 24px;
+}
+.analytic-charts .product-unit .form-group .dropdown-basic-button {
+    margin-right: 15px;
+}
+#collapse-text-view.collapse.show {
+    display: inline;
+}
+.content_details .smartlist-view .mailbox-table td span.show_more {
+    background: transparent;
+    font-weight: 500;
+    padding: 0 4px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #70899E;
+}
+/**Analytics end**/
+
+
+
+
+
+
+
+/**Library Responsive**/
 
 @media only screen and (min-width:1921px){
   .library-content-box-layuot {
@@ -2884,7 +3034,6 @@ ul.tab-mail-list.data span.total-left {
     padding-left: 0;
 }
 }
-
 
 @media only screen and (max-width: 1900px) {
   .tab-mail-list.data .progress {
@@ -2919,7 +3068,6 @@ ul.tab-mail-list.data span.total-left {
     padding: 7px 10px;
   }
 }
-
 
 @media only screen and (max-width: 1599px) {
 .form-group.primary_phone .dropdown-basic-button.split-button-dropup > div:nth-child(3), .create-change-content .split-button-dropup > div:nth-child(3) {
@@ -2975,13 +3123,23 @@ ul.tab-mail-list.data span.total-left {
   }
 }
 
-
-
 @media only screen and (max-width: 1500px) {
   .library_create .library_create-box,
   .library_create .library_create-box.spc {
     max-width: 31.3%;
   }
+  .crm-detail .crm-detail-content .crm-review .crm-review-detail ul li h6 {
+    font-size: 14px;
+    line-height: 19px;
+}
+.crm-detail .crm-detail-content .crm-review .crm-review-detail ul li h6.tab-content-title {
+    min-width: 110px;
+    margin-right: 15px;
+}
+
+.crm-detail .crm-detail-content {
+    padding: 16px 24px;
+}
   .form-group .add_product span {
     height: 40px;
 }
@@ -3166,8 +3324,6 @@ ul.tab-mail-list.data span.total-left {
 }
 }
 
-
-
 @media (max-width: $layout-breakpoint-extraLarge) {
 .timeline-time-view {
     font-size: 11px;
@@ -3234,6 +3390,7 @@ ul.tab-mail-list.data span.total-left {
 .page-title .btn.back-btn {
     min-width: 36px;
     height: 36px;
+    width: 36px;
     padding: 7px;
     margin: 0 12px 0 0;
 }
@@ -3249,7 +3406,7 @@ ul.tab-mail-list.data span.total-left {
   .create-change-content .right-change .form-group {
     justify-content: flex-start !important;
   }
- 
+
   .create-change-content .right-change .form-group > label {
     padding-top: 10px;
   }
@@ -3514,9 +3671,22 @@ ul.tab-mail-list.data span.total-left {
   }
 }
 @media only screen and (max-width: 1365px) {
+  .sublink_right_block .loader-view {
+    width: 60px;
+    height: 60px;
+}
    .create-change-content .col-md-6, .create-change-content .col-md-7, .create-change-content .col-md-5 {
     width: 100%;
   }
+  .header-btn-left .btn.back-btn {
+    min-width: 35px;
+    height: 35px;
+    width: 35px;
+}
+.header-btn-left .btn.back-btn svg {
+    height: 20px;
+    width: 12px;
+}
   .timeline-box {
     margin: 0 0 30px 30px;
 }
@@ -3541,7 +3711,18 @@ ul.tab-mail-list.data span.total-left {
     width: auto;
     flex: 0 0 50%;
   }
-
+.crm-detail .crm-detail-content .crm-review .crm-review-detail ul li h6 {
+    font-size: 12px;
+    line-height: 17px;
+    word-break: break-all;
+}
+.crm-detail .crm-detail-content .crm-review .crm-review-detail ul li h6.tab-content-title {
+    min-width: 100px;
+    margin-right: 7px;
+}
+.crm-detail .crm-detail-content .crm-review .crm-review-detail {
+    padding-left: 20px;
+}
 .no_content_selected h3 {
     padding: 80px 0 80px;
 }
@@ -3662,6 +3843,9 @@ ul.tab-mail-list.data span.total-left {
 }
 
 @media (max-width: $layout-breakpoint-medium) {
+  .crm-detail .crm-detail-content .crm-review .crm-review-detail:first-child {
+    flex: 0 0 260px;
+}
   .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
     font-size: 11px;
     padding: 7px 6px;

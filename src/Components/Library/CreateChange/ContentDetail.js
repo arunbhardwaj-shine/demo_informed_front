@@ -6,9 +6,12 @@ import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Collapse from 'react-bootstrap/Collapse';
+import { Button } from "react-bootstrap";
 
 const ContentDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+   const [open, setOpen] = useState(false);
   const { state } = useLocation();
   const [libraryData, setLibraryData] = useState();
   const [reRender, setReRender] = useState(0);
@@ -286,9 +289,27 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Invoice Notes</th>
                                                   <td>
-                                                    {data?.special_requirment
-                                                      ? "Yes"
-                                                      : "N/A"}
+                                                    {/* {data?.special_requirment
+                                                      ?data?.special_requirment?.trim()
+                                                      : "N/A"} */}
+                                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,  
+                                                      <Collapse in={open}>
+                                                      <div id="collapse-text-view">sed do eiusmod tempor incididunt ut labore et dolore magna amet, 
+                                                      consectetur adipiscing elit,
+                                                              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                                              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                                              nisi ut aliquip ex Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                              elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                                                              aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                                              laboris nisi ut aliquip ex Lorem ipsum dolor sit amet, consectetur
+                                                              adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                                              magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                                        </div>
+                                                     </Collapse>
+                                                     <span className="show_more"
+                                                              onClick={() => setOpen(!open)}
+                                                              aria-controls="example-collapse-text"
+                                                              aria-expanded={open}>...</span>
                                                   </td>
                                                 </tr>
                                               </tbody>
@@ -310,16 +331,16 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>ePrint type</th>
                                                   <td>
-                                                    {data?.allow_print
-                                                      ? "Yes"
+                                                    {data?.linkType
+                                                      ? data?.linkType
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
                                                 <tr>
                                                   <th>Uploaded chapters</th>
                                                   <td>
-                                                    {data?.file_type == "ebook"
-                                                      ? "Yes"
+                                                    {data?.chapterCount
+                                                      ? data?.chapterCount
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -346,7 +367,7 @@ const ContentDetail = () => {
                                                   </th>
                                                   <td>
                                                     {data?.production_notes
-                                                      ? "Yes"
+                                                      ? data?.production_notes?.trim()
                                                       : "N/A"}
                                                   </td>
                                                 </tr>

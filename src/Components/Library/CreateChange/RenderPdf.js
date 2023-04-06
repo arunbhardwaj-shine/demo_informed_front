@@ -28,7 +28,9 @@ const RenderPdf = ({
   next,
   url,
   handleNext,
-  hidePopup
+  hidePopup,
+  trigger,
+  updatePublish
 }) => {
   const [page, setPage]   = useState(1);
   const [scale, setScale] = useState(1);
@@ -38,10 +40,18 @@ const RenderPdf = ({
   const [modalMessage, setModalMessage] = useState('');
   const [modalBtn, setModalBtn] = useState('');
   const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
+  let total_pages = 1000;
   // let url = "https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/1679390009620.pdf";
+
+  useEffect(() => {
+     if (trigger) {
+       publishClicked();
+     }
+  }, [trigger]);
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     // console.log("Asda");
+    total_pages = e.doc.numPages;
     setNumPages(e.doc.numPages);
     setModalMessage("");
     setModalBtn('');
@@ -69,19 +79,37 @@ const RenderPdf = ({
         // console.log(words);
   		}
   	}, 300);
+    // console.log(e.currentPage);
 
-      if(e.currentPage === (numPages -1)){
-        setModalMessage("");
-        let btn_val = "";
-        if (typeof next !=="undefined")
-        {
-          btn_val = next == 1 ? "Next" : "Publish";
-        }
-        setModalBtn(btn_val);
-        if(hidePopup == 0){
-          setCommanShow(true);
-        }
-      }
+    if(total_pages == '1000'){
+      // console.log('1000',total_pages,e.currentPage,numPages);
+        if(e.currentPage === (numPages -1)){
+            setModalMessage("");
+            let btn_val = "";
+            if (typeof next !=="undefined")
+            {
+              btn_val = next == 1 ? "Next" : "Publish";
+            }
+            setModalBtn(btn_val);
+            if(hidePopup == 0){
+              setCommanShow(true);
+            }
+          }
+    }
+    // else{
+    //   if(total_pages === 1){
+    //     setModalMessage("");
+    //     let btn_val = "";
+    //     if (typeof next !=="undefined")
+    //     {
+    //       btn_val = next == 1 ? "Next" : "Publish";
+    //     }
+    //     setModalBtn(btn_val);
+    //     if(hidePopup == 0){
+    //       setCommanShow(true);
+    //     }
+    //   }
+    // }
   };
 
     // const get_text = (el) => {
@@ -97,7 +125,7 @@ const RenderPdf = ({
 	// 	return ret;
 	// }
 
-	const publishClicked = async(e) => {
+	const publishClicked = async() => {
 		var mainDiv = document.getElementsByClassName('viewer-layout-main')[0];
 		let chd = mainDiv.getElementsByClassName("viewer-text-layer");
 		var canvas_layer = mainDiv.getElementsByClassName("viewer-canvas-layer")[0];
@@ -112,12 +140,15 @@ const RenderPdf = ({
       var fd = new FormData();
       fd.append("file", file);
       fd.append("data", JSON.stringify(wordData));
+      // console.log(file);
+      // console.log(wordData);
       // await postFormData(ENDPOINT.ADD_PDF_WORD,fd,{
       //   header:{
       //     "Content-Type": "multipart/form-data",
       //   }
       // });
       handleNext(fd);
+      setWordData([]);
     }
  }
 
@@ -130,6 +161,58 @@ const dataURLtoBlob = (dataURL) => {
       return new Blob([new Uint8Array(array)], {type: 'image/png'});
 }
 
+const modalClose = (value) => {
+    // console.log("Hello am done");
+    setCommanShow(false);
+    updatePublish();
+}
+
+const scrollEve = (event) => {
+  const target = event.target;
+  if(target.scrollHeight - target.scrollTop === target.clientHeight)
+   {
+     // console.log(numPages);
+     // console.log(typeof numPages);
+     if(numPages == 1){
+       optimizeSinglePagePdf();
+     }
+   }
+  // console.log("HEIRE");
+}
+
+const optimizeSinglePagePdf = () => {
+  // setPage(1);
+  var mainDiv = document.getElementsByClassName('viewer-layout-main')[0];
+  if(typeof mainDiv !== "undefined"){
+      let chd = mainDiv.getElementsByClassName("viewer-text-layer");
+      setTimeout(function(){
+        let node = chd[0];
+        if(typeof node !== "undefined"){
+          let string_val = node.textContent;
+          let words = string_val.split(' ').length;
+
+          let wordsInfo = {
+            "page" : 1,
+            "total" : words,
+          };
+
+          wordData.push(wordsInfo);
+          console.log(wordData);
+        }
+      }, 300);
+
+      setModalMessage("");
+      let btn_val = "";
+      if (typeof next !=="undefined")
+      {
+        btn_val = next == 1 ? "Next" : "Publish";
+      }
+      setModalBtn(btn_val);
+      if(hidePopup == 0){
+        setCommanShow(true);
+      }
+  }
+}
 
     return (
       <div className="sublink_right_block">
@@ -141,7 +224,7 @@ const dataURLtoBlob = (dataURL) => {
                   <>
                     <MessageModel
                       show={commanShow}
-                      onClose={setCommanShow}
+                      onClose={modalClose}
                       heading={""}
                       data={modalMessage}
                       footerButton={modalBtn}
@@ -149,13 +232,15 @@ const dataURLtoBlob = (dataURL) => {
                     />
 
                     <Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}>
-                        <div style={{ height: '750px' }}>
+                        <div style={{ height: '750px' }} id="pdf_view_box">
+                          <div onScroll={scrollEve} className="scroll_pdf">
                           <Viewer
                             onPageChange={handlePageChange}
                             onDocumentLoad={handleDocumentLoad}
                             renderMode = "canvas"
                             fileUrl={url}
                           />
+                          </div>
                         </div>
                       </Worker>
                   </>
