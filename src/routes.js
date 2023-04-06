@@ -37,14 +37,14 @@ import EditLicense from "./Components/License/CreateChange/EditLicense";
 //Analytics routes
 import AnalyticsHeader from "./Components/Analytics/Layout/Header";
 import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
-import TrendingContent from "./Components/Analytics/TrendingContent/TrendingContent";
+// import TrendingContent from "./Components/Analytics/TrendingContent/TrendingContent";
 import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 import CisStats from "./Components/Analytics/CisStats";
 import TopClients from "./Components/Analytics/TopClients";
 import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
-import OctaCountry from "./Components/Analytics/OctaCountry";
- import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
+// import OctaCountry from "./Components/Analytics/OctaCountry";
+ // import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
  import TrendingTopics from "./Components/Analytics/TrendingTopics";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
@@ -196,8 +196,14 @@ const Routing = () => {
                 {/* end webinar */}
                 <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
-                
-                <Route path="/trending-content" element={<TrendingContent />} />
+                {
+                  /*
+                  <Route path="/trending-content" element={<TrendingContent />} />
+                  <Route path="/octa-country" element={<OctaCountry />} />
+                  <Route path="/country-registration" element={<CountryRegistration />} />
+                  */
+                }
+
                 <Route path="/top-clients" element={<TopClients />} />
                 <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/top-sales" element={<TopSales />} />
@@ -216,8 +222,8 @@ const Routing = () => {
                   element={<DeliveryTrends />}
                 />
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
-                 <Route path="/octa-country" element={<OctaCountry />} />
-                <Route path="/country-registration" element={<CountryRegistration />} />
+
+
                 <Route path="/readers-view" element={<NewReaders />} />
                 <Route path="/reader-edit" element={<ReaderEdit />} />
                 <Route path="/reader-add" element={<ReaderAdd />} />
