@@ -8,7 +8,6 @@ highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
 export default function ActivityGauge({ series, label, list }) {
-  console.log(series.length, label);
 
   const [options, setOptions] = useState({
     chart: {
@@ -105,13 +104,13 @@ export default function ActivityGauge({ series, label, list }) {
     <Col>
       <HighchartsReact highcharts={Highcharts} options={options} />
       <div class="stats_precenage">
-        <ul class="ul_stats_first">
+        <ul class="ul_stats_first" style={{listStyle:"none"}}>
           {list.map((item, index) => {
             const key = Object.keys(item)[0];
             const value = item[key];
             return (
               <li key={index}>
-                <span>{key}</span> {value}
+                <span style={{marginRight:"20px",fontSize:"20px",}}>{key}</span>  <span style={{marginLeft:"20px",fontSize:"20px",}}>{value}</span>
               </li>
             );
           })}
