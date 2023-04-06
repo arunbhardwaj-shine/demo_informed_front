@@ -1068,7 +1068,7 @@ const LibraryCreateUser = () => {
                                   name="group2"
                                   id="setasdraft1"
                                   onChange={(e) => {
-                                    handleChange(!e.target?.checked, "draft");
+                                    handleChange(e.target?.checked, "draft");
                                   }}
                                 />
                                 <span>
@@ -1142,7 +1142,7 @@ const LibraryCreateUser = () => {
                                   name="group2"
                                   id="setasdraft1"
                                   onChange={(e) => {
-                                    handleChange(!e.target?.checked, "draft");
+                                    handleChange(e.target?.checked, "draft");
                                   }}
                                 />
                                 <span>

@@ -1225,7 +1225,7 @@ const EditLibrary = () => {
                                     defaultChecked={userInputs?.draft?true:false}
                                     onChange={(e) => {
                                       handleChange(
-                                        !e.target?.checked,
+                                        e.target?.checked,
                                         "draft"
                                       );
                                     }}
@@ -1315,7 +1315,7 @@ const EditLibrary = () => {
                                     defaultChecked={userInputs?.draft?true:false}
                                     onChange={(e) => {
                                       handleChange(
-                                        !e.target?.checked,
+                                        e.target?.checked,
                                         "draft"
                                       );
                                     }}
