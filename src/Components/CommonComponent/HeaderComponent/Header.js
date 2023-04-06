@@ -122,7 +122,9 @@ const Header = () => {
               >
                 <a
                   className="nav-link"
-                  href="/library-content"
+                  onClick={() => {
+                    navigate("/library-content");
+                  }} 
                 >
                   LIBRARY
                 </a>
@@ -138,8 +140,13 @@ const Header = () => {
                     ? "nav-item active active-main"
                       : "nav-item"
                   }>
-                <a className="nav-link" href="/readers-view">
-                  READERS
+                <a className="nav-link" 
+                 onClick={() => {
+                    navigate("/readers-view");
+                  }} 
+                
+              >
+                  READERSfff
                 </a>
               </li>
               <li className="nav-item">
@@ -171,7 +178,10 @@ const Header = () => {
                   }>
                 <a
                   className="nav-link"
-                  href="https://informed.pro/Distributes/MailEngine"
+                  onClick={() => {
+                    navigate("/EmailList");
+                  }} 
+                 
                 >
                   EMAIL
                 </a>
