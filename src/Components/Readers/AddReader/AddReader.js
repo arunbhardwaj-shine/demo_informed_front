@@ -13,12 +13,8 @@ import { useNavigate } from "react-router-dom";
 const ReaderAdd = () => {
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
-  const [groupId, setGroupId] = useState(3);
-  const [flag, setFlag] = useState(2);
-  const [blindType, setBlindType] = useState([
-    { value: "blind", label: "blind" },
-    { value: "unblind", label: "unblind" },
-  ]);
+  const [groupId, setGroupId] = useState(2);
+  const [flag, setFlag] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
   const [province, setProvince] = useState([]);
@@ -69,7 +65,7 @@ const ReaderAdd = () => {
     { value: "Belgium", label: "+32" },
   ]);
   const [id, setId] = useState(localStorage.getItem("user_id"));
-  const [userInputs, setAddReaderInputs] = useState({});
+
   const [error, setError] = useState({});
   const [commonHeader, setCommonHeader] = useState("");
   const [data, setData] = useState([]);
@@ -78,33 +74,42 @@ const ReaderAdd = () => {
     label: "",
     value: "",
   });
+
+  const [userInputs, setAddReaderInputs] = useState({
+    alternativeEmail: "",
+
+    alternativePhone: "",
+    blind_type: "",
+    country: "",
+    createdBy: "",
+    discipline: "",
+    email: "",
+    firstName: "",
+    hospital: "",
+    interestArea: "",
+    irt: "",
+    lastName: "",
+    middleName: "",
+    notes: "",
+    primary_phone: "",
+    product: "",
+    province: "",
+    repContact: "",
+    role: "",
+    siteName: "",
+    siteNumber: "",
+    speciality: "",
+    sub_role: "",
+    title: "",
+  });
   const [userDetail, setUserDetail] = useState({
-    speciality: [
-      { value: "speciality1", label: "speciality1" },
-      { value: "speciality2", label: "speciality2" },
-      { value: "speciality3", label: "speciality3" },
-    ],
-    discipline: [
-      { value: "dicipline1", label: "dicipline1" },
-      { value: "dicipline2", label: "dicipline2" },
-      { value: "dicipline3", label: "dicipline3" },
-    ],
-    product: [
-      { value: "production1", label: "production1" },
-      { value: "production2", label: "production2" },
-      { value: "production3", label: "production3" },
-    ],
-    ibu: [
-      { value: "critical care", label: "critical care" },
-      { value: "production2", label: "production2" },
-      { value: "production3", label: "production3" },
-    ],
-    irt: [
-      { value: "critical care", label: "critical care" },
-      { value: "production2", label: "production2" },
-      { value: "production3", label: "production3" },
-    ],
+    speciality: [],
+    discipline: [],
+    product: [],
+    ibu: [],
+    irt: [],
     userType: [],
+    blind_type: [],
   });
   const [uploadShow, setUploadShow] = useState(false);
   const [updateFlag, setUpdateFlag] = useState(0);
@@ -153,6 +158,12 @@ const ReaderAdd = () => {
       discipline: hasData?.data?.data?.discipline,
       speciality: hasData?.data?.data?.speciality,
       product: hasData?.data?.data?.product,
+      role: hasData?.data?.data?.role,
+      sub_role: hasData?.data?.data?.sub_role,
+      blind_type: hasData?.data?.data?.blind_type,
+      siteName: hasData?.data?.data?.siteName,
+      siteNumber: hasData?.data?.data?.siteNumber,
+      irt: hasData?.data?.data?.irt,
     });
     loader("hide");
   };
@@ -282,7 +293,7 @@ const ReaderAdd = () => {
       return;
     } else {
       try {
-        // loader("show");
+        loader("show");
         let data = {
           createdBy: localStorage.getItem("user_id"),
           firstName: userInputs?.firstName,
@@ -291,7 +302,7 @@ const ReaderAdd = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
           // countryCode: userInputs?.countryCode,
-          primary_phone: userInputs?.phoneNumber,
+          primary_phone: userInputs?.primary_phone,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province,
@@ -303,14 +314,16 @@ const ReaderAdd = () => {
           interestArea: userInputs?.interestArea,
           repContact: userInputs?.repContact,
           notes: userInputs?.notes,
-          siteNumber: "",
-          Blind: "",
-          siteName: "",
-          irt: "",
+          siteNumber: userInputs?.siteNumber,
+          blind_type: userInputs?.blind_type,
+          siteName: userInputs?.siteName,
+          irt: userInputs?.irt,
+          role: userInputs?.role,
+          sub_role: userInputs?.sub_role,
         };
-        // console.log("data", data);
-        // await postData(ENDPOINT.READER_CREATE, data);
-        // loader("hide");
+        console.log("data", data);
+        await postData(ENDPOINT.READER_CREATE, data);
+        loader("hide");
         // navigate("/readers-view");
         navigate("/reader-review", {
           state: {
@@ -319,11 +332,10 @@ const ReaderAdd = () => {
         });
       } catch (err) {
         console.log(err);
-        // loader("hide");
+        loader("hide");
       }
     }
   };
-  //commme
 
   const RDAccount = () => {
     return (
@@ -342,23 +354,23 @@ const ReaderAdd = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Sub Role </Form.Label>
           <Select
-            options={userDetail?.subRole}
+            options={userDetail?.sub_role}
             placeholder="Select Sub Role"
-            name="subrole"
+            name="sub_role"
             className="dropdown-basic-button split-button-dropup"
             isClearable
-            onChange={(e) => handleChange(e?.value, "subrole")}
+            onChange={(e) => handleChange(e?.value, "sub_role")}
           />
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Blind Type </Form.Label>
           <Select
-            options={blindType}
+            options={userDetail?.blind_type}
             placeholder="Select Blind Type"
-            name="blindType"
+            name="blind_type"
             className="dropdown-basic-button split-button-dropup"
             isClearable
-            onChange={(e) => handleChange(e?.value, "blindType")}
+            onChange={(e) => handleChange(e?.value, "blind_type")}
           />
         </Form.Group>
         <Form.Group className="form-group">
@@ -517,6 +529,7 @@ const ReaderAdd = () => {
                         onChange={(e) => handleChange(e)}
                       />
                     </Form.Group>
+
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">Country *</Form.Label>
                       <Select
@@ -527,6 +540,11 @@ const ReaderAdd = () => {
                         isClearable
                         onChange={(e) => handleChange(e?.value, "country")}
                       />
+                      {error?.country ? (
+                        <div className="login-validation">{error?.country}</div>
+                      ) : (
+                        ""
+                      )}
                     </Form.Group>
 
                     {groupId == 2 ||
@@ -745,12 +763,12 @@ const ReaderAdd = () => {
                           <input
                             type="number"
                             className="form-control"
-                            name="phoneNumber"
+                            name="primary_phone"
                             onChange={(e) => handleChange(e)}
                           />
-                          {error?.phoneNumber ? (
+                          {error?.primary_phone ? (
                             <div className="login-validation">
-                              {error?.phoneNumber}
+                              {error?.primary_phone}
                             </div>
                           ) : (
                             ""

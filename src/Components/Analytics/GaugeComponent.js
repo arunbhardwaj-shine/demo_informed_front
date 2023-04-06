@@ -2,18 +2,15 @@
 
 import React, { useState } from "react";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
-import highchartsMore from "highcharts/highcharts-more";
-import solidGauge from "highcharts/modules/solid-gauge";
-import Gauge from "./Gauge";
+
+import ActivityGauge from "./ActivityGauge";
 
 export default function GaugeComponent({tab}) {
   console.log("hell",tab)
   return (
     <div>
          <Row>
-                  <Gauge
+                  <ActivityGauge
                     label="informed GO"
                     list={[
                       { "Email Sent": "50%" },
@@ -23,13 +20,13 @@ export default function GaugeComponent({tab}) {
                     ]}
                     series={tab.g0}
                   />
-                  <Gauge
+                  <ActivityGauge
                     label="informed Pro"
                     list={[{ "": "50%" }, { "": "0%" }, { "": "30%" }]}
                     series={tab.g1}
                   />
 
-                  <Gauge
+                  <ActivityGauge
                     label="Docintel Code"
                     list={[
                       { Activated: "50%" },
@@ -38,7 +35,7 @@ export default function GaugeComponent({tab}) {
                     ]}
                     series={tab.g2}
                   />
-                  <Gauge
+                  <ActivityGauge
                     label="Qr Activity"
                     list={[
                       { Scanned: "50%" },
@@ -47,7 +44,7 @@ export default function GaugeComponent({tab}) {
                     ]}
                     series={tab.g3}
                   />
-                  <Gauge
+                  <ActivityGauge
                     label="Peer Activity"
                     list={[
                       { Shared: "50%" },

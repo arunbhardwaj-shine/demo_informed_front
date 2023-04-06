@@ -103,11 +103,11 @@ import EditConsentOptions from "./Components/Library/CreateChange/EditConsentOpt
 import ContentDetail from "./Components/Library/CreateChange/ContentDetail";
 import EditLibrary from "./Components/Library/CreateChange/EditLibrary";
 import LibraryEditListing from "./Components/Library/Content/LibraryEditListing";
-import OpeningByCountry from "./Components/Analytics/Graphs/OpeningByCountry";
-import SalesByCountry from "./Components/Analytics/Graphs/SalesByCountry";
-import CampaignStats from "./Components/Analytics/Graphs/CampaignStats";
-import DeliveryTrends from "./Components/Analytics/Graphs/DeliveryTrends";
-import RegistrationType from "./Components/Analytics/Graphs/RegistrationType";
+import OpeningByCountry from "./Components/Analytics/OpeningByCountry";
+import SalesByCountry from "./Components/Analytics/SalesByCountry";
+import CampaignStats from "./Components/Analytics/CampaignStats";
+import DeliveryTrends from "./Components/Analytics/DeliveryTrends";
+import RegistrationType from "./Components/Analytics/RegistrationType";
 
 
 
