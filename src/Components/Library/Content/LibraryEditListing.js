@@ -48,6 +48,7 @@ const LibraryEditListing = () => {
     { value: "Sunshine", label: "Sunshine" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
+  const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [totalCount, setCount] = useState(0);
   const [update, setUpdate] = useState(0);
@@ -176,6 +177,10 @@ const LibraryEditListing = () => {
     }
 
     if (e?.target?.checked == true) {
+      if(key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
+      key == "SPC Included" || key == "Blinded" || key == "Mandatory"){
+        filterObject[key] = [];
+      }
       filterObject[key]?.push(item);
     } else {
       const index = filterObject[key]?.indexOf(item);
@@ -227,19 +232,20 @@ const LibraryEditListing = () => {
     });
 
     obj = {};
-    setFilterObject({});
-    setLibraryData([]);
+    if (filterApplyflag > 0) {
+      setFilterObject({});
+      setLibraryData([]);
 
-    getLibraryData(page, {}, search);
-    setSearch("");
-
+      getLibraryData(page, {}, search);
+      setSearch("");
+    }
     setShowFilter(false);
   };
 
   const applyFilter = (e) => {
     e.preventDefault();
+    setFilterApplyflag(1);
     setLibraryData([]);
-
     setFilterObject(filterObject);
     getLibraryData(page, filterObject, search);
 
@@ -832,9 +838,13 @@ const LibraryEditListing = () => {
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
-                                                      type="checkbox"
+                                                    type={
+                                                      key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
+                                                      key == "SPC Included" || key == "Blinded" || key == "Mandatory"
+                                                      ? "radio" : "checkbox" }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
+                                                      name={key}
                                                       defaultChecked={
                                                         filterObject?.hasOwnProperty(
                                                           key
@@ -845,7 +855,7 @@ const LibraryEditListing = () => {
                                                             -1
                                                           : false
                                                       }
-                                                      name="tags[]"
+
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
                                                           e,
@@ -968,7 +978,7 @@ const LibraryEditListing = () => {
               level={qrState?.level}
               includeMargin={true}
             />
-            {Object.keys(filterObject)?.length !== 0 ? (
+            {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
                 {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
