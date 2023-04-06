@@ -78,7 +78,7 @@ const LibraryCreateUser = () => {
     format: [],
     product: [],
     hcp:["General information","Investigator","Investigator Meeting Winter 2023","IRT","Octapharma CRO","Pharmacist","Site User"]
-    
+
   });
 
   const product = [
@@ -212,7 +212,7 @@ const LibraryCreateUser = () => {
         formData.append("costCenter", userInputs?.costCenter?userInputs?.costCenter:"");
 
 
-        
+
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
@@ -874,6 +874,7 @@ const LibraryCreateUser = () => {
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
+                  {/*
                   <input
                     type="checkbox"
                     value="value3"
@@ -884,6 +885,7 @@ const LibraryCreateUser = () => {
                     id="limitagreed3"
                   />
                   <label htmlFor="limitagreed3">Share</label>
+                */}
                 </fieldset>
               </div>
             </div>

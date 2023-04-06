@@ -135,7 +135,7 @@ const EditLibrary = () => {
       });
     }
 
-    
+
     let category = [];
     if( hadData?.data?.data?.category?.length){
       hadData?.data?.data?.category.reduce((objEntries, key) => {
@@ -145,14 +145,14 @@ const EditLibrary = () => {
         });
       });
     }
-   
+
     let tags = [];
     if( hadData?.data?.data?.tags?.length){
       hadData?.data?.data?.tags?.forEach((item) => {
         tags.push(item?.value);
       });
     }
-   
+
     setAllTags(tags)
 
     setUserDetail({
@@ -168,8 +168,8 @@ const EditLibrary = () => {
       product: hadData?.data?.data?.product,
       reseller: hadData?.data?.data?.reseller,
     });
-    
-    
+
+
     loader("hide");
   };
   const libraryDetail = async () => {
@@ -384,7 +384,7 @@ console.log("-er",err)
         );
         formData.append("draft", JSON.stringify(userInputs?.draft));
         formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
-       
+
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
@@ -1284,7 +1284,7 @@ console.log("-er",err)
                           </div>
                         </>
                       ) : null}
-                       
+
                      { (userDetail?.user?.[0]?.flag == 1 &&
                         userDetail?.user?.[0]?.group_id == 3)?(
                           <div className="form-group">
@@ -1316,7 +1316,7 @@ console.log("-er",err)
                           </fieldset>
                         </div>
                         ):null  }
-                        
+
 
                       <div className="form-group val">
                         <label htmlFor="">Docintel format *</label>

@@ -142,6 +142,7 @@ const LicenseContent = () => {
       loader("show");
       const res = await postData(ENDPOINT.FILTERS, {
         user_id: localStorage.getItem("user_id"),
+        licensed: 1,
       });
       if (res?.data?.data) {
         setFilterData(res?.data?.data);
@@ -1605,12 +1606,16 @@ const LicenseContent = () => {
                                     >
                                       Edit Docintel link
                                     </Link>
-                                    <Button
-                                      className="footer-btn"
-                                      onClick={(e) => tagButtonClicked(data.id)}
-                                    >
-                                      Add / Remove tags
-                                    </Button>
+                                    {
+                                      localStorage.getItem("group_id") == 3 ?
+                                      <Button
+                                        className="footer-btn"
+                                        onClick={(e) => tagButtonClicked(data.id)}
+                                      >
+                                        Add / Remove tags
+                                      </Button>
+                                      : null
+                                    }
                                     <Link
                                       to="/license-sublink"
                                       state={{ pdfid: data.id }}
@@ -1632,9 +1637,9 @@ const LicenseContent = () => {
                                     <>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Cost Center
+                                          Sales person
                                         </h6>
-                                        <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
+                                        <h6>{data?.saleName ? data.saleName : "N/A" }</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
@@ -1644,49 +1649,43 @@ const LicenseContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
+                                          Client product
+                                        </h6>
+                                        <h6>{data?.product ?  data.product : "N/A"}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Country
+                                        </h6>
+                                        <h6>{data?.country ?  data.country : "N/A"}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Cost Center
+                                        </h6>
+                                        <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
+                                      </li>
+
+                                      <li>
+                                        <h6 className="tab-content-title">
                                           Client name
                                         </h6>
                                         <h6>{data?.company +" "+ data?.product + " " + data?.country}</h6>
                                       </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Sales person
-                                        </h6>
-                                        <h6>{data?.saleName ? data.saleName : "N/A" }</h6>
-                                      </li>
-                                      {
-                                        /*
 
-
-
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Client product
-                                          </h6>
-                                          <h6>{data?.product}</h6>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Country
-                                          </h6>
-                                          <h6>{data?.country}</h6>
-                                        </li>
-                                        */
-                                      }
                                     </>
                                   )}
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Opening limit
+                                      Usage limit
                                     </h6>
-                                    <h6>{data?.limit}</h6>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Link type
+                                    <h6>
+                                      {
+                                        data?.limit > 0? data?.limit: "Unlimted"
+                                      }
                                     </h6>
-                                    <h6>{data?.linkType}</h6>
                                   </li>
+
                                   <li>
                                     <h6 className="tab-content-title">
                                       Enable
@@ -1696,6 +1695,12 @@ const LicenseContent = () => {
                                         changeFormatForPrint(data)
                                       }
                                     </h6>
+                                  </li>
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Link type
+                                    </h6>
+                                    <h6>{data?.linkType}</h6>
                                   </li>
                                   {
                                     /*
