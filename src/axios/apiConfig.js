@@ -43,4 +43,5 @@ export const ENDPOINT = {
   OPENING_BY_COUNTRY: "/analytics/reader-country",
   READER_DOWNLOAD: `/reader/reader-file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`,
+  COUNTRY_REGISTRATION:`analytics/country`,
 };
