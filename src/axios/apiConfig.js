@@ -41,6 +41,7 @@ export const ENDPOINT = {
   TOPRESELLER: `/analytics/reader-country`,
   ANALYTICS: "/analytics/graph",
   OPENING_BY_COUNTRY: "/analytics/reader-country",
+  DELIVERYTRENDS: "analytics/trend",
   READER_DOWNLOAD: `/reader/reader-file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`,
   COUNTRY_REGISTRATION:`analytics/country`,

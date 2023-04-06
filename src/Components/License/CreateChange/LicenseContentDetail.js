@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
 import { Button } from "react-bootstrap";
 
-const ContentDetail = () => {
+const LicenseContentDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [open, setOpen] = useState(false);
   const [openProduction, setOpenProduction] = useState(false);
@@ -123,7 +123,7 @@ const ContentDetail = () => {
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
                     <Link
-                      to="/library-edit"
+                      to="/license-edit"
                       state={{ pdfid: state?.pdfId }}
                       className="btn btn-primary btn-bordered move-draft"
                     >
@@ -131,7 +131,7 @@ const ContentDetail = () => {
                     </Link>
                     <button
                       className="btn btn-primary btn-bordered next"
-                      onClick={() => navigate("/library-content")}
+                      onClick={() => navigate("/license-content")}
                     >
                       Close
                     </button>
@@ -231,48 +231,6 @@ const ContentDetail = () => {
                                           <div className="mailbox-table">
                                             <table>
                                               <tbody>
-                                              {
-                                                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
-                                                localStorage.getItem("group_id") == "3"
-                                                ?
-                                                  <>
-                                                  <tr>
-                                                    <th>Trial</th>
-                                                    <td>
-                                                      {data?.trial_name
-                                                        ? data?.trial_name
-                                                        : "N/A"}
-                                                    </td>
-                                                  </tr>
-                                                  <tr>
-                                                    <th>User Role</th>
-                                                    <td>
-                                                      {data?.trail_user_type
-                                                        ?
-                                                          typeof data?.trail_user_type == "string" && data?.trail_user_type != ""
-                                                          ?
-                                                          JSON.parse(data?.trail_user_type).join()
-                                                          : "N/A"
-                                                        : "N/A"
-                                                      }
-                                                    </td>
-                                                  </tr>
-
-                                                  <tr>
-                                                    <th>Blind Type</th>
-                                                    <td>
-                                                      { data?.blindType ? data.blindType == "blinded" ? "Yes" : "No"  : "No" }
-                                                    </td>
-                                                  </tr>
-                                                  <tr>
-                                                    <th>Mandatory</th>
-                                                    <td>
-                                                      { data?.reader_mandatory ? "Yes" : "No" }
-                                                    </td>
-                                                  </tr>
-                                                  </>
-                                                :
-                                                <>
                                                 <tr>
                                                   <th>Company</th>
                                                   <td>
@@ -321,8 +279,6 @@ const ContentDetail = () => {
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
-                                                </>
-                                              }
                                               </tbody>
                                             </table>
                                           </div>
@@ -339,8 +295,6 @@ const ContentDetail = () => {
                                           <div className="mailbox-table">
                                             <table>
                                               <tbody>
-                                              {
-                                                localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
                                                 <tr>
                                                   <th>Cost center</th>
                                                   <td>
@@ -349,9 +303,6 @@ const ContentDetail = () => {
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
-                                                :
-                                                null
-                                              }
                                                 <tr>
                                                   <th>Expiration date</th>
                                                   <td>
@@ -363,26 +314,19 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Set limit of usage</th>
                                                   <td>
-                                                    {data?.limit > 0
+                                                    {data?.limit >= 0
                                                       ? data?.limit
-                                                      : "Unlimted"}
+                                                      : "N/A"}
                                                   </td>
                                                 </tr>
-
-                                                {
-                                                  localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
-                                                  <tr>
-                                                    <th>Enable</th>
-                                                    <td>
-                                                      {enableData?.enable
-                                                        ? enableData?.enable
-                                                        : "N/A"}
-                                                    </td>
-                                                  </tr>
-                                                  :
-                                                  null
-                                                }
-
+                                                <tr>
+                                                  <th>Enable</th>
+                                                  <td>
+                                                    {enableData?.enable
+                                                      ? enableData?.enable
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
                                                 <tr>
                                                   <th>Invoice Notes</th>
                                                   <td>
@@ -453,7 +397,7 @@ const ContentDetail = () => {
                                                   <td>
                                                     {data?.chapterCount
                                                       ? data?.chapterCount
-                                                      : 0}
+                                                      : "N/A"}
                                                   </td>
                                                 </tr>
                                                 <tr>
@@ -469,7 +413,7 @@ const ContentDetail = () => {
                                                   <td>
                                                     {data?.draft
                                                       ? "Yes"
-                                                      : "No"}
+                                                      : "N/A"}
                                                   </td>
                                                 </tr>
                                                 <tr>
@@ -545,4 +489,4 @@ const ContentDetail = () => {
   );
 };
 
-export default ContentDetail;
+export default LicenseContentDetail;

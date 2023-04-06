@@ -29,7 +29,7 @@ import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 //pdf id  3846
 //ebook 3899
-const PreviewContent = () => {
+const LicensePreviewContent = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -276,7 +276,7 @@ const PreviewContent = () => {
           link.click();
         } else {
           setPublishStatus(true);
-          navigate("/content-detail", {
+          navigate("/license-content-detail", {
             state: { pdfId: articleId },
           });
         }
@@ -284,7 +284,7 @@ const PreviewContent = () => {
 
       } else {
         setPublishStatus(true);
-        navigate("/content-detail", {
+        navigate("/license-content-detail", {
           state: { pdfId: articleId },
         });
       }
@@ -306,7 +306,7 @@ const PreviewContent = () => {
                 <div className="header-btn-left">
                   <Link
                     className="btn btn-primary btn-bordered back"
-                    to="/set-popup"
+                    to="/license-set-popup"
                     state={{ pdfId: state?.pdfId }}
                   >
                     Back
@@ -330,7 +330,7 @@ const PreviewContent = () => {
                 <div className="header-btn">
                   <Link
                     className="btn btn-primary btn-bordered move-draft"
-                    to="/library-create"
+                    to="/license-create"
                   >
                     Cancel
                   </Link>
@@ -583,4 +583,4 @@ const PreviewContent = () => {
   );
 };
 
-export default PreviewContent;
+export default LicensePreviewContent;

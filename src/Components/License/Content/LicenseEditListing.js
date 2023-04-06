@@ -38,7 +38,7 @@ import QRCode from "qrcode.react";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LibraryEditListing = () => {
+const LicenseEditListing = () => {
   const limit = 24;
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
@@ -48,7 +48,6 @@ const LibraryEditListing = () => {
     { value: "Sunshine", label: "Sunshine" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
-  const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [totalCount, setCount] = useState(0);
   const [update, setUpdate] = useState(0);
@@ -143,6 +142,7 @@ const LibraryEditListing = () => {
       loader("show");
       const res = await postData(ENDPOINT.FILTERS, {
         user_id: localStorage.getItem("user_id"),
+        licensed: 1,
       });
       if (res?.data?.data) {
         setFilterData(res?.data?.data);
@@ -177,10 +177,6 @@ const LibraryEditListing = () => {
     }
 
     if (e?.target?.checked == true) {
-      if(key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
-      key == "SPC Included" || key == "Blinded" || key == "Mandatory"){
-        filterObject[key] = [];
-      }
       filterObject[key]?.push(item);
     } else {
       const index = filterObject[key]?.indexOf(item);
@@ -232,20 +228,19 @@ const LibraryEditListing = () => {
     });
 
     obj = {};
-    if (filterApplyflag > 0) {
-      setFilterObject({});
-      setLibraryData([]);
+    setFilterObject({});
+    setLibraryData([]);
 
-      getLibraryData(page, {}, search);
-      setSearch("");
-    }
+    getLibraryData(page, {}, search);
+    setSearch("");
+
     setShowFilter(false);
   };
 
   const applyFilter = (e) => {
     e.preventDefault();
-    setFilterApplyflag(1);
     setLibraryData([]);
+
     setFilterObject(filterObject);
     getLibraryData(page, filterObject, search);
 
@@ -284,6 +279,7 @@ const LibraryEditListing = () => {
         search: search,
         type: type,
         limit: limit,
+        license: 1,
       };
 
       let body = { ...data, ...obj };
@@ -714,11 +710,11 @@ const LibraryEditListing = () => {
           <Row>
             <div className="top-header">
               <div className="page-title d-flex">
-                  <Link className="btn btn-primary btn-bordered back-btn" to="/library-create">
-                    <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
-                    </svg>
-                  </Link>
+                <Link className="btn btn-primary btn-bordered back-btn" to="/license-create">
+                  <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
+                  </svg>
+                </Link>
                 <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2>
               </div>
               <div className="top-right-action">
@@ -838,13 +834,9 @@ const LibraryEditListing = () => {
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
-                                                    type={
-                                                      key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
-                                                      key == "SPC Included" || key == "Blinded" || key == "Mandatory"
-                                                      ? "radio" : "checkbox" }
+                                                      type="checkbox"
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
-                                                      name={key}
                                                       defaultChecked={
                                                         filterObject?.hasOwnProperty(
                                                           key
@@ -855,7 +847,7 @@ const LibraryEditListing = () => {
                                                             -1
                                                           : false
                                                       }
-
+                                                      name="tags[]"
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
                                                           e,
@@ -962,7 +954,7 @@ const LibraryEditListing = () => {
                   <div className="clear-search">
                     <button
                       className="btn btn-outline-primary cancel"
-                      onClick={(e) => navigate("/library-create")}
+                      onClick={(e) => navigate("/license-create")}
                     >
                       Cancel
                     </button>
@@ -978,7 +970,7 @@ const LibraryEditListing = () => {
               level={qrState?.level}
               includeMargin={true}
             />
-            {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
+            {Object.keys(filterObject)?.length !== 0 ? (
               <div className="apply-filter">
                 {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
@@ -1064,7 +1056,7 @@ const LibraryEditListing = () => {
                             {location?.state?.data == "edit" ? (
                               <div className="dlt_btn">
                                   <Link
-                                    to="/library-edit"
+                                    to="/license-edit"
                                     state={{ pdfid: data.id }}
                                     className="footer-btn"
                                   >
@@ -1588,7 +1580,7 @@ const LibraryEditListing = () => {
                               </Tab>
                               <Tab
                                 eventKey="sales"
-                                title={ localStorage.getItem("group_id") == "3" ? "About" :"Sales" }
+                                title="Sales"
                                 className="flex-column justify-content-between"
                               >
                                 <div className="tab-panel">
@@ -1597,21 +1589,27 @@ const LibraryEditListing = () => {
                                     <>
                                       <li>
                                         <h6 className="tab-content-title">
+                                          Sales person
+                                        </h6>
+                                        <h6>{data?.saleName ? data.saleName : "N/A" }</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
                                           Production person
                                         </h6>
                                         <h6>{data?.productName ?  data.productName : "N/A"}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Publisher
+                                          Client product
                                         </h6>
-                                        <h6>{data?.publisherName ?  data.publisherName : "N/A"}</h6>
+                                        <h6>{data?.product ?  data.product : "N/A"}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           Country
                                         </h6>
-                                        <h6>{data?.country}</h6>
+                                        <h6>{data?.country ?  data.country : "N/A"}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
@@ -1619,79 +1617,27 @@ const LibraryEditListing = () => {
                                         </h6>
                                         <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
                                       </li>
-                                      {
-                                        /*
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Sales person
-                                          </h6>
-                                          <h6>{data?.saleName}</h6>
-                                        </li>
 
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Client name
-                                          </h6>
-                                          <h6>{data?.company}</h6>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Client product
-                                          </h6>
-                                          <h6>{data?.product}</h6>
-                                        </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Client name
+                                        </h6>
+                                        <h6>{data?.company +" "+ data?.product + " " + data?.country}</h6>
+                                      </li>
 
-                                        */
-                                      }
                                     </>
                                   )}
-
-                                  {
-                                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
-                                    localStorage.getItem("group_id") == "3"
-                                    ?
-                                    <>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Blind Type
-                                        </h6>
-                                        <h6>{ data?.blindType ? data.blindType == "blinded" ? "Yes" : "No"  : "No" }</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Mandatory
-                                        </h6>
-                                        <h6>{ data?.reader_mandatory ? "Yes" : "No" }</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          User Types
-                                        </h6>
-                                        <h6>
-                                        {data?.trail_user_type
-                                          ?
-                                            typeof data?.trail_user_type == "string" && data?.trail_user_type != ""
-                                            ?
-                                            JSON.parse(data?.trail_user_type).join()
-                                            : "N/A"
-                                          : "N/A"
-                                        }
-                                        </h6>
-                                      </li>
-                                    </>
-                                    :
-                                    null
-                                  }
                                   <li>
                                     <h6 className="tab-content-title">
                                       Usage limit
                                     </h6>
                                     <h6>
-                                    {
-                                      data?.limit > 0? data?.limit: "Unlimted"
-                                    }
+                                      {
+                                        data?.limit > 0? data?.limit: "Unlimted"
+                                      }
                                     </h6>
                                   </li>
+
                                   <li>
                                     <h6 className="tab-content-title">
                                       Enable
@@ -1816,13 +1762,13 @@ const LibraryEditListing = () => {
             <h6>Select Tag :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {allTags?.length?Object.values(allTags).map((data) => {
+                {Object.values(allTags).map((data) => {
                   return (
                     <>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
                     </>
                   );
-                }):null}
+                })}
               </div>
             </div>
           </div>
@@ -1832,7 +1778,7 @@ const LibraryEditListing = () => {
             </h6>
 
             <div className="total-selected">
-              {tagClickedFirst?.length?tagClickedFirst?.map((data, index) => {
+              {tagClickedFirst.map((data, index) => {
                 return (
                   <>
                     <div className="tag-cross">
@@ -1845,7 +1791,7 @@ const LibraryEditListing = () => {
                     </div>
                   </>
                 );
-              }):null}
+              })}
             </div>
           </div>
         </Modal.Body>
@@ -1883,4 +1829,4 @@ const LibraryEditListing = () => {
   );
 };
 
-export default LibraryEditListing;
+export default LicenseEditListing;

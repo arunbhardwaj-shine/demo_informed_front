@@ -52,7 +52,7 @@ const CommonConfirmModel = ({
 
             <button
               type="button"
-              className="btn btn-primary btn-bordered light"
+              className="btn btn-primary btn-bordered"
               onClick={handleClose}
             >
               Cancel
