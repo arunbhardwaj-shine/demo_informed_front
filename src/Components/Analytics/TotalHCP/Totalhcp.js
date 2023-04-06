@@ -280,9 +280,8 @@ const Totalhcp = () => {
                 <div className="high_charts">
                   <HighchartsReact highcharts={Highcharts} options={lineOptions} />
                 </div>
-              </div>
-            </Row>
-            <Row>
+              <div className="high_charts">
+              <div className="highcharts-data-table">
               <table>
                 <thead>
                   <tr>
@@ -305,6 +304,9 @@ const Totalhcp = () => {
                   ))}
                 </tbody>
               </table>
+              </div>
+              </div>
+              </div>
             </Row>
           </div>
         ) : null}
