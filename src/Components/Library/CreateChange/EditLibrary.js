@@ -135,7 +135,7 @@ const EditLibrary = () => {
       });
     }
 
-    
+
     let category = [];
     if( hadData?.data?.data?.category?.length){
       hadData?.data?.data?.category.reduce((objEntries, key) => {
@@ -145,14 +145,14 @@ const EditLibrary = () => {
         });
       });
     }
-   
+
     let tags = [];
     if( hadData?.data?.data?.tags?.length){
       hadData?.data?.data?.tags?.forEach((item) => {
         tags.push(item?.value);
       });
     }
-   
+
     setAllTags(tags)
 
     setUserDetail({
@@ -168,8 +168,8 @@ const EditLibrary = () => {
       product: hadData?.data?.data?.product,
       reseller: hadData?.data?.data?.reseller,
     });
-    
-    
+
+
     loader("hide");
   };
   const libraryDetail = async () => {
@@ -308,7 +308,6 @@ const EditLibrary = () => {
         delete userInputs.trial
       }
     const err = LibraryEditValidation(userInputs);
-console.log("-er",err)
     if (Object.keys(err)?.length) {
       setError(err);
       return;
@@ -316,10 +315,9 @@ console.log("-er",err)
       try {
         loader("show");
         let formData = new FormData();
-        console.log("-----------=->",userInputs)
         formData.append("keyAuthor", userInputs?.keyAuthor);
-        formData.append("production", userInputs?.production?userInputs?.production:0);
-        formData.append("sales", userInputs?.sales?userInputs?.sales:0);
+        formData.append("production", userInputs?.production_id?userInputs?.production_id:0);
+        formData.append("sales", userInputs?.sales_id?userInputs?.sales_id:0);
         formData.append("costCenter", userInputs?.cost_center?userInputs?.cost_center:"");
 
 
@@ -384,7 +382,7 @@ console.log("-er",err)
         );
         formData.append("draft", JSON.stringify(userInputs?.draft));
         formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
-       
+
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
@@ -575,7 +573,7 @@ console.log("-er",err)
                 <label htmlFor="">Production</label>
                 <Select
                   options={userDetail?.production}
-                  onChange={(e) => handleChange(e?.id, "production")}
+                  onChange={(e) => handleChange(e?.id, "production_id")}
                   defaultValue={
                     userDetail?.production[userDetail?.production.findIndex(el => el.id == userInputs?.production_id)]
                   }
@@ -589,10 +587,10 @@ console.log("-er",err)
                 <Select
                   options={userDetail?.sales}
                   defaultValue={
-                    userDetail?.production[userDetail?.sales.findIndex(el => el.id == userInputs?.sales_id)]
+                    userDetail?.sales[userDetail?.sales.findIndex(el => el.id == userInputs?.sales_id)]
                   }
                   placeholder="Who made the sale?"
-                  onChange={(e) => handleChange(e?.id, "sales")}
+                  onChange={(e) => handleChange(e?.id, "sales_id")}
                   className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                   isClearable
                 />
@@ -1284,7 +1282,7 @@ console.log("-er",err)
                           </div>
                         </>
                       ) : null}
-                       
+
                      { (userDetail?.user?.[0]?.flag == 1 &&
                         userDetail?.user?.[0]?.group_id == 3)?(
                           <div className="form-group">
@@ -1316,7 +1314,7 @@ console.log("-er",err)
                           </fieldset>
                         </div>
                         ):null  }
-                        
+
 
                       <div className="form-group val">
                         <label htmlFor="">Docintel format *</label>
