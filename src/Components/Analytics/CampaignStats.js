@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
-import { loader } from "../../../loader";
-import { ENDPOINT } from "../../../axios/apiConfig";
-import { postData } from "../../../axios/apiHelper";
+import { loader } from "../../loader";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
@@ -121,7 +121,8 @@ const CampaignStats = () => {
       ],
   };
 
-  const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState({
+  const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState(
+    {
     chart: {
       plotBackgroundColor: null,
       plotBorderWidth: null,
@@ -150,99 +151,138 @@ const CampaignStats = () => {
         },
       },
     },
-    series: [
-      {
-        name: "Article Registration based on delivery",
-        colorByPoint: true,
-        data: [
-          {
-            name: "Email campaign",
-            y: 7.2,
-            color: Highcharts.getOptions().colors[0],
-            drilldown: "Email campaign",
-          },
-          {
-            name: "inforMedGO",
-            y: 40.9,
-            color: Highcharts.getOptions().colors[1],
-            drilldown: "inforMedGO",
-          },
-          {
-            name: "Docintel Code",
-            y: 2.2,
-            color: Highcharts.getOptions().colors[2],
-            drilldown: "Docintel Code",
-          },
-          // {
-          //     name: "QR",
-          //     y: ,
-          //     color: Highcharts.getOptions().colors[3],
-          //     drilldown: "QR"
-          // },
-          {
-            name: "Direct",
-            y: 28.3,
-            color: Highcharts.getOptions().colors[4],
-            drilldown: "Direct",
-          },
-          {
-            name: "Peer sharing",
-            y: 2.0,
-            color: Highcharts.getOptions().colors[5],
-            drilldown: "Peer sharing",
-          },
-          {
-            name: "Webinar",
-            y: 2.1,
-            color: Highcharts.getOptions().colors[6],
-            drilldown: "Webinar",
-          },
-          {
-            name: "IBU Email campaign",
-            y: 4.2,
-            color: Highcharts.getOptions().colors[7],
-            drilldown: "IBU Email campaign",
-          },
-          {
-            name: "IBU inforMedGO",
-            y: 3.4,
-            color: Highcharts.getOptions().colors[8],
-            drilldown: "IBU inforMedGO",
-          },
-          // {
-          //     name: "IBU Docintel Code",
-          //     y: 1,
-          //     color: Highcharts.getOptions().colors[9],
-          //     drilldown: "IBU Docintel Code"
-          // },
-          {
-            name: "IBU QR",
-            y: 0.4,
-            color: Highcharts.getOptions().colors[10],
-            drilldown: "IBU QR",
-          },
-          {
-            name: "IBU Direct",
-            y: 5.2,
-            color: Highcharts.getOptions().colors[11],
-            drilldown: "IBU Direct",
-          },
-          // ,
-          // {
-          //     name: "IBU Peer sharing",
-          //     y: 1,
-          //     color: Highcharts.getOptions().colors[12],
-          //     drilldown: "IBU Peer sharing"
-          // }
-          {
-            name: "Webinar IBU",
-            y: 3.3,
-            color: Highcharts.getOptions().colors[13],
-            drilldown: "Webinar IBU",
-          },
-        ],
-      },
-    ],
+    series: [{
+      name: "Article Registration based on delivery",
+      colorByPoint: true,
+      data: [{
+          name: "Email campaign",
+          y: 7.2,
+          color: Highcharts.getOptions().colors[0],
+          drilldown: "email"
+        },
+        {
+          name: "inforMedGO",
+          y: 40.9,
+          color: Highcharts.getOptions().colors[1],
+          drilldown: "informedgo"
+        },
+        {
+          name: "Docintel Code",
+          y: 2.2,
+          color: Highcharts.getOptions().colors[2],
+          drilldown: "docintelcode"
+        },
+        {
+          name: "Direct",
+          y: 28.3,
+          color: Highcharts.getOptions().colors[4],
+          drilldown: "direct"
+        },
+        {
+          name: "Peer sharing",
+          y: 2.0,
+          color: Highcharts.getOptions().colors[5],
+          drilldown: "peer"
+        },
+        {
+          name: "Webinar",
+          y: 2.1,
+          color: Highcharts.getOptions().colors[6],
+          drilldown: "webinar"
+        },
+        {
+          name: "IBU Email campaign",
+          y: 4.2,
+          color: Highcharts.getOptions().colors[7],
+          drilldown: "ibuemail"
+        },
+        {
+          name: "IBU inforMedGO",
+          y: 3.4,
+          color: Highcharts.getOptions().colors[8],
+          drilldown: "ibuinformedgo"
+        },
+        {
+          name: "IBU QR",
+          y: 0.4,
+          color: Highcharts.getOptions().colors[10],
+          drilldown: "ibuqr"
+        },
+        {
+          name: "IBU Direct",
+          y: 5.2,
+          color: Highcharts.getOptions().colors[11],
+          drilldown: "ibudirect"
+        },
+        {
+          name: "Webinar IBU",
+          y: 3.3,
+          color: Highcharts.getOptions().colors[13],
+          drilldown: "webinaribu"
+        },
+      ],
+    }],
+    drilldown: {
+      series: [{
+          name: "Email campaign",
+          id: "email",
+          data: [
+            ["Subcampaign A", 5],
+            ["Subcampaign B", 2.2],
+            ["Subcampaign C", 0.5]
+          ]
+        },
+        {
+          name: "Email campaign",
+          id: "informedgo",
+          data: [
+            ["Subcampaign A", 5],
+            ["Subcampaign B", 2.2],
+            ["Subcampaign C", 10.5]
+          ]
+        },
+        {
+          name: "Email campaign",
+          id: "docintelcode",
+          data: [
+            ["Subcampaign A", 5],
+            ["Subcampaign B", 2.2],
+            ["Subcampaign C", 10.5]
+          ]
+        },
+        {
+          name: "Email campaign",
+          id: "direct",
+          data: [
+            ["Subcampaign A", 5],
+            ["Subcampaign B", 2.2],
+            ["Subcampaign C", 10.5]
+          ]
+        },
+        {
+          name: "Email campaign",
+          id: "peer",
+          data: [
+            ["Subcampaign A", 5],
+            ["Subcampaign B", 2.2],
+            ["Subcampaign C", 10.5]
+          ]
+        },
+        {
+          name: "Email campaign",
+          id: "webiner",
+          data: [
+            ["Subcampaign A", 5],
+            ["Subcampaign B", 2.2],
+            ["Subcampaign C", 10.5]
+          ]
+        },
+      
+      ]}
+ 
+  
+  
+  
   });
 
   useEffect(() => {

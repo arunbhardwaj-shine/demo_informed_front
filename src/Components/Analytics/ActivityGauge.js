@@ -7,7 +7,7 @@ import solidGauge from "highcharts/modules/solid-gauge";
 highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
-export default function Gauge({ series, label, list }) {
+export default function ActivityGauge({ series, label, list }) {
   console.log(series.length, label);
 
   const [options, setOptions] = useState({

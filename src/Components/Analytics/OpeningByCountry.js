@@ -1,24 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
-import { loader } from "../../../loader";
-
-import { ENDPOINT } from "../../../axios/apiConfig";
-import { postData } from "../../../axios/apiHelper";
+import { loader } from "../../loader";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
-
 import HighchartsReact from "highcharts-react-official";
 import { Link } from "react-router-dom";
-
 exporting(Highcharts);
 exportData(Highcharts);
-
-const SalesByCountry = () => {
+const OpeningByCountry = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const selectFilter = useRef(null);
 
+  const chart = useRef(null);
   Highcharts.setOptions({
     colors: [
       "#FFBE2C",
@@ -31,27 +30,6 @@ const SalesByCountry = () => {
       "#00003C",
     ],
   });
-
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const chart = useRef(null);
-  const [All, setAll] = useState([
-    { value: "", label: "All" },
-    { value: "live", label: "Live" },
-    { value: "expired", label: "Expired" },
-  ]);
-  const [Years, setYears] = useState([
-    { value: "", label: "All" },
-
-    { value: "2023", label: "2023" },
-    { value: "2022", label: "2022" },
-    { value: "2021", label: "2021" },
-    { value: "2020", label: "2020" },
-    { value: "2019", label: "2019" },
-  ]);
-  const dataType = useRef(All[0]);
-
-  const years = useRef(Years[0]);
   const [topClientOptions, setTopClientOptions] = useState({
     chart: {
       marginTop: 100,
@@ -70,7 +48,7 @@ const SalesByCountry = () => {
       },
     },
     title: {
-      text: " ",
+      text: "Country Stats",
     },
     xAxis: {
       categories: [],
@@ -80,7 +58,7 @@ const SalesByCountry = () => {
     },
     exporting: {
       showHighchart: true,
-      showTable: false,
+      showTable: true,
       tableCaption: "",
     },
     legend: {
@@ -127,16 +105,17 @@ const SalesByCountry = () => {
 
     try {
       const requestBody = {
-        type: "saleCountry",
-        dataType: dataType?.current?.value ? dataType?.current?.value : "",
-        year: years?.current?.value ? years.current.value : "",
+        type: "Openingcountry",
+        filter: selectFilter?.current?.value
+          ? selectFilter?.current?.value
+          : "",
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
       }
-
+      // console.log(hadData);
       const categories = hadData?.name;
 
       const newSeries = [
@@ -161,11 +140,10 @@ const SalesByCountry = () => {
         ...topClientOptions,
         xAxis: { categories: categories },
         series: newSeries,
-        exporting: { showTable: true },
       };
 
       setTopClientOptions(newClientOptions);
-
+// console.log(topClientOptions)
       setIsDataFound(true);
       setData(hadData);
 
@@ -175,19 +153,14 @@ const SalesByCountry = () => {
       console.log(err);
       loader("hide");
     }
-    // console.log(chart.current)
+    // console.log(chart.current);
   };
 
-  const filterDataByDataType = (e) => {
-    dataType.current = e;
+  const filterData = (e) => {
     setIsDataFound(false);
-    getDataFromApi();
-  };
+    selectFilter.current = e;
 
-  const filterDataByYears = (e) => {
-    years.current = e;
-    setIsDataFound(false);
-    getDataFromApi();
+    getDataFromApi(e.value);
   };
 
   return (
@@ -215,38 +188,30 @@ const SalesByCountry = () => {
                       />
                     </svg>
                   </Link>
-                  <h2>Sales by country</h2>
+                  <h2>Opening by Country</h2>
                 </div>
               </div>
               <div className="create-change-content spc-content analytic-charts">
                 <div className="form_action">
                   <Form className="product-unit d-flex justify-content-between align-items-center">
-                    <div className="form-group d-flex align-items-center">
+                    <div className="form-group ">
                       <label htmlFor="">Filter By</label>
                       <Select
-                        options={All}
-                        placeholder="All"
-                        onChange={filterDataByDataType}
-                        defaultValue={
-                          dataType?.current ? dataType?.current : null
-                        }
-                        name="first"
-                        className="dropdown-basic-button split-button-dropup mr-2"
-                        isClearable
-                      />
-                      <Select
-                        options={Years}
-                        name="years"
+                        options={data?.pdfData?.map((pdf) => ({
+                          label: pdf.title,
+                          value: pdf.id,
+                        }))}
                         placeholder="Filter By"
-                        onChange={filterDataByYears}
-                        defaultValue={years?.current ? years?.current : null}
+                        onChange={filterData}
+                        defaultValue={
+                          selectFilter?.current ? selectFilter?.current : null
+                        }
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                       />
                     </div>
                   </Form>
                 </div>
-
                 <div className="high_charts">
                   <HighchartsReact
                     highcharts={Highcharts}
@@ -262,4 +227,4 @@ const SalesByCountry = () => {
     </>
   );
 };
-export default SalesByCountry;
+export default OpeningByCountry;
