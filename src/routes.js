@@ -221,9 +221,15 @@ const Routing = () => {
                   path="/delivery-stats"
                   element={<DeliveryTrends />}
                 />
+
+                <Route
+                path="/registration-type"
+                element={<RegistrationType />}
+              />
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
 
 
+                <Route path="/registration-type" element={<RegistrationType />} />
                 <Route path="/readers-view" element={<NewReaders />} />
                 <Route path="/reader-edit" element={<ReaderEdit />} />
                 <Route path="/reader-add" element={<ReaderAdd />} />

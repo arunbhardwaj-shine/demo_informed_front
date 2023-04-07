@@ -15,6 +15,7 @@ const ReaderAdd = () => {
   const navigate = useNavigate();
   const [groupId, setGroupId] = useState();
   const [flag, setFlag] = useState();
+  const [pharmaData, setPharmaData] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
   const [province, setProvince] = useState([]);
@@ -23,6 +24,11 @@ const ReaderAdd = () => {
     { value: "production1", label: "production1222" },
     { value: "production2", label: "production2" },
     { value: "production3", label: "production3" },
+  ]);
+  const [ibu, setIbu] = useState([
+    { value: "critical care1", label: "critical care1" },
+    { value: "critical care2", label: "critical care2" },
+    { value: "critical care3", label: "critical care3" },
   ]);
   const [hospital, setHospital] = useState([]);
   const [countryCode, setCountryCode] = useState([
@@ -101,6 +107,7 @@ const ReaderAdd = () => {
     speciality: "",
     sub_role: "",
     title: "",
+    ibu: "",
   });
   const [userDetail, setUserDetail] = useState({
     speciality: [],
@@ -154,6 +161,7 @@ const ReaderAdd = () => {
     setHospital(hasData?.data?.data?.hospital);
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
+    setPharmaData(hasData?.data?.data?.user?.[0]?.pharmaData);
 
     setUserDetail({
       ...userDetail,
@@ -289,7 +297,7 @@ const ReaderAdd = () => {
   const nextButtonClicked = async (e) => {
     e.preventDefault();
 
-    const result = AddReaderValidation(userInputs, groupId);
+    const result = AddReaderValidation(userInputs, groupId, flag);
 
     if (Object.keys(result)?.length) {
       setError(result);
@@ -305,7 +313,7 @@ const ReaderAdd = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label}/${userInputs?.primary_phone}`,
+          primary_phone: `${userInputs?.countryCode?.label}-${userInputs?.primary_phone}`,
 
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
@@ -324,6 +332,7 @@ const ReaderAdd = () => {
           irt: userInputs?.irt,
           role: userInputs?.role,
           sub_role: userInputs?.sub_role,
+          ibu: userInputs?.ibu,
         };
         console.log("data", data);
         await postData(ENDPOINT.READER_CREATE, data);
@@ -489,7 +498,7 @@ const ReaderAdd = () => {
                   {/* onChange={handleFileUpload}
                   /> */}
 
-                  {!(groupId == 3 && flag == 2) ? (
+                  {!(groupId == 3 && flag == 0 && pharmaData == 1) ? (
                     <Button
                       className="btn-bordered"
                       type="file"
@@ -558,7 +567,7 @@ const ReaderAdd = () => {
                     </Form.Group>
                     {groupId == 2 ||
                     (groupId == 3 && flag == 0) ||
-                    (groupId == 3 && flag == 2) ? (
+                    (groupId == 3 && flag == 0 && pharmaData == 1) ? (
                       <>
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">Alternative email </Form.Label>
@@ -634,7 +643,8 @@ const ReaderAdd = () => {
                       )}
                     </Form.Group>
 
-                    {groupId == 2 || (groupId == 3 && flag == 0) ? (
+                    {groupId == 2 ||
+                    (groupId == 3 && flag == 0 && pharmaData == 0) ? (
                       <Form.Group className="form-group">
                         <Form.Label htmlFor="">Province</Form.Label>
                         <Select
@@ -650,9 +660,7 @@ const ReaderAdd = () => {
                       ""
                     )}
 
-                    {groupId == 2 ||
-                    (groupId == 3 && flag == 0) ||
-                    (groupId == 3 && flag == 2) ? (
+                    {groupId == 2 || (groupId == 3 && flag == 0) ? (
                       <>
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">Hospital</Form.Label>
@@ -699,7 +707,8 @@ const ReaderAdd = () => {
                           </div>
                         </Form.Group>
 
-                        {groupId == 2 || (groupId == 3 && flag == 0) ? (
+                        {groupId == 2 ||
+                        (groupId == 3 && flag == 0 && pharmaData == 0) ? (
                           <>
                             <Form.Group className="form-group margin-added">
                               <Form.Label htmlFor="">Discipline</Form.Label>
@@ -727,19 +736,22 @@ const ReaderAdd = () => {
                             </Form.Group>
                           </>
                         ) : (
-                          <>
-                            <Form.Group className="form-group">
-                              <Form.Label htmlFor="">Bussiness Unit</Form.Label>
-                              <Select
-                                options={userDetail?.ibu}
-                                placeholder="Select Bussiness Unit"
-                                name="ibu"
-                                className="dropdown-basic-button split-button-dropup"
-                                isClearable
-                                onChange={(e) => handleChange(e?.value, "ibu")}
-                              />
-                            </Form.Group>
-                          </>
+                          ""
+                        )}
+                        {groupId == 3 && pharmaData == 1 ? (
+                          <Form.Group className="form-group">
+                            <Form.Label htmlFor="">Bussiness Unit</Form.Label>
+                            <Select
+                              options={ibu}
+                              placeholder="Select Bussiness Unit"
+                              name="ibu"
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                              onChange={(e) => handleChange(e?.value, "ibu")}
+                            />
+                          </Form.Group>
+                        ) : (
+                          ""
                         )}
 
                         <Form.Group className="form-group margin-added">
@@ -793,7 +805,7 @@ const ReaderAdd = () => {
                       ""
                     )}
 
-                    {groupId == 3 && flag == 0 ? (
+                    {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                       <Form.Group className="form-group">
                         <Form.Label htmlFor="">Select User Type</Form.Label>
                         <Select
@@ -809,9 +821,7 @@ const ReaderAdd = () => {
                       ""
                     )}
                   </Col>
-                  {groupId == 2 ||
-                  (groupId == 3 && flag == 0) ||
-                  (groupId == 3 && flag == 2) ? (
+                  {groupId == 2 || (groupId == 3 && flag == 0) ? (
                     <>
                       <Col
                         md="5"

@@ -3062,14 +3062,14 @@ input.viewer-toolbar-current-page-input {
     color: #70899E;
 }
 .delivery-trends {
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 10px;
     background: $white;
     .nav-tabs{
       border-bottom: 1px solid rgb(11 58 129);
       .nav-item{
-        width: 25%;
+        flex: 1 1;
         text-align: center;
         border: 1px solid $white;
         &:first-child{
@@ -3123,6 +3123,105 @@ input.viewer-toolbar-current-page-input {
 }
 .high_charts .highcharts-data-table +.highcharts-data-table {
     display: none!important;
+}
+.highcharts-container svg text.highcharts-title {
+    font-size: 20px !important;
+    font-weight: 500;
+    color: #0b3a81 !important;
+    fill: #0b3a81 !important;
+}
+.delivery-trends .tab-content {
+    padding: 10px 0px;
+    background: #fff;
+}
+.kpi-graph-inside .img-box .content-listed-shorting span {
+    color: #a7a7a7;
+    font-size: 24px;
+    line-height: normal;
+}
+.kpi-graph-inside .img-box img {
+    max-width: 180px;
+    object-fit: contain;
+    margin-top: 7px;
+    width: 100%;
+}
+.kpi-graph-inside .content-listed-content h3.remove_bg {
+    background: none !important;
+    padding-top: 6px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #0b3a81;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.kpi-graph-inside .content-listed-content h5.sub_title {
+    font-size: 16px;
+    color: #0b3a81;
+    font-family: 'Roboto';
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.content-listed-content-inside {
+    padding-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.content-listed-content-inside h5 {
+    width: 50%;
+}
+.content-listed .content-listed-content h5, .kpi-graph-inside .no-space .kpi-graph-inside-block h5 {
+    color: #000000;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-size: 15px;
+    margin-bottom: 5px;
+    line-height: 20px;
+}
+.content-listed .content-listed-content h5 strong, .kpi-graph-inside .no-space .kpi-graph-inside-block h5 strong {
+    margin-right: 5px;
+    min-width: 62px;
+    display: inline-block;
+    font-weight: 500;
+}
+.content-listed .content-listed-content span.active {
+    color: #28a745;
+    text-transform: capitalize;
+}
+.content-listed-content-inside h5:nth-child(2n) {
+    padding-left: 15px;
+}
+.kpi-graph-inside.custom_sarch .kpi-graph-inside-box.count_display {
+    padding-left: 25px;
+    position: relative;
+    margin-top: 4px;
+    text-align: right;
+}
+.count_display p {
+    font-size: 15px;
+    margin-bottom: 0.5rem;
+    color: #0b3a81;
+    font-family: 'Roboto';
+    font-weight: 500;
+}
+.count_display .total_opening span {
+    color: #0066BE;
+}
+.count_display .unique_readers span {
+    color: #FFBE2C;
+}
+.count_display .read_rate span {
+    color: #00D4C0;
+}
+.kpi-graph-inside.custom_sarch .kpi-graph-inside-box.count_display:after {
+    border-left: 2px dashed #bbb;
+    content: "";
+    position: absolute;
+    left: 0;
+    height: 160px;
+    top: 5px;
+}
+.kpi-graph-inside.custom_sarch .next-content {
+    margin-left: 10px;
 }
 /**Analytics end**/
 

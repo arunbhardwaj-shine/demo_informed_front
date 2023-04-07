@@ -60,17 +60,19 @@ const RegistrationType = () => {
         {isDataFound ? (
           <div className="custom-container">
             <Row>
-              <Tabs defaultActiveKey="1">
-                <Tab eventKey="1" title="Views">
-                 <RegistrationTypeLayout/>
-                </Tab>
-                <Tab eventKey="2" title="Readers">
-                <RegistrationTypeLayout/>
-                </Tab>
-              </Tabs>
+              <div className="create-change-content spc-content analytic-charts">
+                <div className="delivery-trends">
+                  <Tabs defaultActiveKey="1">
+                    <Tab eventKey="1" title="Views">
+                    <RegistrationTypeLayout/>
+                    </Tab>
+                    <Tab eventKey="2" title="Readers">
+                    <RegistrationTypeLayout/>
+                    </Tab>
+                  </Tabs>
+                </div>
+              </div>
             </Row>
-
-            
           </div>
         ) : null}
       </Col>
