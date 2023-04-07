@@ -178,7 +178,7 @@ const LibraryContent = () => {
 
     if (e?.target?.checked == true) {
       if(key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
-      key == "SPC Included" || key == "Blinded" || key == "Mandatory"){
+      key == "SPC Included" || key == "Blinded" || key == "Mandatory" || key == "List"){
         filterObject[key] = [];
       }
       filterObject[key]?.push(item);
@@ -834,7 +834,7 @@ const LibraryContent = () => {
                                                     <input
                                                       type={
                                                         key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
-                                                        key == "SPC Included" || key == "Blinded" || key == "Mandatory"
+                                                        key == "SPC Included" || key == "Blinded" || key == "Mandatory" || key == "List"
                                                         ? "radio" : "checkbox" }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
