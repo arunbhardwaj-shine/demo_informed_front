@@ -706,7 +706,7 @@ const EditLibrary = () => {
             }
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
-                <div className="form-group">
+                <div className="form-group margin-added">
                   <label htmlFor="">Product</label>
                   <Select
                     options={userDetail?.product || []}
