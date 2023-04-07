@@ -7,7 +7,9 @@ import {
   Form,
   Modal,
   Row,
+  Table,
 } from "react-bootstrap";
+import Collapse from "react-bootstrap/Collapse";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import { postData } from "../../../axios/apiHelper";
@@ -17,10 +19,10 @@ const ReaderReview = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [field, setField] = useState([]);
+  const [openNotes, setOpenNotes] = useState(false);
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}
   );
-  console.log("reader Data", readerData);
 
   const createUser = async () => {
     loader("show");
@@ -98,62 +100,62 @@ const ReaderReview = () => {
                 <h4>CRM Details</h4>
                 <div className="crm-review">
                   <div className="crm-review-detail">
-                    <ul className="tab-mail-list">
-                      <li>
-                        <h6 className="tab-content-title">First name</h6>
-                        <h6>
+                    <Table className="tab-mail-list">
+                      <tr>
+                        <th className="tab-content-title">First name</th>
+                        <td>
                           {readerData?.firstName
                             ? readerData?.firstName
                             : "N/A"}
-                        </h6>
-                      </li>
-                      <li>
-                        <h6 className="tab-content-title">Middle name</h6>
-                        <h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Middle name</th>
+                        <td>
                           {readerData?.middleName
                             ? readerData?.middleName
                             : "N/A"}
-                        </h6>
-                      </li>
-                      <li>
-                        <h6 className="tab-content-title">Last name</h6>
-                        <h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Last name</th>
+                        <td>
                           {readerData?.lastName ? readerData?.lastName : "N/A"}
-                        </h6>
-                      </li>
-                      <li>
-                        <h6 className="tab-content-title">Primary email </h6>
-                        <h6>{readerData?.email ? readerData?.email : "N/A"}</h6>
-                      </li>
-                      <li>
-                        <h6 className="tab-content-title">
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Primary email </th>
+                        <td>{readerData?.email ? readerData?.email : "N/A"}</td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">
                           Alternative email{" "}
-                        </h6>
-                        <h6>
+                        </th>
+                        <td>
                           {readerData?.alternativeEmail
                             ? readerData?.alternativeEmail
                             : "N/A"}
-                        </h6>
-                      </li>
-                      <li>
-                        <h6 className="tab-content-title">Primary phone </h6>
-                        <h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Primary phone </th>
+                        <td>
                           {readerData?.primary_phone
                             ? readerData?.primary_phone
                             : "N/A"}
-                        </h6>
-                      </li>
-                      <li>
-                        <h6 className="tab-content-title">
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">
                           Alternative phone{" "}
-                        </h6>
-                        <h6>
+                        </th>
+                        <td>
                           {readerData?.alternativePhone
                             ? readerData?.alternativePhone
                             : "N/A"}
-                        </h6>
-                      </li>
-                    </ul>
+                        </td>
+                      </tr>
+                    </Table>
                   </div>
                   <div className="crm-review-detail">
                     <ul className="tab-mail-list">
@@ -163,12 +165,18 @@ const ReaderReview = () => {
                           {readerData?.country ? readerData?.country : "N/A"}
                         </h6>
                       </li>
-                      <li>
-                        <h6 className="tab-content-title">Province</h6>
-                        <h6>
-                          {readerData?.province ? readerData?.province : "N/A"}
-                        </h6>
-                      </li>
+                      {readerData?.province ? (
+                        <li>
+                          <h6 className="tab-content-title">Province</h6>
+                          <h6>
+                            {readerData?.province
+                              ? readerData?.province
+                              : "N/A"}
+                          </h6>
+                        </li>
+                      ) : (
+                        ""
+                      )}
                       <li>
                         <h6 className="tab-content-title">Hospital</h6>
                         <h6>
@@ -187,14 +195,26 @@ const ReaderReview = () => {
                             : "N/A"}
                         </h6>
                       </li>
-                      <li>
-                        <h6 className="tab-content-title">Discipline</h6>
-                        <h6>
-                          {readerData?.discipline
-                            ? readerData?.discipline
-                            : "N/A"}
-                        </h6>
-                      </li>
+                      {readerData?.discipline ? (
+                        <li>
+                          <h6 className="tab-content-title">Discipline</h6>
+                          <h6>
+                            {readerData?.discipline
+                              ? readerData?.discipline
+                              : "N/A"}
+                          </h6>
+                        </li>
+                      ) : (
+                        ""
+                      )}
+                      {readerData?.ibu ? (
+                        <li>
+                          <h6 className="tab-content-title">Bussiness Unit</h6>
+                          <h6>{readerData?.ibu ? readerData?.ibu : "N/A"}</h6>
+                        </li>
+                      ) : (
+                        ""
+                      )}
                     </ul>
                   </div>
                   <div className="crm-review-detail">
@@ -223,7 +243,36 @@ const ReaderReview = () => {
                       </li>
                       <li>
                         <h6 className="tab-content-title">Notes</h6>
-                        <h6>{readerData?.notes ? readerData?.notes : "N/A"}</h6>
+                        <h6>
+                          {readerData?.notes
+                            ? readerData?.notes.trim().length > 100
+                              ? readerData?.notes?.substring(0, 100)
+                              : readerData?.notes.trim()
+                            : "N/A"}
+                          <Collapse in={openNotes}>
+                            <div id="collapse-text-view">
+                              {readerData?.notes
+                                ? readerData?.notes?.trim()
+                                : ""}
+                            </div>
+                          </Collapse>
+                          {readerData?.notes ? (
+                            readerData?.notes?.trim().length > 100 ? (
+                              <span
+                                className="show_more"
+                                onClick={() => setOpenNotes(!openNotes)}
+                                aria-controls="example-collapse-text"
+                                aria-expanded={openNotes}
+                              >
+                                ...
+                              </span>
+                            ) : (
+                              ""
+                            )
+                          ) : (
+                            ""
+                          )}
+                        </h6>
                       </li>
                     </ul>
                   </div>
