@@ -3121,6 +3121,9 @@ input.viewer-toolbar-current-page-input {
     color: #0b3a81!important;
     fill: #0b3a81!important;
 }
+.high_charts .highcharts-data-table +.highcharts-data-table {
+    display: none!important;
+}
 /**Analytics end**/
 
 
