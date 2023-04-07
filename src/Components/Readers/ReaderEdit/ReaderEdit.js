@@ -243,8 +243,8 @@ const ReaderEdit = () => {
           lastName: userInputs?.lastName,
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
-          // countryCode: userInputs?.countryCode,
-          primary_phone: userInputs?.primary_phone,
+
+          primary_phone: `${userInputs?.countryCode?.label}/${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province,
@@ -261,6 +261,7 @@ const ReaderEdit = () => {
           siteName: "",
           irt: "",
         };
+        console.log("data", data);
         await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
         navigate("/readers-view");
@@ -523,7 +524,13 @@ const ReaderEdit = () => {
                             onChange={(e) => handleChange(e)}
                           />
                         </Form.Group>
-
+                        {console.log(
+                          "code",
+                          userInputs?.primary_phone?.substring(
+                            0,
+                            userInputs?.primary_phone?.indexOf("/")
+                          )
+                        )}
                         <Form.Group className="form-group primary_phone">
                           <Form.Label htmlFor="">Primary phone *</Form.Label>
                           <Select
@@ -531,9 +538,13 @@ const ReaderEdit = () => {
                             className="dropdown-basic-button split-button-dropup"
                             isClearable
                             placeholder=""
-                            onChange={(e) =>
-                              handleChange(e?.value, "countryCode")
-                            }
+                            defaultValue={{
+                              label: userInputs?.primary_phone?.substring(
+                                0,
+                                userInputs?.primary_phone?.lastIndexOf("/")
+                              ),
+                            }}
+                            onChange={(e) => handleChange(e, "countryCode")}
                           />
                           {error?.countryCode ? (
                             <div className="login-validation">
@@ -547,7 +558,9 @@ const ReaderEdit = () => {
                             type="number"
                             className="form-control"
                             name="primary_phone"
-                            defaultValue={userInputs?.primary_phone}
+                            defaultValue={userInputs?.primary_phone?.substring(
+                              userInputs?.primary_phone?.indexOf("/") + 1
+                            )}
                             onChange={(e) => handleChange(e)}
                           />
                           {error?.primary_phone ? (

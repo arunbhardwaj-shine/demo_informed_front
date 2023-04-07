@@ -703,7 +703,8 @@ const Sidebar = () => {
                 </Link>
               </li>
             </ul>
-          ): window.location.pathname == "/readers-view" ||
+          ):
+            window.location.pathname == "/readers-view" ||
             window.location.pathname == "/reader-add" ||
             window.location.pathname == "/reader-edit" ||
             window.location.pathname == "/smart-list-add" ||
@@ -774,7 +775,110 @@ const Sidebar = () => {
                 </Link>
               </li>
             </ul>
-          ) : null}
+            ) :
+            localStorage.getItem("group_id") == 2 ?
+            (
+                    window.location.pathname == "/registration-type" ||
+                    window.location.pathname == "/top-sales" ||
+                    window.location.pathname == "/top-reseller" ||
+                    window.location.pathname == "/top-clients" ||
+                    window.location.pathname == "/sales-by-country" ||
+                    window.location.pathname == "/openings-by-country"
+                    ?
+                    (
+                        <>
+                        <ul>
+                        <li
+                          className={
+                            location.pathname == "/registration-type" ? "active" : "side_li"
+                          }
+                        >
+                        <Link to={"/registration-type"}>
+                          <p>Top Content</p>
+                        </Link>
+                        </li>
+
+                        <li
+                        className={
+                          location.pathname == "/top-sales" ? "active" : "side_li"
+                        }
+                        >
+                        <Link to={"/top-sales"}>
+                        <p>Top Sales</p>
+                        </Link>
+                        </li>
+
+                        <li
+                        className={
+                          location.pathname == "/top-reseller" ? "active" : "side_li"
+                        }
+                        >
+                        <Link to={"/top-reseller"}>
+                        <p>Top Reseller</p>
+                        </Link>
+                        </li>
+
+                        <li className={ location.pathname == "/top-clients" ? "active" : "side_li"}>
+                          <Link to={"/top-clients"}>
+                            <p>Top Clients</p>
+                          </Link>
+                        </li>
+
+                        <li className={ location.pathname == "/sales-by-country" ? "active" : "side_li"}>
+                          <Link to={"/sales-by-country"}>
+                            <p>Sales By Country</p>
+                          </Link>
+                        </li>
+
+                        <li className={ location.pathname == "/openings-by-country" ? "active" : "side_li"}>
+                          <Link to={"/openings-by-country"}>
+                            <p>Openings By Country</p>
+                          </Link>
+                        </li>
+                        </ul>
+                        </>
+                    ) : null
+            ):
+            localStorage.getItem("group_id") == 3  ?
+            (
+                localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" && (
+                    window.location.pathname == "/totalhcp" ||
+                    window.location.pathname == "/country-registration" ||
+                    window.location.pathname == "/delivery-stats" ||
+                    window.location.pathname == "/trending-topics" ||
+                    window.location.pathname == "/campaign-stats"
+                    ?
+                    <ul>
+                      <li className={ location.pathname == "/totalhcp" ? "active" : "side_li"}>
+                        <Link to={"/totalhcp"}>
+                          <p>Total HCPs </p>
+                        </Link>
+                      </li>
+                      <li className={ location.pathname == "/country-registration" ? "active" : "side_li"}>
+                        <Link to={"/country-registration"}>
+                          <p>Country Registration</p>
+                        </Link>
+                      </li>
+                      <li className={ location.pathname == "/campaign-stats" ? "active" : "side_li"}>
+                        <Link to={"/campaign-stats"}>
+                          <p>Delivery Registration </p>
+                        </Link>
+                      </li>
+                      <li className={ location.pathname == "/delivery-stats" ? "active" : "side_li"}>
+                        <Link to={"/delivery-stats"}>
+                          <p>Delivery Trends</p>
+                        </Link>
+                      </li>
+                      <li className={ location.pathname == "/trending-topics" ? "active" : "side_li"}>
+                        <Link to={"/trending-topics"}>
+                          <p>Trending Topics</p>
+                        </Link>
+                      </li>
+                    </ul>
+                    : null
+                )
+            ):null
+            }
         </div>
 
         {/*Help pages for page1 start*/}
