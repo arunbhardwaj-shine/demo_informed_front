@@ -408,10 +408,11 @@ const LicenseCreateUser = () => {
       ) {
         setTagClickedFirst((oldArray) => [...oldArray, newTag]);
 
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          tags: newTag,
-        };
+        // const body = {
+        //   user_id: localStorage.getItem("user_id"),
+        //   tags: newTag,
+        // };
+
       } else {
         toast.error("Tag already in list.");
       }
