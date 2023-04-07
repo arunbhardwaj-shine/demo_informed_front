@@ -1,8 +1,6 @@
-export const AddReaderValidation = (data, groupId, flag) => {
+export const AddReaderValidation = (data, groupId) => {
   let error = {};
-  {
-    console.log("id", groupId);
-  }
+
   const regemail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -12,11 +10,8 @@ export const AddReaderValidation = (data, groupId, flag) => {
   if (!data?.email || regemail?.test(data?.email) === false) {
     error.email = "Email required with email pattern";
   }
-  if (groupId == 2 || (groupId == 3 && flag == 0)) {
+  if (groupId == 2) {
     if (!data?.primary_phone?.toString()) {
-      error.primary_phone = "Phone number required with country code";
-    }
-    if (!data?.countryCode?.toString()) {
       error.primary_phone = "Phone number required with country code";
     }
   }

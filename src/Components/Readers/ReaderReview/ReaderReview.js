@@ -7,9 +7,7 @@ import {
   Form,
   Modal,
   Row,
-  Table,
 } from "react-bootstrap";
-import Collapse from "react-bootstrap/Collapse";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import { postData } from "../../../axios/apiHelper";
@@ -19,10 +17,10 @@ const ReaderReview = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [field, setField] = useState([]);
-  const [openNotes, setOpenNotes] = useState(false);
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}
   );
+  console.log("reader Data", readerData);
 
   const createUser = async () => {
     loader("show");
