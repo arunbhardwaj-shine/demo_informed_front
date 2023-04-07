@@ -852,7 +852,7 @@ const ReaderEdit = () => {
                         md="5"
                         classname="d-flex justify-content-end align-items-start right-change"
                       >
-                        <Form.Group className="form-group justify-content-end">
+                        <Form.Group className="form-group justify-content-end align-items-start notes">
                           <Form.Label htmlFor="">Notes</Form.Label>
                           <textarea
                             className="form-control"
