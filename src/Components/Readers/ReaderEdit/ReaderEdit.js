@@ -251,7 +251,7 @@ const ReaderEdit = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label}-${userInputs?.primary_phone}`,
+          primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province,
@@ -541,10 +541,7 @@ const ReaderEdit = () => {
                             isClearable
                             placeholder=""
                             defaultValue={{
-                              label: userInputs?.primary_phone?.substring(
-                                0,
-                                userInputs?.primary_phone?.lastIndexOf("/")
-                              ),
+                              label: userInputs?.countryCode,
                             }}
                             onChange={(e) => handleChange(e, "countryCode")}
                           />
