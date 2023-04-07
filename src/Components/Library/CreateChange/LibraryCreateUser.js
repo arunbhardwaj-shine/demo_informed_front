@@ -217,7 +217,6 @@ const LibraryCreateUser = () => {
       try {
 
         let formData = new FormData();
-        console.log("----->",userInputs)
 
         formData.append("productionNotes", userInputs?.productionNotes);
         formData.append("production", userInputs?.production?userInputs?.production:0);
@@ -273,9 +272,9 @@ const LibraryCreateUser = () => {
 
         formData.append("category", userInputs?.category);
         formData.append("format", userInputs?.format);
-        formData.append("ibu", userInputs?.ibu);
+        formData.append("ibu", userInputs?.ibu? userInputs?.ibu:"");
         formData.append("allowOneSource", userInputs?.allowOneSource);
-        formData.append("allowLibrary", userInputs?.allowLibrary);
+        formData.append("allowLibrary", userInputs?.allowLibrary?userInputs?.allowLibrary:1);
         formData.append("allowRequest", userInputs?.allowRequest ? 1 : 0);
         formData.append(
           "allowDraft",
@@ -291,18 +290,18 @@ const LibraryCreateUser = () => {
           tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
         );
 
-        // const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
-        //   header: {
-        //     "Content-Type": "multipart/form-data",
-        //   },
-        // });
-        // loader("hide");
-        // navigate("/set-popup", {
-        //   state: {
-        //     pdfId: res?.data?.data?.pdfId,
-        //     fileType: userInputs?.docintelFormat,
-        //   },
-        // });
+        const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
+          header: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        loader("hide");
+        navigate("/set-popup", {
+          state: {
+            pdfId: res?.data?.data?.pdfId,
+            fileType: userInputs?.docintelFormat,
+          },
+        });
       } catch (err) {
         loader("hide");
       }
@@ -1014,7 +1013,6 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
-            {console.log("-----useDet",userDetail)}
             {userDetail?.user?.[0]?.group_id == 2
               ? publisherFun()
               : userDetail?.user?.[0]?.flag == 0 &&
