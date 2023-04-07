@@ -30,11 +30,11 @@ const Header = () => {
       if (user_id) {
         if (user_id != queryParams.id) {
           localStorage.setItem("user_id", queryParams.id);
-          localStorage.setItem("group_id", 3);
+          localStorage.setItem("group_id", queryParams?.group_id ? queryParams.group_id : 2);
         }
       } else {
         localStorage.setItem("user_id", queryParams.id);
-        localStorage.setItem("group_id", 3);
+        localStorage.setItem("group_id", queryParams?.group_id ? queryParams.group_id : 2);
       }
     } else {
       let user_id = localStorage.getItem("user_id");
