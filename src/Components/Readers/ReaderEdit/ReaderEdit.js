@@ -251,7 +251,7 @@ const ReaderEdit = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label}-${userInputs?.primary_phone}`,
+          primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province,
@@ -541,10 +541,7 @@ const ReaderEdit = () => {
                             isClearable
                             placeholder=""
                             defaultValue={{
-                              label: userInputs?.primary_phone?.substring(
-                                0,
-                                userInputs?.primary_phone?.lastIndexOf("/")
-                              ),
+                              label: userInputs?.countryCode,
                             }}
                             onChange={(e) => handleChange(e, "countryCode")}
                           />
@@ -850,9 +847,9 @@ const ReaderEdit = () => {
                     <>
                       <Col
                         md="5"
-                        classname="d-flex justify-content-end align-items-start right-change"
+                        className="d-flex justify-content-end align-items-start right-change"
                       >
-                        <Form.Group className="form-group justify-content-end">
+                        <Form.Group className="form-group justify-content-end align-items-start notes">
                           <Form.Label htmlFor="">Notes</Form.Label>
                           <textarea
                             className="form-control"
