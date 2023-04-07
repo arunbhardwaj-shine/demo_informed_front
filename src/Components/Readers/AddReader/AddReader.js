@@ -305,7 +305,7 @@ const ReaderAdd = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode}-${userInputs?.primary_phone}`,
+          primary_phone: `${userInputs?.countryCode?.label}/${userInputs?.primary_phone}`,
 
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
