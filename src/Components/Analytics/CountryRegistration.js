@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { getData, postData, postFormData } from '../../../axios/apiHelper';
+import { getData, postData, postFormData } from '../../axios/apiHelper';
 import { Col, Row } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import { ENDPOINT } from '../../../axios/apiConfig';
+import { ENDPOINT } from '../../axios/apiConfig';
 import axios from 'axios';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import highchartsMap from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+
 highchartsMap(Highcharts);
 
 
@@ -69,7 +70,7 @@ const mapOptions = {
       text: 'Country List'
     },
     xAxis: {
-      categories: [], 
+      categories: [],
     },
     yAxis: {
       title: {
@@ -107,7 +108,7 @@ Highcharts.setOptions({
 
   colors: ["#FFBE2C", "#00D4C0", "#F58289"]
 
-}); 
+});
 
   useEffect(() => {
     const getDataFromApi = async () => {
@@ -130,7 +131,7 @@ Highcharts.setOptions({
           };
         });
         setNewData(countryData);
-   
+
        console.log(countryData);
         const newSeries = [
           {
@@ -151,7 +152,7 @@ Highcharts.setOptions({
         ];
         console.log(newSeries);
         const categories = apiData.data?.country;
-   
+
         const newCountryList = {
           ...countryList,
           xAxis: {
@@ -159,7 +160,7 @@ Highcharts.setOptions({
           },
           series: newSeries,
         };
-  
+
         SetCountryList(newCountryList)
 
       } catch (error) {
@@ -171,7 +172,7 @@ Highcharts.setOptions({
   }, []);
 
 
-  
+
 
   return (
     <>

@@ -43,8 +43,9 @@ import CisStats from "./Components/Analytics/CisStats";
 import TopClients from "./Components/Analytics/TopClients";
 import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
+import ContentAnalytics from "./Components/Analytics/ContentAnalytics";
 // import OctaCountry from "./Components/Analytics/OctaCountry";
- // import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
+ // import CountryRegistration from "./Components/Analytics/CountryRegistration";
  import TrendingTopics from "./Components/Analytics/TrendingTopics";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
@@ -196,6 +197,7 @@ const Routing = () => {
                 {/* end webinar */}
                 <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
+
                 {
                   /*
                   <Route path="/trending-content" element={<TrendingContent />} />
@@ -207,6 +209,7 @@ const Routing = () => {
                 <Route path="/top-clients" element={<TopClients />} />
                 <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/top-sales" element={<TopSales />} />
+                <Route path="/content-analytics" element={<ContentAnalytics />} />
                 <Route path="/trending-topics" element={<TrendingTopics />} />
 
                 <Route
