@@ -71,7 +71,7 @@ const DeliveryTrends = () => {
       const g4_2 = Math.round(
         (g4.total_opened_2nd * 100) / g4.total_shared_2nd
       );
-      const g4_3 = Math.round((g4.total_rtr * 100) / g4.total_shared_2nd);
+      const g4_3 = Math.round((g4.total_ctr * 100) / g4.total_shared_2nd);
       const g4_4 = Math.round((g4.total_rtr * 100) / g4.total_shared_2nd);
 
       const updatedData = {
