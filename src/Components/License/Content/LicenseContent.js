@@ -1663,7 +1663,7 @@ const LicenseContent = () => {
                                         <h6 className="tab-content-title">
                                           Cost Center
                                         </h6>
-                                        <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
+                                        <h6>{data?.cost_center && data?.cost_center != 0 ?  data.cost_center : "N/A"}</h6>
                                       </li>
 
                                       <li>

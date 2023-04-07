@@ -155,12 +155,16 @@ const Header = () => {
                   window.location.pathname == "/country-registration" ||
                   window.location.pathname == "/delivery-stats" ||
                   window.location.pathname == "/trending-topics" ||
-                  window.location.pathname == "/campaign-stats"
+                  window.location.pathname == "/campaign-stats" ||
+                  window.location.pathname == "/content-analytics"
                   ? "nav-item active active-main"
                   : "nav-item"
                 } >
                   <Link className="nav-link" to={
-                    localStorage.getItem("group_id") == 2 ? "/registration-type" : "/totalhcp"
+                    localStorage.getItem("group_id") == 2 ? "/registration-type" :
+                    localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
+                     "/totalhcp"
+                     : "/content-analytics"
                   }>
                     ANALYTICS
                   </Link>
