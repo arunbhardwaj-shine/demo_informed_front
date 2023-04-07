@@ -510,7 +510,7 @@ const LibraryCreateUser = () => {
                 <Select
                   options={userDetail?.product}
                   value={userInputs?.product}
-                  onChange={(e) => handleChange(e?.value, "product")}
+                  onChange={(e) => handleChange(e, "product")}
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
