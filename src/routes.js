@@ -45,7 +45,7 @@ import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
 import ContentAnalytics from "./Components/Analytics/ContentAnalytics";
 // import OctaCountry from "./Components/Analytics/OctaCountry";
- // import CountryRegistration from "./Components/Analytics/CountryRegistration";
+ import CountryRegistration from "./Components/Analytics/CountryRegistration";
  import TrendingTopics from "./Components/Analytics/TrendingTopics";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
