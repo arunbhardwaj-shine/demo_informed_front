@@ -17,6 +17,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibraryCreateUser = () => {
   const newdate = new Date();
   const [counterFlag, setCounterFlag] = useState(0);
+  const [spcType, setSpcType] = useState(0);
   const [reseller, setReseller] = useState([]);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
@@ -88,11 +89,8 @@ const LibraryCreateUser = () => {
     },
   ];
 
-  const [ePrintType, setePrintType] = useState([
-    { value: "pdf", label: "PDF" },
-    { value: "video", label: "video" },
-    { value: "ebook", label: "eBook" },
-  ]);
+
+  const [ePrintType, setePrintType] = useState([]);
 
   const [chapterSelect, setChapterSelect] = useState("");
   const [videoSelect, setVideoSelect] = useState("");
@@ -130,9 +128,11 @@ const LibraryCreateUser = () => {
         });
 
       }
-     
+
     }
-   
+
+    setSpcType(hadData?.data?.data?.spcInc);
+
     let category = [];
     if (hadData?.data?.data?.category?.length) {
       hadData?.data?.data?.category?.reduce((objEntries, key) => {
@@ -149,6 +149,7 @@ const LibraryCreateUser = () => {
       })
     }
 
+    setePrintType(hadData?.data?.data?.fileType)
     setAllTags(tags);
     setUserDetail({
       ...userDetail,
@@ -265,13 +266,16 @@ const LibraryCreateUser = () => {
           formData.append("ebookData", item);
         });
         formData.append("fileType", userInputs?.docintelFormat);
+        if(userInputs?.docintelFormat == "ebook"){
+            formData.append("spcInc", spcType);
+        }
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
         formData.append("chapter", JSON.stringify(chapter));
         formData.append("specialRequirment", userInputs?.specialRequirment);
         formData.append("createdBy", id);
 
         formData.append("category", userInputs?.category);
-        formData.append("format", userInputs?.format);
+        formData.append("formatType", userInputs?.format);
         formData.append("ibu", userInputs?.ibu? userInputs?.ibu:"");
         formData.append("allowOneSource", userInputs?.allowOneSource);
         formData.append("allowLibrary", userInputs?.allowLibrary?userInputs?.allowLibrary:1);
@@ -289,7 +293,7 @@ const LibraryCreateUser = () => {
           "tags",
           tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
         );
-
+        
         const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
           header: {
             "Content-Type": "multipart/form-data",
