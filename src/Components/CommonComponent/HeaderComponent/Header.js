@@ -123,9 +123,9 @@ const Header = () => {
                       : "nav-item"
                   }
                 >
-                  <a className="nav-link" href="/library-content">
+                  <Link className="nav-link" to={"/library-content"}>
                     LIBRARY
-                  </a>
+                  </Link>
                 </li>
                 <li
                   className={
@@ -140,14 +140,34 @@ const Header = () => {
                       : "nav-item"
                   }
                 >
-                  <a className="nav-link" href="/readers-view">
+                  <Link className="nav-link" to={"/readers-view"}>
                     READERS
-                  </a>
+                  </Link>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="https://informed.pro/Analytics">
+                <li className={
+                  window.location.pathname == "/registration-type" ||
+                  window.location.pathname == "/top-sales" ||
+                  window.location.pathname == "/top-reseller" ||
+                  window.location.pathname == "/top-clients" ||
+                  window.location.pathname == "/sales-by-country" ||
+                  window.location.pathname == "/openings-by-country" ||
+                  window.location.pathname == "/totalhcp" ||
+                  window.location.pathname == "/country-registration" ||
+                  window.location.pathname == "/delivery-stats" ||
+                  window.location.pathname == "/trending-topics" ||
+                  window.location.pathname == "/campaign-stats" ||
+                  window.location.pathname == "/content-analytics"
+                  ? "nav-item active active-main"
+                  : "nav-item"
+                } >
+                  <Link className="nav-link" to={
+                    localStorage.getItem("group_id") == 2 ? "/registration-type" :
+                    localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
+                     "/totalhcp"
+                     : "/content-analytics"
+                  }>
                     ANALYTICS
-                  </a>
+                  </Link>
                 </li>
                 <li
                   className={
@@ -173,12 +193,12 @@ const Header = () => {
                       : "nav-item"
                   }
                 >
-                  <a
+                  <Link
                     className="nav-link"
-                    href="https://informed.pro/Distributes/MailEngine"
+                    to={"/EmailList"}
                   >
                     EMAIL
-                  </a>
+                  </Link>
                 </li>
 
                 {localStorage.getItem("group_id") == 2 ? (
@@ -202,9 +222,9 @@ const Header = () => {
                         : "nav-item"
                     }
                   >
-                    <a className="nav-link" href="/license-content">
+                    <Link className="nav-link" to={"/license-content"}>
                       LICENSED
-                    </a>
+                    </Link>
                   </li>
                 ) : null}
 

@@ -49,10 +49,9 @@ export default function RegistrationTypeLayout() {
     pdf_limit,
   } = dummyData;
   return (
-    <div>
+    <div className="kpi-graph-inside custom_sarch">
       <Row>
-        <Row>
-          <Col className="img-box justify-content-center">
+          <Col sm={2} md={2} className="img-box justify-content-center">
             <div className="content-listed-shorting">
               <span>1</span>
             </div>
@@ -68,51 +67,30 @@ export default function RegistrationTypeLayout() {
               </h3>
               <h5 className="sub_title">{pdf_sub_title}</h5>
               <div className="content-listed-content-inside">
-                <Row>
-                  <Row>
-                    <Col>
                       <h5 className="created">
                         <strong>Created:</strong>{" "}
                         {new Date(created).toLocaleDateString()}
                       </h5>
-                    </Col>
-                    <Col>
                       <h5 className="expire">
                         <strong>Expire:</strong>{" "}
                         {new Date(exp_datetime).toLocaleDateString()}
                       </h5>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
                       <h5 className="country">
                         <strong>Country:</strong> {country}
                       </h5>
-                    </Col>
-                    <Col>
                       <h5 className="company">
                         <strong>Company:</strong> {company}
                       </h5>
-                    </Col>
-                  </Row>
-
-                  <Row>
-                    <Col>
                       <h5 className="status">
                         <strong>Status:</strong>{" "}
                         <span className={status}>{status}</span>
                       </h5>
-                    </Col>
-                    <Col>
                       <h5 className="author_by">
                         <strong>Url code:</strong> {code}
                       </h5>
-                    </Col>
-                  </Row>
-                  <h5 className="author_by">
-                    <strong>Limit:</strong> {pdf_limit}
-                  </h5>
-                </Row>
+                     <h5 className="author_by">
+                      <strong>Limit:</strong> {pdf_limit}
+                     </h5>
               </div>
             </div>
           </Col>
@@ -122,6 +100,8 @@ export default function RegistrationTypeLayout() {
               options={{
                 chart: {
                   type: "solidgauge",
+                   height: 200,
+                   width:200,
                  
                 },
                 exporting: false,
@@ -260,25 +240,18 @@ export default function RegistrationTypeLayout() {
               </p>
             </div>
           </Col>
-          <Row>
+          <Row className="mt-5 d-flex justify-content-between">
             <Col>
               <h5 className="author_by">
                 <strong>View AVG based on limits: 25%</strong>
               </h5>
             </Col>
-
-            <Col>
-              <Row>
-                <Col>
-                  <Button className="btn next-contentt">Preview Article</Button>
-                </Col>
-                <Col>
-                  <Button className="btn next-contentt">Download Stats</Button>
-                </Col>
-              </Row>
+            <Col className="d-flex justify-content-end">
+              <Button className="btn next-content btn-bordered">Preview Article</Button>
+              <Button className="btn next-content btn-bordered">Download Stats</Button>
             </Col>
           </Row>
-        </Row>
+      </Row>
 
         <Row>
           <Col>
@@ -364,7 +337,6 @@ export default function RegistrationTypeLayout() {
             />
           </Col>
         </Row>
-      </Row>
     </div>
   );
 }
