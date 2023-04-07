@@ -304,11 +304,9 @@ const ReaderAdd = () => {
           lastName: userInputs?.lastName,
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
-          // countryCode: userInputs?.countryCode,
-          primary_phone: (userInputs?.countryCode?.label).concat(
-            "-",
-            userInputs?.primary_phone
-          ),
+
+          primary_phone: `${userInputs?.countryCode}-${userInputs?.primary_phone}`,
+
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Button, Form } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
@@ -15,10 +15,6 @@ const ReaderEdit = () => {
   const navigate = useNavigate();
   const [groupId, setGroupId] = useState();
   const [flag, setFlag] = useState();
-  // const [blindType, setBlindType] = useState([
-  //   { value: "blind", label: "blind" },
-  //   { value: "unblind", label: "unblind" },
-  // ]);
 
   const [countryAll, setCountryAll] = useState([]);
   const [province, setProvince] = useState([]);
@@ -146,6 +142,7 @@ const ReaderEdit = () => {
     });
     loader("hide");
   };
+
   const initialReaderFun = async () => {
     loader("show");
     const hasData = await getData(`${ENDPOINT.READER_GET_READER_USER}/${id} `);
@@ -545,12 +542,12 @@ const ReaderEdit = () => {
                           ) : (
                             ""
                           )}
-
+                          {console.log("ph number", userInputs?.primary_phone)}
                           <input
                             type="number"
                             className="form-control"
                             name="primary_phone"
-                            defaultValue={userInputs?.primary_phone?.slice(-10)}
+                            defaultValue={userInputs?.primary_phone}
                             onChange={(e) => handleChange(e)}
                           />
                           {error?.primary_phone ? (
