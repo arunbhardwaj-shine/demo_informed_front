@@ -260,7 +260,7 @@ const LibraryCreateUser = () => {
         formData.append("allowPrint", userInputs?.allowPrint);
         formData.append(
           "product",
-          userInputs?.product ? userInputs?.product : ""
+          userInputs?.product?.value ? userInputs?.product?.value : ""
         );
         ebookFile?.forEach((item) => {
           formData.append("ebookData", item);
@@ -511,7 +511,7 @@ const LibraryCreateUser = () => {
                 <Select
                   options={userDetail?.product}
                   value={userInputs?.product}
-                  onChange={(e) => handleChange(e, "product")}
+                  onChange={(e) => handleChange(e?.value, "product")}
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
@@ -637,7 +637,7 @@ const LibraryCreateUser = () => {
                     options={userDetail?.product}
                     value={userInputs?.product}
                     placeholder="Select the product this is for"
-                    onChange={(e) => handleChange(e?.value, "product")}
+                    onChange={(e) => handleChange(e, "product")}
                     // onChange={(e) => handleChange(e?.value, "product")}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
