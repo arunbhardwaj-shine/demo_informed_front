@@ -1126,11 +1126,11 @@ const LibraryContent = () => {
                                         inforMedGo code
                                       </h6>
                                       <h6>
-                                        {data?.code}
+                                        {data?.rep_code}
                                         <span
                                           className="copy-content"
                                           onClick={() => {
-                                            copyToClipboard(data?.code);
+                                            copyToClipboard(data?.rep_code);
                                           }}
                                         >
                                           <img
