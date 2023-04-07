@@ -1374,15 +1374,18 @@ select::-ms-expand {
   .crm-detail-content {
     border: 1px dashed $primary-color;
     border-radius: 30px;
-    padding: 16px 32px;
+    padding: 16px 32px 32px;
     .crm-review {
       display: flex;
       flex-wrap: wrap;
       .crm-review-detail {
+        border-left:1px dashed #0066BE;
         flex: 1 1;
         padding-left: 32px;
+        padding-right: 5px;
         &:first-child {
           padding-left: 0px;
+          border-left:none;
           ul{
             padding-right:20px;
           }
@@ -2859,7 +2862,7 @@ input[type=number] {
 .content_details .mail-recipt .mail-recipt-left:last-child {
   border-right: 0;
 }
-.content_details .smartlist-view .mailbox-table th {
+.content_details .smartlist-view .mailbox-table th, .crm-review-detail .tab-mail-list th {
   font-weight: 400;
   color: rgba(0, 74, 137, 0.55);
   padding: 4px 13px 9px 0;
@@ -2867,12 +2870,13 @@ input[type=number] {
   font-size: 18px;
   line-height: 21px;
   vertical-align: top;
-  min-width: 126px;
+  min-width: 156px;
 }
-.content_details .smartlist-view .mailbox-table td {
+.content_details .smartlist-view .mailbox-table td, .crm-review-detail .tab-mail-list td {
   font-size: 18px;
   line-height: 21px;
   color: $dark-gray;
+  word-break: break-word;
 }
 .content_details .smartlist-view .mail-box-content {
   min-height: inherit;
