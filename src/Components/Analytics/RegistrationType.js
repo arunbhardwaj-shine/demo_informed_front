@@ -16,7 +16,7 @@ import RegistrationTypeLayout from "./RegistrationTypeLayout";
 exporting(Highcharts);
 exportData(Highcharts);
 
-const SalesByCountry = () => {
+const RegistrationType = () => {
 
   const [isDataFound, setIsDataFound] = useState(false);
 
@@ -77,4 +77,4 @@ const SalesByCountry = () => {
     </>
   );
 };
-export default SalesByCountry;
+export default RegistrationType;
