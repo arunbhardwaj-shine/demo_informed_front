@@ -322,7 +322,6 @@ const EditLibrary = () => {
       try {
         loader("show");
         let formData = new FormData();
-        console.log("------>>>",userInputs)
         formData.append("keyAuthor", userInputs?.keyAuthor);
         formData.append("production", userInputs?.production_id?userInputs?.production_id:0);
         formData.append("sales", userInputs?.sales_id?userInputs?.sales_id:0);
@@ -386,7 +385,7 @@ const EditLibrary = () => {
         );
         formData.append(
           "allowLibrary",
-         userInputs?.allow_library
+         userInputs?.allowLibrary
         );
         formData.append(
           "allowRequest",
@@ -817,7 +816,7 @@ const EditLibrary = () => {
               </div>
               ):null }
 
-              {userDetail?.user?.[0]?.flag == 0 &&
+              {userDetail?.user?.[0]?.flag == 0 && userDetail?.user?.[0]?.pharmaData == 0 && userDetail?.user?.[0]?.octaLach == 1 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
                   <label htmlFor="">Content Use</label>
@@ -1362,7 +1361,7 @@ const EditLibrary = () => {
                                       value="value1"
                                       name="group2"
                                       id="setasdraft1"
-                                      defaultChecked={userInputs?.medical?true:false}
+                                      defaultChecked={userInputs?.medical && parseInt(userInputs?.medical)?true:false}
                                       onChange={(e) => {
                                         handleChange(e.target?.checked, "medical");
                                       }}

@@ -113,13 +113,24 @@ const LibraryCreateUser = () => {
       user_id: id,
     });
     let country = [];
-    if(hadData?.data?.data?.country){
-      hadData?.data?.data?.country?.reduce((objEntries, key) => {
-        country.push({
-          label: key,
-          value: key,
+    if(hadData?.data?.data?.country?.length){
+      if(typeof hadData?.data?.data?.country == "string"){
+        JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
+          country.push({
+            label: key,
+            value: key,
+          });
         });
-      });
+      }else{
+        hadData?.data?.data?.country?.reduce((objEntries, key) => {
+          country.push({
+            label: key,
+            value: key,
+          });
+        });
+
+      }
+     
     }
    
     let category = [];
@@ -206,6 +217,7 @@ const LibraryCreateUser = () => {
       try {
 
         let formData = new FormData();
+        console.log("----->",userInputs)
 
         formData.append("productionNotes", userInputs?.productionNotes);
         formData.append("production", userInputs?.production?userInputs?.production:0);
@@ -279,18 +291,18 @@ const LibraryCreateUser = () => {
           tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
         );
 
-        const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
-          header: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        loader("hide");
-        navigate("/set-popup", {
-          state: {
-            pdfId: res?.data?.data?.pdfId,
-            fileType: userInputs?.docintelFormat,
-          },
-        });
+        // const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
+        //   header: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+        // });
+        // loader("hide");
+        // navigate("/set-popup", {
+        //   state: {
+        //     pdfId: res?.data?.data?.pdfId,
+        //     fileType: userInputs?.docintelFormat,
+        //   },
+        // });
       } catch (err) {
         loader("hide");
       }
@@ -623,11 +635,22 @@ const LibraryCreateUser = () => {
                   <label htmlFor="">Product</label>
                   <Select
                     options={userDetail?.product}
+                    value={userInputs?.product}
                     placeholder="Select the product this is for"
                     onChange={(e) => handleChange(e?.value, "product")}
+                    // onChange={(e) => handleChange(e?.value, "product")}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                   />
+                   <div className="add_product">
+                  <span>&nbsp;</span>
+                  <Button
+                    onClick={addNewProductClicked}
+                    className="btn-bordered btn-voilet"
+                  >
+                    Add New Product +
+                  </Button>
+                </div>
                 </div>
               ) : (
                 <div className="form-group">
@@ -712,7 +735,7 @@ const LibraryCreateUser = () => {
                </div>
                ):null }
 
-              {userDetail?.user?.[0]?.flag == 0 &&
+              {userDetail?.user?.[0]?.flag == 0 && userDetail?.user?.[0]?.pharmaData == 0 && userDetail?.user?.[0]?.octaLach == 1 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
                   <label htmlFor="">Content Use</label>
