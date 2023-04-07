@@ -221,6 +221,11 @@ const Routing = () => {
                   path="/delivery-stats"
                   element={<DeliveryTrends />}
                 />
+
+                <Route
+                path="/registration-type"
+                element={<RegistrationType />}
+              />
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
 
 
