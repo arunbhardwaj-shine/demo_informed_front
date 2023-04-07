@@ -104,11 +104,12 @@
       }
       h6 {
         @include h6;
+        margin-bottom: 4px;
       }
       p {
         @include p;
         color: $library-box-heading;
-        margin: 0 0 10px;
+        margin: 0 0 8px;
       }
       .select-tags {
         display: flex;
@@ -207,13 +208,13 @@
       border-radius: 20px 20px 20px;
       margin: 1px -16px 0;
       padding: 18px 16px 16px;
-      min-height: 290px;
+      min-height: 260px;
       display: flex;
       height: calc(100% - 16px);
       justify-content: space-between;
       .tab-pane {
         width: 100%;
-        min-height: 273px;
+        min-height: 243px;
         &.active {
           display: flex;
         }
@@ -283,7 +284,8 @@
         h6.tab-content-title {
           font-weight: 500;
           color: $library-box-heading;
-          flex: 0 0 116px;
+          flex: 0 0 122px;
+          word-break: break-word;
           margin: 0;
           img {
             width: 12px;
@@ -299,7 +301,7 @@
       }
       .tab-mail-list.data {
         li {
-          padding: 18px 0 18px;
+          padding: 14px 0 12px;
           .select-dropdown-wrapper {
             flex: 1 1;
             .select {
@@ -411,7 +413,7 @@
     .form-control {
       @include custom-input-drop;
       margin-bottom: 5px;
-      color: $dark-blue;
+      // color: $dark-blue;
     }
     .dropdown-basic-button {
       width: 100%;
@@ -447,10 +449,10 @@
       > div {
         div {
           font-size: 16px;
-          color: $dark-blue;
+          color: $primary-color;
           font-weight: 400;
         }
-        div.css-14el2xx-placeholder {
+        div[class*="-placeholder"] {
           color: $light-gray;
           font-weight: 300;
         }
@@ -723,15 +725,19 @@ input:-webkit-autofill {
   right: 130px;
 }
 .create-change-content .input-group #tags-add {
-  border: 1px solid var(--light-blue);
+  border: 1px solid $primary-color;
   box-sizing: border-box;
   border-radius: 30px;
   font-size: 16px;
   line-height: 19px;
-  color: var(--light-blue);
-  background: transparent;
+  color: $white;
+  background: $primary-color;
   font-weight: 500;
-  padding: 9px 16px;
+  padding: 9px 10px;
+  min-width: 106px;
+}
+.create-change-content .input-group #tags-add:hover {
+  background: $dark-blue;
 }
 .create-change-content .input-group .tags_added ul {
   padding: 0;
@@ -787,6 +793,8 @@ ul.tab-mail-list.data span.total-left {
   font-size: 14px;
   line-height: 16px;
   color: rgba(0, 74, 137, 0.5);
+  position: relative;
+  top: 4px;
 }
 ul.tab-mail-list.data span.total-left small {
   font-size: 12px;
@@ -866,6 +874,18 @@ ul.tab-mail-list.data span.total-left small {
 .tab-mail-list.data .progress .progress-bar.bg-danger {
   color: #a53239;
   background: #f58289 !important;
+}
+.tab-mail-list.data .progress .progress-bar.bg-sublink {
+  color: #530969;
+  background: #8A4E9C !important;
+}
+.tab-mail-list.data .progress .progress-bar.bg-print {
+  color: rgba(255, 255, 255, 0.62);
+  background: $primary-color !important;
+}
+.tab-mail-list.data .progress .progress-bar.bg-download {
+  color: rgba(255, 255, 255, 0.62);
+  background: $dark-blue !important;
 }
 .tab-mail-list.data .progress .progress-bar.bg-default {
   background: rgba(151, 182, 207, 0.2);
@@ -952,7 +972,6 @@ ul.tab-mail-list.data span.total-left small {
       label {
         font-size: 18px;
         line-height: 21px;
-        text-transform: capitalize;
         color: $dark-blue;
         margin-right: 16px;
         min-width: 65px;
@@ -970,6 +989,7 @@ ul.tab-mail-list.data span.total-left small {
           &.dropdown-toggle {
             max-width: 100%;
             width: 100%;
+            text-transform: unset;
           }
         }
         &.show {
@@ -1302,7 +1322,7 @@ select::-ms-expand {
 
 .login-validation {
   color: $pink;
-  font-size: 12px;
+  font-size: 14px;
   position: absolute;
   right: 0px;
   top: 55px;
@@ -1310,10 +1330,10 @@ select::-ms-expand {
 
 .login-validation-upload {
   color: $pink;
-  font-size: 12px;
+  font-size: 14px;
   position: absolute;
-  left: auto;
-  right: 0px;
+  left:0!important;
+  right: auto;
   bottom: -10px;
 }
 
@@ -1474,13 +1494,12 @@ form.product-unit button {
   font-weight: 400;
   padding-right: 20px;
 }
-.create-change-content .form-group fieldset label[for="limitagreed2"] {
-  padding-right: 32px;
-}
+// .create-change-content .form-group fieldset label[for="limitagreed2"] {
+//   padding-right: 32px;
+// }
 .create-change-content .form-group input:checked[type="checkbox"],
 .create-change-content
   .form-group
-  .form-check-group
   input:checked[type="radio"] {
   background-color: $secondary-green;
   border-color: $secondary-green;
@@ -1545,6 +1564,9 @@ form.product-unit button {
   font-weight: 500;
   min-width: 171px;
   text-align: center;
+}
+.create-change-content .inputfile ~ label:hover {
+background: $dark-blue;
 }
 .create-change-content .upload-file-box .box p {
   margin: 0;
@@ -2410,7 +2432,15 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   word-break: break-all;
   padding-right: 5px;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
 /**Library Style End**/
 
@@ -2429,31 +2459,34 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
     color: $primary-color;
     margin: 0 0 24px;
   }
-  tr {
-    margin: 0;
-    &:last-child {
+  table{
+    margin-bottom: 0;
+    tr {
+      margin: 0;
+      &:last-child {
+        th {
+          padding: 0;
+        }
+        td {
+          padding: 0;
+        }
+      }
       th {
-        padding: 0;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        color: rgba(0, 74, 137, 0.55);
+        min-width: 72px;
+        padding: 0 0 24px;
       }
       td {
-        padding: 0;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        color: $dark-blue;
+        padding: 0 0 24px;
+        word-break: break-all;
       }
-    }
-    th {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 16px;
-      color: rgba(0, 74, 137, 0.55);
-      min-width: 72px;
-      padding: 0 0 24px;
-    }
-    td {
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 16px;
-      color: $dark-blue;
-      padding: 0 0 24px;
-      word-break: break-all;
     }
   }
 }
@@ -2473,7 +2506,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   background: $dark-blue;
   box-shadow: 0px 5px 6px rgba(0, 102, 190, 0.2);
   border-radius: 36px 0px 36px 36px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
   line-height: 128.69%;
   color: $white;
@@ -2751,6 +2784,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 
 .page-title .back-btn {
   @include header-back-btn;
+  margin: 0 19px 0 -50px;
   &:hover{
     background: $primary-color;
     svg{
@@ -2931,6 +2965,26 @@ section.verify_email.content_details {
  .send-confirm .modal-body .modal-buttons {
     justify-content: space-evenly;  
 }
+.create-change-content .input-group .tags_added .select-tags > ul li {
+    cursor: pointer;
+}
+.after-selected ul.after-tag-selected {
+    padding-top: 7px!important;
+    border-top: 1px dashed $primary-color;
+    margin-top: 5px!important;
+    min-height: 20px;
+}
+
+
+.after-selected ul.after-tag-selected li {
+    color: $white !important;
+    background: $voilet !important;
+    margin-bottom: 2px!important;
+}
+
+.after-selected ul.after-tag-selected li img {
+    filter: brightness(0) invert(1)!important;
+}
 /**Reader Style End**/
 
 
@@ -3006,6 +3060,69 @@ input.viewer-toolbar-current-page-input {
     font-size: 20px;
     cursor: pointer;
     color: #70899E;
+}
+.delivery-trends {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 10px;
+    background: $white;
+    .nav-tabs{
+      border-bottom: 1px solid rgb(11 58 129);
+      .nav-item{
+        width: 25%;
+        text-align: center;
+        border: 1px solid $white;
+        &:first-child{
+          border-left:0;
+        }
+        .nav-link{
+          width:100%;
+          color: #0b3a81;
+          background: rgb(11 58 129 / 16%);
+          font-weight: 500;
+          font-size: 18px;
+         &.active{
+          background: #0b3a81;
+          border-bottom: 1px solid #0b3a81;
+          color:$white;
+         }
+        }
+      }
+    }
+    .stats_precenage {
+      ul {
+        padding: 0 5px;
+        margin: 0 auto;
+        text-align: right;
+        li {
+          display: flex;
+          padding: 0;
+          justify-content: space-between;
+          list-style: none;
+          margin: 0 auto;
+          font-size: 14px;
+          color: #000000;
+          font-weight: 500;
+          span {
+            color: #ababab;
+            font-weight: 400;
+            &:last-child{
+              color: #000000;
+            }
+        }
+        }
+    }
+}
+
+}
+.delivery-trends .tab-content .col .highcharts-container text.highcharts-title {
+    font-size: 15px!important;
+    font-weight: 500;
+    color: #0b3a81!important;
+    fill: #0b3a81!important;
+}
+.high_charts .highcharts-data-table +.highcharts-data-table {
+    display: none!important;
 }
 /**Analytics end**/
 

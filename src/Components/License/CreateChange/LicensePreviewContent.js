@@ -29,7 +29,7 @@ import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 //pdf id  3846
 //ebook 3899
-const PreviewContent = () => {
+const LicensePreviewContent = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -41,7 +41,6 @@ const PreviewContent = () => {
   const [publishStatus, setPublishStatus] = useState(false);
   const [trigger, setTrigger] = useState(0);
   const [titleChange, setTitleChange] = useState("");
-  const [titleNew, setTitleNew] = useState("");
   const responsive = {
     0: { items: 1 },
     568: { items: 2 },
@@ -119,7 +118,6 @@ const PreviewContent = () => {
       	pdfData.ebookData[pdfIndex].title = title;
       	setPdfData(pdfData);
       	setTemplateName(title);
-        setTitleNew(title);
       }else{
         pdfData.title = title;
       }
@@ -151,7 +149,6 @@ const PreviewContent = () => {
     setPublishStatus(false);
     setTemplatePdf(template?.file_name);
     setTemplateName(template?.title);
-    setTitleNew(template?.title);
     setTemplateClicked(true);
     setPdfFileId(template.id);
     setEditTitle(false);
@@ -201,7 +198,6 @@ const PreviewContent = () => {
 
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
         if(typeof userInputs?.title != "undefined"){
-            setTemplateName(userInputs?.title);
             formData.append("title", userInputs?.title);
         }
           // if(typeof userInputs?.title == "undefined"){
@@ -280,7 +276,7 @@ const PreviewContent = () => {
           link.click();
         } else {
           setPublishStatus(true);
-          navigate("/content-detail", {
+          navigate("/license-content-detail", {
             state: { pdfId: articleId },
           });
         }
@@ -288,7 +284,7 @@ const PreviewContent = () => {
 
       } else {
         setPublishStatus(true);
-        navigate("/content-detail", {
+        navigate("/license-content-detail", {
           state: { pdfId: articleId },
         });
       }
@@ -310,7 +306,7 @@ const PreviewContent = () => {
                 <div className="header-btn-left">
                   <Link
                     className="btn btn-primary btn-bordered back"
-                    to="/set-popup"
+                    to="/license-set-popup"
                     state={{ pdfId: state?.pdfId }}
                   >
                     Back
@@ -334,7 +330,7 @@ const PreviewContent = () => {
                 <div className="header-btn">
                   <Link
                     className="btn btn-primary btn-bordered move-draft"
-                    to="/library-create"
+                    to="/license-create"
                   >
                     Cancel
                   </Link>
@@ -535,9 +531,9 @@ const PreviewContent = () => {
                       placeholder="Type chapter title"
                       name="chapter_title"
                       className="form-control"
-                      value={titleNew}
+                      value={templateName}
                       onChange={(e) => {
-                        setTitleNew(e.target.value);
+                        setTemplateName(e.target.value);
                         handleChange(e, "title");
                       }}
                     />
@@ -587,4 +583,4 @@ const PreviewContent = () => {
   );
 };
 
-export default PreviewContent;
+export default LicensePreviewContent;

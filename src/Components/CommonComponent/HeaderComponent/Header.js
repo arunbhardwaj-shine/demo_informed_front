@@ -30,9 +30,11 @@ const Header = () => {
       if (user_id) {
         if (user_id != queryParams.id) {
           localStorage.setItem("user_id", queryParams.id);
+          localStorage.setItem("group_id", queryParams?.group_id ? queryParams.group_id : 2);
         }
       } else {
         localStorage.setItem("user_id", queryParams.id);
+        localStorage.setItem("group_id", queryParams?.group_id ? queryParams.group_id : 2);
       }
     } else {
       let user_id = localStorage.getItem("user_id");
@@ -40,6 +42,7 @@ const Header = () => {
       } else {
         //localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
         localStorage.setItem("user_id", "");
+        localStorage.setItem("group_id", "");
       }
     }
     if (queryParams?.decrypted_token && queryParams?.decrypted_token != "") {
@@ -89,8 +92,9 @@ const Header = () => {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul className="navbar-nav">
-              <li className={
+              <ul className="navbar-nav">
+                <li
+                  className={
                     window.location.pathname == "/library-create-pharma" ||
                     window.location.pathname == "/library-delete" ||
                     window.location.pathname == "/library-campaign" ||
@@ -115,21 +119,16 @@ const Header = () => {
                     window.location.pathname == "/spc-render" ||
                     window.location.pathname == "/spc-delete" ||
                     window.location.pathname == "/products"
-                    ? "nav-item active active-main"
+                      ? "nav-item active active-main"
                       : "nav-item"
                   }
-
-              >
-                <a
-                  className="nav-link"
-                  onClick={() => {
-                    navigate("/library-content");
-                  }} 
                 >
-                  LIBRARY
-                </a>
-              </li>
-              <li className={
+                  <a className="nav-link" href="/library-content">
+                    LIBRARY
+                  </a>
+                </li>
+                <li
+                  className={
                     window.location.pathname == "/readers-view" ||
                     window.location.pathname == "/reader-add" ||
                     window.location.pathname == "/reader-edit" ||
@@ -137,83 +136,105 @@ const Header = () => {
                     window.location.pathname == "/reader-review" ||
                     window.location.pathname == "/timeline-detail" ||
                     window.location.pathname == "/article_type_registration"
-                    ? "nav-item active active-main"
+                      ? "nav-item active active-main"
                       : "nav-item"
-                  }>
-                <a className="nav-link" 
-                 onClick={() => {
-                    navigate("/readers-view");
-                  }} 
-                
-              >
-                  READERS
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="https://informed.pro/Analytics">
-                  ANALYTICS
-                </a>
-              </li>
-              <li className={
-                      window.location.pathname == "EmailArticleSelect" ||
-                      window.location.pathname == "EmailList" ||
-                      window.location.pathname == "CreateEmail" ||
-                      window.location.pathname == "SelectHCP" ||
-                      window.location.pathname == "SelectSmartList" ||
-                      window.location.pathname == "SelectSmartListUsers" ||
-                      window.location.pathname == "VerifyMAIL" ||
-                      window.location.pathname == "verifyMAIL" ||
-                      window.location.pathname == "VerifyHcpMAIL" ||
-                      window.location.pathname == "CreateSmartList" ||
-                      window.location.pathname == "SmartListFilter" ||
-                      window.location.pathname == "AutoEmail" ||
-                      window.location.pathname == "TemplateBuilder" ||
-                      window.location.pathname == "SmartList" ||
-                      window.location.pathname == "ViewSmartList" ||
-                      window.location.pathname == "EditList" ||
-                      window.location.pathname == "EmailStatss" ||
-                      window.location.pathname == "get-details"
-                    ? "nav-item active active-main"
-                      : "nav-item"
-                  }>
-                <a
-                  className="nav-link"
-                  onClick={() => {
-                    navigate("/EmailList");
-                  }} 
-                 
+                  }
                 >
-                  EMAIL
-                </a>
-              </li>
-
-              {queryParams?.webinar_flag && queryParams.webinar_flag == 1 ? (
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    href="https://informed.pro/Webinar/readers_webinar"
-                  >
-                    WEBINAR
+                  <a className="nav-link" href="/readers-view">
+                    READERS
                   </a>
                 </li>
-              ) : (
-                ""
-              )}
-
-              {localStorage.getItem("user_id") ==
-              "56Ek4feL/1A8mZgIKQWEqg==" ? (
                 <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    href="https://informed.pro/webinar/qa_survey?cmid=2147501188"
-                  >
-                    Q&A/SURVEY
+                  <a className="nav-link" href="https://informed.pro/Analytics">
+                    ANALYTICS
                   </a>
                 </li>
-              ) : (
-                ""
-              )}
-            </ul>
+                <li
+                  className={
+                    window.location.pathname == "EmailArticleSelect" ||
+                    window.location.pathname == "EmailList" ||
+                    window.location.pathname == "CreateEmail" ||
+                    window.location.pathname == "SelectHCP" ||
+                    window.location.pathname == "SelectSmartList" ||
+                    window.location.pathname == "SelectSmartListUsers" ||
+                    window.location.pathname == "VerifyMAIL" ||
+                    window.location.pathname == "verifyMAIL" ||
+                    window.location.pathname == "VerifyHcpMAIL" ||
+                    window.location.pathname == "CreateSmartList" ||
+                    window.location.pathname == "SmartListFilter" ||
+                    window.location.pathname == "AutoEmail" ||
+                    window.location.pathname == "TemplateBuilder" ||
+                    window.location.pathname == "SmartList" ||
+                    window.location.pathname == "ViewSmartList" ||
+                    window.location.pathname == "EditList" ||
+                    window.location.pathname == "EmailStatss" ||
+                    window.location.pathname == "get-details"
+                      ? "nav-item active active-main"
+                      : "nav-item"
+                  }
+                >
+                  <a
+                    className="nav-link"
+                    href="https://informed.pro/Distributes/MailEngine"
+                  >
+                    EMAIL
+                  </a>
+                </li>
+
+                {localStorage.getItem("group_id") == 2 ? (
+                  <li
+                    className={
+                      window.location.pathname == "/license-create-pharma" ||
+                      window.location.pathname == "/license-delete" ||
+                      window.location.pathname == "/license-campaign" ||
+                      window.location.pathname == "/license-content" ||
+                      window.location.pathname == "/license-create" ||
+                      window.location.pathname == "/license-edit" ||
+                      window.location.pathname == "/license-sublink" ||
+                      window.location.pathname == "/license-topics" ||
+                      window.location.pathname == "/license-set-popup" ||
+                      window.location.pathname == "/license-preview-content" ||
+                      window.location.pathname == "/license-create-user" ||
+                      window.location.pathname == "/license-content-detail" ||
+                      window.location.pathname == "/license-edit-listing" ||
+                      window.location.pathname == "/license-create"
+                        ? "nav-item active active-main"
+                        : "nav-item"
+                    }
+                  >
+                    <a className="nav-link" href="/license-content">
+                      LICENSED
+                    </a>
+                  </li>
+                ) : null}
+
+                {queryParams?.webinar_flag && queryParams.webinar_flag == 1 ? (
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      href="https://informed.pro/Webinar/readers_webinar"
+                    >
+                      WEBINAR
+                    </a>
+                  </li>
+                ) : (
+                  ""
+                )}
+
+                {localStorage.getItem("user_id") ==
+                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      href="https://informed.pro/webinar/qa_survey?cmid=2147501188"
+                    >
+                      Q&A/SURVEY
+                    </a>
+                  </li>
+                ) : (
+                  ""
+                )}
+              </ul>
             </div>
             <div className="user-login">
               <Dropdown>

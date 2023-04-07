@@ -13,6 +13,17 @@ export const LibraryEditValidation = (data) => {
       }
     })
   }
+  if (data.hasOwnProperty('trial')) {
+    if(!data?.trial){
+      error.trial  = "trial is required";
+    }
+  }
+  if (data.hasOwnProperty('blindType')) {
+    if(!data?.blindType){
+      error.blindType  = "Blind Type is required";
+    }
+  }
+  
 
   if (!data?.limit?.toString()) {
     error.limit = "Limit is required";
