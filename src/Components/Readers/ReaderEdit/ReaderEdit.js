@@ -76,7 +76,34 @@ const ReaderEdit = () => {
     label: "",
     value: "",
   });
-  const [userInputs, setAddReaderInputs] = useState({});
+  const [userInputs, setAddReaderInputs] = useState({
+    alternativeEmail: "",
+
+    alternativePhone: "",
+    blind_type: "",
+    country: "",
+    createdBy: "",
+    discipline: "",
+    email: "",
+    firstName: "",
+    hospital: "",
+    interestArea: "",
+    irt: "",
+    lastName: "",
+    middleName: "",
+    notes: "",
+    primary_phone: "",
+    product: "",
+    province: "",
+    repContact: "",
+    role: "",
+    siteName: "",
+    siteNumber: "",
+    speciality: "",
+    sub_role: "",
+    title: "",
+    ibu: "",
+  });
   const [userDetail, setUserDetail] = useState({
     speciality: [
       { value: "speciality1", label: "speciality1" },
@@ -98,6 +125,8 @@ const ReaderEdit = () => {
       { value: "critical care2", label: "critical care2" },
       { value: "critical care3", label: "critical care3" },
     ],
+    province: [],
+    hospital: [],
     blind_type: [],
   });
 
@@ -251,7 +280,7 @@ const ReaderEdit = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label}-${userInputs?.primary_phone}`,
+          primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province,
@@ -541,20 +570,10 @@ const ReaderEdit = () => {
                             isClearable
                             placeholder=""
                             defaultValue={{
-                              label: userInputs?.primary_phone?.substring(
-                                0,
-                                userInputs?.primary_phone?.lastIndexOf("/")
-                              ),
+                              label: userInputs?.countryCode,
                             }}
                             onChange={(e) => handleChange(e, "countryCode")}
                           />
-                          {error?.countryCode ? (
-                            <div className="login-validation">
-                              {error?.countryCode}
-                            </div>
-                          ) : (
-                            ""
-                          )}
 
                           <input
                             type="number"
@@ -701,7 +720,7 @@ const ReaderEdit = () => {
                                     addNewProductClicked("speciality", e)
                                   }
                                 >
-                                  Add new Speciality +
+                                  Add New Speciality +
                                 </Button>
                               </div>
                             </Form.Group>
@@ -733,7 +752,7 @@ const ReaderEdit = () => {
                                       }
                                       className="btn-bordered btn-voilet"
                                     >
-                                      Add new Discipline +
+                                      Add New Discipline +
                                     </Button>
                                   </div>
                                 </Form.Group>
@@ -787,7 +806,7 @@ const ReaderEdit = () => {
                                     addNewProductClicked("product", e)
                                   }
                                 >
-                                  Add new Product +
+                                  Add New Product +
                                 </Button>
                               </div>
                             </Form.Group>
@@ -805,26 +824,6 @@ const ReaderEdit = () => {
                                 }
                               />
                             </Form.Group>
-                            {groupId == 3 && flag == 0 && pharmaData == 0 ? (
-                              <Form.Group className="form-group">
-                                <Form.Label htmlFor="">
-                                  Select User Type
-                                </Form.Label>
-                                <Select
-                                  options={userDetail?.userType}
-                                  defaultValue={userInputs?.userType}
-                                  placeholder="Select province"
-                                  name="userType"
-                                  className="dropdown-basic-button split-button-dropup"
-                                  isClearable
-                                  onChange={(e) =>
-                                    handleChange(e?.value, "UserType")
-                                  }
-                                />
-                              </Form.Group>
-                            ) : (
-                              ""
-                            )}
 
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Rep contact</Form.Label>
@@ -842,6 +841,23 @@ const ReaderEdit = () => {
                           ""
                         )}
                       </>
+                    ) : (
+                      ""
+                    )}
+
+                    {groupId == 3 && flag == 0 && pharmaData == 0 ? (
+                      <Form.Group className="form-group">
+                        <Form.Label htmlFor="">Select User Type</Form.Label>
+                        <Select
+                          options={userDetail?.userType}
+                          defaultValue={userInputs?.userType}
+                          placeholder="Select province"
+                          name="userType"
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                          onChange={(e) => handleChange(e?.value, "UserType")}
+                        />
+                      </Form.Group>
                     ) : (
                       ""
                     )}
