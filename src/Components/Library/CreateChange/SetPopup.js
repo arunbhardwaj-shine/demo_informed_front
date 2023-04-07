@@ -57,7 +57,7 @@ const SetPopup = (props) => {
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
   const [articleId, setArticleId] = useState(
-    typeof state?.pdfId !== "undefined" ? state?.pdfId : "3846"
+    typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
   );
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",

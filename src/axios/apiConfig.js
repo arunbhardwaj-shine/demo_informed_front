@@ -45,4 +45,5 @@ export const ENDPOINT = {
   READER_DOWNLOAD: `/reader/reader-file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`,
   COUNTRY_REGISTRATION:`analytics/country`,
+  ADD_TAGS:`/library/add-tags`   
 };

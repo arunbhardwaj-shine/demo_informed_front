@@ -1126,11 +1126,11 @@ const LibraryContent = () => {
                                         inforMedGo code
                                       </h6>
                                       <h6>
-                                        {data?.code}
+                                        {data?.rep_code}
                                         <span
                                           className="copy-content"
                                           onClick={() => {
-                                            copyToClipboard(data?.code);
+                                            copyToClipboard(data?.rep_code);
                                           }}
                                         >
                                           <img
@@ -1657,13 +1657,13 @@ const LibraryContent = () => {
                                           <h6 className="tab-content-title">
                                             Country
                                           </h6>
-                                          <h6>{data?.country}</h6>
+                                          <h6>{data?.country ? data.country : "N/A"}</h6>
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
                                             Cost Center
                                           </h6>
-                                          <h6>{data?.cost_center ?  data.cost_center : "N/A"}</h6>
+                                          <h6>{data?.cost_center && data?.cost_center != 0 ?  data.cost_center : "N/A"}</h6>
                                         </li>
                                         {
                                           /*

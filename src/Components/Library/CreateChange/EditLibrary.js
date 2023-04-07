@@ -29,6 +29,7 @@ const EditLibrary = () => {
   const [commanShow, setCommanShow] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
+  const [spcType, setSpcType] = useState(0);
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   const [error, setError] = useState({});
@@ -102,6 +103,8 @@ const EditLibrary = () => {
     },
   ];
 
+  // const [ePrintType, setePrintType] = useState([]);
+
   const [ePrintType, setePrintType] = useState([
     { value: "pdf", label: "PDF" },
     { value: "video", label: "video" },
@@ -123,6 +126,10 @@ const EditLibrary = () => {
       user_id: id,
     });
 
+    if(hadData?.data?.data?.fileType){
+        setePrintType(hadData?.data?.data?.fileType);
+    }
+
     let country = [];
     if( hadData?.data?.data?.country?.length){
       if(typeof hadData?.data?.data?.country == "string"){
@@ -142,6 +149,8 @@ const EditLibrary = () => {
 
       }
     }
+
+    setSpcType(hadData?.data?.data?.spcInc);
 
 
     let category = [];
@@ -362,6 +371,11 @@ const EditLibrary = () => {
         formData.append("journalTitle", userInputs?.journalTitle);
 
         formData.append("fileType", userInputs?.docintelFormat);
+        if(userInputs?.docintelFormat == "ebook"){
+            formData.append("spcInc", spcType);
+        }else{
+          formData.append("spcInc", 0);
+        }
         formData.append("product", userInputs?.product);
 
         ebookFile?.forEach((item) => {
@@ -1439,14 +1453,13 @@ const EditLibrary = () => {
                         </div>
                         ):null  }
 
-
                       <div className="form-group val">
                         <label htmlFor="">Docintel format *</label>
                         <Select
                           className="dropdown-basic-button split-button-dropup"
                           options={ePrintType}
                           defaultValue={
-                            userInputs?.docintelFormat === "pdf"
+                            userInputs?.docintelFormat == "pdf"
                               ? ePrintType[0]
                               : userInputs?.docintelFormat == "ebook"
                               ? ePrintType[2]
