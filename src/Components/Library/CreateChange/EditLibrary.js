@@ -719,6 +719,15 @@ const EditLibrary = () => {
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                   />
+                  <div className="add_product">
+                  <span>&nbsp;</span>
+                  <Button
+                    onClick={addNewProductClicked}
+                    className="btn-bordered btn-voilet"
+                  >
+                    Add New Product +
+                  </Button>
+                </div>
                 </div>
               ) : (
                 <div className="form-group">
