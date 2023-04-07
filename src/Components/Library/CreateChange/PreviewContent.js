@@ -41,6 +41,7 @@ const PreviewContent = () => {
   const [publishStatus, setPublishStatus] = useState(false);
   const [trigger, setTrigger] = useState(0);
   const [titleChange, setTitleChange] = useState("");
+  const [titleNew, setTitleNew] = useState("");
   const responsive = {
     0: { items: 1 },
     568: { items: 2 },
@@ -118,6 +119,7 @@ const PreviewContent = () => {
       	pdfData.ebookData[pdfIndex].title = title;
       	setPdfData(pdfData);
       	setTemplateName(title);
+        setTitleNew(title);
       }else{
         pdfData.title = title;
       }
@@ -149,6 +151,7 @@ const PreviewContent = () => {
     setPublishStatus(false);
     setTemplatePdf(template?.file_name);
     setTemplateName(template?.title);
+    setTitleNew(template?.title);
     setTemplateClicked(true);
     setPdfFileId(template.id);
     setEditTitle(false);
@@ -198,6 +201,7 @@ const PreviewContent = () => {
 
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
         if(typeof userInputs?.title != "undefined"){
+            setTemplateName(userInputs?.title);
             formData.append("title", userInputs?.title);
         }
           // if(typeof userInputs?.title == "undefined"){
@@ -531,9 +535,9 @@ const PreviewContent = () => {
                       placeholder="Type chapter title"
                       name="chapter_title"
                       className="form-control"
-                      value={templateName}
+                      value={titleNew}
                       onChange={(e) => {
-                        setTemplateName(e.target.value);
+                        setTitleNew(e.target.value);
                         handleChange(e, "title");
                       }}
                     />
