@@ -44,7 +44,7 @@ import TopClients from "./Components/Analytics/TopClients";
 import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
 // import OctaCountry from "./Components/Analytics/OctaCountry";
- // import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
+  import CountryRegistration from "./Components/Analytics/countryregistration/CountryRegistration";
  import TrendingTopics from "./Components/Analytics/TrendingTopics";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
@@ -200,8 +200,9 @@ const Routing = () => {
                   /*
                   <Route path="/trending-content" element={<TrendingContent />} />
                   <Route path="/octa-country" element={<OctaCountry />} />
-                  <Route path="/country-registration" element={<CountryRegistration />} />
                   */
+                  <Route path="/country-registration" element={<CountryRegistration />} />
+                  
                 }
 
                 <Route path="/top-clients" element={<TopClients />} />
