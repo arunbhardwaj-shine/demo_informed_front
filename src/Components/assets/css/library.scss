@@ -2993,6 +2993,21 @@ section.verify_email.content_details {
 
 
 /**Analytics**/
+.analytic-charts .form_action {
+    background: $dark-blue;
+    padding: 20px;
+}
+.create-change-content.analytic-charts .form_action .product-unit .form-group {
+    margin:0;
+}
+.create-change-content.analytic-charts .form_action .product-unit .form-group label {
+    color: $white;
+}
+.create-change-content.analytic-charts {
+    box-shadow: -0px 0px 15px rgba(0, 102, 190, 0.1);
+    padding: 0;
+    margin: 36px auto 0;
+}
 .highcharts-container svg {
     font-family: 'Roboto'!important;
 }
