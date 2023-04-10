@@ -469,7 +469,7 @@ const LicenseCreateUser = () => {
                   options={userDetail?.product}
                   value={userInputs?.product}
                   onChange={(e) => handleChange(e, "product")}
-                  placeholder="Select own production person"
+                  placeholder="Select product"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
                 />
@@ -1359,7 +1359,7 @@ const LicenseCreateUser = () => {
                           ) : (
                             <p>
                               Upload your cover image <br />
-                              <span>(Recommended size 00 X 00)</span>
+                              <span>(Recommended size 88 X 124)</span>
                             </p>
                           )}
                         </div>

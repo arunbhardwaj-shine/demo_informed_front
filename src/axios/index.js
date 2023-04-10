@@ -35,9 +35,10 @@ requestHelper.interceptors.response.use(
       default:
       toast.error(err?.response.data.message)
       break;
-      return Promise.reject(err);
     }
+    return Promise.reject(err);
   }
+  
 );
 
 export default requestHelper;
