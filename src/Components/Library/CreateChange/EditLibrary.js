@@ -580,7 +580,7 @@ const EditLibrary = () => {
                     value: userInputs?.product,
                   }}
                   onChange={(e) => handleChange(e?.value, "product")}
-                  placeholder="Select own production person"
+                  placeholder="Select product"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
                 />

@@ -468,7 +468,7 @@ const LicenseCreateUser = () => {
                   options={userDetail?.product}
                   value={userInputs?.product}
                   onChange={(e) => handleChange(e, "product")}
-                  placeholder="Select own production person"
+                  placeholder="Select product"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
                 />
