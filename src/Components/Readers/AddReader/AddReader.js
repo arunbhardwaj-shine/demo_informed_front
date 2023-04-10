@@ -118,6 +118,8 @@ const ReaderAdd = () => {
     irt: [],
     userType: [],
     blind_type: [],
+    hospital: [],
+    province: [],
   });
   const [uploadShow, setUploadShow] = useState(false);
   const [updateFlag, setUpdateFlag] = useState(0);
@@ -321,7 +323,7 @@ const ReaderAdd = () => {
           lastName: userInputs?.lastName,
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
-
+          country_Code: `${userInputs?.countryCode?.label}+${userInputs?.primary_phone}`,
           primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
 
           alternativePhone: userInputs?.alternativePhone,
@@ -597,13 +599,7 @@ const ReaderAdd = () => {
                             placeholder=""
                             onChange={(e) => handleChange(e, "countryCode")}
                           />
-                          {error?.countryCode ? (
-                            <div className="login-validation">
-                              {error?.countryCode}
-                            </div>
-                          ) : (
-                            ""
-                          )}
+
                           <input
                             type="number"
                             className="form-control"
@@ -657,7 +653,7 @@ const ReaderAdd = () => {
                       <Form.Group className="form-group">
                         <Form.Label htmlFor="">Province</Form.Label>
                         <Select
-                          options={province}
+                          options={userDetail?.province}
                           placeholder="Select province"
                           name="province"
                           className="dropdown-basic-button split-button-dropup"
@@ -674,7 +670,7 @@ const ReaderAdd = () => {
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">Hospital</Form.Label>
                           <Select
-                            options={hospital}
+                            options={userDetail?.hospital}
                             placeholder="Select hospital"
                             className="dropdown-basic-button split-button-dropup"
                             isClearable

@@ -140,8 +140,8 @@ const ReaderReview = () => {
                       <tr>
                         <th className="tab-content-title">Primary phone </th>
                         <td>
-                          {readerData?.primary_phone
-                            ? readerData?.primary_phone
+                          {readerData?.country_Code
+                            ? readerData?.country_Code
                             : "N/A"}
                         </td>
                       </tr>
