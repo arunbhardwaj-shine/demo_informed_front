@@ -51,7 +51,7 @@ import ContentAnalytics from "./Components/Analytics/ContentAnalytics";
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
-import SmartListAdd from "./Components/Readers/SmartList/SmartList";
+import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
 
@@ -161,7 +161,7 @@ const Routing = () => {
             "/readers-view",
             "/reader-add",
             "/reader-edit",
-            "/smart-list-add",
+            "/readers-list",
             "/reader-review",
             "/timeline-detail",
           ].includes(window.location.pathname) ? (
@@ -237,7 +237,7 @@ const Routing = () => {
                 <Route path="/reader-edit" element={<ReaderEdit />} />
                 <Route path="/reader-add" element={<ReaderAdd />} />
                 <Route path="/reader-review" element={<ReaderReview />} />
-                <Route path="/smart-list-add" element={<SmartListAdd />} />
+                <Route path="/readers-list" element={<ReadersListAdd />} />
                 <Route path="/timeline-detail" element={<TimelineDetail />} />
                 <Route path="/library-content" element={<LibraryContent />} />
                 <Route path="/library-edit" element={<EditLibrary />} />
