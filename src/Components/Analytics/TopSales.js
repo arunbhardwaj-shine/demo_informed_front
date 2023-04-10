@@ -33,6 +33,7 @@ const TopSales = () => {
 
   const dataType = useRef(All[0]);
   const year = useRef(Year[0]);
+  const userType = useRef("topSales");
   Highcharts.setOptions({
     colors: [
       "#FFBE2C",
@@ -117,12 +118,19 @@ const TopSales = () => {
   const getDataFromApi = async () => {
     try {
       loader("show");
+
+      if (dataType?.current?.value == "" && year?.current?.value == "") {
+        userType.current = "topSales";
+      } else {
+        userType.current = "topSalesAjax";
+      }
       let data = {
-        type: "topClient",
-        dataType: dataType.current,
-        year: year.current,
+        type: userType.current,
+        dataType: dataType?.current?.value ? dataType?.current?.value : "",
+        year: year?.current?.value ? year?.current?.value : "",
       };
-      const response = await postData(ENDPOINT.TOPCLIENTS, data);
+
+      const response = await postData(ENDPOINT.TOPSALES, data);
 
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
@@ -165,12 +173,12 @@ const TopSales = () => {
   };
 
   const filterDataByDataType = (e) => {
-    dataType.current = e?.value;
+    dataType.current = e;
     setIsDataFound(false);
     getDataFromApi(e.value);
   };
   const filterDataByYear = (e) => {
-    year.current = e?.value;
+    year.current = e;
     setIsDataFound(false);
     getDataFromApi();
   };
@@ -184,7 +192,7 @@ const TopSales = () => {
               <div className="page-title d-flex">
                 <Link
                   className="btn btn-primary btn-bordered back-btn"
-                  to="/top-clients"
+                  to="/top-sales"
                 >
                   <svg
                     width="14"
@@ -199,7 +207,7 @@ const TopSales = () => {
                     />
                   </svg>
                 </Link>
-                <h2>Top clients</h2>
+                <h2>Top Sales</h2>
               </div>
             </div>
             <div className="create-change-content spc-content analytic-charts">
