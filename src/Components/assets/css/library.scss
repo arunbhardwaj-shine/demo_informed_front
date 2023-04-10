@@ -1521,6 +1521,9 @@ form.product-unit button {
 .create-change-content .right-change .form-group > label {
   padding-top: 18px;
 }
+.create-change-content .right-change .form-group .form-check-group .form-check:last-child {
+	margin: 0;
+}
 .form-check-group .form-check {
   display: flex;
   align-items: center;
@@ -3315,7 +3318,11 @@ ul.tab-mail-list.data span.total-left {
     padding: 7px 10px;
   }
 }
-
+@media only screen and (max-width: 1650px){
+.page-title .back-btn {
+    margin-left: 0;
+}
+}
 @media only screen and (max-width: 1599px) {
 .form-group.primary_phone .dropdown-basic-button.split-button-dropup > div:nth-child(3), .create-change-content .split-button-dropup > div:nth-child(3) {
     height: 43.5px;
@@ -3438,15 +3445,15 @@ ul.tab-mail-list.data span.total-left {
     .tab-content
     .tab-content-links
     a {
-    font-size: 13px;
+    font-size: 14px;
   }
   .library-content-box-layuot
     .doc-content-main-box
     .tab-content
     .tab-mail-list
     h6 {
-    font-size: 13px;
-    line-height: 15px;
+    font-size: 14px;
+    line-height: 16px;
   }
   .library-content-box-layuot
     .doc-content-main-box
@@ -3485,14 +3492,14 @@ ul.tab-mail-list.data span.total-left {
     min-width: 80px;
     font-size: 12px;
   }
-  .library-content-box-layuot
-    .doc-content-main-box
-    .tab-content
-    .tab-mail-list.change
-    .form-group
-    label {
-    font-size: 13px;
-  }
+  // .library-content-box-layuot
+  //   .doc-content-main-box
+  //   .tab-content
+  //   .tab-mail-list.change
+  //   .form-group
+  //   label {
+  //   font-size: 13px;
+  // }
   .split-button-dropup > div:nth-child(4) > div {
     padding-right: 0px;
   }
@@ -3575,6 +3582,13 @@ ul.tab-mail-list.data span.total-left {
 .timeline-time-view {
     font-size: 11px;
     line-height: 15px;
+}
+.library-content-box-layuot .doc-content-main-box {
+	flex: 0 0 48%;
+	width: 48%;
+}
+.library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs .nav-item:first-child button.active:before {
+    height: 43px;
 }
 .timeline-left-user tr th, .timeline-left-user tr td {
     padding: 0 0 15px;
@@ -3746,7 +3760,7 @@ ul.tab-mail-list.data span.total-left {
     .tab-content
     .tab-content-links
     a {
-    font-size: 12px;
+    font-size: 14px;
     word-break: break-all;
   }
   .library-content-box-layuot .doc-content-main-box .doc-content h5 {
@@ -3759,7 +3773,7 @@ ul.tab-mail-list.data span.total-left {
     .tab-content
     .tab-mail-list
     h6 {
-    font-size: 12px;
+    font-size: 14px;
   }
   .library-content-box-layuot
     .doc-content-main-box
@@ -3775,7 +3789,7 @@ ul.tab-mail-list.data span.total-left {
     padding-bottom: 15px;
   }
   .library-content-box-layuot .doc-content-main-box .tab-content {
-    padding: 10px 10px;
+    padding: 15px 15px;
   }
   .library-content-box-layuot
     .doc-content-main-box
@@ -3789,8 +3803,8 @@ ul.tab-mail-list.data span.total-left {
     .data-main-footer-sec
     .footer-btn-wrapper
     .footer-btn {
-    padding: 6px 6px;
-    font-size: 10px;
+    padding: 8px 6px;
+    font-size: 14px;
   }
   .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
     flex: 0 0 130px;
@@ -3814,19 +3828,19 @@ ul.tab-mail-list.data span.total-left {
   ul.tab-mail-list.data span.total-left {
     font-size: 12px;
   }
-  ul.tab-mail-list.data.change .form-group {
-    flex-wrap: wrap;
-  }
-  ul.tab-mail-list.data.change .form-group button {
-    margin: 10px auto;
-  }
+  // ul.tab-mail-list.data.change .form-group {
+  //   flex-wrap: wrap;
+  // }
+  // ul.tab-mail-list.data.change .form-group button {
+  //   margin: 10px auto;
+  // }
   .library-content-box-layuot
     .doc-content-main-box
     .tab-content
     .tab-mail-list.change
     .form-group
     .split-button-dropup {
-    width: calc(100% - 94px);
+    width: 240px;
     margin-right: 0;
   }
 .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup > div:nth-child(3) {
@@ -3850,9 +3864,9 @@ ul.tab-mail-list.data span.total-left {
   #download-qr .modal-body {
     padding: 18px 30px 20px;
   }
-  .doc-content-main-box ul.tab-mail-list li {
-    margin: 0 0 7px;
-  }
+  // .doc-content-main-box ul.tab-mail-list li {
+  //   margin: 0 0 7px;
+  // }
   .doc-content-main-box ul.tab-mail-list li:last-child {
     margin-bottom: 0;
   }
@@ -3877,7 +3891,7 @@ ul.tab-mail-list.data span.total-left {
     .nav-tabs
     .nav-item
     button {
-    font-size: 10px;
+    font-size: 12px;
     padding: 10px 6px;
   }
   .header-btn .btn.btn-primary {

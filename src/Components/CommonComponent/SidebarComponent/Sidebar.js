@@ -788,7 +788,7 @@ const Sidebar = () => {
                       fillOpacity="0.6"
                     />
                   </svg>
-                  <p>Add CRM</p>
+                  <p>Add Contact</p>
                 </Link>
               </li>
             </ul>

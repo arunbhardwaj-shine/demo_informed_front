@@ -1021,9 +1021,6 @@ const LibraryContent = () => {
                 </div>
               </div>
             ) : null}
-          </Row>
-
-          <Row>
             <div className="library-content-box-layuot d-flex">
               <>
                 {libraryData?.length || updateflag ? (

@@ -141,7 +141,7 @@ const Header = () => {
                   }
                 >
                   <Link className="nav-link" to={"/readers-view"}>
-                    READERS
+                    CRM
                   </Link>
                 </li>
                 <li className={
