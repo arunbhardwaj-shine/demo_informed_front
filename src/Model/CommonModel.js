@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useMemo } from "react";
 import { Dropdown, DropdownButton, Modal, Form } from "react-bootstrap";
 import modelValidation from "./ModelValidation"
 const CommonModel = ({
@@ -17,6 +17,7 @@ const CommonModel = ({
   const [errors, setError] = useState({})
 
 
+
   const handleSelect = (value) => {
     const dp_index = data[0].dropdown.findIndex((el) => el.value === value);
     setSelectedValue(data[0].dropdown[dp_index].key);
@@ -30,7 +31,8 @@ const CommonModel = ({
       }
     })
     setValues(obj)
-  },[])
+  },[show])
+
 
   const handleModelChange = (e) =>{
         setValues({...values,[e.target.name]:e.target.value})
@@ -38,26 +40,32 @@ const CommonModel = ({
   }
 
   const handleClose = () => {
-    
        const error =  modelValidation(values)
        if(Object.keys(error)?.length){
          setError(error)
          return 
        }
-    
+    setError({})
+    setValues({})
+    setSelectedValue("Select Size")
     handleSubmit();
-
     onClose(false);
+    
   };
+  const handleSelectModel = (e,data)=>{
+    setValues({...values,[data]:e})
+    handleSelect(e)
+  }
 
   const modelDropdown = (item) => {
     return (
       <div className="form-group">
         <label htmlFor="">{item.label}</label>
+        <div className="modal-form-group">
         <DropdownButton
           className="dropdown-basic-button split-button-dropup "
           title={selecteValue}
-          onSelect={handleSelect}
+          onSelect={(e)=>handleSelectModel(e,item.label)}
         >
           <div className="scroll_div">
             {item?.dropdown?.map((values, newKeys) => {
@@ -73,6 +81,10 @@ const CommonModel = ({
             })}
           </div>
         </DropdownButton>
+        {errors?.[item?.name?item?.name:item?.label]? <div className="login-validation">
+           {errors?.[item?.name?item?.name:item?.label]}
+           </div>:""}
+           </div>
       </div>
     );
   };
@@ -117,7 +129,7 @@ const CommonModel = ({
             type="button"
             className="btn-close"
             data-bs-dismiss="modal"
-            onClick={handleClose}
+            onClick={()=> onClose(false)}
           ></button>
         </Modal.Header>
         <Modal.Body>
@@ -152,4 +164,4 @@ const CommonModel = ({
   );
 };
 
-export default CommonModel;
+export default  React.memo(CommonModel);
