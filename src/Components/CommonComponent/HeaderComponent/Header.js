@@ -130,6 +130,7 @@ const Header = () => {
                 <li
                   className={
                     window.location.pathname == "/readers-view" ||
+                    window.location.pathname == "/readers-list" ||
                     window.location.pathname == "/reader-add" ||
                     window.location.pathname == "/reader-edit" ||
                     window.location.pathname == "/smart-list-add" ||
