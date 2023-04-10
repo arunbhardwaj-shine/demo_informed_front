@@ -1476,7 +1476,7 @@ const LibraryCreateUser = () => {
                           ) : (
                             <p>
                               Upload your cover image <br />
-                              <span>(Recommended size 00 X 00)</span>
+                              <span>(Recommended size 88 X 124)</span>
                             </p>
                           )}
                         </div>

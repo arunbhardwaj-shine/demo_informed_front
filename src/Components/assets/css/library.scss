@@ -665,11 +665,12 @@ input:-webkit-autofill {
   flex: 1 1;
   padding: 0 15px;
 }
-.sublink_right .blink_text h4 {
+.sublink_right .blink_text h6 {
   margin: 0;
   color: $pink;
-  font-size: 20px;
-  animation: 1s linear blinker infinite;
+  font-size: 14px;
+  font-weight: 400;
+  // animation: 1s linear blinker infinite;
 }
 .viewer-layout-container .viewer-layout-toolbar {
     background: #dbe7f2;
@@ -1892,9 +1893,11 @@ background: $dark-blue;
 .create-change-content .login-validation-upload {
   right: auto;
   top: 100%;
-  left: 155px;
+  left: 155px!important;
 }
-
+ .create-change-content .chapter-title .login-validation-upload{
+left:0!important
+}
 .sublink_left {
   flex: 0 0 600px;
   padding-right: 55px;
