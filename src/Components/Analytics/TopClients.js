@@ -33,6 +33,7 @@ const TopClients = () => {
 
   const dataType = useRef(All[0]);
   const year = useRef(Year[0]);
+  const userType = useRef("topClient");
   Highcharts.setOptions({
     colors: [
       "#FFBE2C",
@@ -117,11 +118,18 @@ const TopClients = () => {
   const getDataFromApi = async () => {
     try {
       loader("show");
+      if (dataType?.current?.value == "" && year?.current?.value == "") {
+        userType.current = "topClient";
+      } else {
+        userType.current = "topClientAjax";
+      }
+
       let data = {
-        type: "topClient",
-        dataType: dataType.current,
-        year: year.current,
+        type: userType.current,
+        dataType: dataType?.current?.value ? dataType?.current?.value : "",
+        year: year?.current?.value ? year?.current?.value : "",
       };
+
       const response = await postData(ENDPOINT.TOPCLIENTS, data);
 
       const hadData = response?.data?.data;
@@ -165,12 +173,12 @@ const TopClients = () => {
   };
 
   const filterDataByDataType = (e) => {
-    dataType.current = e?.value;
+    dataType.current = e;
     setIsDataFound(false);
-    getDataFromApi(e.value);
+    getDataFromApi();
   };
   const filterDataByYear = (e) => {
-    year.current = e?.value;
+    year.current = e;
     setIsDataFound(false);
     getDataFromApi();
   };
