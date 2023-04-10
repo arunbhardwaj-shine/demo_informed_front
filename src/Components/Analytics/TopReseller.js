@@ -118,10 +118,16 @@ const TopReseller = () => {
     try {
       loader("show");
 
+      if (dataType?.current?.value == "" && year?.current?.value == "") {
+        userType.current = "topSeller";
+      } else {
+        userType.current = "topSellerAjax";
+      }
+
       let data = {
         type: userType.current,
-        dataType: dataType.current,
-        year: year.current,
+        dataType: dataType?.current?.value ? dataType?.current?.value : "",
+        year: year?.current?.value ? year?.current?.value : "",
       };
 
       const response = await postData(ENDPOINT.TOPRESELLER, data);
@@ -164,23 +170,12 @@ const TopReseller = () => {
   };
 
   const filterDataByDataType = (e) => {
-    if (!e?.value == "") {
-      userType.current = "topSellerAjax";
-    } else if (e?.value == "") {
-      userType.current = "topSeller";
-    }
-    dataType.current = e?.value;
+    dataType.current = e;
     setIsDataFound(false);
     getDataFromApi();
   };
   const filterDataByYear = (e) => {
-    if (!e?.value == "") {
-      userType.current = "topSellerAjax";
-    } else if (e?.value == "") {
-      userType.current = "topSeller";
-    }
-
-    year.current = e?.value;
+    year.current = e;
     setIsDataFound(false);
     getDataFromApi();
   };
@@ -194,7 +189,7 @@ const TopReseller = () => {
               <div className="page-title d-flex">
                 <Link
                   className="btn btn-primary btn-bordered back-btn"
-                  to="/top-clients"
+                  to="/top-reseller"
                 >
                   <svg
                     width="14"
