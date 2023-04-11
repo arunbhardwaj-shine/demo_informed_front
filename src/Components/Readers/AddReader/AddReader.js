@@ -283,18 +283,21 @@ const ReaderAdd = () => {
       let formData = new FormData();
       formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("createdBy", localStorage.getItem("user_id"));
-      const response = await postFormData(ENDPOINT.UPLOAD_READER_FILE, formData, {
-        header: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await postFormData(
+        ENDPOINT.UPLOAD_READER_FILE,
+        formData,
+        {
+          header: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
-      if(response?.data?.data){
+      if (response?.data?.data) {
         navigate("/readers-list", {
-         state: {
-           readersData: response?.data?.data,
-         },
+          state: {
+            readersData: response?.data?.data,
+          },
         });
       }
-
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -604,6 +607,7 @@ const ReaderAdd = () => {
                             type="number"
                             className="form-control"
                             name="primary_phone"
+                            placeholder="Phone number"
                             onChange={(e) => handleChange(e)}
                           />
                           {error?.primary_phone ? (
@@ -683,6 +687,7 @@ const ReaderAdd = () => {
                             type="text"
                             className="form-control"
                             name="title"
+                            placeholder="Title"
                             onChange={(e) => handleChange(e)}
                           />
                         </Form.Group>
