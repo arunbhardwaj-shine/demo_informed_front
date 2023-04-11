@@ -3,7 +3,7 @@ import { Col, Form, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { postData } from "../../axios/apiHelper";
+import { getData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
@@ -19,15 +19,30 @@ const CampaignStats = () => {
 
   const chart = useRef(null);
   Highcharts.setOptions({
-    colors: ['#FFBE2C', '#F58289', '#d1d132', '#D61975', '#0066BE', '#00003C', '#b490f5','#91817e','#2b6570','#9C9CA2','#7cb0dd','#4f4566','#00D4C0','#32a1d1']
-   });
-  const campaignStatsLineOption = {
-    // colors: ['#91817e','#2b6570','#9C9CA2','#7cb0dd','#4f4566','#00D4C0','#32a1d1'],
+    colors: [
+      "#FFBE2C",
+      "#F58289",
+      "#d1d132",
+      "#D61975",
+      "#0066BE",
+      "#00003C",
+      "#b490f5",
+      "#91817e",
+      "#2b6570",
+      "#9C9CA2",
+      "#7cb0dd",
+      "#4f4566",
+      "#00D4C0",
+      "#32a1d1",
+    ],
+  });
+  const [seriesData, setSeriesData] = useState([]);
+  const [campaignStatsLineOption, setCampaignStatsLineOption] = useState({
     chart: {
       type: "line",
     },
     title: {
-      text: "Registered HCP's (IBU)",
+      text: "Registered HCP's (CIS)",
     },
     credits: {
       enabled: false,
@@ -41,22 +56,7 @@ const CampaignStats = () => {
       showTable: true,
       tableCaption: "",
     },
-    xAxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
+    xAxis: {},
     yAxis: {
       title: {
         text: "HCP",
@@ -82,207 +82,302 @@ const CampaignStats = () => {
         },
       },
     },
-    series: [
-        {
-          name: "Email campaign (10)",
-          data: [50, 100, 75, 120, 90, 150, 200, 180, 250, 300, 350, 400],
-          color: Highcharts.getOptions().colors[0],
-        },
-        {
-          name: "inforMedGO (20)",
-          data: [30, 70, 50, 80, 60, 100, 150, 130, 180, 200, 250, 300],
-          color: Highcharts.getOptions().colors[1],
-        },
-        {
-          name: "Docintel Code (15)",
-          data: [40, 90, 65, 100, 75, 120, 180, 150, 200, 250, 300, 350],
-          color: Highcharts.getOptions().colors[2],
-        },
-        {
-          name: "QR (25)",
-          data: [60, 120, 90, 150, 110, 180, 250, 220, 300, 350, 400, 450],
-          color: Highcharts.getOptions().colors[3],
-        },
-        {
-          name: "Direct (30)",
-          data: [70, 150, 110, 180, 130, 220, 300, 270, 350, 400, 450, 500],
-          color: Highcharts.getOptions().colors[4],
-        },
-        {
-          name: "Peer sharing (5)",
-          data: [20, 50, 35, 60, 45, 75, 100, 90, 120, 150, 180, 200],
-          color: Highcharts.getOptions().colors[5],
-        },
-        {
-          name: "Webinar (10)",
-          data: [30, 70, 50, 80, 60, 100, 150, 130, 180, 200, 250, 300],
-          color: Highcharts.getOptions().colors[6],
-        },
-      ],
-  };
-
-  const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState(
-    {
+  });
+  const [campaignStatsLineOptionIBU, setCampaignStatsLineOptionIBU] = useState({
     chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: "pie",
+      type: "line",
     },
     title: {
+      text: "Registered HCP's (IBU)",
+    },
+    credits: {
+      enabled: false,
+    },
+    subtitle: {
+      text: "",
+    },
+
+    exporting: {
+      showHighchart: true,
+      showTable: true,
+      tableCaption: "",
+    },
+    xAxis: {},
+    yAxis: {
+      title: {
+        text: "HCP",
+      },
+    },
+    plotOptions: {
+      line: {
+        dataLabels: {
+          enabled: true,
+        },
+        enableMouseTracking: true,
+      },
+      series: {
+        events: {
+          legendItemClick: function (event) {
+            var sr = this.chart.series;
+            for (let i = 0; i < sr.length; i++) {
+              if (this == sr[i]) sr[i].setVisible(true);
+              else sr[i].setVisible(false);
+            }
+            return false;
+          },
+        },
+      },
+    },
+  });
+
+  const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState({
+    chart: {
+      plotBackgroundColor: null,
+
+      plotBorderWidth: null,
+
+      plotShadow: false,
+
+      type: "pie",
+    },
+
+    title: {
       text: "Registration based on delivery",
+
       align: "left",
     },
+
     tooltip: {
       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
     },
+
     accessibility: {
       point: {
         valueSuffix: "%",
       },
     },
+
     plotOptions: {
       pie: {
         allowPointSelect: true,
+
         cursor: "pointer",
+
         dataLabels: {
           enabled: true,
+
           format: "<b>{point.name}</b>: {point.percentage:.1f} %",
         },
       },
     },
-    series: [{
-      name: "Article Registration based on delivery",
-      colorByPoint: true,
-      data: [{
+
+    series: [
+      {
+        name: "Article Registration based on delivery",
+
+        colorByPoint: true,
+
+        data: [
+          {
+            name: "Email campaign",
+
+            y: 7.2,
+
+            color: Highcharts.getOptions().colors[0],
+
+            drilldown: "email",
+          },
+
+          {
+            name: "inforMedGO",
+
+            y: 40.9,
+
+            color: Highcharts.getOptions().colors[1],
+
+            drilldown: "informedgo",
+          },
+
+          {
+            name: "Docintel Code",
+
+            y: 2.2,
+
+            color: Highcharts.getOptions().colors[2],
+
+            drilldown: "docintelcode",
+          },
+
+          {
+            name: "Direct",
+
+            y: 28.3,
+
+            color: Highcharts.getOptions().colors[4],
+
+            drilldown: "direct",
+          },
+
+          {
+            name: "Peer sharing",
+
+            y: 2.0,
+
+            color: Highcharts.getOptions().colors[5],
+
+            drilldown: "peer",
+          },
+
+          {
+            name: "Webinar",
+
+            y: 2.1,
+
+            color: Highcharts.getOptions().colors[6],
+
+            drilldown: "webinar",
+          },
+
+          {
+            name: "IBU Email campaign",
+
+            y: 4.2,
+
+            color: Highcharts.getOptions().colors[7],
+
+            drilldown: "ibuemail",
+          },
+
+          {
+            name: "IBU inforMedGO",
+
+            y: 3.4,
+
+            color: Highcharts.getOptions().colors[8],
+
+            drilldown: "ibuinformedgo",
+          },
+
+          {
+            name: "IBU QR",
+
+            y: 0.4,
+
+            color: Highcharts.getOptions().colors[10],
+
+            drilldown: "ibuqr",
+          },
+
+          {
+            name: "IBU Direct",
+
+            y: 5.2,
+
+            color: Highcharts.getOptions().colors[11],
+
+            drilldown: "ibudirect",
+          },
+
+          {
+            name: "Webinar IBU",
+
+            y: 3.3,
+
+            color: Highcharts.getOptions().colors[13],
+
+            drilldown: "webinaribu",
+          },
+        ],
+      },
+    ],
+
+    drilldown: {
+      series: [
+        {
           name: "Email campaign",
-          y: 7.2,
-          color: Highcharts.getOptions().colors[0],
-          drilldown: "email"
+
+          id: "email",
+
+          data: [
+            ["Subcampaign A", 5],
+
+            ["Subcampaign B", 2.2],
+
+            ["Subcampaign C", 0.5],
+          ],
         },
+
         {
-          name: "inforMedGO",
-          y: 40.9,
-          color: Highcharts.getOptions().colors[1],
-          drilldown: "informedgo"
+          name: "Email campaign",
+
+          id: "informedgo",
+
+          data: [
+            ["Subcampaign A", 5],
+
+            ["Subcampaign B", 2.2],
+
+            ["Subcampaign C", 10.5],
+          ],
         },
+
         {
-          name: "Docintel Code",
-          y: 2.2,
-          color: Highcharts.getOptions().colors[2],
-          drilldown: "docintelcode"
+          name: "Email campaign",
+
+          id: "docintelcode",
+
+          data: [
+            ["Subcampaign A", 5],
+
+            ["Subcampaign B", 2.2],
+
+            ["Subcampaign C", 10.5],
+          ],
         },
+
         {
-          name: "Direct",
-          y: 28.3,
-          color: Highcharts.getOptions().colors[4],
-          drilldown: "direct"
+          name: "Email campaign",
+
+          id: "direct",
+
+          data: [
+            ["Subcampaign A", 5],
+
+            ["Subcampaign B", 2.2],
+
+            ["Subcampaign C", 10.5],
+          ],
         },
+
         {
-          name: "Peer sharing",
-          y: 2.0,
-          color: Highcharts.getOptions().colors[5],
-          drilldown: "peer"
+          name: "Email campaign",
+
+          id: "peer",
+
+          data: [
+            ["Subcampaign A", 5],
+
+            ["Subcampaign B", 2.2],
+
+            ["Subcampaign C", 10.5],
+          ],
         },
+
         {
-          name: "Webinar",
-          y: 2.1,
-          color: Highcharts.getOptions().colors[6],
-          drilldown: "webinar"
-        },
-        {
-          name: "IBU Email campaign",
-          y: 4.2,
-          color: Highcharts.getOptions().colors[7],
-          drilldown: "ibuemail"
-        },
-        {
-          name: "IBU inforMedGO",
-          y: 3.4,
-          color: Highcharts.getOptions().colors[8],
-          drilldown: "ibuinformedgo"
-        },
-        {
-          name: "IBU QR",
-          y: 0.4,
-          color: Highcharts.getOptions().colors[10],
-          drilldown: "ibuqr"
-        },
-        {
-          name: "IBU Direct",
-          y: 5.2,
-          color: Highcharts.getOptions().colors[11],
-          drilldown: "ibudirect"
-        },
-        {
-          name: "Webinar IBU",
-          y: 3.3,
-          color: Highcharts.getOptions().colors[13],
-          drilldown: "webinaribu"
+          name: "Email campaign",
+
+          id: "webiner",
+
+          data: [
+            ["Subcampaign A", 5],
+
+            ["Subcampaign B", 2.2],
+
+            ["Subcampaign C", 10.5],
+          ],
         },
       ],
-    }],
-    drilldown: {
-      series: [{
-          name: "Email campaign",
-          id: "email",
-          data: [
-            ["Subcampaign A", 5],
-            ["Subcampaign B", 2.2],
-            ["Subcampaign C", 0.5]
-          ]
-        },
-        {
-          name: "Email campaign",
-          id: "informedgo",
-          data: [
-            ["Subcampaign A", 5],
-            ["Subcampaign B", 2.2],
-            ["Subcampaign C", 10.5]
-          ]
-        },
-        {
-          name: "Email campaign",
-          id: "docintelcode",
-          data: [
-            ["Subcampaign A", 5],
-            ["Subcampaign B", 2.2],
-            ["Subcampaign C", 10.5]
-          ]
-        },
-        {
-          name: "Email campaign",
-          id: "direct",
-          data: [
-            ["Subcampaign A", 5],
-            ["Subcampaign B", 2.2],
-            ["Subcampaign C", 10.5]
-          ]
-        },
-        {
-          name: "Email campaign",
-          id: "peer",
-          data: [
-            ["Subcampaign A", 5],
-            ["Subcampaign B", 2.2],
-            ["Subcampaign C", 10.5]
-          ]
-        },
-        {
-          name: "Email campaign",
-          id: "webiner",
-          data: [
-            ["Subcampaign A", 5],
-            ["Subcampaign B", 2.2],
-            ["Subcampaign C", 10.5]
-          ]
-        },
-      
-      ]}
- 
-  
-  
-  
+    },
   });
 
   useEffect(() => {
@@ -291,65 +386,86 @@ const CampaignStats = () => {
 
   const getDataFromApi = async () => {
     loader("show");
-
+  
     try {
-      const requestBody = {
-        type: "Openingcountry",
-        filter: selectFilter?.current?.value
-          ? selectFilter?.current?.value
-          : "",
-      };
-      const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
+      const response = await getData(ENDPOINT.REPORTS);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
+        loader("hide");
+        return;
       }
-
-      const categories = hadData?.name;
-
-      const newSeries = [
-        {
-          name: `Readers (${hadData.readerTotal})`,
-          data: hadData.reader,
-          color: Highcharts.getOptions().colors[1],
+  
+      const { cis, ibu } = hadData;
+      const monthsString = cis[0].Months.replace(" Before", ",Before ");
+      const months = monthsString
+        .split(",")
+        .map((month) => month.replace(/[[\]]/g, ""))
+        .reverse();
+  
+      const newSeriesCis = cis.map((item, index) => {
+        const totalSum = JSON.parse(item.totalSum);
+        const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
+        return {
+          name: item.ibu,
+          totalReaders,
+          data: totalSum,
+          color: Highcharts.getOptions().colors[index],
+        };
+      });
+  
+      const newSeriesDataCis = newSeriesCis.map((series, index) => ({
+        name: `${series.name} (${series.totalReaders})`,
+        data: series.data,
+        color: Highcharts.getOptions().colors[index],
+      }));
+  
+      const newHcpOptions = {
+        ...campaignStatsLineOption,
+        xAxis: {
+          categories: months,
         },
-        {
-          name: `Views (${hadData.viewTotal})`,
-          data: hadData.view,
-          color: Highcharts.getOptions().colors[2],
-        },
-        {
-          name: `Quantity Sold (${hadData.soldTotal})`,
-          data: hadData.sold,
-          color: Highcharts.getOptions().colors[0],
-        },
-      ];
-
-      const newClientOptions = {
-        ...campaignStatsPieOptions,
-        xAxis: { categories: categories },
+        series: newSeriesDataCis,
       };
-
-      setCampaignStatsPieOptions(newClientOptions);
-
+  
+      setCampaignStatsLineOption(newHcpOptions);
+  
+      const newSeriesIbu = ibu.map((item, index) => {
+        const totalSum = JSON.parse(item.totalSum);
+        const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
+        return {
+          name: item.ibu,
+          totalReaders,
+          data: totalSum,
+          color: Highcharts.getOptions().colors[index],
+        };
+      });
+  
+      const newSeriesDataIbu = newSeriesIbu.map((series, index) => ({
+        name: `${series.name} (${series.totalReaders})`,
+        data: series.data,
+        color: Highcharts.getOptions().colors[index],
+      }));
+  
+      const newHcpOptionsIbu = {
+        ...campaignStatsLineOptionIBU,
+        xAxis: {
+          categories: months,
+        },
+        series: newSeriesDataIbu,
+      };
+  
+      setCampaignStatsLineOptionIBU(newHcpOptionsIbu);
+  
       setIsDataFound(true);
-      setData(hadData);
-
-      loader("hide");
+      setData(cis);
     } catch (err) {
       setIsDataFound(false);
-    //   console.log(err);
-      loader("hide");
     }
-    console.log(chart.current);
+  
+    loader("hide");
   };
-
-  const filterData = (e) => {
-    setIsDataFound(false);
-    selectFilter.current = e;
-
-    getDataFromApi(e.value);
-  };
+  
 
   return (
     <>
@@ -391,6 +507,13 @@ const CampaignStats = () => {
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={campaignStatsLineOption}
+                    //   ref={chart}
+                  />
+                </div>
+                <div className="high_charts">
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={campaignStatsLineOptionIBU}
                     //   ref={chart}
                   />
                 </div>
