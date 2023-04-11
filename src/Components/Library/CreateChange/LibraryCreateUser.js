@@ -23,7 +23,6 @@ const LibraryCreateUser = () => {
   const [commanShow, setCommanShow] = useState(false);
   const [hcpClickedFirst, setHcpClickedFirst] = useState([]);
 
-
   const [id, setId] = useState(localStorage.getItem("user_id"));
   const handleClose = () => setShow(false);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -77,8 +76,15 @@ const LibraryCreateUser = () => {
     country: [],
     format: [],
     product: [],
-    hcp:["General information","Investigator","Investigator Meeting Winter 2023","IRT","Octapharma CRO","Pharmacist","Site User"]
-
+    hcp: [
+      "General information",
+      "Investigator",
+      "Investigator Meeting Winter 2023",
+      "IRT",
+      "Octapharma CRO",
+      "Pharmacist",
+      "Site User",
+    ],
   });
 
   const product = [
@@ -88,7 +94,6 @@ const LibraryCreateUser = () => {
       placeholder: "Type your product name",
     },
   ];
-
 
   const [ePrintType, setePrintType] = useState([]);
 
@@ -111,24 +116,22 @@ const LibraryCreateUser = () => {
       user_id: id,
     });
     let country = [];
-    if(hadData?.data?.data?.country?.length){
-      if(typeof hadData?.data?.data?.country == "string"){
+    if (hadData?.data?.data?.country?.length) {
+      if (typeof hadData?.data?.data?.country == "string") {
         JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
           country.push({
             label: key,
             value: key,
           });
         });
-      }else{
+      } else {
         hadData?.data?.data?.country?.reduce((objEntries, key) => {
           country.push({
             label: key,
             value: key,
           });
         });
-
       }
-
     }
 
     setSpcType(hadData?.data?.data?.spcInc);
@@ -144,12 +147,12 @@ const LibraryCreateUser = () => {
     }
     let tags = [];
     if (hadData?.data?.data?.tags?.length) {
-      hadData?.data?.data?.tags?.forEach(item =>{
+      hadData?.data?.data?.tags?.forEach((item) => {
         tags.push(item?.value);
-      })
+      });
     }
 
-    setePrintType(hadData?.data?.data?.fileType)
+    setePrintType(hadData?.data?.data?.fileType);
     setAllTags(tags);
     setUserDetail({
       ...userDetail,
@@ -167,9 +170,7 @@ const LibraryCreateUser = () => {
         a.value > b.value ? 1 : -1
       ),
       reseller: hadData?.data?.data?.reseller,
-      trial: [
-        {label:"LEXx210",value:"3972"}
-      ],
+      trial: [{ label: "LEXx210", value: "3972" }],
     });
 
     loader("hide");
@@ -195,15 +196,17 @@ const LibraryCreateUser = () => {
     if (userInputs.docintelFormat == "ebook") {
       userInputs.chapter = chapter;
     }
-    if(userDetail?.user?.[0]?.flag == 1 &&
-      userDetail?.user?.[0]?.group_id == 3){
-        if(!userInputs?.trial){
-          userInputs.trial = ""
-        }
-        if(!userInputs?.blindType){
-          userInputs.blindType = ""
-        }
+    if (
+      userDetail?.user?.[0]?.flag == 1 &&
+      userDetail?.user?.[0]?.group_id == 3
+    ) {
+      if (!userInputs?.trial) {
+        userInputs.trial = "";
       }
+      if (!userInputs?.blindType) {
+        userInputs.blindType = "";
+      }
+    }
     const err = createContent(
       userInputs,
       ebookFile,
@@ -216,29 +219,51 @@ const LibraryCreateUser = () => {
     } else {
       loader("show");
       try {
-
         let formData = new FormData();
 
         formData.append("productionNotes", userInputs?.productionNotes);
-        formData.append("production", userInputs?.production?userInputs?.production:0);
+        formData.append(
+          "production",
+          userInputs?.production ? userInputs?.production : 0
+        );
 
-        formData.append("sales", userInputs?.sales?userInputs?.sales:0);
-        formData.append("costCenter", userInputs?.costCenter?userInputs?.costCenter:"");
-
-
+        formData.append("sales", userInputs?.sales ? userInputs?.sales : 0);
+        formData.append(
+          "costCenter",
+          userInputs?.costCenter ? userInputs?.costCenter : ""
+        );
 
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
-        if (userDetail?.user?.[0]?.group_id == 3 && userDetail?.user?.[0]?.flag == 1) {
+        if (
+          userDetail?.user?.[0]?.group_id == 3 &&
+          userDetail?.user?.[0]?.flag == 1
+        ) {
           formData.append("blindType", userInputs?.blindType);
           formData.append("trial", userInputs?.trial);
-          formData.append("mandatory", userInputs?.mandatory?JSON.stringify(userInputs?.mandatory):JSON.stringify(false));
-          formData.append("trail_user_type", hcpClickedFirst?.length?JSON.stringify(hcpClickedFirst):"");
+          formData.append(
+            "mandatory",
+            userInputs?.mandatory
+              ? JSON.stringify(userInputs?.mandatory)
+              : JSON.stringify(false)
+          );
+          formData.append(
+            "trail_user_type",
+            hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
+          );
         }
 
-        if(userDetail?.user?.[0]?.group_id == 3 && userDetail?.user?.[0]?.octaLach == 1){
-          formData.append("medical", userInputs?.medical?JSON.stringify(userInputs?.medical):JSON.stringify(false));
+        if (
+          userDetail?.user?.[0]?.group_id == 3 &&
+          userDetail?.user?.[0]?.octaLach == 1
+        ) {
+          formData.append(
+            "medical",
+            userInputs?.medical
+              ? JSON.stringify(userInputs?.medical)
+              : JSON.stringify(false)
+          );
         }
 
         if (userDetail?.user?.[0]?.group_id == 3) {
@@ -247,7 +272,6 @@ const LibraryCreateUser = () => {
             new Date(moment().year(2030).format("MM/DD/YYYY"))
           );
         } else {
-
           formData.append("expDatetime", userInputs?.expDatetime);
         }
         formData.append("company", userInputs?.company);
@@ -266,8 +290,8 @@ const LibraryCreateUser = () => {
           formData.append("ebookData", item);
         });
         formData.append("fileType", userInputs?.docintelFormat);
-        if(userInputs?.docintelFormat == "ebook"){
-            formData.append("spcInc", spcType);
+        if (userInputs?.docintelFormat == "ebook") {
+          formData.append("spcInc", spcType);
         }
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
         formData.append("chapter", JSON.stringify(chapter));
@@ -276,9 +300,12 @@ const LibraryCreateUser = () => {
 
         formData.append("category", userInputs?.category);
         formData.append("formatType", userInputs?.format);
-        formData.append("ibu", userInputs?.ibu? userInputs?.ibu:"");
+        formData.append("ibu", userInputs?.ibu ? userInputs?.ibu : "");
         formData.append("allowOneSource", userInputs?.allowOneSource);
-        formData.append("allowLibrary", userInputs?.allowLibrary?userInputs?.allowLibrary:1);
+        formData.append(
+          "allowLibrary",
+          userInputs?.allowLibrary ? userInputs?.allowLibrary : 1
+        );
         formData.append("allowRequest", userInputs?.allowRequest ? 1 : 0);
         formData.append(
           "allowDraft",
@@ -416,9 +443,9 @@ const LibraryCreateUser = () => {
   };
 
   const removeHcp = (data) => {
-     const hcpData = hcpClickedFirst.filter(item =>item != data)
+    const hcpData = hcpClickedFirst.filter((item) => item != data);
 
-     setHcpClickedFirst(hcpData);
+    setHcpClickedFirst(hcpData);
   };
 
   const newTagChanged = (e) => {
@@ -562,14 +589,14 @@ const LibraryCreateUser = () => {
                             <input
                               className="form-check-input"
                               value=""
-                              id={"flexCheckDefault_"+index}
+                              id={"flexCheckDefault_" + index}
                               type="checkbox"
                               defaultValue={reseller.includes(item?.id)}
                               onClick={(e) => handleReseller(e, item)}
                             />
                             <label
                               className="form-check-label"
-                              htmlFor={"flexCheckDefault_"+index}
+                              htmlFor={"flexCheckDefault_" + index}
                             >
                               {item?.value}
                             </label>
@@ -605,33 +632,31 @@ const LibraryCreateUser = () => {
           <h4>About the Docintel link you're making</h4>
           <div className="row">
             <div className="col-12 col-md-6">
-            {
-              userDetail?.user?.[0]?.flag != 1 &&
-              userDetail?.user?.[0]?.group_id == 3 ?
-              <>
-              <div className="form-group">
-                <label htmlFor="">Category</label>
-                <Select
-                  options={userDetail?.category}
-                  placeholder="Select category type for HCPs to sort"
-                  onChange={(e) => handleChange(e?.value, "category")}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="">Format</label>
-                <Select
-                  options={userDetail?.format}
-                  placeholder="Select format for tracking"
-                  onChange={(e) => handleChange(e?.value, "format")}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
-              </>
-              : null
-            }
+              {userDetail?.user?.[0]?.flag != 1 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <>
+                  <div className="form-group">
+                    <label htmlFor="">Category</label>
+                    <Select
+                      options={userDetail?.category}
+                      placeholder="Select category type for HCPs to sort"
+                      onChange={(e) => handleChange(e?.value, "category")}
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="">Format</label>
+                    <Select
+                      options={userDetail?.format}
+                      placeholder="Select format for tracking"
+                      onChange={(e) => handleChange(e?.value, "format")}
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                    />
+                  </div>
+                </>
+              ) : null}
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group margin-added">
@@ -645,15 +670,15 @@ const LibraryCreateUser = () => {
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                   />
-                   <div className="add_product">
-                  <span>&nbsp;</span>
-                  <Button
-                    onClick={addNewProductClicked}
-                    className="btn-bordered btn-voilet"
-                  >
-                    Add New Product +
-                  </Button>
-                </div>
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={addNewProductClicked}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New Product +
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 <div className="form-group">
@@ -665,9 +690,9 @@ const LibraryCreateUser = () => {
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                   />
-                   {error?.trial ? (
-                  <div className="login-validation">{error?.trial}</div>
-                ) : null}
+                  {error?.trial ? (
+                    <div className="login-validation">{error?.trial}</div>
+                  ) : null}
                 </div>
               )}
 
@@ -694,63 +719,67 @@ const LibraryCreateUser = () => {
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                   />
-                   {error?.blindType ? (
-                  <div className="login-validation">{error?.blindType}</div>
-                ) : null}
+                  {error?.blindType ? (
+                    <div className="login-validation">{error?.blindType}</div>
+                  ) : null}
                 </div>
               ) : null}
 
-              { userDetail?.user?.[0]?.flag == 1 &&
-               userDetail?.user?.[0]?.group_id == 3?(
+              {userDetail?.user?.[0]?.flag == 1 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
-                 <label htmlFor="">HCP</label>
-                 <div className="input-group w-100">
-                   <div className="tags_added">
-                     <div className="select-tags">
-                     <ul>
-                       {userDetail?.hcp?.map((item, index) => {
-                         return (
-                           <li className="list1" onClick={()=>{hcpClicked(item)}}>
-                             {item}
-                           </li>
-                         );
-                       })}
-                     </ul>
-                     <div className="after-selected">
-                       <ul className="after-tag-selected">
-                       {hcpClickedFirst.map((item, index) => {
-                         return (
-                           <li className="list1">
-                             {item}
-                             <img
-                               src="componentAssets/images/filter-close.svg"
-                               alt="Close-filter"
-                               onClick={() => removeHcp(item)}
-                             />
-                           </li>
-                         );
-                       })}
-                       </ul>
-                     </div>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-               ):null }
+                  <label htmlFor="">HCP</label>
+                  <div className="input-group w-100">
+                    <div className="tags_added">
+                      <div className="select-tags">
+                        <ul>
+                          {userDetail?.hcp?.map((item, index) => {
+                            return (
+                              <li
+                                className="list1"
+                                onClick={() => {
+                                  hcpClicked(item);
+                                }}
+                              >
+                                {item}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                        <div className="after-selected">
+                          <ul className="after-tag-selected">
+                            {hcpClickedFirst.map((item, index) => {
+                              return (
+                                <li className="list1">
+                                  {item}
+                                  <img
+                                    src="componentAssets/images/filter-close.svg"
+                                    alt="Close-filter"
+                                    onClick={() => removeHcp(item)}
+                                  />
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
 
-              {userDetail?.user?.[0]?.flag == 0 && userDetail?.user?.[0]?.pharmaData == 0 && userDetail?.user?.[0]?.octaLach == 1 &&
+              {userDetail?.user?.[0]?.flag == 0 &&
+              userDetail?.user?.[0]?.pharmaData == 0 &&
+              userDetail?.user?.[0]?.octaLach == 1 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
                   <label htmlFor="">Content Use</label>
                   <fieldset id="group2">
-
                     <input
                       type="radio"
                       value="value2"
                       name="group2"
-                      onClick={(e) =>
-                        handleChange(1, "allowLibrary")
-                      }
+                      onClick={(e) => handleChange(1, "allowLibrary")}
                       id="limitagreed2"
                     />
                     <label htmlFor="limitagreed2">Library</label>
@@ -759,16 +788,13 @@ const LibraryCreateUser = () => {
                       type="radio"
                       value="value1"
                       name="group2"
-                      onClick={(e) =>
-                        handleChange(2, "allowLibrary")
-                      }
+                      onClick={(e) => handleChange(2, "allowLibrary")}
                       id="limitagreed1"
                     />
                     <label htmlFor="limitagreed1">Congress</label>
                   </fieldset>
                 </div>
               ) : null}
-
             </div>
             <div className="col-12 col-md-6 d-flex justify-content- align-items-start right-change flex-column">
               <div className="form-group justify-content-end ">
@@ -808,7 +834,6 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -847,7 +872,6 @@ const LibraryCreateUser = () => {
           <h4>Limits agreed</h4>
           <div className="row">
             <div className="col-12 col-md-6">
-
               {userDetail?.costCenter ? (
                 <div className="form-group">
                   <label htmlFor="">Cost centre</label>
@@ -1008,7 +1032,7 @@ const LibraryCreateUser = () => {
                     </Link>
 
                     <button
-                      className="btn btn-primary btn-filled next"
+                      className="btn btn-primary btn-filled next "
                       onClick={nextButtonClicked}
                     >
                       Next
@@ -1088,10 +1112,9 @@ const LibraryCreateUser = () => {
                       />
                     </div>
 
-                    {
-                      (userDetail?.user?.[0]?.flag == 1 &&
-                      userDetail?.user?.[0]?.group_id == 3)? (
-                        <>
+                    {userDetail?.user?.[0]?.flag == 1 &&
+                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      <>
                         <div className="form-group">
                           <label htmlFor="setasdraft1">Set as draft</label>
                           <fieldset id="group2">
@@ -1115,11 +1138,10 @@ const LibraryCreateUser = () => {
                             </div>
                           </fieldset>
                         </div>
-                        </>
-                      ) : null
-                    }
-                    {(userDetail?.user?.[0]?.flag == 0 &&
-                      userDetail?.user?.[0]?.group_id == 3)? (
+                      </>
+                    ) : null}
+                    {userDetail?.user?.[0]?.flag == 0 &&
+                    userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Enable</label>
@@ -1193,66 +1215,70 @@ const LibraryCreateUser = () => {
                     ) : null}
 
                     {userDetail?.user?.[0]?.octaLach == 1 &&
-                      userDetail?.user?.[0]?.group_id == 3 ?
-                      (
-                        <>
-                          <div className="form-group">
-                            <label htmlFor="setasdraft1">Medical</label>
-                            <fieldset id="group2">
-                              <div className="switch">
-                                <label className="switch-light">
-                                  <input
-                                    type="checkbox"
-                                    value="value1"
-                                    name="group2"
-                                    id="setasdraft1"
-                                    onChange={(e) => {
-                                      handleChange(e.target?.checked, "medical");
-                                    }}
-                                  />
-                                  <span>
-                                    <span className="switch-btn active">No</span>
-                                    <span className="switch-btn ">Yes</span>
-                                  </span>
-                                  <a className="btn"></a>
-                                </label>
-                              </div>
-                            </fieldset>
-                          </div>
-                        </>
-                      )
-                      : null
-                    }
-                       { (userDetail?.user?.[0]?.flag == 1 &&
-                        userDetail?.user?.[0]?.group_id == 3)?(
-                          <div className="form-group">
-                          <label htmlFor="setasdraft1">Mandatory</label>
+                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      <>
+                        <div className="form-group">
+                          <label htmlFor="setasdraft1">Medical</label>
                           <fieldset id="group2">
                             <div className="switch">
                               <label className="switch-light">
                                 <input
                                   type="checkbox"
+                                  value="value1"
                                   name="group2"
                                   id="setasdraft1"
                                   onChange={(e) => {
-                                    handleChange(
-                                      e.target?.checked,
-                                      "mandatory"
-                                    );
+                                    handleChange(e.target?.checked, "medical");
                                   }}
                                 />
                                 <span>
-                                  <span className={`switch-btn ${userInputs?.mandatory == 0?" Active":""}`}>
-                                    No
-                                  </span>
-                                  <span className={`switch-btn ${userInputs?.mandatory == 1?" Active":""}`}>Yes</span>
+                                  <span className="switch-btn active">No</span>
+                                  <span className="switch-btn ">Yes</span>
                                 </span>
                                 <a className="btn"></a>
                               </label>
                             </div>
                           </fieldset>
                         </div>
-                        ):null  }
+                      </>
+                    ) : null}
+                    {userDetail?.user?.[0]?.flag == 1 &&
+                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      <div className="form-group">
+                        <label htmlFor="setasdraft1">Mandatory</label>
+                        <fieldset id="group2">
+                          <div className="switch">
+                            <label className="switch-light">
+                              <input
+                                type="checkbox"
+                                name="group2"
+                                id="setasdraft1"
+                                onChange={(e) => {
+                                  handleChange(e.target?.checked, "mandatory");
+                                }}
+                              />
+                              <span>
+                                <span
+                                  className={`switch-btn ${
+                                    userInputs?.mandatory == 0 ? " Active" : ""
+                                  }`}
+                                >
+                                  No
+                                </span>
+                                <span
+                                  className={`switch-btn ${
+                                    userInputs?.mandatory == 1 ? " Active" : ""
+                                  }`}
+                                >
+                                  Yes
+                                </span>
+                              </span>
+                              <a className="btn"></a>
+                            </label>
+                          </div>
+                        </fieldset>
+                      </div>
+                    ) : null}
 
                     <div className="form-group val">
                       <label htmlFor="">Docintel format *</label>
@@ -1289,7 +1315,9 @@ const LibraryCreateUser = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.uploadFile?.[0]?.name ? (
-                              <p>{userInputs?.uploadFile?.[0].name}</p>
+                              <p className="uploaded-file">
+                                {userInputs?.uploadFile?.[0].name}
+                              </p>
                             ) : (
                               <p>Upload your PDF</p>
                             )}
@@ -1318,7 +1346,9 @@ const LibraryCreateUser = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.uploadFile?.[0]?.name ? (
-                              <p>{userInputs?.uploadFile?.[0]?.name}</p>
+                              <p className="uploaded-file">
+                                {userInputs?.uploadFile?.[0]?.name}
+                              </p>
                             ) : (
                               <p>Upload your Video file</p>
                             )}
@@ -1361,9 +1391,13 @@ const LibraryCreateUser = () => {
                                     </label>
 
                                     <p>
-                                      {val.uploadFile == ""
-                                        ? "Upload your PDF file"
-                                        : val.uploadFile}
+                                      {val.uploadFile == "" ? (
+                                        "Upload your PDF file"
+                                      ) : (
+                                        <p className="uploaded-file">
+                                          {val.uploadFile}
+                                        </p>
+                                      )}
                                     </p>
                                   </div>
                                 </div>
@@ -1427,12 +1461,10 @@ const LibraryCreateUser = () => {
                     // </div>
                     null}
 
-                    {(userDetail?.user?.[0]?.flag == 0 &&
-                      userDetail?.user?.[0]?.group_id == 3)
-                     ? (
-                       <>
-                       {
-                         /*
+                    {userDetail?.user?.[0]?.flag == 0 &&
+                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      <>
+                        {/*
                          <div className="form-group">
                            <label htmlFor="">Include video</label>
                            <div className="switch">
@@ -1452,8 +1484,7 @@ const LibraryCreateUser = () => {
                              </label>
                            </div>
                          </div>
-                         */
-                       }
+                         */}
                       </>
                     ) : null}
                     <div className="form-group val">
@@ -1472,7 +1503,9 @@ const LibraryCreateUser = () => {
                             <span>Choose Your File</span>
                           </label>
                           {userInputs?.coverPhoto?.[0]?.name ? (
-                            <p>{userInputs?.coverPhoto?.[0]?.name}</p>
+                            <p className="uploaded-file">
+                              {userInputs?.coverPhoto?.[0]?.name}
+                            </p>
                           ) : (
                             <p>
                               Upload your cover image <br />
@@ -1692,7 +1725,6 @@ const LibraryCreateUser = () => {
         </div>
       </Modal>
 
-      
       <CommonModel
         show={commanShow}
         onClose={setCommanShow}
