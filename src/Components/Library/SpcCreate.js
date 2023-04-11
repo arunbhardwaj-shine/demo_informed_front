@@ -3,11 +3,11 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import {postFormData,postData} from "../../axios/apiHelper"
+import { postFormData, postData } from "../../axios/apiHelper";
 import { popup_alert } from "../../popup_alert";
 import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
 import CommonModel from "../../Model/CommonModel";
-import {ENDPOINT} from "../../axios/apiConfig";
+import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
 import { toast } from "react-toastify";
 
@@ -26,50 +26,48 @@ const SpcCreate = () => {
   const [userInputs, setSpcFormInputs] = useState({});
   const [error, setError] = useState({});
 
-
   useEffect(() => {
-	   getSpcData();
+    getSpcData();
   }, []);
 
+  const getSpcData = async () => {
+    loader("show");
+    try {
+      let body = {
+        user_id: localStorage.getItem("user_id"),
+      };
+      const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING, body);
+      let allListingData = res_data?.data?.data;
+      let spcprodusts = [];
+      Object.entries(res_data?.data?.data?.spcProduct).map(([index, item]) => {
+        spcprodusts.push({
+          value: item.product,
+          label: item.product,
+        });
+        setProductArr(spcprodusts);
+      });
 
-  const getSpcData = async() => {
-      loader('show');
-      try{
-          let body = {
-            "user_id": localStorage.getItem("user_id")
-          };
-          const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING,body);
-          let allListingData = res_data?.data?.data;
-          let spcprodusts = [];
-          Object.entries(res_data?.data?.data?.spcProduct).map(([index, item]) => {
-            spcprodusts.push({
-              value: item.product,
-              label: item.product,
-            });
-            setProductArr(spcprodusts);
-          });
+      let countries = [];
+      Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
+        countries.push({
+          value: item,
+          label: item,
+        });
+        setCountryAll(countries);
+      });
 
-          let countries = []
-          Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
-            countries.push({
-              value: item,
-              label: item,
-            });
-            setCountryAll(countries);
-          });
-
-          let lng = []
-          Object.entries(res_data?.data?.data?.language).map(([index, item]) => {
-            lng.push({
-              value: item,
-              label: item,
-            });
-            setLanguage(lng);
-          });
-          loader('hide');
-      }catch(err){
-        loader('hide');
-      }
+      let lng = [];
+      Object.entries(res_data?.data?.data?.language).map(([index, item]) => {
+        lng.push({
+          value: item,
+          label: item,
+        });
+        setLanguage(lng);
+      });
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+    }
   };
 
   const handleChange = (e, isSelectedName) => {
@@ -77,15 +75,15 @@ const SpcCreate = () => {
       return;
     }
 
-    if(isSelectedName == "product"){
+    if (isSelectedName == "product") {
       let productVal = e.map((pdata) => {
         return pdata.value;
       });
       setSpcFormInputs({
         ...userInputs,
-        [isSelectedName ? isSelectedName : e?.target?.name]: productVal
+        [isSelectedName ? isSelectedName : e?.target?.name]: productVal,
       });
-    }else{
+    } else {
       setSpcFormInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -116,27 +114,27 @@ const SpcCreate = () => {
     setShow(true);
   };
 
-  const addProductClicked = async() => {
+  const addProductClicked = async () => {
     loader("show");
     if (newProduct.trim() != "") {
-      try{
+      try {
         let body = {
-          "user_id":localStorage.getItem("user_id"),
-          "product":newProduct,
-          "category":0,
-          "type":1
+          user_id: localStorage.getItem("user_id"),
+          product: newProduct,
+          category: 0,
+          type: 1,
         };
-        const res = await postData(ENDPOINT.ADD_SPC_PRODUCT,body);
+        const res = await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
         setProductArr((oldArray) => [
           ...oldArray,
           { value: newProduct, label: newProduct },
         ]);
         toast.success(res?.data?.message);
-      }catch(err){
-        loader('hide');
+      } catch (err) {
+        loader("hide");
       }
     }
-    loader('hide');
+    loader("hide");
     setShow(false);
   };
 
@@ -152,25 +150,24 @@ const SpcCreate = () => {
     setNewProduct(e.target.value);
   };
 
-  const publishClicked = async(event) => {
-    loader('show');
-    event.preventDefault()
+  const publishClicked = async (event) => {
+    loader("show");
+    event.preventDefault();
 
     const result = SPCValidation(userInputs);
 
     if (Object.keys(result)?.length) {
       setError(result);
-        loader('hide');
+      loader("hide");
       return;
     }
     const data = new FormData(event.target);
-    data.append('createdBy',localStorage.getItem("user_id"));
-    try{
-
-      await postFormData(ENDPOINT.SPCCREATE,data,{
-        header:{
+    data.append("createdBy", localStorage.getItem("user_id"));
+    try {
+      await postFormData(ENDPOINT.SPCCREATE, data, {
+        header: {
           "Content-Type": "multipart/form-data",
-        }
+        },
       });
       popup_alert({
         visible: "show",
@@ -178,9 +175,9 @@ const SpcCreate = () => {
         type: "success",
         redirect: "spc-view",
       });
-      loader('hide');
-    }catch(err){
-      loader('hide');
+      loader("hide");
+    } catch (err) {
+      loader("hide");
       console.log(err);
     }
   };
@@ -190,34 +187,29 @@ const SpcCreate = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-          <Form onSubmit={publishClicked} >
-            <div className="top-header">
-              <div className="page-title">
-                <h2>Create SPC</h2>
+            <Form onSubmit={publishClicked}>
+              <div className="top-header">
+                <div className="page-title">
+                  <h2>Create SPC</h2>
+                </div>
+                <div className="header-btn">
+                  <Button
+                    className="btn-bordered cancel"
+                    onClick={() => navigate("/spc")}
+                  >
+                    Cancel
+                  </Button>
+                  <Button className="btn-filled send_btn" type="submit">
+                    Publish
+                  </Button>
+                </div>
               </div>
-              <div className="header-btn">
-                <Button
-                  className="btn-bordered cancel"
 
-                  onClick={() => navigate("/spc")}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  className="btn-filled send_btn"
-                  type="submit"
-                >
-                  Publish
-                </Button>
-              </div>
-            </div>
-
-            <div className="create-change-content spc-content">
-              <div className="form_action">
-                <h4>Please fill the following and upload SPC needed</h4>
-                <div className="row">
-                  <div className="col-12">
-
+              <div className="create-change-content spc-content">
+                <div className="form_action">
+                  <h4>Please fill the following and upload SPC needed</h4>
+                  <div className="row">
+                    <div className="col-12">
                       <div className="form-group">
                         <label htmlFor="">Title of SPC</label>
 
@@ -228,17 +220,14 @@ const SpcCreate = () => {
                           name="title"
                         />
 
-                        {
-                          /*
+                        {/*
                           <input
                             type="text"
                             className="form-control"
                             name="createdBy"
                             value=localStorage.getItem("user_id")
                           />
-                          */
-                        }
-
+                          */}
 
                         {error?.title ? (
                           <div className="login-validation">{error?.title}</div>
@@ -313,9 +302,7 @@ const SpcCreate = () => {
                           options={productArr}
                           name="product"
                           placeholder="Select product"
-                          onChange={(event) =>
-                            handleChange(event, "product")
-                          }
+                          onChange={(event) => handleChange(event, "product")}
                           className="dropdown-basic-button split-button-dropup extra_multiselect"
                           isClearable
                           isMulti="true"
@@ -355,7 +342,9 @@ const SpcCreate = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.uploadspc?.[0]?.name ? (
-                              <p>{userInputs?.uploadspc?.[0]?.name}</p>
+                              <p className="uploaded-file">
+                                {userInputs?.uploadspc?.[0]?.name}
+                              </p>
                             ) : (
                               <p>
                                 Upload your SPC file <br />
@@ -372,11 +361,10 @@ const SpcCreate = () => {
                           ""
                         )}
                       </div>
-
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </Form>
           </Row>
         </div>

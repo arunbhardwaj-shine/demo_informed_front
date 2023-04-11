@@ -512,17 +512,13 @@ const ReaderAdd = () => {
                   {/* onChange={handleFileUpload}
                   /> */}
 
-                  {!(groupId == 3 && flag == 0 && pharmaData == 1) ? (
-                    <Button
-                      className="btn-bordered"
-                      type="file"
-                      onClick={handleShow}
-                    >
-                      Upload Excel File
-                    </Button>
-                  ) : (
-                    ""
-                  )}
+                  <Button
+                    className="btn-bordered"
+                    type="file"
+                    onClick={handleShow}
+                  >
+                    Upload Excel File
+                  </Button>
                 </div>
                 <div className="row">
                   <Col md="7">
@@ -1160,7 +1156,9 @@ const ReaderAdd = () => {
                       <span>Choose Your File</span>
                     </Form.Label>
                     {userInputs?.uploadFile?.[0]?.name ? (
-                      <p>{userInputs?.uploadFile?.[0].name}</p>
+                      <p className="uploaded-file">
+                        {userInputs?.uploadFile?.[0].name}
+                      </p>
                     ) : (
                       <p>Upload your Excel</p>
                     )}
