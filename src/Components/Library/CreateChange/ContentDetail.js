@@ -151,9 +151,9 @@ const ContentDetail = () => {
                               <div className="verify-email-detail">
                                 <div>
                                   <h4>Content Details</h4>
-                                  <div className="d-flex align-items-start">
+                                  <div className="d-flex align-items-start preview_content">
                                     <img
-                                      src={path_image + "dummy-img.png"}
+                                      src={data?.coverImage}
                                       alt="Preview "
                                     />
                                     <div className="verify-email-detail-clear">
