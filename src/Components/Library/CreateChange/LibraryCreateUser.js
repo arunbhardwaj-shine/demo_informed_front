@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { createContent } from "../../CommonComponent/Validations";
-import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, Form, Dropdown, DropdownButton, Col, Row } from "react-bootstrap";
 import { postFormData, postData } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
@@ -977,12 +977,12 @@ const LibraryCreateUser = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
-          <div className="row">
-            <div className="page-top-nav">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
+          <Row>
+            <div className="page-top-nav sticky">
+              <Row className="justify-content-end align-items-center">
+                <Col md={1}>
                   <div className="header-btn-left">
                     {/* <Link
                       className="btn btn-primary btn-bordered back"
@@ -1008,8 +1008,8 @@ const LibraryCreateUser = () => {
                       </svg>
                     </Link>
                   </div>
-                </div>
-                <div className="col-12 col-md-9">
+                </Col>
+                <Col md={9}>
                   <ul className="tabnav-link">
                     <li className="active active-main">
                       <a href="">Create Your Content</a>
@@ -1021,8 +1021,8 @@ const LibraryCreateUser = () => {
                       <a href="">Approve Your Content &amp; Publish</a>
                     </li>
                   </ul>
-                </div>
-                <div className="col-12 col-md-2">
+                </Col>
+                <Col md={2}>
                   <div className="header-btn">
                     <Link
                       className="btn btn-primary btn-bordered move-draft"
@@ -1038,8 +1038,8 @@ const LibraryCreateUser = () => {
                       Next
                     </button>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
             </div>
             {userDetail?.user?.[0]?.group_id == 2
               ? publisherFun()
@@ -1064,8 +1064,8 @@ const LibraryCreateUser = () => {
                   <h4>Creating the Docintel Link</h4>
                 ) : null}
 
-                <div className="row">
-                  <div className="col-12 col-md-6">
+                <Row>
+                  <Col md={6}>
                     <div className="form-group val">
                       <label htmlFor="">Content title *</label>
                       <input
@@ -1515,8 +1515,8 @@ const LibraryCreateUser = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+                  </Col>
+                  <Col md={6} className="d-flex justify-content-end align-items-start right-change">
                     <div className="form-group justify-content-end">
                       <label htmlFor="">
                         Production notes to Docintel team
@@ -1531,13 +1531,13 @@ const LibraryCreateUser = () => {
                         placeholder="Please type your notes here.."
                       ></textarea>
                     </div>
-                  </div>
-                </div>
+                  </Col>
+                </Row>
               </div>
             </div>
-          </div>
+          </Row>
         </div>
-      </div>
+      </Col>
       <Modal className="pdf-video-link" show={show} onHide={handleClose}>
         <Modal.Header>
           <div className="form_action embedding-video">
