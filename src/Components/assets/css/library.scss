@@ -651,7 +651,7 @@
     flex: 0 0 130px;
 }
 input:-webkit-autofill {
--webkit-text-fill-color: $dark-blue !important;
+-webkit-text-fill-color: $primary-color !important;
 }
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change h6.tab-content-title {
     flex: 0 0 95px;
@@ -3260,9 +3260,58 @@ input.viewer-toolbar-current-page-input {
   left: 0;
   right: auto;
 }
+.trending-topics .highcharts-data-table thead tr:first-child th:first-child, .trending-topics .highcharts-data-table tbody th.highcharts-text {
+  display: none;
+}
+.load_more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
 /**Analytics end**/
 
+/***header-sticky***/
+.top-header.sticky {
+    padding: 34px 30px 30px;
+    position: sticky;
+    top: 84px;
+    z-index: 4;
+    background: #fbfcfd;
+}
 
+.custom-change {
+    padding: 0 40px 0 45px;
+    .top-header{
+      &.sticky {
+        padding: 34px 30px 30px;
+        position: sticky;
+        top: 84px;
+        z-index: 4;
+        background: #fbfcfd;
+      }
+    }
+    .page-top-nav{
+      &.sticky {
+        padding: 34px 30px 30px;
+        position: sticky;
+        top: 84px;
+        z-index: 4;
+        background: #fbfcfd;
+      }
+    }
+    .library-content-box-layuot {
+      padding: 0 30px;
+    }
+    .create-change-content {
+      max-width: calc(100% - 60px);
+      margin: 0 auto 40px;
+}
+}
+
+
+
+/***Header-sticky-end***/
 
 
 

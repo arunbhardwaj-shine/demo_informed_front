@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ReactSelect from "react-select";
@@ -11,9 +11,9 @@ const LibraryPopupSet = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar">
         <div className="custom-container">
-          <div className="row">
+          <Row>
             <Button variant="primary" onClick={handleShow}>
               Launch demo modal
             </Button>
@@ -88,9 +88,9 @@ const LibraryPopupSet = () => {
                 </Button>
               </Modal.Footer>
             </Modal>
-          </div>
+          </Row>
         </div>
-      </div>
+      </Col>
     </>
   );
 };
