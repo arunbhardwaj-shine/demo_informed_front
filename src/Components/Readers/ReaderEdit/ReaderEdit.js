@@ -125,8 +125,6 @@ const ReaderEdit = () => {
       { value: "critical care2", label: "critical care2" },
       { value: "critical care3", label: "critical care3" },
     ],
-    province: [],
-    hospital: [],
     blind_type: [],
   });
 
@@ -280,7 +278,7 @@ const ReaderEdit = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
+          primary_phone: `${userInputs?.countryCode?.label}-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province,
@@ -574,6 +572,13 @@ const ReaderEdit = () => {
                             }}
                             onChange={(e) => handleChange(e, "countryCode")}
                           />
+                          {error?.countryCode ? (
+                            <div className="login-validation">
+                              {error?.countryCode}
+                            </div>
+                          ) : (
+                            ""
+                          )}
 
                           <input
                             type="number"
@@ -824,6 +829,26 @@ const ReaderEdit = () => {
                                 }
                               />
                             </Form.Group>
+                            {groupId == 3 && flag == 0 && pharmaData == 0 ? (
+                              <Form.Group className="form-group">
+                                <Form.Label htmlFor="">
+                                  Select User Type
+                                </Form.Label>
+                                <Select
+                                  options={userDetail?.userType}
+                                  defaultValue={userInputs?.userType}
+                                  placeholder="Select province"
+                                  name="userType"
+                                  className="dropdown-basic-button split-button-dropup"
+                                  isClearable
+                                  onChange={(e) =>
+                                    handleChange(e?.value, "UserType")
+                                  }
+                                />
+                              </Form.Group>
+                            ) : (
+                              ""
+                            )}
 
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Rep contact</Form.Label>

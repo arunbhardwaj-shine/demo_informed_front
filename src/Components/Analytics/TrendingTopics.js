@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
+import { loader } from "../../loader";
+import { Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Highcharts from "highcharts";
@@ -9,24 +10,30 @@ import HighchartsExporting from "highcharts/modules/exporting";
 import HighchartsAccessibility from "highcharts/modules/accessibility";
 import HighchartsSankey from "highcharts/modules/sankey";
 import HighchartsDependencyWheel from "highcharts/modules/dependency-wheel";
+import { postData } from "../../axios/apiHelper";
+import { ENDPOINT } from "../../axios/apiConfig";
 HighchartsExporting(Highcharts);
 HighchartsAccessibility(Highcharts);
 HighchartsSankey(Highcharts);
 HighchartsDependencyWheel(Highcharts);
 
+
+Highcharts.setOptions({
+  colors: ['#00D4C0','#FFBE2C','#F58289', '#D61975', '#00D4C0', '#FFBE2C', '#F58289','#FFBE2C']
+ });
+
 const TrendingTopics = () => {
+  const [isDataFound, setIsDataFound] = useState(false);
+  const activeTab = useRef(1);
   const [options, setOptions] = useState({
     chart: {
       marginTop: 100,
-      type: "depandency wheel",
-      width: 600,
-      height: 600,
+      type: "dependencywheel",
     },
-
+    
     title: {
       text: "Trending Topics",
     },
-
     accessibility: {
       point: {
         valueDescriptionFormat:
@@ -35,138 +42,89 @@ const TrendingTopics = () => {
     },
     exporting: {
       showTable: true,
-      tableCaption: "",
+      // tableCaption: "" 
     },
-
     series: [
       {
         keys: ["from", "to", "weight"],
-
-        data: [
-          ["Brazil", "Portugal", 5],
-
-          ["Brazil", "France", 1],
-
-          ["Brazil", "Spain", 1],
-
-          ["Brazil", "England", 1],
-
-          ["Canada", "Portugal", 1],
-
-          ["Canada", "France", 5],
-
-          ["Canada", "England", 1],
-
-          ["Mexico", "Portugal", 1],
-
-          ["Mexico", "France", 1],
-
-          ["Mexico", "Spain", 5],
-
-          ["Mexico", "England", 1],
-
-          ["USA", "Portugal", 1],
-
-          ["USA", "France", 1],
-
-          ["USA", "Spain", 1],
-
-          ["USA", "England", 5],
-
-          ["Portugal", "Angola", 2],
-
-          ["Portugal", "Senegal", 1],
-
-          ["Portugal", "Morocco", 1],
-
-          ["Portugal", "South Africa", 3],
-
-          ["France", "Angola", 1],
-
-          ["France", "Senegal", 3],
-
-          ["France", "Mali", 3],
-
-          ["France", "Morocco", 3],
-
-          ["France", "South Africa", 1],
-
-          ["Spain", "Senegal", 1],
-
-          ["Spain", "Morocco", 3],
-
-          ["Spain", "South Africa", 1],
-
-          ["England", "Angola", 1],
-
-          ["England", "Senegal", 1],
-
-          ["England", "Morocco", 2],
-
-          ["England", "South Africa", 7],
-
-          ["South Africa", "China", 5],
-
-          ["South Africa", "India", 1],
-
-          ["South Africa", "Japan", 3],
-
-          ["Angola", "China", 5],
-
-          ["Angola", "India", 1],
-
-          ["Angola", "Japan", 3],
-
-          ["Senegal", "China", 5],
-
-          ["Senegal", "India", 1],
-
-          ["Senegal", "Japan", 3],
-
-          ["Mali", "China", 5],
-
-          ["Mali", "India", 1],
-
-          ["Mali", "Japan", 3],
-
-          ["Morocco", "China", 5],
-
-          ["Morocco", "India", 1],
-
-          ["Morocco", "Japan", 3],
-
-          ["Japan", "Brazil", 1],
-        ],
-
+        data: [],
         type: "dependencywheel",
-
         name: "Dependency wheel series",
-
         dataLabels: {
           color: "#333",
-
           style: {
             textOutline: "none",
           },
-
-          textPath: {
-            enabled: true,
-          },
-
+          // textPath: {
+          //   enabled: true,
+          // },
           distance: 10,
         },
-
         size: "95%",
       },
     ],
     credits: {
       enabled: false,
     },
+    
   });
+  console.log(options);
+  const getDataFromApi = async (type ="all") => {
+    loader("show");
+    try {
+      const requestBody = {
+        type: type,
+      };
+      const response = await postData(ENDPOINT.TRENDING_TOPIC,requestBody);
+      const data = response.data;
+      console.log(data);
+      const graphData = JSON.parse(data.data[0].graph_data);
+      console.log(graphData);
+      setOptions((prevOptions) => ({
+        ...prevOptions,
+        series: [
+          {
+            ...prevOptions.series[0],
+            data: graphData,
+          },
+        ],
+        
+      })
+      );
+     setIsDataFound(true)
+     
+     loader("hide");
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  useEffect(() => {
+    
+    getDataFromApi();
+  }, []);
+
+   const handleTabChange = (event) => {
+    setIsDataFound(false);
+    activeTab.current=event
+    loader("show");
+    if (event == 1) { 
+      getDataFromApi("all");
+    } else if (event == 2) { 
+      getDataFromApi("haematology");
+    } else if (event == 3) { 
+      getDataFromApi("critcal_care");
+    } else if (event == 4) {
+      getDataFromApi("immunology");
+    }
+   };
 
   return (
     <>
       <Col className="right-sidebar">
+      {isDataFound ? (
         <div className="custom-container">
           <Row>
             <div className="top-header">
@@ -188,39 +146,34 @@ const TrendingTopics = () => {
                     />
                   </svg>
                 </Link>
-                <h2>Trending Topics</h2>
+          
               </div>
             </div>
             <div className="create-change-content spc-content analytic-charts">
-              <div className="form_action">
-                <Form className="product-unit d-flex justify-content-between align-items-center">
-                  <div className="form-group ">
-                    <label htmlFor="">Filter By</label>
-                    <Select
-                      //   options={All}
-                      placeholder="All"
-                      //   onChange={filterDataByDataType}
-                      className="dropdown-basic-button split-button-dropup"
-                      isClearable
-                    />
-                    <Select
-                      //   options={Year}
-                      placeholder="Year"
-                      //   onChange={filterDataByYear}
-                      className="dropdown-basic-button split-button-dropup"
-                      isClearable
-                    />
-                  </div>
-                </Form>
+              <Row>
+              <div className="delivery-trends">
+              <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
+                <Tab eventKey="1" title="All Business Units">
+                </Tab>
+                <Tab eventKey="2" title="Haematology">
+                </Tab>
+                <Tab eventKey="3" title="Critical Care">
+                </Tab>
+                <Tab eventKey="4" title="Immunotherapy">
+                </Tab>
+              </Tabs>
               </div>
+              
+            </Row>
               {/* {isDataFound ? ( */}
-              <div className="high_charts">
+              <div className="high_charts trending-topics">
                 <HighchartsReact highcharts={Highcharts} options={options} />
               </div>
               {/* // ) : null} */}
             </div>
           </Row>
         </div>
+        ) : null}
       </Col>
     </>
   );

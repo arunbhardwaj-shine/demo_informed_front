@@ -3242,6 +3242,17 @@ input.viewer-toolbar-current-page-input {
 .kpi-graph-inside.custom_sarch .next-content {
     margin-left: 10px;
 }
+
+// trending-topic hide category
+.trending-topics .highcharts-data-table thead tr:first-child th:first-child {
+  display: none;
+}
+
+.trending-topics .highcharts-data-table tbody th.highcharts-text {
+  display: none;
+}
+
+
 /**Analytics end**/
 
 

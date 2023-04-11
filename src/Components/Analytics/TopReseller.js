@@ -103,7 +103,7 @@ const TopReseller = () => {
       bar: {
         dataLabels: {
           enabled: true,
-        },
+       },
       },
     },
 
