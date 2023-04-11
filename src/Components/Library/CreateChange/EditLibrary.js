@@ -580,7 +580,7 @@ const EditLibrary = () => {
                     value: userInputs?.product,
                   }}
                   onChange={(e) => handleChange(e?.value, "product")}
-                  placeholder="Select own production person"
+                  placeholder="Select product"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
                 />
@@ -1728,7 +1728,7 @@ const EditLibrary = () => {
                             ) : (
                               <p>
                                 Upload your cover image <br />
-                                <span>(Recommended size 00 X 00)</span>
+                                <span>(Recommended size 88 X 124)</span>
                               </p>
                             )}
                             {/* <p>

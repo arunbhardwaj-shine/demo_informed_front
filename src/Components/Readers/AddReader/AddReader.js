@@ -8,11 +8,12 @@ import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReade
 import { getData, postData, postFormData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ReaderAdd = () => {
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [groupId, setGroupId] = useState();
   const [flag, setFlag] = useState();
   const [pharmaData, setPharmaData] = useState();
@@ -282,10 +283,18 @@ const ReaderAdd = () => {
       let formData = new FormData();
       formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("createdBy", localStorage.getItem("user_id"));
-      await postFormData(ENDPOINT.UPLOAD_READER_FILE, formData, {
+      const response = await postFormData(ENDPOINT.UPLOAD_READER_FILE, formData, {
         header: { "Content-Type": "multipart/form-data" },
       });
-      // navigate("/readers-view");
+
+      if(response?.data?.data){
+        navigate("/readers-list", {
+         state: {
+           readersData: response?.data?.data,
+         },
+        });
+      }
+
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -456,7 +465,7 @@ const ReaderAdd = () => {
                   </div>
                 </Col>
                 {/* <div className="col-12 col-md-1">
-                  
+
                 </div> */}
                 <Col md="9">
                   <ul className="tabnav-link">
@@ -840,7 +849,7 @@ const ReaderAdd = () => {
                     ""
                   )}
                 </div>
-                {/* 
+                {/*
                 <Form className="d-flex flex-wrap row">
                 <Form.Group className="mb-3 col-6 form-group">
                   <Form.Label>First name</Form.Label>
