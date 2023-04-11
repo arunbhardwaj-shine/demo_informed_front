@@ -319,13 +319,13 @@ const SetPopup = (props) => {
 
   return (
     <>
-      <Col className="right-sidebar custom-change">
+      <Col className= {articleId != "" ? "right-sidebar custom-change" : "right-sidebar" }>
         {popupData ? (
           <div className="custom-container">
             <Row>
               {articleId ? (
                 <>
-                  <div className="page-top-nav sticky">
+                  <div className={articleId != "" ? "page-top-nav sticky" : "page-top-nav" }>
                     <Row className="justify-content-end align-items-center">
                       <Col md="1">
                         <div className="header-btn-left">

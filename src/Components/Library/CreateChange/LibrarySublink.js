@@ -878,8 +878,9 @@ const LibrarySublink = () => {
               name="delivery"
               onSelect={(e) => handleChange("delivery", e)}
             >
-              <div className="scroll_div">
-                <Dropdown.Item
+              <div className="scroll_div delivery_popup">
+                <div className="scroll_div_inset">
+                  <Dropdown.Item
                   eventKey="Email"
                   className={
                     newLink?.delivery == "Email" ? "active" : ""
@@ -906,6 +907,8 @@ const LibrarySublink = () => {
                 >
                   Website
                 </Dropdown.Item>
+                </div>
+                
               </div>
             </DropdownButton>
           </div>

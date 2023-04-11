@@ -406,10 +406,10 @@ const NewReaders = () => {
 
   return (
     <>
-      <Col className="right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-header reader_list">
+            <div className="top-header reader_list sticky">
               <div className="page-title">
                 <h2>Readers</h2>
               </div>
