@@ -1085,7 +1085,7 @@ const LibraryCreateUser = () => {
                     <div className="form-group">
                       {userDetail?.user?.[0]?.flag == 0 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
-                        <label htmlFor="">Sub title</label>
+                        <label htmlFor="">Subtitle</label>
                       ) : (
                         <label htmlFor="">Journal title</label>
                       )}

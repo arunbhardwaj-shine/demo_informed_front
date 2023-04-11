@@ -7,7 +7,7 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 
 import { LibraryEditValidation } from "../../Validations/LibraryValidation/LibraryEditValidation";
-import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, Form, Dropdown, DropdownButton, Col, Row } from "react-bootstrap";
 import {
   postFormData,
   postData,
@@ -1169,11 +1169,11 @@ const EditLibrary = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         {showFlag ? (
           <div className="custom-container">
-            <div className="row">
-              <div className="page-top-nav">
+            <Row>
+              <div className="page-top-nav sticky">
                 <div className="row justify-content-end align-items-center">
                   <div className="col-12 col-md-1">
                     <div className="header-btn-left">
@@ -1253,8 +1253,8 @@ const EditLibrary = () => {
                     <h4>Creating the Docintel Link</h4>
                   ) : null}
 
-                  <div className="row">
-                    <div className="col-12 col-md-6">
+                  <Row>
+                    <Col md={6}>
                       <div className="form-group val">
                         <label htmlFor="">Content title *</label>
                         <input
@@ -1836,8 +1836,8 @@ const EditLibrary = () => {
                         </div>
                       ) : null} */}
                       </div>
-                    </div>
-                    <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+                    </Col>
+                    <Col className="d-flex justify-content-end align-items-start right-change" md={6}>
                       <div className="form-group justify-content-end">
                         <label htmlFor="">
                           Production notes to Docintel team
@@ -1853,14 +1853,14 @@ const EditLibrary = () => {
                           placeholder="Please type your notes here.."
                         ></textarea>
                       </div>
-                    </div>
-                  </div>
+                    </Col>
+                  </Row>
                 </div>
               </div>
-            </div>
+            </Row>
           </div>
         ) : null}
-      </div>
+      </Col>
       <Modal className="pdf-video-link" show={show} onHide={handleClose}>
         <Modal.Header>
           <div className="form_action embedding-video">

@@ -37,10 +37,10 @@ const ReaderReview = () => {
   };
 
   return (
-    <Col className="col right-sidebar">
+    <Col className="right-sidebar custom-change">
       <div className="custom-container">
         <Row>
-          <div className="page-top-nav">
+          <div className="page-top-nav sticky">
             <Row className="row justify-content-end align-items-center">
               <Col md="1">
                 <div className="header-btn-left">
