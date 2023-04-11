@@ -7,17 +7,17 @@ const data = [
   {
     image: `${path_image}create-icon.png`,
     title: "Create",
-    subtitle: "Upload Content here to create  a new 1ClickLink",
+    subtitle: "Upload Content here to create  a new Docintel Link",
   },
   {
     image: `${path_image}edit-icon.png`,
     title: "Edit",
-    subtitle: "Change or Replace an existing 1ClickLink from here",
+    subtitle: "Change or Replace an existing Docintel Link from here",
   },
   {
     image: `${path_image}link-icon.png`,
     title: "New SubLink",
-    subtitle: "SubLinks leads to 1ClickLinks but are tracked seperately",
+    subtitle: "SubLinks leads to Docintel Link but are tracked seperately",
   },
   {
     image: `${path_image}popup-icon.png`,
