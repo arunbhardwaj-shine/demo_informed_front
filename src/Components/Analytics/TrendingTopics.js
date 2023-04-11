@@ -79,7 +79,6 @@ const TrendingTopics = () => {
       const data = response.data;
       console.log(data);
       const graphData = JSON.parse(data.data[0].graph_data);
-      console.log(graphData);
       setOptions((prevOptions) => ({
         ...prevOptions,
         series: [
@@ -118,6 +117,8 @@ const TrendingTopics = () => {
       getDataFromApi("critcal_care");
     } else if (event == 4) {
       getDataFromApi("immunology");
+    }else if (event == 5) {
+      getDataFromApi("ibu");
     }
    };
 
@@ -160,6 +161,8 @@ const TrendingTopics = () => {
                 <Tab eventKey="3" title="Critical Care">
                 </Tab>
                 <Tab eventKey="4" title="Immunotherapy">
+                </Tab>
+                <Tab eventKey="5" title="IBU">
                 </Tab>
               </Tabs>
               </div>

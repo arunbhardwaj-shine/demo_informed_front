@@ -47,7 +47,7 @@ export const ENDPOINT = {
 
   CONTENTTYPE:"analytics/content-type",
   CONTENT:"analytics/content",
-
+  TRENDING_TOPIC:"analytics/topic",
   READER_DOWNLOAD: `/reader/reader-file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`,
   COUNTRY_REGISTRATION: `analytics/country`,

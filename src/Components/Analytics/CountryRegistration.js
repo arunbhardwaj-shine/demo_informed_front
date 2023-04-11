@@ -127,7 +127,6 @@ Highcharts.setOptions({
 
 });
 
-console.log("ddddddd",newData);
   useEffect(() => {
     const getDataFromApi = async () => {
       try {
@@ -166,7 +165,6 @@ console.log("ddddddd",newData);
             color: Highcharts?.getOptions()?.colors[0],
           },
         ];
-        console.log(newSeries);
         const categories = apiData.data?.country;
 
         const newCountryList = {

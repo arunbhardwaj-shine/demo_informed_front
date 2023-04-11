@@ -50,7 +50,6 @@ const CampaignStats = () => {
     subtitle: {
       text: "",
     },
-
     exporting: {
       showHighchart: true,
       showTable: true,
@@ -101,6 +100,7 @@ const CampaignStats = () => {
       showHighchart: true,
       showTable: true,
       tableCaption: "",
+      
     },
     xAxis: {},
     yAxis: {
@@ -395,9 +395,9 @@ const CampaignStats = () => {
         loader("hide");
         return;
       }
-  
+  console.log(hadData);
       const { cis, ibu } = hadData;
-      const monthsString = cis[0].Months.replace(" Before", ",Before ");
+      const monthsString = cis[0].Months;
       const months = monthsString
         .split(",")
         .map((month) => month.replace(/[[\]]/g, ""))
@@ -414,11 +414,27 @@ const CampaignStats = () => {
         };
       });
   
-      const newSeriesDataCis = newSeriesCis.map((series, index) => ({
+   //  for total column cis
+      const totalDataCis = months.map((month, index) => {
+        const total = newSeriesCis.reduce((sum, series) => sum + series.data[index], 0);
+        return total;
+      })
+      const totalDataCisNoNaN = totalDataCis.map(val => isNaN(val) ? 0 : val);
+      const totalCis = totalDataCisNoNaN.reduce((acc, val) => acc + val, 0);
+      console.log(totalCis);
+       
+    const newSeriesDataCis =  [
+    ...newSeriesCis.map((series, index) => ({ 
         name: `${series.name} (${series.totalReaders})`,
         data: series.data,
         color: Highcharts.getOptions().colors[index],
-      }));
+      })),
+      {
+        name: `Total (${totalCis})`,
+        data: totalDataCis,
+        color: Highcharts.getOptions().colors[newSeriesCis.length],
+      },
+    ];
   
       const newHcpOptions = {
         ...campaignStatsLineOption,
@@ -427,9 +443,11 @@ const CampaignStats = () => {
         },
         series: newSeriesDataCis,
       };
-  
+     // console.log(newSeriesDataCis);
       setCampaignStatsLineOption(newHcpOptions);
-  
+
+    
+
       const newSeriesIbu = ibu.map((item, index) => {
         const totalSum = JSON.parse(item.totalSum);
         const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
@@ -440,13 +458,31 @@ const CampaignStats = () => {
           color: Highcharts.getOptions().colors[index],
         };
       });
-  
-      const newSeriesDataIbu = newSeriesIbu.map((series, index) => ({
+
+   // for   ibu
+
+   const totalDataIbu = months.map((month, index) => {
+    const total = newSeriesIbu.reduce((sum, series) => sum + series.data[index], 0);
+    return total;
+  });
+
+  const newSeriesIbuNoNaN = totalDataIbu.map(val => isNaN(val) ? 0 : val);
+  const totalIbu = newSeriesIbuNoNaN.reduce((acc, val) => acc + val, 0);
+  console.log('ibu',totalIbu);
+
+      const newSeriesDataIbu = [
+      ...newSeriesIbu.map((series, index) => ({
         name: `${series.name} (${series.totalReaders})`,
         data: series.data,
         color: Highcharts.getOptions().colors[index],
-      }));
-  
+      })),
+      {
+        name: `Total (${totalIbu})`,
+        data: totalDataIbu,
+        color: Highcharts.getOptions().colors[newSeriesCis.length],
+      },
+    ];
+    
       const newHcpOptionsIbu = {
         ...campaignStatsLineOptionIBU,
         xAxis: {
