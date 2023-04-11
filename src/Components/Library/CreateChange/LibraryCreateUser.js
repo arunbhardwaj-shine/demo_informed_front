@@ -293,7 +293,7 @@ const LibraryCreateUser = () => {
           "tags",
           tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
         );
-        
+
         const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
           header: {
             "Content-Type": "multipart/form-data",
@@ -515,7 +515,7 @@ const LibraryCreateUser = () => {
                   options={userDetail?.product}
                   value={userInputs?.product}
                   onChange={(e) => handleChange(e, "product")}
-                  placeholder="Select own production person"
+                  placeholder="Select product"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                   isClearable
                 />
@@ -1476,7 +1476,7 @@ const LibraryCreateUser = () => {
                           ) : (
                             <p>
                               Upload your cover image <br />
-                              <span>(Recommended size 00 X 00)</span>
+                              <span>(Recommended size 88 X 124)</span>
                             </p>
                           )}
                         </div>
@@ -1691,6 +1691,8 @@ const LibraryCreateUser = () => {
           </button>
         </div>
       </Modal>
+
+      
       <CommonModel
         show={commanShow}
         onClose={setCommanShow}

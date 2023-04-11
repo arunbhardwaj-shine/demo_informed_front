@@ -356,7 +356,7 @@ const PreviewContent = () => {
                      }}
                     className={
                       publishStatus
-                        ? "btn btn-primary btn-filled next"
+                        ? "btn btn-primary btn-filled next send_btn"
                         : "btn btn-primary btn-filled next btn-disabled"
                     }
                   >
@@ -484,10 +484,10 @@ const PreviewContent = () => {
                         </h4>
                       </div>
                       <div className="blink_text">
-                        <h4>
+                        <h6>
                           Please verify every page is correct and press
-                          'Publish' at the bottom when you're sure.
-                        </h4>
+                          'Publish' at the top right when you're sure.
+                        </h6>
                       </div>
                       <Button className="btn btn-bordered" onClick={handleShow}>
                         Change content file

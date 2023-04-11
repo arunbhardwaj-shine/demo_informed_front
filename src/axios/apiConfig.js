@@ -39,6 +39,7 @@ export const ENDPOINT = {
   READERACTIVITY: `/reader/reader-activity`,
   TOPCLIENTS: `/analytics/reader-country`,
   TOPRESELLER: `/analytics/reader-country`,
+  TOPSALES: `/analytics/reader-country`,
   ANALYTICS: "/analytics/graph",
   OPENING_BY_COUNTRY: "/analytics/reader-country",
   DELIVERYTRENDS: "analytics/trend",
@@ -49,5 +50,6 @@ export const ENDPOINT = {
 
   READER_DOWNLOAD: `/reader/reader-file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`,
-  COUNTRY_REGISTRATION:`analytics/country`,
+  COUNTRY_REGISTRATION: `analytics/country`,
+  ADD_TAGS: `/library/add-tags`,
 };
