@@ -171,6 +171,9 @@ const ContentGraph = () => {
     } else if (event == 4) {
       getDataFromApi("immunology");
     }
+    else if (event == 5) {
+      getDataFromApi("ibu");
+    }
     // loader("hide");
   };
 
@@ -205,6 +208,12 @@ const ContentGraph = () => {
                     <Tab eventKey="4" title="Immunotherapy">
                       <Row>
                         <DocintelAccount data={activeTab.current==4?data:null} />;
+                      </Row>
+                     
+                    </Tab>
+                    <Tab eventKey="5" title="IBU">
+                      <Row>
+                        <DocintelAccount data={activeTab.current==5?data:null} />;
                       </Row>
                     </Tab>
                   </Tabs>
