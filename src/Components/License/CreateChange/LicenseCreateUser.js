@@ -1199,7 +1199,7 @@ const LicenseCreateUser = () => {
                               name="file-6[]"
                               id="file-6"
                               className="inputfile inputfile-6"
-                              accept="video/*"
+                              accept="video/mp4"
                               onChange={(e) => handleChange(e, "uploadFile")}
                             />
                             <label htmlFor="file-6">
