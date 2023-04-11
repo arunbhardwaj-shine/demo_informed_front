@@ -42,8 +42,12 @@ export const ENDPOINT = {
   ANALYTICS: "/analytics/graph",
   OPENING_BY_COUNTRY: "/analytics/reader-country",
   DELIVERYTRENDS: "analytics/trend",
+  REPORTS: "analytics/reports",
+
+  CONTENTTYPE:"analytics/content-type",
+  CONTENT:"analytics/content",
+
   READER_DOWNLOAD: `/reader/reader-file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`,
   COUNTRY_REGISTRATION:`analytics/country`,
-  ADD_TAGS:`/library/add-tags`   
 };
