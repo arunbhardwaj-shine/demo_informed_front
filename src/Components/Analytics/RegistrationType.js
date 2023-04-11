@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from "react";
-import {  Col,  Row, Tab, Tabs } from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
+import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 
@@ -8,30 +8,28 @@ import { postData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 
-
-
-
 import RegistrationTypeLayout from "./RegistrationTypeLayout";
 
 exporting(Highcharts);
 exportData(Highcharts);
 
 const RegistrationType = () => {
-
   const [isDataFound, setIsDataFound] = useState(false);
+  const [data, setData] = useState([]);
 
+  const activeTab = useRef(1);
   useEffect(() => {
     getDataFromApi();
   }, []);
 
-  const getDataFromApi = async () => {
+  const getDataFromApi = async (tab="view") => {
     loader("show");
 
     try {
       const requestBody = {
-        type: "saleCountry",
-        dataType: "",
-        year: "",
+        type: "topContent",
+        tab: tab,
+        time: "",
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
@@ -39,11 +37,10 @@ const RegistrationType = () => {
         setIsDataFound(false);
       }
 
-   
-
+      console.log(hadData);
 
       setIsDataFound(true);
-      //   setData(hadData);
+        setData(hadData);
 
       loader("hide");
     } catch (err) {
@@ -54,6 +51,19 @@ const RegistrationType = () => {
     // console.log(chart.current)
   };
 
+  const handleTabChange = (event) => {
+    setIsDataFound(false);
+    loader("show");
+
+    activeTab.current = event;
+    if (event == 1) {
+      getDataFromApi("view");
+    } else if (event == 2) {
+      getDataFromApi("reader");
+    } 
+    // loader("hide");
+  };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -62,12 +72,15 @@ const RegistrationType = () => {
             <Row>
               <div className="create-change-content spc-content analytic-charts">
                 <div className="delivery-trends">
-                  <Tabs defaultActiveKey="1">
+                  <Tabs
+                    defaultActiveKey={activeTab.current}
+                    onSelect={handleTabChange}
+                  >
                     <Tab eventKey="1" title="Views">
-                    <RegistrationTypeLayout/>
+                      <RegistrationTypeLayout  data={activeTab.current==1?data:null}/>
                     </Tab>
                     <Tab eventKey="2" title="Readers">
-                    <RegistrationTypeLayout/>
+                      <RegistrationTypeLayout  data={activeTab.current==2?data:null} />
                     </Tab>
                   </Tabs>
                 </div>

@@ -235,6 +235,10 @@ const Routing = () => {
                 path="/registration-type"
                 element={<RegistrationType />}
               />
+                 <Route
+                path="/content-analytics"
+                element={<ContentAnalytics />}
+              />
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
 
 

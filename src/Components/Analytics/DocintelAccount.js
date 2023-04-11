@@ -35,9 +35,13 @@ const DocintelAccount = ({ data }) => {
         return (
          
           <Row key={index}>
-            <Col>
-              <Image src={element?.pdf_data.Pdf?.pdf_thumb} alt="img" />
-            </Col>
+           <Col sm={2} md={2} className="img-box justify-content-center">
+             
+                <Image
+                  src={element?.pdf_data.Pdf?.image}
+                  alt="Image not availble"
+                />
+              </Col>
             <Col>
               <Row>
                 <Col>
