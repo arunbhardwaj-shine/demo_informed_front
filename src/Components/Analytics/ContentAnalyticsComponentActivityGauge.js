@@ -9,40 +9,19 @@ solidGauge(Highcharts);
 
 export default function ContentAnalyticsComponentActivityGauge({ series, label, list }) {
 
-    const [bgColors, setBgColors] = useState([
-        {
-          outerRadius: "112%",
-          innerRadius: "88%",
-          backgroundColor: Highcharts.color(Highcharts.getOptions().colors[0])
-            .setOpacity(0.3)
-            .get(),
-          borderWidth: 0,
-        },
-        // {
-        //   outerRadius: "87%",
-        //   innerRadius: "63%",
-        //   backgroundColor: Highcharts.color(Highcharts.getOptions().colors[1])
-        //     .setOpacity(0.3)
-        //     .get(),
-        //   borderWidth: 0,
-        // },
-        // {
-        //   outerRadius: "62%",
-        //   innerRadius: "38%",
-        //   backgroundColor: Highcharts.color(Highcharts.getOptions().colors[2])
-        //     .setOpacity(0.3)
-        //     .get(),
-        //   borderWidth: 0,
-        // },
-        // {
-        //   outerRadius: "37%",
-        //   innerRadius: "13%",
-        //   backgroundColor: Highcharts.color(Highcharts.getOptions().colors[3])
-        //     .setOpacity(0.3)
-        //     .get(),
-        //   borderWidth: 0,
-        // },
-      ]);
+  const [bgColors, setBgColors] = useState([
+    {
+      outerRadius: "112%",
+      innerRadius: "88%",
+      backgroundColor: Highcharts.color(Highcharts.getOptions().colors[0])
+        .setOpacity(0.3)
+        .get(),
+      borderWidth: 0,
+    },
+   
+  ])
+
+
   const [options, setOptions] = useState({
     chart: {
       type: "solidgauge",
@@ -66,7 +45,7 @@ export default function ContentAnalyticsComponentActivityGauge({ series, label, 
       },
       valueSuffix: "%",
       pointFormat:
-        '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
+        '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.z}</span>',
       positioner: function (labelWidth) {
         return {
           x: (this.chart.chartWidth - labelWidth) / 2,
@@ -96,18 +75,22 @@ export default function ContentAnalyticsComponentActivityGauge({ series, label, 
       },
     },
 
-    series: [{
-        outerRadius: "87%",
-        innerRadius: "63%",
-        
-        backgroundColor: Highcharts.color(Highcharts.getOptions().colors[1])
-        .setOpacity(0.3)
-        .get(),
-        borderWidth: 0,
-        y:80,
-        z:50,
-        },
-        ],
+    series: [
+      {
+          "name": "Shared",
+          "data": [
+              {
+                  "color": "#0066BE",
+                  "radius": "112%",
+                  "innerRadius": "88%",
+                  "y": 10,
+                  "z": 100
+                  
+              }
+          ]
+      },
+     
+  ],
   });
 
 

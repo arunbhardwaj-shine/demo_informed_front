@@ -8,6 +8,7 @@ highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
 export default function ActivityGauge({ series, label, list }) {
+  console.log(series)
   const [bgColors, setBgColors] = useState([
     {
       outerRadius: "112%",
@@ -67,7 +68,7 @@ console.log("colors ",bgColors)
       },
       valueSuffix: "%",
       pointFormat:
-        '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
+        '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.z}</span>',
       positioner: function (labelWidth) {
         return {
           x: (this.chart.chartWidth - labelWidth) / 2,
