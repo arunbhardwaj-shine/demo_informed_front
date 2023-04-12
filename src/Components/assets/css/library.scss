@@ -1120,7 +1120,7 @@ ul.tab-mail-list.data span.total-left small {
     max-width: 331px;
     width: 100%;
 }
-.extra_multiselect .css-1rhbuit-multiValue {
+.extra_multiselect div[class*="-multiValue"] {
   background-color: $light-blue;
 }
 .extra_multiselect .css-xb97g8:hover {
@@ -1134,13 +1134,11 @@ ul.tab-mail-list.data span.total-left small {
 }
 .create-change-content
   .form-group
-  .dropdown-basic-button.extra_multiselect
-  .css-1s2u09g-control
+  .dropdown-basic-button.extra_multiselect div[class*="-control"]
   + div:last-child,
 .create-change-content
   .form-group
-  .dropdown-basic-button.extra_multiselect
-  .css-1pahdxg-control
+  .dropdown-basic-button.extra_multiselect div[class*="-control"]
   + div:last-child {
   display: none;
 }
