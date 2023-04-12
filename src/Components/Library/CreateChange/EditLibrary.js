@@ -7,7 +7,7 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 
 import { LibraryEditValidation } from "../../Validations/LibraryValidation/LibraryEditValidation";
-import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, Form, Dropdown, DropdownButton, Col, Row } from "react-bootstrap";
 import {
   postFormData,
   postData,
@@ -88,10 +88,16 @@ const EditLibrary = () => {
     format: [],
     product: [],
     costCenter: [],
-    hcp:["General information","Investigator","Investigator Meeting Winter 2023","IRT","Octapharma CRO","Pharmacist","Site User"],
-    trial: [
-      {label:"LEXx210",value:"3972"}
+    hcp: [
+      "General information",
+      "Investigator",
+      "Investigator Meeting Winter 2023",
+      "IRT",
+      "Octapharma CRO",
+      "Pharmacist",
+      "Site User",
     ],
+    trial: [{ label: "LEXx210", value: "3972" }],
   });
   const [id, setId] = useState(localStorage.getItem("user_id"));
 
@@ -119,42 +125,39 @@ const EditLibrary = () => {
   const [showFlag, setShowFlag] = useState(false);
   const [hcpClickedFirst, setHcpClickedFirst] = useState([]);
 
-
   const initalFun = async () => {
     loader("show");
     const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
       user_id: id,
     });
 
-    if(hadData?.data?.data?.fileType){
-        setePrintType(hadData?.data?.data?.fileType);
+    if (hadData?.data?.data?.fileType) {
+      setePrintType(hadData?.data?.data?.fileType);
     }
 
     let country = [];
-    if( hadData?.data?.data?.country?.length){
-      if(typeof hadData?.data?.data?.country == "string"){
+    if (hadData?.data?.data?.country?.length) {
+      if (typeof hadData?.data?.data?.country == "string") {
         JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
           country.push({
             label: key,
             value: key,
           });
         });
-      }else{
+      } else {
         hadData?.data?.data?.country?.reduce((objEntries, key) => {
           country.push({
             label: key,
             value: key,
           });
         });
-
       }
     }
 
     setSpcType(hadData?.data?.data?.spcInc);
 
-
     let category = [];
-    if( hadData?.data?.data?.category?.length){
+    if (hadData?.data?.data?.category?.length) {
       hadData?.data?.data?.category.reduce((objEntries, key) => {
         category.push({
           label: key,
@@ -164,13 +167,13 @@ const EditLibrary = () => {
     }
 
     let tags = [];
-    if( hadData?.data?.data?.tags?.length){
+    if (hadData?.data?.data?.tags?.length) {
       hadData?.data?.data?.tags?.forEach((item) => {
         tags.push(item?.value);
       });
     }
 
-    setAllTags(tags)
+    setAllTags(tags);
 
     setUserDetail({
       ...userDetail,
@@ -186,7 +189,6 @@ const EditLibrary = () => {
       reseller: hadData?.data?.data?.reseller,
     });
 
-
     loader("hide");
   };
   const libraryDetail = async () => {
@@ -196,11 +198,13 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
-      if(hadData?.data?.data?.pdfData?.tags?.length){
-        setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags))
+      if (hadData?.data?.data?.pdfData?.tags?.length) {
+        setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags));
       }
-      if(hadData?.data?.data?.pdfData?.trail_user_type?.length){
-        setHcpClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type))
+      if (hadData?.data?.data?.pdfData?.trail_user_type?.length) {
+        setHcpClickedFirst(
+          JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
+        );
       }
       setReseller(
         hadData?.data?.data?.pdfData?.multiple_publisher
@@ -223,20 +227,17 @@ const EditLibrary = () => {
   }, []);
 
   const removeHcp = (data) => {
-    const hcpData = hcpClickedFirst.filter(item =>item != data)
+    const hcpData = hcpClickedFirst.filter((item) => item != data);
     setHcpClickedFirst(hcpData);
- };
+  };
 
- const hcpClicked = (dd) => {
-  if (!hcpClickedFirst.includes(dd)) {
-    setHcpClickedFirst((oldArray) => [...oldArray, dd]);
-  } else {
-    toast.error("Tag already in Selected.");
-  }
-};
-
-
-
+  const hcpClicked = (dd) => {
+    if (!hcpClickedFirst.includes(dd)) {
+      setHcpClickedFirst((oldArray) => [...oldArray, dd]);
+    } else {
+      toast.error("Tag already in Selected.");
+    }
+  };
 
   const newTagChanged = (e) => {
     setNewTag(e.target.value);
@@ -257,13 +258,12 @@ const EditLibrary = () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       toast.error("Please input a tag");
     } else {
-
-        loader("show");
-        await postData(ENDPOINT.ADD_TAGS, {
-          product: newTag,
-          type:2
-        });
-        loader("hide")
+      loader("show");
+      await postData(ENDPOINT.ADD_TAGS, {
+        product: newTag,
+        type: 2,
+      });
+      loader("hide");
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
@@ -308,21 +308,23 @@ const EditLibrary = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
-    if(userInputs.docintelFormat == "ebook"){
-      userInputs.chapter = chapter
+    if (userInputs.docintelFormat == "ebook") {
+      userInputs.chapter = chapter;
     }
-    if(userDetail?.user?.[0]?.flag == 1 &&
-      userDetail?.user?.[0]?.group_id == 3){
-        if(!userInputs?.trial){
-          userInputs.trial = ""
-        }
-        if(!userInputs?.blindType){
-          userInputs.blindType = ""
-        }
-      }else{
-        delete userInputs.blindType
-        delete userInputs.trial
+    if (
+      userDetail?.user?.[0]?.flag == 1 &&
+      userDetail?.user?.[0]?.group_id == 3
+    ) {
+      if (!userInputs?.trial) {
+        userInputs.trial = "";
       }
+      if (!userInputs?.blindType) {
+        userInputs.blindType = "";
+      }
+    } else {
+      delete userInputs.blindType;
+      delete userInputs.trial;
+    }
     const err = LibraryEditValidation(userInputs);
     if (Object.keys(err)?.length) {
       setError(err);
@@ -332,26 +334,52 @@ const EditLibrary = () => {
         loader("show");
         let formData = new FormData();
         formData.append("keyAuthor", userInputs?.keyAuthor);
-        formData.append("production", userInputs?.production_id?userInputs?.production_id:0);
-        formData.append("sales", userInputs?.sales_id?userInputs?.sales_id:0);
-        formData.append("costCenter", userInputs?.cost_center?userInputs?.cost_center:"");
-
-
+        formData.append(
+          "production",
+          userInputs?.production_id ? userInputs?.production_id : 0
+        );
+        formData.append(
+          "sales",
+          userInputs?.sales_id ? userInputs?.sales_id : 0
+        );
+        formData.append(
+          "costCenter",
+          userInputs?.cost_center ? userInputs?.cost_center : ""
+        );
 
         formData.append("expDatetime", userInputs?.expDatetime);
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
         formData.append("allowShare", JSON.stringify(userInputs?.allow_share));
-        if (userDetail?.user?.[0]?.group_id == 3 && userDetail?.user?.[0]?.flag == 1) {
+        if (
+          userDetail?.user?.[0]?.group_id == 3 &&
+          userDetail?.user?.[0]?.flag == 1
+        ) {
           formData.append("blindType", userInputs?.blindType);
           formData.append("trial", userInputs?.trial);
-          formData.append("mandatory", userInputs?.reader_mandatory?JSON.stringify(userInputs?.reader_mandatory):JSON.stringify(false));
-          formData.append("trail_user_type", hcpClickedFirst?.length?JSON.stringify(hcpClickedFirst):"");
+          formData.append(
+            "mandatory",
+            userInputs?.reader_mandatory
+              ? JSON.stringify(userInputs?.reader_mandatory)
+              : JSON.stringify(false)
+          );
+          formData.append(
+            "trail_user_type",
+            hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
+          );
         }
 
-        if(userDetail?.user?.[0]?.group_id == 3 && userDetail?.user?.[0]?.octaLach == 1){
-          formData.append("medical", userInputs?.medical?JSON.stringify(userInputs?.medical):JSON.stringify(false));
+        if (
+          userDetail?.user?.[0]?.group_id == 3 &&
+          userDetail?.user?.[0]?.octaLach == 1
+        ) {
+          formData.append(
+            "medical",
+            userInputs?.medical
+              ? JSON.stringify(userInputs?.medical)
+              : JSON.stringify(false)
+          );
         }
 
         formData.append(
@@ -371,9 +399,9 @@ const EditLibrary = () => {
         formData.append("journalTitle", userInputs?.journalTitle);
 
         formData.append("fileType", userInputs?.docintelFormat);
-        if(userInputs?.docintelFormat == "ebook"){
-            formData.append("spcInc", spcType);
-        }else{
+        if (userInputs?.docintelFormat == "ebook") {
+          formData.append("spcInc", spcType);
+        } else {
           formData.append("spcInc", 0);
         }
         formData.append("product", userInputs?.product);
@@ -397,21 +425,17 @@ const EditLibrary = () => {
           "allowOneSource",
           JSON.stringify(userInputs?.allow_oneSource)
         );
-        formData.append(
-          "allowLibrary",
-         userInputs?.allowLibrary
-        );
-        formData.append(
-          "allowRequest",
-          JSON.stringify(userInputs?.chat_box)
-        );
+        formData.append("allowLibrary", userInputs?.allowLibrary);
+        formData.append("allowRequest", JSON.stringify(userInputs?.chat_box));
         formData.append("draft", JSON.stringify(userInputs?.draft));
         formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
 
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
-        formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
-
+        formData.append(
+          "tags",
+          tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
+        );
 
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
           header: {
@@ -490,7 +514,6 @@ const EditLibrary = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
-
 
   const saveButtonClicked = async () => {
     loader("show");
@@ -600,7 +623,13 @@ const EditLibrary = () => {
                   options={userDetail?.production}
                   onChange={(e) => handleChange(e?.id, "production_id")}
                   defaultValue={
-                    userDetail?.production?.length?userDetail?.production[userDetail?.production?.findIndex(el => el.id == userInputs?.production_id)]:""
+                    userDetail?.production?.length
+                      ? userDetail?.production[
+                          userDetail?.production?.findIndex(
+                            (el) => el.id == userInputs?.production_id
+                          )
+                        ]
+                      : ""
                   }
                   placeholder="Select own production person"
                   className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -612,7 +641,13 @@ const EditLibrary = () => {
                 <Select
                   options={userDetail?.sales}
                   defaultValue={
-                    userDetail?.sales?.length?userDetail?.sales[userDetail?.sales?.findIndex(el => el?.id == userInputs?.sales_id)]:""
+                    userDetail?.sales?.length
+                      ? userDetail?.sales[
+                          userDetail?.sales?.findIndex(
+                            (el) => el?.id == userInputs?.sales_id
+                          )
+                        ]
+                      : ""
                   }
                   placeholder="Who made the sale?"
                   onChange={(e) => handleChange(e?.id, "sales_id")}
@@ -683,41 +718,39 @@ const EditLibrary = () => {
           <h4>About the Docintel link you're making</h4>
           <div className="row">
             <div className="col-12 col-md-6">
-            {
-              userDetail?.user?.[0]?.flag != 1 &&
-              userDetail?.user?.[0]?.group_id == 3 ?
-              <>
-              <div className="form-group">
-                <label htmlFor="">Category</label>
-                <Select
-                  options={userDetail?.category || []}
-                  placeholder="Select category type for HCPs to sort"
-                  defaultValue={{
-                    label: userInputs?.category,
-                    value: userInputs?.category,
-                  }}
-                  onChange={(e) => handleChange(e?.value, "category")}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="">Format</label>
-                <Select
-                  options={userDetail?.format || []}
-                  placeholder="Select format for tracking"
-                  defaultValue={{
-                    label: userInputs?.format,
-                    value: userInputs?.format,
-                  }}
-                  onChange={(e) => handleChange(e?.value, "format")}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
-              </>
-              : null
-            }
+              {userDetail?.user?.[0]?.flag != 1 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <>
+                  <div className="form-group">
+                    <label htmlFor="">Category</label>
+                    <Select
+                      options={userDetail?.category || []}
+                      placeholder="Select category type for HCPs to sort"
+                      defaultValue={{
+                        label: userInputs?.category,
+                        value: userInputs?.category,
+                      }}
+                      onChange={(e) => handleChange(e?.value, "category")}
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="">Format</label>
+                    <Select
+                      options={userDetail?.format || []}
+                      placeholder="Select format for tracking"
+                      defaultValue={{
+                        label: userInputs?.format,
+                        value: userInputs?.format,
+                      }}
+                      onChange={(e) => handleChange(e?.value, "format")}
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                    />
+                  </div>
+                </>
+              ) : null}
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group margin-added">
@@ -734,14 +767,14 @@ const EditLibrary = () => {
                     isClearable
                   />
                   <div className="add_product">
-                  <span>&nbsp;</span>
-                  <Button
-                    onClick={addNewProductClicked}
-                    className="btn-bordered btn-voilet"
-                  >
-                    Add New Product +
-                  </Button>
-                </div>
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={addNewProductClicked}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New Product +
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 <div className="form-group">
@@ -751,17 +784,25 @@ const EditLibrary = () => {
                     options={userDetail?.trial || []}
                     placeholder="Select the trial "
                     defaultValue={{
-                      label:userInputs?.trial?userDetail?.trial?.[0].value == userInputs?.trial?userDetail?.trial?.[0].label:"":"",
-                      value: userInputs?.trial?userDetail?.trial?.[0].value == userInputs?.trial?userDetail?.trial?.[0].value:"":"",
+                      label: userInputs?.trial
+                        ? userDetail?.trial?.[0].value == userInputs?.trial
+                          ? userDetail?.trial?.[0].label
+                          : ""
+                        : "",
+                      value: userInputs?.trial
+                        ? userDetail?.trial?.[0].value == userInputs?.trial
+                          ? userDetail?.trial?.[0].value
+                          : ""
+                        : "",
                     }}
                     onChange={(e) => handleChange(e?.value, "trial")}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                   />
 
-                    {error?.trial ? (
-                  <div className="login-validation">{error?.trial}</div>
-                ) : null}
+                  {error?.trial ? (
+                    <div className="login-validation">{error?.trial}</div>
+                  ) : null}
                 </div>
               )}
               {userDetail?.user?.[0]?.pharmaData == 1 &&
@@ -795,82 +836,88 @@ const EditLibrary = () => {
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                   />
-                   {error?.blindType ? (
-                  <div className="login-validation">{error?.blindType}</div>
-                ) : null}
+                  {error?.blindType ? (
+                    <div className="login-validation">{error?.blindType}</div>
+                  ) : null}
                 </div>
               ) : null}
 
-              { userDetail?.user?.[0]?.flag == 1 &&
-              userDetail?.user?.[0]?.group_id == 3?(
-               <div className="form-group">
-                <label htmlFor="">HCP</label>
-                <div className="input-group w-100">
-                  <div className="tags_added">
-                    <div className="select-tags">
-                    <ul>
-                      {userDetail?.hcp?.map((item, index) => {
-                        return (
-                          <li className="list1" onClick={()=>{hcpClicked(item)}}>
-                            {item}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    <div className="after-selected">
-                    <ul className="after-tag-selected">
-                      {hcpClickedFirst.map((item, index) => {
-                        return (
-                          <li className="list1">
-                            {item}
-                            <img
-                              src="componentAssets/images/filter-close.svg"
-                              alt="Close-filter"
-                              onClick={() => removeHcp(item)}
-                            />
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    </div>
+              {userDetail?.user?.[0]?.flag == 1 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <div className="form-group">
+                  <label htmlFor="">HCP</label>
+                  <div className="input-group w-100">
+                    <div className="tags_added">
+                      <div className="select-tags">
+                        <ul>
+                          {userDetail?.hcp?.map((item, index) => {
+                            return (
+                              <li
+                                className="list1"
+                                onClick={() => {
+                                  hcpClicked(item);
+                                }}
+                              >
+                                {item}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                        <div className="after-selected">
+                          <ul className="after-tag-selected">
+                            {hcpClickedFirst.map((item, index) => {
+                              return (
+                                <li className="list1">
+                                  {item}
+                                  <img
+                                    src="componentAssets/images/filter-close.svg"
+                                    alt="Close-filter"
+                                    onClick={() => removeHcp(item)}
+                                  />
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              ):null }
+              ) : null}
 
-              {userDetail?.user?.[0]?.flag == 0 && userDetail?.user?.[0]?.pharmaData == 0 && userDetail?.user?.[0]?.octaLach == 1 &&
+              {userDetail?.user?.[0]?.flag == 0 &&
+              userDetail?.user?.[0]?.pharmaData == 0 &&
+              userDetail?.user?.[0]?.octaLach == 1 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
                   <label htmlFor="">Content Use</label>
                   <fieldset id="group2">
-                  <input
-                    type="radio"
-                    value="value2"
-                    name="group2"
-                    defaultChecked={userInputs?.article_platform == 1 ? true : false}
-                    onClick={(e) =>
-                      handleChange(1, "allowLibrary")
-                    }
-                    id="limitagreed2"
-                  />
-                  <label htmlFor="limitagreed2">Library</label>
+                    <input
+                      type="radio"
+                      value="value2"
+                      name="group2"
+                      defaultChecked={
+                        userInputs?.article_platform == 1 ? true : false
+                      }
+                      onClick={(e) => handleChange(1, "allowLibrary")}
+                      id="limitagreed2"
+                    />
+                    <label htmlFor="limitagreed2">Library</label>
 
-                  <input
-                    type="radio"
-                    value="value1"
-                    name="group2"
-                    defaultChecked={userInputs?.article_platform == 2 ? true : false}
-                    onClick={(e) =>
-                      handleChange(2, "allowLibrary")
-                    }
-                    id="limitagreed1"
-                  />
-                  <label htmlFor="limitagreed1">Congress</label>
+                    <input
+                      type="radio"
+                      value="value1"
+                      name="group2"
+                      defaultChecked={
+                        userInputs?.article_platform == 2 ? true : false
+                      }
+                      onClick={(e) => handleChange(2, "allowLibrary")}
+                      id="limitagreed1"
+                    />
+                    <label htmlFor="limitagreed1">Congress</label>
                   </fieldset>
                 </div>
               ) : null}
-
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change flex-column">
               <div className="form-group justify-content-end">
@@ -892,21 +939,18 @@ const EditLibrary = () => {
                   </div>
                   <div className="tags_added">
                     <ul>
-
-                    {
-                        tagClickedFirst?.map((item,index) =>{
-                          return (
-                            <li className="list1">
+                      {tagClickedFirst?.map((item, index) => {
+                        return (
+                          <li className="list1">
                             {item}
                             <img
                               src="componentAssets/images/filter-close.svg"
                               alt="Close-filter"
                               onClick={() => removeTagFinal(index)}
                             />
-                           </li>
-                          )
-                        })
-                      }
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 </div>
@@ -1012,7 +1056,10 @@ const EditLibrary = () => {
                   <label htmlFor="">Cost centre</label>
                   <Select
                     options={userDetail?.costCenter}
-                    defaultValue={{label:userInputs?.cost_center,value:userInputs?.cost_center}}
+                    defaultValue={{
+                      label: userInputs?.cost_center,
+                      value: userInputs?.cost_center,
+                    }}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                     placeholder="Select cost center"
@@ -1029,9 +1076,11 @@ const EditLibrary = () => {
                   selected={
                     userInputs?.expDatetime
                       ? new Date(userInputs?.expDatetime)
-                      : new Date(moment(new Date(), "MM/DD/YYYY")
-                        .add("years", 1)
-                        .format("MM/DD/YYYY"))
+                      : new Date(
+                          moment(new Date(), "MM/DD/YYYY")
+                            .add("years", 1)
+                            .format("MM/DD/YYYY")
+                        )
                   }
                   name="expDatetime"
                   onChange={(e) => handleChange(e, "expDatetime")}
@@ -1081,8 +1130,7 @@ const EditLibrary = () => {
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
-                  {
-                    /*
+                  {/*
                     <input
                       type="checkbox"
                       value="value3"
@@ -1094,9 +1142,7 @@ const EditLibrary = () => {
                       id="limitagreed3"
                     />
                     <label htmlFor="limitagreed3">Share</label>
-                    */
-                  }
-
+                    */}
                 </fieldset>
               </div>
             </div>
@@ -1123,11 +1169,11 @@ const EditLibrary = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         {showFlag ? (
           <div className="custom-container">
-            <div className="row">
-              <div className="page-top-nav">
+            <Row>
+              <div className="page-top-nav sticky">
                 <div className="row justify-content-end align-items-center">
                   <div className="col-12 col-md-1">
                     <div className="header-btn-left">
@@ -1165,17 +1211,14 @@ const EditLibrary = () => {
                   </div>
                   <div className="col-12 col-md-2">
                     <div className="header-btn">
-                      {
-                        /*
+                      {/*
                         <Link
                           className="btn btn-primary btn-bordered move-draft"
                           to="/library-content"
                         >
                           Cancel
                         </Link>
-                        */
-                      }
-
+                        */}
 
                       <button
                         className="btn btn-primary btn-filled next"
@@ -1210,8 +1253,8 @@ const EditLibrary = () => {
                     <h4>Creating the Docintel Link</h4>
                   ) : null}
 
-                  <div className="row">
-                    <div className="col-12 col-md-6">
+                  <Row>
+                    <Col md={6}>
                       <div className="form-group val">
                         <label htmlFor="">Content title *</label>
                         <input
@@ -1261,10 +1304,9 @@ const EditLibrary = () => {
                         />
                       </div>
 
-                      {
-                        (userDetail?.user?.[0]?.flag == 1 &&
-                        userDetail?.user?.[0]?.group_id == 3)? (
-                          <>
+                      {userDetail?.user?.[0]?.flag == 1 &&
+                      userDetail?.user?.[0]?.group_id == 3 ? (
+                        <>
                           <div className="form-group">
                             <label htmlFor="setasdraft1">Set as draft</label>
                             <fieldset id="group2">
@@ -1274,31 +1316,39 @@ const EditLibrary = () => {
                                     type="checkbox"
                                     name="group2"
                                     id="setasdraft1"
-                                    defaultChecked={userInputs?.draft?true:false}
+                                    defaultChecked={
+                                      userInputs?.draft ? true : false
+                                    }
                                     onChange={(e) => {
-                                      handleChange(
-                                        e.target?.checked,
-                                        "draft"
-                                      );
+                                      handleChange(e.target?.checked, "draft");
                                     }}
                                   />
                                   <span>
-                                    <span className={`switch-btn ${userInputs?.draft == 0?" Active":""}`}>
+                                    <span
+                                      className={`switch-btn ${
+                                        userInputs?.draft == 0 ? " Active" : ""
+                                      }`}
+                                    >
                                       No
                                     </span>
-                                    <span className={`switch-btn ${userInputs?.draft == 1?" Active":""}`}>Yes</span>
+                                    <span
+                                      className={`switch-btn ${
+                                        userInputs?.draft == 1 ? " Active" : ""
+                                      }`}
+                                    >
+                                      Yes
+                                    </span>
                                   </span>
                                   <a className="btn"></a>
                                 </label>
                               </div>
                             </fieldset>
                           </div>
-                          </>
-                        ) : null
-                      }
+                        </>
+                      ) : null}
 
-                      {(userDetail?.user?.[0]?.flag == 0 &&
-                        userDetail?.user?.[0]?.group_id == 3)? (
+                      {userDetail?.user?.[0]?.flag == 0 &&
+                      userDetail?.user?.[0]?.group_id == 3 ? (
                         <>
                           <div className="form-group">
                             <label htmlFor="">Enable</label>
@@ -1345,10 +1395,7 @@ const EditLibrary = () => {
                                 name="group2"
                                 defaultChecked={userInputs?.chat_box}
                                 onClick={(e) =>
-                                  handleChange(
-                                    e.target?.checked,
-                                    "chat_box"
-                                  )
+                                  handleChange(e.target?.checked, "chat_box")
                                 }
                                 id="limitagreed4"
                               />
@@ -1364,19 +1411,28 @@ const EditLibrary = () => {
                                     type="checkbox"
                                     name="group2"
                                     id="setasdraft1"
-                                    defaultChecked={userInputs?.draft?true:false}
+                                    defaultChecked={
+                                      userInputs?.draft ? true : false
+                                    }
                                     onChange={(e) => {
-                                      handleChange(
-                                        e.target?.checked,
-                                        "draft"
-                                      );
+                                      handleChange(e.target?.checked, "draft");
                                     }}
                                   />
                                   <span>
-                                    <span className={`switch-btn ${userInputs?.draft == 0?" Active":""}`}>
+                                    <span
+                                      className={`switch-btn ${
+                                        userInputs?.draft == 0 ? " Active" : ""
+                                      }`}
+                                    >
                                       No
                                     </span>
-                                    <span className={`switch-btn ${userInputs?.draft == 1?" Active":""}`}>Yes</span>
+                                    <span
+                                      className={`switch-btn ${
+                                        userInputs?.draft == 1 ? " Active" : ""
+                                      }`}
+                                    >
+                                      Yes
+                                    </span>
                                   </span>
                                   <a className="btn"></a>
                                 </label>
@@ -1387,43 +1443,62 @@ const EditLibrary = () => {
                       ) : null}
 
                       {userDetail?.user?.[0]?.octaLach == 1 &&
-                        userDetail?.user?.[0]?.group_id == 3 ?
-                        (
-                          <>
-                            <div className="form-group">
-                              <label htmlFor="setasdraft1">Medical</label>
-                              <fieldset id="group2">
-                                <div className="switch">
-                                  <label className="switch-light">
-                                    <input
-                                      type="checkbox"
-                                      value="value1"
-                                      name="group2"
-                                      id="setasdraft1"
-                                      defaultChecked={userInputs?.medical && parseInt(userInputs?.medical)?true:false}
-                                      onChange={(e) => {
-                                        handleChange(e.target?.checked, "medical");
-                                      }}
-                                    />
-                                    <span>
-                                      <span className={`switch-btn ${userInputs?.medical == 0?" Active":""}`}>
-                                        No
-                                      </span>
-                                      <span className={`switch-btn ${userInputs?.medical == 1?" Active":""}`}>Yes</span>
-                                    </span>
-                                    <a className="btn"></a>
-                                  </label>
-                                </div>
-                              </fieldset>
-                            </div>
-                          </>
-                        )
-                        : null
-                      }
-
-                     { (userDetail?.user?.[0]?.flag == 1 &&
-                        userDetail?.user?.[0]?.group_id == 3)?(
+                      userDetail?.user?.[0]?.group_id == 3 ? (
+                        <>
                           <div className="form-group">
+                            <label htmlFor="setasdraft1">Medical</label>
+                            <fieldset id="group2">
+                              <div className="switch">
+                                <label className="switch-light">
+                                  <input
+                                    type="checkbox"
+                                    value="value1"
+                                    name="group2"
+                                    id="setasdraft1"
+                                    defaultChecked={
+                                      userInputs?.medical &&
+                                      parseInt(userInputs?.medical)
+                                        ? true
+                                        : false
+                                    }
+                                    onChange={(e) => {
+                                      handleChange(
+                                        e.target?.checked,
+                                        "medical"
+                                      );
+                                    }}
+                                  />
+                                  <span>
+                                    <span
+                                      className={`switch-btn ${
+                                        userInputs?.medical == 0
+                                          ? " Active"
+                                          : ""
+                                      }`}
+                                    >
+                                      No
+                                    </span>
+                                    <span
+                                      className={`switch-btn ${
+                                        userInputs?.medical == 1
+                                          ? " Active"
+                                          : ""
+                                      }`}
+                                    >
+                                      Yes
+                                    </span>
+                                  </span>
+                                  <a className="btn"></a>
+                                </label>
+                              </div>
+                            </fieldset>
+                          </div>
+                        </>
+                      ) : null}
+
+                      {userDetail?.user?.[0]?.flag == 1 &&
+                      userDetail?.user?.[0]?.group_id == 3 ? (
+                        <div className="form-group">
                           <label htmlFor="setasdraft1">Mandatory</label>
                           <fieldset id="group2">
                             <div className="switch">
@@ -1432,7 +1507,9 @@ const EditLibrary = () => {
                                   type="checkbox"
                                   name="group2"
                                   id="setasdraft1"
-                                  defaultChecked={userInputs?.reader_mandatory?true:false}
+                                  defaultChecked={
+                                    userInputs?.reader_mandatory ? true : false
+                                  }
                                   onChange={(e) => {
                                     handleChange(
                                       e.target?.checked,
@@ -1441,17 +1518,27 @@ const EditLibrary = () => {
                                   }}
                                 />
                                 <span>
-                                  <span className={`switch-btn ${userInputs?.draft == 0?" Active":""}`}>
+                                  <span
+                                    className={`switch-btn ${
+                                      userInputs?.draft == 0 ? " Active" : ""
+                                    }`}
+                                  >
                                     No
                                   </span>
-                                  <span className={`switch-btn ${userInputs?.draft == 1?" Active":""}`}>Yes</span>
+                                  <span
+                                    className={`switch-btn ${
+                                      userInputs?.draft == 1 ? " Active" : ""
+                                    }`}
+                                  >
+                                    Yes
+                                  </span>
                                 </span>
                                 <a className="btn"></a>
                               </label>
                             </div>
                           </fieldset>
                         </div>
-                        ):null  }
+                      ) : null}
 
                       <div className="form-group val">
                         <label htmlFor="">Docintel format *</label>
@@ -1495,7 +1582,9 @@ const EditLibrary = () => {
                                 <span>Choose Your File</span>
                               </label>
                               {userInputs?.uploadFile?.[0]?.name ? (
-                                <p>{userInputs?.uploadFile?.[0].name}</p>
+                                <p className="uploaded-file">
+                                  {userInputs?.uploadFile?.[0].name}
+                                </p>
                               ) : (
                                 <p>Change your PDF</p>
                               )}
@@ -1517,14 +1606,16 @@ const EditLibrary = () => {
                                 name="file-6[]"
                                 id="file-6"
                                 className="inputfile inputfile-6"
-                                accept="video/*"
+                                accept="video/mp4"
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
                               <label htmlFor="file-6">
                                 <span>Choose Your File</span>
                               </label>
                               {userInputs?.uploadFile?.[0]?.name ? (
-                                <p>{userInputs?.uploadFile?.[0]?.name}</p>
+                                <p className="uploaded-file">
+                                  {userInputs?.uploadFile?.[0]?.name}
+                                </p>
                               ) : (
                                 <p>Upload your Video file</p>
                               )}
@@ -1569,9 +1660,13 @@ const EditLibrary = () => {
                                       </label>
 
                                       <p>
-                                        {val.uploadFile == ""
-                                          ? "Upload your PDF file"
-                                          : val.uploadFile}
+                                        {val.uploadFile == "" ? (
+                                          "Upload your PDF file"
+                                        ) : (
+                                          <p className="uploaded-file">
+                                            {val.uploadFile}
+                                          </p>
+                                        )}
                                       </p>
                                     </div>
                                   </div>
@@ -1596,13 +1691,11 @@ const EditLibrary = () => {
                                     </Button>
                                   ) : null}
                                 </div>
-                                {
-                                error?.chapter?.[i] ?(
+                                {error?.chapter?.[i] ? (
                                   <div className="login-validation-upload">
-                                  {error?.chapter?.[i]}
-                                </div>
-                                ):null
-                              }
+                                    {error?.chapter?.[i]}
+                                  </div>
+                                ) : null}
                               </div>
                             </>
                           );
@@ -1664,12 +1757,10 @@ const EditLibrary = () => {
                       )}
                     </div> */}
 
-                      {(userDetail?.user?.[0]?.flag == 0 &&
-                        userDetail?.user?.[0]?.group_id == 3) ? (
-                          <>
-
-                          {
-                            /*
+                      {userDetail?.user?.[0]?.flag == 0 &&
+                      userDetail?.user?.[0]?.group_id == 3 ? (
+                        <>
+                          {/*
                             <div className="form-group">
                               <label htmlFor="">Include video</label>
                               <div className="switch">
@@ -1692,8 +1783,7 @@ const EditLibrary = () => {
                                   <a className="btn"></a>
                                 </label>
                               </div>
-                            */
-                          }
+                            */}
 
                           {/* {checked == false ? ( */}
                           {/* <Button
@@ -1724,7 +1814,9 @@ const EditLibrary = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.coverPhoto?.[0]?.name ? (
-                              <p>{userInputs?.coverPhoto?.[0]?.name}</p>
+                              <p className="uploaded-file">
+                                {userInputs?.coverPhoto?.[0]?.name}
+                              </p>
                             ) : (
                               <p>
                                 Upload your cover image <br />
@@ -1744,8 +1836,8 @@ const EditLibrary = () => {
                         </div>
                       ) : null} */}
                       </div>
-                    </div>
-                    <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+                    </Col>
+                    <Col className="d-flex justify-content-end align-items-start right-change" md={6}>
                       <div className="form-group justify-content-end">
                         <label htmlFor="">
                           Production notes to Docintel team
@@ -1761,14 +1853,14 @@ const EditLibrary = () => {
                           placeholder="Please type your notes here.."
                         ></textarea>
                       </div>
-                    </div>
-                  </div>
+                    </Col>
+                  </Row>
                 </div>
               </div>
-            </div>
+            </Row>
           </div>
         ) : null}
-      </div>
+      </Col>
       <Modal className="pdf-video-link" show={show} onHide={handleClose}>
         <Modal.Header>
           <div className="form_action embedding-video">

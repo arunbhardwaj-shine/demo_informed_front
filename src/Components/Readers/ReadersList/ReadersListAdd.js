@@ -15,6 +15,8 @@ import Select, { createFilter } from "react-select";
 import { postData, postFormData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel"
+import MessageModel from "../../../Model/MessageModel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ReadersListAdd = () => {
@@ -32,6 +34,7 @@ const ReadersListAdd = () => {
     matchFrom: "start",
   };
   const [editableData, setEditableData] = useState([]);
+  const [clickData, setClickData] = useState(0);
   const [editable, setEditable] = useState(0);
   const [sorting, setSorting] = useState(0);
   const [update, setUpdate] = useState(0);
@@ -46,6 +49,9 @@ const ReadersListAdd = () => {
   const [emailData, setEmailData] = useState("");
   const [countryall, setCountryall] = useState([]);
   const [counterFlag, setCounterFlag] = useState(0);
+  const [commanShow, setCommanShow] = useState(false);
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   const [hpc, setHpc] = useState([
     {
@@ -90,22 +96,21 @@ const ReadersListAdd = () => {
     normalArr = readersData;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a.first_name.toLowerCase() > b.first_name.toLowerCase()
+        a.firtName.toLowerCase() > b.firtName.toLowerCase()
           ? 1
-          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
+          : b.firtName.toLowerCase() > a.firtName.toLowerCase()
           ? -1
           : 0
       );
     } else {
       normalArr.sort((a, b) =>
-        a.first_name.toLowerCase() < b.first_name.toLowerCase()
+        a.firtName.toLowerCase() < b.firtName.toLowerCase()
           ? 1
-          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
+          : b.firtName.toLowerCase() < a.firtName.toLowerCase()
           ? -1
           : 0
       );
     }
-
     setReadersData(normalArr);
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
@@ -128,47 +133,20 @@ const ReadersListAdd = () => {
           "field_contact_type" + data.profileIndex
         ).value;
 
-        let prev_obj = readersData.find(
+        let prev_obj_index = readersData.findIndex(
           (x) => x.profileIndex === data.profileIndex
         );
-        if (typeof prev_obj != "undefined") {
+
+        if (prev_obj_index != "-1") {
           if (typeof readersData[edit_index] != "undefined") {
             readersData[edit_index].country = country_edit;
           }
           if (typeof readersData[edit_index] != "undefined") {
             readersData[edit_index].contact_type = contact_type_edit;
           }
-        } else {
-          if (typeof getNewReaders[edit_index] != "undefined") {
-            getNewReaders[edit_index].country = country_edit;
-          }
-          if (typeof getNewReaders[edit_index] != "undefined") {
-            getNewReaders[edit_index].contact_type = contact_type_edit;
-          }
+          setReadersData(readersData);
         }
-
-        data.country = country_edit;
-        data.username = name_edit;
-        data.contact_type = contact_type_edit;
       });
-
-      let updated_index = readersData.findIndex(el => el.profileIndex == editableData?.profileIndex);
-      console.log(editableData?.profileIndex,updated_index);
-      if(updated_index != "-1"){
-
-          readersData[updated_index].country = editableData.country
-          readersData[updated_index].first = editableData.username
-          readersData[updated_index].contact_type = editableData.contact_type
-      }
-      setReadersData(readersData);
-
-      // const body = {
-      //   user_id: localStorage.getItem("user_id"),
-      //   edit_list_array: editableData,
-      // };
-      // console.log(body);
-      //axios request
-
       setSaveOpen(false);
       setEditableData([]);
     }else {
@@ -179,7 +157,7 @@ const ReadersListAdd = () => {
   const createUser = async () => {
     loader("show");
     try {
-      await postData(ENDPOINT.READER_CREATE, readersData);
+      await postData(ENDPOINT.INSERTBULKREADERS, readersData);
       loader("hide");
       navigate("/readers-view");
     } catch (err) {
@@ -189,8 +167,29 @@ const ReadersListAdd = () => {
   };
 
   const deleteReaderRecord = (index) => {
+      loader("show");
       let deleteIndex = readersData.findIndex(el => el.profileIndex == index);
-      // if()
+      if(deleteIndex != "-1"){
+        readersData.splice(deleteIndex, 1);
+        setReadersData(readersData);
+      }
+      setConfirmationPopup(false)
+      setClickData(0)
+      loader("hide");
+  }
+
+  const deleteModalDisplay = (pindex) => {
+    if(readersData.length > 1){
+      setConfirmationPopup(true)
+      setClickData(pindex);
+    }else{
+      setModalMessage("Please keep atleast one reader in list");
+      setCommanShow(true);
+    }
+  }
+
+  const modalClose = (value) => {
+      setCommanShow(false);
   }
 
   const closeClicked = async () => {
@@ -508,7 +507,7 @@ const ReadersListAdd = () => {
               <Col md="2">
                 <div className="header-btn">
                   <button
-                    className="btn btn-primary btn-filled next"
+                    className="btn btn-primary btn-filled create"
                     onClick={createUser}
                   >
                     Create
@@ -539,15 +538,17 @@ const ReadersListAdd = () => {
                           buttonText="Download "
                         />
                         {
-                          /*
-                          <div className="hcp-new-user">
-                            <button
-                              className="btn btn-outline-primary"
-                              onClick={handleShow}
-                            >
-                              <img src={path_image + "new-user.svg"} alt="New User" />
-                            </button>
-                          </div>
+                            /*
+                            <div className="hcp-new-user">
+                              <button
+                                className="btn btn-outline-primary"
+                                onClick={handleShow}
+                              >
+                                <img src={path_image + "new-user.svg"} alt="New User" />
+                              </button>
+                            </div>
+                          */
+                        }
 
                         <div className="hcp-added">
                           <button
@@ -557,8 +558,6 @@ const ReadersListAdd = () => {
                             <img src={path_image + "edit-button.svg"} alt="Edit" />
                           </button>
                         </div>
-                        */
-                      }
                         <div className="hcp-sort">
                           {sortingCount == 0 ? (
                             <>
@@ -687,17 +686,16 @@ const ReadersListAdd = () => {
                                     <span>{data.contact_type}</span>
                                   )}
                                 </td>
-                                {
-                                  /*
-                                  <td className="delete_row" colSpan="12">
+                                <td className="delete_row" colSpan="12">
                                   <img
                                   src={path_image + "delete.svg"}
                                   alt="Delete Row"
-                                  onClick={() => deleteReaderRecord(data.profileIndex)}
+                                  id={"delete"+data.profileIndex}
+                                  onClick={() => {
+                                    deleteModalDisplay(data.profileIndex)
+                                  }}
                                   />
-                                  </td>*/
-                                }
-
+                                </td>
                               </tr>
                             )
                           })
@@ -938,6 +936,31 @@ const ReadersListAdd = () => {
             </div>
           </div>
         </Modal>
+
+
+        <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={setConfirmationPopup}
+        fun={deleteReaderRecord}
+        resetDataId={clickData}
+        popupMessage={
+         {
+           "message1":"The HCP will be deleted from the list.",
+           "message2":" Are you sure you want to delete it?",
+           "footerButton":" Yes Please!"
+         }
+        }
+        path_image={path_image}
+       />
+
+       <MessageModel
+         show={commanShow}
+         onClose={modalClose}
+         heading={""}
+         data={modalMessage}
+         footerButton={"Close"}
+         handleSubmit={modalClose}
+       />
     </>
   );
 };

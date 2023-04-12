@@ -296,8 +296,9 @@ const LicenseCreateUser = () => {
   const deleteRecord = (i) => {
     const list = chapter;
     list.splice(i, 1);
-
+    ebookFile.splice(i, 1);
     setChapter(list);
+    setEbookFile(ebookFile);
     setCounterFlag(counterFlag + 1);
   };
 
@@ -1199,7 +1200,7 @@ const LicenseCreateUser = () => {
                               name="file-6[]"
                               id="file-6"
                               className="inputfile inputfile-6"
-                              accept="video/*"
+                              accept="video/mp4"
                               onChange={(e) => handleChange(e, "uploadFile")}
                             />
                             <label htmlFor="file-6">
