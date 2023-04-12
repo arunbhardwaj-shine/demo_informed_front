@@ -37,7 +37,7 @@ import EditLicense from "./Components/License/CreateChange/EditLicense";
 //Analytics routes
 import AnalyticsHeader from "./Components/Analytics/Layout/Header";
 import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
-// import TrendingContent from "./Components/Analytics/TrendingContent/TrendingContent";
+import TrendingContent from "./Components/Analytics/TrendingContent";
 import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 import CisStats from "./Components/Analytics/CisStats";
 import TopClients from "./Components/Analytics/TopClients";
@@ -45,7 +45,7 @@ import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
 import ContentAnalytics from "./Components/Analytics/ContentAnalytics";
 // import OctaCountry from "./Components/Analytics/OctaCountry";
- // import CountryRegistration from "./Components/Analytics/CountryRegistration";
+ import CountryRegistration from "./Components/Analytics/CountryRegistration";
  import TrendingTopics from "./Components/Analytics/TrendingTopics";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
@@ -110,6 +110,7 @@ import SalesByCountry from "./Components/Analytics/SalesByCountry";
 import CampaignStats from "./Components/Analytics/CampaignStats";
 import DeliveryTrends from "./Components/Analytics/DeliveryTrends";
 import RegistrationType from "./Components/Analytics/RegistrationType";
+import ContentGraph from "./Components/Analytics/ContentGraph";
 
 
 
@@ -202,15 +203,20 @@ const Routing = () => {
                   /*
                   <Route path="/trending-content" element={<TrendingContent />} />
                   <Route path="/octa-country" element={<OctaCountry />} />
-                  <Route path="/country-registration" element={<CountryRegistration />} />
                   */
+                  <Route path="/country-registration" element={<CountryRegistration />} />
+                  
                 }
+                <Route path="/trending-content" element={<TrendingContent />} />
 
                 <Route path="/top-clients" element={<TopClients />} />
                 <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/top-sales" element={<TopSales />} />
                 <Route path="/content-analytics" element={<ContentAnalytics />} />
                 <Route path="/trending-topics" element={<TrendingTopics />} />
+                <Route path="/trending-topics" element={<TrendingTopics />} />
+                <Route path="/content-type" element={<ContentGraph />} />
+
 
                 <Route
                   path="/openings-by-country"
@@ -228,6 +234,10 @@ const Routing = () => {
                 <Route
                 path="/registration-type"
                 element={<RegistrationType />}
+              />
+                 <Route
+                path="/content-analytics"
+                element={<ContentAnalytics />}
               />
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
 
