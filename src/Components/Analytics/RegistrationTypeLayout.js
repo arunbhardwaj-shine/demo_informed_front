@@ -1,24 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import { Button, Col, Image, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
+import { loader } from "../../loader";
+import html2canvas from 'html2canvas';
 
 import HighchartsReact from "highcharts-react-official";
 
 exporting(Highcharts);
 exportData(Highcharts);
-const dummyData = {
-  pdf_title: "Lorem ipsum dolor sit amet",
-  pdf_sub_title: "Consectetur adipiscing elit",
-  created: "2022-03-01",
-  exp_datetime: "2022-04-01",
-  country: "Lorem",
-  company: "Ipsum Inc.",
-  status: "active",
-  code: "ABC123",
-  pdf_limit: "10",
-};
+
 export default function RegistrationTypeLayout({ data }) {
   Highcharts.setOptions({
     colors: [
@@ -33,33 +25,59 @@ export default function RegistrationTypeLayout({ data }) {
       "#00003C",
     ],
   });
+  const [numItemsToShow, setNumItemsToShow] = useState(15);
+  const [allItemsToShow, setAllItemsToShow] = useState([]);
+  const first =useRef(0);
 
-  //   const [resgistrationTypeOptions, setResgistrationTypeOptions] = useState();
-  const {
-    pdf_title,
-    pdf_sub_title,
-    created,
-    exp_datetime,
-    country,
-    company,
-    status,
-    code,
-    pdf_limit,
-  } = dummyData;
+  //   const [resgistrationTypeOptions, setResgistrationTypeOptions] = useSta
+  const handleLoadMore = () => {
+    setAllItemsToShow(data?.slice(numItemsToShow, data.length));
+    //  loader("show")
+  };
+
+  const displayData = data?.slice(0, numItemsToShow);
   return (
     <>
+     
+      {allItemsToShow?.length ? <RenderLayout data={allItemsToShow} /> :  <RenderLayout data={displayData} />}
+      {allItemsToShow?.length + numItemsToShow < data?.length && (
+        <div className="text-center">
+          <button className="btn btn-primary" onClick={handleLoadMore}>
+            Load More
+          </button>
+        </div>
+      )}
+    </>
+  );
+}
+
+const RenderLayout = ({ data }) => {
+  const downloadRef = useRef(null);
+  const handleDownloadClick = (pdf_id) => {
+
+    html2canvas(document.getElementById(pdf_id))
+      .then((canvas) => {
+        const link = document.createElement('a');
+        link.download = `${pdf_id}.png`;
+        link.href = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+        link.click();
+      });
+  };
+  
+  return (
+    <>
+    <div ref={downloadRef}>
       {data?.map((element, index) => {
-        console.log(JSON.parse(element.month));
         return (
-          <div className="kpi-graph-inside custom_sarch">
-            <Row key={element.pdf_id}>
+          <div key={element.pdf_id} id ={element.pdf_id}className="kpi-graph-inside custom_sarch" >
+            <Row >
               <Col sm={2} md={2} className="img-box justify-content-center">
                 <div className="content-listed-shorting">
                   <span>{index + 1}</span>
                 </div>
                 <Image
-                  src="https://imagecolorpicker.com/imagecolorpicker.png"
-                  alt="Hell"
+                  src="https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png"
+                  alt="Image Not Available"
                 />
               </Col>
               <Col sm={5} md={5} className="content-listed">
@@ -83,8 +101,7 @@ export default function RegistrationTypeLayout({ data }) {
                       <strong>Company:</strong> {element.company}
                     </h5>
                     <h5 className="status">
-                      <strong>Status:</strong>{" "}
-                      <span className={status}>{element.status}</span>
+                      <strong>Status:</strong> <span>{element.status}</span>
                     </h5>
                     <h5 className="author_by">
                       <strong>Url code:</strong> {element.code}
@@ -206,9 +223,10 @@ export default function RegistrationTypeLayout({ data }) {
                             color: Highcharts.getOptions().colors[1],
                             radius: "87%",
                             innerRadius: "63%",
-                            y:
-                            Math.round((element.over_all_unique_readers * 100) /
-                              element.over_all_opening_readers),
+                            y: Math.round(
+                              (element.over_all_unique_readers * 100) /
+                                element.over_all_opening_readers
+                            ),
                             z: element.over_all_unique_readers,
                           },
                         ],
@@ -220,9 +238,10 @@ export default function RegistrationTypeLayout({ data }) {
                             color: Highcharts.getOptions().colors[2],
                             radius: "62%",
                             innerRadius: "38%",
-                            y:
-                            Math.round((element.over_all_rtr * 100) /
-                              element.over_all_opening_readers),
+                            y: Math.round(
+                              (element.over_all_rtr * 100) /
+                                element.over_all_opening_readers
+                            ),
                             z: element.over_all_rtr,
                           },
                         ],
@@ -248,14 +267,24 @@ export default function RegistrationTypeLayout({ data }) {
               <Row className="mt-5 d-flex justify-content-between">
                 <Col>
                   <h5 className="author_by">
-                    <strong>View AVG based on limits: <span>{element.pdf_limit!=0  ?Math.round(element.over_all_opening_readers*100/element.pdf_limit):0 }</span></strong>
+                    <strong>
+                      View AVG based on limits:{" "}
+                      <span>
+                        {element.pdf_limit != 0
+                          ? Math.round(
+                              (element.over_all_opening_readers * 100) /
+                                element.pdf_limit
+                            ) +" %"
+                          : 0}
+                      </span>
+                    </strong>
                   </h5>
                 </Col>
                 <Col className="d-flex justify-content-end">
                   <Button className="btn next-content btn-bordered">
                     Preview Article
                   </Button>
-                  <Button className="btn next-content btn-bordered">
+                  <Button className="btn next-content btn-bordered" onClick={() => handleDownloadClick(element.pdf_id)}>
                     Download Stats
                   </Button>
                 </Col>
@@ -336,6 +365,7 @@ export default function RegistrationTypeLayout({ data }) {
           </div>
         );
       })}
+      </div>
     </>
   );
-}
+};

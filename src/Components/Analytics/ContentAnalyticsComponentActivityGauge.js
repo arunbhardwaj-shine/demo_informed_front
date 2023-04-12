@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Col, Row, Tab, Tabs } from "react-bootstrap";
+import React from "react";
+import { Col } from "react-bootstrap";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import highchartsMore from "highcharts/highcharts-more";
@@ -7,35 +7,19 @@ import solidGauge from "highcharts/modules/solid-gauge";
 highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
-export default function ContentAnalyticsComponentActivityGauge({ series, label, list }) {
+export default function ContentAnalyticsComponentActivityGauge({
+  value,
+  label,
+  color,
+  limit,
+}) {
 
-  const [bgColors, setBgColors] = useState([
-    {
-      outerRadius: "112%",
-      innerRadius: "88%",
-      backgroundColor: Highcharts.color(Highcharts.getOptions().colors[0])
-        .setOpacity(0.3)
-        .get(),
-      borderWidth: 0,
-    },
-   
-  ])
-
-
-  const [options, setOptions] = useState({
+  const options = {
     chart: {
       type: "solidgauge",
       height: "80%",
     },
-    title: {
-      text: label,
-      style: {
-        fontSize: "18px",
-      },
-    },
-    exporting: {
-      enabled: false,
-    },
+
     tooltip: {
       borderWidth: 0,
       backgroundColor: "none",
@@ -53,10 +37,23 @@ export default function ContentAnalyticsComponentActivityGauge({ series, label, 
         };
       },
     },
+    title: {
+      text: "",
+      style: {
+        fontSize: "13px",
+      },
+    },
     pane: {
       startAngle: 0,
       endAngle: 360,
-      background: bgColors,
+      background: [
+        {
+          outerRadius: "112%",
+          innerRadius: "88%",
+          backgroundColor: "#e8eaee",
+          borderWidth: 0,
+        },
+      ],
     },
     yAxis: {
       min: 0,
@@ -77,41 +74,27 @@ export default function ContentAnalyticsComponentActivityGauge({ series, label, 
 
     series: [
       {
-          "name": "Shared",
-          "data": [
-              {
-                  "color": "#0066BE",
-                  "radius": "112%",
-                  "innerRadius": "88%",
-                  "y": 10,
-                  "z": 100
-                  
-              }
-          ]
+        name: "",
+        data: [
+          {
+            color: color,
+            radius: "112%",
+            innerRadius: "88%",
+            y: (value * 100) / limit,
+            z: value,
+          },
+        ],
       },
-     
-  ],
-  });
-
-
+    ],
+  };
 
   return (
     <Col>
- 
+      
+
+     
       <HighchartsReact highcharts={Highcharts} options={options} />
-      {/* <div class="stats_precenage">
-        <ul class="ul_stats_first" style={{listStyle:"none"}}>
-          {list.map((item, index) => {
-            const key = Object.keys(item)[0];
-            const value = item[key];
-            return (
-              <li key={index}>
-                <span>{key}</span>  <span >{value}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </div> */}
+
     </Col>
   );
 }

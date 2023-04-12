@@ -12,7 +12,7 @@ import exportData from "highcharts/modules/export-data";
 import DocintelAccount from "./DocintelAccount";
 const ContentGraph = () => {
   const [data, setData] = useState({});
-  const [isDataFound, setIsDataFound] = useState(false);
+const [isDataFound, setIsDataFound] = useState(false);
 
   Highcharts.setOptions({
     colors: [
@@ -113,36 +113,7 @@ const ContentGraph = () => {
       if (hadData.length <= 0) {
         setIsDataFound(false);
       }
-      // console.log(hadData);
-  
-      // const categories = hadData?.name;
-
-      // const newSeries = [
-      //   {
-      //     name: `Readers (${hadData.readerTotal})`,
-      //     data: hadData.reader,
-      //     color: Highcharts.getOptions().colors[1],
-      //   },
-      //   {
-      //     name: `Views (${hadData.viewTotal})`,
-      //     data: hadData.view,
-      //     color: Highcharts.getOptions().colors[2],
-      //   },
-      //   {
-      //     name: `Quantity Sold (${hadData.soldTotal})`,
-      //     data: hadData.sold,
-      //     color: Highcharts.getOptions().colors[0],
-      //   },
-      // ];
-
-      // const newClientOptions = {
-      //   ...contentTypeOptions,
-      //   xAxis: { categories: categories },
-      //   series: newSeries,
-      //   exporting: { showTable: true },
-      // };
-
-      // setContentTypeOptions(newClientOptions);
+    
 
       setIsDataFound(true);
 
