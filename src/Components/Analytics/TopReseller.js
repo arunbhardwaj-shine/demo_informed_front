@@ -103,7 +103,7 @@ const TopReseller = () => {
       bar: {
         dataLabels: {
           enabled: true,
-        },
+       },
       },
     },
 
@@ -135,7 +135,8 @@ const TopReseller = () => {
       if (hadData.length <= 0) {
         setIsDataFound(false);
       }
-      const categories = hadData?.name;
+      const categories = hadData?.name.sort();
+     // console.log(categories.sort());
       const newSeries = [
         {
           name: `Readers (${hadData?.readerTotal})`,

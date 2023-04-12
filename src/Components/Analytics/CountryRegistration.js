@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { getData, postData, postFormData } from '../../../axios/apiHelper';
+import { getData, postData, postFormData } from '../../axios/apiHelper';
 import { Col, Row } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import { ENDPOINT } from '../../../axios/apiConfig';
-import axios from 'axios';
+import { ENDPOINT } from '../../axios/apiConfig';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import highchartsMap from "highcharts/modules/map";
-import worldMap from "@highcharts/map-collection/custom/world.geo.json";
-highchartsMap(Highcharts);
+import MapModule from "highcharts/modules/map";
+// import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+const worldMap = "";
+
+MapModule(Highcharts);
+
 
 
 const CountryRegistration = () => {
@@ -19,7 +22,7 @@ const mapOptions = {
     map: "worldMap"
   },
   title: {
-    text: " "
+    text: "Country Registration"
   },
   credits: {
     enabled: false
@@ -33,10 +36,7 @@ const mapOptions = {
       y: -10
     }
   },
-  tooltip: {
-    headerFormat: "",
-    pointFormat: "{point.name}: total: {point.totalIndex}"
-  },
+
   xAxis: {
     min: 160,
     max: -120
@@ -47,16 +47,34 @@ const mapOptions = {
   },
   series: [
     {
-      name: "World",
+      name: "Country Registration",
+      data: newData?.filter(country => country.lat && country.lon),
       mapData: worldMap,
-      borderColor: "#A0A0A0",
-      nullColor: "rgba(200, 200, 200, 0.3)",
-      showInLegend: false,
-      joinBy: "name",
-      data: newData,
+      joinBy: ["name"],
+      keys: ["code", "value"],
+      tooltip: {
+        headerFormat: "",
+        pointFormat: "Total Registration: {point.totalIndex}",
+      },
+      states: {
+        hover: {
+          color: "#BADA55",
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function() {
+          const countries = this.series.options.data.filter(country => country.name === this.point.name);
+          if (countries.length > 0) {
+            return this.point.name;
+          } else {
+            return null;
+          }
+        }
+      },
+    },
 
-    }
-  ]
+  ],
 };
 
    // country list
@@ -69,7 +87,7 @@ const mapOptions = {
       text: 'Country List'
     },
     xAxis: {
-      categories: [], 
+      categories: [],
     },
     yAxis: {
       title: {
@@ -107,31 +125,29 @@ Highcharts.setOptions({
 
   colors: ["#FFBE2C", "#00D4C0", "#F58289"]
 
-}); 
+});
 
   useEffect(() => {
     const getDataFromApi = async () => {
       try {
         const response = await postData(ENDPOINT.COUNTRY_REGISTRATION);
         const apiData = response.data;
-        console.log(apiData);
-       // const countryData = apiData.data.coordination;
-        const countryData = apiData.data.coordination.map((coordObject,index) => {
-          const [lat, lon] = Object.values(coordObject)[0].split("~");
-          const totalIndex = apiData.data.critical_care[index] + apiData.data.haematology[index] + apiData.data.immunotherapy[index];
-          return {
-            name: Object.keys(coordObject)[0],
-            lat: parseFloat(lat),
-            lon: parseFloat(lon),
-             critical_care: apiData.data.critical_care[index],
-             haematology: apiData.data.haematology[index],
-             immunotherapy: apiData.data.immunotherapy[index],
-             totalIndex:totalIndex,
-          };
-        });
+       const countryData = apiData.data.coordination.map((coordObject,index) => {
+        const [lat, lon] = Object.values(coordObject)[0].split("~");
+        const totalIndex = apiData.data.critical_care[index] + apiData.data.haematology[index] + apiData.data.immunotherapy[index];
+        return {
+          name: Object.keys(coordObject)[0],
+          lat: parseFloat(lat),
+          lon: parseFloat(lon),
+          critical_care: apiData.data.critical_care[index],
+          haematology: apiData.data.haematology[index],
+          immunotherapy: apiData.data.immunotherapy[index],
+          totalIndex:totalIndex,
+        };
+      });
         setNewData(countryData);
-   
-       console.log(countryData);
+
+      console.log("djjdjdjj",countryData);
         const newSeries = [
           {
             name: `critical_care`,
@@ -149,9 +165,8 @@ Highcharts.setOptions({
             color: Highcharts?.getOptions()?.colors[0],
           },
         ];
-        console.log(newSeries);
         const categories = apiData.data?.country;
-   
+
         const newCountryList = {
           ...countryList,
           xAxis: {
@@ -159,7 +174,7 @@ Highcharts.setOptions({
           },
           series: newSeries,
         };
-  
+
         SetCountryList(newCountryList)
 
       } catch (error) {
@@ -169,9 +184,6 @@ Highcharts.setOptions({
 
     getDataFromApi();
   }, []);
-
-
-  
 
   return (
     <>

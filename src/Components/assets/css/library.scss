@@ -3277,17 +3277,14 @@ input.viewer-toolbar-current-page-input {
 .kpi-graph-inside.custom_sarch .next-content {
     margin-left: 10px;
 }
-#download-qr .modal-form-group {
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  max-width: 327px;
-  position: relative;
+
+// trending-topic hide category
+.trending-topics .highcharts-data-table thead tr:first-child th:first-child {
+  display: none;
 }
-#download-qr .login-validation {
-  left: 0;
-  right: auto;
+
+.trending-topics .highcharts-data-table tbody th.highcharts-text {
+  display: none;
 }
 .trending-topics .highcharts-data-table thead tr:first-child th:first-child, .trending-topics .highcharts-data-table tbody th.highcharts-text {
   display: none;

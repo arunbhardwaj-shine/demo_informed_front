@@ -326,8 +326,8 @@ const ReaderAdd = () => {
           lastName: userInputs?.lastName,
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
-          country_Code: `${userInputs?.countryCode?.label}+${userInputs?.primary_phone}`,
-          primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
+
+          primary_phone: `${userInputs?.countryCode?.label}-${userInputs?.primary_phone}`,
 
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,

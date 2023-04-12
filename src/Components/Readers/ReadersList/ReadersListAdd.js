@@ -17,9 +17,12 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel"
 import MessageModel from "../../../Model/MessageModel";
+import { toast } from "react-toastify";
+import { popup_alert } from "../../../popup_alert";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ReadersListAdd = () => {
+  let combine_data_manual;
   const { state } = useLocation();
   const navigate = useNavigate();
   const [readersData, setReadersData] = useState(
@@ -33,6 +36,7 @@ const ReadersListAdd = () => {
   const filterConfig = {
     matchFrom: "start",
   };
+  const [getNewReaders, setNewReaders] = useState([]);
   const [editableData, setEditableData] = useState([]);
   const [clickData, setClickData] = useState(0);
   const [editable, setEditable] = useState(0);
@@ -41,7 +45,6 @@ const ReadersListAdd = () => {
   const [sortingCount, setSortingCount] = useState(0);
   const [saveOpen, setSaveOpen] = useState(false);
   const [updateCounter, setUpdateCounter] = useState(0);
-  const [getNewReaders, setNewReaders] = useState([]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
@@ -146,6 +149,21 @@ const ReadersListAdd = () => {
           }
           setReadersData(readersData);
         }
+
+        let prev_obj_new_added = getNewReaders.findIndex(
+          (x) => x.profileIndex === data.profileIndex
+        );
+
+        if (prev_obj_new_added != "-1") {
+          if (typeof getNewReaders[edit_index] != "undefined") {
+            getNewReaders[edit_index].country = country_edit;
+          }
+          if (typeof getNewReaders[edit_index] != "undefined") {
+            getNewReaders[edit_index].contact_type = contact_type_edit;
+          }
+          setNewReaders(getNewReaders);
+        }
+
       });
       setSaveOpen(false);
       setEditableData([]);
@@ -157,6 +175,8 @@ const ReadersListAdd = () => {
   const createUser = async () => {
     loader("show");
     try {
+      const new_obj = [...readersData,...getNewReaders];
+      // console.log(new_obj);
       await postData(ENDPOINT.INSERTBULKREADERS, readersData);
       loader("hide");
       navigate("/readers-view");
@@ -173,6 +193,13 @@ const ReadersListAdd = () => {
         readersData.splice(deleteIndex, 1);
         setReadersData(readersData);
       }
+
+      let deleteNewAddedIndex = getNewReaders.findIndex(el => el.profileIndex == index);
+      if(deleteNewAddedIndex != "-1"){
+        getNewReaders.splice(deleteNewAddedIndex, 1);
+        setNewReaders(getNewReaders);
+      }
+
       setConfirmationPopup(false)
       setClickData(0)
       loader("hide");
@@ -183,10 +210,31 @@ const ReadersListAdd = () => {
       setConfirmationPopup(true)
       setClickData(pindex);
     }else{
-      setModalMessage("Please keep atleast one reader in list");
-      setCommanShow(true);
+      popup_alert({
+        visible: "show",
+        message: "Please keep atleast one reader or delete the smart list",
+        type: "error",
+        redirect: "",
+      });
+      // setModalMessage("Please keep atleast one reader in list");
+      // setCommanShow(true);
     }
   }
+
+  const deleteNewlyAdded = (profileIndex) => {
+    let temp_len = parseInt(readersData.length) + parseInt(getNewReaders.length);
+    if (temp_len > 1) {
+        setConfirmationPopup(true)
+        setClickData(profileIndex);
+    } else {
+      popup_alert({
+        visible: "show",
+        message: "Please keep atleast one reader or delete the smart list",
+        type: "error",
+        redirect: "",
+      });
+    }
+  };
 
   const modalClose = (value) => {
       setCommanShow(false);
@@ -326,15 +374,17 @@ const ReadersListAdd = () => {
         },
       ]);
     } else {
-      // toast.warning("Please input the email atleast");
+      toast.warning("Please input the email atleast");
     }
   };
 
 
   const saveClicked = async () => {
     if (activeManual == "active") {
-      const body_data = hpc.map((data) => {
+      const body_data = hpc.map((data, index) => {
+        const random = Math.floor(Math.random() * 9000 + 1000);
         return {
+          profileIndex: random,
           first_name: data.firstname,
           last_name: data.lastname,
           email: data.email,
@@ -343,126 +393,53 @@ const ReadersListAdd = () => {
         };
       });
 
-      // const body = {
-      //   data: body_data,
-      //   user_id: localStorage.getItem("user_id"),
-      //   smart_list_id: getlistid,
-      // };
+      const status = body_data.map((data) => {
+        if (data.email == "") {
+          return "Please enter the email atleast";
+        } else if (data.email != "") {
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            let prev_obj = readersData.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
+              return "User with same email already added in list.";
+            } else {
+              return "true";
+            }
+            return "true";
+          } else {
+            return "Email format is not valid";
+          }
+        } else {
+          return "true";
+        }
+      });
 
-      // const status = body.data.map((data) => {
-      //   if (data.email == "") {
-      //     return "Please enter the email atleast";
-      //   } else if (data.email != "") {
-      //     let email = data.email;
-      //     let useremail = email.trim();
-      //     var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-      //     if (regex.test(String(useremail).toLowerCase())) {
-      //       let prev_obj = editList.find((x) => x.email === useremail);
-      //       if (typeof prev_obj != "undefined") {
-      //         return "User with same email already added in list.";
-      //       } else {
-      //         return "true";
-      //       }
-      //
-      //       return "true";
-      //     } else {
-      //       return "Email format is not valid";
-      //     }
-      //   } else {
-      //     return "true";
-      //   }
-      // });
-
-      // if (status.every((element) => element == "true")) {
-        // loader("show");
-        // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        // await axios
-        //   .post(`distributes/add_new_readers_in_list`, body)
-        //   .then((res) => {
-        //     if (res.data.status_code === 200) {
-        //       toast.success("User added successfuly");
-        //
-        //       let old_data = editList;
-        //
-        //       let new_data = res.data.response.data;
-        //       if (typeof getNewReaders != "undefined") {
-        //         let added_prev_readers_array = getNewReaders;
-        //         let combine_new_readers_array = [
-        //           ...new_data,
-        //           ...added_prev_readers_array,
-        //         ];
-        //         setNewReaders(combine_new_readers_array);
-        //         props.sendDataToParent(combine_new_readers_array, "new");
-        //       }
-        //       combine_data_manual = [...new_data, ...old_data];
-        //
-        //       setEditList(old_data);
-        //       props.sendDataToParent(old_data, "existing");
-        //       setUpdatedData(old_data);
-        //       setIsOpen(false);
-        //       setIsOpenAdd(false);
-        //     } else {
-        //       toast.warning(res.data.message);
-        //     }
-        //     loader("hide");
-        //   })
-        //   .catch((err) => {
-        //     toast.error("Something went wrong");
-        //     loader("hide");
-        //   });
-      // } else {
-        // toast.warning(status[0]);
-      // }
-    } else {
-      // let formData = new FormData();
-      // let user_id = localStorage.getItem("user_id");
-      // formData.append("user_id", user_id);
-      // formData.append("smart_list_id", getlistid);
-      // formData.append("reader_file", selectedFile);
-      //
-      // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      // if (selectedFile) {
-      //   loader("show");
-      //   await axios
-      //     .post(`distributes/update_reader_list`, formData)
-      //     .then((res) => {
-      //       if (res.data.status_code === 200) {
-      //         toast.success("User added successfuly");
-      //
-      //         let old_data = editList;
-      //         let new_data = res.data.response.data;
-      //         if (typeof getNewReaders != "undefined") {
-      //           let added_prev_readers_array = getNewReaders;
-      //           let combine_new_readers_array = [
-      //             ...new_data,
-      //             ...added_prev_readers_array,
-      //           ];
-      //           setNewReaders(combine_new_readers_array);
-      //           props.sendDataToParent(combine_new_readers_array, "new");
-      //         }
-      //         combine_data = [...new_data, ...old_data];
-      //         setEditList(old_data);
-      //         setIsOpenAdd(false);
-      //         setActiveManual("active");
-      //         setActiveExcel("");
-      //         setSelectedFile(null);
-      //         props.sendDataToParent(old_data, "existing");
-      //         setUpdatedData(old_data);
-      //       } else {
-      //         toast.warning(res.data.message);
-      //       }
-      //       loader("hide");
-      //     })
-      //     .catch((err) => {
-      //       toast.error("Something went wrong");
-      //       loader("hide");
-      //     });
-      //   setIsOpen(false);
-      // } else {
-      //   toast.warning("Please add a excel file");
-      // }
+      if (status.every((element) => element == "true")) {
+        console.log("All True",body_data);
+              let old_data = readersData;
+              let new_data = body_data;
+              if (typeof getNewReaders != "undefined") {
+                let added_prev_readers_array = getNewReaders;
+                let combine_new_readers_array = [
+                  ...new_data,
+                  ...added_prev_readers_array,
+                ];
+                setNewReaders(combine_new_readers_array);
+              }
+              combine_data_manual = [...new_data, ...old_data];
+              setReadersData(old_data);
+              setUpdatedData(old_data);
+              // setIsOpen(false);
+              setIsOpenAdd(false);
+      } else {
+        status.sort();
+        toast.warning(status[0]);
+      }
     }
   };
+
 
   return (
     <>
@@ -507,7 +484,7 @@ const ReadersListAdd = () => {
               <Col md="2">
                 <div className="header-btn">
                   <button
-                    className="btn btn-primary btn-filled create"
+                    className={saveOpen ? "btn btn-primary btn-filled btn-disabled" : "btn btn-primary btn-filled create"}
                     onClick={createUser}
                   >
                     Create
@@ -518,7 +495,7 @@ const ReadersListAdd = () => {
               </div>
             </div>
 
-            <div className="create-reader create-change-content reader_added">
+            <div className="create-reader create-change-content reader_added smartlist_readers_view">
               <div className="form_action">
                 <div className="create-reader-form-header table-title">
                   <h4>
@@ -537,18 +514,15 @@ const ReadersListAdd = () => {
                           sheet="tablexls"
                           buttonText="Download "
                         />
-                        {
-                            /*
-                            <div className="hcp-new-user">
-                              <button
-                                className="btn btn-outline-primary"
-                                onClick={handleShow}
-                              >
-                                <img src={path_image + "new-user.svg"} alt="New User" />
-                              </button>
-                            </div>
-                          */
-                        }
+
+                        <div className="hcp-new-user">
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={handleShow}
+                          >
+                            <img src={path_image + "new-user.svg"} alt="New User" />
+                          </button>
+                        </div>
 
                         <div className="hcp-added">
                           <button
@@ -632,6 +606,77 @@ const ReadersListAdd = () => {
                       </tr>
                     </thead>
                     <tbody>
+
+                    {typeof getNewReaders !== "undefined" &&
+                      getNewReaders.length > 0 &&
+                      getNewReaders.map((item, index) => (
+                        <tr
+                          key={item}
+                          className="hcps-added"
+                          id={`row-selected` + index}
+                          onClick={(e) =>
+                            editing(
+                              item?.profileIndex,
+                              item?.email,
+                              item?.country,
+                              item?.first_name + " " + item?.last_name,
+                              item?.contact_type
+                            )
+                          }
+                        >
+                          <td
+                            contenteditable={editable === 0 ? "false" : "true"}
+                            suppressContentEditableWarning={true}
+                            id={`field_name` + item?.profileIndex}
+                          >
+                            <span>{item?.first_name + " " + item?.last_name}</span>
+                          </td>
+                          <td>
+                            <span>{item?.email}</span>
+                          </td>
+                          <input
+                            type="hidden"
+                            id={`field_index` + item?.profileIndex}
+                            value={index}
+                          />
+                          <td>
+                            {editable ? (
+                              <EditCountry
+                                selected_country={item?.country}
+                                profile_user={item?.profileIndex}
+                              ></EditCountry>
+                            ) : (
+                              <span>{item?.country ? item.country: "N/A"}</span>
+                            )}
+                          </td>
+                          <td> {item?.ibu ? item.ibu : "N/A"}</td>
+                          <td>
+                            {editable ? (
+                              <EditContactType
+                                selected_ibu={item?.contact_type}
+                                profile_user={item?.profileIndex}
+                              ></EditContactType>
+                            ) : (
+                              <span>{item?.contact_type}</span>
+                            )}
+                          </td>
+                          <td className="delete_row" colspan="12">
+                            <img
+                              src={path_image + "delete.svg"}
+                              alt="Delete Row"
+                              onClick={() => deleteNewlyAdded(item?.profileIndex)}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+
+                      {typeof getNewReaders !== "undefined" &&
+                        getNewReaders.length > 0 && (
+                        <tr className="seprator-add">
+                          <td colspan="13"></td>
+                        </tr>
+                      )}
+
                       {
                         readersData.length > 0 ? (
                           readersData.map(function (data, index) {
@@ -747,7 +792,7 @@ const ReadersListAdd = () => {
                     },
                   ]);
                   setActiveManual("active");
-                  document.querySelector("#file-4").value = "";
+                  // document.querySelector("#file-4").value = "";
                   setActiveExcel("");
                 }}
                 type="button"

@@ -33,6 +33,8 @@ const SalesByCountry = () => {
   });
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const selectFilterType = useRef("saleCountry");
+
 
   const chart = useRef(null);
   const [All, setAll] = useState([
@@ -127,14 +129,19 @@ const SalesByCountry = () => {
 
     try {
       const requestBody = {
-        type: "saleCountry",
+        type: selectFilterType.current,
         dataType: dataType?.current?.value ? dataType?.current?.value : "",
         year: years?.current?.value ? years.current.value : "",
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
-      if (hadData.length <= 0) {
+      
+      if (hadData.length <= 0 ) {
         setIsDataFound(false);
+      }
+      else{
+      setIsDataFound(true);
+
       }
 
       const categories = hadData?.name;
@@ -166,8 +173,8 @@ const SalesByCountry = () => {
 
       setTopClientOptions(newClientOptions);
 
-      setIsDataFound(true);
       setData(hadData);
+      setIsLoaded(true)
 
       loader("hide");
     } catch (err) {
@@ -179,12 +186,26 @@ const SalesByCountry = () => {
   };
 
   const filterDataByDataType = (e) => {
+    setIsLoaded(false);
+    if(e.value==""){
+      selectFilterType.current="saleCountry"
+
+    }else
+    selectFilterType.current="saleCountryFilter"
     dataType.current = e;
     setIsDataFound(false);
     getDataFromApi();
   };
 
   const filterDataByYears = (e) => {
+    setIsLoaded(false);
+
+    if(e.value==""){
+      selectFilterType.current="saleCountry"
+
+    }else
+    selectFilterType.current="saleCountryFilter"
+
     years.current = e;
     setIsDataFound(false);
     getDataFromApi();
@@ -193,7 +214,7 @@ const SalesByCountry = () => {
   return (
     <>
       <Col className="right-sidebar">
-        {isDataFound ? (
+       
           <div className="custom-container">
             <Row>
               <div className="top-header">
@@ -246,7 +267,7 @@ const SalesByCountry = () => {
                     </div>
                   </Form>
                 </div>
-
+                {isDataFound ? (
                 <div className="high_charts">
                   <HighchartsReact
                     highcharts={Highcharts}
@@ -254,10 +275,11 @@ const SalesByCountry = () => {
                     ref={chart}
                   />
                 </div>
+                 ) : isLoaded ?<h2>NO Data Found</h2>:null}
               </div>
             </Row>
           </div>
-        ) : null}
+       
       </Col>
     </>
   );
