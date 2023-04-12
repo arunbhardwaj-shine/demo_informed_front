@@ -142,9 +142,10 @@ const ContentAnalytics = () => {
                 </div>
               ) : null}
 
-              {isPdfData ? <ContentAnalyticsComponent /> : null}
+              {isPdfData ? <ContentAnalyticsComponent  data ={isDataFound}/> : null}
             </div>
           </Row>
+       
         </div>
       </Col>
     </>
