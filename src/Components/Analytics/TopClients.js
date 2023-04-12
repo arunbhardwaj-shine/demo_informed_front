@@ -137,7 +137,17 @@ const TopClients = () => {
         setIsDataFound(false);
       }
 
+      
       const categories = hadData?.name;
+      Object.keys(categories).forEach((key) => {
+        if (typeof categories[key] === 'string') {
+          categories[key] = categories[key].trim();
+          categories[key] = categories[key].replace(/\b\w/g, c => c.toUpperCase());
+        }
+      });
+      
+      console.log(categories.sort());
+    //  console.log(categories);
       const newSeries = [
         {
           name: `Readers (${hadData?.readerTotal})`,

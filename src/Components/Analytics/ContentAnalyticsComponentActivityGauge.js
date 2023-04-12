@@ -7,8 +7,8 @@ import solidGauge from "highcharts/modules/solid-gauge";
 highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
-export default function ActivityGauge({ series, label, list }) {
-  console.log(series)
+export default function ContentAnalyticsComponentActivityGauge({ series, label, list }) {
+
   const [bgColors, setBgColors] = useState([
     {
       outerRadius: "112%",
@@ -18,33 +18,10 @@ export default function ActivityGauge({ series, label, list }) {
         .get(),
       borderWidth: 0,
     },
-    {
-      outerRadius: "87%",
-      innerRadius: "63%",
-      backgroundColor: Highcharts.color(Highcharts.getOptions().colors[1])
-        .setOpacity(0.3)
-        .get(),
-      borderWidth: 0,
-    },
-    {
-      outerRadius: "62%",
-      innerRadius: "38%",
-      backgroundColor: Highcharts.color(Highcharts.getOptions().colors[2])
-        .setOpacity(0.3)
-        .get(),
-      borderWidth: 0,
-    },
-    {
-      outerRadius: "37%",
-      innerRadius: "13%",
-      backgroundColor: Highcharts.color(Highcharts.getOptions().colors[3])
-        .setOpacity(0.3)
-        .get(),
-      borderWidth: 0,
-    },
-  ].slice(4-series.length, series.length+1),)
+   
+  ])
 
-console.log("colors ",bgColors)
+
   const [options, setOptions] = useState({
     chart: {
       type: "solidgauge",
@@ -98,15 +75,31 @@ console.log("colors ",bgColors)
       },
     },
 
-    series: series,
+    series: [
+      {
+          "name": "Shared",
+          "data": [
+              {
+                  "color": "#0066BE",
+                  "radius": "112%",
+                  "innerRadius": "88%",
+                  "y": 10,
+                  "z": 100
+                  
+              }
+          ]
+      },
+     
+  ],
   });
 
 
 
   return (
     <Col>
+ 
       <HighchartsReact highcharts={Highcharts} options={options} />
-      <div class="stats_precenage">
+      {/* <div class="stats_precenage">
         <ul class="ul_stats_first" style={{listStyle:"none"}}>
           {list.map((item, index) => {
             const key = Object.keys(item)[0];
@@ -118,7 +111,7 @@ console.log("colors ",bgColors)
             );
           })}
         </ul>
-      </div>
+      </div> */}
     </Col>
   );
 }
