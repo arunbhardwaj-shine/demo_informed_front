@@ -38,23 +38,26 @@ const MessageModel = ({
             /*
             <h4 className="message"
             onClick={() => {handleClose();}}>
-            {data}
+
             </h4>
             */
 
               footerButton !== ""
               ?
-              <button
-                type="button"
-                className="btn btn-primary save btn-filled"
-                onClick={() => {
-                  handleSubmit();
+              <>
+                {data != "" ? <h4 id="message_change">{data}</h4> : null}
+                <button
+                  type="button"
+                  className="btn btn-primary save btn-filled"
+                  onClick={() => {
+                    handleSubmit();
 
-                  onClose();
-                }}
-              >
-                {footerButton}
-              </button>
+                    onClose();
+                  }}
+                >
+                  {footerButton}
+                </button>
+              </>
               :null
           }
 

@@ -318,7 +318,7 @@ const ReaderEdit = () => {
               label: userInputs?.role,
               value: userInputs?.role,
             }}
-            placeholder="Select Role"
+            placeholder="Select role"
             name="role"
             className="dropdown-basic-button split-button-dropup"
             isClearable
@@ -333,7 +333,7 @@ const ReaderEdit = () => {
               label: userInputs?.sub_role,
               value: userInputs?.sub_role,
             }}
-            placeholder="Select Sub Role"
+            placeholder="Select Sub role"
             name="sub_role"
             className="dropdown-basic-button split-button-dropup"
             isClearable
@@ -407,10 +407,10 @@ const ReaderEdit = () => {
 
   return (
     <>
-      <Col className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="page-top-nav">
+            <div className="page-top-nav sticky">
               <Row className="justify-content-end align-items-center">
                 <Col md="1">
                   <div className="header-btn-left">
@@ -490,6 +490,7 @@ const ReaderEdit = () => {
                             className="form-control"
                             name="firstName"
                             defaultValue={userInputs?.firstName}
+                            placeholder="First name"
                             onChange={(e) => handleChange(e)}
                           />
 
@@ -508,6 +509,7 @@ const ReaderEdit = () => {
                             className="form-control"
                             name="middleName"
                             defaultValue={userInputs?.middleName}
+                            placeholder="Middle name"
                             onChange={(e) => handleChange(e)}
                           />
                         </Form.Group>
@@ -518,6 +520,7 @@ const ReaderEdit = () => {
                             className="form-control"
                             name="lastName"
                             defaultValue={userInputs?.lastName}
+                            placeholder="Last name"
                             onChange={(e) => handleChange(e)}
                           />
                         </Form.Group>
@@ -587,6 +590,7 @@ const ReaderEdit = () => {
                             defaultValue={userInputs?.primary_phone?.substring(
                               userInputs?.primary_phone?.indexOf("/") + 1
                             )}
+                            placeholder="Phone number"
                             onChange={(e) => handleChange(e)}
                           />
                           {error?.primary_phone ? (
@@ -604,6 +608,7 @@ const ReaderEdit = () => {
                             className="form-control"
                             name="alternativePhone"
                             defaultValue={userInputs?.alternativePhone}
+                            placeholder="Altername Phone number"
                             onChange={(e) => handleChange(e)}
                           />
                         </Form.Group>
@@ -698,6 +703,7 @@ const ReaderEdit = () => {
                                 className="form-control"
                                 name="title"
                                 defaultValue={userInputs?.title}
+                                placeholder="Title "
                                 onChange={(e) => handleChange(e)}
                               />
                             </Form.Group>
@@ -791,11 +797,11 @@ const ReaderEdit = () => {
                               <Form.Label htmlFor="">Product</Form.Label>
                               <Select
                                 options={userDetail?.product}
+                                placeholder="Select product"
                                 defaultValue={{
                                   label: userInputs?.product,
                                   value: userInputs?.product,
                                 }}
-                                placeholder="Select product"
                                 name="product"
                                 className="dropdown-basic-button split-button-dropup"
                                 isClearable
@@ -821,7 +827,7 @@ const ReaderEdit = () => {
                                 options={productionAll}
                                 defaultValue={userInputs?.interestArea}
                                 placeholder="Select interest area"
-                                // name="interestArea"
+                                name="interestArea"
                                 className="dropdown-basic-button split-button-dropup"
                                 isClearable
                                 onChange={(e) =>
@@ -876,7 +882,7 @@ const ReaderEdit = () => {
                         <Select
                           options={userDetail?.userType}
                           defaultValue={userInputs?.userType}
-                          placeholder="Select province"
+                          placeholder="Select user type"
                           name="userType"
                           className="dropdown-basic-button split-button-dropup"
                           isClearable

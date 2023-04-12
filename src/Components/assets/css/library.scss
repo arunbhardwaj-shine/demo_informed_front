@@ -93,7 +93,7 @@
       margin-right: 10px;
       min-height: 70px;
       img {
-        filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
+        filter: drop-shadow(0px 0px 3px rgba(0, 102, 190, 0.32));
         max-height: 95px;
       }
     }
@@ -651,7 +651,7 @@
     flex: 0 0 130px;
 }
 input:-webkit-autofill {
--webkit-text-fill-color: $dark-blue !important;
+-webkit-text-fill-color: $primary-color !important;
 }
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change h6.tab-content-title {
     flex: 0 0 95px;
@@ -1375,7 +1375,7 @@ select::-ms-expand {
   .crm-detail-content {
     border: 1px dashed $primary-color;
     border-radius: 30px;
-    padding: 16px 32px 32px;
+    padding: 16px 32px 20px;
     .crm-review {
       display: flex;
       flex-wrap: wrap;
@@ -1582,6 +1582,9 @@ background: $dark-blue;
   color: $light-gray;
   word-break: break-all;
   padding-right: 5px;
+}
+.create-change-content .upload-file-box .box p.uploaded-file{
+color:$primary-color;
 }
 .create-change-content .upload-file-box .box p span {
   font-size: 14px;
@@ -2441,6 +2444,9 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   word-break: break-all;
   padding-right: 5px;
 }
+.modal .upload-file-box .box p.uploaded-file{
+  color:$primary-color;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -2914,6 +2920,14 @@ input[type=number] {
 .content_details .verify-email-detail .d-flex img {
   filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
 }
+.content_details .verify-email-detail .preview_content img {
+  max-width: 84px;
+  max-height: 118px;
+  width: 100%;
+}
+.send-confirm .modal-body h4 {
+    font-size: 20px;
+}
 .header-btn .btn.btn-primary.move-draft {
   color: $light-gray;
   border-color: $light-gray;
@@ -3257,11 +3271,65 @@ input.viewer-toolbar-current-page-input {
 .trending-topics .highcharts-data-table tbody th.highcharts-text {
   display: none;
 }
-
-
+.trending-topics .highcharts-data-table thead tr:first-child th:first-child, .trending-topics .highcharts-data-table tbody th.highcharts-text {
+  display: none;
+}
+.load_more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
 /**Analytics end**/
 
+/***header-sticky***/
+.top-header.sticky {
+    padding: 34px 30px 30px;
+    position: sticky;
+    top: 84px;
+    z-index: 4;
+    background: #fbfcfd;
+}
 
+.custom-change {
+    padding: 0 40px 0 45px;
+    .top-header{
+      &.sticky {
+        padding: 34px 30px 30px;
+        position: sticky;
+        top: 84px;
+        z-index: 4;
+        background: #fbfcfd;
+      }
+    }
+    .page-top-nav{
+      &.sticky {
+        padding: 34px 30px 30px;
+        position: sticky;
+        top: 84px;
+        z-index: 5;
+        background: #fbfcfd;
+        margin:0;
+      }
+    }
+    .library-content-box-layuot {
+      padding: 0 30px;
+    }
+    .create-change-content {
+      max-width: calc(100% - 60px);
+      margin: 0 auto 40px;
+}
+}
+
+.dropdown.split-button-dropup .dropdown-menu .scroll_div .scroll_div_inset {
+    overflow-y: auto;
+    max-height: 120px;
+}
+#download-qr .dropdown-menu .scroll_div.delivery_popup {
+    padding: 5px 8px 5px 5px;
+     overflow: hidden;
+}
+/***Header-sticky-end***/
 
 
 

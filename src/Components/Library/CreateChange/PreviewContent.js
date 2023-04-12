@@ -90,14 +90,13 @@ const PreviewContent = () => {
       loader("hide");
 
       const div_img = document.querySelector(".alice-carousel__wrapper img");
-      div_img.click()
-
+      div_img.click();
     } catch (err) {
       loader("hide");
     }
   };
 
-  const updateArticleTitle = async(title) => {
+  const updateArticleTitle = async (title) => {
     try {
       loader("show");
       let formData = new FormData();
@@ -106,7 +105,7 @@ const PreviewContent = () => {
       formData.append("userId", localStorage.getItem("user_id"));
       formData.append("title", title);
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
-          formData.append("fileId", pdfFileId);
+        formData.append("fileId", pdfFileId);
       }
       await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
         header: {
@@ -114,13 +113,13 @@ const PreviewContent = () => {
         },
       });
 
-      if(pdfData?.file_type && pdfData.file_type == "ebook") {
-      	let pdfIndex = pdfData.ebookData.findIndex(el => el.id === pdfFileId);
-      	pdfData.ebookData[pdfIndex].title = title;
-      	setPdfData(pdfData);
-      	setTemplateName(title);
+      if (pdfData?.file_type && pdfData.file_type == "ebook") {
+        let pdfIndex = pdfData.ebookData.findIndex((el) => el.id === pdfFileId);
+        pdfData.ebookData[pdfIndex].title = title;
+        setPdfData(pdfData);
+        setTemplateName(title);
         setTitleNew(title);
-      }else{
+      } else {
         pdfData.title = title;
       }
       loader("hide");
@@ -200,26 +199,26 @@ const PreviewContent = () => {
       formData.append("file", userInputs?.uploadFile?.[0]);
 
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
-        if(typeof userInputs?.title != "undefined"){
-            setTemplateName(userInputs?.title);
-            formData.append("title", userInputs?.title);
+        if (typeof userInputs?.title != "undefined") {
+          setTemplateName(userInputs?.title);
+          formData.append("title", userInputs?.title);
         }
-          // if(typeof userInputs?.title == "undefined"){
-          //   formData.append("title", templateName);
-          // }
-          // else{
-          //   formData.append("title", userInputs?.title);
-          // }
+        // if(typeof userInputs?.title == "undefined"){
+        //   formData.append("title", templateName);
+        // }
+        // else{
+        //   formData.append("title", userInputs?.title);
+        // }
         formData.append("fileId", pdfFileId);
       }
-     const res = await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
+      const res = await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
         header: {
           "Content-Type": "multipart/form-data",
         },
       });
       // getArticleData();
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
-        setUserInputs({ ...userInputs, title: "", uploadFile: ""});
+        setUserInputs({ ...userInputs, title: "", uploadFile: "" });
       }
 
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
@@ -227,7 +226,7 @@ const PreviewContent = () => {
         pdfData.ebookData[pdfIndex].title = res?.data?.data?.title;
         pdfData.ebookData[pdfIndex].file_name = res?.data?.data?.pdf;
         setTemplatePdf(res?.data?.data?.pdf);
-      }else{
+      } else {
         pdfData.file_name = res?.data?.data?.pdf;
         pdfData.title = res?.data?.data?.title;
         setTemplatePdf(res?.data?.data?.pdf);
@@ -249,7 +248,7 @@ const PreviewContent = () => {
 
   const updatePublish = () => {
     setPublishStatus(true);
-  }
+  };
 
   const handleNext = async (obj) => {
     loader("show");
@@ -285,7 +284,6 @@ const PreviewContent = () => {
           });
         }
         setPdfData(pdfData);
-
       } else {
         setPublishStatus(true);
         navigate("/content-detail", {
@@ -352,8 +350,8 @@ const PreviewContent = () => {
 
                   <Button
                     onClick={() => {
-                       setTrigger((trigger) => trigger + 1);
-                     }}
+                      setTrigger((trigger) => trigger + 1);
+                    }}
                     className={
                       publishStatus
                         ? "btn btn-primary btn-filled next send_btn"
@@ -434,11 +432,17 @@ const PreviewContent = () => {
                               value={titleChange}
                               onChange={(e) => setTitleChange(e.target.value)}
                             />
+                          ) : pdfData?.file_type &&
+                            pdfData.file_type == "ebook" ? (
+                            templateName != "" ? (
+                              templateName
+                            ) : (
+                              pdfData?.ebookData[0].title
+                            )
+                          ) : titleChange != "" ? (
+                            titleChange
                           ) : (
-                            pdfData?.file_type && pdfData.file_type == "ebook" ?
-                             templateName != '' ? templateName : pdfData?.ebookData[0].title
-                             :
-                            titleChange != "" ? titleChange : pdfData?.title
+                            pdfData?.title
                           )}
 
                           {editTitle ? (
@@ -468,11 +472,13 @@ const PreviewContent = () => {
                               onClick={(e) => {
                                 setEditTitle(true);
                                 setTitleChange(
-                  								pdfData?.file_type && pdfData.file_type == "ebook" ?
-                  								templateName != '' ? templateName : pdfData?.title
-                  								  :
-                  								pdfData?.title
-                							  )
+                                  pdfData?.file_type &&
+                                    pdfData.file_type == "ebook"
+                                    ? templateName != ""
+                                      ? templateName
+                                      : pdfData?.title
+                                    : pdfData?.title
+                                );
                               }}
                             >
                               <img
@@ -569,7 +575,9 @@ const PreviewContent = () => {
                         <span>Choose Your File</span>
                       </label>
                       {userInputs?.uploadFile?.[0]?.name ? (
-                        <p>{userInputs?.uploadFile?.[0].name}</p>
+                        <p className="uploaded-file">
+                          {userInputs?.uploadFile?.[0].name}
+                        </p>
                       ) : (
                         <p>Upload your PDF</p>
                       )}

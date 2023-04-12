@@ -43,13 +43,17 @@ function Products() {
  const [productData,setProductData] = useState({})
   const initFun = async() =>{
     loader("show");
-    const resp =  await postData(ENDPOINT.SPC_PRO_LISTING,{
-        user_id:localStorage.getItem("user_id"),
-        type:content?.value,
-        category:newValue?.category
-      })
-      setProductData(resp?.data?.data)
+    try{
+      const resp =  await postData(ENDPOINT.SPC_PRO_LISTING,{
+          user_id:localStorage.getItem("user_id"),
+          type:content?.value,
+          category:newValue?.category
+        })
+        setProductData(resp?.data?.data)
+        loader("hide");
+    }catch(err){
       loader("hide");
+    }
   }
   useEffect (()=>{
     initFun()
@@ -134,30 +138,35 @@ function Products() {
                 </div>
                 <Row>
                   <div className="col-12 selected-products-list d-flex">
-                    {productData?.length? productData?.data?.map((item) => {
-                      return (
-                        <>
-                          <Col xxl={3} xl={4} md={6}>
+
+                    {productData?.data?.length > 0 ? (
+                      productData?.data?.map((item) => {
+                          return (
+                            <>
+                            <Col xxl={3} xl={4} md={6}>
                             <div className="products-listing">
-                              {item?.product}
-                              <button
-                                className="dlt_btn"
-                                onClick={() => {
-                                  setConfirmationPopup(true)
-                                  setClickData(item?.id)
-                                }
-                              }
-                              >
-                                <img
-                                  src={path_image + "delete.svg"}
-                                  alt="Delete Row"
-                                />
-                              </button>
-                            </div>
+                            {item?.product}
+                            <button
+                            className="dlt_btn"
+                            onClick={() => {
+                              setConfirmationPopup(true)
+                              setClickData(item?.id)
+                            }
+                          }
+                          >
+                          <img
+                          src={path_image + "delete.svg"}
+                          alt="Delete Row"
+                          />
+                          </button>
+                          </div>
                           </Col>
-                        </>
-                      );
-                    }):<div className="no_found"><p>No Data Found</p></div>  }
+                          </>
+                        );
+                      })
+                    )
+                    : <div className="no_found"><p>No Data Found</p></div>
+                  }
                   </div>
                   </Row>
               </div>

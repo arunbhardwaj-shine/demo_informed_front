@@ -708,10 +708,10 @@ const LibraryContent = () => {
 
   return (
     <>
-      <Col className="right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header sticky">
               <div className="page-title">
                 <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2>
               </div>
@@ -1232,7 +1232,7 @@ const LibraryContent = () => {
                                         href={data?.previewArticle}
                                         target="_blank"
                                       >
-                                        Preview aritcle
+                                        Preview content
                                       </a>
                                       <Button
                                         onClick={() => {
@@ -1793,9 +1793,8 @@ const LibraryContent = () => {
                     <p>No Data Found</p>
                   </div>
                 ) : null}
-              </>
-            </div>
-            {isLoaded == true ? (
+                {isLoaded == true ? (
+              
               <div className="load_more">
                 <Button
                   className="btn btn-primary btn-filled"
@@ -1818,6 +1817,9 @@ const LibraryContent = () => {
                 <Spinner color="#53aff4" size={32} speed={1} animating={true} />
               </div>
             ) : null}
+              </>
+            </div>
+            
           </Row>
         </div>
       </Col>
