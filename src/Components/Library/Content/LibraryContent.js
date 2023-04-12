@@ -357,7 +357,7 @@ const LibraryContent = () => {
         message1:
           "You are about to remove this content from any reader and every device forever.",
         message2: "Are you sure you want to do this?",
-        footerButton: "Yes Please  !",
+        footerButton: "Yes Please!",
       });
       if (confirmationpopup) {
         setConfirmationPopup(false);

@@ -2937,6 +2937,12 @@ input[type=number] {
 .content_details .verify-email-detail h6 li {
   font-weight:400;
 }
+.create-reader.create-change-content.smartlist_readers_view {
+  padding: 7px 12px 36px;
+}
+.create-reader.create-change-content.smartlist_readers_view .create-reader-form-header, .create-reader.create-change-content.smartlist_readers_view .create-reader-form-header h4 {
+  margin: 0;
+}
 .header-btn .btn.btn-primary.move-draft {
   color: $light-gray;
   border-color: $light-gray;
@@ -3319,7 +3325,7 @@ input.viewer-toolbar-current-page-input {
         padding: 34px 30px 30px;
         position: sticky;
         top: 84px;
-        z-index: 5;
+        z-index: 6;
         background: #fbfcfd;
         margin:0;
       }
@@ -3421,6 +3427,27 @@ ul.tab-mail-list.data span.total-left {
 .form-group.primary_phone .dropdown-basic-button.split-button-dropup > div:nth-child(3), .create-change-content .split-button-dropup > div:nth-child(3) {
     height: 43.5px;
 }
+.template_builder-option.library-cosent, .select-mail-template.library-cosent {
+    padding: 0 10px;
+}
+.create-change-content .login-validation, .create-change-content .login-validation-upload {
+    left: 166px !important;
+}
+.custom-change {
+    padding: 0 25px 0 25px;
+}
+
+.custom-change .create-change-content {
+    max-width: calc(100% - 20px);
+}
+.custom-change .top-header.sticky,.custom-change .page-top-nav.sticky{
+    padding: 30px 10px 30px;
+    top: 82px;
+}
+
+.custom-change .library-content-box-layuot {
+    padding: 0 10px;
+}
 .create-change-content.reader_added .form-group .add_product button {
     min-width: 160px;
     font-size: 14px;
@@ -3476,6 +3503,19 @@ ul.tab-mail-list.data span.total-left {
   .library_create .library_create-box.spc {
     max-width: 31.3%;
   }
+  .create-change-content.create-reader {
+    padding: 15px 12px;
+}
+  .selected-products-list {
+    padding: 20px 12px 0;
+}
+  .custom-change .library-content-box-layuot {
+    margin-top: 0px;
+}
+.custom-change .top-header.sticky, .custom-change .page-top-nav.sticky {
+    padding: 24px 10px 24px;
+    top: 80px;
+}
   .crm-detail .crm-detail-content .crm-review .crm-review-detail ul li h6 {
     font-size: 14px;
     line-height: 19px;
@@ -3677,9 +3717,12 @@ ul.tab-mail-list.data span.total-left {
     font-size: 11px;
     line-height: 15px;
 }
+.create-change-content .login-validation, .create-change-content .login-validation-upload {
+    left: 154px !important;
+}
 .library-content-box-layuot .doc-content-main-box {
-	flex: 0 0 48%;
-	width: 48%;
+	flex: 0 0 49%;
+	width: 49%;
 }
 .library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs .nav-item:first-child button.active:before {
     height: 43px;
@@ -3743,11 +3786,11 @@ ul.tab-mail-list.data span.total-left {
     right: -15px;
 }
 .page-title .btn.back-btn {
-    min-width: 36px;
-    height: 36px;
-    width: 36px;
+    min-width: 32px;
+    height: 32px;
+    width: 32px;
     padding: 7px;
-    margin: 0 12px 0 0;
+    margin: 0 10px 0 0;
 }
 .page-title .btn.back-btn svg {
     width: 12px;
@@ -3758,9 +3801,9 @@ ul.tab-mail-list.data span.total-left {
   .create-change-content .right-change .form-group > label {
     text-align: left;
   }
-  .create-change-content .right-change .form-group {
-    justify-content: flex-start !important;
-  }
+  // .create-change-content .right-change .form-group {
+  //   justify-content: flex-end !important;
+  // }
 
   .create-change-content .right-change .form-group > label {
     padding-top: 10px;
@@ -4029,6 +4072,21 @@ ul.tab-mail-list.data span.total-left {
   .sublink_right_block .loader-view {
     width: 60px;
     height: 60px;
+}
+.create-reader.create-change-content.reader_added .right-change .form-group {
+    justify-content: flex-start !important;
+    padding-top: 10px;
+}
+.create-change-content .form-group {
+    margin: 10px 0 10px;
+}
+.custom-change {
+    padding: 0 10px 0 10px;
+}
+.custom-change .top-header.sticky, .custom-change .page-top-nav.sticky {
+    top: 62px;
+    border-radius: 10px 0 0 0;
+    padding: 16px 10px 16px;
 }
    .create-change-content .col-md-6, .create-change-content .col-md-7, .create-change-content .col-md-5 {
     width: 100%;
