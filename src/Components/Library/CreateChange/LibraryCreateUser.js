@@ -356,8 +356,9 @@ const LibraryCreateUser = () => {
   const deleteRecord = (i) => {
     const list = chapter;
     list.splice(i, 1);
-
+    ebookFile.splice(i, 1);
     setChapter(list);
+    setEbookFile(ebookFile);
     setCounterFlag(counterFlag + 1);
   };
 
