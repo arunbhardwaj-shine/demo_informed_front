@@ -1113,6 +1113,13 @@ ul.tab-mail-list.data span.total-left small {
   border: 0;
   margin: 0;
 }
+.spc-edit .smartlist-view.email_box  .mail-box-content table th {
+    vertical-align: middle;
+}
+#download-qr .modal-body .form-group .modal-form-group {
+    max-width: 331px;
+    width: 100%;
+}
 .extra_multiselect .css-1rhbuit-multiValue {
   background-color: $light-blue;
 }
@@ -1121,7 +1128,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 .split-button-dropup
   > div:nth-child(3)
-  div[class*="css-1rhbuit-multiValue"]
+  div[class*="-multiValue"]
   > div {
   display: flex;
 }
@@ -3435,7 +3442,7 @@ ul.tab-mail-list.data span.total-left {
 }
 
 .custom-change .create-change-content {
-    max-width: calc(100% - 20px);
+    max-width: calc(100% - 10px);
 }
 .custom-change .top-header.sticky,.custom-change .page-top-nav.sticky{
     padding: 30px 10px 30px;
@@ -3500,6 +3507,9 @@ ul.tab-mail-list.data span.total-left {
   .library_create .library_create-box.spc {
     max-width: 31.3%;
   }
+  .custom-change .create-change-content {
+    max-width: 100%;
+}
   .create-change-content.create-reader {
     padding: 15px 12px;
 }
@@ -4069,6 +4079,17 @@ ul.tab-mail-list.data span.total-left {
   .sublink_right_block .loader-view {
     width: 60px;
     height: 60px;
+}
+.header-btn svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+.custom-change .library-content-box-layuot {
+    margin-top: 10px;
+}
+.custom-change .create-change-content {
+    max-width: calc(100% - 0px);
 }
 .create-reader.create-change-content.reader_added .right-change .form-group {
     justify-content: flex-start !important;
