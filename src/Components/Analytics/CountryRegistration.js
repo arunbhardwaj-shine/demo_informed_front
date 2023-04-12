@@ -7,8 +7,8 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import highchartsMap from "highcharts/modules/map";
 import MapModule from "highcharts/modules/map";
-import worldMap from "@highcharts/map-collection/custom/world.geo.json";
-
+// import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+const worldMap = "";
 
 MapModule(Highcharts);
 
@@ -19,7 +19,7 @@ const CountryRegistration = () => {
 // for map
 const mapOptions = {
   chart: {
-    map: "worldMap" 
+    map: "worldMap"
   },
   title: {
     text: "Country Registration"
@@ -73,7 +73,7 @@ const mapOptions = {
         }
       },
     },
-   
+
   ],
 };
 
