@@ -283,18 +283,21 @@ const ReaderAdd = () => {
       let formData = new FormData();
       formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("createdBy", localStorage.getItem("user_id"));
-      const response = await postFormData(ENDPOINT.UPLOAD_READER_FILE, formData, {
-        header: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await postFormData(
+        ENDPOINT.UPLOAD_READER_FILE,
+        formData,
+        {
+          header: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
-      if(response?.data?.data){
+      if (response?.data?.data) {
         navigate("/readers-list", {
-         state: {
-           readersData: response?.data?.data,
-         },
+          state: {
+            readersData: response?.data?.data,
+          },
         });
       }
-
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -435,10 +438,10 @@ const ReaderAdd = () => {
   };
   return (
     <>
-      <Col className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="page-top-nav">
+            <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
                 <Col md="1">
                   <div className="header-btn-left">
@@ -509,17 +512,13 @@ const ReaderAdd = () => {
                   {/* onChange={handleFileUpload}
                   /> */}
 
-                  {!(groupId == 3 && flag == 0 && pharmaData == 1) ? (
-                    <Button
-                      className="btn-bordered"
-                      type="file"
-                      onClick={handleShow}
-                    >
-                      Upload Excel File
-                    </Button>
-                  ) : (
-                    ""
-                  )}
+                  <Button
+                    className="btn-bordered"
+                    type="file"
+                    onClick={handleShow}
+                  >
+                    Upload Excel File
+                  </Button>
                 </div>
                 <div className="row">
                   <Col md="7">
@@ -604,6 +603,7 @@ const ReaderAdd = () => {
                             type="number"
                             className="form-control"
                             name="primary_phone"
+                            placeholder="Phone number"
                             onChange={(e) => handleChange(e)}
                           />
                           {error?.primary_phone ? (
@@ -683,6 +683,7 @@ const ReaderAdd = () => {
                             type="text"
                             className="form-control"
                             name="title"
+                            placeholder="Title"
                             onChange={(e) => handleChange(e)}
                           />
                         </Form.Group>
@@ -1155,7 +1156,9 @@ const ReaderAdd = () => {
                       <span>Choose Your File</span>
                     </Form.Label>
                     {userInputs?.uploadFile?.[0]?.name ? (
-                      <p>{userInputs?.uploadFile?.[0].name}</p>
+                      <p className="uploaded-file">
+                        {userInputs?.uploadFile?.[0].name}
+                      </p>
                     ) : (
                       <p>Upload your Excel</p>
                     )}

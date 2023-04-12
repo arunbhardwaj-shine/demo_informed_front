@@ -319,13 +319,13 @@ const SetPopup = (props) => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className= {articleId != "" ? "right-sidebar custom-change" : "right-sidebar" }>
         {popupData ? (
           <div className="custom-container">
             <Row>
               {articleId ? (
                 <>
-                  <div className="page-top-nav">
+                  <div className={articleId != "" ? "page-top-nav sticky" : "page-top-nav" }>
                     <Row className="justify-content-end align-items-center">
                       <Col md="1">
                         <div className="header-btn-left">
@@ -647,7 +647,7 @@ const SetPopup = (props) => {
             </Row>
           </div>
         ) : null}
-      </div>
+      </Col>
     </>
   );
 };
