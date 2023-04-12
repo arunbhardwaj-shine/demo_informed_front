@@ -142,7 +142,6 @@ const Totalhcp = () => {
       if (data.length <= 0) {
         setIsDataNotFound(true);
       }
-      console.log(data);
 
       // Set options for HCP chart
       const newSeries = data.map((item, index) => ({
@@ -171,7 +170,6 @@ const Totalhcp = () => {
         },
       ];
 
-      console.log("New", newSeries);
       const categories = JSON.parse(data[0].Months);
       const newHcpOptions = {
         ...hcpOptions,
@@ -183,7 +181,6 @@ const Totalhcp = () => {
 
       setHcpOptions(newHcpOptions)
 
-      console.log(hcpOptions);
 
       // Set options for Base line chart
       const lineSeries = data.map((item) => ({

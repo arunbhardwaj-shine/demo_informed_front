@@ -16,6 +16,10 @@ const OpeningByCountry = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const selectFilter = useRef(null);
+  const selectFilterType = useRef("Openingcountry");
+
+  const [filterData, setFilterData] = useState(null);
+
 
   const chart = useRef(null);
   Highcharts.setOptions({
@@ -105,8 +109,8 @@ const OpeningByCountry = () => {
 
     try {
       const requestBody = {
-        type: "Openingcountry",
-        filter: selectFilter?.current?.value
+        type: selectFilterType.current,
+        pdfId: selectFilter?.current?.value
           ? selectFilter?.current?.value
           : "",
       };
@@ -114,6 +118,15 @@ const OpeningByCountry = () => {
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
+      }
+      else{
+        setIsDataFound(true);
+      }
+     
+      if (hadData.name.length <= 0) {
+        setIsDataFound(false);
+      }else{
+         setIsDataFound(true);
       }
       // console.log(hadData);
       const categories = hadData?.name;
@@ -143,8 +156,12 @@ const OpeningByCountry = () => {
       };
 
       setTopClientOptions(newClientOptions);
+      if(filterData==null){
+        setFilterData(hadData.pdfData)
+      }
 // console.log(topClientOptions)
-      setIsDataFound(true);
+     
+      setIsLoaded(true)
       setData(hadData);
 
       loader("hide");
@@ -156,8 +173,10 @@ const OpeningByCountry = () => {
     // console.log(chart.current);
   };
 
-  const filterData = (e) => {
+  const handleFilterData = (e) => {
+    setIsLoaded(false)
     setIsDataFound(false);
+    selectFilterType.current="OpeningcountryFilter"
     selectFilter.current = e;
 
     getDataFromApi(e.value);
@@ -197,12 +216,12 @@ const OpeningByCountry = () => {
                     <div className="form-group ">
                       <label htmlFor="">Filter By</label>
                       <Select
-                        options={data?.pdfData?.map((pdf) => ({
+                        options={filterData.map((pdf) => ({
                           label: pdf.title,
                           value: pdf.id,
                         }))}
                         placeholder="Filter By"
-                        onChange={filterData}
+                        onChange={handleFilterData}
                         defaultValue={
                           selectFilter?.current ? selectFilter?.current : null
                         }
@@ -222,7 +241,7 @@ const OpeningByCountry = () => {
               </div>
             </Row>
           </div>
-        ) : null}
+        ) : isLoaded ?<h2>NO Data Found</h2>:null}
       </Col>
     </>
   );
