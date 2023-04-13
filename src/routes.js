@@ -112,6 +112,7 @@ import CampaignStats from "./Components/Analytics/CampaignStats";
 import DeliveryTrends from "./Components/Analytics/DeliveryTrends";
 import RegistrationType from "./Components/Analytics/RegistrationType";
 import ContentGraph from "./Components/Analytics/ContentGraph";
+import Informed from "./Components/Library/Informed";
 
 let platform = 0;
 let show = 0;
@@ -152,24 +153,11 @@ const Routing = () => {
           "/setting-webinar",
         ].includes(window.location.pathname) ? (
           <WebinarHeader />
-        ) : ["/library-content", "/library-create"].includes(
-            window.location.pathname
-          ) ? (
-          <Header />
-        ) : [
-            "/readers-view",
-            "/reader-add",
-            "/reader-edit",
-            "/readers-list",
-            "/reader-review",
-            "/timeline-detail",
-          ].includes(window.location.pathname) ? (
-          <Header />
-        ) : ["/cis_stats"].includes(window.location.pathname) ? (
-          <Header />
-        ) : window.location.pathname !== "/" ? (
-          <Header />
-        ) : null}
+        ) :   
+            window.location.pathname != "/informed" 
+            ? <Header /> 
+            : null
+        }
         {/* {window.location.pathname !== "/" ? <WebinarHeader /> : null} */}
         <div className="warpper">
           <div className="container-fluid">
@@ -184,13 +172,13 @@ const Routing = () => {
                 "/setting-webinar",
               ].includes(window.location.pathname) ? (
                 <WebinarSidebar />
-              ) : ["/cis_stats"].includes(window.location.pathname) ? (
-                <AnalyticsSidebar />
-              ) : window.location.pathname !== "/" ? (
-                <Sidebar />
-              ) : null}
-              {/* {window.location.pathname !== "/" ? <Sidebar /> : null} */}
+              ) : 
+                  window.location.pathname != "/informed" 
+                  ? <Sidebar /> 
+                  : null
+              }
               <Routes>
+                 <Route path="/informed" element={<Informed />}/> 
                 {/* New webinar */}
                 {/* <Route path="/new-webinar" element={<WebinarHeader />} /> */}
                 {/* end webinar */}
