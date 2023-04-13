@@ -45,6 +45,7 @@ export const ENDPOINT = {
   CONTENTANALYTICS: "/analytics/content-analytics",
 
   DELIVERYTRENDS: "analytics/trend",
+  MAPLOCATION:`analytics/map-location`,
   REPORTS: "analytics/reports",
 
   CONTENTTYPE:"analytics/content-type",

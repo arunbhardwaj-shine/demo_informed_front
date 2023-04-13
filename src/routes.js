@@ -112,9 +112,7 @@ import CampaignStats from "./Components/Analytics/CampaignStats";
 import DeliveryTrends from "./Components/Analytics/DeliveryTrends";
 import RegistrationType from "./Components/Analytics/RegistrationType";
 import ContentGraph from "./Components/Analytics/ContentGraph";
-
-
-
+import TrendingContentOcta from "./Components/Analytics/TrendingContentOcta";
 
 let platform = 0;
 let show = 0;
@@ -205,47 +203,57 @@ const Routing = () => {
                   <Route path="/trending-content" element={<TrendingContent />} />
                   
                   */
-                  <Route path="/country-registration" element={<CountryRegistration />} />
-                  
+                  <Route
+                    path="/country-registration"
+                    element={<CountryRegistration />}
+                  />
                 }
                 <Route path="/octa-country" element={<OctaCountry />} />
                 <Route path="/octalatch-country-stats" element={<OctalatchCountryStats />} />
-                <Route path="/trending-content" element={<TrendingContent />} />
+                <Route
+                  path="/trending-content"
+                  element={
+                    localStorage.getItem("user_id") =="rjiGlqA9DXJVH7bDDTX0Lg==" ? (
+                      <TrendingContentOcta />
+                    ) : (
+                      <TrendingContent />
+                    )
+                  }
+                />
 
                 <Route path="/top-clients" element={<TopClients />} />
                 <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/top-sales" element={<TopSales />} />
-                <Route path="/content-analytics" element={<ContentAnalytics />} />
+                <Route
+                  path="/content-analytics"
+                  element={<ContentAnalytics />}
+                />
                 <Route path="/trending-topics" element={<TrendingTopics />} />
                 <Route path="/trending-topics" element={<TrendingTopics />} />
                 <Route path="/content-type" element={<ContentGraph />} />
-
 
                 <Route
                   path="/openings-by-country"
                   element={<OpeningByCountry />}
                 />
-                 <Route
-                  path="/campaign-stats"
-                  element={<CampaignStats />}
-                />
-                  <Route
-                  path="/delivery-stats"
-                  element={<DeliveryTrends />}
-                />
+                <Route path="/campaign-stats" element={<CampaignStats />} />
+                <Route path="/delivery-stats" element={<DeliveryTrends />} />
 
                 <Route
-                path="/registration-type"
-                element={<RegistrationType />}
-              />
-                 <Route
-                path="/content-analytics"
-                element={<ContentAnalytics />}
-              />
+                  path="/registration-type"
+                  element={<RegistrationType />}
+                />
+                <Route
+                  path="/content-analytics"
+                  element={<ContentAnalytics />}
+                />
+
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
 
-
-                <Route path="/registration-type" element={<RegistrationType />} />
+                <Route
+                  path="/registration-type"
+                  element={<RegistrationType />}
+                />
                 <Route path="/readers-view" element={<NewReaders />} />
                 <Route path="/reader-edit" element={<ReaderEdit />} />
                 <Route path="/reader-add" element={<ReaderAdd />} />
@@ -325,16 +333,30 @@ const Routing = () => {
                 <Route path="/get-details" element={<GetDetails />} />
 
                 <Route path="/license-content" element={<LicenseContent />} />
-                <Route path="/license-edit-listing" element={<LicenseEditListing />} />
+                <Route
+                  path="/license-edit-listing"
+                  element={<LicenseEditListing />}
+                />
                 <Route path="/license-create" element={<LicenseCreate />} />
-                <Route path="/license-create-user" element={<LicenseCreateUser />} />
+                <Route
+                  path="/license-create-user"
+                  element={<LicenseCreateUser />}
+                />
                 <Route path="/license-sublink" element={<LicenseSublink />} />
-                <Route path="/license-set-popup" element={<LicenseSetPopup />} />
+                <Route
+                  path="/license-set-popup"
+                  element={<LicenseSetPopup />}
+                />
                 <Route path="/license-topics" element={<LicenseTopics />} />
-                <Route path="/license-preview-content" element={<LicensePreviewContent />} />
-                <Route path="/license-content-detail" element={<LicenseContentDetail />} />
+                <Route
+                  path="/license-preview-content"
+                  element={<LicensePreviewContent />}
+                />
+                <Route
+                  path="/license-content-detail"
+                  element={<LicenseContentDetail />}
+                />
                 <Route path="/license-edit" element={<EditLicense />} />
-
               </Routes>
             </div>
           </div>
