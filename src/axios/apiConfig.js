@@ -45,6 +45,7 @@ export const ENDPOINT = {
   CONTENTANALYTICS: "/analytics/content-analytics",
 
   DELIVERYTRENDS: "analytics/trend",
+  MAPLOCATION:`analytics/map-location`,
   REPORTS: "analytics/reports",
 
   CONTENTTYPE:"analytics/content-type",
@@ -55,4 +56,5 @@ export const ENDPOINT = {
   COUNTRY_REGISTRATION: `analytics/country`,
   ADD_TAGS: `/library/add-tags`,
   INSERTBULKREADERS: `/reader/add-bulk-reader`,
+  
 };

@@ -105,9 +105,18 @@ const [isDataFound, setIsDataFound] = useState(false);
     loader("show");
 
     try {
-      const requestBody = {
-        type: type,
-      };
+      let requestBody 
+      if(localStorage.getItem("user_id")=="iSnEsKu5gB/DRlycxB6G4g=="){
+         requestBody = {
+          type: "octa",
+        };
+      }
+      else{
+        requestBody = {
+          type: type,
+        };
+      }
+      
       const response = await postData(ENDPOINT.CONTENTTYPE, requestBody);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {

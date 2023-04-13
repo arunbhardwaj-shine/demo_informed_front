@@ -29,7 +29,7 @@ export default function ContentAnalyticsComponentActivityGauge({
       },
       valueSuffix: "%",
       pointFormat:
-        '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.z}</span>',
+        '',
       positioner: function (labelWidth) {
         return {
           x: (this.chart.chartWidth - labelWidth) / 2,
@@ -64,11 +64,12 @@ export default function ContentAnalyticsComponentActivityGauge({
     plotOptions: {
       solidgauge: {
         dataLabels: {
-          enabled: false,
+          enabled: true,
+          format: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.z}</span>',
         },
-        linecap: "round",
+        
         stickyTracking: false,
-        rounded: true,
+       
       },
     },
 
