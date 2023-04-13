@@ -23,11 +23,19 @@ const DocintelAccount = ({ data }) => {
     ],
   });
 
-  const [gaugeOptions, setGaugeOptions] = useState();
+
+
   return (
     <>
       {data != null
         ? data.map((element, index) => {
+          const dataForGraph= element.country==0  || element.country.length==0  ?[{}] :JSON.parse(element.country);
+         
+         
+
+          // alert(element.pdf_data.Pdf.code)
+          // alert(index)
+
             return (
               <Row key={index}>
                 <Col sm={2} md={2} className="img-box justify-content-center">
@@ -55,6 +63,16 @@ const DocintelAccount = ({ data }) => {
                       <Button className="btn next-content btn-bordered">
                         Preview Article
                       </Button>
+                    </Col>
+                    <Col>
+                    {element?.pdf_data?.Pdf?.product!=undefined?
+                      <span >
+                      {element?.pdf_data?.Pdf?.product}
+                      </span>
+
+                      :null
+
+                    }
                     </Col>
                   </Row>
                 </Col>
@@ -147,22 +165,22 @@ const DocintelAccount = ({ data }) => {
                       },
                       series: [
                         {
-                          name: "Distribute",
+                          name: "Registration",
                           data: [
                             {
                               color: Highcharts.getOptions().colors[1],
                               radius: "95%",
                               innerRadius: "70%",
                               y:
-                                element.distribute > 100
-                                  ? element.distribute
-                                  : 100,
+                                
+                                 element.distribute,
+                                  
                               z: element.distribute,
                             },
                           ],
                         },
                         {
-                          name: "Opened",
+                          name: "Openings",
                           data: [
                             {
                               color: Highcharts.getOptions().colors[2],
@@ -176,7 +194,7 @@ const DocintelAccount = ({ data }) => {
                           ],
                         },
                         {
-                          name: "RTR",
+                          name: "Actual Readers",
                           data: [
                             {
                               color: Highcharts.getOptions().colors[3],
@@ -209,7 +227,7 @@ const DocintelAccount = ({ data }) => {
                         enabled: false,
                       },
                       xAxis: {
-                        categories: JSON.parse(element.country).map(
+                        categories: dataForGraph.map(
                           (c) => c.name
                         ),
                       },
@@ -221,7 +239,7 @@ const DocintelAccount = ({ data }) => {
                       series: [
                         {
                           name: "",
-                          data: JSON.parse(element.country).map((c) =>
+                          data: dataForGraph.map((c) =>
                             parseInt(c.y)
                           ),
                           showInLegend: false,
