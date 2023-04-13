@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Highcharts from "highcharts";
@@ -13,10 +13,15 @@ exportData(Highcharts);
 
 // base bar highchart
 const OctalatchTotalHCP = () => {
+  const [isDataNotFound, setIsDataNotFound] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [getMonth, setMonth] = useState([]);
   const [flag, setFlag] = useState(false);
+
   const [hcpOptions, setHcpOptions] = useState({
     chart: {
       type: "bar",
+      height: 1000,
     },
     title: {
       text: "Total HCPs",
@@ -44,6 +49,7 @@ const OctalatchTotalHCP = () => {
     plotOptions: {
       series: {
         stacking: "normal",
+        pointWidth: 30,
       },
     },
     // exporting: {
@@ -56,6 +62,7 @@ const OctalatchTotalHCP = () => {
   const [lineOptions, setLineOptions] = useState({
     chart: {
       type: "line",
+      height: 500,
     },
     title: {
       text: "Total HCPs",
@@ -124,19 +131,35 @@ const OctalatchTotalHCP = () => {
     //   showTable: true,
     // },
     series: [],
+    month: [],
   });
 
   Highcharts.setOptions({
-    colors: ["#FFBE2C", "#00D4C0", "#F58289"],
+    colors: [
+      "#FFBE2C",
+      "#F58289",
+      "#00D4C0",
+      "#D61975",
+      "#0066BE",
+      "#db6f2c",
+      "#9af5b2",
+      "#00003C",
+      "#9C9CA2",
+      "#7cb0dd",
+      "#7c00ad",
+      "#009739",
+      "#BCA9F5",
+      "#ACB5F5",
+    ],
   });
-
-  const [isDataNotFound, setIsDataNotFound] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const getDataFromApi = async () => {
     try {
-      const response = await getData(ENDPOINT.ANALYTICS);
-      const data = response.data.data;
+      const response = await getData(ENDPOINT.OCTALATCH_TOTAL_HCP);
+
+      const data = response?.data?.response?.data;
+
+      setMonth(response?.data?.response?.months);
       if (data.length <= 0) {
         setIsDataNotFound(true);
       }
@@ -157,81 +180,61 @@ const OctalatchTotalHCP = () => {
       ];
 
       data.map((item, index) => {
-        console.log(index, " name ", item.ibu);
-
-        newSeriesData.push({
-          name:
-            item?.ibu +
-            " (" +
-            JSON.parse(item?.total_readers)?.reduce(
-              (acc, val) => acc + val,
-              0
-            ) +
-            ")",
-          data: JSON.parse(item?.total_readers),
-          color: Highcharts.getOptions()?.colors[index],
-          month: JSON.parse(item?.Months),
+        newSeriesData?.push({
+          name: item?.name + " (" + JSON.parse(item?.total) + ")",
+          data: item?.graph1,
+          color: Highcharts?.getOptions()?.colors[index],
+          // month: JSON.parse(item?.Months),
         });
         newLineData.push({
-          name:
-            item.ibu +
-            " (" +
-            JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) +
-            ")",
-          data: item.hcp,
-          color: Highcharts.getOptions().colors[index],
+          name: item.name + " (" + JSON.parse(item?.total) + ")",
+          data: item?.graph2,
+          color: Highcharts?.getOptions()?.colors[index],
         });
       });
 
       // Set options for HCP chart
 
-      const categories = JSON.parse(data[0].Months);
+      // const categories = JSON.parse(data[0]?.Months);
+      const seriesCategories = response?.data?.response?.months;
+
       const newHcpOptions = {
         ...hcpOptions,
         xAxis: {
-          categories: categories,
+          categories: seriesCategories,
         },
-        series: newSeriesData,
+        series: newSeriesData?.slice(1),
       };
 
       setHcpOptions(newHcpOptions);
 
       // Set options for Base line chart
-
-      const lineCategories = JSON.parse(data[0].Months);
+      console.log("state", getMonth);
+      const lineCategories = getMonth.reverse();
       const newLineOptions = {
         ...lineOptions,
         xAxis: {
           categories: lineCategories,
         },
-        series: newLineData,
+        series: newLineData?.slice(1),
       };
       setLineOptions(newLineOptions);
 
       // Create table data
-      const newTableSeries = data.map((item) => ({
-        months: JSON.parse(item.Months),
-        data: JSON.parse(item.total_readers),
+
+      const newTableSeries = data?.map((item) => ({
+        data: item?.graph1,
       }));
-      const tableDatas = data.map((ibuitems) => ({
-        name:
-          ibuitems.ibu +
-          " ( " +
-          JSON.parse(ibuitems.total_readers).reduce(
-            (acc, val) => acc + val,
-            0
-          ) +
-          ")",
-      }));
+
       const newTable = {
         ...tableData,
         xAxis: {
-          //   categories: tableDatas,
-          categories: newSeriesData.map((item) => {
-            return item.name;
+          categories: newSeriesData?.slice(1).map((item) => {
+            return item?.name;
           }),
         },
         series: newTableSeries,
+        months: seriesCategories,
       };
       setTableData(newTable);
     } catch (error) {
@@ -242,17 +245,13 @@ const OctalatchTotalHCP = () => {
   };
 
   useEffect(() => {
-    if (flag) {
-      return;
-    }
-    setFlag(true);
     getDataFromApi();
   }, []);
 
   // for total of data for total column
-  console.log("series", tableData?.series);
-  const total = tableData.series.reduce((acc, serie) => {
-    return acc + serie.data.reduce((a, b) => a + b, 0);
+
+  const total = tableData?.series?.reduce((acc, serie) => {
+    return acc + serie?.data?.reduce((a, b) => a + b, 0);
   }, 0);
 
   return (
@@ -304,22 +303,25 @@ const OctalatchTotalHCP = () => {
                       <thead>
                         <tr>
                           <th>Category</th>
-                          {tableData.xAxis.categories.map((category, index) => (
-                            <th key={index}>{category.name}</th>
-                          ))}
+
+                          {tableData?.xAxis?.categories?.map(
+                            (category, index) => (
+                              <th key={index}>{category}</th>
+                            )
+                          )}
                           <th>Total ({total})</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {tableData.series[0]?.months.map((month, index) => (
+                        {tableData?.months?.map((month, index) => (
                           <tr key={index}>
                             <td>{month}</td>
-                            {tableData.series.map((serie, serieIndex) => (
-                              <td key={serieIndex}>{serie.data[index]}</td>
+                            {tableData?.series?.map((serie, serieIndex) => (
+                              <td key={serieIndex}>{serie?.data[index]}</td>
                             ))}
                             <td>
-                              {tableData.series.reduce(
-                                (total, serie) => total + serie.data[index],
+                              {tableData?.series?.reduce(
+                                (total, serie) => total + serie?.data[index],
                                 0
                               )}
                             </td>
