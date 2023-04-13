@@ -4,7 +4,7 @@ import Highcharts from "highcharts";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import { loader } from "../../loader";
-import html2canvas from "html2canvas";
+S
 
 import HighchartsReact from "highcharts-react-official";
 
