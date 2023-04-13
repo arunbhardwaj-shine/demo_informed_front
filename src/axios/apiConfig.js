@@ -55,4 +55,5 @@ export const ENDPOINT = {
   COUNTRY_REGISTRATION: `analytics/country`,
   ADD_TAGS: `/library/add-tags`,
   INSERTBULKREADERS: `/reader/add-bulk-reader`,
+  STATEBYREGION: `/analytics/octa-country`,
 };
