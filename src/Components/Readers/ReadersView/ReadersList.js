@@ -228,7 +228,7 @@ const NewReaders = () => {
     }
 
     if (e?.target?.checked == true) {
-      if (key == "status" || key == "contactType" ||  key == "userAction") {
+      if (key == "status" || key == "contactType" ||  key == "userAction" || key == "webinarRegistered") {
         filterObject[key] = [];
       }
       filterObject[key]?.push(item);
@@ -527,7 +527,7 @@ const NewReaders = () => {
                                                     <input
                                                       type={
                                                         key == "status" ||
-                                                        key == "contactType" ||  key == "userAction" 
+                                                        key == "contactType" ||  key == "userAction" || key == "webinarRegistered"
                                                           ? "radio"
                                                           : "checkbox"
                                                       }

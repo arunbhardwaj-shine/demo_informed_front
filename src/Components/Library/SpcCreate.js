@@ -171,7 +171,7 @@ const SpcCreate = () => {
       });
       popup_alert({
         visible: "show",
-        message: "Your HCP has been published <br />successfully !",
+        message: "Your SPC has been published <br />successfully !",
         type: "success",
         redirect: "spc-view",
       });

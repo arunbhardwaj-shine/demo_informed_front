@@ -325,7 +325,9 @@ const TimelineDetail = () => {
                                                         })
                                                       }
                                                   </>
-                                                  : <h3>No Data Found</h3>
+                                                  : <div className="no_found">
+                                                      <p>No Data Found</p>
+                                                    </div>
                                                 }
                                                 </div>
                                                 </div>
@@ -759,7 +761,9 @@ const TimelineDetail = () => {
               </div>
               </>
               :
-                "No Data Found"
+                <div className="no_found">
+                  <p>No Data Found</p>
+                </div>
               : null
             }
           </Row>
