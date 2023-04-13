@@ -17,6 +17,7 @@ const Totalhcp = () => {
   const [hcpOptions, setHcpOptions] = useState({
     chart: {
       type: "bar",
+      height:1000
     },
     title: {
       text: "Total HCPs",
@@ -44,6 +45,7 @@ const Totalhcp = () => {
     plotOptions: {
       series: {
         stacking: "normal",
+        pointWidth: 30 
       }
 
     },
@@ -171,6 +173,7 @@ const Totalhcp = () => {
       ];
 
       const categories = JSON.parse(data[0].Months);
+      console.log(categories);
       const newHcpOptions = {
         ...hcpOptions,
         xAxis: {

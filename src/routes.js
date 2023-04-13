@@ -48,6 +48,8 @@ import ContentAnalytics from "./Components/Analytics/ContentAnalytics";
 import CountryRegistration from "./Components/Analytics/CountryRegistration";
 import TrendingTopics from "./Components/Analytics/TrendingTopics";
 import OctalatchTotalHCP from "./Components/Analytics/OctalatchTotalHCP";
+import OctaCountry from "./Components/Analytics/OctaCountry";
+import OctalatchCountryStats from "./Components/Analytics/OctalatchCountryStats";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
@@ -112,6 +114,7 @@ import CampaignStats from "./Components/Analytics/CampaignStats";
 import DeliveryTrends from "./Components/Analytics/DeliveryTrends";
 import RegistrationType from "./Components/Analytics/RegistrationType";
 import ContentGraph from "./Components/Analytics/ContentGraph";
+import TrendingContentOcta from "./Components/Analytics/TrendingContentOcta";
 import Informed from "./Components/Library/Informed";
 
 let platform = 0;
@@ -153,9 +156,9 @@ const Routing = () => {
           "/setting-webinar",
         ].includes(window.location.pathname) ? (
           <WebinarHeader />
-        ) :   
-            window.location.pathname != "/informed" 
-            ? <Header /> 
+        ) :
+            window.location.pathname != "/informed"
+            ? <Header />
             : null
         }
         {/* {window.location.pathname !== "/" ? <WebinarHeader /> : null} */}
@@ -172,13 +175,13 @@ const Routing = () => {
                 "/setting-webinar",
               ].includes(window.location.pathname) ? (
                 <WebinarSidebar />
-              ) : 
-                  window.location.pathname != "/informed" 
-                  ? <Sidebar /> 
+              ) :
+                  window.location.pathname != "/informed"
+                  ? <Sidebar />
                   : null
               }
               <Routes>
-                 <Route path="/informed" element={<Informed />}/> 
+                 <Route path="/informed" element={<Informed />}/>
                 {/* New webinar */}
                 {/* <Route path="/new-webinar" element={<WebinarHeader />} /> */}
                 {/* end webinar */}
@@ -188,14 +191,27 @@ const Routing = () => {
                 {
                   /*
                   <Route path="/trending-content" element={<TrendingContent />} />
+
                   <Route path="/octa-country" element={<OctaCountry />} />
                   */
+                }
                   <Route
                     path="/country-registration"
                     element={<CountryRegistration />}
                   />
-                }
-                <Route path="/trending-content" element={<TrendingContent />} />
+
+                <Route path="/octa-country" element={<OctaCountry />} />
+                <Route path="/octalatch-country-stats" element={<OctalatchCountryStats />} />
+                <Route
+                  path="/trending-content"
+                  element={
+                    localStorage.getItem("user_id") =="rjiGlqA9DXJVH7bDDTX0Lg==" ? (
+                      <TrendingContentOcta />
+                    ) : (
+                      <TrendingContent />
+                    )
+                  }
+                />
 
                 <Route path="/top-clients" element={<TopClients />} />
                 <Route path="/top-reseller" element={<TopReseller />} />
@@ -211,7 +227,6 @@ const Routing = () => {
                   path="/octalatch-totalhcp"
                   element={<OctalatchTotalHCP />}
                 />
-
                 <Route
                   path="/openings-by-country"
                   element={<OpeningByCountry />}
@@ -227,6 +242,7 @@ const Routing = () => {
                   path="/content-analytics"
                   element={<ContentAnalytics />}
                 />
+
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
 
                 <Route

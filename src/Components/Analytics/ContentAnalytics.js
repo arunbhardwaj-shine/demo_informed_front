@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
+import { Col, Form, Row, Accordion } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
@@ -11,6 +11,7 @@ import HighchartsReact from "highcharts-react-official";
 import ContentAnalyticsComponent from "./ContentAnalyticsComponent";
 
 import { Link } from "react-router-dom";
+import MapComponent from "./MapComponent";
 
 exporting(Highcharts);
 exportData(Highcharts);
@@ -21,8 +22,10 @@ const ContentAnalytics = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [pdfOptions, setPdfOptions] = useState([]);
   const [urlOptions, setUrlOptions] = useState([]);
-  const [selectedPdf, setSelectedPdf] = useState(null);
+  const [selectedPdf, setSelectedPdf] = useState(0);
   const [isPdfData, setIsPdfData] = useState(false);
+  const mapData= useRef([]);
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   useEffect(() => {
     getDataFromApi();
@@ -48,6 +51,7 @@ const ContentAnalytics = () => {
 
       setPdfOptions(pdfObj);
       setUrlOptions(urlObj);
+      // alert(pdfObj[0].value)
       setSelectedPdf(pdfObj[0].value);
       setIsDataFound(true);
       setIsLoaded(true);
@@ -60,7 +64,8 @@ const ContentAnalytics = () => {
   }
 
   async function filterPdfData(pdfId) {
-    setSelectedPdf(pdfId);
+    setIsAccordionOpen(false)
+    setSelectedPdf(pdfId.value);
     loader("show");
     try {
       setIsPdfData(false);
@@ -85,7 +90,23 @@ const ContentAnalytics = () => {
       filterPdfData(pdfOptions[0]);
     }
   }, [pdfOptions]);
-
+  const handAccordionOpen = async () => {
+    loader("show");
+    if(!isAccordionOpen){
+    
+    const requestBody = {
+      pdfId: selectedPdf,
+    };
+    const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
+    const hadData = response?.data?.data|| [];
+ mapData.current=hadData;
+   
+    setIsAccordionOpen(true)}
+    else{
+      setIsAccordionOpen(false)
+    }
+    loader("hide");
+  };
   return (
     <>
       <Col className="right-sidebar">
@@ -115,7 +136,6 @@ const ContentAnalytics = () => {
             </div>
             <div className="create-change-content spc-content analytic-charts">
               {isDataFound ? (
-                <div className="high_charts">
                   <div className="form_action">
                     <Form className="product-unit d-flex justify-content-between align-items-center">
                       <div className="form-group d-flex align-items-center">
@@ -139,13 +159,31 @@ const ContentAnalytics = () => {
                       </div>
                     </Form>
                   </div>
-                </div>
               ) : null}
 
-              {isPdfData ? <ContentAnalyticsComponent  data ={isDataFound}/> : null}
+              {isPdfData ? (
+                <>
+                  <ContentAnalyticsComponent data={isDataFound} />
+
+                  <Row>
+                    <Col>
+                      <Accordion onSelect={handAccordionOpen}>
+                        <Accordion.Item eventKey="0">
+                          <Accordion.Header>
+                          See Country Details
+                          </Accordion.Header>
+                          {isAccordionOpen ?
+                          <Accordion.Body>
+                            <MapComponent data={mapData.current} />
+                          </Accordion.Body>:null}
+                        </Accordion.Item>
+                      </Accordion>
+                    </Col>
+                  </Row>
+                </>
+              ) : null}
             </div>
           </Row>
-       
         </div>
       </Col>
     </>

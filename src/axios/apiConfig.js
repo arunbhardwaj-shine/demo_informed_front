@@ -47,6 +47,7 @@ export const ENDPOINT = {
     "https://webinar.docintel.app/lmn/api/analytics/octo_lach_stats",
 
   DELIVERYTRENDS: "analytics/trend",
+  MAPLOCATION:`analytics/map-location`,
   REPORTS: "analytics/reports",
 
   CONTENTTYPE: "analytics/content-type",
@@ -57,4 +58,5 @@ export const ENDPOINT = {
   COUNTRY_REGISTRATION: `analytics/country`,
   ADD_TAGS: `/library/add-tags`,
   INSERTBULKREADERS: `/reader/add-bulk-reader`,
+  STATEBYREGION: `/analytics/octa-country`,
 };
