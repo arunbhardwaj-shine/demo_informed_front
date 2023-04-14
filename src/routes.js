@@ -44,12 +44,14 @@ import TopClients from "./Components/Analytics/TopClients";
 import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
 import ContentAnalytics from "./Components/Analytics/ContentAnalytics";
+
 // import OctaCountry from "./Components/Analytics/OctaCountry";
-import CountryRegistration from "./Components/Analytics/CountryRegistration";
-import TrendingTopics from "./Components/Analytics/TrendingTopics";
 import OctalatchTotalHCP from "./Components/Analytics/OctalatchTotalHCP";
+import CountryRegistration from "./Components/Analytics/CountryRegistration";
 import OctaCountry from "./Components/Analytics/OctaCountry";
+import TrendingTopics from "./Components/Analytics/TrendingTopics";
 import OctalatchCountryStats from "./Components/Analytics/OctalatchCountryStats";
+import OctaCountryRegistration from "./Components/Analytics/OctaCountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
@@ -201,7 +203,7 @@ const Routing = () => {
                   />
 
                 <Route path="/octa-country" element={<OctaCountry />} />
-                <Route path="/octalatch-country-stats" element={<OctalatchCountryStats />} />
+                <Route path="/octalach-country-stats" element={<OctalatchCountryStats />} />
                 <Route
                   path="/trending-content"
                   element={
@@ -214,6 +216,8 @@ const Routing = () => {
                 />
 
                 <Route path="/top-clients" element={<TopClients />} />
+                <Route path="/octa-country-registration" element={<OctaCountryRegistration />} />
+
                 <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/top-sales" element={<TopSales />} />
                 <Route

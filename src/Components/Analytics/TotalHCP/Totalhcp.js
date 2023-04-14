@@ -82,7 +82,6 @@ const Totalhcp = () => {
     },
     plotOptions: {
       series: {
-        stacking: "normal",
         dataLabels: {
           enabled: true,
           format: "{point.y}"
