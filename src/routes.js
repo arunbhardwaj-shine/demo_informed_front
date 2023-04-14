@@ -205,7 +205,7 @@ const Routing = () => {
                 <Route
                   path="/trending-content"
                   element={
-                    localStorage.getItem("user_id") =="rjiGlqA9DXJVH7bDDTX0Lg==" ? (
+                    localStorage.getItem("user_id") =="iSnEsKu5gB/DRlycxB6G4g==" ? (
                       <TrendingContentOcta />
                     ) : (
                       <TrendingContent />
@@ -221,7 +221,9 @@ const Routing = () => {
                   element={<ContentAnalytics />}
                 />
                 <Route path="/trending-topics" element={<TrendingTopics />} />
-                <Route path="/trending-topics" element={<TrendingTopics />} />
+                {
+                  /*<Route path="/trending-topics" element={<TrendingTopics />} />*/
+                }
                 <Route path="/content-type" element={<ContentGraph />} />
                 <Route
                   path="/octalatch-totalhcp"
