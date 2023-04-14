@@ -175,7 +175,7 @@ const optionYear = useRef();
       });
         setNewData(countryData);
 
-      console.log("djjdjdjj",countryData);
+    
         const newSeries = [
           {
             name: `critical_care`,
