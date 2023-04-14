@@ -135,7 +135,6 @@ const ContentAnalytics = () => {
             </div>
             <div className="create-change-content spc-content analytic-charts">
               {isDataFound ? (
-                <div className="high_charts">
                   <div className="form_action">
                     <Form className="product-unit d-flex justify-content-between align-items-center">
                       <div className="form-group d-flex align-items-center">
@@ -159,7 +158,6 @@ const ContentAnalytics = () => {
                       </div>
                     </Form>
                   </div>
-                </div>
               ) : null}
 
               {isPdfData ? (

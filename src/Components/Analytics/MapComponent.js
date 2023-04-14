@@ -160,7 +160,7 @@ const MapComponent = ({ data, status }) => {
           const [lat, lon] = coordObject.coordinates.split("~");
           
           return {
-            name: coordObject.country,
+            name: coordObject.region_name,
             lat: parseFloat(lat),
             lon: parseFloat(lon),
            

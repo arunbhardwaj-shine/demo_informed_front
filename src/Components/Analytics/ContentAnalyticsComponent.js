@@ -81,11 +81,7 @@ const arr=["Openings","Unique Readers"]
                     <span>{data.key_author ? data.key_author : "NA"}</span>
                   </div>
                   <div>{data.docintelLink}</div>
-                </Col>
-              </Row>
-            </Col>
-            <Col>
-              <Row>
+                </Col> 
                 <Col>
                   <div>
                     Consent type :<span>{data.linkType}</span>
