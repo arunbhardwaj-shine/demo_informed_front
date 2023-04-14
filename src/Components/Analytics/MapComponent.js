@@ -11,7 +11,8 @@ import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 
 MapModule(Highcharts);
 
-const MapComponent = ({ data }) => {
+const MapComponent = ({ data, status }) => {
+  console.log("hello", data.response.data);
   const [newData, setNewData] = useState();
   // for map
   const mapOptions = {
@@ -51,14 +52,13 @@ const MapComponent = ({ data }) => {
         keys: ["code", "value"],
         tooltip: {
           headerFormat: "",
-          pointFormat: "Views:<br>"+
-          "{point.pdfTitle}<br>" +
-          "Address: {point.address}<br>" +
-          "City: {point.city}<br>" +
-          "Country: {point.country}<br>" +
-          "{point.dated}"
-          
-
+          pointFormat:
+            "Views:<br>" +
+            "{point.pdfTitle}<br>" +
+            "Address: {point.address}<br>" +
+            "City: {point.city}<br>" +
+            "Country: {point.country}<br>" +
+            "{point.dated}",
         },
         states: {
           hover: {
@@ -132,29 +132,45 @@ const MapComponent = ({ data }) => {
   useEffect(() => {
     const getDataFromApi = async () => {
       try {
+        if(!status){
         const countryData = data?.map((item) => {
           const latlongParts = item?.latlong.split("~");
           const lat = parseFloat(latlongParts[0]) || 0;
           const lon = parseFloat(latlongParts[1]) || 0;
           const viewedOnDates = item?.dated
-  .map(date => `viewed on: ${date}`+
-  "<br> ")
-  .join("");
- 
+            .map((date) => `viewed on: ${date}` + "<br> ")
+            .join("");
+
           return {
             name: item.country,
             lat: lat,
             lon: lon,
-            city:item.city,
-            country:item.country,
-            address:item.address,
-            pdfTitle:item.pdftitle,
-            dated:viewedOnDates,
+            city: item.city,
+            country: item.country,
+            address: item.address,
+            pdfTitle: item.pdftitle,
+            dated: viewedOnDates,
           };
         });
-      
-       
+
         setNewData(countryData);
+      }else{
+        console.log(data?.response?.data[0])
+        const countryData = data?.response?.data.map((coordObject,index) => {
+          const [lat, lon] = coordObject.coordinates.split("~");
+          
+          return {
+            name: coordObject.region_name,
+            lat: parseFloat(lat),
+            lon: parseFloat(lon),
+           
+          };
+        });
+        console.log(countryData)
+          setNewData(countryData);
+        
+      }
+      
 
         const newSeries = [
           {

@@ -29,6 +29,7 @@ const TrendingTopics = () => {
     chart: {
       marginTop: 100,
       type: "dependencywheel",
+      height:600,
     },
     
     title: {

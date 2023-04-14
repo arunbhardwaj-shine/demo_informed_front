@@ -24,7 +24,7 @@ const ContentAnalytics = () => {
   const [urlOptions, setUrlOptions] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(0);
   const [isPdfData, setIsPdfData] = useState(false);
-  const mapData= useRef([]);
+  const mapData = useRef([]);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const ContentAnalytics = () => {
   }
 
   async function filterPdfData(pdfId) {
-    setIsAccordionOpen(false)
+    setIsAccordionOpen(false);
     setSelectedPdf(pdfId.value);
     loader("show");
     try {
@@ -92,18 +92,17 @@ const ContentAnalytics = () => {
   }, [pdfOptions]);
   const handAccordionOpen = async () => {
     loader("show");
-    if(!isAccordionOpen){
-    
-    const requestBody = {
-      pdfId: selectedPdf,
-    };
-    const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
-    const hadData = response?.data?.data|| [];
- mapData.current=hadData;
-   
-    setIsAccordionOpen(true)}
-    else{
-      setIsAccordionOpen(false)
+    if (!isAccordionOpen) {
+      const requestBody = {
+        pdfId: selectedPdf,
+      };
+      const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
+      const hadData = response?.data?.data || [];
+      mapData.current = hadData;
+
+      setIsAccordionOpen(true);
+    } else {
+      setIsAccordionOpen(false);
     }
     loader("hide");
   };
@@ -180,12 +179,13 @@ const ContentAnalytics = () => {
                       <Accordion onSelect={handAccordionOpen}>
                         <Accordion.Item eventKey="0">
                           <Accordion.Header>
-                          See Country Details
+                            See Country Details
                           </Accordion.Header>
-                          {isAccordionOpen ?
-                          <Accordion.Body>
-                            <MapComponent data={mapData.current} />
-                          </Accordion.Body>:null}
+                          {isAccordionOpen ? (
+                            <Accordion.Body>
+                              <MapComponent data={mapData.current} status={false} />
+                            </Accordion.Body>
+                          ) : null}
                         </Accordion.Item>
                       </Accordion>
                     </Col>
