@@ -48,23 +48,11 @@ const DocintelAccount = ({ data }) => {
                   </div>
                 </Col>
                 <Col>
-                  <Row>
-                    <Col>
                       <h3> {element?.pdf_data?.Pdf?.title}</h3>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
                       <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
                       <Button className="btn next-content btn-bordered">
                         Preview Article
                       </Button>
-                    </Col>
-                    <Col>
                     {element?.pdf_data?.Pdf?.product!=undefined?
                       <span >
                       {element?.pdf_data?.Pdf?.product}
@@ -73,8 +61,6 @@ const DocintelAccount = ({ data }) => {
                       :null
 
                     }
-                    </Col>
-                  </Row>
                 </Col>
   
                 <Col>

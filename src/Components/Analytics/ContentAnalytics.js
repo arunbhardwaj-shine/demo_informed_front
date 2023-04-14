@@ -173,7 +173,7 @@ const ContentAnalytics = () => {
               {isPdfData ? (
                 <>
                   <ContentAnalyticsComponent data={isDataFound} />
-
+                <div className="content_analytics">
                   <Row>
                     <Col>
                       <Accordion onSelect={handAccordionOpen}>
@@ -190,6 +190,7 @@ const ContentAnalytics = () => {
                       </Accordion>
                     </Col>
                   </Row>
+                  </div>
                 </>
               ) : null}
             </div>

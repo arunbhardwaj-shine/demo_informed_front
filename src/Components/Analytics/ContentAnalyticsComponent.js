@@ -149,8 +149,7 @@ const arr=["Openings","Unique Readers"]
                   value={data.opening}
                   color="#f4c64b"
                   limit={agreed_limit}
-
-                  label={`  Unique Reader (total)  <br> Agreed Limit | ${agreed_limit}`}
+                  label={`Unique Reader (total)<br>Agreed Limit | ${agreed_limit}`}
                 />
 
                 <ContentAnalyticsComponentActivityGauge
@@ -163,7 +162,6 @@ const arr=["Openings","Unique Readers"]
                   value={data.rtr}
                   color="#956ca7"
                   limit={agreed_limit}
-
                   label="User With Rtr"
                 />
                 <ContentAnalyticsComponentActivityGauge
