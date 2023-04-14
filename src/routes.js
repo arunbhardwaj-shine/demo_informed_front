@@ -209,7 +209,7 @@ const Routing = () => {
                   />
                 }
                 <Route path="/octa-country" element={<OctaCountry />} />
-                <Route path="/octalatch-country-stats" element={<OctalatchCountryStats />} />
+                <Route path="/octalach-country-stats" element={<OctalatchCountryStats />} />
                 <Route
                   path="/trending-content"
                   element={
