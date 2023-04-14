@@ -42,29 +42,21 @@ const DocintelAccount = ({ data }) => {
                   <div style={{ width: "100px", height: "100px" }}>
                     <Image
                       src={element?.pdf_data.Pdf?.image}
-                      alt="Image not availble"
+                      alt="Image not available"
                       fluid
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src="https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png";
+                      }}
                     />
                   </div>
                 </Col>
                 <Col>
-                  <Row>
-                    <Col>
                       <h3> {element?.pdf_data?.Pdf?.title}</h3>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
                       <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
                       <Button className="btn next-content btn-bordered">
                         Preview Article
                       </Button>
-                    </Col>
-                    <Col>
                     {element?.pdf_data?.Pdf?.product!=undefined?
                       <span >
                       {element?.pdf_data?.Pdf?.product}
@@ -73,8 +65,6 @@ const DocintelAccount = ({ data }) => {
                       :null
 
                     }
-                    </Col>
-                  </Row>
                 </Col>
   
                 <Col>

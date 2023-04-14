@@ -65,8 +65,244 @@ const arr=["Openings","Unique Readers"]
   let categories = Object.keys(data[Object.keys(data)[0]]);
   return (
     <>
+    <div className="content_analytics">
       <Row>
-        <Col>
+              <Col sm={7}>
+                <div class="detail-box left">
+                  <div class="media d-flex">
+                      <div className="media-left media-middle">
+                           <Image src={data.coverImage} alt="Image not availble" fluid />
+                      </div>
+                      <div className="media-body">
+                          <p>{data.title}</p>
+                          <div className="media-subtitle">{data.pdf_sub_title}</div>
+                          <div className="media-author">
+                            {" "}
+                            <span>{data.key_author ? data.key_author : "NA"}</span>
+                          </div>
+                          <div className="article-link"><a href="{data.docintelLink}">{data.docintelLink}</a></div>
+                      </div>
+                  </div>
+                </div>
+              </Col> 
+              <Col sm={5}>
+                  <div className="detail-box reparkive">
+                     <p>
+                          Consent type :<span>{data.linkType}</span>
+                        </p>
+                        <p>
+                          Client :<span>{client}</span>
+                        </p>
+                        <p>
+                          Agreed Limit: <span>{data.limit}</span>
+                        </p>
+                  </div>
+                  <div class="detail-box right">
+                    <div class="detail-box-grid">
+                      <div class="reparkive">
+                        <div class="reparkive-box">
+                          <p>Upload date: <span>{new Date(data.created).toLocaleDateString("en-US", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}</span></p>
+                        </div>
+                        <div class="reparkive-box second">
+                            <span>{data.daysLeft}</span> days Left{" "}
+                              <div>
+                                <ProgressBar>
+                                  <ProgressBar
+                                    now={get_precentage}
+                                    label={`${get_precentage}% Complete`}
+                                
+                                  />
+                                </ProgressBar>
+                              </div>
+                        </div>
+                        <div class="reparkive-box">
+                          <p>
+                            Exp Date :<span>
+                              {new Date(data.exp_datetime).toLocaleDateString("en-US", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                              })}
+                              </span>
+                          </p>
+                        </div>
+
+
+                      </div>
+                    </div>
+                  </div>
+              </Col>
+      </Row>
+      <Row>
+          <div className="circle_graph d-flex">
+                <ContentAnalyticsComponentActivityGauge
+                  label="Openings(total)"
+                  value={data.opening}
+                  color="#57cabd"
+                  limit={agreed_limit}
+                />
+                <ContentAnalyticsComponentActivityGauge
+                  value={data.opening}
+                  color="#f4c64b"
+                  limit={agreed_limit}
+                  label={`Unique Reader (total)<br>Agreed Limit | ${agreed_limit}`}
+                />
+
+                <ContentAnalyticsComponentActivityGauge
+                  value={data.registerReader}
+                  color="#ed9ba0"
+                  limit={agreed_limit}
+                  label=" Registered Reader (total)"
+                />
+                <ContentAnalyticsComponentActivityGauge
+                  value={data.rtr}
+                  color="#956ca7"
+                  limit={agreed_limit}
+                  label="User With Rtr"
+                />
+                <ContentAnalyticsComponentActivityGauge
+                  value={data.download}
+                  color="#2466c0"
+                  limit={agreed_limit}
+                  label="Downloads"
+                />
+          </div>
+         </Row>
+          
+          <Row>
+            <div>
+              <Row>
+                {/* <Col>
+                  <p>Openings (total)</p>
+                </Col>
+                <Col>
+                  <p>Unique Reader (total)</p>
+                  <p>Agreed Limit | {agreed_limit}</p>
+                </Col> */}
+                {/* <Col>
+                  <p> Registered Reader (total)</p>
+                </Col>
+                <Col>
+                  <p> User With Rtr </p>
+                </Col>
+                <Col>
+                  <p> Downloads </p>
+                </Col> */}
+              </Row>
+              
+              
+              {/* <Row>
+                <ContentAnalyticsComponentActivityGauge
+                  value={data.opening}
+                  color="#57cabd"
+                  limit={agreed_limit}
+                />
+                <ContentAnalyticsComponentActivityGauge
+                  value={data.opening}
+                  color="#f4c64b"
+                  limit={agreed_limit}
+                />
+
+                <ContentAnalyticsComponentActivityGauge
+                  value={data.registerReader}
+                  color="#ed9ba0"
+                  limit={agreed_limit}
+                />
+                <ContentAnalyticsComponentActivityGauge
+                  value={data.rtr}
+                  color="#956ca7"
+                  limit={agreed_limit}
+                />
+                <ContentAnalyticsComponentActivityGauge
+                  value={data.download}
+                  color="#2466c0"
+                  limit={agreed_limit}
+                />
+              </Row> */}
+            </div>
+          </Row>
+
+          <Row>
+            <div>
+              <Row>
+                <HighchartsReact
+                  highcharts={Highcharts}
+                  options={{
+                    chart: {
+                      type: "line",
+                    },
+                    credits: {
+                      enabled: false,
+                    },
+                    yAxis: {
+                      min: 0,
+                      tickInterval: 1,
+                      title: {
+                        text: "",
+                      },
+                    },
+                    xAxis: {
+                      categories: categories_data,
+                    },
+                    title: {
+                      text: "",
+                    },
+                    plotOptions: {
+                      series: {
+                        dataLabels: {
+                          allowOverlap: true,
+                          enabled: true,
+                          inside: false,
+                          overflow: "justify",
+                          crop: true,
+                          shape: "callout",
+                          backgroundColor: "rgba(255,255,255)",
+                          borderColor: "rgba(0,0,0,0.9)",
+                          color: "rgba(0,0,0)",
+                          borderWidth: 0.5,
+                          borderRadius: 5,
+                          style: {
+                            fontFamily: "Helvetica, sans-serif",
+                            fontSize: "8px",
+                            fontWeight: "normal",
+                            textShadow: "none",
+                          },
+                          formatter: function () {
+                            return (
+                              "<div class=" +
+                              this.series.name +
+                              '><span style="font-weight: bold;">' +
+                              this.x +
+                              "</span><br/><strong>" +
+                              this.series.name +
+                              "</strong> <strong>" +
+                              Highcharts.numberFormat(this.y, 0) +
+                              "</strong></div>"
+                            );
+                          },
+                        },
+                      },
+                    },
+                    tooltip: {
+                      enabled: false,
+                    },
+                    column: {
+                      colorByPoint: true,
+                    },
+                    exporting: {
+                      enabled: true,
+                    },
+                    series: series_data,
+                  }}
+                />
+              </Row>
+            </div>
+          </Row>
+        {/* <Col>
           <Row>
             <Col>
               <Row>
@@ -135,7 +371,7 @@ const arr=["Openings","Unique Readers"]
                   </div>
                 </Col>
               </Row>
-            </Col>
+                    </Col>
           </Row>
 
           <Row>
@@ -266,8 +502,8 @@ const arr=["Openings","Unique Readers"]
               </Row>
             </div>
           </Row>
-        </Col>
-      </Row>
+        </Col> */}
+    </div>
     </>
   );
 }

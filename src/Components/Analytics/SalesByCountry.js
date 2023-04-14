@@ -275,7 +275,7 @@ const SalesByCountry = () => {
                     ref={chart}
                   />
                 </div>
-                 ) : isLoaded ?<h2>NO Data Found</h2>:null}
+                 ) : isLoaded ?<h2>No Data Found</h2>:null}
               </div>
             </Row>
           </div>

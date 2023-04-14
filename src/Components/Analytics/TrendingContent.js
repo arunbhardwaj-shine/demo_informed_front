@@ -192,27 +192,27 @@ const TrendingContent = () => {
                   >
                     <Tab eventKey="1" title="All Business Units">
                       <Row>
-                        <DocintelAccount data={activeTab.current==1?data:null} />;
+                        <DocintelAccount data={activeTab.current==1?data:null} />
                       </Row>
                     </Tab>
                     <Tab eventKey="2" title="Haematology">
                       <Row>
-                        <DocintelAccount data={activeTab.current==2?data:null} />;
+                        <DocintelAccount data={activeTab.current==2?data:null} />
                       </Row>
                     </Tab>
                     <Tab eventKey="3" title="Critical Care">
                       <Row>
-                        <DocintelAccount data={activeTab.current==3?data:null} />;
+                        <DocintelAccount data={activeTab.current==3?data:null} />
                       </Row>
                     </Tab>
                     <Tab eventKey="4" title="Immunotherapy">
                       <Row>
-                        <DocintelAccount data={activeTab.current==4?data:null} />;
+                        <DocintelAccount data={activeTab.current==4?data:null} />
                       </Row>
                     </Tab>
                     <Tab eventKey="5" title="IBU">
                       <Row>
-                        <DocintelAccount data={activeTab.current==5?data:null} />;
+                        <DocintelAccount data={activeTab.current==5?data:null} />
                       </Row>
                     </Tab>
                   </Tabs>
@@ -220,7 +220,7 @@ const TrendingContent = () => {
               </div>
             </Row>
           </div>
-        ) : null}
+        ) : <h4>No Data Found</h4>}
       </Col>
     </>
   );

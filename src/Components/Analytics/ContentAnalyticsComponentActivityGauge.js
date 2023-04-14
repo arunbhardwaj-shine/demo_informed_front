@@ -17,7 +17,7 @@ export default function ContentAnalyticsComponentActivityGauge({
   const options = {
     chart: {
       type: "solidgauge",
-      height: "80%",
+      height: "90%",
     },
 
     tooltip: {
@@ -38,9 +38,9 @@ export default function ContentAnalyticsComponentActivityGauge({
       },
     },
     title: {
-      text: "",
+      text: label,
       style: {
-        fontSize: "13px",
+        fontSize: "10px",
       },
     },
     pane: {
