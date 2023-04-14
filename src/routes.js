@@ -118,6 +118,7 @@ import RegistrationType from "./Components/Analytics/RegistrationType";
 import ContentGraph from "./Components/Analytics/ContentGraph";
 import TrendingContentOcta from "./Components/Analytics/TrendingContentOcta";
 import Informed from "./Components/Library/Informed";
+import OctalatchDeliveryRegistration from "./Components/Analytics/OctalatchDeliveryRegistration";
 
 let platform = 0;
 let show = 0;
@@ -158,11 +159,9 @@ const Routing = () => {
           "/setting-webinar",
         ].includes(window.location.pathname) ? (
           <WebinarHeader />
-        ) :
-            window.location.pathname != "/informed"
-            ? <Header />
-            : null
-        }
+        ) : window.location.pathname != "/informed" ? (
+          <Header />
+        ) : null}
         {/* {window.location.pathname !== "/" ? <WebinarHeader /> : null} */}
         <div className="warpper">
           <div className="container-fluid">
@@ -177,37 +176,41 @@ const Routing = () => {
                 "/setting-webinar",
               ].includes(window.location.pathname) ? (
                 <WebinarSidebar />
-              ) :
-                  window.location.pathname != "/informed"
-                  ? <Sidebar />
-                  : null
-              }
+              ) : window.location.pathname != "/informed" ? (
+                <Sidebar />
+              ) : null}
               <Routes>
-                 <Route path="/informed" element={<Informed />}/>
+                <Route path="/informed" element={<Informed />} />
                 {/* New webinar */}
                 {/* <Route path="/new-webinar" element={<WebinarHeader />} /> */}
                 {/* end webinar */}
                 <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
 
-                {
-                  /*
+                {/*
                   <Route path="/trending-content" element={<TrendingContent />} />
 
                   <Route path="/octa-country" element={<OctaCountry />} />
-                  */
-                }
-                  <Route
-                    path="/country-registration"
-                    element={<CountryRegistration />}
-                  />
+                  */}
+                <Route
+                  path="/country-registration"
+                  element={<CountryRegistration />}
+                />
 
+                <Route
+                  path="/octalatch-deliveryregistration"
+                  element={<OctalatchDeliveryRegistration />}
+                />
                 <Route path="/octa-country" element={<OctaCountry />} />
-                <Route path="/octalach-country-stats" element={<OctalatchCountryStats />} />
+                <Route
+                  path="/octalach-country-stats"
+                  element={<OctalatchCountryStats />}
+                />
                 <Route
                   path="/trending-content"
                   element={
-                    localStorage.getItem("user_id") =="iSnEsKu5gB/DRlycxB6G4g==" ? (
+                    localStorage.getItem("user_id") ==
+                    "iSnEsKu5gB/DRlycxB6G4g==" ? (
                       <TrendingContentOcta />
                     ) : (
                       <TrendingContent />
@@ -216,7 +219,10 @@ const Routing = () => {
                 />
 
                 <Route path="/top-clients" element={<TopClients />} />
-                <Route path="/octa-country-registration" element={<OctaCountryRegistration />} />
+                <Route
+                  path="/octa-country-registration"
+                  element={<OctaCountryRegistration />}
+                />
 
                 <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/top-sales" element={<TopSales />} />
@@ -225,9 +231,7 @@ const Routing = () => {
                   element={<ContentAnalytics />}
                 />
                 <Route path="/trending-topics" element={<TrendingTopics />} />
-                {
-                  /*<Route path="/trending-topics" element={<TrendingTopics />} />*/
-                }
+                {/*<Route path="/trending-topics" element={<TrendingTopics />} />*/}
                 <Route path="/content-type" element={<ContentGraph />} />
                 <Route
                   path="/octalatch-totalhcp"

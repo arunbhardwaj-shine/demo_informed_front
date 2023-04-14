@@ -45,9 +45,11 @@ export const ENDPOINT = {
   CONTENTANALYTICS: "/analytics/content-analytics",
   OCTALATCH_TOTAL_HCP:
     "https://webinar.docintel.app/lmn/api/analytics/octo_lach_stats",
+  OCTALATCH_DELIVERY_REGISTRATION:
+    "https://webinar.docintel.app/lmn/api/analytics/octa_delivery_registration",
 
   DELIVERYTRENDS: "analytics/trend",
-  MAPLOCATION:`analytics/map-location`,
+  MAPLOCATION: `analytics/map-location`,
   REPORTS: "analytics/reports",
 
   CONTENTTYPE: "analytics/content-type",
