@@ -802,11 +802,24 @@ const Sidebar = () => {
                     window.location.pathname == "/top-reseller" ||
                     window.location.pathname == "/top-clients" ||
                     window.location.pathname == "/sales-by-country" ||
+                    window.location.pathname == "/content-analytics" ||
                     window.location.pathname == "/openings-by-country"
                     ?
                     (
                         <>
                         <ul>
+
+                        <li
+                        className={
+                          location.pathname == "/content-analytics" ? "active" : "side_li"
+                        }
+                        >
+                        <Link to={"/content-analytics"}>
+                        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"> <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#0066be" fill-opacity="0.6" stroke="none"> <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z"/> <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z"/> <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z"/> <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z"/> </g> </svg>
+                        <p>Content Analytics</p>
+                        </Link>
+                        </li>
+
                         <li
                           className={
                             location.pathname == "/registration-type" ? "active" : "side_li"
@@ -872,6 +885,8 @@ const Sidebar = () => {
                     window.location.pathname == "/country-registration" ||
                     window.location.pathname == "/delivery-stats" ||
                     window.location.pathname == "/trending-topics" ||
+                    window.location.pathname == "/trending-content" ||
+                    window.location.pathname == "/content-type" ||
                     window.location.pathname == "/campaign-stats"
                     ?
                     <ul>
@@ -900,9 +915,48 @@ const Sidebar = () => {
                           <p>Trending Topics</p>
                         </Link>
                       </li>
+                      <li className={ location.pathname == "/trending-content" ? "active" : "side_li"}>
+                        <Link to={"/trending-content"}>
+                          <p>Trending Content</p>
+                        </Link>
+                      </li>
+                      <li className={ location.pathname == "/content-type" ? "active" : "side_li"}>
+                        <Link to={"/content-type"}>
+                          <p>Content Type</p>
+                        </Link>
+                      </li>
                     </ul>
                     : null
                 ) :
+
+                localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ?
+                (
+                    window.location.pathname == "/octalatch-totalhcp" ||
+                    window.location.pathname == "/octa-country" ||
+                    window.location.pathname == "/trending-content"
+                    ?
+                    <ul>
+                      <li className={ location.pathname == "/octalatch-totalhcp" ? "active" : "side_li"}>
+                        <Link to={"/totalhcp"}>
+                          <p>Total HCPs </p>
+                        </Link>
+                      </li>
+
+                      <li className={ location.pathname == "/trending-content" ? "active" : "side_li"}>
+                        <Link to={"/trending-content"}>
+                          <p>Trending Content </p>
+                        </Link>
+                      </li>
+
+                      <li className={ location.pathname == "/octa-country" ? "active" : "side_li"}>
+                        <Link to={"/octa-country"}>
+                          <p>State By Region</p>
+                        </Link>
+                      </li>
+                    </ul>
+                    : null
+                )
+                :
                   <ul>
                     <li className={ location.pathname == "/content-analytics" ? "active" : "side_li"}>
                       <Link to={"/content-analytics"}>

@@ -100,7 +100,6 @@ const CampaignStats = () => {
       showHighchart: true,
       showTable: true,
       tableCaption: "",
-      
     },
     xAxis: {},
     yAxis: {
@@ -386,7 +385,7 @@ const CampaignStats = () => {
 
   const getDataFromApi = async () => {
     loader("show");
-  
+
     try {
       const response = await getData(ENDPOINT.REPORTS);
       const hadData = response?.data?.data;
@@ -395,14 +394,14 @@ const CampaignStats = () => {
         loader("hide");
         return;
       }
-  console.log(hadData);
+
       const { cis, ibu } = hadData;
       const monthsString = cis[0].Months;
       const months = monthsString
         .split(",")
         .map((month) => month.replace(/[[\]]/g, ""))
         .reverse();
-  
+
       const newSeriesCis = cis.map((item, index) => {
         const totalSum = JSON.parse(item.totalSum);
         const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
@@ -413,29 +412,34 @@ const CampaignStats = () => {
           color: Highcharts.getOptions().colors[index],
         };
       });
-  
-   //  for total column cis
+
+      //  for total column cis
       const totalDataCis = months.map((month, index) => {
-        const total = newSeriesCis.reduce((sum, series) => sum + series.data[index], 0);
+        const total = newSeriesCis.reduce(
+          (sum, series) => sum + series.data[index],
+          0
+        );
         return total;
-      })
-      const totalDataCisNoNaN = totalDataCis.map(val => isNaN(val) ? 0 : val);
+      });
+      const totalDataCisNoNaN = totalDataCis.map((val) =>
+        isNaN(val) ? 0 : val
+      );
       const totalCis = totalDataCisNoNaN.reduce((acc, val) => acc + val, 0);
       console.log(totalCis);
-       
-    const newSeriesDataCis =  [
-    ...newSeriesCis.map((series, index) => ({ 
-        name: `${series.name} (${series.totalReaders})`,
-        data: series.data,
-        color: Highcharts.getOptions().colors[index],
-      })),
-      {
-        name: `Total (${totalCis})`,
-        data: totalDataCis,
-        color: Highcharts.getOptions().colors[newSeriesCis.length],
-      },
-    ];
-  
+
+      const newSeriesDataCis = [
+        ...newSeriesCis.map((series, index) => ({
+          name: `${series.name} (${series.totalReaders})`,
+          data: series.data,
+          color: Highcharts.getOptions().colors[index],
+        })),
+        {
+          name: `Total (${totalCis})`,
+          data: totalDataCis,
+          color: Highcharts.getOptions().colors[newSeriesCis.length],
+        },
+      ];
+
       const newHcpOptions = {
         ...campaignStatsLineOption,
         xAxis: {
@@ -443,10 +447,8 @@ const CampaignStats = () => {
         },
         series: newSeriesDataCis,
       };
-     // console.log(newSeriesDataCis);
+      // console.log(newSeriesDataCis);
       setCampaignStatsLineOption(newHcpOptions);
-
-    
 
       const newSeriesIbu = ibu.map((item, index) => {
         const totalSum = JSON.parse(item.totalSum);
@@ -459,30 +461,35 @@ const CampaignStats = () => {
         };
       });
 
-   // for   ibu
+      // for   ibu
 
-   const totalDataIbu = months.map((month, index) => {
-    const total = newSeriesIbu.reduce((sum, series) => sum + series.data[index], 0);
-    return total;
-  });
+      const totalDataIbu = months.map((month, index) => {
+        const total = newSeriesIbu.reduce(
+          (sum, series) => sum + series.data[index],
+          0
+        );
+        return total;
+      });
 
-  const newSeriesIbuNoNaN = totalDataIbu.map(val => isNaN(val) ? 0 : val);
-  const totalIbu = newSeriesIbuNoNaN.reduce((acc, val) => acc + val, 0);
-  console.log('ibu',totalIbu);
+      const newSeriesIbuNoNaN = totalDataIbu.map((val) =>
+        isNaN(val) ? 0 : val
+      );
+      const totalIbu = newSeriesIbuNoNaN.reduce((acc, val) => acc + val, 0);
+      console.log("ibu", totalIbu);
 
       const newSeriesDataIbu = [
-      ...newSeriesIbu.map((series, index) => ({
-        name: `${series.name} (${series.totalReaders})`,
-        data: series.data,
-        color: Highcharts.getOptions().colors[index],
-      })),
-      {
-        name: `Total (${totalIbu})`,
-        data: totalDataIbu,
-        color: Highcharts.getOptions().colors[newSeriesCis.length],
-      },
-    ];
-    
+        ...newSeriesIbu.map((series, index) => ({
+          name: `${series.name} (${series.totalReaders})`,
+          data: series.data,
+          color: Highcharts.getOptions().colors[index],
+        })),
+        {
+          name: `Total (${totalIbu})`,
+          data: totalDataIbu,
+          color: Highcharts.getOptions().colors[newSeriesCis.length],
+        },
+      ];
+
       const newHcpOptionsIbu = {
         ...campaignStatsLineOptionIBU,
         xAxis: {
@@ -490,18 +497,17 @@ const CampaignStats = () => {
         },
         series: newSeriesDataIbu,
       };
-  
+
       setCampaignStatsLineOptionIBU(newHcpOptionsIbu);
-  
+
       setIsDataFound(true);
       setData(cis);
     } catch (err) {
       setIsDataFound(false);
     }
-  
+
     loader("hide");
   };
-  
 
   return (
     <>

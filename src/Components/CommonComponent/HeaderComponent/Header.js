@@ -157,6 +157,10 @@ const Header = () => {
                   window.location.pathname == "/delivery-stats" ||
                   window.location.pathname == "/trending-topics" ||
                   window.location.pathname == "/campaign-stats" ||
+                  window.location.pathname == "/trending-content" ||
+                  window.location.pathname == "/content-type" ||
+                  window.location.pathname == "/octalatch-totalhcp" ||
+                  window.location.pathname == "/octa-country" ||
                   window.location.pathname == "/content-analytics"
                   ? "nav-item active active-main"
                   : "nav-item"
@@ -165,6 +169,8 @@ const Header = () => {
                     localStorage.getItem("group_id") == 2 ? "/registration-type" :
                     localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
                      "/totalhcp"
+                     : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ?
+                     "/octalatch-totalhcp"
                      : "/content-analytics"
                   }>
                     ANALYTICS
