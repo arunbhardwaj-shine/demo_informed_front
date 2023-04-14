@@ -3353,6 +3353,136 @@ input.viewer-toolbar-current-page-input {
 }
 /***Header-sticky-end***/
 
+/**Analytics page**/
+.content_analytics .detail-box {
+    padding: 12px;
+    border: 1px solid #EEEFEF;
+    margin: 0 0 15px;
+    box-shadow: 0px 0px 8px rgba(1, 76, 141, 0.19);
+    background: #fff;
+}
+.detail-box .media-left.media-middle {
+    padding: 0 15px 0 0px;
+}
+.content_analytics .detail-box .media-left.media-middle img {
+    max-width: 120px;
+    width: 100%;
+}
+.content_analytics .detail-box .media-body {
+    flex: 1 1;
+}
+
+.content_analytics .detail-box .media-body p {
+    font-size: 15px;
+    color: #4A4A4A;
+    margin-bottom: 3px;
+}
+
+.content_analytics .detail-box .media-body .media-subtitle {
+    color: #1C3D7B;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.content_analytics .detail-box .media-body .media-author span {
+    color: #70899E;
+    font-size: 15px;
+}
+
+.content_analytics .detail-box .media-body .article-link {
+    margin-top: 2px;
+}
+.content_analytics .detail-box .media-body .article-link a {
+    font-size: 15px;
+}
+
+.content_analytics .detail-box p {
+    margin: 0 0 5px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #484848;
+    /* font-family: 'Roboto'; */
+}
+
+.content_analytics .detail-box p span {
+    color: #1C3D7B;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    margin: 0 0 0 5px;
+}
+ .reparkive-box.second span {
+    flex-direction: row;
+    justify-content: center;
+    color: #797979;
+    font-size: 20px;
+    font-weight: 700;
+}
+.detail-box-grid .reparkive {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.detail-box-grid .reparkive .reparkive-box p {
+    display: flex;
+    flex-direction: column;
+}
+.detail-box-grid .reparkive .reparkive-box span {
+    margin: 3px 0 0;
+}
+.reparkive-box.second {
+    flex: 0 0 170px;
+    color: #797979;
+    font-size: 12px;
+    font-weight: 400;
+}
+.detail-box-grid .reparkive
+ .reparkive-box.second p {
+    flex-direction: row;
+    justify-content: center;
+    color: #797979;
+    font-size: 20px;
+    font-weight: 700;
+}
+.detail-box-grid .reparkive .reparkive-box.second p span {
+    color: #797979;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1;
+    margin-top: 8px;
+}
+.content_analytics {
+    padding: 20px;
+    background: #f7f7f7;
+}
+.reparkive-box.second .progress {
+    margin: 0;
+    width: 100%;
+    background: #E9EBEE;
+    height: 13px;
+}
+.content_analytics .detail-box.left {
+    height: calc(100% - 15px);
+}
+.reparkive-box.second .progress-bar {
+    background: #004A89;
+    border-radius: 25px;
+    padding: 0 8px 0 4px;
+    color: #1C3D7B;
+    font-weight: 600;
+    font-size: 1px;
+}
+.detail-box-grid .reparkive .reparkive-box p {
+    display: flex;
+    flex-direction: column;
+}
+.content_analytics .circle_graph {
+    margin-top: 20px;
+}
+/**Analytics page End**/
+
 /***INFORMED***/
 
 .informed{
