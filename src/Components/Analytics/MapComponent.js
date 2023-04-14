@@ -12,7 +12,7 @@ import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 MapModule(Highcharts);
 
 const MapComponent = ({ data, status }) => {
-  console.log("hello", data.response.data);
+ 
   const [newData, setNewData] = useState();
   // for map
   const mapOptions = {
@@ -166,40 +166,14 @@ const MapComponent = ({ data, status }) => {
            
           };
         });
-        console.log(countryData)
+       
           setNewData(countryData);
         
       }
       
 
-        const newSeries = [
-          {
-            name: `critical_care`,
-            data: data?.critical_care,
-            color: Highcharts?.getOptions()?.colors[2],
-          },
-          {
-            name: `haematology`,
-            data: data?.haematology,
-            color: Highcharts?.getOptions()?.colors[1],
-          },
-          {
-            name: `immunotherapy`,
-            data: data?.immunotherapy,
-            color: Highcharts?.getOptions()?.colors[0],
-          },
-        ];
-        const categories = data?.country;
 
-        const newCountryList = {
-          ...countryList,
-          xAxis: {
-            categories: categories,
-          },
-          series: newSeries,
-        };
-
-        SetCountryList(newCountryList);
+      
       } catch (error) {
         console.log(error);
       }

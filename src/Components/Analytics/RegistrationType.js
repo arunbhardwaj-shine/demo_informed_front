@@ -121,7 +121,7 @@ const RegistrationType = () => {
               </div>
             </Row>
           </div>
-        ) : null}
+        ) :  <h4>No Data Found</h4>}
       </Col>
     </>
   );
