@@ -107,9 +107,8 @@ const OctaCountryRegestration = () => {
 export default OctaCountryRegestration;
 
 const MapComponent = ({ data }) => {
- 
+
   const [newData, setNewData] = useState();
-  // for map
   const mapOptions = {
     chart: {
       map: "worldMap",
@@ -201,9 +200,12 @@ const MapComponent = ({ data }) => {
 
   return (
     <>
-      <Col className="right-sidebar">
-        <div className="custom-container">
-          <Row>
+      {
+        /*<Col className="right-sidebar">
+          <div className="custom-container">
+            <Row>*/
+      }
+
             <div className="create-change-content spc-content analytic-charts">
               <div className="high_charts"></div>
               <HighchartsReact
@@ -211,10 +213,16 @@ const MapComponent = ({ data }) => {
                 highcharts={Highcharts}
                 options={mapOptions}
               />
+
             </div>
-          </Row>
-        </div>
-      </Col>
+      {
+        /*
+        </Row>
+      </div>
+    </Col>
+        */
+      }
+
     </>
   );
 };
@@ -240,7 +248,7 @@ const PieComponent = ({ data }) => {
       dataArr.push([countryDrill[i], drillData[i]]);
     }
     drilldownData[element.region_name] = {
-    
+
       id: element.region_name,
       name: element.region_name,
       data: dataArr,

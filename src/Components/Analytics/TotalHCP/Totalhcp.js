@@ -45,7 +45,7 @@ const Totalhcp = () => {
     plotOptions: {
       series: {
         stacking: "normal",
-        pointWidth: 30 
+        pointWidth: 30
       }
 
     },
@@ -258,7 +258,9 @@ const Totalhcp = () => {
     <>
       <Col className="right-sidebar">
         {isDataNotFound && isLoaded ? (
-          <h3>Data Not Found</h3>
+          <div className="no_found">
+            <p>No Data Found</p>
+          </div>
         ) : isLoaded ? (
           <div className="custom-container">
             <Row>
