@@ -42,8 +42,12 @@ const DocintelAccount = ({ data }) => {
                   <div style={{ width: "100px", height: "100px" }}>
                     <Image
                       src={element?.pdf_data.Pdf?.image}
-                      alt="Image not availble"
+                      alt="Image not available"
                       fluid
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src="https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png";
+                      }}
                     />
                   </div>
                 </Col>

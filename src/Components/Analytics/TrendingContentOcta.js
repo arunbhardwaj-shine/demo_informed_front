@@ -74,12 +74,12 @@ const TrendingContentOcta = () => {
               <div className="delivery-trends">
                 <div className="custom-container">
                   <h3>Trending Content Based On Read Through Rate </h3>
-                  <DocintelAccount data={data} />;
+                  <DocintelAccount data={data} />
                 </div>
               </div>
             </Row>
           </div>
-        ) : null}
+        ) :  <h4>No Data Found</h4>}
       </Col>
     </>
   );

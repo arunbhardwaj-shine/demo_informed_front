@@ -54,7 +54,7 @@ const ContentAnalytics = () => {
       // alert(pdfObj[0].value)
       setSelectedPdf(pdfObj[0].value);
       setIsDataFound(true);
-      setIsLoaded(true);
+    
     } catch (err) {
       setIsDataFound(false);
       console.log(err);
@@ -133,7 +133,7 @@ const ContentAnalytics = () => {
                 <h2>Content Analytics</h2>
               </div>
             </div>
-            <div className="create-change-content spc-content analytic-charts">
+            <div className="create-change-content spc-content analytic-charts" id="parent">
               {isDataFound ? (
                   <div className="form_action">
                     <Form className="product-unit d-flex justify-content-between align-items-center">
@@ -181,7 +181,7 @@ const ContentAnalytics = () => {
                     </Col>
                   </Row>
                 </>
-              ) : null}
+              ) : isLoaded ? <h2>Data Not Found</h2>:null}
             </div>
           </Row>
         </div>
