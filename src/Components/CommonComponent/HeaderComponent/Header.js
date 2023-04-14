@@ -161,6 +161,7 @@ const Header = () => {
                   window.location.pathname == "/content-type" ||
                   window.location.pathname == "/octalatch-totalhcp" ||
                   window.location.pathname == "/octa-country" ||
+                  window.location.pathname == "/octalatch-deliveryregistration" ||
                   window.location.pathname == "/content-analytics"
                   ? "nav-item active active-main"
                   : "nav-item"
