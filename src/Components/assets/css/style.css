@@ -2933,7 +2933,7 @@ form#add_hcp_form .row:not(:first-child) {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(79, 79, 79, 0.5);
   z-index: 9999;
   display: none;
 }
@@ -2942,7 +2942,68 @@ form#add_hcp_form .row:not(:first-child) {
   display: block;
 }
 
+.loader_show {
+  max-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 0;
+  bottom: 0;
+}
+
 .loader-view {
+  color: var(--white);
+  position: relative;
+  font-size: 11px;
+  background: var(--white);
+  animation: escaleY 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em;
+  animation-delay: -0.16s;
+}
+
+.loader-view:before,
+.loader-view:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 2em;
+  background: var(--white);
+  width: 1em;
+  height: 4em;
+  animation: escaleY 1s infinite ease-in-out;
+}
+
+.loader-view:before {
+  left: -2em;
+  animation-delay: -0.32s;
+}
+
+@keyframes escaleY {
+
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+    background: var(--light-blue);
+    color: var(--light-blue);
+
+  }
+
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+    background: var(--white);
+    color: var(--white);
+  }
+}
+
+/* .loader-view {
   width: 100px;
   height: 100px;
   display: inline-block;
@@ -2973,9 +3034,9 @@ form#add_hcp_form .row:not(:first-child) {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   -webkit-animation: animloader56 2s ease infinite;
   animation: animloader56 2s ease infinite;
-}
+} */
 
-@-webkit-keyframes animloader56 {
+/* @-webkit-keyframes animloader56 {
   0% {
     transform: translate(0, 0) rotateX(0) rotateY(0);
   }
@@ -3111,7 +3172,7 @@ form#add_hcp_form .row:not(:first-child) {
     box-shadow: 0 50px rgba(255, 255, 255, 0), 50px 50px rgba(255, 255, 255, 0),
       50px 100px rgba(255, 255, 255, 0), 0px 100px rgba(255, 255, 255, 0);
   }
-}
+} */
 
 /**css loader End **/
 .create-smart-list {
@@ -3199,14 +3260,14 @@ form#add_hcp_form .row:not(:first-child) {
 /**Filter Dropdown**/
 .dropdown-menu.filter-options {
   top: 53px !important;
-  width: 340px;
-  max-width: 340px;
+  width: 316px;
+  max-width: 316px;
   right: 0;
   background: var(--white);
   box-shadow: 0px 3px 16px -3px rgb(0 102 190 / 51%);
   border-radius: 30px 0px 30px 30px;
-  padding: 19px 18px 72px 29px;
-  max-height: 720px;
+  padding: 19px 15px 60px 15px;
+  max-height: 657px;
   display: block;
   z-index: 7;
 }
@@ -3219,8 +3280,8 @@ form#add_hcp_form .row:not(:first-child) {
 
 .dropdown-menu.filter-options .accordion {
   overflow-y: auto;
-  max-height: 630px;
-  padding-right: 17px;
+  max-height: 530px;
+  padding-right: 10px;
   height: 100%;
 }
 
@@ -3234,7 +3295,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 .accordion-body {
-  padding: 1rem 1rem;
+  padding: 1rem 10px 1rem 5px;
 }
 
 .dropdown-menu.filter-options .accordion .card,
@@ -3248,10 +3309,10 @@ form#add_hcp_form .row:not(:first-child) {
 
 .dropdown-menu.filter-options .card-header a,
 .dropdown-menu.filter-options .card-header .accordion-button {
-  font-size: 18px;
-  line-height: 21px;
+  font-size: 15px;
+  line-height: 18px;
   color: var(--blue);
-  padding: 12px 20px;
+  padding: 11px 15px;
   width: 100%;
   text-align: left;
   font-family: "Roboto";
@@ -3270,10 +3331,14 @@ form#add_hcp_form .row:not(:first-child) {
 .dropdown-menu.filter-options .accordion .card .collapse,
 .dropdown-menu.filter-options .accordion .card .collapsing {
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-  border-radius: 25px 25px 30px 30px;
-  margin-top: -45px;
+  border-radius: 20px;
+  margin-top: -38px;
   padding-top: 43px;
   padding-left: 10px;
+}
+
+.dropdown-menu.filter-options .accordion .card ul li:last-child {
+  padding-bottom: 0;
 }
 
 .dropdown-menu.filter-options .accordion .card ul {
@@ -3383,26 +3448,29 @@ form#add_hcp_form .row:not(:first-child) {
   right: 0;
   box-shadow: 0px -4px 15px rgba(0, 102, 190, 0.1);
   border-radius: 0px 0px 30px 30px;
-  padding: 16px;
+  padding: 10px 16px 12px;
   z-index: 9;
   display: flex;
   justify-content: space-between;
 }
 
 .filter-footer button.btn-bordered {
-  font-size: 16px;
-  line-height: 19px;
+  font-size: 14px;
+  line-height: 16px;
   text-transform: capitalize;
   color: var(--light-blue);
-  padding: 9px;
-  min-width: 106px;
+  padding: 7px;
+  min-width: 81px;
   background-color: var(--white);
 }
 
 .filter-footer button.btn-filled {
   background: var(--light-blue);
-  min-width: 106px;
+  min-width: 81px;
   color: var(--white);
+  font-size: 14px;
+  line-height: 16px;
+  padding: 7px;
 }
 
 .select-multiple-option ul li {

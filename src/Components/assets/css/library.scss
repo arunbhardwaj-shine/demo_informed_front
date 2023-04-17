@@ -3036,8 +3036,7 @@ section.verify_email.content_details {
 
 /**Analytics**/
 .analytic-charts .form_action {
-    background: $dark-blue;
-    padding: 12px 20px;
+    padding: 20px 20px 20px;
 }
 .create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button {
     margin-bottom: 0;
@@ -3046,12 +3045,13 @@ section.verify_email.content_details {
     margin:0;
 }
 .create-change-content.analytic-charts .form_action .product-unit .form-group label {
-    color: $white;
+    color: $dark-blue
 }
 .create-change-content.analytic-charts {
     box-shadow: -0px 0px 15px rgba(0, 102, 190, 0.1);
     padding: 0;
     margin: 36px auto 0;
+    background: $white;
 }
 .highcharts-container svg {
     font-family: 'Roboto'!important;
@@ -3128,9 +3128,9 @@ input.viewer-toolbar-current-page-input {
 .delivery-trends {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 10px;
+    padding: 0 10px 10px;
     background: $white;
-    box-shadow: 0px 0px 15px rgba(0, 102, 190, 0.1);
+    // box-shadow: 0px 0px 15px rgba(0, 102, 190, 0.1);
     h3{
     font-weight: 500;
     font-size: 24px;
@@ -3221,6 +3221,11 @@ input.viewer-toolbar-current-page-input {
     padding: 10px 10px;
     background: #fff;
 }
+.delivery-trends .tab-content .kpi-graph-inside {
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 2px dashed #bbb;
+}
 .kpi-graph-inside .img-box .content-listed-shorting span {
     color: #a7a7a7;
     font-size: 24px;
@@ -3231,6 +3236,7 @@ input.viewer-toolbar-current-page-input {
     object-fit: contain;
     margin-top: 7px;
     width: 100%;
+    filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
 }
 .kpi-graph-inside .content-listed-content h3.remove_bg {
     background: none !important;
@@ -3551,7 +3557,9 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
     font-size: 20px;
     box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.2);
 }
-
+.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(3) {
+    max-width: 250px;
+}
 .content_analytics .accordion-item button.accordion-button::after {
     margin-left: 5px;
 }
@@ -3561,6 +3569,7 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
 
 .informed{
    padding: 0;
+   background: $white;
   .container{
       max-width: 1158px;
   }
@@ -3723,7 +3732,7 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
   .library-section{
     background: #0066be;
     width: 100%;
-    margin: 0px 0 -61px;
+    margin: 0px 0 -20px;
     padding: 0px 0 45px;
     position: relative;
     .container{
@@ -3911,17 +3920,19 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
        padding-right: 0px ;
        .d-content {
           margin: 0px;
-          padding: 30px 10px;
-          display: inherit;
+          padding: 18px 10px;
+          display: flex;
           width: 100%;
           text-align: center;
           background: $white;
           border-radius: 8px;
           .d-content-inr {
-            display: inline-block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             max-width: 775px;
             width: 100%;
-            margin: 0px 85px 0 0;
+            margin: 0px auto;
             vertical-align: middle;
             h5 {
                 font-size: 18px;
@@ -3930,6 +3941,7 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
                 color: #00003c;
                 display: inline-block;
                 width: 67%;
+                margin:0;
             }
             .d-btn {
               margin: 0px 8px;
@@ -3950,7 +3962,7 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
         .modify_img_path {
             height: 81px;
             float: right;
-            margin-top: -13px;
+            margin-top: 0px;
             margin-right: -5px;
         }
       }
@@ -4003,20 +4015,22 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
                 border-bottom: 5px solid #00D4C0;
                 width: 140px;
                 left: 111px;
+               }
+             }
+            p{
+              max-width: 490px;
+              color: $white;
+              font-family: Mulish;
+              font-size: 18px;
+              line-height: 23px;
+              text-align: right;
+              letter-spacing: -0.010227px;
+              margin-left: 90px;
+              padding-top: 13px;
             }
-          }
-          p{
-            max-width: 490px;
-            color: #fff;
-            font-family: Mulish;
-            font-weight: normal;
-            font-size: 18px;
-            line-height: 23px;
-            text-align: right;
-            letter-spacing: -0.010227px;
-            margin-left: 90px;
-            padding-top: 13px;
-          }
+        }
+        .albert-inside-upper-right {
+
         }
       }
     }
@@ -4393,6 +4407,16 @@ ul.tab-mail-list.data span.total-left {
 .timeline-time-view {
     font-size: 11px;
     line-height: 15px;
+}
+.kpi-graph-inside .content-listed-content h3.remove_bg {
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+.content-listed .content-listed-content h5, .kpi-graph-inside .no-space .kpi-graph-inside-block h5 {
+    font-size: 13px;
+}
+.kpi-graph-inside .img-box img {
+    max-width: 130px;
 }
 .create-change-content .login-validation, .create-change-content .login-validation-upload {
     left: 154px !important;
@@ -4779,6 +4803,10 @@ ul.tab-mail-list.data span.total-left {
    .create-change-content .col-md-6, .create-change-content .col-md-7, .create-change-content .col-md-5 {
     width: 100%;
   }
+  .create-change-content.analytic-charts .col-md-6, .create-change-content.analytic-charts .col-md-7, .create-change-content.analytic-charts .col-md-5 {
+    width: auto;
+    flex: 1 1;
+}
   .header-btn-left .btn.back-btn {
     min-width: 35px;
     height: 35px;
@@ -4806,6 +4834,7 @@ ul.tab-mail-list.data span.total-left {
 .total-selected .tag-cross img {
     margin-left: 12px;
 }
+
 }
 @media (max-width: $layout-breakpoint-large) {
   form.product-unit .form-group {

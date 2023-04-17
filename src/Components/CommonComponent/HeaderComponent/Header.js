@@ -72,7 +72,9 @@ const Header = () => {
   return (
     <>
       <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
+        <div className="loader_show">
+          <span className="loader-view"> </span>
+        </div>
       </div>
       <header>
         <nav className="navbar navbar-expand-sm navbar-light">
