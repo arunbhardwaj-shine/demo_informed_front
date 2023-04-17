@@ -14,17 +14,17 @@ exporting(Highcharts);
 exportData(Highcharts);
 
 const RegistrationType = () => {
-  const [isDataFound, setIsDataFound] = useState(false);
+  // const [isDataFound, setIsDataFound] = useState(false);
 
   const [data, setData] = useState([]);
-
-
+  const [sectionLoader, setSectionLoader] = useState(false);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
   const [All, setAll] = useState([
     { value: "", label: "All" },
     { value: "active", label: "Active" },
     { value: "expired", label: "Expired" },
   ]);
-  
+
   const activeTab = useRef(1);
   useEffect(() => {
     getDataFromApi();
@@ -33,8 +33,8 @@ const RegistrationType = () => {
  const selectedOptions = useRef("");
 
   const getDataFromApi = async (tab="view") => {
-    loader("show");
-
+    setSectionLoader(true);
+    setApiCallStatus(false);
     try {
       const requestBody = {
         type: "topContent",
@@ -43,36 +43,29 @@ const RegistrationType = () => {
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
-      if (hadData.length <= 0) {
-        setIsDataFound(false);
-      }
-
-      // console.log(hadData);
-
-      setIsDataFound(true);
-    
-        setData(hadData);
-
-      loader("hide");
+      // if (hadData.length <= 0) {
+      //   setIsDataFound(false);
+      // }
+      // setIsDataFound(true);
+      setData(hadData);
+      setSectionLoader(false);
     } catch (err) {
-      setIsDataFound(false);
+      // setIsDataFound(false);
       console.log(err);
-      loader("hide");
+      setSectionLoader(false);
     }
-    // console.log(chart.current)
+    setApiCallStatus(true);
   };
 
   const handleTabChange = (event) => {
-    setIsDataFound(false);
-    loader("show");
-
+    // setIsDataFound(false);
+    setSectionLoader(true);
     activeTab.current = event;
     if (event == 1) {
       getDataFromApi("view");
     } else if (event == 2) {
       getDataFromApi("reader");
-    } 
-    // loader("hide");
+    }
   };
 
   const filterDataByStatus = (e) => {
@@ -81,14 +74,16 @@ const RegistrationType = () => {
     getDataFromApi("view");
   } else if (activeTab.current == 2) {
     getDataFromApi("reader");
-  } 
+  }
   };
 
 
   return (
     <>
       <Col className="right-sidebar">
-        {isDataFound ? (
+
+        {/*isDataFound ? (*/}
+        {/*data.length > 0 ? (*/}
           <div className="custom-container">
             <Row>
               <div className="create-change-content spc-content analytic-charts">
@@ -117,11 +112,27 @@ const RegistrationType = () => {
                       <RegistrationTypeLayout  data={activeTab.current==2?data:null}  />
                     </Tab>
                   </Tabs>
+
+                  {
+                    sectionLoader ?
+                    <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
+                      <div className="loader_show"><span className="loader-view"> </span></div>
+                    </div>
+                    : ''
+                  }
+
                 </div>
               </div>
             </Row>
           </div>
-        ) :  <h4>No Data Found</h4>}
+          {
+            /*) :
+              apiCallStatus ?
+              <div className="no_found">
+                     <p>No Data Found</p>
+               </div>
+               : null*/
+          }
       </Col>
     </>
   );
