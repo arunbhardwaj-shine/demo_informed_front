@@ -331,6 +331,7 @@ const LibraryCreateUser = () => {
           state: {
             pdfId: res?.data?.data?.pdfId,
             fileType: userInputs?.docintelFormat,
+            isEdit: 0,
           },
         });
       } catch (err) {
