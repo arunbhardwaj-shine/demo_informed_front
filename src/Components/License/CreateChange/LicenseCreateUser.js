@@ -1258,12 +1258,16 @@ const LicenseCreateUser = () => {
                                 </div>
                               </div>
                               <div className="chapter-btn-wrapper">
-                                <Button
-                                  className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
-                                  onClick={addMoreChClicked}
-                                >
-                                  Add Ch +
-                                </Button>
+                                {
+                                  chapter.length -1 == i ?
+                                    <Button
+                                      className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
+                                      onClick={addMoreChClicked}
+                                    >
+                                      Add Ch +
+                                    </Button>
+                                    : null
+                              }
 
                                 {chapter.length > 1 ? (
                                   <Button
