@@ -379,62 +379,63 @@ const DeliveryTrends = () => {
           <div className="custom-container">
             <Row>
               <div className="delivery-trends">
-              <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
-                <Tab eventKey="1" title="All Business Units">
-                  {isDataFound ? (
-                    <GaugeComponent tab={data.tab} list={listData.tab} />
-                  ) :
-                  apiCallStatus ?
-                  <div className="no_found">
-                         <p>No Data Found</p>
-                   </div>
-                   : null
-                }
-                </Tab>
-                <Tab eventKey="2" title="Haematology">
-                {isDataFound ? (
-                  <GaugeComponent tab={data.tab} list={listData.tab} />
-                  ) :
-                  apiCallStatus ?
-                  <div className="no_found">
-                         <p>No Data Found</p>
-                   </div>
-                   : null
-                }
-                </Tab>
-                <Tab eventKey="3" title="Critical Care">
-                {isDataFound ? (
-                  <GaugeComponent tab={data.tab} list={listData.tab} />
-                ) :
-                apiCallStatus ?
-                <div className="no_found">
-                       <p>No Data Found</p>
-                 </div>
-                 : null
-                }
-                </Tab>
-                <Tab eventKey="4" title="Immunotherapy">
-                {isDataFound ? (
-                  <GaugeComponent tab={data.tab} list={listData.tab} />
-                ) :
-                  apiCallStatus ?
-                  <div className="no_found">
-                         <p>No Data Found</p>
-                   </div>
-                   : null
-                 }
-                </Tab>
-              </Tabs>
+                <div className="tabs_content_load">
+                  <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
+                    <Tab eventKey="1" title="All Business Units">
+                      {isDataFound ? (
+                        <GaugeComponent tab={data.tab} list={listData.tab} />
+                      ) :
+                      apiCallStatus ?
+                      <div className="no_found">
+                             <p>No Data Found</p>
+                       </div>
+                       : null
+                    }
+                    </Tab>
+                    <Tab eventKey="2" title="Haematology">
+                    {isDataFound ? (
+                      <GaugeComponent tab={data.tab} list={listData.tab} />
+                      ) :
+                      apiCallStatus ?
+                      <div className="no_found">
+                             <p>No Data Found</p>
+                       </div>
+                       : null
+                    }
+                    </Tab>
+                    <Tab eventKey="3" title="Critical Care">
+                    {isDataFound ? (
+                      <GaugeComponent tab={data.tab} list={listData.tab} />
+                    ) :
+                    apiCallStatus ?
+                    <div className="no_found">
+                           <p>No Data Found</p>
+                     </div>
+                     : null
+                    }
+                    </Tab>
+                    <Tab eventKey="4" title="Immunotherapy">
+                    {isDataFound ? (
+                      <GaugeComponent tab={data.tab} list={listData.tab} />
+                    ) :
+                      apiCallStatus ?
+                      <div className="no_found">
+                             <p>No Data Found</p>
+                       </div>
+                       : null
+                     }
+                    </Tab>
+                  </Tabs>
 
-              {
-                sectionLoader ?
-                <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
-                  <div className="loader_show"><span className="loader-view"> </span></div>
+                  {
+                    sectionLoader ?
+                    <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
+                      <div className="loader_show"><span className="loader-view"> </span></div>
+                    </div>
+                    : ''
+                  }
                 </div>
-                : ''
-              }
               </div>
-
             </Row>
           </div>
 

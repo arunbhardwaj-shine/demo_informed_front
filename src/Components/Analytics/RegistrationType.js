@@ -14,7 +14,7 @@ exporting(Highcharts);
 exportData(Highcharts);
 
 const RegistrationType = () => {
-  // const [isDataFound, setIsDataFound] = useState(false);
+  const [isDataFound, setIsDataFound] = useState(false);
 
   const [data, setData] = useState([]);
   const [sectionLoader, setSectionLoader] = useState(false);
@@ -43,14 +43,14 @@ const RegistrationType = () => {
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
-      // if (hadData.length <= 0) {
-      //   setIsDataFound(false);
-      // }
-      // setIsDataFound(true);
+      if (hadData.length <= 0) {
+        setIsDataFound(false);
+      }
+      setIsDataFound(true);
       setData(hadData);
       setSectionLoader(false);
     } catch (err) {
-      // setIsDataFound(false);
+      setIsDataFound(false);
       console.log(err);
       setSectionLoader(false);
     }
@@ -58,7 +58,7 @@ const RegistrationType = () => {
   };
 
   const handleTabChange = (event) => {
-    // setIsDataFound(false);
+    setIsDataFound(false);
     setSectionLoader(true);
     activeTab.current = event;
     if (event == 1) {
@@ -101,26 +101,43 @@ const RegistrationType = () => {
                 </Form>
               </div>
                 <div className="delivery-trends">
-                  <Tabs
-                    defaultActiveKey={activeTab.current}
-                    onSelect={handleTabChange}
-                  >
-                    <Tab eventKey="1" title="Views">
-                      <RegistrationTypeLayout  data={activeTab.current==1?data:null} />
-                    </Tab>
-                    <Tab eventKey="2" title="Readers">
-                      <RegistrationTypeLayout  data={activeTab.current==2?data:null}  />
-                    </Tab>
-                  </Tabs>
+                  <div className="tabs_content_load">
+                    <Tabs
+                      defaultActiveKey={activeTab.current}
+                      onSelect={handleTabChange}
+                    >
+                      <Tab eventKey="1" title="Views">
+                        {isDataFound && data.length > 0 ? (
+                          <RegistrationTypeLayout  data={activeTab.current==1?data:null} />
+                        ) :
+                        apiCallStatus ?
+                        <div className="no_found">
+                               <p>No Data Found</p>
+                         </div>
+                         : null
+                       }
+                      </Tab>
+                      <Tab eventKey="2" title="Readers">
+                      {isDataFound && data.length > 0 ? (
+                        <RegistrationTypeLayout  data={activeTab.current==2?data:null}  />
+                      ) :
+                      apiCallStatus ?
+                      <div className="no_found">
+                             <p>No Data Found</p>
+                       </div>
+                       : null
+                     }
+                      </Tab>
+                    </Tabs>
 
-                  {
-                    sectionLoader ?
-                    <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
-                      <div className="loader_show"><span className="loader-view"> </span></div>
-                    </div>
-                    : ''
-                  }
-
+                    {
+                      sectionLoader ?
+                      <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
+                        <div className="loader_show"><span className="loader-view"> </span></div>
+                      </div>
+                      : ''
+                    }
+                  </div>
                 </div>
               </div>
             </Row>

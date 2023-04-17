@@ -159,85 +159,87 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
               <div className="delivery-trends">
                 <div className="custom-container">
                   <h3>Content in activated HCP Docintel accounts</h3>
-                  <Tabs
-                    defaultActiveKey={activeTab.current}
-                    onSelect={handleTabChange}
-                  >
-                    <Tab eventKey="1" title="All Business Units">
-                      <Row>
-                        {isDataFound && data.length > 0 ? (
-                          <DocintelAccount data={activeTab.current==1?data:null} />
-                        ) :
-                        apiCallStatus ?
-                        <div className="no_found">
-                               <p>No Data Found</p>
-                         </div>
-                         : null
-                       }
-                      </Row>
-                    </Tab>
-                    <Tab eventKey="2" title="Haematology">
-                      <Row>
-                        {isDataFound && data.length > 0 ? (
-                          <DocintelAccount data={activeTab.current==2?data:null} />
-                        ) :
-                        apiCallStatus ?
-                        <div className="no_found">
-                               <p>No Data Found</p>
-                         </div>
-                         : null
-                       }
-                      </Row>
-                    </Tab>
-                    <Tab eventKey="3" title="Critical Care">
-                      <Row>
-                        {isDataFound && data.length > 0 ? (
-                          <DocintelAccount data={activeTab.current==3?data:null} />
-                        ) :
-                        apiCallStatus ?
-                        <div className="no_found">
-                               <p>No Data Found</p>
-                         </div>
-                         : null
-                       }
-                      </Row>
-                    </Tab>
-                    <Tab eventKey="4" title="Immunotherapy">
-                      <Row>
-                        {isDataFound && data.length > 0 ? (
-                          <DocintelAccount data={activeTab.current==4?data:null} />
-                        ) :
-                        apiCallStatus ?
-                        <div className="no_found">
-                               <p>No Data Found</p>
-                         </div>
-                         : null
-                       }
-                      </Row>
+                  <div className="tabs_content_load">
+                    <Tabs
+                      defaultActiveKey={activeTab.current}
+                      onSelect={handleTabChange}
+                    >
+                      <Tab eventKey="1" title="All Business Units">
+                        <Row>
+                          {isDataFound && data.length > 0 ? (
+                            <DocintelAccount data={activeTab.current==1?data:null} />
+                          ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                         }
+                        </Row>
+                      </Tab>
+                      <Tab eventKey="2" title="Haematology">
+                        <Row>
+                          {isDataFound && data.length > 0 ? (
+                            <DocintelAccount data={activeTab.current==2?data:null} />
+                          ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                         }
+                        </Row>
+                      </Tab>
+                      <Tab eventKey="3" title="Critical Care">
+                        <Row>
+                          {isDataFound && data.length > 0 ? (
+                            <DocintelAccount data={activeTab.current==3?data:null} />
+                          ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                         }
+                        </Row>
+                      </Tab>
+                      <Tab eventKey="4" title="Immunotherapy">
+                        <Row>
+                          {isDataFound && data.length > 0 ? (
+                            <DocintelAccount data={activeTab.current==4?data:null} />
+                          ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                         }
+                        </Row>
 
-                    </Tab>
-                    <Tab eventKey="5" title="IBU">
-                      <Row>
-                      {isDataFound && data.length > 0 ? (
-                        <DocintelAccount data={activeTab.current==5?data:null} />
-                        ) :
-                        apiCallStatus ?
-                        <div className="no_found">
-                               <p>No Data Found</p>
-                         </div>
-                         : null
-                       }
-                      </Row>
-                    </Tab>
-                  </Tabs>
+                      </Tab>
+                      <Tab eventKey="5" title="IBU">
+                        <Row>
+                        {isDataFound && data.length > 0 ? (
+                          <DocintelAccount data={activeTab.current==5?data:null} />
+                          ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                         }
+                        </Row>
+                      </Tab>
+                    </Tabs>
+                    {
+                      sectionLoader ?
 
-                  {
-                    sectionLoader ?
-                    <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
-                      <div className="loader_show"><span className="loader-view"> </span></div>
-                    </div>
-                    : ''
-                  }
+                      <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
+                        <div className="loader_show"><span className="loader-view"> </span></div>
+                      </div>
+                      : ''
+                    }
+                  </div>
                 </div>
               </div>
             </Row>

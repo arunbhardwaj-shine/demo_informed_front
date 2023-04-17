@@ -361,6 +361,7 @@ const EditLicense = () => {
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
+        formData.append("licensed", 1);
 
 
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
@@ -549,7 +550,7 @@ const EditLicense = () => {
                 <Select
                   options={userDetail?.production}
                   defaultValue={
-                    userDetail?.production[userDetail?.production.findIndex(el => el.id == userInputs?.production_id)]
+                    userDetail?.production?.[userDetail?.production.findIndex(el => el.id == userInputs?.production_id)]
                   }
                   onChange={(e) => handleChange(e?.id, "production_id")}
                   placeholder="Select own production person"
@@ -563,7 +564,7 @@ const EditLicense = () => {
                   options={userDetail?.sales}
                   placeholder="Who made the sale?"
                   defaultValue={
-                    userDetail?.sales[userDetail?.sales.findIndex(el => el.id == userInputs?.sales_id)]
+                    userDetail?.sales?.[userDetail?.sales.findIndex(el => el.id == userInputs?.sales_id)]
                   }
                   onChange={(e) => handleChange(e?.id, "sales_id")}
                   className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
@@ -1075,35 +1076,37 @@ const EditLicense = () => {
                 <div className="row justify-content-end align-items-center">
                   <div className="col-12 col-md-1">
                     <div className="header-btn-left">
-                      <Link
-                        className="btn btn-primary btn-bordered back-btn"
-                        to="/license-content"
-                      >
-                        <svg
-                          width="14"
-                          height="24"
-                          viewBox="0 0 14 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+                      {
+                        /*<Link
+                          className="btn btn-primary btn-bordered back-btn"
+                          to="/license-content"
                         >
-                          <path
-                            d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                            fill="#97B6CF"
-                          />
-                        </svg>
-                      </Link>
+                          <svg
+                            width="14"
+                            height="24"
+                            viewBox="0 0 14 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                              fill="#97B6CF"
+                            />
+                          </svg>
+                        </Link>*/
+                      }
                     </div>
                   </div>
                   <div className="col-12 col-md-9">
                     <ul className="tabnav-link">
                       <li className="active active-main">
-                        <a href="">Create Your Content</a>
+                        <a href="">Edit Your Content</a>
                       </li>
                       <li className="">
                         <a href="">Edit Consent Option</a>
                       </li>
                       <li className="">
-                        <a href="">Approve Your Content &amp; Publish</a>
+                        <a href="">Approve Your Content &amp; Save</a>
                       </li>
                     </ul>
                   </div>
@@ -1111,7 +1114,7 @@ const EditLicense = () => {
                     <div className="header-btn">
                       <Link
                         className="btn btn-primary btn-bordered move-draft"
-                        to="/license-content"
+                        to="/license-create"
                       >
                         Cancel
                       </Link>
@@ -1415,12 +1418,16 @@ const EditLicense = () => {
                                   </div>
                                 </div>
                                 <div className="chapter-btn-wrapper">
-                                  <Button
-                                    className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
-                                    onClick={addMoreChClicked}
-                                  >
-                                    Add Ch +
-                                  </Button>
+                                  {
+                                    chapter.length -1 == i ?
+                                      <Button
+                                      className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
+                                      onClick={addMoreChClicked}
+                                      >
+                                      Add Ch +
+                                      </Button>
+                                     : null
+                                  }
 
                                   {chapter.length > 1 ? (
                                     <Button
