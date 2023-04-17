@@ -167,7 +167,7 @@ const Header = () => {
                   : "nav-item"
                 } >
                   <Link className="nav-link" to={
-                    localStorage.getItem("group_id") == 2 ? "/registration-type" :
+                    localStorage.getItem("group_id") == 2 ? "/content-analytics" :
                     localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
                      "/totalhcp"
                      : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ?
