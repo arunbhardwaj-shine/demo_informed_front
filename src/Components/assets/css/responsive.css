@@ -230,7 +230,6 @@
   #accordion-smart .card-body .col.block-smart-name::after {
     right: -15px;
   }
-<<<<<<< HEAD
 
   #accordion-smart .smart-name-list {
     padding: 16px 10px 16px 10px;
@@ -242,14 +241,6 @@
     margin-right: 8px;
   }
 
-=======
-  #accordion-smart .smart-name-list {
-    padding: 16px 10px 16px 10px;
-}
-.dropdown-menu.filter-options .card .select-multiple-option, .smart-list-dropdown .card .select-multiple-option, .select-multiple-option {
-    margin-right: 8px;
-}
->>>>>>> b835dd9e0b37e737b85b4bdb57bfb0b6d4852bf1
   /* #accordion-smart .card-body .col {
     margin-right: 42px;
   } */
@@ -845,7 +836,6 @@
 
   .dropdown-menu.filter-options {
     width: 300px;
-    padding: 19px 12px 72px 19px;
   }
 
   .dropdown-menu.filter-options .card-header a,
@@ -882,14 +872,6 @@
 
   .dropdown-menu.filter-options .accordion {
     padding-right: 5px;
-  }
-
-  .filter-footer button.btn-bordered,
-  .filter-footer button.btn-filled {
-    font-size: 14px;
-    line-height: 19px;
-    min-width: 96px;
-    padding: 8px 12px;
   }
 
   .smartlist-add {
@@ -1246,10 +1228,9 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
-<<<<<<< HEAD
 
   #accordion-smart .card-body .col {
-    flex: 0 0 22.5%;
+    flex: 0 0 17.5%;
   }
 
   .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {
@@ -1257,22 +1238,9 @@
     margin-right: 0;
   }
 
-  #accordion-smart .card-body .col.consent-type {
-    flex: 0 0 194px;
-  }
-
-=======
-  #accordion-smart .card-body .col {
-    flex: 0 0 17.5%;
-}
-  .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {
-    max-width: 890px;
-    margin-right:0;
-}
   /* #accordion-smart .card-body .col.consent-type {
     flex: 0 0 194px;
   } */
->>>>>>> b835dd9e0b37e737b85b4bdb57bfb0b6d4852bf1
   .smartlist-view .mail-box-content {
     min-height: 343px;
   }
@@ -1473,7 +1441,8 @@
 
   .filter-footer button.btn-bordered,
   .filter-footer button.btn-filled {
-    padding: 6px 10px;
+    padding: 7px;
+    height: auto;
   }
 
   .dropdown-menu.filter-options .accordion .card .collapse,
