@@ -270,7 +270,62 @@ const Informed = () => {
             </Col>
         </Row>
     </Container>
-  </section>
+        </section>
+        <section className="team-section">
+            <Container>
+                <div className="dotted-line">
+                    <img src={path_image + "bnr4-line-new.png"} alt=""/>
+                    <div className="dt-line r-none">
+                        <span className="dt-line-dote">
+                            <img src={path_image + "bnr4-0line-new.png"} alt=""/>
+                        </span>
+                    </div>
+                </div>
+                <Row className="content-sec">
+                    <Col md={{span: 9, offset: 3}} className="content-sec-left">
+                        <div className="quick-text">
+                            <div className="quick-inr">
+                            <h2>Get your team <br/>
+                                <span>started quickly!</span></h2>
+                                <p>An inforMed.pro account can be set up in under a month.<br/> Enabling all your content to be housed with full compliance in<br/> one space. Letting your team distribute and gain the power<br/> that comes with Clincian consent and any complaince.</p>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md={{span: 11, offset: 1}} className="no-padding team-section-map-listing">
+                        <ul className="date-list">
+                            <li>
+                            <h5><strong>January</strong></h5>
+                            <div><p>Build your<br/>Library</p></div>
+                            </li>
+                            <li>
+                            <h5><strong>February</strong></h5>
+                            <div><p>Roll-out<br/> to sales</p></div>
+                            </li>
+                            <li>
+                            <h5>Gathering data with the Library AI</h5>
+                            <div><p>No change for reps,<br/>just informed intelligence</p></div>
+                            </li>
+                            <li>
+                            <h5><strong>November</strong> <span>Faster Prescriptions</span></h5>
+                            <div><p>Start having applying AI with<br/> our Prediction AI engine</p></div>
+                            </li>
+                        </ul>
+                    </Col>
+                    <Col sm={12}>
+                        <div class="start-building-gdpr">
+                            <div class="start-building-gdpr-content">
+                                <div class="start-building-gdpr-left">
+                                    <img src={path_image + "build-flag.png"} alt=""/>
+                                </div>
+                                <div class="start-building-gdpr-right">
+                                    <h4>Start building your GDPR compliant library, distribute across all channels and help your team predict doctors' path to prescriptions</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
+        </section>
 
     </div>
     <Modal show={show} onHide={handleClose}>

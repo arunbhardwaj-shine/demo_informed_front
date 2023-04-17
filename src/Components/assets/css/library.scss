@@ -3348,6 +3348,7 @@ input.viewer-toolbar-current-page-input {
   .loader_show {
     top: 300px;
     bottom: auto;
+    height: 100%;
 }
 }
 /**Analytics end**/
@@ -3998,15 +3999,15 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
         text-align: center;
         right: 4px;
         top: 0;
-        .r-none {
+        &.r-none {
           right: inherit;
+        }
           .dt-line-dote{
             img{
               max-width: 1067px;
               width:100%;
             };
           }
-        }
       }
     }
     .top-space {
