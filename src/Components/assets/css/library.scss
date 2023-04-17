@@ -2943,6 +2943,9 @@ input[type=number] {
 }
 .content_details .verify-email-detail h6 li {
   font-weight:400;
+  font-size:12px;
+  height:20px;
+  margin-bottom: 1px;
 }
 .create-reader.create-change-content.smartlist_readers_view {
   padding: 7px 12px 36px;
@@ -3050,8 +3053,13 @@ section.verify_email.content_details {
 .create-change-content.analytic-charts {
     box-shadow: -0px 0px 15px rgba(0, 102, 190, 0.1);
     padding: 0;
-    margin: 36px auto 0;
+    margin: 36px auto 70px;
     background: $white;
+    position: relative;
+}
+.create-change-content.analytic-charts .delivery-trends .load_more {
+    position: absolute;
+    bottom: -72px;
 }
 .highcharts-container svg {
     font-family: 'Roboto'!important;
@@ -3130,6 +3138,7 @@ input.viewer-toolbar-current-page-input {
     margin: 0 auto;
     padding: 0 10px 10px;
     background: $white;
+    position:relative;
     // box-shadow: 0px 0px 15px rgba(0, 102, 190, 0.1);
     h3{
     font-weight: 500;
@@ -3333,6 +3342,13 @@ input.viewer-toolbar-current-page-input {
     align-items: center;
     justify-content: center;
     width: 100%;
+}
+.loader.tab-inside{
+  position:absolute;
+  .loader_show {
+    top: 300px;
+    bottom: auto;
+}
 }
 /**Analytics end**/
 
