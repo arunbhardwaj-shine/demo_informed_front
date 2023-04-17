@@ -153,30 +153,30 @@ const TrendingTopics = () => {
             </div>
             <div className="create-change-content spc-content analytic-charts">
               <Row>
-              <div className="delivery-trends">
-              <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
-                <Tab eventKey="1" title="All Business Units">
-                </Tab>
-                <Tab eventKey="2" title="Haematology">
-                </Tab>
-                <Tab eventKey="3" title="Critical Care">
-                </Tab>
-                <Tab eventKey="4" title="Immunotherapy">
-                </Tab>
-                <Tab eventKey="5" title="IBU">
-                </Tab>
-              </Tabs>
-
-                {
-                  sectionLoader ?
-                  <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
-                    <div className="loader_show"><span className="loader-view"> </span></div>
+                <div className="delivery-trends">
+                  <div className="tabs_content_load">
+                    <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
+                      <Tab eventKey="1" title="All Business Units">
+                      </Tab>
+                      <Tab eventKey="2" title="Haematology">
+                      </Tab>
+                      <Tab eventKey="3" title="Critical Care">
+                      </Tab>
+                      <Tab eventKey="4" title="Immunotherapy">
+                      </Tab>
+                      <Tab eventKey="5" title="IBU">
+                      </Tab>
+                    </Tabs>
+                      {
+                        sectionLoader ?
+                        <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
+                          <div className="loader_show"><span className="loader-view"> </span></div>
+                        </div>
+                        : ''
+                      }
                   </div>
-                  : ''
-                }
-              </div>
-
-            </Row>
+                </div>
+              </Row>
               <div className="high_charts trending-topics">
                 <HighchartsReact highcharts={Highcharts} options={options} />
               </div>
