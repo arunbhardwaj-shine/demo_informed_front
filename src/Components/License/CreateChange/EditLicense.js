@@ -361,6 +361,7 @@ const EditLicense = () => {
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
+        formData.append("licensed", 1);
 
 
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
