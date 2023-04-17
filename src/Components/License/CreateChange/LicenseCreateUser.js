@@ -945,7 +945,7 @@ const LicenseCreateUser = () => {
                       to="/license-create"
                     >
                       Back
-                    </Link> */}
+                    </Link>
                     <Link
                       className="btn btn-primary btn-bordered back-btn"
                       to="/license-create"
@@ -962,7 +962,7 @@ const LicenseCreateUser = () => {
                           fill="#97B6CF"
                         />
                       </svg>
-                    </Link>
+                    </Link>*/}
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
