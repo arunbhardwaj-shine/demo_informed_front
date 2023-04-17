@@ -51,7 +51,7 @@ export default function RegistrationTypeLayout({ data }) {
       )}
       {pageAll == false && allItemsToShow?.length + numItemsToShow < data?.length && (
         <>
-        <div className="text-center">
+        <div className="text-center load_more">
           <button className="btn btn-primary" onClick={handleLoadMore}>
             Load More
           </button>
