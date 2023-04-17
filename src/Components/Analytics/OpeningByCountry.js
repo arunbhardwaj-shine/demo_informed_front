@@ -231,7 +231,7 @@ const OpeningByCountry = () => {
                     </div>
                   </Form>
                 </div>
-                <div className="high_charts">
+                <div className="high_charts space-added">
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={topClientOptions}

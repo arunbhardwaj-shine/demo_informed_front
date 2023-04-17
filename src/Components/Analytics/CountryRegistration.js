@@ -1,21 +1,40 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { getData, postData, postFormData } from '../../axios/apiHelper';
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Form} from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { ENDPOINT } from '../../axios/apiConfig';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import highchartsMap from "highcharts/modules/map";
 import MapModule from "highcharts/modules/map";
-// import worldMap from "@highcharts/map-collection/custom/world.geo.json";
-const worldMap = "";
-
+import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+import Select from "react-select";
 MapModule(Highcharts);
 
 
 
 const CountryRegistration = () => {
   const [newData, setNewData] = useState();
+
+  const [monthYear, setMonthYear] = useState([
+    { value: "All", label: "All" },
+    { value: "March 2022", label: "March 2022" },
+    { value: "April 2022", label: "April 2022" },
+    { value: "May 2022", label: "May 2022" },
+    { value: "June 2022", label: "June 2022" },
+    { value: "July 2022", label: "July 2022" },
+    { value: "July 2022", label: "July 2022" },
+    { value: "August 2022", label: "August 2022" },
+    { value: "September 2022", label: "September 2022" },
+    { value: "October 2022", label: "October 2022" },
+    { value: "November 2022", label: "November 2022" },
+    { value: "December 2022", label: "December 2022" },
+    { value: "January 2023", label: "January 2023" },
+    { value: "February 2023", label: "February 2023" },
+    { value: "March 2023", label: "March 2023" },
+    { value: "April 2023", label: "April 2023" },
+  ]);
+
 // for map
 const mapOptions = {
   chart: {
@@ -34,22 +53,15 @@ const mapOptions = {
       verticalAlign: "bottom",
       x: -10,
       y: -10
-    }
+    },
   },
 
-  xAxis: {
-    min: 160,
-    max: -120
-  },
-  yAxis: {
-    min: -60,
-    max: 20
-  },
   series: [
     {
       name: "Country Registration",
       data: newData?.filter(country => country.lat && country.lon),
       mapData: worldMap,
+      showInLegend: false,
       joinBy: ["name"],
       keys: ["code", "value"],
       tooltip: {
@@ -81,7 +93,7 @@ const mapOptions = {
    const [countryList, SetCountryList] = useState({
     chart: {
       type: 'bar',
-      height: '500%'
+      height: 8000
     },
     title: {
       text: 'Country List'
@@ -107,12 +119,15 @@ const mapOptions = {
     plotOptions: {
       bar: {
         dataLabels: {
-            enabled: true
+            enabled: true,
+            pointWidth:30,
+
         }
+
     },
-      series: {
-        pointWidth: 15
-    }
+    //   series: {
+    //     pointWidth: 15
+    // }
     },
     exporting: {
       showTable: true
@@ -127,11 +142,17 @@ Highcharts.setOptions({
 
 });
 
-  useEffect(() => {
+const optionMonth = useRef();
+const optionYear = useRef();
+
     const getDataFromApi = async () => {
       try {
-        const response = await postData(ENDPOINT.COUNTRY_REGISTRATION);
+        const month = optionMonth.current;
+        const year = optionYear.current;
+        console.log("payload", month, year);
+        const response = await postData(ENDPOINT.COUNTRY_REGISTRATION,{ year, month });
         const apiData = response.data;
+        console.log(apiData);
        const countryData = apiData.data.coordination.map((coordObject,index) => {
         const [lat, lon] = Object.values(coordObject)[0].split("~");
         const totalIndex = apiData.data.critical_care[index] + apiData.data.haematology[index] + apiData.data.immunotherapy[index];
@@ -147,7 +168,7 @@ Highcharts.setOptions({
       });
         setNewData(countryData);
 
-      console.log("djjdjdjj",countryData);
+
         const newSeries = [
           {
             name: `critical_care`,
@@ -181,9 +202,18 @@ Highcharts.setOptions({
         console.log(error);
       }
     };
-
+    useEffect(() => {
     getDataFromApi();
   }, []);
+
+  const selectMonthYear = (e) => {
+    const [month, year] = e.value.split(" ");
+    optionMonth.current = month;
+    optionYear.current = year;
+    getDataFromApi();
+  }
+
+
 
   return (
     <>
@@ -201,11 +231,26 @@ Highcharts.setOptions({
                 </div>
               </div>
               <div className="create-change-content spc-content analytic-charts">
-                <div className="high_charts"></div>
+              <div className="form_action">
+                <Form className="product-unit d-flex justify-content-between align-items-center">
+                  <div className="form-group ">
+                    <label htmlFor="">Months</label>
+                    <Select
+                      options={monthYear}
+                      placeholder="All"
+                      onChange={selectMonthYear}
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                    />
+                    </div>
+                    </Form>
+                    </div>
+                <div className="high_charts">
             <HighchartsReact constructorType={"mapChart"} highcharts={Highcharts} options={mapOptions} />
             </div>
                 <div className="high_charts">
             <HighchartsReact highcharts={Highcharts} options={countryList} />
+            </div>
             </div>
           </Row>
         </div>

@@ -15,7 +15,9 @@ exportData(Highcharts);
 
 const RegistrationType = () => {
   const [isDataFound, setIsDataFound] = useState(false);
+
   const [data, setData] = useState([]);
+
 
   const [All, setAll] = useState([
     { value: "", label: "All" },
@@ -48,6 +50,7 @@ const RegistrationType = () => {
       // console.log(hadData);
 
       setIsDataFound(true);
+    
         setData(hadData);
 
       loader("hide");
@@ -81,6 +84,7 @@ const RegistrationType = () => {
   } 
   };
 
+
   return (
     <>
       <Col className="right-sidebar">
@@ -107,17 +111,17 @@ const RegistrationType = () => {
                     onSelect={handleTabChange}
                   >
                     <Tab eventKey="1" title="Views">
-                      <RegistrationTypeLayout  data={activeTab.current==1?data:null}/>
+                      <RegistrationTypeLayout  data={activeTab.current==1?data:null} />
                     </Tab>
                     <Tab eventKey="2" title="Readers">
-                      <RegistrationTypeLayout  data={activeTab.current==2?data:null} />
+                      <RegistrationTypeLayout  data={activeTab.current==2?data:null}  />
                     </Tab>
                   </Tabs>
                 </div>
               </div>
             </Row>
           </div>
-        ) : null}
+        ) :  <h4>No Data Found</h4>}
       </Col>
     </>
   );

@@ -17,6 +17,7 @@ const Totalhcp = () => {
   const [hcpOptions, setHcpOptions] = useState({
     chart: {
       type: "bar",
+      height:1000
     },
     title: {
       text: "Total HCPs",
@@ -44,6 +45,7 @@ const Totalhcp = () => {
     plotOptions: {
       series: {
         stacking: "normal",
+        pointWidth: 30
       }
 
     },
@@ -80,7 +82,6 @@ const Totalhcp = () => {
     },
     plotOptions: {
       series: {
-        stacking: "normal",
         dataLabels: {
           enabled: true,
           format: "{point.y}"
@@ -171,6 +172,7 @@ const Totalhcp = () => {
       ];
 
       const categories = JSON.parse(data[0].Months);
+      console.log(categories);
       const newHcpOptions = {
         ...hcpOptions,
         xAxis: {
@@ -256,7 +258,9 @@ const Totalhcp = () => {
     <>
       <Col className="right-sidebar">
         {isDataNotFound && isLoaded ? (
-          <h3>Data Not Found</h3>
+          <div className="no_found">
+            <p>No Data Found</p>
+          </div>
         ) : isLoaded ? (
           <div className="custom-container">
             <Row>

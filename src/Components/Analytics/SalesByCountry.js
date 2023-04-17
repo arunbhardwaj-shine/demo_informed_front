@@ -268,14 +268,14 @@ const SalesByCountry = () => {
                   </Form>
                 </div>
                 {isDataFound ? (
-                <div className="high_charts">
+                <div className="high_charts space-added">
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={topClientOptions}
                     ref={chart}
                   />
                 </div>
-                 ) : isLoaded ?<h2>NO Data Found</h2>:null}
+                 ) : isLoaded ?<h2>No Data Found</h2>:null}
               </div>
             </Row>
           </div>

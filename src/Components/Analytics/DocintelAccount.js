@@ -23,40 +23,48 @@ const DocintelAccount = ({ data }) => {
     ],
   });
 
-  const [gaugeOptions, setGaugeOptions] = useState();
+
+
   return (
     <>
       {data != null
         ? data.map((element, index) => {
+          const dataForGraph= element.country==0  || element.country.length==0  ?[{}] :JSON.parse(element.country);
+         
+         
+
+          // alert(element.pdf_data.Pdf.code)
+          // alert(index)
+
             return (
               <Row key={index}>
                 <Col sm={2} md={2} className="img-box justify-content-center">
                   <div style={{ width: "100px", height: "100px" }}>
                     <Image
                       src={element?.pdf_data.Pdf?.image}
-                      alt="Image not availble"
+                      alt="Image not available"
                       fluid
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src="https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png";
+                      }}
                     />
                   </div>
                 </Col>
                 <Col>
-                  <Row>
-                    <Col>
                       <h3> {element?.pdf_data?.Pdf?.title}</h3>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
                       <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
                       <Button className="btn next-content btn-bordered">
                         Preview Article
                       </Button>
-                    </Col>
-                  </Row>
+                    {element?.pdf_data?.Pdf?.product!=undefined?
+                      <span >
+                      {element?.pdf_data?.Pdf?.product}
+                      </span>
+
+                      :null
+
+                    }
                 </Col>
   
                 <Col>
@@ -147,22 +155,22 @@ const DocintelAccount = ({ data }) => {
                       },
                       series: [
                         {
-                          name: "Distribute",
+                          name: "Registration",
                           data: [
                             {
                               color: Highcharts.getOptions().colors[1],
                               radius: "95%",
                               innerRadius: "70%",
                               y:
-                                element.distribute > 100
-                                  ? element.distribute
-                                  : 100,
+                                
+                                 element.distribute,
+                                  
                               z: element.distribute,
                             },
                           ],
                         },
                         {
-                          name: "Opened",
+                          name: "Openings",
                           data: [
                             {
                               color: Highcharts.getOptions().colors[2],
@@ -176,7 +184,7 @@ const DocintelAccount = ({ data }) => {
                           ],
                         },
                         {
-                          name: "RTR",
+                          name: "Actual Readers",
                           data: [
                             {
                               color: Highcharts.getOptions().colors[3],
@@ -209,7 +217,7 @@ const DocintelAccount = ({ data }) => {
                         enabled: false,
                       },
                       xAxis: {
-                        categories: JSON.parse(element.country).map(
+                        categories: dataForGraph.map(
                           (c) => c.name
                         ),
                       },
@@ -221,7 +229,7 @@ const DocintelAccount = ({ data }) => {
                       series: [
                         {
                           name: "",
-                          data: JSON.parse(element.country).map((c) =>
+                          data: dataForGraph.map((c) =>
                             parseInt(c.y)
                           ),
                           showInLegend: false,

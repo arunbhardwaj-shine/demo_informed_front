@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Highcharts from "highcharts";
@@ -16,7 +16,6 @@ const OctalatchTotalHCP = () => {
   const [isDataNotFound, setIsDataNotFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [getMonth, setMonth] = useState([]);
-  const [flag, setFlag] = useState(false);
 
   const [hcpOptions, setHcpOptions] = useState({
     chart: {
@@ -85,7 +84,7 @@ const OctalatchTotalHCP = () => {
     },
     plotOptions: {
       series: {
-        stacking: "normal",
+        // stacking: "normal",
         dataLabels: {
           enabled: true,
           format: "{point.y}",
@@ -158,8 +157,9 @@ const OctalatchTotalHCP = () => {
       const response = await getData(ENDPOINT.OCTALATCH_TOTAL_HCP);
 
       const data = response?.data?.response?.data;
+      const seriesMonth = response?.data?.response?.months;
+      const lineMonth = response?.data?.response?.months_reverse;
 
-      setMonth(response?.data?.response?.months);
       if (data.length <= 0) {
         setIsDataNotFound(true);
       }
@@ -184,7 +184,6 @@ const OctalatchTotalHCP = () => {
           name: item?.name + " (" + JSON.parse(item?.total) + ")",
           data: item?.graph1,
           color: Highcharts?.getOptions()?.colors[index],
-          // month: JSON.parse(item?.Months),
         });
         newLineData.push({
           name: item.name + " (" + JSON.parse(item?.total) + ")",
@@ -196,7 +195,7 @@ const OctalatchTotalHCP = () => {
       // Set options for HCP chart
 
       // const categories = JSON.parse(data[0]?.Months);
-      const seriesCategories = response?.data?.response?.months;
+      const seriesCategories = seriesMonth;
 
       const newHcpOptions = {
         ...hcpOptions,
@@ -209,8 +208,9 @@ const OctalatchTotalHCP = () => {
       setHcpOptions(newHcpOptions);
 
       // Set options for Base line chart
-      console.log("state", getMonth);
-      const lineCategories = getMonth.reverse();
+
+      const lineCategories = lineMonth;
+
       const newLineOptions = {
         ...lineOptions,
         xAxis: {
