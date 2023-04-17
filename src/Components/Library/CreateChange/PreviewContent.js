@@ -89,8 +89,15 @@ const PreviewContent = () => {
       }
       loader("hide");
 
-      const div_img = document.querySelector(".alice-carousel__wrapper img");
-      div_img.click();
+      if(res?.data?.data?.file_type != "pdf"){
+          setTimeout(function () {
+            const div_img = document.querySelector(".alice-carousel__wrapper img");
+            if(typeof div_img !== "undefined" || div_img != null){
+              div_img.click();
+            }
+          }, 300);
+      }
+      
     } catch (err) {
       loader("hide");
     }
