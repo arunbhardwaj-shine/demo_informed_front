@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
-
 import Highcharts from "highcharts";
-import { loader } from "../../loader";
-
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
@@ -13,6 +10,8 @@ import DocintelAccount from "./DocintelAccount";
 const TrendingContent = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
+  const [sectionLoader, setSectionLoader] = useState(false);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
 
   Highcharts.setOptions({
     colors: [
@@ -102,8 +101,8 @@ const TrendingContent = () => {
   }, []);
 
   const getDataFromApi = async (type = "all") => {
-    loader("show");
-
+    setSectionLoader(true)
+    setApiCallStatus(false);
     try {
       const requestBody = {
         type: type,
@@ -114,7 +113,7 @@ const TrendingContent = () => {
         setIsDataFound(false);
       }
       // console.log(hadData);
-  
+
       // const categories = hadData?.name;
 
       // const newSeries = [
@@ -147,19 +146,18 @@ const TrendingContent = () => {
       setIsDataFound(true);
 
       setData(hadData);
-  
-      loader("hide");
+
+      setSectionLoader(false);
     } catch (err) {
       setIsDataFound(false);
-      // console.log(err);
-      loader("hide");
+      setSectionLoader(false);
     }
-    // console.log(chart.current)
+    setApiCallStatus(true);
   };
 
   const handleTabChange = (event) => {
     setIsDataFound(false);
-    loader("show");
+    setSectionLoader(true);
 
     activeTab.current = event;
     if (event == 1) {
@@ -174,53 +172,99 @@ const TrendingContent = () => {
     else if (event == 5) {
       getDataFromApi("ibu");
     }
-    // loader("hide");
   };
 
   return (
     <>
       <Col className="right-sidebar">
-        {isDataFound ? (
           <div className="custom-container">
             <Row>
               <div className="delivery-trends">
                 <div className="custom-container">
                   <h3>Content in activated HCP Docintel accounts</h3>
-                  <Tabs
-                    defaultActiveKey={activeTab.current}
-                    onSelect={handleTabChange}
-                  >
-                    <Tab eventKey="1" title="All Business Units">
-                      <Row>
-                        <DocintelAccount data={activeTab.current==1?data:null} />
-                      </Row>
-                    </Tab>
-                    <Tab eventKey="2" title="Haematology">
-                      <Row>
-                        <DocintelAccount data={activeTab.current==2?data:null} />
-                      </Row>
-                    </Tab>
-                    <Tab eventKey="3" title="Critical Care">
-                      <Row>
-                        <DocintelAccount data={activeTab.current==3?data:null} />
-                      </Row>
-                    </Tab>
-                    <Tab eventKey="4" title="Immunotherapy">
-                      <Row>
-                        <DocintelAccount data={activeTab.current==4?data:null} />
-                      </Row>
-                    </Tab>
-                    <Tab eventKey="5" title="IBU">
-                      <Row>
-                        <DocintelAccount data={activeTab.current==5?data:null} />
-                      </Row>
-                    </Tab>
-                  </Tabs>
+                  <div className="tabs_content_load">
+                    <Tabs
+                      defaultActiveKey={activeTab.current}
+                      onSelect={handleTabChange}
+                    >
+                      <Tab eventKey="1" title="All Business Units">
+                        <Row>
+                        {isDataFound && data.length > 0 ? (
+                          <DocintelAccount data={activeTab.current==1?data:null} />
+                        ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                         }
+                        </Row>
+                      </Tab>
+                      <Tab eventKey="2" title="Haematology">
+                        <Row>
+                        {isDataFound && data.length > 0 ? (
+                          <DocintelAccount data={activeTab.current==2?data:null} />
+                        ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                         }
+                        </Row>
+                      </Tab>
+                      <Tab eventKey="3" title="Critical Care">
+                        <Row>
+                          {isDataFound && data.length > 0 ? (
+                            <DocintelAccount data={activeTab.current==3?data:null} />
+                          ) :
+                            apiCallStatus ?
+                            <div className="no_found">
+                                   <p>No Data Found</p>
+                             </div>
+                             : null
+                           }
+                        </Row>
+                      </Tab>
+                      <Tab eventKey="4" title="Immunotherapy">
+                        <Row>
+                          {isDataFound && data.length > 0 ? (
+                            <DocintelAccount data={activeTab.current==4?data:null} />
+                          ) :
+                            apiCallStatus ?
+                            <div className="no_found">
+                                   <p>No Data Found</p>
+                             </div>
+                             : null
+                           }
+                        </Row>
+                      </Tab>
+                      <Tab eventKey="5" title="IBU">
+                        <Row>
+                        {isDataFound && data.length > 0 ? (
+                          <DocintelAccount data={activeTab.current==5?data:null} />
+                        ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                         }
+                        </Row>
+                      </Tab>
+                    </Tabs>
+                    {
+                      sectionLoader ?
+                      <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
+                        <div className="loader_show"><span className="loader-view"> </span></div>
+                      </div>
+                      : ''
+                    }
+                  </div>
                 </div>
               </div>
             </Row>
           </div>
-        ) : <h4>No Data Found</h4>}
       </Col>
     </>
   );

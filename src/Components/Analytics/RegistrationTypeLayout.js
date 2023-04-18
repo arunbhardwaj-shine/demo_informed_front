@@ -6,6 +6,7 @@ import exportData from "highcharts/modules/export-data";
 import { loader } from "../../loader";
 import html2canvas from "html2canvas";
 import HighchartsReact from "highcharts-react-official";
+import { Spinner } from "react-activity";
 
 exporting(Highcharts);
 exportData(Highcharts);
@@ -26,13 +27,18 @@ export default function RegistrationTypeLayout({ data }) {
   });
   const [numItemsToShow, setNumItemsToShow] = useState(15);
   const [allItemsToShow, setAllItemsToShow] = useState([]);
- 
+  const [pageAll, setPageAll] = useState(false);
 
   //   const [resgistrationTypeOptions, setResgistrationTypeOptions] = useSta
   const handleLoadMore = () => {
-      loader("show")
-    setAllItemsToShow(data?.slice(numItemsToShow, data.length));
-   
+      // loader("show")
+      setPageAll(true);
+      setTimeout(function () {
+        setAllItemsToShow(data?.slice(numItemsToShow, data.length));
+        setPageAll(false);
+      }, 300);
+
+
   };
 
   const displayData = data?.slice(0, numItemsToShow);
@@ -43,13 +49,28 @@ export default function RegistrationTypeLayout({ data }) {
       ) : (
         <RenderLayout data={displayData} />
       )}
-      {allItemsToShow?.length + numItemsToShow < data?.length && (
-        <div className="text-center">
+      {pageAll == false && allItemsToShow?.length + numItemsToShow < data?.length && (
+        <>
+        <div className="text-center load_more">
           <button className="btn btn-primary" onClick={handleLoadMore}>
             Load More
           </button>
         </div>
+        </>
       )}
+
+      {pageAll == true ? (
+        <div
+          className="load_more"
+          style={{
+            margin: "0 auto",
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
+          <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+        </div>
+      ) : null}
     </>
   );
 }
@@ -70,8 +91,9 @@ const RenderLayout = ({ data }) => {
   return (
     <>
       <div ref={downloadRef}>
-        {data?.map((element, index) => {
-          return (
+        { typeof data !== "undefined" && Object.keys(data).length > 0 ?
+          data?.map((element, index) => {
+            return (
             <div
               key={element.pdf_id}
               id={element.pdf_id}
@@ -374,7 +396,10 @@ const RenderLayout = ({ data }) => {
               </Row>
             </div>
           );
-        })}
+          })
+        :
+        <div className="no_found"><p>No Data Found</p></div>
+      }
       </div>
     </>
   );

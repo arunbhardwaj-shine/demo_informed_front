@@ -233,7 +233,7 @@ const TopSales = () => {
                 </Form>
               </div>
               {isDataFound ? (
-                <div className="high_charts">
+                <div className="high_charts space-added">
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={topSaleOptions}

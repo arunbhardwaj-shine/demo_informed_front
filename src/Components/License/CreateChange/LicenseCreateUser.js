@@ -945,7 +945,7 @@ const LicenseCreateUser = () => {
                       to="/license-create"
                     >
                       Back
-                    </Link> */}
+                    </Link>
                     <Link
                       className="btn btn-primary btn-bordered back-btn"
                       to="/license-create"
@@ -962,7 +962,7 @@ const LicenseCreateUser = () => {
                           fill="#97B6CF"
                         />
                       </svg>
-                    </Link>
+                    </Link>*/}
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
@@ -1258,12 +1258,16 @@ const LicenseCreateUser = () => {
                                 </div>
                               </div>
                               <div className="chapter-btn-wrapper">
-                                <Button
-                                  className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
-                                  onClick={addMoreChClicked}
-                                >
-                                  Add Ch +
-                                </Button>
+                                {
+                                  chapter.length -1 == i ?
+                                    <Button
+                                      className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
+                                      onClick={addMoreChClicked}
+                                    >
+                                      Add Ch +
+                                    </Button>
+                                    : null
+                              }
 
                                 {chapter.length > 1 ? (
                                   <Button

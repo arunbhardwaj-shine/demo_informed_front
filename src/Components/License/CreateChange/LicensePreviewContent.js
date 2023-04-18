@@ -88,8 +88,14 @@ const LicensePreviewContent = () => {
       }
       loader("hide");
 
-      const div_img = document.querySelector(".alice-carousel__wrapper img");
-      div_img.click()
+      if(res?.data?.data?.file_type != "pdf"){
+          setTimeout(function () {
+            const div_img = document.querySelector(".alice-carousel__wrapper img");
+            if(typeof div_img !== "undefined" || div_img != null){
+              div_img.click();
+            }
+          }, 300);
+      }
 
     } catch (err) {
       loader("hide");
@@ -305,23 +311,31 @@ const LicensePreviewContent = () => {
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                   <Link
+                  to="/license-set-popup"
+                  state={{ pdfId: state?.pdfId }}
+                  className="btn btn-bordered btn btn-primary">Back</Link>
+                  {
+                    /*
+                    <Link
                     className="btn btn-primary btn-bordered back-btn"
                     to="/license-set-popup"
                     state={{ pdfId: state?.pdfId }}
-                  >
-                    <svg
-                      width="14"
-                      height="24"
-                      viewBox="0 0 14 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path
-                        d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                        fill="#97B6CF"
-                      />
+                    <svg
+                    width="14"
+                    height="24"
+                    viewBox="0 0 14 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    >
+                    <path
+                    d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                    fill="#97B6CF"
+                    />
                     </svg>
-                  </Link>
+                    </Link>
+                    */
+                  }
                 </div>
               </div>
               <div className="col-12 col-md-9">
@@ -339,12 +353,14 @@ const LicensePreviewContent = () => {
               </div>
               <div className="col-12 col-md-2">
                 <div className="header-btn">
-                  <Link
-                    className="btn btn-primary btn-bordered move-draft"
-                    to="/license-create"
-                  >
-                    Cancel
-                  </Link>
+                  {
+                    /*<Link
+                      className="btn btn-primary btn-bordered move-draft"
+                      to="/license-create"
+                    >
+                      Cancel
+                    </Link>*/
+                  }
 
                   <Button
                     onClick={() => {
@@ -480,10 +496,10 @@ const LicensePreviewContent = () => {
                         </h4>
                       </div>
                       <div className="blink_text">
-                        <h4>
+                        <h6>
                           Please verify every page is correct and press
                           'Publish' at the bottom when you're sure.
-                        </h4>
+                        </h6>
                       </div>
                       <Button className="btn btn-bordered" onClick={handleShow}>
                         Change content file

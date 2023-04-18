@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { loader } from "../../loader";
 import { Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-// import _ from "lodash";
 import HighchartsExporting from "highcharts/modules/exporting";
 import HighchartsAccessibility from "highcharts/modules/accessibility";
 import HighchartsSankey from "highcharts/modules/sankey";
@@ -25,13 +23,15 @@ Highcharts.setOptions({
 const TrendingTopics = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const activeTab = useRef(1);
+  const [sectionLoader, setSectionLoader] = useState(false);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
   const [options, setOptions] = useState({
     chart: {
       marginTop: 100,
       type: "dependencywheel",
       height:600,
     },
-    
+
     title: {
       text: "Trending Topics",
     },
@@ -43,7 +43,7 @@ const TrendingTopics = () => {
     },
     exporting: {
       showTable: true,
-      // tableCaption: "" 
+      // tableCaption: ""
     },
     series: [
       {
@@ -67,11 +67,12 @@ const TrendingTopics = () => {
     credits: {
       enabled: false,
     },
-    
+
   });
   console.log(options);
   const getDataFromApi = async (type ="all") => {
-    loader("show");
+    setSectionLoader(true);
+    setApiCallStatus(false);
     try {
       const requestBody = {
         type: type,
@@ -88,33 +89,33 @@ const TrendingTopics = () => {
             data: graphData,
           },
         ],
-        
+
       })
       );
      setIsDataFound(true)
-     
-     loader("hide");
-      
+     setSectionLoader(false);
     } catch (error) {
+      setSectionLoader(false);
       console.log(error);
     }
+    setApiCallStatus(true);
   };
 
 
   useEffect(() => {
-    
+
     getDataFromApi();
   }, []);
 
    const handleTabChange = (event) => {
     setIsDataFound(false);
     activeTab.current=event
-    loader("show");
-    if (event == 1) { 
+    setSectionLoader(true);
+    if (event == 1) {
       getDataFromApi("all");
-    } else if (event == 2) { 
+    } else if (event == 2) {
       getDataFromApi("haematology");
-    } else if (event == 3) { 
+    } else if (event == 3) {
       getDataFromApi("critcal_care");
     } else if (event == 4) {
       getDataFromApi("immunology");
@@ -126,7 +127,6 @@ const TrendingTopics = () => {
   return (
     <>
       <Col className="right-sidebar">
-      {isDataFound ? (
         <div className="custom-container">
           <Row>
             <div className="top-header">
@@ -148,36 +148,41 @@ const TrendingTopics = () => {
                     />
                   </svg>
                 </Link>
-          
+
               </div>
             </div>
             <div className="create-change-content spc-content analytic-charts">
               <Row>
-              <div className="delivery-trends">
-              <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
-                <Tab eventKey="1" title="All Business Units">
-                </Tab>
-                <Tab eventKey="2" title="Haematology">
-                </Tab>
-                <Tab eventKey="3" title="Critical Care">
-                </Tab>
-                <Tab eventKey="4" title="Immunotherapy">
-                </Tab>
-                <Tab eventKey="5" title="IBU">
-                </Tab>
-              </Tabs>
-              </div>
-              
-            </Row>
-              {/* {isDataFound ? ( */}
+                <div className="delivery-trends">
+                  <div className="tabs_content_load">
+                    <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
+                      <Tab eventKey="1" title="All Business Units">
+                      </Tab>
+                      <Tab eventKey="2" title="Haematology">
+                      </Tab>
+                      <Tab eventKey="3" title="Critical Care">
+                      </Tab>
+                      <Tab eventKey="4" title="Immunotherapy">
+                      </Tab>
+                      <Tab eventKey="5" title="IBU">
+                      </Tab>
+                    </Tabs>
+                      {
+                        sectionLoader ?
+                        <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
+                          <div className="loader_show"><span className="loader-view"> </span></div>
+                        </div>
+                        : ''
+                      }
+                  </div>
+                </div>
+              </Row>
               <div className="high_charts trending-topics">
                 <HighchartsReact highcharts={Highcharts} options={options} />
               </div>
-              {/* // ) : null} */}
             </div>
           </Row>
         </div>
-        ) : null}
       </Col>
     </>
   );

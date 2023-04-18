@@ -72,7 +72,9 @@ const Header = () => {
   return (
     <>
       <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
+        <div className="loader_show">
+          <span className="loader-view"> </span>
+        </div>
       </div>
       <header>
         <nav className="navbar navbar-expand-sm navbar-light">
@@ -161,12 +163,13 @@ const Header = () => {
                   window.location.pathname == "/content-type" ||
                   window.location.pathname == "/octalatch-totalhcp" ||
                   window.location.pathname == "/octa-country" ||
+                  window.location.pathname == "/octalatch-deliveryregistration" ||
                   window.location.pathname == "/content-analytics"
                   ? "nav-item active active-main"
                   : "nav-item"
                 } >
                   <Link className="nav-link" to={
-                    localStorage.getItem("group_id") == 2 ? "/registration-type" :
+                    localStorage.getItem("group_id") == 2 ? "/content-analytics" :
                     localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
                      "/totalhcp"
                      : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ?

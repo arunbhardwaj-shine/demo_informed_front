@@ -68,7 +68,7 @@ const SubLinkListing = ({
         {
           sectionLoader ?
           <div className={"loader "+ (sectionLoader ? 'show' : '')} id="custom_loader">
-            <span className="loader-view"> </span>
+            <div className="loader_show"><span className="loader-view"> </span></div>
           </div>
           : ''
         }
