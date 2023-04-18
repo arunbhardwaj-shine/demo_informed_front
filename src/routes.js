@@ -119,6 +119,7 @@ import ContentGraph from "./Components/Analytics/ContentGraph";
 import TrendingContentOcta from "./Components/Analytics/TrendingContentOcta";
 import Informed from "./Components/Library/Informed";
 import OctalatchDeliveryRegistration from "./Components/Analytics/OctalatchDeliveryRegistration";
+import BouncedEmail from "./Components/Distributes/BouncedEmail";
 
 let platform = 0;
 let show = 0;
@@ -335,6 +336,7 @@ const Routing = () => {
                 <Route path="/UpdatedTable" element={<Table />} />
                 <Route path="/ViewTable" element={<ViewTable />} />
                 <Route path="/EmailStatss" element={<EmailStatss />} />
+                <Route path="/bounced-email" element={<BouncedEmail />} />
                 <Route path="/get-details" element={<GetDetails />} />
 
                 <Route path="/license-content" element={<LicenseContent />} />

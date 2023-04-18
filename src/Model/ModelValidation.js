@@ -8,6 +8,13 @@ const modelValidation = (data) => {
           item.charAt(0).toUpperCase() + item.slice(1)
         } is required`;
       }
+
+      if(data[item] != "" && item == "user_email"){
+        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if (!data[item].match(validRegex)) {
+          error[item] = `Email format is invalid.`;
+        }
+      }
     });
   }
   return error;
