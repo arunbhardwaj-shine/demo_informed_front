@@ -62,6 +62,7 @@ const SetPopup = (props) => {
   const [isEdit, setIsEdit] = useState(
     typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
   );
+  const [changeEditorCount, setChangeEditorCount] = useState(0);
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",
     language: "",
@@ -257,6 +258,7 @@ const SetPopup = (props) => {
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
     setPopupNo(template.popupNo);
+    setChangeEditorCount(0);
     e.target.classList.toggle("select_mm");
   };
 
@@ -627,11 +629,11 @@ const SetPopup = (props) => {
                                       </Button>
                                     </div>
                                   ) : (
-                                    <div className="form-buttons form-buttons-template right-side">
+                                    <div className= "form-buttons form-buttons-template right-side">
                                       {templateClickedd ? (
                                         <>
                                           <Button
-                                            className="btn btn-primary btn-filled"
+                                            className={changeEditorCount == 1 ? "btn btn-primary btn-filled btn-disabled" :"btn btn-primary btn-filled"}
                                             onClick={(e) => {
                                               updateTemplate(e);
                                               e.preventDefault();
@@ -675,6 +677,7 @@ const SetPopup = (props) => {
                         }}
 
                         onEditorChange={(content) => {
+                          setChangeEditorCount( parseInt(changeEditorCount) + parseInt(1) );
                           setTemplateSaving(content);
                         }}
                       />
