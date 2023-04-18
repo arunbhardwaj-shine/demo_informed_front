@@ -9,30 +9,26 @@ import HighchartsReact from "highcharts-react-official";
 
 exporting(Highcharts);
 exportData(Highcharts);
-
+Highcharts.setOptions({
+  colors: [
+    "#F58289",
+    "#FFBE2C",
+    "#00D4C0",
+    "#0066BE",
+    "#0b3a81",
+    "#D61975",
+    "#FFBE2C",
+    "#F0EEE4",
+    "#00003C",
+  ],
+});
 export default function RegistrationTypeLayout({ data }) {
-  Highcharts.setOptions({
-    colors: [
-      "#F58289",
-      "#FFBE2C",
-      "#00D4C0",
-      "#0066BE",
-      "#0b3a81",
-      "#D61975",
-      "#FFBE2C",
-      "#F0EEE4",
-      "#00003C",
-    ],
-  });
   const [numItemsToShow, setNumItemsToShow] = useState(15);
   const [allItemsToShow, setAllItemsToShow] = useState([]);
- 
 
   //   const [resgistrationTypeOptions, setResgistrationTypeOptions] = useSta
   const handleLoadMore = () => {
-      loader("show")
     setAllItemsToShow(data?.slice(numItemsToShow, data.length));
-   
   };
 
   const displayData = data?.slice(0, numItemsToShow);
@@ -55,7 +51,6 @@ export default function RegistrationTypeLayout({ data }) {
 }
 
 const RenderLayout = ({ data }) => {
-  const downloadRef = useRef(null);
   const handleDownloadClick = (pdf_id) => {
     html2canvas(document.getElementById(pdf_id)).then((canvas) => {
       const link = document.createElement("a");
@@ -69,7 +64,7 @@ const RenderLayout = ({ data }) => {
 
   return (
     <>
-      <div ref={downloadRef}>
+      <div>
         {data?.map((element, index) => {
           return (
             <div
@@ -279,9 +274,9 @@ const RenderLayout = ({ data }) => {
                         <span>
                           {element.pdf_limit != 0
                             ? Math.round(
-                                (element.over_all_opening_readers * 100) /
+                                element.over_all_opening_readers /
                                   element.pdf_limit
-                              ) + " %"
+                              ) + "%"
                             : 0}
                         </span>
                       </strong>

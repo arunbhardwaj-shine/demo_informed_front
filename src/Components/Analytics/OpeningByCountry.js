@@ -20,7 +20,6 @@ const OpeningByCountry = () => {
 
   const [filterData, setFilterData] = useState(null);
 
-
   const chart = useRef(null);
   Highcharts.setOptions({
     colors: [
@@ -118,8 +117,7 @@ const OpeningByCountry = () => {
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
-      }
-      else {
+      } else {
         setIsDataFound(true);
       }
 
@@ -157,11 +155,11 @@ const OpeningByCountry = () => {
 
       setTopClientOptions(newClientOptions);
       if (filterData == null) {
-        setFilterData(hadData.pdfData)
+        setFilterData(hadData.pdfData);
       }
       // console.log(topClientOptions)
 
-      setIsLoaded(true)
+      setIsLoaded(true);
       setData(hadData);
 
       loader("hide");
@@ -174,78 +172,83 @@ const OpeningByCountry = () => {
   };
 
   const handleFilterData = (e) => {
-    setIsLoaded(false)
+    setIsLoaded(false);
     setIsDataFound(false);
-    selectFilterType.current = "OpeningcountryFilter"
+    selectFilterType.current = "OpeningcountryFilter";
     selectFilter.current = e;
 
     getDataFromApi(e.value);
   };
 
   return (
-    <>{isLoaded ?
-      <Col className="right-sidebar">
-
-        <div className="custom-container">
-          <Row>
-            <div className="top-header">
-              <div className="page-title d-flex">
-                <Link
-                  className="btn btn-primary btn-bordered back-btn"
-                  to="/top-clients"
-                >
-                  <svg
-                    width="14"
-                    height="24"
-                    viewBox="0 0 14 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+    <>
+      {isLoaded ? (
+        <Col className="right-sidebar">
+          <div className="custom-container">
+            <Row>
+              <div className="top-header">
+                <div className="page-title d-flex">
+                  <Link
+                    className="btn btn-primary btn-bordered back-btn"
+                    to="/top-clients"
                   >
-                    <path
-                      d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                      fill="#97B6CF"
-                    />
-                  </svg>
-                </Link>
-                <h2>Opening by Country</h2>
+                    <svg
+                      width="14"
+                      height="24"
+                      viewBox="0 0 14 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                        fill="#97B6CF"
+                      />
+                    </svg>
+                  </Link>
+                  <h2>Opening by Country</h2>
+                </div>
               </div>
-            </div>
-            <div className="create-change-content spc-content analytic-charts">
-              <div className="form_action">
-                <Form className="product-unit d-flex justify-content-between align-items-center">
-                  <div className="form-group ">
-                    <label htmlFor="">Filter By</label>
-                    <Select
-                      options={[
-                        { label: "All", value: null }, // added option
-                        ...filterData.map((pdf) => ({ // existing options
-                          label: pdf.title,
-                          value: pdf.id,
-                        }))
-                      ]}
-                      placeholder="Filter By"
-                      onChange={handleFilterData}
-                      defaultValue={selectFilter?.current ? selectFilter?.current : null}
-                      className="dropdown-basic-button split-button-dropup"
-                      isClearable
+              <div className="create-change-content spc-content analytic-charts">
+                <div className="form_action">
+                  <Form className="product-unit d-flex justify-content-between align-items-center">
+                    <div className="form-group ">
+                      <label htmlFor="">Filter By</label>
+                      <Select
+                        options={[
+                          { label: "All", value: null }, // added option
+                          ...filterData.map((pdf) => ({
+                            // existing options
+                            label: pdf.title,
+                            value: pdf.id,
+                          })),
+                        ]}
+                        placeholder="Filter By"
+                        onChange={handleFilterData}
+                        defaultValue={
+                          selectFilter?.current ? selectFilter?.current : null
+                        }
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                    </div>
+                  </Form>
+                </div>
+                {isDataFound ? (
+                  <div className="high_charts space-added">
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={topClientOptions}
+                      ref={chart}
                     />
                   </div>
-                </Form>
+                ) : isLoaded ? (
+                  <h4>No Data Found</h4>
+                ) : null}
               </div>
-              {isDataFound ? (
-                <div className="high_charts space-added">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={topClientOptions}
-                    ref={chart}
-                  />
-                </div>
-              ) : isLoaded ? <h4>No Data Found</h4> : null}
-            </div>
-          </Row>
-        </div>
-
-      </Col> : null}
+            </Row>
+          </div>
+        </Col>
+      ) : null}
     </>
   );
 };

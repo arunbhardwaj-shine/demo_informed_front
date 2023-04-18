@@ -8,26 +8,26 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
-
 import DocintelAccount from "./DocintelAccount";
+Highcharts.setOptions({
+  colors: [
+    "#FFBE2C",
+    "#F58289",
+    "#00D4C0",
+    "#D61975",
+    "#0066BE",
+    "#FFBE2C",
+    "#F0EEE4",
+    "#00003C",
+  ],
+});
 const TrendingContent = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
 
-  Highcharts.setOptions({
-    colors: [
-      "#FFBE2C",
-      "#F58289",
-      "#00D4C0",
-      "#D61975",
-      "#0066BE",
-      "#FFBE2C",
-      "#F0EEE4",
-      "#00003C",
-    ],
-  });
-
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isTabClicked, setIsTabClicked] = useState(false);
+
   const activeTab = useRef(1);
 
   const [contentTypeOptions, setContentTypeOptions] = useState({
@@ -113,41 +113,12 @@ const TrendingContent = () => {
       if (hadData.length <= 0) {
         setIsDataFound(false);
       }
-      // console.log(hadData);
-  
-      // const categories = hadData?.name;
-
-      // const newSeries = [
-      //   {
-      //     name: `Readers (${hadData.readerTotal})`,
-      //     data: hadData.reader,
-      //     color: Highcharts.getOptions().colors[1],
-      //   },
-      //   {
-      //     name: `Views (${hadData.viewTotal})`,
-      //     data: hadData.view,
-      //     color: Highcharts.getOptions().colors[2],
-      //   },
-      //   {
-      //     name: `Quantity Sold (${hadData.soldTotal})`,
-      //     data: hadData.sold,
-      //     color: Highcharts.getOptions().colors[0],
-      //   },
-      // ];
-
-      // const newClientOptions = {
-      //   ...contentTypeOptions,
-      //   xAxis: { categories: categories },
-      //   series: newSeries,
-      //   exporting: { showTable: true },
-      // };
-
-      // setContentTypeOptions(newClientOptions);
-
-      setIsDataFound(true);
 
       setData(hadData);
-  
+      setIsDataFound(true);
+      setIsLoaded(true);
+      setIsTabClicked(true);
+
       loader("hide");
     } catch (err) {
       setIsDataFound(false);
@@ -159,6 +130,8 @@ const TrendingContent = () => {
 
   const handleTabChange = (event) => {
     setIsDataFound(false);
+    // setIsLoaded(false);
+    setIsTabClicked(false);
     loader("show");
 
     activeTab.current = event;
@@ -170,8 +143,7 @@ const TrendingContent = () => {
       getDataFromApi("critcal_care");
     } else if (event == 4) {
       getDataFromApi("immunology");
-    }
-    else if (event == 5) {
+    } else if (event == 5) {
       getDataFromApi("ibu");
     }
     // loader("hide");
@@ -180,7 +152,7 @@ const TrendingContent = () => {
   return (
     <>
       <Col className="right-sidebar">
-        {isDataFound ? (
+        {isLoaded ? (
           <div className="custom-container">
             <Row>
               <div className="delivery-trends">
@@ -192,27 +164,62 @@ const TrendingContent = () => {
                   >
                     <Tab eventKey="1" title="All Business Units">
                       <Row>
-                        <DocintelAccount data={activeTab.current==1?data:null} />
+                        {isDataFound && activeTab.current == 1 ? (
+                          <DocintelAccount
+                            data={activeTab.current == 1 ? data : null}
+                          />
+                        ) : isTabClicked ? (
+                          <h4>No Data Found</h4>
+                        ) : null}
                       </Row>
                     </Tab>
                     <Tab eventKey="2" title="Haematology">
                       <Row>
-                        <DocintelAccount data={activeTab.current==2?data:null} />
+                        {isDataFound && activeTab.current == 2 ? (
+                          <DocintelAccount
+                            data={activeTab.current == 2 ? data : null}
+                          />
+                        ) : isTabClicked ? (
+                          <h4>No Data Found</h4>
+                        ) : null}
                       </Row>
                     </Tab>
                     <Tab eventKey="3" title="Critical Care">
                       <Row>
-                        <DocintelAccount data={activeTab.current==3?data:null} />
+                        {isDataFound && activeTab.current == 3 ? (
+                          <DocintelAccount
+                            data={activeTab.current == 3 ? data : null}
+                          />
+                        ) : isTabClicked ? (
+                          <h4>No Data Found</h4>
+                        ) : null}
                       </Row>
                     </Tab>
                     <Tab eventKey="4" title="Immunotherapy">
                       <Row>
-                        <DocintelAccount data={activeTab.current==4?data:null} />
+                        {isDataFound && activeTab.current == 4 ? (
+                          <DocintelAccount
+                            data={activeTab.current == 4 ? data : null}
+                          />
+                        ) : isTabClicked ? (
+                          <h4>No Data Found</h4>
+                        ) : null}
                       </Row>
                     </Tab>
                     <Tab eventKey="5" title="IBU">
                       <Row>
-                        <DocintelAccount data={activeTab.current==5?data:null} />
+                        <DocintelAccount
+                          data={activeTab.current == 5 ? data : null}
+                        />
+                      </Row>{" "}
+                      <Row>
+                        {isDataFound && activeTab.current == 5 ? (
+                          <DocintelAccount
+                            data={activeTab.current == 5 ? data : null}
+                          />
+                        ) : isTabClicked ? (
+                          <h4>No Data Found</h4>
+                        ) : null}
                       </Row>
                     </Tab>
                   </Tabs>
@@ -220,7 +227,7 @@ const TrendingContent = () => {
               </div>
             </Row>
           </div>
-        ) : <h4>No Data Found</h4>}
+        ) : null}
       </Col>
     </>
   );

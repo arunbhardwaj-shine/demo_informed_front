@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Col, Row, Tab, Tabs, Form} from "react-bootstrap";
+import { Col, Row, Tab, Tabs, Form } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import Select from "react-select";
@@ -15,24 +15,24 @@ exportData(Highcharts);
 
 const RegistrationType = () => {
   const [isDataFound, setIsDataFound] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [data, setData] = useState([]);
-
 
   const [All, setAll] = useState([
     { value: "", label: "All" },
     { value: "active", label: "Active" },
     { value: "expired", label: "Expired" },
   ]);
-  
+
   const activeTab = useRef(1);
   useEffect(() => {
     getDataFromApi();
   }, []);
 
- const selectedOptions = useRef("");
+  const selectedOptions = useRef("");
 
-  const getDataFromApi = async (tab="view") => {
+  const getDataFromApi = async (tab = "view") => {
     loader("show");
 
     try {
@@ -50,8 +50,8 @@ const RegistrationType = () => {
       // console.log(hadData);
 
       setIsDataFound(true);
-    
-        setData(hadData);
+      setData(hadData);
+      setIsLoaded(true);
 
       loader("hide");
     } catch (err) {
@@ -64,6 +64,8 @@ const RegistrationType = () => {
 
   const handleTabChange = (event) => {
     setIsDataFound(false);
+    setIsLoaded(false);
+
     loader("show");
 
     activeTab.current = event;
@@ -71,19 +73,20 @@ const RegistrationType = () => {
       getDataFromApi("view");
     } else if (event == 2) {
       getDataFromApi("reader");
-    } 
+    }
     // loader("hide");
   };
 
   const filterDataByStatus = (e) => {
-  selectedOptions.current = e.value;
-  if (activeTab.current == 1) {
-    getDataFromApi("view");
-  } else if (activeTab.current == 2) {
-    getDataFromApi("reader");
-  } 
-  };
+    setIsLoaded(false);
 
+    selectedOptions.current = e.value;
+    if (activeTab.current == 1) {
+      getDataFromApi("view");
+    } else if (activeTab.current == 2) {
+      getDataFromApi("reader");
+    }
+  };
 
   return (
     <>
@@ -92,36 +95,42 @@ const RegistrationType = () => {
           <div className="custom-container">
             <Row>
               <div className="create-change-content spc-content analytic-charts">
-              <div className="form_action">
-                <Form className="product-unit d-flex justify-content-between align-items-center">
-                  <div className="form-group">
-                    <label htmlFor="">Filter By</label>
-                    <Select
-                      options={All}
-                      placeholder="All"
-                         onChange={filterDataByStatus}
-                      className="dropdown-basic-button split-button-dropup"
-                     />
-                  </div>
-                </Form>
-              </div>
+                <div className="form_action">
+                  <Form className="product-unit d-flex justify-content-between align-items-center">
+                    <div className="form-group">
+                      <label htmlFor="">Filter By</label>
+                      <Select
+                        options={All}
+                        placeholder="All"
+                        onChange={filterDataByStatus}
+                        className="dropdown-basic-button split-button-dropup"
+                      />
+                    </div>
+                  </Form>
+                </div>
                 <div className="delivery-trends">
                   <Tabs
                     defaultActiveKey={activeTab.current}
                     onSelect={handleTabChange}
                   >
                     <Tab eventKey="1" title="Views">
-                      <RegistrationTypeLayout  data={activeTab.current==1?data:null} />
+                      <RegistrationTypeLayout
+                        data={activeTab.current == 1 ? data : null}
+                      />
                     </Tab>
                     <Tab eventKey="2" title="Readers">
-                      <RegistrationTypeLayout  data={activeTab.current==2?data:null}  />
+                      <RegistrationTypeLayout
+                        data={activeTab.current == 2 ? data : null}
+                      />
                     </Tab>
                   </Tabs>
                 </div>
               </div>
             </Row>
           </div>
-        ) :  <h4>No Data Found</h4>}
+        ) : isLoaded ? (
+          <h4>No Data Found</h4>
+        ) : null}
       </Col>
     </>
   );
