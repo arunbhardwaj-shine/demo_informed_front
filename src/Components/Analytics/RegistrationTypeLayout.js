@@ -9,22 +9,23 @@ import HighchartsReact from "highcharts-react-official";
 
 exporting(Highcharts);
 exportData(Highcharts);
-Highcharts.setOptions({
-  colors: [
-    "#F58289",
-    "#FFBE2C",
-    "#00D4C0",
-    "#0066BE",
-    "#0b3a81",
-    "#D61975",
-    "#FFBE2C",
-    "#F0EEE4",
-    "#00003C",
-  ],
-});
+
 export default function RegistrationTypeLayout({ data }) {
   const [numItemsToShow, setNumItemsToShow] = useState(15);
   const [allItemsToShow, setAllItemsToShow] = useState([]);
+  Highcharts.setOptions({
+    colors: [
+      "#F58289",
+      "#FFBE2C",
+      "#00D4C0",
+      "#0066BE",
+      "#0b3a81",
+      "#D61975",
+      "#FFBE2C",
+      "#F0EEE4",
+      "#00003C",
+    ],
+  });
 
   //   const [resgistrationTypeOptions, setResgistrationTypeOptions] = useSta
   const handleLoadMore = () => {
