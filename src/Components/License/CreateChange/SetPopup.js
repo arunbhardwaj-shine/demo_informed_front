@@ -59,6 +59,9 @@ const SetPopup = (props) => {
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
   );
+  const [isEdit, setIsEdit] = useState(
+    typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
+  );
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",
     language: "",
@@ -290,7 +293,7 @@ const SetPopup = (props) => {
       loader("hide");
       if (state?.fileType != "video") {
         navigate("/license-preview-content", {
-          state: { pdfId: articleId },
+          state: { pdfId: articleId, isEdit: isEdit },
         });
       } else {
         navigate("/license-content-detail", {
@@ -329,10 +332,15 @@ const SetPopup = (props) => {
                     <Row className="justify-content-end align-items-center">
                       <Col md="1">
                         <div className="header-btn-left">
-                          <Link className="btn btn-primary btn-bordered back-btn" to="/license-create">
-                            <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
-                            </svg>
+                          <Link className="btn btn-bordered btn btn-primary" to="/license-create">
+                            {
+                              /*
+                              <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
+                              </svg>
+                              */
+                            }
+                            Back
                           </Link>
                           {/* <Link
                             className="btn btn-primary btn-bordered back"
@@ -344,26 +352,44 @@ const SetPopup = (props) => {
                       </Col>
                       <Col md="9">
                         <ul className="tabnav-link">
-                          <li className="">
-                            <a href="">Create Your Content</a>
-                          </li>
-                          <li className="active active-main">
-                            <a href="">Edit Consent Option</a>
-                          </li>
-                          <li className="">
-                            <a href="">Preview Your Content &amp; Publish</a>
-                          </li>
+                        {
+                          isEdit == 1 ?
+                            <>
+                              <li className="">
+                                <a href="">Edit Your Content</a>
+                              </li>
+                              <li className="active active-main">
+                                <a href="">Edit Consent Option</a>
+                              </li>
+                              <li className="">
+                                <a href="">Approve Your Content &amp; Save</a>
+                              </li>
+                            </>
+                          :
+                          <>
+                            <li className="">
+                              <a href="">Create Your Content</a>
+                            </li>
+                            <li className="active active-main">
+                              <a href="">Edit Consent Option</a>
+                            </li>
+                            <li className="">
+                              <a href="">Preview Your Content &amp; Publish</a>
+                            </li>
+                          </>
+                        }
                         </ul>
                       </Col>
                       <Col md="2">
                         <div className="header-btn">
-                          <Link
-                            className="btn btn-primary btn-bordered move-draft"
-                            to="/license-content"
-                          >
-                            Cancel
-                          </Link>
-
+                          {
+                            /*<Link
+                              className="btn btn-primary btn-bordered move-draft"
+                              to="/license-content"
+                            >
+                              Cancel
+                            </Link>*/
+                          }
                           <Button
                             className="btn btn-primary btn-filled next"
                             onClick={nextButtonClicked}
@@ -377,19 +403,27 @@ const SetPopup = (props) => {
                 </>
               ) : (
                 <div className="top-header">
-                  <div className="page-title">
+                  <div className="page-title d-flex">
+                    <Link className="btn btn-primary btn-bordered back-btn" to="/license-create">
+                      <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
+                      </svg>
+                    </Link>
                     <h2>Set Pop-up</h2>
                   </div>
-                  <div className="top-right-action">
-                    <div className="header-btn">
-                      <Button
-                        className="btn-bordered cancel"
-                        onClick={() => navigate("/license-create")}
-                      >
-                        Close
-                      </Button>
-                    </div>
-                  </div>
+                  {
+                    /*<div className="top-right-action">
+                      <div className="header-btn">
+                        <Button
+                          className="btn-bordered cancel"
+                          onClick={() => navigate("/license-create")}
+                        >
+                          Close
+                        </Button>
+                      </div>
+                    </div>*/
+                  }
+
                 </div>
               )}
               <div className="template_builder-option library-cosent">
@@ -398,7 +432,7 @@ const SetPopup = (props) => {
                     <div className="template_language">
                       <span>
                         Consent type
-                        <LinkWithTooltip tooltip="Select Popup Type." href="#">
+                        <LinkWithTooltip tooltip="Select Popup Type.">
                           <img
                             src={path_image + "info_circle_icon.svg"}
                             alt="refresh-btn"
@@ -433,7 +467,6 @@ const SetPopup = (props) => {
                         Language
                         <LinkWithTooltip
                           tooltip="Select Popup Language."
-                          href="#"
                         >
                           <img
                             src={path_image + "info_circle_icon.svg"}
@@ -477,7 +510,7 @@ const SetPopup = (props) => {
                     <div className="template_language">
                       <span>
                         Time
-                        <LinkWithTooltip tooltip="Select Popup Time." href="#">
+                        <LinkWithTooltip tooltip="Select Popup Time.">
                           <img
                             src={path_image + "info_circle_icon.svg"}
                             alt="refresh-btn"

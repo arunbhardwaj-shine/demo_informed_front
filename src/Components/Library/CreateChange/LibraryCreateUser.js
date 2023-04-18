@@ -331,6 +331,7 @@ const LibraryCreateUser = () => {
           state: {
             pdfId: res?.data?.data?.pdfId,
             fileType: userInputs?.docintelFormat,
+            isEdit: 0,
           },
         });
       } catch (err) {
@@ -990,7 +991,7 @@ const LibraryCreateUser = () => {
                       to="/library-create"
                     >
                       Back
-                    </Link> */}
+                    </Link>
                     <Link
                       className="btn btn-primary btn-bordered back-btn"
                       to="/library-create"
@@ -1007,7 +1008,7 @@ const LibraryCreateUser = () => {
                           fill="#97B6CF"
                         />
                       </svg>
-                    </Link>
+                    </Link>*/}
                   </div>
                 </Col>
                 <Col md={9}>
@@ -1404,12 +1405,18 @@ const LibraryCreateUser = () => {
                                 </div>
                               </div>
                               <div className="chapter-btn-wrapper">
-                                <Button
-                                  className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
-                                  onClick={addMoreChClicked}
-                                >
-                                  Add Ch +
-                                </Button>
+
+                                {
+                                  chapter.length -1 == i ?
+                                    <Button
+                                      className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
+                                      onClick={addMoreChClicked}
+                                    >
+                                      Add Ch +
+                                    </Button>
+                                  : null
+                                }
+
 
                                 {chapter.length > 1 ? (
                                   <Button
