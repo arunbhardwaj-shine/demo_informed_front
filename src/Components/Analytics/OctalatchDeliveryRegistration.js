@@ -9,73 +9,17 @@ import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
 import HighchartsReact from "highcharts-react-official";
 import { Link } from "react-router-dom";
+import CommonLineGraph from "./CommonLineGraph";
+import CommonPieChart from "./CommonPieChart";
 exporting(Highcharts);
 exportData(Highcharts);
 const OctalatchDeliveryRegistration = () => {
-  const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const selectFilter = useRef(null);
 
-  const chart = useRef(null);
-  Highcharts.setOptions({
-    colors: [
-      "#FFBE2C",
-      "#F58289",
-      "#d1d132",
-      "#D61975",
-      "#0066BE",
-      "#00003C",
-      "#b490f5",
-      "#91817e",
-      "#2b6570",
-      "#9C9CA2",
-      "#7cb0dd",
-      "#4f4566",
-      "#00D4C0",
-      "#32a1d1",
-    ],
-  });
-  const [seriesData, setSeriesData] = useState([]);
-
-  const [lineOptionIBU, setLineOptionIBU] = useState({
-    chart: {
-      type: "line",
-      height: 500,
-    },
-    title: {
-      text: "IBU",
-    },
-    xAxis: {
-      categories: [],
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: "IBU",
-      },
-    },
-    legend: {
-      align: "center",
-      verticalAlign: "bottom",
-      layout: "horizontal",
-      x: 0,
-      y: 0,
-    },
-    plotOptions: {
-      series: {
-        // stacking: "normal",
-        dataLabels: {
-          enabled: true,
-          format: "{point.y}",
-        },
-      },
-    },
-    // exporting: {
-    //   showTable: true,
-    // },
-    series: [],
-  });
+  const [data, setData] = useState([]);
+  const [pieData, setPieData] = useState([]);
+  const [month, setMonth] = useState();
 
   useEffect(() => {
     getDataFromApi();
@@ -88,6 +32,7 @@ const OctalatchDeliveryRegistration = () => {
       const response = await getData(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION);
 
       const hadData = response?.data?.response?.data;
+      const pieData = response?.data?.response?.pie_graph;
 
       if (hadData.length <= 0) {
         setIsDataFound(false);
@@ -97,37 +42,13 @@ const OctalatchDeliveryRegistration = () => {
 
       const ibu = hadData?.Ibu;
 
+      const data = hadData;
+
       const months = ibu?.IBU_Docintel_code?.months;
 
-      console.log("ibu", Object.keys(ibu));
-      const newIbuLineData = [
-        {
-          name: "",
-          data: "",
-          color: "",
-        },
-      ];
-
-      Object.keys(ibu)?.forEach((item, index) => {
-        newIbuLineData.push({
-          name: ibu[item]?.ibu + "(" + JSON.parse(ibu[item]?.total) + ")",
-          data: ibu[item]?.total_data,
-          color: Highcharts?.getOptions()?.colors[index],
-        });
-      });
-
-      // for   ibu
-
-      console.log("---->", newIbuLineData);
-      const newLineOptionsIbu = {
-        ...lineOptionIBU,
-        xAxis: {
-          categories: months,
-        },
-        series: newIbuLineData.slice(1),
-      };
-
-      setLineOptionIBU(newLineOptionsIbu);
+      setPieData(pieData);
+      setData(data);
+      setMonth(months);
 
       setIsDataFound(true);
     } catch (err) {
@@ -162,31 +83,23 @@ const OctalatchDeliveryRegistration = () => {
                       />
                     </svg>
                   </Link>
-                  <h2>Delivery leading to registration </h2>
+                  <h2>Delivery Registration </h2>
                 </div>
               </div>
               <div className="create-change-content spc-content analytic-charts">
-                {/* <div className="high_charts">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={campaignStatsPieOptions}
-                    ref={chart}
-                  />
-                </div> */}
-                {/* <div className="high_charts">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={campaignStatsLineOption}
-                    //   ref={chart}
-                  />
-                </div> */}
                 <div className="high_charts">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={lineOptionIBU}
-                    //   ref={chart}
-                  />
+                  <CommonPieChart data={pieData} />
                 </div>
+
+                {Object.keys(data)?.map((item, index) => (
+                  <div className="high_charts" keys={index}>
+                    <CommonLineGraph
+                      data={data[item]}
+                      name={item}
+                      months={month}
+                    />
+                  </div>
+                ))}
               </div>
             </Row>
           </div>
