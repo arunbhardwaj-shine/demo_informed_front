@@ -59,6 +59,9 @@ const SetPopup = (props) => {
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
   );
+  const [isEdit, setIsEdit] = useState(
+    typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
+  );
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",
     language: "",
@@ -290,7 +293,7 @@ const SetPopup = (props) => {
       loader("hide");
       if (state?.fileType != "video") {
         navigate("/preview-content", {
-          state: { pdfId: articleId },
+          state: { pdfId: articleId, isEdit: isEdit },
         });
       } else {
         navigate("/content-detail", {
@@ -349,15 +352,33 @@ const SetPopup = (props) => {
                       </Col>
                       <Col md="9">
                         <ul className="tabnav-link">
-                          <li className="">
-                            <a href="">Create Your Content</a>
-                          </li>
-                          <li className="active active-main">
-                            <a href="">Edit Consent Option</a>
-                          </li>
-                          <li className="">
-                            <a href="">Preview Your Content &amp; Publish</a>
-                          </li>
+                          {
+                            isEdit == 1 ?
+                              <>
+                                <li className="">
+                                  <a href="">Edit Your Content</a>
+                                </li>
+                                <li className="active active-main">
+                                  <a href="">Edit Consent Option</a>
+                                </li>
+                                <li className="">
+                                  <a href="">Approve Your Content &amp; Save</a>
+                                </li>
+                              </>
+                            :
+                            <>
+                              <li className="">
+                                <a href="">Create Your Content</a>
+                              </li>
+                              <li className="active active-main">
+                                <a href="">Edit Consent Option</a>
+                              </li>
+                              <li className="">
+                                <a href="">Preview Your Content &amp; Publish</a>
+                              </li>
+                            </>
+                          }
+
                         </ul>
                       </Col>
                       <Col md="2">

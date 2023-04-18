@@ -36,6 +36,9 @@ const LicensePreviewContent = () => {
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
   );
+  const [isEdit, setIsEdit] = useState(
+    typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
+  );
   const [pdfData, setPdfData] = useState([]);
   const [editTitle, setEditTitle] = useState(false);
   const [publishStatus, setPublishStatus] = useState(false);
@@ -312,7 +315,7 @@ const LicensePreviewContent = () => {
                 <div className="header-btn-left">
                   <Link
                   to="/license-set-popup"
-                  state={{ pdfId: state?.pdfId }}
+                  state={{ pdfId: state?.pdfId, isEdit: isEdit }}
                   className="btn btn-bordered btn btn-primary">Back</Link>
                   {
                     /*
@@ -340,15 +343,32 @@ const LicensePreviewContent = () => {
               </div>
               <div className="col-12 col-md-9">
                 <ul className="tabnav-link">
-                  <li className="">
-                    <a href="">Create Your Content</a>
-                  </li>
-                  <li className="">
-                    <a href="">Edit Consent Option</a>
-                  </li>
-                  <li className="active active-main">
-                    <a href="">Preview Your Content &amp; Publish</a>
-                  </li>
+                {
+                  isEdit == 1 ?
+                    <>
+                      <li className="">
+                        <a href="">Edit Your Content</a>
+                      </li>
+                      <li className="">
+                        <a href="">Edit Consent Option</a>
+                      </li>
+                      <li className="active active-main">
+                        <a href="">Approve Your Content &amp; Save</a>
+                      </li>
+                    </>
+                  :
+                  <>
+                    <li className="">
+                      <a href="">Create Your Content</a>
+                    </li>
+                    <li className="">
+                      <a href="">Edit Consent Option</a>
+                    </li>
+                    <li className="active active-main">
+                      <a href="">Preview Your Content &amp; Publish</a>
+                    </li>
+                  </>
+                }
                 </ul>
               </div>
               <div className="col-12 col-md-2">
@@ -372,7 +392,9 @@ const LicensePreviewContent = () => {
                         : "btn btn-primary btn-filled next btn-disabled"
                     }
                   >
-                    Publish
+                    {
+                      isEdit == 1 ? "Save" : "Publish"
+                    }
                   </Button>
                 </div>
               </div>
@@ -514,6 +536,7 @@ const LicensePreviewContent = () => {
                           hidePopup="0"
                           trigger={trigger}
                           updatePublish={updatePublish}
+                          editStatus = {isEdit}
                         />
                       ) : (
                         <RenderPdf
@@ -523,6 +546,7 @@ const LicensePreviewContent = () => {
                           hidePopup="0"
                           trigger={trigger}
                           updatePublish={updatePublish}
+                          editStatus = {isEdit}
                         />
                       )
                     ) : null}
