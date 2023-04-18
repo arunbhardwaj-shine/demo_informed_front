@@ -53,7 +53,7 @@ const TrendingContentOcta = () => {
       }
 
       setIsDataFound(true);
-
+      setIsLoaded(true);
       setData(hadData);
 
       loader("hide");
@@ -79,7 +79,9 @@ const TrendingContentOcta = () => {
               </div>
             </Row>
           </div>
-        ) :  <h4>No Data Found</h4>}
+        ) : isLoaded ? (
+          <h4>No Data Found</h4>
+        ) : null}
       </Col>
     </>
   );
