@@ -33,7 +33,7 @@ const CommonLineGraph = ({ data, name, months }) => {
       height: 500,
     },
     title: {
-      text: `Registered HCP's ${name}`,
+      text: `Registered HCP's (${name.toUpperCase()})`,
     },
     xAxis: {
       categories: [],
