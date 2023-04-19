@@ -115,7 +115,7 @@ import DeliveryTrends from "./Components/Analytics/DeliveryTrends";
 import RegistrationType from "./Components/Analytics/RegistrationType";
 import ContentGraph from "./Components/Analytics/ContentGraph";
 import TrendingContentOcta from "./Components/Analytics/TrendingContentOcta";
-
+import Informed from "./Components/Library/Informed";
 let platform = 0;
 let show = 0;
 
@@ -242,7 +242,7 @@ const Routing = () => {
                 />
                 <Route path="/campaign-stats" element={<CampaignStats />} />
                 <Route path="/delivery-stats" element={<DeliveryTrends />} />
-
+                <Route path="/informed" element={<Informed />} />
                 <Route
                   path="/registration-type"
                   element={<RegistrationType />}
