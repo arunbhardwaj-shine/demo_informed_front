@@ -12,7 +12,7 @@ import exportData from "highcharts/modules/export-data";
 import DocintelAccount from "./DocintelAccount";
 const ContentGraph = () => {
   const [data, setData] = useState({});
-const [isDataFound, setIsDataFound] = useState(false);
+  const [isDataFound, setIsDataFound] = useState(false);
 
   Highcharts.setOptions({
     colors: [
@@ -29,6 +29,7 @@ const [isDataFound, setIsDataFound] = useState(false);
 
   const [isLoaded, setIsLoaded] = useState(false);
   const activeTab = useRef(1);
+  const [isTabClicked, setIsTabClicked] = useState(false);
 
   const [contentTypeOptions, setContentTypeOptions] = useState({
     chart: {
@@ -105,29 +106,27 @@ const [isDataFound, setIsDataFound] = useState(false);
     loader("show");
 
     try {
-      let requestBody 
-      if(localStorage.getItem("user_id")=="iSnEsKu5gB/DRlycxB6G4g=="){
-         requestBody = {
+      let requestBody;
+      if (localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==") {
+        requestBody = {
           type: "octa",
         };
-      }
-      else{
+      } else {
         requestBody = {
           type: type,
         };
       }
-      
+
       const response = await postData(ENDPOINT.CONTENTTYPE, requestBody);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
       }
-    
-
-      setIsDataFound(true);
 
       setData(hadData);
-  
+      setIsTabClicked(true);
+      setIsDataFound(true);
+      setIsLoaded(true);
       loader("hide");
     } catch (err) {
       setIsDataFound(false);
@@ -139,6 +138,8 @@ const [isDataFound, setIsDataFound] = useState(false);
 
   const handleTabChange = (event) => {
     setIsDataFound(false);
+    setIsTabClicked(false);
+
     loader("show");
 
     activeTab.current = event;
@@ -150,8 +151,7 @@ const [isDataFound, setIsDataFound] = useState(false);
       getDataFromApi("critcal_care");
     } else if (event == 4) {
       getDataFromApi("immunology");
-    }
-    else if (event == 5) {
+    } else if (event == 5) {
       getDataFromApi("ibu");
     }
     // loader("hide");
@@ -160,7 +160,7 @@ const [isDataFound, setIsDataFound] = useState(false);
   return (
     <>
       <Col className="right-sidebar">
-        {isDataFound ? (
+        {isLoaded ? (
           <div className="custom-container">
             <Row>
               <div className="delivery-trends">
@@ -172,28 +172,62 @@ const [isDataFound, setIsDataFound] = useState(false);
                   >
                     <Tab eventKey="1" title="All Business Units">
                       <Row>
-                        <DocintelAccount data={activeTab.current==1?data:null} />;
+                        {isDataFound && activeTab.current == 1 ? (
+                          <DocintelAccount
+                            data={activeTab.current == 1 ? data : null}
+                          />
+                        ) : isTabClicked ? (
+                          <h4>No Data Found</h4>
+                        ) : null}
                       </Row>
                     </Tab>
                     <Tab eventKey="2" title="Haematology">
                       <Row>
-                        <DocintelAccount data={activeTab.current==2?data:null} />;
+                        {isDataFound && activeTab.current == 2 ? (
+                          <DocintelAccount
+                            data={activeTab.current == 2 ? data : null}
+                          />
+                        ) : isTabClicked ? (
+                          <h4>No Data Found</h4>
+                        ) : null}
                       </Row>
                     </Tab>
                     <Tab eventKey="3" title="Critical Care">
                       <Row>
-                        <DocintelAccount data={activeTab.current==3?data:null} />;
+                        {isDataFound && activeTab.current == 3 ? (
+                          <DocintelAccount
+                            data={activeTab.current == 3 ? data : null}
+                          />
+                        ) : isTabClicked ? (
+                          <h4>No Data Found</h4>
+                        ) : null}
                       </Row>
                     </Tab>
                     <Tab eventKey="4" title="Immunotherapy">
                       <Row>
-                        <DocintelAccount data={activeTab.current==4?data:null} />;
+                        {isDataFound && activeTab.current == 4 ? (
+                          <DocintelAccount
+                            data={activeTab.current == 4 ? data : null}
+                          />
+                        ) : isTabClicked ? (
+                          <h4>No Data Found</h4>
+                        ) : null}
                       </Row>
-                     
                     </Tab>
                     <Tab eventKey="5" title="IBU">
                       <Row>
-                        <DocintelAccount data={activeTab.current==5?data:null} />;
+                        <DocintelAccount
+                          data={activeTab.current == 5 ? data : null}
+                        />
+                      </Row>{" "}
+                      <Row>
+                        {isDataFound && activeTab.current == 5 ? (
+                          <DocintelAccount
+                            data={activeTab.current == 5 ? data : null}
+                          />
+                        ) : isTabClicked ? (
+                          <h4>No Data Found</h4>
+                        ) : null}
                       </Row>
                     </Tab>
                   </Tabs>

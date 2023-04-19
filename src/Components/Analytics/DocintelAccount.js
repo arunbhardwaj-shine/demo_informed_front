@@ -23,50 +23,43 @@ const DocintelAccount = ({ data }) => {
     ],
   });
 
-
-
   return (
     <>
       {data != null
         ? data.map((element, index) => {
-          const dataForGraph= element.country==0  || element.country.length==0  ?[{}] :JSON.parse(element.country);
-         
-         
+            const dataForGraph =
+              element.country == 0 || element.country.length == 0
+                ? [{}]
+                : JSON.parse(element.country);
 
-          // alert(element.pdf_data.Pdf.code)
-          // alert(index)
+            // alert(element.pdf_data.Pdf.code)
+            // alert(index)
 
             return (
               <Row key={index}>
                 <Col sm={2} md={2} className="img-box justify-content-center">
                   <div style={{ width: "100px", height: "100px" }}>
                     <Image
-                      src={element?.pdf_data.Pdf?.image}
+                      src={
+                        element?.pdf_data?.Pdf?.image ||
+                        "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png"
+                      }
                       alt="Image not available"
                       fluid
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null; // prevents looping
-                        currentTarget.src="https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png";
-                      }}
                     />
                   </div>
                 </Col>
                 <Col>
-                      <h3> {element?.pdf_data?.Pdf?.title}</h3>
-                      <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
-                      <Button className="btn next-content btn-bordered">
-                        Preview Article
-                      </Button>
-                    {element?.pdf_data?.Pdf?.product!=undefined?
-                      <span >
-                      {element?.pdf_data?.Pdf?.product}
-                      </span>
-
-                      :null
-
-                    }
+                  <h3> {element?.pdf_data?.Pdf?.title}</h3>
+                  <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
+                  <Button className="btn next-content btn-bordered">
+                    Preview Article
+                  </Button>
+                  {element?.pdf_data?.Pdf?.product != undefined ? (
+                    <span>{element?.pdf_data?.Pdf?.product}</span>
+                  ) : null}
                 </Col>
-  
+
                 <Col>
                   <HighchartsReact
                     highcharts={Highcharts}
@@ -161,10 +154,8 @@ const DocintelAccount = ({ data }) => {
                               color: Highcharts.getOptions().colors[1],
                               radius: "95%",
                               innerRadius: "70%",
-                              y:
-                                
-                                 element.distribute,
-                                  
+                              y: element.distribute,
+
                               z: element.distribute,
                             },
                           ],
@@ -199,7 +190,6 @@ const DocintelAccount = ({ data }) => {
                         },
                       ],
                     }}
-                    
                   />
                 </Col>
                 <Col>
@@ -217,9 +207,7 @@ const DocintelAccount = ({ data }) => {
                         enabled: false,
                       },
                       xAxis: {
-                        categories: dataForGraph.map(
-                          (c) => c.name
-                        ),
+                        categories: dataForGraph.map((c) => c.name),
                       },
                       yAxis: {
                         title: {
@@ -229,10 +217,20 @@ const DocintelAccount = ({ data }) => {
                       series: [
                         {
                           name: "",
-                          data: dataForGraph.map((c) =>
-                            parseInt(c.y)
-                          ),
+                          data: dataForGraph.map((c) => parseInt(c.y)),
                           showInLegend: false,
+                          dataLabels: {
+                            enabled: true,
+                            inside: true,
+                            color: "#FFFFFF",
+                            align: "center",
+                            verticalAlign: "top",
+                            format: "{y}", // this will display the y value on top of the column
+                            style: {
+                              textOutline: "none", // to remove the border around the text
+                              fontSize: "12px",
+                            },
+                          },
                         },
                       ],
                     }}

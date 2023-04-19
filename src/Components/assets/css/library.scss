@@ -3036,8 +3036,7 @@ section.verify_email.content_details {
 
 /**Analytics**/
 .analytic-charts .form_action {
-    background: $dark-blue;
-    padding: 12px 20px;
+    padding: 20px 20px 20px;
 }
 .create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button {
     margin-bottom: 0;
@@ -3046,12 +3045,16 @@ section.verify_email.content_details {
     margin:0;
 }
 .create-change-content.analytic-charts .form_action .product-unit .form-group label {
-    color: $white;
+    color:$dark-blue;
+}
+.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(3) {
+    max-width: 250px;
 }
 .create-change-content.analytic-charts {
     box-shadow: -0px 0px 15px rgba(0, 102, 190, 0.1);
     padding: 0;
     margin: 36px auto 0;
+    background: $white;;
 }
 .highcharts-container svg {
     font-family: 'Roboto'!important;
@@ -3075,7 +3078,7 @@ section.verify_email.content_details {
     width: 100%;
     max-width: 100%;
     border: 1px solid #dee2e6;
-    background: #fff;
+    background: $white;
 }
 
 .high_charts .highcharts-data-table table thead tr {
@@ -3128,9 +3131,9 @@ input.viewer-toolbar-current-page-input {
 .delivery-trends {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 10px;
+    padding:0 10px 10px;
     background: $white;
-    box-shadow: 0px 0px 15px rgba(0, 102, 190, 0.1);
+    // box-shadow: 0px 0px 15px rgba(0, 102, 190, 0.1);
     h3{
     font-weight: 500;
     font-size: 24px;
@@ -3219,7 +3222,12 @@ input.viewer-toolbar-current-page-input {
 }
 .delivery-trends .tab-content {
     padding: 10px 10px;
-    background: #fff;
+    background: $white;
+}
+.delivery-trends .tab-content .kpi-graph-inside {
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 2px dashed #bbb;
 }
 .kpi-graph-inside .img-box .content-listed-shorting span {
     color: #a7a7a7;
@@ -3231,6 +3239,7 @@ input.viewer-toolbar-current-page-input {
     object-fit: contain;
     margin-top: 7px;
     width: 100%;
+    filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
 }
 .kpi-graph-inside .content-listed-content h3.remove_bg {
     background: none !important;
@@ -3385,7 +3394,7 @@ input.viewer-toolbar-current-page-input {
     border: 1px solid #EEEFEF;
     margin: 0 0 15px;
     box-shadow: 0px 0px 8px rgba(1, 76, 141, 0.19);
-    background: #fff;
+    background: $white;
 }
 .detail-box .media-left.media-middle {
     padding: 0 15px 0 0px;
@@ -3481,7 +3490,7 @@ input.viewer-toolbar-current-page-input {
 }
 .content_analytics {
     padding: 20px;
-    background: #ffffff;
+    background: $white;
 }
 .reparkive-box.second .progress {
     margin: 0;
@@ -3529,6 +3538,11 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
     border-left: 1px dashed #C5C5C5;
     top: 0;
 }
+.create-change-content.analytic-charts .high_charts.space-added {
+    padding: 30px 15px 15px;
+    background: $white;
+    margin:0
+}
 .content_analytics .circle_graph .col:first-child::after {
     border-left: 0;
 }
@@ -3549,6 +3563,52 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
 
 .content_analytics .accordion-item button.accordion-button::after {
     margin-left: 5px;
+}
+.create-change-content.analytic-charts .high_charts.top {
+    margin-top: 0;
+    padding: 20px 0;
+}
+.analytic-charts.space-added {
+    padding: 0 10px;
+    background: $white;
+}
+.create-change-content.analytic-charts .high_charts.top {
+    margin-top: 0;
+    padding: 20px 0;
+    background: $white;
+    border-radius: 20px;
+}
+
+.analytic-charts.space-added {
+    padding: 0 10px;
+    background: $white;
+}
+
+.high_charts.top ul.nav.nav-tabs {
+    border-bottom: 1px solid rgb(11 58 129);
+    padding-top: 20px;
+}
+
+.high_charts.top ul.nav.nav-tabs li.nav-item {
+    width: auto;
+    border-left: 1px solid $white;
+    border-right: 1px solid $white;
+}
+
+.high_charts.top ul.nav.nav-tabs li.nav-item:first-child {
+    border-left: 0;
+}
+.high_charts.top ul.nav.nav-tabs li.nav-item button {
+    font-size: 14px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #0b3a81;
+    color: #0b3a81;
+    background: rgb(11 58 129 / 16%);
+    font-weight: 500;
+}
+.high_charts.top ul.nav.nav-tabs li.nav-item button.active{
+    background: #0b3a81;
+    color:$white;
 }
 /**Analytics page End**/
 
@@ -3613,7 +3673,7 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
                 }
                 .btn{
                   background-color: #0066be;
-                  color: #fff;
+                  color: $white;
                   width: 100%;
                   text-align: center;
                   border-radius: 40px 40px 0px 40px;
@@ -4002,7 +4062,7 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
           }
           p{
             max-width: 490px;
-            color: #fff;
+            color: $white;
             font-family: Mulish;
             font-weight: normal;
             font-size: 18px;

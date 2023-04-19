@@ -13,7 +13,6 @@ export default function ContentAnalyticsComponentActivityGauge({
   color,
   limit,
 }) {
-
   const options = {
     chart: {
       type: "solidgauge",
@@ -28,8 +27,7 @@ export default function ContentAnalyticsComponentActivityGauge({
         fontSize: "10px",
       },
       valueSuffix: "%",
-      pointFormat:
-        '',
+      pointFormat: "",
       positioner: function (labelWidth) {
         return {
           x: (this.chart.chartWidth - labelWidth) / 2,
@@ -65,11 +63,11 @@ export default function ContentAnalyticsComponentActivityGauge({
       solidgauge: {
         dataLabels: {
           enabled: true,
-          format: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.z}</span>',
+          format:
+            '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.z}</span>',
         },
-        
+
         stickyTracking: false,
-       
       },
     },
 
@@ -91,11 +89,7 @@ export default function ContentAnalyticsComponentActivityGauge({
 
   return (
     <Col>
-      
-
-     
       <HighchartsReact highcharts={Highcharts} options={options} />
-
     </Col>
   );
 }

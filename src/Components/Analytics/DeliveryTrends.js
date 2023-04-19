@@ -9,7 +9,8 @@ import GaugeComponent from "./GaugeComponent";
 const DeliveryTrends = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  
+  const [isTabClicked, setIsTabClicked] = useState(false);
+
   const activeTab = useRef(1);
 
   Highcharts.setOptions({
@@ -345,9 +346,12 @@ const DeliveryTrends = () => {
       };
 
       // console.log(updatedListData);
-      setIsDataFound(true);
       setData(updatedData);
+      setIsDataFound(true);
+
+      setIsLoaded(true);
       setListData(updatedListData);
+      setIsTabClicked(true);
       // setData(hadData);
 
       loader("hide");
@@ -360,45 +364,63 @@ const DeliveryTrends = () => {
   };
   const handleTabChange = (event) => {
     setIsDataFound(false);
-    activeTab.current=event
+    setIsTabClicked(false);
+
+    activeTab.current = event;
     loader("show");
-    if (event == 1) { 
+    if (event == 1) {
       getDataFromApi("all");
-    } else if (event == 2) { 
+    } else if (event == 2) {
       getDataFromApi("haematology");
-    } else if (event == 3) { 
+    } else if (event == 3) {
       getDataFromApi("critical_care");
     } else if (event == 4) {
       getDataFromApi("immunology");
     }
     // loader("hide");
-
   };
-  
 
   return (
     <>
       <Col className="right-sidebar">
-        {isDataFound ? (
+        {isLoaded ? (
           <div className="custom-container">
             <Row>
               <div className="delivery-trends">
-              <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
-                <Tab eventKey="1" title="All Business Units">
-                  <GaugeComponent tab={data.tab} list={listData.tab} />
-                </Tab>
-                <Tab eventKey="2" title="Haematology">
-                  <GaugeComponent tab={data.tab} list={listData.tab} />
-                </Tab>
-                <Tab eventKey="3" title="Critical Care">
-                  <GaugeComponent tab={data.tab} list={listData.tab} />
-                </Tab>
-                <Tab eventKey="4" title="Immunotherapy">
-                  <GaugeComponent tab={data.tab} list={listData.tab} />
-                </Tab>
-              </Tabs>
+                <Tabs
+                  defaultActiveKey={activeTab.current}
+                  onSelect={handleTabChange}
+                >
+                  <Tab eventKey="1" title="All Business Units">
+                    {isDataFound && activeTab.current == 1 ? (
+                      <GaugeComponent tab={data.tab} list={listData.tab} />
+                    ) : isTabClicked ? (
+                      <h4>No Data Found</h4>
+                    ) : null}
+                  </Tab>
+                  <Tab eventKey="2" title="Haematology">
+                    {isDataFound && activeTab.current == 2 ? (
+                      <GaugeComponent tab={data.tab} list={listData.tab} />
+                    ) : isTabClicked ? (
+                      <h4>No Data Found</h4>
+                    ) : null}
+                  </Tab>
+                  <Tab eventKey="3" title="Critical Care">
+                    {isDataFound && activeTab.current == 3 ? (
+                      <GaugeComponent tab={data.tab} list={listData.tab} />
+                    ) : isTabClicked ? (
+                      <h4>No Data Found</h4>
+                    ) : null}
+                  </Tab>
+                  <Tab eventKey="4" title="Immunotherapy">
+                    {isDataFound && activeTab.current == 4 ? (
+                      <GaugeComponent tab={data.tab} list={listData.tab} />
+                    ) : isTabClicked ? (
+                      <h4>No Data Found</h4>
+                    ) : null}
+                  </Tab>
+                </Tabs>
               </div>
-              
             </Row>
           </div>
         ) : null}

@@ -43,14 +43,19 @@ export const ENDPOINT = {
   ANALYTICS: "/analytics/graph",
   OPENING_BY_COUNTRY: "/analytics/reader-country",
   CONTENTANALYTICS: "/analytics/content-analytics",
+  READERANALYTICS: "/analytics/reader-analytics",
+  OCTALATCH_TOTAL_HCP:
+    "https://webinar.docintel.app/lmn/api/analytics/octo_lach_stats",
+  OCTALATCH_DELIVERY_REGISTRATION:
+    "https://webinar.docintel.app/lmn/api/analytics/octa_delivery_registration",
 
   DELIVERYTRENDS: "analytics/trend",
-  MAPLOCATION:`analytics/map-location`,
+  MAPLOCATION: `analytics/map-location`,
   REPORTS: "analytics/reports",
 
-  CONTENTTYPE:"analytics/content-type",
-  CONTENT:"analytics/content",
-  TRENDING_TOPIC:"analytics/topic",
+  CONTENTTYPE: "analytics/content-type",
+  CONTENT: "analytics/content",
+  TRENDING_TOPIC: "analytics/topic",
   READER_DOWNLOAD: `/reader/reader-file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`,
   COUNTRY_REGISTRATION: `analytics/country`,

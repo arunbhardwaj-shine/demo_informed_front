@@ -44,12 +44,14 @@ import TopClients from "./Components/Analytics/TopClients";
 import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
 import ContentAnalytics from "./Components/Analytics/ContentAnalytics";
- import OctaCountry from "./Components/Analytics/OctaCountry";
- import CountryRegistration from "./Components/Analytics/CountryRegistration";
- import TrendingTopics from "./Components/Analytics/TrendingTopics";
- import OctalatchCountryStats from "./Components/Analytics/OctalatchCountryStats";
- import OctaCountryRegistration from "./Components/Analytics/OctaCountryRegistration";
 
+// import OctaCountry from "./Components/Analytics/OctaCountry";
+import OctalatchTotalHCP from "./Components/Analytics/OctalatchTotalHCP";
+import CountryRegistration from "./Components/Analytics/CountryRegistration";
+import OctaCountry from "./Components/Analytics/OctaCountry";
+import TrendingTopics from "./Components/Analytics/TrendingTopics";
+import OctalatchCountryStats from "./Components/Analytics/OctalatchCountryStats";
+import OctaCountryRegistration from "./Components/Analytics/OctaCountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
@@ -116,6 +118,8 @@ import RegistrationType from "./Components/Analytics/RegistrationType";
 import ContentGraph from "./Components/Analytics/ContentGraph";
 import TrendingContentOcta from "./Components/Analytics/TrendingContentOcta";
 import Informed from "./Components/Library/Informed";
+import OctalatchDeliveryRegistration from "./Components/Analytics/OctalatchDeliveryRegistration";
+
 let platform = 0;
 let show = 0;
 
@@ -155,22 +159,7 @@ const Routing = () => {
           "/setting-webinar",
         ].includes(window.location.pathname) ? (
           <WebinarHeader />
-        ) : ["/library-content", "/library-create"].includes(
-            window.location.pathname
-          ) ? (
-          <Header />
-        ) : [
-            "/readers-view",
-            "/reader-add",
-            "/reader-edit",
-            "/readers-list",
-            "/reader-review",
-            "/timeline-detail",
-          ].includes(window.location.pathname) ? (
-          <Header />
-        ) : ["/cis_stats"].includes(window.location.pathname) ? (
-          <Header />
-        ) : window.location.pathname !== "/" ? (
+        ) : window.location.pathname != "/informed" ? (
           <Header />
         ) : null}
         {/* {window.location.pathname !== "/" ? <WebinarHeader /> : null} */}
@@ -187,45 +176,45 @@ const Routing = () => {
                 "/setting-webinar",
               ].includes(window.location.pathname) ? (
                 <WebinarSidebar />
-              ) : ["/cis_stats"].includes(window.location.pathname) ? (
-                <AnalyticsSidebar />
-              ) : window.location.pathname !== "/" ? (
+              ) : window.location.pathname != "/informed" ? (
                 <Sidebar />
               ) : null}
-              {/* {window.location.pathname !== "/" ? <Sidebar /> : null} */}
               <Routes>
+                <Route path="/informed" element={<Informed />} />
                 {/* New webinar */}
                 {/* <Route path="/new-webinar" element={<WebinarHeader />} /> */}
                 {/* end webinar */}
                 <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
-
-                {
-                  /*
+                {/*
                   <Route path="/trending-content" element={<TrendingContent />} />
-                  
-                  */
-                  <Route
-                    path="/country-registration"
-                    element={<CountryRegistration />}
-                  />
-                }
-                <Route path="/octa-country" element={<OctaCountry />} />
-                <Route path="/octalach-country-stats" element={<OctalatchCountryStats />} />
+
+                  <Route path="/octa-country" element={<OctaCountry />} />
+                  */}
                 <Route
-                  path="/trending-content"
-                  element={
-                    localStorage.getItem("user_id") =="rjiGlqA9DXJVH7bDDTX0Lg==" ? (
-                      <TrendingContentOcta />
-                    ) : (
-                      <TrendingContent />
-                    )
-                  }
+                  path="/country-registration"
+                  element={<CountryRegistration />}
+                />
+                <Route
+                  path="/octalatch-deliveryregistration"
+                  element={<OctalatchDeliveryRegistration />}
+                />
+                <Route path="/octa-country" element={<OctaCountry />} />
+                <Route
+                  path="/octalach-country-stats"
+                  element={<OctalatchCountryStats />}
+                />
+                <Route path="/trending-content" element={<TrendingContent />} />
+                <Route
+                  path="/octa-trending-content"
+                  element={<TrendingContentOcta />}
                 />
 
                 <Route path="/top-clients" element={<TopClients />} />
-                <Route path="/octa-country-registration" element={<OctaCountryRegistration />} />
-
+                <Route
+                  path="/octa-country-registration"
+                  element={<OctaCountryRegistration />}
+                />
                 <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/top-sales" element={<TopSales />} />
                 <Route
@@ -233,9 +222,12 @@ const Routing = () => {
                   element={<ContentAnalytics />}
                 />
                 <Route path="/trending-topics" element={<TrendingTopics />} />
-                <Route path="/trending-topics" element={<TrendingTopics />} />
+                {/*<Route path="/trending-topics" element={<TrendingTopics />} />*/}
                 <Route path="/content-type" element={<ContentGraph />} />
-
+                <Route
+                  path="/octalatch-totalhcp"
+                  element={<OctalatchTotalHCP />}
+                />
                 <Route
                   path="/openings-by-country"
                   element={<OpeningByCountry />}
@@ -251,9 +243,7 @@ const Routing = () => {
                   path="/content-analytics"
                   element={<ContentAnalytics />}
                 />
-
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
-
                 <Route
                   path="/registration-type"
                   element={<RegistrationType />}
@@ -335,7 +325,6 @@ const Routing = () => {
                 <Route path="/ViewTable" element={<ViewTable />} />
                 <Route path="/EmailStatss" element={<EmailStatss />} />
                 <Route path="/get-details" element={<GetDetails />} />
-
                 <Route path="/license-content" element={<LicenseContent />} />
                 <Route
                   path="/license-edit-listing"
