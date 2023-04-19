@@ -3064,6 +3064,7 @@ section.verify_email.content_details {
     margin: 36px auto 70px;
     background: $white;
     position: relative;
+    min-height: 70vh;
 }
 .create-change-content.analytic-charts .delivery-trends .load_more {
     position: absolute;
@@ -3147,12 +3148,17 @@ input.viewer-toolbar-current-page-input {
     padding: 0 10px 10px;
     background: $white;
     position:relative;
+    border-radius: 0 0 20px 20px;
+    display:flex;
+    min-height: 70vh;
+    border-radius: 0 0 20px 20px;
     // box-shadow: 0px 0px 15px rgba(0, 102, 190, 0.1);
     h3{
     font-weight: 500;
-    font-size: 24px;
-    margin: 10px 0 15px;
+    font-size: 22px;
+    margin: 10px 0 10px;
     color:$primary-color;
+    line-height: 1.2;
     }
     .nav-tabs{
       border-bottom: 1px solid rgb(11 58 129);
@@ -3217,7 +3223,30 @@ input.viewer-toolbar-current-page-input {
         }
     }
 }
+    .high_charts{
+      h3{
+          font-size: 17px;
+          line-height: 1.2;
+          margin-bottom: 5px;
+      }
+      h5{
+        font-size: 15px;
+        margin:0 0 7px;
+      }
+      button {
+        padding: 8px 12px;
+        font-size: 15px;
+    }
+    }
 
+}
+.high_charts > .row, .delivery-trends .tabs_content_load .tab-content .tab-pane > .row {
+    border-bottom: 1px dashed #70899E;
+    margin: 10px 0;
+    padding: 10px 0;
+}
+.high_charts .img-box img, .delivery-trends .tabs_content_load .tab-content .tab-pane .img-box img{
+    filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
 }
 .delivery-trends .tab-content .col .highcharts-container text.highcharts-title {
     font-size: 15px!important;
@@ -3352,10 +3381,14 @@ input.viewer-toolbar-current-page-input {
     width: 100%;
 }
 .loader.tab-inside{
-  position:absolute;
-  min-height: 70vh;
-  background: rgba(79, 79, 79, 0.3);
-  top:48px;
+ .loader.tab-inside {
+    position: absolute;
+    background: rgba(79, 79, 79, 0.3);
+    top: 48px;
+    bottom: 0;
+    height: calc(100% - 50px);
+    border-radius: 0 0 20px 20px;
+}
   .loader_show {
     width: 100px;
   height: 100px;
