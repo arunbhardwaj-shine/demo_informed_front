@@ -195,13 +195,13 @@ const MapComponent = ({ data }) => {
             <Row>*/
       }
 
-              <div className="high_charts top">
+
+              <div className="high_charts"></div>
               <HighchartsReact
                 constructorType={"mapChart"}
                 highcharts={Highcharts}
                 options={mapOptions}
               />
-            </div>
       {
         /*
         </Row>
