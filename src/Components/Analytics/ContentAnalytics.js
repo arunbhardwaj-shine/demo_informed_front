@@ -292,9 +292,8 @@ const ReadersPerPageLayout = ({ data }) => {
     <>
       <Row>
         <Col>Readers Per Page</Col>
-      </Row>
-      <Row>
-        <Col>Total : data?.length Pages</Col>
+
+        <Col>Total : {data?.length} Pages</Col>
       </Row>
       {data?.map((element, index) => {
         return (

@@ -2,17 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Tabs, Tab } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
-import { ENDPOINT } from "../../axios/apiConfig";
-import { getData } from "../../axios/apiHelper";
+
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 
 import HighchartsReact from "highcharts-react-official";
-import ContentAnalyticsComponent from "./ContentAnalyticsComponent";
 import MapModule from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import axios from "axios";
-import drilldown from 'highcharts/modules/drilldown.js';
+import drilldown from "highcharts/modules/drilldown.js";
 
 import { Link } from "react-router-dom";
 
@@ -99,7 +97,6 @@ const OctaCountryRegestration = () => {
 export default OctaCountryRegestration;
 
 const MapComponent = ({ data }) => {
-
   const [newData, setNewData] = useState();
   const mapOptions = {
     chart: {
@@ -208,11 +205,7 @@ const MapComponent = ({ data }) => {
       {
         /*
         </Row>
-      </div>
-    </Col>
-        */
-      }
-
+      </div>*/}
     </>
   );
 };
@@ -238,15 +231,12 @@ const PieComponent = ({ data }) => {
       dataArr.push([countryDrill[i], drillData[i]]);
     }
     drilldownData[element.region_name] = {
-
       id: element.region_name,
       name: element.region_name,
       data: dataArr,
     };
   });
-console.log("series",series)
 
-  console.log("drill Data",drilldownData)
   const countryStatsPieOptions = {
     chart: {
       plotBackgroundColor: null,
@@ -315,12 +305,12 @@ const TabComponent = ({ data }) => {
             <Tab eventKey={index + 1} title={region.region_name}>
               <Row>
                 <Col>
-              <Barcomponent
-                countries={region.countries}
-                countriesData={region.countries_data}
-                title={region.region_name}
-              />
-              </Col>
+                  <Barcomponent
+                    countries={region.countries}
+                    countriesData={region.countries_data}
+                    title={region.region_name}
+                  />
+                </Col>
               </Row>
             </Tab>
           ))}
@@ -330,8 +320,17 @@ const TabComponent = ({ data }) => {
   );
 };
 
-const Barcomponent = ({ countries, countriesData ,title}) => {
-  console.log(countries)
+const Barcomponent = ({ countries, countriesData, title }) => {
+  const data = countries.map((country, index) => ({
+    name: country,
+    value: countriesData[index],
+  }));
+
+  data.sort((a, b) => a.name.localeCompare(b.name));
+
+  const sortedCountries = data.map((country) => country.name);
+  const sortedCountriesData = data.map((country) => country.value);
+
   return (
     <>
       <div className="high_charts top">
@@ -358,7 +357,7 @@ const Barcomponent = ({ countries, countriesData ,title}) => {
               text: " ",
             },
             xAxis: {
-              categories: countries,
+              categories: sortedCountries,
             },
             credits: {
               enabled: false,
@@ -400,11 +399,13 @@ const Barcomponent = ({ countries, countriesData ,title}) => {
               },
             },
 
-            series: [{
-              name: title,
-              data: countriesData,
-              color:"#00D4C0"
-            }]
+            series: [
+              {
+                name: title,
+                data: sortedCountriesData,
+                color: "#00D4C0",
+              },
+            ],
           }}
         />
       </div>

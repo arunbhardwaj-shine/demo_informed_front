@@ -69,9 +69,9 @@ const RegistrationType = () => {
     loader("show");
 
     activeTab.current = event;
-    if (event == 1) {
+    if (event === 1) {
       getDataFromApi("view");
-    } else if (event == 2) {
+    } else if (event === 2) {
       getDataFromApi("reader");
     }
     // loader("hide");
@@ -81,9 +81,9 @@ const RegistrationType = () => {
     setIsLoaded(false);
 
     selectedOptions.current = e.value;
-    if (activeTab.current == 1) {
+    if (activeTab.current === 1) {
       getDataFromApi("view");
-    } else if (activeTab.current == 2) {
+    } else if (activeTab.current === 2) {
       getDataFromApi("reader");
     }
   };
@@ -115,12 +115,12 @@ const RegistrationType = () => {
                   >
                     <Tab eventKey="1" title="Views">
                       <RegistrationTypeLayout
-                        data={activeTab.current == 1 ? data : null}
+                        data={activeTab.current === 1 ? data : null}
                       />
                     </Tab>
                     <Tab eventKey="2" title="Readers">
                       <RegistrationTypeLayout
-                        data={activeTab.current == 2 ? data : null}
+                        data={activeTab.current === 2 ? data : null}
                       />
                     </Tab>
                   </Tabs>
