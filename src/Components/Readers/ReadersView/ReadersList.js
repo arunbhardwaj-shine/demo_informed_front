@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { postData, getData, postFormData } from "../../../axios/apiHelper";
+import { postData, getData, postFormData, deleteData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
@@ -435,7 +435,7 @@ const NewReaders = () => {
   const deleteUser = async (id) => {
     loader("show");
     try {
-      // const res = await deleteData(ENDPOINT.DELETE, id);
+      const res = await deleteData(ENDPOINT.DELETEREADER, id);
       // if (res?.data?.message == "Library deleted successfully") {
         loader("hide");
         popup_alert({
