@@ -119,6 +119,7 @@ import ContentGraph from "./Components/Analytics/ContentGraph";
 import TrendingContentOcta from "./Components/Analytics/TrendingContentOcta";
 import Informed from "./Components/Library/Informed";
 import OctalatchDeliveryRegistration from "./Components/Analytics/OctalatchDeliveryRegistration";
+import Webinar from "./Components/Library/Webinar";
 
 let platform = 0;
 let show = 0;
@@ -362,6 +363,7 @@ const Routing = () => {
                   element={<LicenseContentDetail />}
                 />
                 <Route path="/license-edit" element={<EditLicense />} />
+                <Route path="/webinar" element={<Webinar />} />
               </Routes>
             </div>
           </div>
