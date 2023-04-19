@@ -15,11 +15,10 @@ const OpeningByCountry = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const selectFilter = useRef(null);
+  const selectFilter = useRef({ label: "All", value: null });
   const selectFilterType = useRef("Openingcountry");
 
   const [filterData, setFilterData] = useState(null);
-
 
   const chart = useRef(null);
   Highcharts.setOptions({
@@ -112,21 +111,20 @@ const OpeningByCountry = () => {
         type: selectFilterType.current,
         pdfId: selectFilter?.current?.value
           ? selectFilter?.current?.value
-          : "",
+          : null,
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
-      }
-      else{
+      } else {
         setIsDataFound(true);
       }
-     
+
       if (hadData.name.length <= 0) {
         setIsDataFound(false);
-      }else{
-         setIsDataFound(true);
+      } else {
+        setIsDataFound(true);
       }
       // console.log(hadData);
       const categories = hadData?.name;
@@ -156,12 +154,12 @@ const OpeningByCountry = () => {
       };
 
       setTopClientOptions(newClientOptions);
-      if(filterData==null){
-        setFilterData(hadData.pdfData)
+      if (filterData == null) {
+        setFilterData(hadData.pdfData);
       }
-// console.log(topClientOptions)
-     
-      setIsLoaded(true)
+      // console.log(topClientOptions)
+
+      setIsLoaded(true);
       setData(hadData);
 
       loader("hide");
@@ -174,9 +172,9 @@ const OpeningByCountry = () => {
   };
 
   const handleFilterData = (e) => {
-    setIsLoaded(false)
+    setIsLoaded(false);
     setIsDataFound(false);
-    selectFilterType.current="OpeningcountryFilter"
+    selectFilterType.current = "OpeningcountryFilter";
     selectFilter.current = e;
 
     getDataFromApi(e.value);
@@ -184,8 +182,8 @@ const OpeningByCountry = () => {
 
   return (
     <>
-      <Col className="right-sidebar">
-        {isDataFound ? (
+      {isLoaded ? (
+        <Col className="right-sidebar">
           <div className="custom-container">
             <Row>
               <div className="top-header">
@@ -216,10 +214,14 @@ const OpeningByCountry = () => {
                     <div className="form-group ">
                       <label htmlFor="">Filter By</label>
                       <Select
-                        options={filterData.map((pdf) => ({
-                          label: pdf.title,
-                          value: pdf.id,
-                        }))}
+                        options={[
+                          { label: "All", value: null }, // added option
+                          ...filterData.map((pdf) => ({
+                            // existing options
+                            label: pdf.title,
+                            value: pdf.id,
+                          })),
+                        ]}
                         placeholder="Filter By"
                         onChange={handleFilterData}
                         defaultValue={
@@ -231,18 +233,22 @@ const OpeningByCountry = () => {
                     </div>
                   </Form>
                 </div>
-                <div className="high_charts space-added">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={topClientOptions}
-                    ref={chart}
-                  />
-                </div>
+                {isDataFound ? (
+                  <div className="high_charts space-added">
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={topClientOptions}
+                      ref={chart}
+                    />
+                  </div>
+                ) : isLoaded ? (
+                  <h4>No Data Found</h4>
+                ) : null}
               </div>
             </Row>
           </div>
-        ) : isLoaded ?<h2>NO Data Found</h2>:null}
-      </Col>
+        </Col>
+      ) : null}
     </>
   );
 };
