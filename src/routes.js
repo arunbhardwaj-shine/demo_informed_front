@@ -120,6 +120,7 @@ import TrendingContentOcta from "./Components/Analytics/TrendingContentOcta";
 import Informed from "./Components/Library/Informed";
 import PublisherPage from "./Components/Library/PublisherPage";
 import OctalatchDeliveryRegistration from "./Components/Analytics/OctalatchDeliveryRegistration";
+import Webinar from "./Components/Library/Webinar";
 import BouncedEmail from "./Components/Distributes/BouncedEmail";
 
 let platform = 0;
@@ -161,7 +162,8 @@ const Routing = () => {
           "/setting-webinar",
         ].includes(window.location.pathname) ? (
           <WebinarHeader />
-        ) : window.location.pathname != "/informed" &&  window.location.pathname != "/publisher-page" ? (
+        ) : window.location.pathname != "/informed" &&
+          window.location.pathname != "/publisher-page" ? (
           <Header />
         ) : null}
         {/* {window.location.pathname !== "/" ? <WebinarHeader /> : null} */}
@@ -178,7 +180,8 @@ const Routing = () => {
                 "/setting-webinar",
               ].includes(window.location.pathname) ? (
                 <WebinarSidebar />
-              ) : window.location.pathname != "/informed" && window.location.pathname != "/publisher-page" ? (
+              ) : window.location.pathname != "/informed" &&
+                window.location.pathname != "/publisher-page" ? (
                 <Sidebar />
               ) : null}
               <Routes>
@@ -366,6 +369,7 @@ const Routing = () => {
                   element={<LicenseContentDetail />}
                 />
                 <Route path="/license-edit" element={<EditLicense />} />
+                <Route path="/webinar" element={<Webinar />} />
               </Routes>
             </div>
           </div>

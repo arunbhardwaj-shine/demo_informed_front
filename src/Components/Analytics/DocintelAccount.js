@@ -25,15 +25,12 @@ const DocintelAccount = ({ data }) => {
 
   return (
     <>
-      {data != null
+      {data?.length
         ? data.map((element, index) => {
             const dataForGraph =
               element.country == 0 || element.country.length == 0
                 ? [{}]
                 : JSON.parse(element.country);
-
-            // alert(element.pdf_data.Pdf.code)
-            // alert(index)
 
             return (
               <Row key={index}>
@@ -46,6 +43,11 @@ const DocintelAccount = ({ data }) => {
                       }
                       alt="Image not available"
                       fluid
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src =
+                          "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png";
+                      }}
                     />
                   </div>
                 </Col>
@@ -155,7 +157,6 @@ const DocintelAccount = ({ data }) => {
                               radius: "95%",
                               innerRadius: "70%",
                               y: element.distribute,
-
                               z: element.distribute,
                             },
                           ],

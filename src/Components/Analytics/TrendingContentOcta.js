@@ -122,7 +122,9 @@ const DocintelAccount = ({ data }) => {
                     <h3>Trending content based on Read Through Rates</h3>{" "}
                   </Row>
                 ) : null}
+
                 <Col sm={2} md={2} className="img-box justify-content-center">
+                  <span>{index + 1}</span>
                   <div style={{ width: "100px", height: "100px" }}>
                     <Image
                       src={
@@ -131,11 +133,13 @@ const DocintelAccount = ({ data }) => {
                       }
                       alt="Image not available"
                       fluid
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src =
+                          "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png";
+                      }}
                     />
                   </div>
-                </Col>
-                <Col>
-                  <span>{index + 1}</span>
                 </Col>
                 <Col>
                   <h3> {element?.pdf_data?.Pdf?.title}</h3>

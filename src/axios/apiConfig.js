@@ -52,8 +52,8 @@ export const ENDPOINT = {
   DELIVERYTRENDS: "analytics/trend",
   MAPLOCATION: `analytics/map-location`,
   REPORTS: "analytics/reports",
-
   CONTENTTYPE: "analytics/content-type",
+  CONTENT_TYPE_GRAPH: "/analytics/content-type-graph",
   CONTENT: "analytics/content",
   TRENDING_TOPIC: "analytics/topic",
   READER_DOWNLOAD: `/reader/reader-file`,

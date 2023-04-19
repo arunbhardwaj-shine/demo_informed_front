@@ -188,7 +188,6 @@ const TrendingContent = () => {
                       onSelect={handleTabChange}
                     >
                       <Tab eventKey="1" title="All Business Units">
-                        <Row>
                         {isDataFound && data.length > 0 ? (
                           <DocintelAccount data={activeTab.current==1?data:null} />
                         ) :
@@ -198,10 +197,8 @@ const TrendingContent = () => {
                            </div>
                            : null
                          }
-                        </Row>
                       </Tab>
                       <Tab eventKey="2" title="Haematology">
-                        <Row>
                         {isDataFound && data.length > 0 ? (
                           <DocintelAccount data={activeTab.current==2?data:null} />
                         ) :
@@ -211,10 +208,8 @@ const TrendingContent = () => {
                            </div>
                            : null
                          }
-                        </Row>
                       </Tab>
                       <Tab eventKey="3" title="Critical Care">
-                        <Row>
                           {isDataFound && data.length > 0 ? (
                             <DocintelAccount data={activeTab.current==3?data:null} />
                           ) :
@@ -224,10 +219,8 @@ const TrendingContent = () => {
                              </div>
                              : null
                            }
-                        </Row>
                       </Tab>
                       <Tab eventKey="4" title="Immunotherapy">
-                        <Row>
                           {isDataFound && data.length > 0 ? (
                             <DocintelAccount data={activeTab.current==4?data:null} />
                           ) :
@@ -237,10 +230,8 @@ const TrendingContent = () => {
                              </div>
                              : null
                            }
-                        </Row>
                       </Tab>
                       <Tab eventKey="5" title="IBU">
-                        <Row>
                         {isDataFound && data.length > 0 ? (
                           <DocintelAccount data={activeTab.current==5?data:null} />
                         ) :
@@ -250,7 +241,6 @@ const TrendingContent = () => {
                            </div>
                            : null
                          }
-                        </Row>
                       </Tab>
                     </Tabs>
                     {

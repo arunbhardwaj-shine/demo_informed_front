@@ -176,9 +176,12 @@ const MapComponent = ({ data, status }) => {
 
   return (
     <>
-      <Col className="right-sidebar">
-        <div className="custom-container">
-          <Row>
+      {
+        /*<Col className="right-sidebar">
+          <div className="custom-container">
+            <Row>*/
+      }
+
             <div className="create-change-content spc-content analytic-charts">
               <div className="high_charts"></div>
               <HighchartsReact
@@ -190,9 +193,14 @@ const MapComponent = ({ data, status }) => {
             {/* <div className="high_charts">
               <HighchartsReact highcharts={Highcharts} options={countryList} />
             </div> */}
-          </Row>
-        </div>
-      </Col>
+            {
+              /*
+              </Row>
+            </div>
+          </Col>
+              */
+            }
+
     </>
   );
 };
