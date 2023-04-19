@@ -7,7 +7,6 @@ exporting(Highcharts);
 exportData(Highcharts);
 
 const CommonLineGraph = ({ data, name, months }) => {
-  console.log("line data", data);
   Highcharts.setOptions({
     colors: [
       "#FFBE2C",
