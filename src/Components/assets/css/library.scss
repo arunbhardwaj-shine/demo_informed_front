@@ -3082,6 +3082,7 @@ section.verify_email.content_details {
 }
 .create-change-content.analytic-charts .high_charts {
     margin-top: 30px;
+    padding:0 10px 5px;
 }
 
 .high_charts .highcharts-data-table {
@@ -3638,6 +3639,7 @@ input.viewer-toolbar-current-page-input {
     width: auto;
     border-left: 1px solid $white;
     border-right: 1px solid $white;
+    flex: 1 1;
 }
 
 .high_charts.top ul.nav.nav-tabs li.nav-item:first-child {
@@ -3650,6 +3652,8 @@ input.viewer-toolbar-current-page-input {
     color: #0b3a81;
     background: rgb(11 58 129 / 16%);
     font-weight: 500;
+    height:100%;
+    width: 100%;
 }
 .high_charts.top ul.nav.nav-tabs li.nav-item button.active{
     background: #0b3a81;
@@ -3678,7 +3682,7 @@ input.viewer-toolbar-current-page-input {
     font-size: 16px;
 }
 
-.content_analytics_accordian .accordion-collapse .accordion-body {padding: 10px 20px;border: 2px solid #ececec;}
+.content_analytics_accordian .accordion-collapse .accordion-body {padding: 10px 0px;border: 2px solid #ececec;}
 
 .content_analytics_accordian .accordion-collapse .accordion-body .section-detail-box {
     width: 100%;
