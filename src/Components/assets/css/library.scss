@@ -2891,11 +2891,13 @@ input[type=number] {
   vertical-align: top;
   min-width: 156px;
 }
+
 .content_details .smartlist-view .mailbox-table td, .crm-review-detail .tab-mail-list td {
   font-size: 18px;
   line-height: 21px;
   color: $dark-gray;
   word-break: break-word;
+  padding: 4px 0px 9px 0;
 }
 .content_details .smartlist-view .mail-box-content {
   min-height: inherit;
@@ -3064,7 +3066,7 @@ section.verify_email.content_details {
     margin: 36px auto 70px;
     background: $white;
     position: relative;
-    min-height: 70vh;
+    min-height: 770px;
 }
 .create-change-content.analytic-charts .delivery-trends .load_more {
     position: absolute;
@@ -3082,6 +3084,7 @@ section.verify_email.content_details {
 }
 .create-change-content.analytic-charts .high_charts {
     margin-top: 30px;
+    padding:0 10px 5px;
 }
 
 .high_charts .highcharts-data-table {
@@ -3148,10 +3151,10 @@ input.viewer-toolbar-current-page-input {
     padding: 0 10px 10px;
     background: $white;
     position:relative;
-    border-radius: 0 0 20px 20px;
-    display:flex;
-    min-height: 70vh;
-    border-radius: 0 0 20px 20px;
+    // border-radius: 0 0 20px 20px;
+    // display:flex;
+    // min-height: 70vh;
+    // border-radius: 0 0 20px 20px;
     // box-shadow: 0px 0px 15px rgba(0, 102, 190, 0.1);
     h3{
     font-weight: 500;
@@ -3166,6 +3169,7 @@ input.viewer-toolbar-current-page-input {
         flex: 1 1;
         text-align: center;
         border: 1px solid $white;
+        border-top: 0;
         &:first-child{
           border-left:0;
         }
@@ -3185,7 +3189,7 @@ input.viewer-toolbar-current-page-input {
     }
     .tab-content{
       h3{
-        font-size: 17px;
+        font-size: 16px;
         line-height: 1.2;
         margin-bottom: 5px;
       }
@@ -3194,9 +3198,11 @@ input.viewer-toolbar-current-page-input {
         line-height: 1.2;
         margin-bottom: 10px;
       }
-      button{
-        padding:8px 12px;
+      .btn{
+        padding:7px 12px;
         font-size: 15px;
+        line-height: normal;
+        font-weight: 400;
       }
     }
     .stats_precenage {
@@ -3240,10 +3246,157 @@ input.viewer-toolbar-current-page-input {
     }
 
 }
+.delivery-trends.space-added h3 {
+    font-size: 16px;
+    line-height: 1.2;
+    margin-bottom: 5px;
+}
+.delivery-trends.space-added {
+    padding: 20px 10px;
+}
+.delivery-trends.space-added h5{
+        font-size: 15px;
+        line-height: 1.2;
+        margin-bottom: 10px;
+      }
+.delivery-trends.space-added a.btn {
+    font-weight: 400;
+    padding: 7px 12px;
+    font-size: 15px;
+    line-height: normal;
+}
+.delivery-trends.space-added a+span{
+  font-size: 14px;
+   color: #0066be;
+  margin-left:5px;
+  font-weight: 500;
+}
+.delivery-trends.space-added .row{
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 2px dashed #bbb;
+}
+.delivery-trends.space-added img.img-fluid {
+    filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
+    border-radius: 5px;
+}
+.delivery-trends.space-added .row:last-child{
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    border-bottom: 0;
+}
+.delivery-trends.space-added span {
+    margin-left: 5px;
+    color: #a7a7a7;
+    font-size: 24px;
+    line-height: normal;
+}
+.analytics-detail-view-box {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+.analytics-detail-view-box .analytics-detil-image {
+    box-shadow: 0px 1px 8px rgb(0 102 190 / 24%);
+    text-align: center;
+    padding: 6px;
+    width: 90px;
+    margin-right: 30px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.analytics-detail-view-box .analytics-detil-image p {
+    font-size: 14px;
+    line-height: normal;
+    color: #484848;
+    font-family: "Roboto";
+    font-weight: 500;
+    text-align: center;
+    padding-top: 6px;
+    margin: 0;
+    padding-top: 0;
+}
+.analytics-reader-detail-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+}
+.analytics-detail-view-box:nth-child(2n) {
+    background: #F8F8F8;
+}
+.analytics-reader-detail-box .analytics-reader-title {
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: normal;
+    color: #484848;
+    font-family: "Roboto";
+    font-weight: 500;
+    min-width: 80px;
+}
+.analytics-reader-detail-box .analytics-reader-progress {
+    flex:1 1;
+}
+.analytics-reader-detail-box .analytics-reader-progress .progress {
+    height: 26px;
+    border-radius: 30px;
+}
+.analytics-reader-progress.ignored .progress-bar {
+    background: #A23C1F;
+}
+.analytics-reader-progress.browsed .progress-bar {
+    background: #C5BE42;
+}
+.analytics-reader-progress.read .progress-bar {
+    background: #72C0B9;
+}
+.analytics-reader-progress.reader .progress-bar {
+    background: #789DF8;
+}
+.content_analytics_accordian .accordion-collapse .accordion-body .section-detail-box {
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px;
+}
+.analytics-time-detail .time-needed, .analytics-time-detail .time-spent {
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: normal;
+    color: #484848;
+    font-family: "Roboto";
+    font-weight: 500;
+    padding: 8px 0;
+}
+.analytics-time-detail .time-needed span, .analytics-time-detail .time-spent span {
+    color: #1C3D7C;
+    font-weight: 500;
+}
+.progress-bar {
+    color: #040303;
+    font-weight: bold;
+    padding: 0 8px 0 4px;
+    min-width: 23px;
+}
+.analytics-reader-detail {
+    width: 28%;
+    padding-right: 20px;
+}
+.analytics-time-detail {
+    flex: 1;
+}
 .high_charts > .row, .delivery-trends .tabs_content_load .tab-content .tab-pane > .row {
     border-bottom: 1px dashed #70899E;
     margin: 10px 0;
     padding: 10px 0;
+}
+.high_charts > .row, .delivery-trends .tabs_content_load .tab-content .tab-pane > .row:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 .high_charts .img-box img, .delivery-trends .tabs_content_load .tab-content .tab-pane .img-box img{
     filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
@@ -3272,33 +3425,36 @@ input.viewer-toolbar-current-page-input {
     margin-bottom: 25px;
     border-bottom: 2px dashed #bbb;
 }
+.delivery-trends .tab-content .kpi-graph-inside:last-child {
+    border-bottom: 0;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
 .kpi-graph-inside .img-box .content-listed-shorting span {
     color: #a7a7a7;
     font-size: 24px;
     line-height: normal;
 }
 .kpi-graph-inside .img-box img {
-    max-width: 180px;
+    max-width: 100px;
     object-fit: contain;
-    margin-top: 7px;
+    margin-top: 5px;
     width: 100%;
     filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
 }
 .kpi-graph-inside .content-listed-content h3.remove_bg {
     background: none !important;
     padding-top: 6px;
-    font-size: 18px;
+    font-size: 17px;
     margin-bottom: 10px;
     color: #0b3a81;
     font-weight: 500;
-    text-transform: uppercase;
 }
 .kpi-graph-inside .content-listed-content h5.sub_title {
-    font-size: 16px;
+    font-size: 15px;
     color: #0b3a81;
     font-family: 'Roboto';
     font-weight: 500;
-    text-transform: uppercase;
 }
 .content-listed-content-inside {
     padding-top: 10px;
@@ -3380,20 +3536,20 @@ input.viewer-toolbar-current-page-input {
     justify-content: center;
     width: 100%;
 }
-.loader.tab-inside{
+
  .loader.tab-inside {
     position: absolute;
-    background: rgba(79, 79, 79, 0.3);
+    background: transparent;
     top: 48px;
     bottom: 0;
+    min-height:620px;
     height: calc(100% - 50px);
     border-radius: 0 0 20px 20px;
-}
-  .loader_show {
-    width: 100px;
-  height: 100px;
-  top: 32vh;
-}
+      .loader_show {
+        width: 100px;
+      height: 100px;
+      top: 32vh;
+    }
 }
 .tabs_content_load {
     position: relative;
@@ -3461,8 +3617,9 @@ input.viewer-toolbar-current-page-input {
     padding: 0 15px 0 0px;
 }
 .content_analytics .detail-box .media-left.media-middle img {
-    max-width: 120px;
+    max-width: 100px;
     width: 100%;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
 }
 .content_analytics .detail-box .media-body {
     flex: 1 1;
@@ -3540,6 +3697,7 @@ input.viewer-toolbar-current-page-input {
     width: auto;
     border-left: 1px solid $white;
     border-right: 1px solid $white;
+    flex: 1 1;
 }
 
 .high_charts.top ul.nav.nav-tabs li.nav-item:first-child {
@@ -3552,6 +3710,8 @@ input.viewer-toolbar-current-page-input {
     color: #0b3a81;
     background: rgb(11 58 129 / 16%);
     font-weight: 500;
+    height:100%;
+    width: 100%;
 }
 .high_charts.top ul.nav.nav-tabs li.nav-item button.active{
     background: #0b3a81;
@@ -3580,7 +3740,7 @@ input.viewer-toolbar-current-page-input {
     font-size: 16px;
 }
 
-.content_analytics_accordian .accordion-collapse .accordion-body {padding: 10px 20px;border: 2px solid #ececec;}
+.content_analytics_accordian .accordion-collapse .accordion-body {padding: 10px 0px;border: 2px solid #ececec;}
 
 .content_analytics_accordian .accordion-collapse .accordion-body .section-detail-box {
     width: 100%;
@@ -3670,8 +3830,8 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
     top: 0;
 }
 .create-change-content.analytic-charts .high_charts.space-added {
-    padding: 30px 15px 15px;
-    background: $white;
+    padding: 20px 10px 5px;
+    // background: $white;
     margin:0
 }
 .content_analytics .circle_graph .col:first-child::after {
@@ -3680,7 +3840,9 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
 .content_analytics .accordion-item {
     border: 0;
 }
-
+caption.highcharts-table-caption {
+    padding: 3px;
+}
 .content_analytics .accordion-item button.accordion-button {
     display: flex;
     align-items: center;
@@ -3690,6 +3852,7 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
     font-weight: 500;
     font-size: 20px;
     box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.2);
+    border-radius: 8px!important;
 }
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(3) {
     max-width: 250px;

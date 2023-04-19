@@ -182,14 +182,13 @@ const MapComponent = ({ data, status }) => {
             <Row>*/
       }
 
-            <div className="create-change-content spc-content analytic-charts">
+            
               <div className="high_charts"></div>
               <HighchartsReact
                 constructorType={"mapChart"}
                 highcharts={Highcharts}
                 options={mapOptions}
               />
-            </div>
             {/* <div className="high_charts">
               <HighchartsReact highcharts={Highcharts} options={countryList} />
             </div> */}

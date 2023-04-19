@@ -3,7 +3,7 @@ import { Col, Form, Row, Accordion, ProgressBar } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { postData } from "../../axios/apiHelper";
+import { postData, postFormData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
@@ -148,6 +148,25 @@ const ContentAnalytics = () => {
       link.click();
     });
   };
+
+  const downloadUniqueStats = async() => {
+    try {
+      loader("show");
+      const res = await postFormData(ENDPOINT.DOWNLOADARTICLEREADERS, {pdfId: selectedPdf}, {
+        responseType: "blob",
+      });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(res?.data);
+      link.href = url;
+      link.download = "readers.xlsx";
+      link.click();
+      loader("hide");
+    } catch (err) {
+      console.log(err);
+      loader("hide");
+    }
+  }
+
   return (
     <>
       <Col className="right-sidebar">
@@ -155,23 +174,6 @@ const ContentAnalytics = () => {
           <Row>
             <div className="top-header">
               <div className="page-title d-flex">
-                <Link
-                  className="btn btn-primary btn-bordered back-btn"
-                  to="/top-clients"
-                >
-                  <svg
-                    width="14"
-                    height="24"
-                    viewBox="0 0 14 24"
-                    fill="pdfOptionsnone"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                      fill="#97B6CF"
-                    />
-                  </svg>
-                </Link>
                 <h2>Content Analytics</h2>
               </div>
             </div>
@@ -201,8 +203,8 @@ const ContentAnalytics = () => {
                       />
                     </div>
                   </Form>
-                  <div className="clear-search">
-                    <button
+                  <div className="clear-search d-flex">
+                    <button style={{marginRight:"10px"}}
                       onClick={handleParent}
                       className="btn btn-outline-primary"
                     >
@@ -222,6 +224,14 @@ const ContentAnalytics = () => {
                           fill="#0066BE"
                         />
                       </svg>
+                    </button>
+
+                    <button
+                      onClick={downloadUniqueStats}
+                      className="btn btn-outline-primary"
+                    >
+                      <svg height="141.732px" viewBox="-0.288 -24.675 141.732 141.732" width="141.732px"  xmlns="http://www.w3.org/2000/svg"><g id="Livello_98">
+                      <path fill="#0066BE" d="M37.164,60.964C17.418,61.378,1.395,74.75,0,91.622h18.693l0.009-0.104c0.9-10.901,6.48-21.019,15.712-28.487   C35.305,62.312,36.223,61.622,37.164,60.964 M44.62,27.247c0-2.408,0.255-4.747,0.731-6.98c-2.211-1.199-4.662-1.872-7.244-1.872   c-9.761,0-17.673,9.526-17.673,21.279c0,11.395,7.437,20.695,16.78,21.253c4.202-2.928,8.886-5.22,13.868-6.815   c1.054-1.366,1.952-2.902,2.681-4.568C48.203,44.364,44.62,36.296,44.62,27.247 M92.995,26.994C92.995,12.085,82.958,0,70.578,0   C58.197,0,48.161,12.085,48.161,26.994c0,13.36,8.063,24.457,18.651,26.61C42.957,55.19,23.947,71.714,22.238,92.38h96.68   c-1.71-20.666-20.719-37.19-44.576-38.775C84.93,51.451,92.995,40.357,92.995,26.994 M120.72,40.436   c0-11.753-7.912-21.28-17.674-21.28c-2.583,0-5.031,0.676-7.243,1.872c0.479,2.233,0.729,4.573,0.729,6.98   c0,9.05-3.582,17.117-9.144,22.293c0.726,1.666,1.627,3.202,2.678,4.571c4.984,1.596,9.667,3.888,13.868,6.813   C113.285,61.13,120.72,51.829,120.72,40.436 M141.156,92.383c-1.396-16.872-17.418-30.243-37.164-30.657   c0.94,0.657,1.857,1.346,2.749,2.066c9.23,7.469,14.812,17.586,15.713,28.484l0.009,0.104L141.156,92.383L141.156,92.383z"/></g><g id="Livello_1_1_"/></svg>
                     </button>
                   </div>
                 </div>
@@ -309,77 +319,67 @@ const ReadersPerPageLayout = ({ data }) => {
       {data?.map((element, index) => {
         return (
           <React.Fragment key={index}>
-            <Row>
-              <Col>
+            <div className="analytics-detail-view-box">
+              <div className="analytics-detil-image">
                 <div>{element?.page}</div>
-              </Col>
-              <Col>
-                <div>
-                  <Row>
-                    <Col>
-                      <span>Ignored: </span>
-                    </Col>
-                    <Col>
+              </div>
+              <div className="analytics-reader-detail">
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">
+                      Ignored:
+                    </div>
+                    <div className="analytics-reader-progress ignored">
                       <ProgressBar
                         now={element?.ignored}
                         label={`${element?.ignored}% Complete`}
                       />
-                    </Col>
-                  </Row>
-                </div>
-                <div>
-                  <Row>
-                    <Col>
+                    </div>
+                  </div>
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">
                       <span>Browser: </span>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="analytics-reader-progress browsed">
                       <ProgressBar
                         now={element?.browsed}
                         label={`${element?.browsed}% Complete`}
                       />
-                    </Col>
-                  </Row>
-                </div>
-              </Col>
-              <Col>
-                <div>
-                  <Row>
-                    <Col>
-                      <span>Read: </span>
-                    </Col>
-                    <Col>
+                    </div>
+                  </div>
+              </div>
+              <div className="analytics-reader-detail">
+                <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">Read:
+                    </div>
+                    <div className="analytics-reader-progress read">
                       <ProgressBar
                         now={element?.read}
                         label={`${element?.read}% Complete`}
                       />
-                    </Col>
-                  </Row>
-                </div>
-                <div>
-                  <Row>
-                    <Col>
-                      <span>Reader: </span>
-                    </Col>
-                    <Col>
+                    </div>
+                  </div>
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">Reader
+                    </div>
+                    <div className="analytics-reader-progress reader">
                       <ProgressBar
                         now={element?.readers}
                         label={`${element?.readers}% Complete`}
                       />
-                    </Col>
-                  </Row>
-                </div>
-              </Col>
-              <Col>
-                <div>
-                  <span>Time Needed: </span>{" "}
+                    </div>
+                  </div>
+              </div>
+              <div className="analytics-time-detail">
+                <div className="time-needed">
+                  Time Needed:{" "}
                   <span>{element?.avgsecond} Seconds</span>
                 </div>
-                <div>
-                  <span>Time Spent: </span>{" "}
+                <div className="time-spent">
+                  Time Spent:{" "}
                   <span> {element?.timeSpent} Seconds</span>
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </div>
           </React.Fragment>
         );
       })}

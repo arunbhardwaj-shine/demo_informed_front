@@ -74,9 +74,16 @@ const TrendingContentOcta = () => {
         {isDataFound ? (
           <div className="custom-container">
             <Row>
-              <div className="delivery-trends">
-                <div className="custom-container">
-                  <DocintelAccount data={data} />
+              <div className="top-header">
+                <div className="page-title d-flex">
+                  <h2>Trending content</h2>
+                </div>
+              </div>
+              <div className="create-change-content spc-content analytic-charts">
+                <div className="delivery-trends space-added">
+                  <div className="custom-container">
+                    <DocintelAccount data={data} />
+                  </div>
                 </div>
               </div>
             </Row>
@@ -117,11 +124,11 @@ const DocintelAccount = ({ data }) => {
 
             return (
               <Row key={index}>
-                {index == 0 ? (
+                {/* {index == 0 ? (
                   <Row>
                     <h3>Trending content based on Read Through Rates</h3>{" "}
                   </Row>
-                ) : null}
+                ) : null} */}
 
                 <Col sm={2} md={2} className="img-box justify-content-center">
                   <span>{index + 1}</span>
@@ -144,9 +151,9 @@ const DocintelAccount = ({ data }) => {
                 <Col>
                   <h3> {element?.pdf_data?.Pdf?.title}</h3>
                   <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
-                  <Button className="btn next-content btn-bordered">
+                  <a className="btn next-content btn-filled" href={element?.pdf_data?.Pdf?.pdfLink} target="_blank">
                     Preview Article
-                  </Button>
+                  </a>
                   {element?.pdf_data?.Pdf?.product != undefined ? (
                     <span>{element?.pdf_data?.Pdf?.product}</span>
                   ) : null}

@@ -309,10 +309,10 @@ const PreviewContent = () => {
   };
 
   return (
-    <Col className="right-sidebar">
+    <Col className="right-sidebar custom-change">
       <div className="custom-container">
         <Row>
-          <div className="page-top-nav">
+          <div className="page-top-nav sticky">
             <div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">

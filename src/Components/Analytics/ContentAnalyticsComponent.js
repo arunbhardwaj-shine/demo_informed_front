@@ -153,7 +153,7 @@ export default function ContentAnalyticsComponent({ data }) {
               limit={agreed_limit}
             />
             <ContentAnalyticsComponentActivityGauge
-              value={data.opening}
+              value={data.uniqueReader}
               color="#f4c64b"
               limit={agreed_limit}
               label={`Unique Reader (total)<br>Agreed Limit | ${agreed_limit}`}
@@ -323,7 +323,7 @@ export default function ContentAnalyticsComponent({ data }) {
                     <span>{data.key_author ? data.key_author : "NA"}</span>
                   </div>
                   <div>{data.docintelLink}</div>
-                </Col> 
+                </Col>
                 <Col>
                   <div>
                     Consent type :<span>{data.linkType}</span>
@@ -358,7 +358,7 @@ export default function ContentAnalyticsComponent({ data }) {
                         <ProgressBar
                           now={get_precentage}
                           label={`${get_precentage}% Complete`}
-                      
+
                         />
                       </ProgressBar>
                     </div>
@@ -399,7 +399,7 @@ export default function ContentAnalyticsComponent({ data }) {
                 <Col>
                   <p> Downloads </p>
                 </Col>
-                
+
               </Row>
               <Row>
                 <ContentAnalyticsComponentActivityGauge
