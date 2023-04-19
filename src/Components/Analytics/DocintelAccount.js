@@ -54,9 +54,9 @@ const DocintelAccount = ({ data }) => {
                 <Col>
                   <h3> {element?.pdf_data?.Pdf?.title}</h3>
                   <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
-                  <Button className="btn next-content btn-bordered">
+                  <a className="btn next-content btn-filled" href={element?.pdf_data?.Pdf?.pdfLink} target="_blank">
                     Preview Article
-                  </Button>
+                  </a>
                   {element?.pdf_data?.Pdf?.product != undefined ? (
                     <span>{element?.pdf_data?.Pdf?.product}</span>
                   ) : null}

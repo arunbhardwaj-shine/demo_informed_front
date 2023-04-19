@@ -294,9 +294,12 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
                                 options={lineOption}
                               />
                             </div>
-                            <div className="con_title">
-                              Content in activated HCP Docintel accounts
-                            </div>
+                            {
+                              /*<div className="con_title">
+                                Content in activated HCP Docintel accounts
+                              </div>*/
+                            }
+
                             <DocintelAccount data={activeTab.current ? data:null} />
                             </>
                           ) :
