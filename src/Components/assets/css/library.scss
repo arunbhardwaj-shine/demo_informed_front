@@ -3528,8 +3528,78 @@ input.viewer-toolbar-current-page-input {
 .detail-box-grid .reparkive .reparkive-box span {
     margin: 3px 0 0;
 }
+.high_charts.top{
+  padding:0 10px;
+}
+.high_charts.top ul.nav.nav-tabs {
+    border-bottom: 1px solid rgb(11 58 129);
+    padding-top: 20px;
+}
+
+.high_charts.top ul.nav.nav-tabs li.nav-item {
+    width: auto;
+    border-left: 1px solid $white;
+    border-right: 1px solid $white;
+}
+
+.high_charts.top ul.nav.nav-tabs li.nav-item:first-child {
+    border-left: 0;
+}
+.high_charts.top ul.nav.nav-tabs li.nav-item button {
+    font-size: 14px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #0b3a81;
+    color: #0b3a81;
+    background: rgb(11 58 129 / 16%);
+    font-weight: 500;
+}
+.high_charts.top ul.nav.nav-tabs li.nav-item button.active{
+    background: #0b3a81;
+    color:$white;
+}
+.content_analytics .content_analytics_accordian .accordion-header button {
+    font-size: 16px;
+}
+.content_analytics_accordian .accordion-header {
+    line-height: 22px;
+    border-radius: 5px;
+    margin: 10px 0px;
+}
+.content_analytics_accordian .accordion-button:not(.collapsed) {
+    color: #1C3D7C;
+    background-color: $white;
+    box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.2);
+}
+.content_analytics_accordian .accordion-header {
+    line-height: 22px;
+    border-radius: 5px;
+    margin: 10px 0px;
+}
+
+.content_analytics .content_analytics_accordian .accordion-header button {
+    font-size: 16px;
+}
+
+.content_analytics_accordian .accordion-collapse .accordion-body {padding: 10px 20px;border: 2px solid #ececec;}
+
+.content_analytics_accordian .accordion-collapse .accordion-body .section-detail-box {
+    width: 100%;
+    justify-content: space-between;
+}
+.content_analytics_accordian .section-detail-box .detail_section_heading {
+    font-size: 20px;
+    color: #1A3870;
+    font-weight: 700;
+}
+
+.content_analytics_accordian .section-detail-box .detail_section_pages {
+    color: #646464;
+    letter-spacing: 0.035em;
+    font-size: 14px;
+    font-weight: 600;
+}
 .reparkive-box.second {
-    flex: 0 0 170px;
+    flex: 0 0 140px;
     color: #797979;
     font-size: 12px;
     font-weight: 400;
@@ -4504,7 +4574,7 @@ svg.pencil_icon {
           margin-top: 26px;
         }
       }
-    } 
+    }
     .contact-right {
       width: 780px;
       background-color: #F0EEE4;
@@ -4884,7 +4954,7 @@ svg.pencil_icon {
           max-width: 52px!important;
           right: -10px;
           cursor: pointer;
-          z-index: 99;  
+          z-index: 99;
           &:hover + .hover-image{
             display: block;
             margin-top: 23px;
@@ -4952,11 +5022,11 @@ svg.pencil_icon {
     &.left-space{
       max-width: 550px;
       margin-top: 12px;
-      .video_popup_icon{ 
+      .video_popup_icon{
         .watch-demo {
           bottom: -20px;
           right: 30px;
-        } 
+        }
       }
     }
   }
