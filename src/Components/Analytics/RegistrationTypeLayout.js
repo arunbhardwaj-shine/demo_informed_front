@@ -105,7 +105,7 @@ const RenderLayout = ({ data }) => {
                     <span>{index + 1}</span>
                   </div>
                   <Image
-                    src="https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png"
+                    src={element?.image}
                     alt="Image Not Available"
                   />
                 </Col>
@@ -310,9 +310,9 @@ const RenderLayout = ({ data }) => {
                     </h5>
                   </Col>
                   <Col className="d-flex justify-content-end">
-                    <Button className="btn next-content btn-bordered">
+                    <a className="btn next-content btn-filled" href={element?.pdfLink ? element.pdfLink : "#"} target="_blank">
                       Preview Article
-                    </Button>
+                    </a>
                     <Button
                       className="btn next-content btn-bordered"
                       onClick={() => handleDownloadClick(element.pdf_id)}
