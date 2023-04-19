@@ -3078,7 +3078,7 @@ section.verify_email.content_details {
     width: 100%;
     max-width: 100%;
     border: 1px solid #dee2e6;
-    background: #fff;
+    background: $white;
 }
 
 .high_charts .highcharts-data-table table thead tr {
@@ -3394,7 +3394,7 @@ input.viewer-toolbar-current-page-input {
     border: 1px solid #EEEFEF;
     margin: 0 0 15px;
     box-shadow: 0px 0px 8px rgba(1, 76, 141, 0.19);
-    background: #fff;
+    background: $white;
 }
 .detail-box .media-left.media-middle {
     padding: 0 15px 0 0px;
@@ -3490,7 +3490,7 @@ input.viewer-toolbar-current-page-input {
 }
 .content_analytics {
     padding: 20px;
-    background: #ffffff;
+    background: $white;
 }
 .reparkive-box.second .progress {
     margin: 0;
@@ -3570,18 +3570,18 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
 }
 .analytic-charts.space-added {
     padding: 0 10px;
-    background: #fff;
+    background: $white;
 }
 .create-change-content.analytic-charts .high_charts.top {
     margin-top: 0;
     padding: 20px 0;
-    background: #fff;
+    background: $white;
     border-radius: 20px;
 }
 
 .analytic-charts.space-added {
     padding: 0 10px;
-    background: #fff;
+    background: $white;
 }
 
 .high_charts.top ul.nav.nav-tabs {
@@ -3591,8 +3591,8 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
 
 .high_charts.top ul.nav.nav-tabs li.nav-item {
     width: auto;
-    border-left: 1px solid #fff;
-    border-right: 1px solid #fff;
+    border-left: 1px solid $white;
+    border-right: 1px solid $white;
 }
 
 .high_charts.top ul.nav.nav-tabs li.nav-item:first-child {
@@ -3673,7 +3673,7 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
                 }
                 .btn{
                   background-color: #0066be;
-                  color: #fff;
+                  color: $white;
                   width: 100%;
                   text-align: center;
                   border-radius: 40px 40px 0px 40px;
@@ -4062,7 +4062,7 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
           }
           p{
             max-width: 490px;
-            color: #fff;
+            color: $white;
             font-family: Mulish;
             font-weight: normal;
             font-size: 18px;
