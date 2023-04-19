@@ -87,6 +87,11 @@ const RegistrationType = () => {
         {/*data.length > 0 ? (*/}
           <div className="custom-container">
             <Row>
+              <div className="top-header">
+                <div className="page-title d-flex">
+                  <h2>Top Content</h2>
+                </div>
+              </div>
               <div className="create-change-content spc-content analytic-charts">
               <div className="form_action">
                 <Form className="product-unit d-flex justify-content-between align-items-center">
