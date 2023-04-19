@@ -76,7 +76,7 @@ const OctalatchDeliveryRegistration = () => {
               </div>
               <div className="create-change-content spc-content analytic-charts">
                 <div className="high_charts">
-                  <CommonPieChart data={pieData} />
+                  <CommonPieChart data={pieData?.pie_keys} value={pieData?.pie_values} />
                 </div>
 
                 {Object.keys(data)?.map((item, index) => (
