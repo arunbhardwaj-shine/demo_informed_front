@@ -11,6 +11,7 @@ import HighchartsReact from "highcharts-react-official";
 import { Link } from "react-router-dom";
 import CommonLineGraph from "./CommonLineGraph";
 import CommonPieChart from "./CommonPieChart";
+import axios from "axios";
 exporting(Highcharts);
 exportData(Highcharts);
 const OctalatchDeliveryRegistration = () => {
@@ -29,28 +30,32 @@ const OctalatchDeliveryRegistration = () => {
     loader("show");
 
     try {
-      const response = await getData(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION);
+      // const response = await getData(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION);
 
-      const hadData = response?.data?.response?.data;
-      const pieData = response?.data?.response?.pie_graph;
+      axios
+        .get(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION)
+        .then((response) => {
+          const hadData = response?.data?.response?.data;
+          const pieData = response?.data?.response?.pie_graph;
 
-      if (hadData.length <= 0) {
-        setIsDataFound(false);
-        loader("hide");
-        return;
-      }
+          if (hadData.length <= 0) {
+            setIsDataFound(false);
+            loader("hide");
+            return;
+          }
 
-      const ibu = hadData?.Ibu;
+          const ibu = hadData?.Ibu;
 
-      const data = hadData;
+          const data = hadData;
 
-      const months = ibu?.IBU_Docintel_code?.months;
+          const months = ibu?.IBU_Docintel_code?.months;
 
-      setPieData(pieData);
-      setData(data);
-      setMonth(months);
+          setPieData(pieData);
+          setData(data);
+          setMonth(months);
 
-      setIsDataFound(true);
+          setIsDataFound(true);
+        });
     } catch (err) {
       setIsDataFound(false);
     }
