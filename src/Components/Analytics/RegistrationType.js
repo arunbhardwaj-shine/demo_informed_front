@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Tab, Tabs, Form} from "react-bootstrap";
 import Highcharts from "highcharts";
-import { loader } from "../../loader";
 import Select from "react-select";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";

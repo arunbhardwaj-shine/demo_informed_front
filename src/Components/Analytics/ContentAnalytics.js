@@ -300,81 +300,71 @@ const ReadersPerPageLayout = ({ data }) => {
       <div class="section-detail-box d-flex">
         <div class="detail_section_heading">Readers Per Page</div>
         <div class="detail_section_pages">Total : data?.length Pages</div>
-                        </div>
+      </div>
       {data?.map((element, index) => {
         return (
           <React.Fragment key={index}>
-            <Row>
-              <Col>
+            <div className="analytics-detail-view-box">
+              <div className="analytics-detil-image">
                 <div>{element?.page}</div>
-              </Col>
-              <Col>
-                <div>
-                  <Row>
-                    <Col>
-                      <span>Ignored: </span>
-                    </Col>
-                    <Col>
+              </div>
+              <div className="analytics-reader-detail">
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">
+                      Ignored:
+                    </div>
+                    <div className="analytics-reader-progress ignored">
                       <ProgressBar
                         now={element?.ignored}
                         label={`${element?.ignored}% Complete`}
                       />
-                    </Col>
-                  </Row>
-                </div>
-                <div>
-                  <Row>
-                    <Col>
+                    </div>
+                  </div>
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">
                       <span>Browser: </span>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="analytics-reader-progress browsed">
                       <ProgressBar
                         now={element?.browsed}
                         label={`${element?.browsed}% Complete`}
                       />
-                    </Col>
-                  </Row>
-                </div>
-              </Col>
-              <Col>
-                <div>
-                  <Row>
-                    <Col>
-                      <span>Read: </span>
-                    </Col>
-                    <Col>
+                    </div>
+                  </div>
+              </div>
+              <div className="analytics-reader-detail">
+                <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">Read:
+                    </div>
+                    <div className="analytics-reader-progress read">
                       <ProgressBar
                         now={element?.read}
                         label={`${element?.read}% Complete`}
                       />
-                    </Col>
-                  </Row>
-                </div>
-                <div>
-                  <Row>
-                    <Col>
-                      <span>Reader: </span>
-                    </Col>
-                    <Col>
+                    </div>
+                  </div>
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">Reader
+                    </div>
+                    <div className="analytics-reader-progress reader">
                       <ProgressBar
                         now={element?.readers}
                         label={`${element?.readers}% Complete`}
                       />
-                    </Col>
-                  </Row>
-                </div>
-              </Col>
-              <Col>
-                <div>
-                  <span>Time Needed: </span>{" "}
+                    </div>
+                  </div>
+              </div>
+              <div className="analytics-time-detail">
+                <div className="time-needed">
+                  Time Needed:{" "}
                   <span>{element?.avgsecond} Seconds</span>
                 </div>
-                <div>
-                  <span>Time Spent: </span>{" "}
+                <div className="time-spent">
+                  Time Spent:{" "}
                   <span> {element?.timeSpent} Seconds</span>
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </div>
           </React.Fragment>
         );
       })}
