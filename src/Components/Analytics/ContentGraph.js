@@ -264,55 +264,61 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
       <Col className="right-sidebar">
           <div className="custom-container">
             <Row>
-              <div className="delivery-trends">
-                <div className="custom-container">
-                  <h3>Content in activated HCP Docintel accounts</h3>
-                  <div className="tabs_content_load">
-                    <Tabs
-                      defaultActiveKey={activeTab.current}
-                      onSelect={handleTabChange}
-                    >
-                      <Tab eventKey="1" title="All Business Units"></Tab>
-                      <Tab eventKey="2" title="Haematology"></Tab>
-                      <Tab eventKey="3" title="Critical Care"></Tab>
-                      <Tab eventKey="4" title="Immunotherapy"></Tab>
-                      <Tab eventKey="5" title="IBU">  </Tab>
-                    </Tabs>
-
-
-                    <Row>
-                      {isDataFound && data.length > 0 ? (
-                        <>
-                        <div className="high_charts">
-                          <HighchartsReact
-                            highcharts={Highcharts}
-                            options={lineOption}
-                          />
-                        </div>
-                        <div className="con_title">
-                          Content in activated HCP Docintel accounts
-                        </div>
-                        <DocintelAccount data={activeTab.current ? data:null} />
-                        </>
-                      ) :
-                      apiCallStatus ?
-                      <div className="no_found">
-                             <p>No Data Found</p>
-                       </div>
-                       : null
-                     }
-                    </Row>
-
-                    {
-                      sectionLoader ?
-
-                      <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
-                        <div className="loader_show"><span className="loader-view"> </span></div>
-                      </div>
-                      : ''
-                    }
-                  </div>
+              <div className="top-header">
+                <div className="page-title d-flex">
+                      <h2>Content in activated HCP Docintel accounts</h2>
                 </div>
+              </div>
+              <div className="create-change-content spc-content analytic-charts">
+                  <div className="delivery-trends">
+                    <div className="custom-container">
+                      <div className="tabs_content_load">
+                        <Tabs
+                          defaultActiveKey={activeTab.current}
+                          onSelect={handleTabChange}
+                        >
+                          <Tab eventKey="1" title="All Business Units"></Tab>
+                          <Tab eventKey="2" title="Haematology"></Tab>
+                          <Tab eventKey="3" title="Critical Care"></Tab>
+                          <Tab eventKey="4" title="Immunotherapy"></Tab>
+                          <Tab eventKey="5" title="IBU">  </Tab>
+                        </Tabs>
+
+
+                        <Row>
+                          {isDataFound && data.length > 0 ? (
+                            <>
+                            <div className="high_charts">
+                              <HighchartsReact
+                                highcharts={Highcharts}
+                                options={lineOption}
+                              />
+                            </div>
+                            <div className="con_title">
+                              Content in activated HCP Docintel accounts
+                            </div>
+                            <DocintelAccount data={activeTab.current ? data:null} />
+                            </>
+                          ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                         }
+                        </Row>
+
+                        {
+                          sectionLoader ?
+
+                          <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
+                            <div className="loader_show"><span className="loader-view"> </span></div>
+                          </div>
+                          : ''
+                        }
+                      </div>
+                    </div>
+                  </div>
               </div>
             </Row>
           </div>
