@@ -60,9 +60,9 @@ const RegistrationType = () => {
     setIsDataFound(false);
     setSectionLoader(true);
     activeTab.current = event;
-    if (event === 1) {
+    if (event == 1) {
       getDataFromApi("view");
-    } else if (event === 2) {
+    } else if (event == 2) {
       getDataFromApi("reader");
     }
   };
@@ -71,9 +71,9 @@ const RegistrationType = () => {
     setIsDataFound(false);
     setSectionLoader(true);
     selectedOptions.current = e.value;
-    if (activeTab.current === 1) {
+    if (activeTab.current == 1) {
       getDataFromApi("view");
-    } else if (activeTab.current === 2) {
+    } else if (activeTab.current == 2) {
       getDataFromApi("reader");
     }
   };
