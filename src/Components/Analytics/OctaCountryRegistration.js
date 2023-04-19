@@ -165,27 +165,27 @@ const MapComponent = ({ data }) => {
   });
 
   useEffect(() => {
-    const getDataFromApi = async () => {
-      try {
-        const countryData = data?.response?.data.map((coordObject, index) => {
-          const [lat, lon] = coordObject.coordinates.split("~");
-
-          return {
-            name: coordObject.region_name,
-            totalIndex: coordObject.total,
-            lat: parseFloat(lat),
-            lon: parseFloat(lon),
-          };
-        });
-
-        setNewData(countryData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getDataFromApi();
   }, []);
+
+  const getDataFromApi = async () => {
+    try {
+      const countryData = data?.response?.data.map((coordObject, index) => {
+        const [lat, lon] = coordObject.coordinates.split("~");
+
+        return {
+          name: coordObject.region_name,
+          totalIndex: coordObject.total,
+          lat: parseFloat(lat),
+          lon: parseFloat(lon),
+        };
+      });
+
+      setNewData(countryData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
