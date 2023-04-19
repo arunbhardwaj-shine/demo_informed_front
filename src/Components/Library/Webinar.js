@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Form, Modal, Button } from "react-bootstrap";
 import Select from "react-select";
 
 const Webinar = () => {
   const [userInputs, setUserInputs] = useState({});
+  const [signInModal, setSignInModal] = useState(false);
   const [selctOptions, setSelectOptions] = useState([
     { value: "1", label: "1" },
     { value: "2", label: "2" },
@@ -24,6 +25,17 @@ const Webinar = () => {
         : e?.target?.value,
     });
   };
+
+  const handleSubmit = async (e) => {
+    console.log("userInputs", userInputs);
+  };
+
+  const clickSignInButton = (e) => {
+    e.preventDefault();
+    setSignInModal(true);
+  };
+
+  useEffect(() => {}, []);
   return (
     <>
       {/* ---------------header section start here------------- */}
@@ -116,15 +128,15 @@ const Webinar = () => {
                 </ul>
                 <ul>
                   <li>
-                    <a
-                      href="#"
+                    <Button
                       className="sign"
                       data-toggle="modal"
                       data-target="#myModal"
+                      onClick={clickSignInButton}
                     >
                       Sign in
                       <img src="./img/signin.svg" alt="" />
-                    </a>
+                    </Button>
                   </li>
                 </ul>
               </div>
@@ -309,9 +321,7 @@ const Webinar = () => {
 
             <div className="col-md-12 d-flex justify-content-between">
               <h2>Platform Features</h2>
-              <a href="" className="btnn">
-                Request Demo
-              </a>
+              <a className="btnn">Request Demo</a>
             </div>
           </div>
         </div>
@@ -795,7 +805,7 @@ const Webinar = () => {
           <div className="container">
             <div className="row">
               <div className="demo-video-form">
-                <form className="form-horizontal" action="">
+                <div className="form-horizontal">
                   <h2>Get a FREE Walkthrough</h2>
                   <p>
                     Need further Information?
@@ -844,9 +854,9 @@ const Webinar = () => {
                     <div className="form-group select-option">
                       <Select
                         options={selctOptions}
-                        name="select"
-                        placeholder="Select"
-                        onChange={(e) => handleChange(e, "select")}
+                        name="service"
+                        placeholder="Service"
+                        onChange={(e) => handleChange(e?.value, "service")}
                       />
                     </div>
                     <div className="form-group">
@@ -855,13 +865,19 @@ const Webinar = () => {
                         rows="5"
                         id="comment"
                         placeholder="Comments"
+                        onChange={(e) =>
+                          handleChange(e?.target?.value, "comment")
+                        }
                       ></textarea>
                     </div>
                   </div>
-                  <button type="submit" className="btn btn-default requst-demo">
+                  <button
+                    className="btn btn-default requst-demo"
+                    onClick={(e) => handleSubmit(e)}
+                  >
                     Request Demo
                   </button>
-                </form>
+                </div>
               </div>
             </div>
           </div>
@@ -943,76 +959,78 @@ const Webinar = () => {
                 width="100%"
                 height="611"
                 src="https://www.youtube.com/embed/IwpXTjighY8"
-                frameborder="0"
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
+                allowFullScreen
               ></iframe>
             </div>
           </div>
         </div>
       </div>
-      <div className="login-form-view">
-        <div className="modal fade" id="myModal">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button type="button" className="close" data-dismiss="modal">
-                  &times;
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="row no-gutters">
-                  <div className="col-md-5">
-                    <div className="login-form-view-left">
-                      <div className="form-bg-image">
-                        <img src="./img/modal-banner-img.png" alt="" />
-                      </div>
-                      <div className="image-over-txt">
-                        <img src="./img/login-popup-img.png" alt="" />
-                        <ul className="form-view-left-txt">
-                          <li>DocIntel</li>|<li> Webinars</li>
-                        </ul>
+      <Modal show={signInModal}>
+        <div className="login-form-view">
+          <div className="modal fade" id="myModal">
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <button type="button" className="close" data-dismiss="modal">
+                    &times;
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <div className="row no-gutters">
+                    <div className="col-md-5">
+                      <div className="login-form-view-left">
+                        <div className="form-bg-image">
+                          <img src="./img/modal-banner-img.png" alt="" />
+                        </div>
+                        <div className="image-over-txt">
+                          <img src="./img/login-popup-img.png" alt="" />
+                          <ul className="form-view-left-txt">
+                            <li>DocIntel</li>|<li> Webinars</li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-md-7">
-                    <div className="login-form-view-right">
-                      <h3>Sign In</h3>
-                      <form>
-                        <div className="form-group">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="exampleInputname"
-                            placeholder="Username"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <input
-                            type="password"
-                            className="form-control"
-                            id="exampleInputPassword1"
-                            placeholder="Password"
-                          />
-                        </div>
-                        <button
-                          type="submit"
-                          className="btn btn-primary signin_btn"
-                        >
-                          Sign In
-                        </button>
-                        <button
-                          type="submit"
-                          className="btn btn-primary signup_btn"
-                        >
-                          Sign Up
-                        </button>
-                        <div className="forgot_password">
-                          <a href="#!" className="forgot-password-link">
-                            Forgot password?
-                          </a>
-                        </div>
-                      </form>
+                    <div className="col-md-7">
+                      <div className="login-form-view-right">
+                        <h3>Sign In</h3>
+                        <form>
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="exampleInputname"
+                              placeholder="Username"
+                            />
+                          </div>
+                          <div className="form-group">
+                            <input
+                              type="password"
+                              className="form-control"
+                              id="exampleInputPassword1"
+                              placeholder="Password"
+                            />
+                          </div>
+                          <button
+                            type="submit"
+                            className="btn btn-primary signin_btn"
+                          >
+                            Sign In
+                          </button>
+                          <button
+                            type="submit"
+                            className="btn btn-primary signup_btn"
+                          >
+                            Sign Up
+                          </button>
+                          <div className="forgot_password">
+                            <a href="#!" className="forgot-password-link">
+                              Forgot password?
+                            </a>
+                          </div>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1020,7 +1038,7 @@ const Webinar = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Modal>
     </>
   );
 };
