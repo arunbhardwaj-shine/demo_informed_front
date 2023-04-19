@@ -107,6 +107,8 @@ const CommonModel = ({
               placeholder={item?.placeholder}
               className="form-control"
               onChange={handleModelChange}
+              defaultValue={item?.value?item?.value:""}
+
               // onChange={handleChange}
             />
             {errors?.[item?.name ? item?.name : item?.label] ? (

@@ -59,6 +59,10 @@ const SetPopup = (props) => {
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
   );
+  const [isEdit, setIsEdit] = useState(
+    typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
+  );
+  const [changeEditorCount, setChangeEditorCount] = useState(0);
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",
     language: "",
@@ -254,6 +258,7 @@ const SetPopup = (props) => {
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
     setPopupNo(template.popupNo);
+    setChangeEditorCount(0);
     e.target.classList.toggle("select_mm");
   };
 
@@ -290,7 +295,7 @@ const SetPopup = (props) => {
       loader("hide");
       if (state?.fileType != "video") {
         navigate("/preview-content", {
-          state: { pdfId: articleId },
+          state: { pdfId: articleId, isEdit: isEdit },
         });
       } else {
         navigate("/content-detail", {
@@ -349,15 +354,33 @@ const SetPopup = (props) => {
                       </Col>
                       <Col md="9">
                         <ul className="tabnav-link">
-                          <li className="">
-                            <a href="">Create Your Content</a>
-                          </li>
-                          <li className="active active-main">
-                            <a href="">Edit Consent Option</a>
-                          </li>
-                          <li className="">
-                            <a href="">Preview Your Content &amp; Publish</a>
-                          </li>
+                          {
+                            isEdit == 1 ?
+                              <>
+                                <li className="">
+                                  <a href="">Edit Your Content</a>
+                                </li>
+                                <li className="active active-main">
+                                  <a href="">Edit Consent Option</a>
+                                </li>
+                                <li className="">
+                                  <a href="">Approve Your Content &amp; Save</a>
+                                </li>
+                              </>
+                            :
+                            <>
+                              <li className="">
+                                <a href="">Create Your Content</a>
+                              </li>
+                              <li className="active active-main">
+                                <a href="">Edit Consent Option</a>
+                              </li>
+                              <li className="">
+                                <a href="">Preview Your Content &amp; Publish</a>
+                              </li>
+                            </>
+                          }
+
                         </ul>
                       </Col>
                       <Col md="2">
@@ -606,11 +629,11 @@ const SetPopup = (props) => {
                                       </Button>
                                     </div>
                                   ) : (
-                                    <div className="form-buttons form-buttons-template right-side">
+                                    <div className= "form-buttons form-buttons-template right-side">
                                       {templateClickedd ? (
                                         <>
                                           <Button
-                                            className="btn btn-primary btn-filled"
+                                            className={changeEditorCount == 1 ? "btn btn-primary btn-filled btn-disabled" :"btn btn-primary btn-filled"}
                                             onClick={(e) => {
                                               updateTemplate(e);
                                               e.preventDefault();
@@ -654,6 +677,7 @@ const SetPopup = (props) => {
                         }}
 
                         onEditorChange={(content) => {
+                          setChangeEditorCount( parseInt(changeEditorCount) + parseInt(1) );
                           setTemplateSaving(content);
                         }}
                       />

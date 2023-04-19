@@ -374,6 +374,7 @@ const EditLicense = () => {
           state: {
             pdfId: state?.pdfid,
             fileType: userInputs?.docintelFormat,
+            isEdit: 1,
           },
         });
       } catch (err) {

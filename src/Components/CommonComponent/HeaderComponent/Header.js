@@ -181,24 +181,25 @@ const Header = () => {
                 </li>
                 <li
                   className={
-                    window.location.pathname == "EmailArticleSelect" ||
-                    window.location.pathname == "EmailList" ||
-                    window.location.pathname == "CreateEmail" ||
-                    window.location.pathname == "SelectHCP" ||
-                    window.location.pathname == "SelectSmartList" ||
-                    window.location.pathname == "SelectSmartListUsers" ||
-                    window.location.pathname == "VerifyMAIL" ||
-                    window.location.pathname == "verifyMAIL" ||
-                    window.location.pathname == "VerifyHcpMAIL" ||
-                    window.location.pathname == "CreateSmartList" ||
-                    window.location.pathname == "SmartListFilter" ||
-                    window.location.pathname == "AutoEmail" ||
-                    window.location.pathname == "TemplateBuilder" ||
-                    window.location.pathname == "SmartList" ||
-                    window.location.pathname == "ViewSmartList" ||
-                    window.location.pathname == "EditList" ||
-                    window.location.pathname == "EmailStatss" ||
-                    window.location.pathname == "get-details"
+                    window.location.pathname == "/EmailArticleSelect" ||
+                    window.location.pathname == "/EmailList" ||
+                    window.location.pathname == "/CreateEmail" ||
+                    window.location.pathname == "/SelectHCP" ||
+                    window.location.pathname == "/SelectSmartList" ||
+                    window.location.pathname == "/SelectSmartListUsers" ||
+                    window.location.pathname == "/VerifyMAIL" ||
+                    window.location.pathname == "/verifyMAIL" ||
+                    window.location.pathname == "/VerifyHcpMAIL" ||
+                    window.location.pathname == "/CreateSmartList" ||
+                    window.location.pathname == "/SmartListFilter" ||
+                    window.location.pathname == "/AutoEmail" ||
+                    window.location.pathname == "/TemplateBuilder" ||
+                    window.location.pathname == "/SmartList" ||
+                    window.location.pathname == "/ViewSmartList" ||
+                    window.location.pathname == "/EditList" ||
+                    window.location.pathname == "/EmailStatss" ||
+                    window.location.pathname == "/bounced-email" ||
+                    window.location.pathname == "/get-details"
                       ? "nav-item active active-main"
                       : "nav-item"
                   }

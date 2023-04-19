@@ -31,7 +31,8 @@ const RenderPdf = ({
   handleNext,
   hidePopup,
   trigger,
-  updatePublish
+  updatePublish,
+  editStatus
 }) => {
   const [page, setPage]   = useState(1);
   const [scale, setScale] = useState(1);
@@ -89,7 +90,8 @@ const RenderPdf = ({
             let btn_val = "";
             if (typeof next !=="undefined")
             {
-              btn_val = next == 1 ? "Next" : "Publish";
+              btn_val = next == 1 ? "Next" :
+              editStatus == 1 ? "Save" : "Publish";
             }
             setModalBtn(btn_val);
             if(hidePopup == 0){
@@ -206,7 +208,7 @@ const optimizeSinglePagePdf = () => {
       let btn_val = "";
       if (typeof next !=="undefined")
       {
-        btn_val = next == 1 ? "Next" : "Publish";
+        btn_val = next == 1 ? "Next" : editStatus == 1 ? "Save" : "Publish";
       }
       setModalBtn(btn_val);
       if(hidePopup == 0){

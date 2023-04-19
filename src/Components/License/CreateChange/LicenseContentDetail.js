@@ -173,25 +173,30 @@ const LicenseContentDetail = () => {
                                           ? data?.key_author
                                           : "N/A"}
                                       </h6>
-                                      <h6>
-                                        <strong>Topics | </strong>
-                                        <ul>
-                                          {data?.tags
-                                            ? JSON?.parse(data?.tags)?.map(
-                                                (topic, id) => {
-                                                  return (
-                                                    <>
-                                                      <li className="list1">
-                                                        {topic.innerHTML ||
-                                                          topic}{" "}
-                                                      </li>
-                                                    </>
-                                                  );
-                                                }
-                                              )
-                                            : "N/A"}
-                                        </ul>
-                                      </h6>
+                                      {
+                                        localStorage.getItem("group_id") == "3" ?
+                                        <h6>
+                                          <strong>Topics | </strong>
+                                          <ul>
+                                            {data?.tags
+                                              ? JSON?.parse(data?.tags)?.map(
+                                                  (topic, id) => {
+                                                    return (
+                                                      <>
+                                                        <li className="list1">
+                                                          {topic.innerHTML ||
+                                                            topic}{" "}
+                                                        </li>
+                                                      </>
+                                                    );
+                                                  }
+                                                )
+                                              : "N/A"}
+                                          </ul>
+                                        </h6>
+                                        : null
+                                      }
+
                                       <h6>
                                         <strong>Docintel | </strong>
                                         <a
@@ -392,30 +397,42 @@ const LicenseContentDetail = () => {
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
-                                                <tr>
-                                                  <th>Uploaded chapters</th>
-                                                  <td>
-                                                    {data?.chapterCount
-                                                      ? data?.chapterCount
-                                                      : "N/A"}
-                                                  </td>
-                                                </tr>
-                                                <tr>
-                                                  <th>Included videos</th>
-                                                  <td>
-                                                    {data?.file_type == "video"
-                                                      ? "Yes"
-                                                      : "N/A"}
-                                                  </td>
-                                                </tr>
-                                                <tr>
-                                                  <th>Saved as draft</th>
-                                                  <td>
-                                                    {data?.draft
-                                                      ? "Yes"
-                                                      : "N/A"}
-                                                  </td>
-                                                </tr>
+                                                {
+                                                  data?.file_type == "ebook" ?
+                                                    <tr>
+                                                      <th>Uploaded chapters</th>
+                                                      <td>
+                                                        {data?.chapterCount
+                                                          ? data?.chapterCount
+                                                          : "N/A"}
+                                                      </td>
+                                                    </tr>
+                                                  : null
+                                                }
+                                                {
+                                                  data?.file_type == "video" ?
+                                                  <tr>
+                                                    <th>Included videos</th>
+                                                    <td>
+                                                      {data?.file_type == "video"
+                                                        ? "Yes"
+                                                        : "N/A"}
+                                                    </td>
+                                                  </tr>
+                                                  : null
+                                                }
+                                                {
+                                                  localStorage.getItem("group_id") == "3" ?
+                                                    <tr>
+                                                      <th>Saved as draft</th>
+                                                      <td>
+                                                        {data?.draft
+                                                          ? "Yes"
+                                                          : "N/A"}
+                                                      </td>
+                                                    </tr>
+                                                  :  null
+                                                }  
                                                 <tr>
                                                   <th>
                                                     Production notes to Docintel
