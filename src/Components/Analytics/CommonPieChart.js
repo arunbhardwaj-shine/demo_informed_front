@@ -5,12 +5,14 @@ import exportData from "highcharts/modules/export-data";
 exporting(Highcharts);
 exportData(Highcharts);
 
-const CommonPieChart = ({ data }) => {
+const CommonPieChart = ({ data, value }) => {
+  console.log("component", data);
+  console.log("value", value);
   const series = [];
-  data?.pie_keys?.map((element, index) => {
+  data?.map((element, index) => {
     const newSeries = {
       name: element,
-      y: data?.pie_values[index],
+      y: value[index],
       color: Highcharts.getOptions().colors[index],
     };
 
