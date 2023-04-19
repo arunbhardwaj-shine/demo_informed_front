@@ -3034,6 +3034,14 @@ section.verify_email.content_details {
 .after-selected ul.after-tag-selected li img {
     filter: brightness(0) invert(1)!important;
 }
+.form-group .modal-form-group {
+  position: relative;
+}
+.form-group .modal-form-group .login-validation {
+  bottom: -27px;
+  left: 0;
+  right: auto;
+}
 /**Reader Style End**/
 
 
@@ -3590,6 +3598,7 @@ svg.pencil_icon {
   width: 12px;
   height: 12px;
   margin-left: 5px;
+  cursor: pointer;
 }
 /**Analytics page End**/
 
@@ -4775,11 +4784,157 @@ svg.pencil_icon {
     width: 100%;
     max-width: 1092px;
     margin: auto;
+    h5{
+    font-weight: bold;
+    letter-spacing: -0.460227px;
+    color: #8A4E9C;
+    margin-bottom: 25px;
+
+    }
+    ul.feature-list {
+    margin: 0px -30px;
+    padding: 0px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    li {
+      margin: 0px 0 10px;
+      padding: 0px 15px;
+      width: 30%;
+      text-align: center;
+      list-style: none;
+      display: inline-block;
+      img {
+          width: auto;
+          height: 54px;
+      }
+      p {
+        color: $white;
+        font-size: 15px;
+        font-family: 'Roboto Medium';
+        letter-spacing: -0.5px;
+        text-align: center;
+        margin: 8px 0 0;
+    }
+    }
+}
 }
 .content-part {
     margin: 0px;
     padding: 100px 0px;
     width: 100%;
+}
+.path-features {
+    margin: 50px 0px 40px;
+    padding: 0px;
+    max-width: 423px;
+    width: 100%;
+    clear: both;
+    &.p-f2 {
+    margin: 14px 0 75px 17px;
+    }
+    .path-fet-img {
+      width: 35%;
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      margin-top: -6px;
+      height: auto;
+      img {
+          width: 100%;
+          height: auto;
+          max-width: 148px;
+      }
+      .watch-demo {
+          position: absolute;
+          bottom: -18px;
+          max-width: 52px!important;
+          right: -10px;
+          cursor: pointer;
+          z-index: 99;  
+          &:hover + .hover-image{
+            display: block;
+            margin-top: 23px;
+            animation: fadeIn ease 2s;
+            -webkit-animation: fadeIn ease 2s;
+            -moz-animation: fadeIn ease 2s;
+            -o-animation: fadeIn ease 2s;
+            -ms-animation: fadeIn ease 2s;
+          }
+          + .hover-image {
+              display: none;
+              position: absolute;
+              width: 500px;
+              z-index: 9;
+               img {
+                    max-width: 500px;
+                    width: 100%;
+                    box-shadow: 3px 6px 8px #00000061;
+                    border: 10px solid #fff;
+                    border-radius: 26px 26px 0 26px;
+                }
+          }
+      }
+    }
+    .path-fet-cont {
+      padding-top: 23px;
+      width: 60%;
+      display: inline-block;
+      margin-left: 17px;
+      p {
+        font-size: 18px;
+        line-height: 24px;
+        letter-spacing: -0.460227px;
+        color: $white;
+        margin-top: 5px;
+        }
+        ul {
+          margin: 0px;
+          padding: 0px;
+          li {
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 24px;
+            letter-spacing: -0.460227px;
+            margin: 0px;
+            padding: 0px 15px 8px;
+            color: $white;
+            position: relative;
+            list-style: none;
+            &::before {
+              position: absolute;
+              left: 0px;
+              content: "";
+              background: #8a4e9c;
+              height: 6px;
+              width: 6px;
+              border-radius: 50%;
+              top: 10px;
+          }
+        }
+      }
+    }
+  }
+  .path-features{
+    &.left-space{
+      max-width: 550px;
+      margin-top: 12px;
+      .video_popup_icon{ 
+        .watch-demo {
+          bottom: -20px;
+          right: 30px;
+        } 
+      }
+    }
+  }
+.pull-right {
+    float: right;
+}
+.no-padding {
+    padding: 0px ;
+}
+.left-space {
+    margin-left: 35px;
 }
 /**Publisher page End**/
 

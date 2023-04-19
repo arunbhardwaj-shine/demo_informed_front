@@ -118,7 +118,9 @@ import RegistrationType from "./Components/Analytics/RegistrationType";
 import ContentGraph from "./Components/Analytics/ContentGraph";
 import TrendingContentOcta from "./Components/Analytics/TrendingContentOcta";
 import Informed from "./Components/Library/Informed";
+import PublisherPage from "./Components/Library/PublisherPage";
 import OctalatchDeliveryRegistration from "./Components/Analytics/OctalatchDeliveryRegistration";
+import BouncedEmail from "./Components/Distributes/BouncedEmail";
 
 let platform = 0;
 let show = 0;
@@ -159,7 +161,7 @@ const Routing = () => {
           "/setting-webinar",
         ].includes(window.location.pathname) ? (
           <WebinarHeader />
-        ) : window.location.pathname != "/informed" ? (
+        ) : window.location.pathname != "/informed" &&  window.location.pathname != "/publisher-page" ? (
           <Header />
         ) : null}
         {/* {window.location.pathname !== "/" ? <WebinarHeader /> : null} */}
@@ -176,11 +178,12 @@ const Routing = () => {
                 "/setting-webinar",
               ].includes(window.location.pathname) ? (
                 <WebinarSidebar />
-              ) : window.location.pathname != "/informed" ? (
+              ) : window.location.pathname != "/informed" && window.location.pathname != "/publisher-page" ? (
                 <Sidebar />
               ) : null}
               <Routes>
                 <Route path="/informed" element={<Informed />} />
+                <Route path="/publisher-page" element={<PublisherPage />} />
                 {/* New webinar */}
                 {/* <Route path="/new-webinar" element={<WebinarHeader />} /> */}
                 {/* end webinar */}
@@ -335,6 +338,7 @@ const Routing = () => {
                 <Route path="/UpdatedTable" element={<Table />} />
                 <Route path="/ViewTable" element={<ViewTable />} />
                 <Route path="/EmailStatss" element={<EmailStatss />} />
+                <Route path="/bounced-email" element={<BouncedEmail />} />
                 <Route path="/get-details" element={<GetDetails />} />
 
                 <Route path="/license-content" element={<LicenseContent />} />
