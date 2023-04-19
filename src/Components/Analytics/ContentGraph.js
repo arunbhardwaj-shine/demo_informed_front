@@ -270,9 +270,8 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
                 </div>
               </div>
               <div className="create-change-content spc-content analytic-charts">
-                  <div className="delivery-trends">
-                    <div className="custom-container">
-                      <div className="tabs_content_load">
+                  <div className="delivery-trends space-added">
+                      <div className="tabs_content_load margin">
                         <Tabs
                           defaultActiveKey={activeTab.current}
                           onSelect={handleTabChange}
@@ -285,10 +284,10 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
                         </Tabs>
 
 
-                        <Row>
+
                           {isDataFound && data.length > 0 ? (
                             <>
-                            <div className="high_charts">
+                            <div className="high_charts mb-4">
                               <HighchartsReact
                                 highcharts={Highcharts}
                                 options={lineOption}
@@ -308,8 +307,7 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
                                  <p>No Data Found</p>
                            </div>
                            : null
-                         }
-                        </Row>
+                          }
 
                         {
                           sectionLoader ?
@@ -320,7 +318,6 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
                           : ''
                         }
                       </div>
-                    </div>
                   </div>
               </div>
             </Row>

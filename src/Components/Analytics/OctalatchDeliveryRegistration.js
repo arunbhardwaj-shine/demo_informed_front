@@ -20,7 +20,6 @@ const OctalatchDeliveryRegistration = () => {
 
   const [data, setData] = useState([]);
   const [pieData, setPieData] = useState([]);
-  const [month, setMonth] = useState();
 
   useEffect(() => {
     getDataFromApi();
@@ -32,30 +31,25 @@ const OctalatchDeliveryRegistration = () => {
     try {
       // const response = await getData(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION);
 
-      axios
-        .get(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION)
-        .then((response) => {
-          const hadData = response?.data?.response?.data;
-          const pieData = response?.data?.response?.pie_graph;
+      axios.get(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION).then((response) => {
+        const hadData = response?.data?.response?.data;
+        const pieData = response?.data?.response?.pie_graph;
 
-          if (hadData.length <= 0) {
-            setIsDataFound(false);
-            loader("hide");
-            return;
-          }
+        if (hadData.length <= 0) {
+          setIsDataFound(false);
+          loader("hide");
+          return;
+        }
 
-          const ibu = hadData?.Ibu;
+        const ibu = hadData?.Ibu;
 
-          const data = hadData;
+        const data = hadData;
 
-          const months = ibu?.IBU_Docintel_code?.months;
+        setPieData(pieData);
+        setData(data);
 
-          setPieData(pieData);
-          setData(data);
-          setMonth(months);
-
-          setIsDataFound(true);
-        });
+        setIsDataFound(true);
+      });
     } catch (err) {
       setIsDataFound(false);
     }
@@ -76,16 +70,15 @@ const OctalatchDeliveryRegistration = () => {
               </div>
               <div className="create-change-content spc-content analytic-charts">
                 <div className="high_charts">
-                  <CommonPieChart data={pieData} />
+                  <CommonPieChart
+                    data={pieData?.pie_keys}
+                    value={pieData?.pie_values}
+                  />
                 </div>
 
                 {Object.keys(data)?.map((item, index) => (
                   <div className="high_charts" keys={index}>
-                    <CommonLineGraph
-                      data={data[item]}
-                      name={item}
-                      months={month}
-                    />
+                    <CommonLineGraph data={data[item]} name={item} />
                   </div>
                 ))}
               </div>
