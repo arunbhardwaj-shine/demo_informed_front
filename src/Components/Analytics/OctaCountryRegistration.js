@@ -206,15 +206,12 @@ const MapComponent = ({ data }) => {
             <Row>*/
       }
 
-            <div className="create-change-content spc-content analytic-charts">
               <div className="high_charts"></div>
               <HighchartsReact
                 constructorType={"mapChart"}
                 highcharts={Highcharts}
                 options={mapOptions}
               />
-
-            </div>
       {
         /*
         </Row>
@@ -300,7 +297,7 @@ console.log("series",series)
 
   return (
     <>
-      <div className="high_charts">
+      <div className="high_charts top">
         <HighchartsReact
           highcharts={Highcharts}
           options={countryStatsPieOptions}
@@ -319,7 +316,7 @@ const TabComponent = ({ data }) => {
 
   return (
     <>
-      <div className="high_charts">
+      <div className="high_charts top">
         <Tabs activeKey={activeTab} onSelect={handleTabSelect}>
           {data?.response?.data.map((region, index) => (
             <Tab eventKey={index + 1} title={region.region_name}>

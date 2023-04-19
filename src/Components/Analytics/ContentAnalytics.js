@@ -233,7 +233,7 @@ const ContentAnalytics = () => {
                   <div className="content_analytics">
                     <Row>
                       <Col>
-                        <Accordion onSelect={handleAccordionOpen}>
+                        <Accordion onSelect={handleAccordionOpen} className="content_analytics_accordian">
                           <Accordion.Item eventKey="0">
                             <Accordion.Header>
                               See Country Details
@@ -258,7 +258,7 @@ const ContentAnalytics = () => {
 
                     <Row>
                       <Col>
-                        <Accordion onSelect={handleReaderAccordionOpen}>
+                        <Accordion onSelect={handleReaderAccordionOpen} className="content_analytics_accordian">
                           <Accordion.Item eventKey="1">
                             <Accordion.Header>
                               Readers Per Page
@@ -291,12 +291,16 @@ export default ContentAnalytics;
 const ReadersPerPageLayout = ({ data }) => {
   return (
     <>
-      <Row>
+      {/* <Row>
         <Col>Readers Per Page</Col>
       </Row>
       <Row>
         <Col>Total : data?.length Pages</Col>
-      </Row>
+      </Row> */}
+      <div class="section-detail-box d-flex">
+        <div class="detail_section_heading">Readers Per Page</div>
+        <div class="detail_section_pages">Total : data?.length Pages</div>
+                        </div>
       {data?.map((element, index) => {
         return (
           <React.Fragment key={index}>
