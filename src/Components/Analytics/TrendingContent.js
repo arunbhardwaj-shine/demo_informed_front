@@ -186,7 +186,6 @@ const TrendingContent = () => {
               </div>
               <div className="create-change-content spc-content analytic-charts">
                   <div className="delivery-trends">
-                    <div className="custom-container">
                       <div className="tabs_content_load">
                         <Tabs
                           defaultActiveKey={activeTab.current}
@@ -256,7 +255,6 @@ const TrendingContent = () => {
                           : ''
                         }
                       </div>
-                    </div>
                   </div>
               </div>    
             </Row>

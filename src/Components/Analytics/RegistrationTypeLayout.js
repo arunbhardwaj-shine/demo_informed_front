@@ -310,7 +310,7 @@ const RenderLayout = ({ data }) => {
                     </h5>
                   </Col>
                   <Col className="d-flex justify-content-end">
-                    <a className="btn next-content btn-bordered" href={element?.pdfLink ? element.pdfLink : "#"} target="_blank">
+                    <a className="btn next-content btn-filled" href={element?.pdfLink ? element.pdfLink : "#"} target="_blank">
                       Preview Article
                     </a>
                     <Button

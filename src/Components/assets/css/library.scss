@@ -2891,11 +2891,15 @@ input[type=number] {
   vertical-align: top;
   min-width: 156px;
 }
+.sidebar-menu ul {
+    padding-left: 8px;
+}
 .content_details .smartlist-view .mailbox-table td, .crm-review-detail .tab-mail-list td {
   font-size: 18px;
   line-height: 21px;
   color: $dark-gray;
   word-break: break-word;
+  padding: 4px 0px 9px 0;
 }
 .content_details .smartlist-view .mail-box-content {
   min-height: inherit;
@@ -3167,6 +3171,7 @@ input.viewer-toolbar-current-page-input {
         flex: 1 1;
         text-align: center;
         border: 1px solid $white;
+        border-top: 0;
         &:first-child{
           border-left:0;
         }
@@ -3186,7 +3191,7 @@ input.viewer-toolbar-current-page-input {
     }
     .tab-content{
       h3{
-        font-size: 17px;
+        font-size: 16px;
         line-height: 1.2;
         margin-bottom: 5px;
       }
@@ -3311,7 +3316,7 @@ input.viewer-toolbar-current-page-input {
 .content_analytics_accordian .accordion-collapse .accordion-body .section-detail-box {
     width: 100%;
     justify-content: space-between;
-    padding: 10px 0;
+    padding: 10px;
 }
 .analytics-time-detail .time-needed, .analytics-time-detail .time-spent {
     font-size: 14px;
@@ -3344,6 +3349,11 @@ input.viewer-toolbar-current-page-input {
     margin: 10px 0;
     padding: 10px 0;
 }
+.high_charts > .row, .delivery-trends .tabs_content_load .tab-content .tab-pane > .row:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
 .high_charts .img-box img, .delivery-trends .tabs_content_load .tab-content .tab-pane .img-box img{
     filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
 }
@@ -3371,33 +3381,36 @@ input.viewer-toolbar-current-page-input {
     margin-bottom: 25px;
     border-bottom: 2px dashed #bbb;
 }
+.delivery-trends .tab-content .kpi-graph-inside:last-child {
+    border-bottom: 0;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
 .kpi-graph-inside .img-box .content-listed-shorting span {
     color: #a7a7a7;
     font-size: 24px;
     line-height: normal;
 }
 .kpi-graph-inside .img-box img {
-    max-width: 180px;
+    max-width: 150px;
     object-fit: contain;
-    margin-top: 7px;
+    margin-top: 5px;
     width: 100%;
     filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
 }
 .kpi-graph-inside .content-listed-content h3.remove_bg {
     background: none !important;
     padding-top: 6px;
-    font-size: 18px;
+    font-size: 17px;
     margin-bottom: 10px;
     color: #0b3a81;
     font-weight: 500;
-    text-transform: uppercase;
 }
 .kpi-graph-inside .content-listed-content h5.sub_title {
-    font-size: 16px;
+    font-size: 15px;
     color: #0b3a81;
     font-family: 'Roboto';
     font-weight: 500;
-    text-transform: uppercase;
 }
 .content-listed-content-inside {
     padding-top: 10px;
@@ -3560,8 +3573,9 @@ input.viewer-toolbar-current-page-input {
     padding: 0 15px 0 0px;
 }
 .content_analytics .detail-box .media-left.media-middle img {
-    max-width: 120px;
+    max-width: 100px;
     width: 100%;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
 }
 .content_analytics .detail-box .media-body {
     flex: 1 1;
@@ -3772,8 +3786,8 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
     top: 0;
 }
 .create-change-content.analytic-charts .high_charts.space-added {
-    padding: 30px 15px 15px;
-    background: $white;
+    padding: 20px 10px 5px;
+    // background: $white;
     margin:0
 }
 .content_analytics .circle_graph .col:first-child::after {
@@ -3782,7 +3796,9 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
 .content_analytics .accordion-item {
     border: 0;
 }
-
+caption.highcharts-table-caption {
+    padding: 3px;
+}
 .content_analytics .accordion-item button.accordion-button {
     display: flex;
     align-items: center;
@@ -3792,6 +3808,7 @@ g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
     font-weight: 500;
     font-size: 20px;
     box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.2);
+    border-radius: 8px!important;
 }
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(3) {
     max-width: 250px;
