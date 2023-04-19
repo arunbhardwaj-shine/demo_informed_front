@@ -55,9 +55,9 @@ const TrendingContentOcta = () => {
         setIsDataFound(false);
       }
 
+      setData(hadData);
       setIsDataFound(true);
       setIsLoaded(true);
-      setData(hadData);
 
       loader("hide");
     } catch (err) {

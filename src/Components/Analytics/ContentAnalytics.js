@@ -27,7 +27,7 @@ const ContentAnalytics = () => {
   const [isPdfData, setIsPdfData] = useState(false);
   const mapData = useRef([]);
   const readersData = useRef([]);
-  const barData = useRef(null);
+  const barData = useRef([]);
 
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [isReaderAccordionOpen, setIsReaderAccordionOpen] = useState(false);
@@ -70,6 +70,9 @@ const ContentAnalytics = () => {
   async function filterPdfData(pdfId) {
     setIsLoaded(false);
     // setIsDataFound(false)
+    barData.current = [];
+    readersData.current = [];
+
     setIsAccordionOpen(false);
     setIsReaderAccordionOpen(false);
 
@@ -102,11 +105,13 @@ const ContentAnalytics = () => {
     try {
       loader("show");
       if (!isAccordionOpen) {
-        const requestBody = { pdfId: selectedPdf };
-        const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
-        const hadData = response?.data?.data || [];
-        mapData.current = hadData;
-        barData.current = response?.data || [];
+        if (barData?.current.status != 200) {
+          const requestBody = { pdfId: selectedPdf };
+          const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
+          const hadData = response?.data?.data || [];
+          mapData.current = hadData;
+          barData.current = response?.data || [];
+        }
         setIsAccordionOpen(true);
       } else {
         setIsAccordionOpen(false);
@@ -122,10 +127,15 @@ const ContentAnalytics = () => {
     try {
       loader("show");
       if (!isReaderAccordionOpen) {
-        const requestBody = { pdfId: selectedPdf };
-        const response = await postData(ENDPOINT.READERANALYTICS, requestBody);
-        const hadData = response?.data?.data || [];
-        readersData.current = hadData;
+        if (readersData?.current.status != 200) {
+          const requestBody = { pdfId: selectedPdf };
+          const response = await postData(
+            ENDPOINT.READERANALYTICS,
+            requestBody
+          );
+          const hadData = response?.data?.data || [];
+          readersData.current = hadData;
+        }
         setIsReaderAccordionOpen(true);
       } else {
         setIsReaderAccordionOpen(false);

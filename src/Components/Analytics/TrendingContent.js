@@ -30,7 +30,83 @@ const TrendingContent = () => {
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [isTabClicked, setIsTabClicked] = useState(false);
-
+ <Col className="right-sidebar">
+   {isLoaded ? (
+     <div className="custom-container">
+       <Row>
+         <div className="delivery-trends">
+           <div className="custom-container">
+             <Tabs
+               defaultActiveKey={activeTab.current}
+               onSelect={handleTabChange}
+             >
+               <Tab eventKey="1" title="All Business Units">
+                 <Row>
+                   {isDataFound && activeTab.current == 1 ? (
+                     <DocintelAccount
+                       data={activeTab.current == 1 ? data : null}
+                     />
+                   ) : isTabClicked ? (
+                     <h4>No Data Found</h4>
+                   ) : null}
+                 </Row>
+               </Tab>
+               <Tab eventKey="2" title="Haematology">
+                 <Row>
+                   {isDataFound && activeTab.current == 2 ? (
+                     <DocintelAccount
+                       data={activeTab.current == 2 ? data : null}
+                     />
+                   ) : isTabClicked ? (
+                     <h4>No Data Found</h4>
+                   ) : null}
+                 </Row>
+               </Tab>
+               <Tab eventKey="3" title="Critical Care">
+                 <Row>
+                   {isDataFound && activeTab.current == 3 ? (
+                     <DocintelAccount
+                       data={activeTab.current == 3 ? data : null}
+                     />
+                   ) : isTabClicked ? (
+                     <h4>No Data Found</h4>
+                   ) : null}
+                 </Row>
+               </Tab>
+               <Tab eventKey="4" title="Immunotherapy">
+                 <Row>
+                   {isDataFound && activeTab.current == 4 ? (
+                     <DocintelAccount
+                       data={activeTab.current == 4 ? data : null}
+                     />
+                   ) : isTabClicked ? (
+                     <h4>No Data Found</h4>
+                   ) : null}
+                 </Row>
+               </Tab>
+               <Tab eventKey="5" title="IBU">
+                 <Row>
+                   <DocintelAccount
+                     data={activeTab.current == 5 ? data : null}
+                   />
+                 </Row>{" "}
+                 <Row>
+                   {isDataFound && activeTab.current == 5 ? (
+                     <DocintelAccount
+                       data={activeTab.current == 5 ? data : null}
+                     />
+                   ) : isTabClicked ? (
+                     <h4>No Data Found</h4>
+                   ) : null}
+                 </Row>
+               </Tab>
+             </Tabs>
+           </div>
+         </div>
+       </Row>
+     </div>
+   ) : null}
+ </Col>;
   const activeTab = useRef(1);
 
   const [contentTypeOptions, setContentTypeOptions] = useState({
@@ -458,7 +534,7 @@ const DocintelAccount = ({ data }) => {
                             inside: true,
                             color: "#FFFFFF",
                             align: "center",
-                            verticalAlign: 'top',
+                            verticalAlign: "top",
                             format: "{y}", // this will display the y value on top of the column
                             style: {
                               textOutline: "none", // to remove the border around the text
