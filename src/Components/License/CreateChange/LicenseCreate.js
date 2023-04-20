@@ -62,10 +62,10 @@ const LicenseCreate = () => {
   };
   return (
     <>
-      <Col className="right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header sticky">
               <div className="page-title">
                 <h2>Create &amp; Change</h2>
               </div>

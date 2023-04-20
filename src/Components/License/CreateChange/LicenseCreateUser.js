@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { createContent } from "../../CommonComponent/Validations";
-import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, Form, Dropdown, DropdownButton, Col, Row } from "react-bootstrap";
 import { postFormData, postData } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
@@ -933,10 +933,10 @@ const LicenseCreateUser = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
-          <div className="row">
-            <div className="page-top-nav">
+          <Row>
+            <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
@@ -1390,9 +1390,9 @@ const LicenseCreateUser = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Row>
         </div>
-      </div>
+      </Col>
       <Modal className="pdf-video-link" show={show} onHide={handleClose}>
         <Modal.Header>
           <div className="form_action embedding-video">
