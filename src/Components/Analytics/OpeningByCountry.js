@@ -8,7 +8,6 @@ import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
 import HighchartsReact from "highcharts-react-official";
-import { Link } from "react-router-dom";
 exporting(Highcharts);
 exportData(Highcharts);
 const OpeningByCountry = () => {
@@ -157,7 +156,6 @@ const OpeningByCountry = () => {
       if (filterData == null) {
         setFilterData(hadData.pdfData);
       }
-      // console.log(topClientOptions)
 
       setIsLoaded(true);
       setData(hadData);
@@ -229,7 +227,8 @@ const OpeningByCountry = () => {
                     />
                   </div>
                 ) : isLoaded ? (
-                  <h4>No Data Found</h4>
+                      <div className="no_found">
+                         <p>No Data Found</p></div>
                 ) : null}
               </div>
             </Row>
