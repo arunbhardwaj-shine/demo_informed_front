@@ -2,17 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Tabs, Tab } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
-import { ENDPOINT } from "../../axios/apiConfig";
-import { getData } from "../../axios/apiHelper";
+
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 
 import HighchartsReact from "highcharts-react-official";
-import ContentAnalyticsComponent from "./ContentAnalyticsComponent";
 import MapModule from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import axios from "axios";
-import drilldown from 'highcharts/modules/drilldown.js';
+import drilldown from "highcharts/modules/drilldown.js";
 
 import { Link } from "react-router-dom";
 
@@ -57,41 +55,16 @@ const OctaCountryRegestration = () => {
           <Row>
             <div className="top-header">
               <div className="page-title d-flex">
-                <Link
-                  className="btn btn-primary btn-bordered back-btn"
-                  to="/top-clients"
-                >
-                  <svg
-                    width="14"
-                    height="24"
-                    viewBox="0 0 14 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                      fill="#97B6CF"
-                    />
-                  </svg>
-                </Link>
                 <h2>Octa Country Registration</h2>
               </div>
             </div>
-            <div className="create-change-content spc-content analytic-charts">
+            <div className="create-change-content spc-content analytic-charts space-added">
               {isDataFound ? (
                 <>
                   <Row>
                     <Col>
                       <MapComponent data={mapData.current} />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
                       <PieComponent data={mapData.current} />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
                       <TabComponent data={mapData.current} />
                     </Col>
                   </Row>
@@ -107,7 +80,6 @@ const OctaCountryRegestration = () => {
 export default OctaCountryRegestration;
 
 const MapComponent = ({ data }) => {
-
   const [newData, setNewData] = useState();
   const mapOptions = {
     chart: {
@@ -176,27 +148,27 @@ const MapComponent = ({ data }) => {
   });
 
   useEffect(() => {
-    const getDataFromApi = async () => {
-      try {
-        const countryData = data?.response?.data.map((coordObject, index) => {
-          const [lat, lon] = coordObject.coordinates.split("~");
-
-          return {
-            name: coordObject.region_name,
-            totalIndex: coordObject.total,
-            lat: parseFloat(lat),
-            lon: parseFloat(lon),
-          };
-        });
-
-        setNewData(countryData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getDataFromApi();
   }, []);
+
+  const getDataFromApi = async () => {
+    try {
+      const countryData = data?.response?.data.map((coordObject, index) => {
+        const [lat, lon] = coordObject.coordinates.split("~");
+
+        return {
+          name: coordObject.region_name,
+          totalIndex: coordObject.total,
+          lat: parseFloat(lat),
+          lon: parseFloat(lon),
+        };
+      });
+
+      setNewData(countryData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -206,23 +178,17 @@ const MapComponent = ({ data }) => {
             <Row>*/
       }
 
-            <div className="create-change-content spc-content analytic-charts">
+
               <div className="high_charts"></div>
               <HighchartsReact
                 constructorType={"mapChart"}
                 highcharts={Highcharts}
                 options={mapOptions}
               />
-
-            </div>
       {
         /*
         </Row>
-      </div>
-    </Col>
-        */
-      }
-
+      </div>*/}
     </>
   );
 };
@@ -248,15 +214,12 @@ const PieComponent = ({ data }) => {
       dataArr.push([countryDrill[i], drillData[i]]);
     }
     drilldownData[element.region_name] = {
-
       id: element.region_name,
       name: element.region_name,
       data: dataArr,
     };
   });
-console.log("series",series)
 
-  console.log("drill Data",drilldownData)
   const countryStatsPieOptions = {
     chart: {
       plotBackgroundColor: null,
@@ -300,7 +263,7 @@ console.log("series",series)
 
   return (
     <>
-      <div className="high_charts">
+      <div className="high_charts top">
         <HighchartsReact
           highcharts={Highcharts}
           options={countryStatsPieOptions}
@@ -319,18 +282,18 @@ const TabComponent = ({ data }) => {
 
   return (
     <>
-      <div className="high_charts">
+      <div className="high_charts top">
         <Tabs activeKey={activeTab} onSelect={handleTabSelect}>
           {data?.response?.data.map((region, index) => (
             <Tab eventKey={index + 1} title={region.region_name}>
               <Row>
                 <Col>
-              <Barcomponent
-                countries={region.countries}
-                countriesData={region.countries_data}
-                title={region.region_name}
-              />
-              </Col>
+                  <Barcomponent
+                    countries={region.countries}
+                    countriesData={region.countries_data}
+                    title={region.region_name}
+                  />
+                </Col>
               </Row>
             </Tab>
           ))}
@@ -340,11 +303,20 @@ const TabComponent = ({ data }) => {
   );
 };
 
-const Barcomponent = ({ countries, countriesData ,title}) => {
-  console.log(countries)
+const Barcomponent = ({ countries, countriesData, title }) => {
+  const data = countries.map((country, index) => ({
+    name: country,
+    value: countriesData[index],
+  }));
+
+  data.sort((a, b) => a.name.localeCompare(b.name));
+
+  const sortedCountries = data.map((country) => country.name);
+  const sortedCountriesData = data.map((country) => country.value);
+
   return (
     <>
-      <div className="high_charts">
+      <div className="high_charts top">
         <HighchartsReact
           highcharts={Highcharts}
           options={{
@@ -368,7 +340,7 @@ const Barcomponent = ({ countries, countriesData ,title}) => {
               text: " ",
             },
             xAxis: {
-              categories: countries,
+              categories: sortedCountries,
             },
             credits: {
               enabled: false,
@@ -410,11 +382,13 @@ const Barcomponent = ({ countries, countriesData ,title}) => {
               },
             },
 
-            series: [{
-              name: title,
-              data: countriesData,
-              color:"#00D4C0"
-            }]
+            series: [
+              {
+                name: title,
+                data: sortedCountriesData,
+                color: "#00D4C0",
+              },
+            ],
           }}
         />
       </div>
