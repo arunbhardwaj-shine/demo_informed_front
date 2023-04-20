@@ -16,8 +16,6 @@ const CountryRegistration = () => {
   const [loaded, setLoaded] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [newData, setNewData] = useState([]);
-  const [chart, setChart] = useState(null);
-
 
   const [monthYear, setMonthYear] = useState();
   let startMonth = new Date("March 2022");
@@ -32,72 +30,74 @@ const CountryRegistration = () => {
 
     startMonth.setMonth(startMonth.getMonth() + 1);
   }
- 
-  // for map
-  const mapOptions = {
-    chart: {
-      type: "map",
-      events: {
-        events: {
-        load: function () {
-        setChart(this);
-        const countryLatLon = newData?.filter(countryLati => countryLati.countryLat && countryLati.countryLon);
-        if (countryLatLon.length > 0) {
-          const { countryLat, countryLon } = countryLatLon[0];
-          console.log("Country LatLon:", countryLat, countryLon);
-         console.log("zooom",this.chart.mapZoom(5, countryLon, countryLat));
-        }
-      },
-    },
-      }
-      },
-    title: {
-      text: "Country Registration"
-    },
-    credits: {
-      enabled: false
-    },
-    mapNavigation: {
-      enabled: true,
-      buttonOptions: {
-        align: "right",
-        verticalAlign: "bottom",
-        x: -10,
-        y: -10
-      },
-    },
 
-    series: [
-      {
-        name: "Country Registration",
-        data: newData?.filter(country => country.lat && country.lon),
-        mapData: worldMap,
-        showInLegend: false,
-        joinBy: ["name"],
-        keys: ["code", "value"],
-        tooltip: {
-          headerFormat: "",
-          pointFormat: "Total Registration: {point.totalIndex}",
-        },
-        states: {
-          hover: {
-            color: "#BADA55",
-          },
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function () {
-            const countries = this.series.options.data.filter(country => country.name === this.point.name);
-            if (countries.length > 0) {
-              return this.point.name;
-            } else {
-              return null;
-            }
-          }
-        },
-      },
-    ],
-  };
+  const MemoizedMap = React.memo(({ data }) => (
+    <HighchartsReact
+      constructorType={"mapChart"}
+      highcharts={Highcharts}
+      options={mapOptions}
+    />
+  ));
+  
+  // for map
+  const mapOptions = useMemo(() => {
+   return {
+     chart: {
+       type: "map",
+       events: {
+        load: function (e) {
+          this.mapZoom(0.3, 4500, -4500);
+        }
+      }
+     },
+     title: {
+       text: "Country Registration"
+     },
+     credits: {
+       enabled: false
+     },
+     mapNavigation: {
+       enabled: true,
+       buttonOptions: {
+         align: "right",
+         verticalAlign: "bottom",
+         x: -10,
+         y: -10
+       },
+     },
+     series: [
+       {
+         name: "Country Registration",
+         data: newData?.filter(country => country.lat && country.lon),
+         mapData: worldMap,
+         showInLegend: false,
+         joinBy: ["name"],
+         keys: ["code", "value"],
+         tooltip: {
+           headerFormat: "",
+           pointFormat: "Total Registration: {point.totalIndex}",
+          
+         },
+         states: {
+           hover: {
+             color: "#BADA55",
+           },
+         },
+         dataLabels: {
+           enabled: true,
+           formatter: function () {
+             const countries = this.series.options.data.filter(country => country.name === this.point.name);
+             if (countries.length > 0) {
+               return this.point.name;
+             } else {
+               return null;
+             }
+           }
+         },
+       },
+     ],
+   };
+ }, [newData]);
 
   console.log("map", mapOptions);
   // country list
@@ -136,9 +136,6 @@ const CountryRegistration = () => {
         }
 
       },
-      //   series: {
-      //     pointWidth: 15
-      // }
     },
     exporting: {
       showTable: true,
@@ -258,12 +255,14 @@ const CountryRegistration = () => {
                 </Form>
               </div>
               <div className="high_charts">
-              <div className="high_charts">
-              <div className="high_charts">
-                <HighchartsReact constructorType={"mapChart"} highcharts={Highcharts} options={mapOptions} />
+              
+                {newData.length > 0 ? (
+                  <MemoizedMap data={newData} />
+                ) : (
+                  <p>Loading data...</p>
+                )}
               </div>
-              </div>
-              </div>
+
               <div className="high_charts">
                 <HighchartsReact highcharts={Highcharts} options={countryList} />
               </div>
