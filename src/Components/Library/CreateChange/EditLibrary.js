@@ -1824,7 +1824,7 @@ const EditLibrary = () => {
                               </p>
                             ) : (
                               <p>
-                                Upload your cover image <br />
+                                Chnage your cover image <br />
                                 <span>(Recommended size 88 X 124)</span>
                               </p>
                             )}
