@@ -274,7 +274,7 @@ const RenderLayout = ({ data }) => {
                               z: element.over_all_rtr,
                             },
                           ],
-                        },
+                          },
                       ],
                     }}
                   />

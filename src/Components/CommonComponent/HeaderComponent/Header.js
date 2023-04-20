@@ -160,6 +160,7 @@ const Header = () => {
                   window.location.pathname == "/trending-topics" ||
                   window.location.pathname == "/campaign-stats" ||
                   window.location.pathname == "/trending-content" ||
+                  window.location.pathname == "/octa-trending-content" ||
                   window.location.pathname == "/content-type" ||
                   window.location.pathname == "/octalatch-totalhcp" ||
                   window.location.pathname == "/octa-country" ||
