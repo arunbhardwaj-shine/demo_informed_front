@@ -17,7 +17,7 @@ const OpeningByCountry = () => {
   const selectFilter = useRef({ label: "All", value: null });
   const selectFilterType = useRef("Openingcountry");
 
-  const [filterData, setFilterData] = useState(null);
+  const [filterData, setFilterData] = useState([]);
 
   const chart = useRef(null);
   Highcharts.setOptions({
@@ -114,6 +114,7 @@ const OpeningByCountry = () => {
       };
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
+
       if (hadData.length <= 0) {
         setIsDataFound(false);
       } else {
@@ -125,7 +126,7 @@ const OpeningByCountry = () => {
       } else {
         setIsDataFound(true);
       }
-      // console.log(hadData);
+
       const categories = hadData?.name;
 
       const newSeries = [
@@ -153,8 +154,18 @@ const OpeningByCountry = () => {
       };
 
       setTopClientOptions(newClientOptions);
-      if (filterData == null) {
-        setFilterData(hadData.pdfData);
+
+      if (filterData?.length == 0) {
+        const newFilterArr = [{ value: null, label: "All" }];
+
+        hadData?.pdfData?.map((pdf, index) => {
+          newFilterArr.push({
+            value: pdf?.id,
+            label: pdf?.title,
+          });
+        });
+
+        setFilterData(newFilterArr);
       }
 
       setIsLoaded(true);
@@ -166,7 +177,6 @@ const OpeningByCountry = () => {
       console.log(err);
       loader("hide");
     }
-    // console.log(chart.current);
   };
 
   const handleFilterData = (e) => {
@@ -180,60 +190,49 @@ const OpeningByCountry = () => {
 
   return (
     <>
-
-        <Col className="right-sidebar">
-          <div className="custom-container">
-            <Row>
-              <div className="top-header">
-                <div className="page-title d-flex">
-                  <h2>Opening by Country</h2>
-                </div>
+      <Col className="right-sidebar">
+        <div className="custom-container">
+          <Row>
+            <div className="top-header">
+              <div className="page-title d-flex">
+                <h2>Opening by Country</h2>
               </div>
-              <div className="create-change-content spc-content analytic-charts">
-                <div className="form_action">
-                {
-                  isDataFound ? (
-                      <Form className="product-unit d-flex justify-content-between align-items-center">
-                        <div className="form-group ">
-                          <label htmlFor="">Filter By</label>
-                          <Select
-                            options={[
-                              { label: "All", value: null }, // added option
-                              ...filterData.map((pdf) => ({
-                                // existing options
-                                label: pdf.title,
-                                value: pdf.id,
-                              })),
-                            ]}
-                            placeholder="Filter By"
-                            onChange={handleFilterData}
-                            defaultValue={
-                              selectFilter?.current ? selectFilter?.current : null
-                            }
-                            className="dropdown-basic-button split-button-dropup"
-                            isClearable
-                          />
-                        </div>
-                      </Form>
-                  ) : null
-                }
-                </div>
-                {isDataFound ? (
-                  <div className="high_charts space-added">
-                    <HighchartsReact
-                      highcharts={Highcharts}
-                      options={topClientOptions}
-                      ref={chart}
+            </div>
+            <div className="create-change-content spc-content analytic-charts">
+              <div className="form_action">
+                <Form className="product-unit d-flex justify-content-between align-items-center">
+                  <div className="form-group ">
+                    <label htmlFor="">Filter By</label>
+                    <Select
+                      options={filterData}
+                      placeholder="Filter By"
+                      onChange={handleFilterData}
+                      defaultValue={
+                        selectFilter?.current ? selectFilter?.current : null
+                      }
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
                     />
                   </div>
-                ) : isLoaded ? (
-                      <div className="no_found">
-                         <p>No Data Found</p></div>
-                ) : null}
+                </Form>
               </div>
-            </Row>
-          </div>
-        </Col>
+              {isDataFound ? (
+                <div className="high_charts space-added">
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={topClientOptions}
+                    ref={chart}
+                  />
+                </div>
+              ) : isLoaded ? (
+                <div className="no_found">
+                  <p>No Data Found</p>
+                </div>
+              ) : null}
+            </div>
+          </Row>
+        </div>
+      </Col>
     </>
   );
 };
