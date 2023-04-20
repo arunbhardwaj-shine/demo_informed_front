@@ -9,73 +9,17 @@ import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
 import HighchartsReact from "highcharts-react-official";
 import { Link } from "react-router-dom";
+import CommonLineGraph from "./CommonLineGraph";
+import CommonPieChart from "./CommonPieChart";
+import axios from "axios";
 exporting(Highcharts);
 exportData(Highcharts);
 const OctalatchDeliveryRegistration = () => {
-  const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const selectFilter = useRef(null);
 
-  const chart = useRef(null);
-  Highcharts.setOptions({
-    colors: [
-      "#FFBE2C",
-      "#F58289",
-      "#d1d132",
-      "#D61975",
-      "#0066BE",
-      "#00003C",
-      "#b490f5",
-      "#91817e",
-      "#2b6570",
-      "#9C9CA2",
-      "#7cb0dd",
-      "#4f4566",
-      "#00D4C0",
-      "#32a1d1",
-    ],
-  });
-  const [seriesData, setSeriesData] = useState([]);
-
-  const [lineOptionIBU, setLineOptionIBU] = useState({
-    chart: {
-      type: "line",
-      height: 500,
-    },
-    title: {
-      text: "IBU",
-    },
-    xAxis: {
-      categories: [],
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: "IBU",
-      },
-    },
-    legend: {
-      align: "center",
-      verticalAlign: "bottom",
-      layout: "horizontal",
-      x: 0,
-      y: 0,
-    },
-    plotOptions: {
-      series: {
-        // stacking: "normal",
-        dataLabels: {
-          enabled: true,
-          format: "{point.y}",
-        },
-      },
-    },
-    // exporting: {
-    //   showTable: true,
-    // },
-    series: [],
-  });
+  const [data, setData] = useState([]);
+  const [pieData, setPieData] = useState([]);
 
   useEffect(() => {
     getDataFromApi();
@@ -85,51 +29,27 @@ const OctalatchDeliveryRegistration = () => {
     loader("show");
 
     try {
-      const response = await getData(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION);
+      // const response = await getData(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION);
 
-      const hadData = response?.data?.response?.data;
+      axios.get(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION).then((response) => {
+        const hadData = response?.data?.response?.data;
+        const pieData = response?.data?.response?.pie_graph;
 
-      if (hadData.length <= 0) {
-        setIsDataFound(false);
-        loader("hide");
-        return;
-      }
+        if (hadData.length <= 0) {
+          setIsDataFound(false);
+          loader("hide");
+          return;
+        }
 
-      const ibu = hadData?.Ibu;
+        const ibu = hadData?.Ibu;
 
-      const months = ibu?.IBU_Docintel_code?.months;
+        const data = hadData;
 
-      console.log("ibu", Object.keys(ibu));
-      const newIbuLineData = [
-        {
-          name: "",
-          data: "",
-          color: "",
-        },
-      ];
+        setPieData(pieData);
+        setData(data);
 
-      Object.keys(ibu)?.forEach((item, index) => {
-        newIbuLineData.push({
-          name: ibu[item]?.ibu + "(" + JSON.parse(ibu[item]?.total) + ")",
-          data: ibu[item]?.total_data,
-          color: Highcharts?.getOptions()?.colors[index],
-        });
+        setIsDataFound(true);
       });
-
-      // for   ibu
-
-      console.log("---->", newIbuLineData);
-      const newLineOptionsIbu = {
-        ...lineOptionIBU,
-        xAxis: {
-          categories: months,
-        },
-        series: newIbuLineData.slice(1),
-      };
-
-      setLineOptionIBU(newLineOptionsIbu);
-
-      setIsDataFound(true);
     } catch (err) {
       setIsDataFound(false);
     }
@@ -145,48 +65,22 @@ const OctalatchDeliveryRegistration = () => {
             <Row>
               <div className="top-header">
                 <div className="page-title d-flex">
-                  <Link
-                    className="btn btn-primary btn-bordered back-btn"
-                    to="/top-clients"
-                  >
-                    <svg
-                      width="14"
-                      height="24"
-                      viewBox="0 0 14 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                        fill="#97B6CF"
-                      />
-                    </svg>
-                  </Link>
-                  <h2>Delivery leading to registration </h2>
+                  <h2>Delivery Registration </h2>
                 </div>
               </div>
               <div className="create-change-content spc-content analytic-charts">
-                {/* <div className="high_charts">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={campaignStatsPieOptions}
-                    ref={chart}
-                  />
-                </div> */}
-                {/* <div className="high_charts">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={campaignStatsLineOption}
-                    //   ref={chart}
-                  />
-                </div> */}
                 <div className="high_charts">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={lineOptionIBU}
-                    //   ref={chart}
+                  <CommonPieChart
+                    data={pieData?.pie_keys}
+                    value={pieData?.pie_values}
                   />
                 </div>
+
+                {Object.keys(data)?.map((item, index) => (
+                  <div className="high_charts" keys={index}>
+                    <CommonLineGraph data={data[item]} name={item} />
+                  </div>
+                ))}
               </div>
             </Row>
           </div>

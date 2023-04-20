@@ -354,15 +354,18 @@ const FilterSegment = (props) => {
   };
 
   const handleOnBlindTypeChange = (blindType) => {
-    let blindType_index = selectedBlindType.indexOf(blindType);
-    if (blindType_index !== -1) {
-      selectedBlindType.splice(blindType_index, 1);
-    } else {
-      selectedBlindType.push(blindType);
-    }
-    setSelectedBlindType(selectedBlindType);
+    setSelectedBlindType(blindType);
     let up = updateflag + 1;
     setUpdateFlag(up);
+    // let blindType_index = selectedBlindType.indexOf(blindType);
+    // if (blindType_index !== -1) {
+    //   selectedBlindType.splice(blindType_index, 1);
+    // } else {
+    //   selectedBlindType.push(blindType);
+    // }
+    // setSelectedBlindType(selectedBlindType);
+    // let up = updateflag + 1;
+    // setUpdateFlag(up);
   };
 
   const handleOnSiteNumberChange = (sitenumber, sitenumberflag = 0) => {
@@ -611,13 +614,7 @@ const FilterSegment = (props) => {
       flag_to_check_data = true;
     }
 
-    if (typeof selectedBlindType === "object" && selectedBlindType.length > 0) {
-      let blind_type = selectedBlindType.map((item) => {
-        return item;
-      });
-      Object.assign(payload, { blind_type: blind_type });
-      flag_to_check_data = true;
-    }
+
 
     // for Campaign listing
     if (typeof selectedcampaign === "object" && selectedcampaign.length > 0) {
@@ -632,6 +629,21 @@ const FilterSegment = (props) => {
     if (selectedReadOpen) {
         Object.assign(payload, { campaing_status: selectedReadOpen });
         flag_to_check_data = true;
+    }
+
+    // if (typeof selectedBlindType === "object" && selectedBlindType.length > 0) {
+    //   let blind_type = selectedBlindType.map((item) => {
+    //     return item;
+    //   });
+    //   Object.assign(payload, { blind_type: blind_type });
+    //   flag_to_check_data = true;
+    // }
+
+    if (selectedBlindType) {
+      if(selectedBlindType != "all"){
+        Object.assign(payload, { blind_type: [selectedBlindType] });
+        flag_to_check_data = true;
+      }
     }
 
     //For User Type
@@ -900,7 +912,7 @@ const FilterSegment = (props) => {
     } else if (src == "site_name") {
       handleOnSiteNameChange(item);
     } else if (src == "blind_type") {
-      handleOnBlindTypeChange(item);
+      handleOnBlindTypeChange();
     }else if (src == "campaign") {
       handleOnCampaingChange(item);
     }else if (src == "campaign_status") {
@@ -1503,6 +1515,8 @@ const FilterSegment = (props) => {
                               <div className="col block-smart-name">
                                 <h6>Blind Type</h6>
                                 <div className="smart-name-list">
+                                {
+                                  /*
                                   <ul>
                                     {Object.entries(filters.blind_type).map(
                                       ([index, item]) => (
@@ -1530,6 +1544,72 @@ const FilterSegment = (props) => {
                                         </li>
                                       )
                                     )}
+                                  </ul>
+                                  */
+                                }
+
+
+                                  <ul>
+                                  <li>
+                                    <div className="select-multiple-option">
+                                      <input
+                                        type="radio"
+                                        id="blind_all"
+                                        name="blindTye"
+                                        value="all"
+                                        checked={
+                                          typeof selectedBlindType !==
+                                            "undefined" &&
+                                          selectedBlindType == "all"
+                                        }
+                                        onChange={() =>
+                                          handleOnBlindTypeChange("all")
+                                        }
+                                      />
+                                      <span className="checkmark"></span>
+                                    </div>
+                                    All
+                                  </li>
+                                    <li>
+                                      <div className="select-multiple-option">
+                                        <input
+                                          type="radio"
+                                          id="blind_yes"
+                                          name="blindTye"
+                                          value="blinded"
+                                          checked={
+                                            typeof selectedBlindType !==
+                                              "undefined" &&
+                                            selectedBlindType == "blinded"
+                                          }
+                                          onChange={() =>
+                                            handleOnBlindTypeChange("blinded")
+                                          }
+                                        />
+                                        <span className="checkmark"></span>
+                                      </div>
+                                      Blinded
+                                    </li>
+                                    <li>
+                                      <div className="select-multiple-option">
+                                        <input
+                                          type="radio"
+                                          id="blind_no"
+                                          name="blindTye"
+                                          value="unblinded"
+                                          checked={
+                                            typeof selectedBlindType !==
+                                              "undefined" &&
+                                            selectedBlindType == "unblinded"
+                                          }
+                                          onChange={() =>
+                                            handleOnBlindTypeChange("unblinded")
+                                          }
+                                        />
+                                        <span className="checkmark"></span>
+                                      </div>
+                                      Unblinded
+                                    </li>
                                   </ul>
                                 </div>
                               </div>
@@ -2465,27 +2545,22 @@ const FilterSegment = (props) => {
               ) : null}
 
               {updateflag > 0 ? (
-                typeof selectedBlindType === "object" &&
-                selectedBlindType.length > 0 ? (
+                selectedBlindType ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
                       <span>Blind Type |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedBlindType).map(
-                        ([index, item]) => (
-                          <div className="filter-result">
-                            {item}{" "}
-                            <img
-                              onClick={() =>
-                                removeindividualfilter("blind_type", item)
-                              }
-                              src={path_image + "filter-close.svg"}
-                              alt="Close-filter"
-                            />
-                          </div>
-                        )
-                      )}
+                      <div className="filter-result">
+                        {selectedBlindType}
+                        <img
+                          onClick={() =>
+                            removeindividualfilter("blind_type", selectedBlindType)
+                          }
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                        />
+                      </div>
                     </div>
                   </div>
                 ) : null
@@ -2523,7 +2598,7 @@ const FilterSegment = (props) => {
 
               {
                 updateflag > 0 ? (
-                  typeof selectedcampaign === "object" && typeof selectedReadOpen !== "undefined" ? (
+                  typeof selectedcampaign === "object" && typeof selectedReadOpen !== "undefined" && selectedcampaign.length > 0 ? (
                     <div className="filter-div">
                       <div className="filter-div-title">
                         <span>Campaign? |</span>

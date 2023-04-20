@@ -27,7 +27,7 @@ const OctaCountry = () => {
       title: {
         text: 'Number of Visitors'
       }
-      
+
     },
     legend: {
       enabled: true,
@@ -99,7 +99,7 @@ const OctaCountry = () => {
       const region = selectRegionValue.current;
       const country = selectCountryValue.current;
       const payload = { region, country };
-      console.log("payload", payload);
+
       const response = await postData(ENDPOINT.STATEBYREGION, { region, country });
       const data = response.data.data;
 
@@ -107,7 +107,7 @@ const OctaCountry = () => {
       setSelectedCountry(Object.entries(data.countryRegionArray));
       // for line chart
       const lineData = JSON.parse(data.haematology_data_rev);
-      console.log(lineData);
+
       const lastValue = lineData[lineData.length - 1];
       const lineSeries = [
         {
@@ -129,7 +129,7 @@ const OctaCountry = () => {
       // for bar chart
       const barData = JSON.parse(data.haematology_data);
       const totalValue = barData.reduce((acc, curr) => acc + curr, 0);
-      console.log(totalValue);
+
       const barSeries = [
         {
           name: country + '(' +totalValue+ ')',
@@ -154,7 +154,6 @@ const OctaCountry = () => {
   };
 
   useEffect(() => {
-    // console.log(getCountry.current);
     getDataFromApi();
   }, []);
 
@@ -183,6 +182,11 @@ const OctaCountry = () => {
     <Col className="right-sidebar">
       <div className="custom-container">
         <Row>
+          <div className="top-header">
+            <div className="page-title d-flex">
+              <h2>State By Region </h2>
+            </div>
+          </div>
           <div className="create-change-content spc-content analytic-charts">
             <div className="form_action">
               <Form className="product-unit d-flex justify-content-between align-items-center">
@@ -218,5 +222,5 @@ const OctaCountry = () => {
     </Col>
   );
 };
-      
+
       export default OctaCountry;

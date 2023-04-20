@@ -26,7 +26,7 @@ export const ENDPOINT = {
   SPC_UPDATE: `/library/spc-edit`,
   LIBRARY_DETAIL_BY_ID: `/library/getLibraryDetail`,
   UPDATE_ARTICLE: `/library/update-article`,
-  DELETE_PDF_FILE: `/library//delete-pdf-file`,
+  DELETE_PDF_FILE: `/library/delete-pdf-file`,
   UPDATE_PDF_FILE: `/library/update-pdf`,
   READER_CREATE: `/reader/create-reader`,
   ADD_PDF_WORD: `/library/add-pdf-word`,
@@ -52,8 +52,8 @@ export const ENDPOINT = {
   DELIVERYTRENDS: "analytics/trend",
   MAPLOCATION: `analytics/map-location`,
   REPORTS: "analytics/reports",
-
   CONTENTTYPE: "analytics/content-type",
+  CONTENT_TYPE_GRAPH: "/analytics/content-type-graph",
   CONTENT: "analytics/content",
   TRENDING_TOPIC: "analytics/topic",
   READER_DOWNLOAD: `/reader/reader-file`,
@@ -62,4 +62,6 @@ export const ENDPOINT = {
   ADD_TAGS: `/library/add-tags`,
   INSERTBULKREADERS: `/reader/add-bulk-reader`,
   STATEBYREGION: `/analytics/octa-country`,
+  DOWNLOADARTICLEREADERS: `/analytics/download-analytics`,
+  DELETEREADER: `/reader/delete-reader`,
 };

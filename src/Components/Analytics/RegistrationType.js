@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Col, Row, Tab, Tabs, Form } from "react-bootstrap";
+import { Col, Row, Tab, Tabs, Form} from "react-bootstrap";
 import Highcharts from "highcharts";
-import { loader } from "../../loader";
 import Select from "react-select";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
@@ -15,10 +14,10 @@ exportData(Highcharts);
 
 const RegistrationType = () => {
   const [isDataFound, setIsDataFound] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const [data, setData] = useState([]);
-
+  const [sectionLoader, setSectionLoader] = useState(false);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
   const [All, setAll] = useState([
     { value: "", label: "All" },
     { value: "active", label: "Active" },
@@ -30,11 +29,11 @@ const RegistrationType = () => {
     getDataFromApi();
   }, []);
 
-  const selectedOptions = useRef("");
+ const selectedOptions = useRef("");
 
-  const getDataFromApi = async (tab = "view") => {
-    loader("show");
-
+  const getDataFromApi = async (tab="view") => {
+    setSectionLoader(true);
+    setApiCallStatus(false);
     try {
       const requestBody = {
         type: "topContent",
@@ -46,91 +45,117 @@ const RegistrationType = () => {
       if (hadData.length <= 0) {
         setIsDataFound(false);
       }
-
-      // console.log(hadData);
-
       setIsDataFound(true);
       setData(hadData);
-      setIsLoaded(true);
-
-      loader("hide");
+      setSectionLoader(false);
     } catch (err) {
       setIsDataFound(false);
       console.log(err);
-      loader("hide");
+      setSectionLoader(false);
     }
-    // console.log(chart.current)
+    setApiCallStatus(true);
   };
 
   const handleTabChange = (event) => {
     setIsDataFound(false);
-    setIsLoaded(false);
-
-    loader("show");
-
+    setSectionLoader(true);
     activeTab.current = event;
-    if (event === 1) {
+    if (event == 1) {
       getDataFromApi("view");
-    } else if (event === 2) {
+    } else if (event == 2) {
       getDataFromApi("reader");
     }
-    // loader("hide");
   };
 
   const filterDataByStatus = (e) => {
-    setIsLoaded(false);
-
+    setIsDataFound(false);
+    setSectionLoader(true);
     selectedOptions.current = e.value;
-    if (activeTab.current === 1) {
+    if (activeTab.current == 1) {
       getDataFromApi("view");
-    } else if (activeTab.current === 2) {
+    } else if (activeTab.current == 2) {
       getDataFromApi("reader");
     }
   };
+
 
   return (
     <>
       <Col className="right-sidebar">
-        {isDataFound ? (
+
+        {/*isDataFound ? (*/}
+        {/*data.length > 0 ? (*/}
           <div className="custom-container">
             <Row>
-              <div className="create-change-content spc-content analytic-charts">
-                <div className="form_action">
-                  <Form className="product-unit d-flex justify-content-between align-items-center">
-                    <div className="form-group">
-                      <label htmlFor="">Filter By</label>
-                      <Select
-                        options={All}
-                        placeholder="All"
-                        onChange={filterDataByStatus}
-                        className="dropdown-basic-button split-button-dropup"
-                      />
-                    </div>
-                  </Form>
+              <div className="top-header">
+                <div className="page-title d-flex">
+                  <h2>Top Content</h2>
                 </div>
+              </div>
+              <div className="create-change-content spc-content analytic-charts">
+              <div className="form_action">
+                <Form className="product-unit d-flex justify-content-between align-items-center">
+                  <div className="form-group">
+                    <label htmlFor="">Filter By</label>
+                    <Select
+                      options={All}
+                      placeholder="All"
+                         onChange={filterDataByStatus}
+                      className="dropdown-basic-button split-button-dropup"
+                     />
+                  </div>
+                </Form>
+              </div>
                 <div className="delivery-trends">
-                  <Tabs
-                    defaultActiveKey={activeTab.current}
-                    onSelect={handleTabChange}
-                  >
-                    <Tab eventKey="1" title="Views">
-                      <RegistrationTypeLayout
-                        data={activeTab.current === 1 ? data : null}
-                      />
-                    </Tab>
-                    <Tab eventKey="2" title="Readers">
-                      <RegistrationTypeLayout
-                        data={activeTab.current === 2 ? data : null}
-                      />
-                    </Tab>
-                  </Tabs>
+                  <div className="tabs_content_load">
+                    <Tabs
+                      defaultActiveKey={activeTab.current}
+                      onSelect={handleTabChange}
+                    >
+                      <Tab eventKey="1" title="Views">
+                        {isDataFound && data.length > 0 ? (
+                          <RegistrationTypeLayout  data={activeTab.current==1?data:null} />
+                        ) :
+                        apiCallStatus ?
+                        <div className="no_found">
+                               <p>No Data Found</p>
+                         </div>
+                         : null
+                       }
+                      </Tab>
+                      <Tab eventKey="2" title="Readers">
+                      {isDataFound && data.length > 0 ? (
+                        <RegistrationTypeLayout  data={activeTab.current==2?data:null}  />
+                      ) :
+                      apiCallStatus ?
+                      <div className="no_found">
+                             <p>No Data Found</p>
+                       </div>
+                       : null
+                     }
+                      </Tab>
+                    </Tabs>
+
+                    {
+                      sectionLoader ?
+                      <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
+                        <div className="loader_show"><span className="loader-view"> </span></div>
+                      </div>
+                      : ''
+                    }
+                  </div>
                 </div>
               </div>
             </Row>
           </div>
-        ) : isLoaded ? (
-          <h4>No Data Found</h4>
-        ) : null}
+          {
+            /*) :
+              apiCallStatus ?
+              <div className="no_found">
+                     <p>No Data Found</p>
+               </div>
+               : null*/
+          }
       </Col>
     </>
   );

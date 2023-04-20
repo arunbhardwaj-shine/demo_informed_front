@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { loader } from "../../loader";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { ENDPOINT } from "../../axios/apiConfig";
@@ -9,8 +8,8 @@ import GaugeComponent from "./GaugeComponent";
 const DeliveryTrends = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isTabClicked, setIsTabClicked] = useState(false);
-
+  const [sectionLoader, setSectionLoader] = useState(false);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
   const activeTab = useRef(1);
 
   Highcharts.setOptions({
@@ -34,8 +33,8 @@ const DeliveryTrends = () => {
   }, []);
 
   const getDataFromApi = async (type = "all") => {
-    loader("show");
-
+    setSectionLoader(true);
+    setApiCallStatus(false);
     try {
       const requestBody = {
         type: type,
@@ -345,29 +344,23 @@ const DeliveryTrends = () => {
         },
       };
 
-      // console.log(updatedListData);
-      setData(updatedData);
       setIsDataFound(true);
-
-      setIsLoaded(true);
+      setData(updatedData);
       setListData(updatedListData);
-      setIsTabClicked(true);
+      // setIsTabClicked(true);
       // setData(hadData);
-
-      loader("hide");
+      setSectionLoader(false);
     } catch (err) {
       setIsDataFound(false);
       console.log(err);
-      loader("hide");
+      setSectionLoader(false);
     }
-    // console.log(chart.current);
+    setApiCallStatus(true);
   };
   const handleTabChange = (event) => {
     setIsDataFound(false);
-    setIsTabClicked(false);
-
-    activeTab.current = event;
-    loader("show");
+    activeTab.current=event
+    setSectionLoader(true);
     if (event == 1) {
       getDataFromApi("all");
     } else if (event == 2) {
@@ -377,53 +370,83 @@ const DeliveryTrends = () => {
     } else if (event == 4) {
       getDataFromApi("immunology");
     }
-    // loader("hide");
   };
+
 
   return (
     <>
       <Col className="right-sidebar">
-        {isLoaded ? (
+
           <div className="custom-container">
             <Row>
-              <div className="delivery-trends">
-                <Tabs
-                  defaultActiveKey={activeTab.current}
-                  onSelect={handleTabChange}
-                >
-                  <Tab eventKey="1" title="All Business Units">
-                    {isDataFound && activeTab.current == 1 ? (
-                      <GaugeComponent tab={data.tab} list={listData.tab} />
-                    ) : isTabClicked ? (
-                      <h4>No Data Found</h4>
-                    ) : null}
-                  </Tab>
-                  <Tab eventKey="2" title="Haematology">
-                    {isDataFound && activeTab.current == 2 ? (
-                      <GaugeComponent tab={data.tab} list={listData.tab} />
-                    ) : isTabClicked ? (
-                      <h4>No Data Found</h4>
-                    ) : null}
-                  </Tab>
-                  <Tab eventKey="3" title="Critical Care">
-                    {isDataFound && activeTab.current == 3 ? (
-                      <GaugeComponent tab={data.tab} list={listData.tab} />
-                    ) : isTabClicked ? (
-                      <h4>No Data Found</h4>
-                    ) : null}
-                  </Tab>
-                  <Tab eventKey="4" title="Immunotherapy">
-                    {isDataFound && activeTab.current == 4 ? (
-                      <GaugeComponent tab={data.tab} list={listData.tab} />
-                    ) : isTabClicked ? (
-                      <h4>No Data Found</h4>
-                    ) : null}
-                  </Tab>
-                </Tabs>
+            <div className="top-header">
+                <div className="page-title d-flex">
+                      <h2>Delivery Trends</h2>
+                </div>
+              </div>
+              <div className="create-change-content spc-content analytic-charts">
+                  <div className="delivery-trends">
+                    <div className="tabs_content_load">
+                      <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
+                        <Tab eventKey="1" title="All Business Units">
+                          {isDataFound ? (
+                            <GaugeComponent tab={data.tab} list={listData.tab} />
+                          ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                        }
+                        </Tab>
+                        <Tab eventKey="2" title="Haematology">
+                        {isDataFound ? (
+                          <GaugeComponent tab={data.tab} list={listData.tab} />
+                          ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                        }
+                        </Tab>
+                        <Tab eventKey="3" title="Critical Care">
+                        {isDataFound ? (
+                          <GaugeComponent tab={data.tab} list={listData.tab} />
+                        ) :
+                        apiCallStatus ?
+                        <div className="no_found">
+                               <p>No Data Found</p>
+                         </div>
+                         : null
+                        }
+                        </Tab>
+                        <Tab eventKey="4" title="Immunotherapy">
+                        {isDataFound ? (
+                          <GaugeComponent tab={data.tab} list={listData.tab} />
+                        ) :
+                          apiCallStatus ?
+                          <div className="no_found">
+                                 <p>No Data Found</p>
+                           </div>
+                           : null
+                         }
+                        </Tab>
+                      </Tabs>
+
+                      {
+                        sectionLoader ?
+                        <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
+                          <div className="loader_show"><span className="loader-view"> </span></div>
+                        </div>
+                        : ''
+                      }
+                    </div>
+                  </div>
               </div>
             </Row>
           </div>
-        ) : null}
+
       </Col>
     </>
   );

@@ -72,7 +72,9 @@ const Header = () => {
   return (
     <>
       <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
+        <div className="loader_show">
+          <span className="loader-view"> </span>
+        </div>
       </div>
       <header>
         <nav className="navbar navbar-expand-sm navbar-light">
@@ -167,7 +169,7 @@ const Header = () => {
                   : "nav-item"
                 } >
                   <Link className="nav-link" to={
-                    localStorage.getItem("group_id") == 2 ? "/registration-type" :
+                    localStorage.getItem("group_id") == 2 ? "/content-analytics" :
                     localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
                      "/totalhcp"
                      : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ?
@@ -179,24 +181,25 @@ const Header = () => {
                 </li>
                 <li
                   className={
-                    window.location.pathname == "EmailArticleSelect" ||
-                    window.location.pathname == "EmailList" ||
-                    window.location.pathname == "CreateEmail" ||
-                    window.location.pathname == "SelectHCP" ||
-                    window.location.pathname == "SelectSmartList" ||
-                    window.location.pathname == "SelectSmartListUsers" ||
-                    window.location.pathname == "VerifyMAIL" ||
-                    window.location.pathname == "verifyMAIL" ||
-                    window.location.pathname == "VerifyHcpMAIL" ||
-                    window.location.pathname == "CreateSmartList" ||
-                    window.location.pathname == "SmartListFilter" ||
-                    window.location.pathname == "AutoEmail" ||
-                    window.location.pathname == "TemplateBuilder" ||
-                    window.location.pathname == "SmartList" ||
-                    window.location.pathname == "ViewSmartList" ||
-                    window.location.pathname == "EditList" ||
-                    window.location.pathname == "EmailStatss" ||
-                    window.location.pathname == "get-details"
+                    window.location.pathname == "/EmailArticleSelect" ||
+                    window.location.pathname == "/EmailList" ||
+                    window.location.pathname == "/CreateEmail" ||
+                    window.location.pathname == "/SelectHCP" ||
+                    window.location.pathname == "/SelectSmartList" ||
+                    window.location.pathname == "/SelectSmartListUsers" ||
+                    window.location.pathname == "/VerifyMAIL" ||
+                    window.location.pathname == "/verifyMAIL" ||
+                    window.location.pathname == "/VerifyHcpMAIL" ||
+                    window.location.pathname == "/CreateSmartList" ||
+                    window.location.pathname == "/SmartListFilter" ||
+                    window.location.pathname == "/AutoEmail" ||
+                    window.location.pathname == "/TemplateBuilder" ||
+                    window.location.pathname == "/SmartList" ||
+                    window.location.pathname == "/ViewSmartList" ||
+                    window.location.pathname == "/EditList" ||
+                    window.location.pathname == "/EmailStatss" ||
+                    window.location.pathname == "/bounced-email" ||
+                    window.location.pathname == "/get-details"
                       ? "nav-item active active-main"
                       : "nav-item"
                   }

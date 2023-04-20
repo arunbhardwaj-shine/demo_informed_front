@@ -6,13 +6,12 @@ import exportData from "highcharts/modules/export-data";
 import { loader } from "../../loader";
 import html2canvas from "html2canvas";
 import HighchartsReact from "highcharts-react-official";
+import { Spinner } from "react-activity";
 
 exporting(Highcharts);
 exportData(Highcharts);
 
 export default function RegistrationTypeLayout({ data }) {
-  const [numItemsToShow, setNumItemsToShow] = useState(15);
-  const [allItemsToShow, setAllItemsToShow] = useState([]);
   Highcharts.setOptions({
     colors: [
       "#F58289",
@@ -26,10 +25,20 @@ export default function RegistrationTypeLayout({ data }) {
       "#00003C",
     ],
   });
+  const [numItemsToShow, setNumItemsToShow] = useState(15);
+  const [allItemsToShow, setAllItemsToShow] = useState([]);
+  const [pageAll, setPageAll] = useState(false);
 
   //   const [resgistrationTypeOptions, setResgistrationTypeOptions] = useSta
   const handleLoadMore = () => {
-    setAllItemsToShow(data?.slice(numItemsToShow, data.length));
+      // loader("show")
+      setPageAll(true);
+      setTimeout(function () {
+        setAllItemsToShow(data?.slice(numItemsToShow, data.length));
+        setPageAll(false);
+      }, 300);
+
+
   };
 
   const displayData = data?.slice(0, numItemsToShow);
@@ -40,18 +49,34 @@ export default function RegistrationTypeLayout({ data }) {
       ) : (
         <RenderLayout data={displayData} />
       )}
-      {allItemsToShow?.length + numItemsToShow < data?.length && (
-        <div className="text-center">
+      {pageAll == false && allItemsToShow?.length + numItemsToShow < data?.length && (
+        <>
+        <div className="text-center load_more">
           <button className="btn btn-primary" onClick={handleLoadMore}>
             Load More
           </button>
         </div>
+        </>
       )}
+
+      {pageAll == true ? (
+        <div
+          className="load_more"
+          style={{
+            margin: "0 auto",
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
+          <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+        </div>
+      ) : null}
     </>
   );
 }
 
 const RenderLayout = ({ data }) => {
+  const downloadRef = useRef(null);
   const handleDownloadClick = (pdf_id) => {
     html2canvas(document.getElementById(pdf_id)).then((canvas) => {
       const link = document.createElement("a");
@@ -65,9 +90,10 @@ const RenderLayout = ({ data }) => {
 
   return (
     <>
-      <div>
-        {data?.map((element, index) => {
-          return (
+      <div ref={downloadRef}>
+        { typeof data !== "undefined" && Object.keys(data).length > 0 ?
+          data?.map((element, index) => {
+            return (
             <div
               key={element.pdf_id}
               id={element.pdf_id}
@@ -79,7 +105,7 @@ const RenderLayout = ({ data }) => {
                     <span>{index + 1}</span>
                   </div>
                   <Image
-                    src="https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png"
+                    src={element?.image}
                     alt="Image Not Available"
                   />
                 </Col>
@@ -275,18 +301,18 @@ const RenderLayout = ({ data }) => {
                         <span>
                           {element.pdf_limit != 0
                             ? Math.round(
-                                element.over_all_opening_readers /
+                                (element.over_all_opening_readers * 100) /
                                   element.pdf_limit
-                              ) + "%"
+                              ) + " %"
                             : 0}
                         </span>
                       </strong>
                     </h5>
                   </Col>
                   <Col className="d-flex justify-content-end">
-                    <Button className="btn next-content btn-bordered">
+                    <a className="btn next-content btn-filled" href={element?.pdfLink ? element.pdfLink : "#"} target="_blank">
                       Preview Article
-                    </Button>
+                    </a>
                     <Button
                       className="btn next-content btn-bordered"
                       onClick={() => handleDownloadClick(element.pdf_id)}
@@ -370,7 +396,10 @@ const RenderLayout = ({ data }) => {
               </Row>
             </div>
           );
-        })}
+          })
+        :
+        <div className="no_found"><p>No Data Found</p></div>
+      }
       </div>
     </>
   );
