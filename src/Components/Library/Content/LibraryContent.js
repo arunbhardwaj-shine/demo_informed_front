@@ -35,10 +35,11 @@ import { toast } from "react-toastify";
 import moment from "moment";
 // import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
-
+import { connect } from "react-redux";
+import { getEmailData, getDraftData, getSelectedSmartListData } from "../../../actions";
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LibraryContent = () => {
+const LibraryContent = (props) => {
   const limit = 24;
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
@@ -136,6 +137,9 @@ const LibraryContent = () => {
   useEffect(() => {
     applyFilters();
     getLibraryData(page, filterObject, search);
+    props.getDraftData(null);
+    props.getSelectedSmartListData(null);
+    props.getEmailData(null);
   }, []);
 
   const applyFilters = async () => {
@@ -706,6 +710,10 @@ const LibraryContent = () => {
     return data;
   }
 
+  const nextClicked = (id) => {
+      props.getEmailData({ PdfSelected: id });
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1246,14 +1254,27 @@ const LibraryContent = () => {
                                       >
                                         Download QR
                                       </Button>
-                                      <Button
-                                        className="footer-btn"
+                                      {
+                                        /*<Button
+                                          className="footer-btn"
+                                          onClick={() => {
+                                            navigate("/CreateEmail");
+                                          }}
+                                        >
+                                          Send in email
+                                        </Button>*/
+                                      }
+
+                                      <Link
+                                        to="/CreateEmail"
+                                        state={{ PdfSelected: data.id }}
                                         onClick={() => {
-                                          navigate("/CreateEmail");
+                                          nextClicked(data.id)
                                         }}
+                                        className="footer-btn"
                                       >
                                         Send in email
-                                      </Button>
+                                      </Link>
                                     </div>
                                   </div>
                                 ) : null}
@@ -1542,9 +1563,14 @@ const LibraryContent = () => {
                                 </div>
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
-                                    <Button className="footer-btn">
+                                    {
+                                      /*<Button className="footer-btn">
+                                        Analytics
+                                      </Button>*/
+                                    }
+                                    <Link className="footer-btn" to="/content-analytics" state={{ pdfId: data.id }}>
                                       Analytics
-                                    </Button>
+                                    </Link>
                                     <Button
                                       className="footer-btn reset"
                                       onClick={(e) =>
@@ -1794,7 +1820,7 @@ const LibraryContent = () => {
                   </div>
                 ) : null}
                 {isLoaded == true ? (
-              
+
               <div className="load_more">
                 <Button
                   className="btn btn-primary btn-filled"
@@ -1819,7 +1845,7 @@ const LibraryContent = () => {
             ) : null}
               </>
             </div>
-            
+
           </Row>
         </div>
       </Col>
@@ -1929,4 +1955,12 @@ const LibraryContent = () => {
   );
 };
 
-export default LibraryContent;
+const mapStateToProps = (state) => {
+  return state;
+};
+
+export default connect(mapStateToProps, {
+  getDraftData: getDraftData,
+  getSelectedSmartListData: getSelectedSmartListData,
+  getEmailData: getEmailData,
+})(LibraryContent);

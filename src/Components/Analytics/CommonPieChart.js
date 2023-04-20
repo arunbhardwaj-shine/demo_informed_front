@@ -6,8 +6,6 @@ exporting(Highcharts);
 exportData(Highcharts);
 
 const CommonPieChart = ({ data, value }) => {
-  console.log("component", data);
-  console.log("value", value);
   const series = [];
   data?.map((element, index) => {
     const newSeries = {

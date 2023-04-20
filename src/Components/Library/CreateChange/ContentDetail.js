@@ -479,9 +479,15 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>ePrint type</th>
                                                   <td>
-                                                    {data?.linkType
+                                                    {
+                                                      data?.spc_included ? "PDF+SPC" :
+                                                      data?.file_type == "ebook" ? "Ebook" :
+                                                      data?.file_type == "video" ? "Video" :
+                                                       "PDF"
+                                                    }
+                                                    {/*data?.linkType
                                                       ? data?.linkType
-                                                      : "N/A"}
+                                                      : "N/A"*/}
                                                   </td>
                                                 </tr>
                                                 {
