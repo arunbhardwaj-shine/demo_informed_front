@@ -43,7 +43,7 @@ const TrendingTopics = () => {
     },
     exporting: {
       showTable: true,
-      // tableCaption: ""
+      tableCaption: ""
     },
     series: [
       {
@@ -56,9 +56,6 @@ const TrendingTopics = () => {
           style: {
             textOutline: "none",
           },
-          // textPath: {
-          //   enabled: true,
-          // },
           distance: 10,
         },
         size: "95%",
@@ -69,7 +66,7 @@ const TrendingTopics = () => {
     },
 
   });
-  console.log(options);
+
   const getDataFromApi = async (type ="all") => {
     setSectionLoader(true);
     setApiCallStatus(false);
@@ -79,7 +76,6 @@ const TrendingTopics = () => {
       };
       const response = await postData(ENDPOINT.TRENDING_TOPIC,requestBody);
       const data = response.data;
-      console.log(data);
       const graphData = JSON.parse(data.data[0].graph_data);
       setOptions((prevOptions) => ({
         ...prevOptions,
