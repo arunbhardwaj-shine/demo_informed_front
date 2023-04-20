@@ -100,7 +100,6 @@ const CountryRegistration = () => {
    };
  }, [newData]);
 
-  console.log("map", mapOptions);
   // country list
   const [countryList, SetCountryList] = useState({
     chart: {
@@ -162,7 +161,6 @@ const CountryRegistration = () => {
       const year = optionYear.current;
       const response = await postData(ENDPOINT.COUNTRY_REGISTRATION, { year, month });
       const apiData = response.data;
-      console.log("apiData", apiData);
       const countryData = apiData.data.coordination.map((coordObject, index) => {
         const [lat, lon] = Object.values(coordObject)[0].split("~");
         const totalIndex = apiData.data.critical_care[index] + apiData.data.haematology[index] + apiData.data.immunotherapy[index];
@@ -255,9 +253,10 @@ const CountryRegistration = () => {
                 </Form>
               </div>
               <div className="high_charts">
-                {newData.length?(
+              
+                {newData.length? (
                   <MemoizedMap data={newData} />
-                  ) : null}
+                ) : null}
               </div>
               
               <div className="high_charts">
