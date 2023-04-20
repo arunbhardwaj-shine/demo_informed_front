@@ -10,11 +10,11 @@ import MapModule from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import Select from "react-select";
 import { useMemo } from 'react';
+import { loader } from "../../loader";
 MapModule(Highcharts);
 
 const CountryRegistration = () => {
-  const [loaded, setLoaded] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isDataFound, setIsDataFound] = useState(false);
   const [newData, setNewData] = useState([]);
 
   const [monthYear, setMonthYear] = useState();
@@ -44,6 +44,7 @@ const CountryRegistration = () => {
    return {
      chart: {
        type: "map",
+       
        events: {
         load: function (e) {
           this.mapZoom(0.3, 4500, -4500);
@@ -156,6 +157,7 @@ const CountryRegistration = () => {
 
   const getDataFromApi = async () => {
     try {
+      loader("show");
       const month = optionMonth.current;
       const year = optionYear.current;
       const response = await postData(ENDPOINT.COUNTRY_REGISTRATION, { year, month });
@@ -206,9 +208,12 @@ const CountryRegistration = () => {
       };
 
       SetCountryList(newCountryList)
-
+      setIsDataFound(true);
+      loader("hide");
     } catch (error) {
+      setIsDataFound(false);
       console.log(error);
+      loader("hide");
     }
   };
 
@@ -250,14 +255,11 @@ const CountryRegistration = () => {
                 </Form>
               </div>
               <div className="high_charts">
-              
-                {newData.length > 0 ? (
+                {newData.length?(
                   <MemoizedMap data={newData} />
-                ) : (
-                  <p>Loading data...</p>
-                )}
+                  ) : null}
               </div>
-
+              
               <div className="high_charts">
                 <HighchartsReact highcharts={Highcharts} options={countryList} />
               </div>
