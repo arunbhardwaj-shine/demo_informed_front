@@ -263,7 +263,7 @@ const PublisherPage = () => {
                                 <div className="build-content info-med">
                                 <h2>inforMed.pro Library</h2>
                                 <h3>For Publishers</h3>
-                                <p className="b-top-space">See who spends more time reading and call and close the deals for those who read instead of calling those who haven’t yet looked.</p>
+                                <p className="top-space">See who spends more time reading and call and close the deals for those who read instead of calling those who haven’t yet looked.</p>
                                 </div>
                             </div>
                             <div className="col-sm-2">
@@ -369,6 +369,19 @@ const PublisherPage = () => {
                 <h3>Latest News</h3>
                 <p className="news-dis">Here are our news and thoughts.</p>
                 <Row>
+                    <Col md={8}>
+                        <div className="article_bx green_back">
+                            <div className="article_bx-upper">
+                                <p>Blog</p>
+                                <h2>
+                                    <a href="https://informed.pro/Pages/blog/1">Our Manifesto</a>
+                                </h2>
+                            </div>
+                            <div className="article_bx-bottom">
+                                <a href="https://informed.pro/Pages/blog/1" className="login">READ</a>
+                            </div>
+                        </div>
+                    </Col>
                     <Col md={4}>
                         <div className="article_bx red_back">
                             <div className="article_bx-upper">
@@ -382,6 +395,7 @@ const PublisherPage = () => {
                             </div>
                         </div>
                     </Col>
+                    
                 </Row>
             </Container>
         </section>

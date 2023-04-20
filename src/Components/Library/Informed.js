@@ -79,7 +79,7 @@ const sendContactInformation= (event) => {
                         <Navbar.Toggle aria-controls="informed-login" />
                         <Navbar.Collapse id="informed-login">
                             <Nav className="ms-auto justify-content-end">
-                                <Link to="/publisher">Publisher</Link>
+                                <Link to="/publisher-page">Publisher</Link>
                                 <Link to="#link">Webinar</Link>
                                 <Link to="#link">Contact Us</Link>
                                 <NavDropdown title="Login">
