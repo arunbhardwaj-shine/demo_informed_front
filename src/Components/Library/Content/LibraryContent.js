@@ -1563,9 +1563,14 @@ const LibraryContent = (props) => {
                                 </div>
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
-                                    <Button className="footer-btn">
+                                    {
+                                      /*<Button className="footer-btn">
+                                        Analytics
+                                      </Button>*/
+                                    }
+                                    <Link className="footer-btn" to="/content-analytics" state={{ pdfId: data.id }}>
                                       Analytics
-                                    </Button>
+                                    </Link>
                                     <Button
                                       className="footer-btn reset"
                                       onClick={(e) =>

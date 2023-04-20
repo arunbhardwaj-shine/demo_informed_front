@@ -1560,9 +1560,9 @@ const LicenseContent = (props) => {
                                 </div>
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
-                                    <Button className="footer-btn">
+                                    <Link className="footer-btn" to="/content-analytics" state={{ pdfId: data.id }}>
                                       Analytics
-                                    </Button>
+                                    </Link>
                                     <Button
                                       className="footer-btn reset"
                                       onClick={(e) =>
