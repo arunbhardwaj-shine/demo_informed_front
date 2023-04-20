@@ -7,7 +7,7 @@ const data = [
   {
     image: `${path_image}create-icon.png`,
     title: "Create",
-    subtitle: "Upload Content here to create  a new 1ClickLink",
+    subtitle: "Upload Content here to create  a new Docintel Link",
   },
   {
     image: `${path_image}edit-icon.png`,
