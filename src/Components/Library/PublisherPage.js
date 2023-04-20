@@ -150,8 +150,7 @@ const PublisherPage = () => {
                 </div>
                 </Col>
                 <Col md={{span: 11, offset: 1}} className="publisher_feet-cont">
-                <div className="pull-left">
-                    <div className="path-features path-bottom-list p-f2">
+                <div className="path-features path-bottom-list p-f2">
                     <div className="path-fet-img"><img src={path_image + "Group_3.png"} alt=""/>
                     <div className="video_popup_icon">
                         <a href="https://docintel.app/Webinar/Docintel/login.php#Group_3" target="_blank">
@@ -170,9 +169,9 @@ const PublisherPage = () => {
                         <li>Build a library</li>
                         </ul>
                     </div>
-                    </div>
                 </div>
-                <div className="content-box pull-right p-f2">
+
+                <div className="content-box p-f2">
                     <div className="content-box-inner c-box-2">
                     <h4>Publishers</h4>
                     <p>Your client can see all the details of usage and RTR for each reader in their own account.</p>
@@ -180,7 +179,7 @@ const PublisherPage = () => {
                 </div>
                 </Col>
                 <Col md={12} className="publisher_feet-cont-last-sec">
-                <Col md={4} className="pull-right no-padding">
+                <Col md={4} className="no-padding">
                 <Row>  
                     <Col md={8}>
                     <div className="screenshot">
@@ -199,7 +198,7 @@ const PublisherPage = () => {
                     <Col md={4}>
                     <div className="slide-content">
                         <ul>
-                        <li><a href="#" className="prof_clr">Profiles	</a></li>
+                        <li><a href="#" className="prof_clr">Profiles</a></li>
                         <li><a href="#">Openings</a></li>
                         <li><a href="#">RTR</a></li>
                         </ul>
@@ -210,19 +209,120 @@ const PublisherPage = () => {
                 </Col>
                 <Col md={12}>
                 <div className="publisher-sec">
-                    <div className="publisher-cont pull-left">
-                    <p>*We take GDPR &amp; data safety very seriously. It will only be your client who sees which Clinicians read your content.</p>
+                    <div className="publisher-cont">
+                        <p>*We take GDPR &amp; data safety very seriously. It will only be your client who sees which Clinicians read your content.</p>
                     </div>
-                    <div className="publisher-text-box pull-left">
-                    <div className="content-box-inner take_ttl_left">
-                        <h4>Lifescience</h4>
-                        <p>Meanwhile you can track aggregated data for each eprints and we email you an alert if limits are nearing.</p>
-                    </div>
+                    <div className="publisher-text-box">
+                        <div className="content-box-inner take_ttl_left">
+                            <h4>Lifescience</h4>
+                            <p>Meanwhile you can track aggregated data for each eprints and we email you an alert if limits are nearing.</p>
+                        </div>
                     </div>
                 </div>
                 </Col>
             </Row>
             </Container>
+        </section>
+        <section className="service-not-section">
+            <Container>
+                <Row>
+                    <Col md={2} className="service-not-section-left">
+                        <img src={path_image + "md-icon2.png"} width="166" height="166" alt=""/>
+                    </Col>
+                    <Col md={10} className="service-not-section-right">
+                        <div className="not-artical">
+                            <h5>We are Software as a Service - note the word Service. We pride ourselves on both industry-leading fast turn-around, and even faster response times for queries and unusual demands from your clients.</h5>
+                            <p>In inforMed.pro we have decades of experience dealing with the lifescience industry and medical publishing - to claim we understand your needs is to put it mildly. This is why some of our publishers trust us to deal directly with their lifescience clients and help them improve and close deals; which we see as a mutual benefit.</p>
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
+        </section>
+        <section className="team-section infomed-sec">
+            <Container>
+                <div className="dotted-line text-center info-line">
+                    <img src={path_image + "info-0line.png"} width="816" height="754" alt=""/>
+                </div>
+                <Row className="content-sec">
+                    <Col sm={3} className="show-desktop">
+                        <ul className="library-list info-list">
+                            <li><img src={path_image + "info-icon1.png"} alt=""/></li>
+                            <li><img src={path_image + "info-icon2-news.png"} alt=""/></li>
+                            <li><img src={path_image + "icon3-new.png"} alt=""/>
+                            <p>Each Product Manager gets a unique Docintel Link so you can see who reads and who doesn't.</p>
+                            </li>
+                        </ul>
+                    </Col>
+                    <Col sm={9} className="infomed-sec-innner">
+                        <Row>
+                            <div className="col-sm-4 show-desktop">
+                                <div className="build-content"><p>Build your mailing lists with a few clicks and select the right articles for each person</p>
+                                <p className="b-top-space">Email all the relevant articles to Product Managers safely from Salesforece or other CRM.</p></div>
+                            </div>
+                            <div className="col-sm-6 ">
+                                <div className="build-content info-med">
+                                <h2>inforMed.pro Library</h2>
+                                <h3>For Publishers</h3>
+                                <p className="b-top-space">See who spends more time reading and call and close the deals for those who read instead of calling those who haven’t yet looked.</p>
+                                </div>
+                            </div>
+                            <div className="col-sm-2">
+                                <div className="cercile-detail">
+                                <h4 className="cercile-detail-heading">Read-Through-Rate (RTR) defined</h4>
+                                <div className="cercile-content cr-1">
+                                <h4>READ</h4>
+                                <p>Up to<br/>100%</p>
+                                </div>
+                                <div className="cercile-content cr-2">
+                                <h4>BROWSING</h4>
+                                <p>Up to<br/>60%</p>
+                                </div>
+                                <div className="cercile-content cr-3">
+                                <h4>NOT READ</h4>
+                                <p>Below<br/>30%</p>
+                                </div>
+                                </div>
+                            </div>
+                        </Row>
+                        <Row className="mobile_visual" style={{display:"none"}}>
+                            <ul className="library-list info-list">
+                                <li><img src={path_image + "info-icon1.png"} alt=""/>
+                                     <p>Build your mailing lists with a few clicks and select the right articles for each person</p></li>
+                                <li><img src={path_image + "info-icon2-news.png"} alt=""/>
+                                     <p>Email all the relevant articles to Product Managers safely from Salesforece or other CRM.</p></li>
+                                <li><img src={path_image + "icon3-new.png"} alt=""/>
+                                    <p>Each Product Manager gets a unique Docintel Link so you can see who reads and who doesn't.</p>
+                                </li>
+                            </ul>
+                        </Row>
+                        <Row>
+                            <ul className="pub-list">
+                            <li><img src={path_image +"pub-icon1.png"} width="200" height="212" alt=""/></li>
+                            <li><img src={path_image + "pub-icon2.png"} width="200" height="212" alt=""/>
+                            <h4 className="r-cl-1">65% Read</h4>
+                            </li>
+                            <li><img src={path_image + "pub-icon3.png"} width="200" height="212" alt=""/>
+                            <h4 className="r-cl-2">95% Read</h4>
+                            </li>
+                            <li><img src={path_image + "pub-icon1.png"} width="200" height="212" alt=""/></li>
+                            <li><img className="li_last_ico" src={path_image + "pub-icon1.png"} width="200" height="212" alt=""/></li>
+                            </ul>
+                        </Row>
+
+                    </Col>
+                    <Col md={6} className="no-padding upp_padd padd_none">
+                        <div className="text-right">
+                            <img src={path_image + "md-pc-new3.png"} width="369" height="314" className="img-fluid" alt=""/>
+                        </div>
+                    </Col>
+                    <Col md={6} className="upp_padd">
+                        <div className="publish-description">
+                        <h4>This is the tool we missed when we worked in publishing. Who is not bored of calling and starting: “Did you read the article I sent last week?” </h4>
+                        <p>When instead you can start talking directly about page 5, the graph, the abstract or any other thing you can see the client has read.</p>
+                        </div>
+                    </Col>
+            </Row>
+        </Container>
         </section>
         <section className="contact-section">
             <Container>

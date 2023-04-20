@@ -11,9 +11,9 @@ const LibraryPopupSet = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar">
         <div className="custom-container">
-          <div className="row">
+          <Row>
             <Button variant="primary" onClick={handleShow}>
               Launch demo modal
             </Button>
@@ -88,9 +88,9 @@ const LibraryPopupSet = () => {
                 </Button>
               </Modal.Footer>
             </Modal>
-          </div>
+          </Row>
         </div>
-      </div>
+      </Col>
     </>
   );
 };

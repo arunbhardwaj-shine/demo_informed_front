@@ -136,6 +136,9 @@ const LicenseContent = (props) => {
   useEffect(() => {
     applyFilters();
     getLibraryData(page, filterObject, search);
+    props.getDraftData(null);
+    props.getSelectedSmartListData(null);
+    props.getEmailData(null);
   }, []);
 
   const applyFilters = async () => {
@@ -706,18 +709,15 @@ const LicenseContent = (props) => {
 
 
   const nextClicked = (id) => {
-      props.getDraftData(null);
-      props.getSelectedSmartListData(null);
-      props.getEmailData(null);
       props.getEmailData({ PdfSelected: id });
   };
 
   return (
     <>
-      <Col className="right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header sticky">
               <div className="page-title">
                 <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2>
               </div>
@@ -1024,9 +1024,7 @@ const LicenseContent = (props) => {
                 </div>
               </div>
             ) : null}
-          </Row>
 
-          <Row>
             <div className="library-content-box-layuot d-flex">
               <>
                 {libraryData?.length || updateflag ? (
@@ -1265,7 +1263,9 @@ const LicenseContent = (props) => {
                                       <Link
                                         to="/CreateEmail"
                                         state={{ PdfSelected: data.id }}
-                                        onClick={nextClicked(data.id)}
+                                        onClick={() => {
+                                          nextClicked(data.id)
+                                        }}
                                         className="footer-btn"
                                       >
                                         Send in email
@@ -1558,9 +1558,9 @@ const LicenseContent = (props) => {
                                 </div>
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
-                                    <Button className="footer-btn">
+                                    <Link className="footer-btn" to="/content-analytics" state={{ pdfId: data.id }}>
                                       Analytics
-                                    </Button>
+                                    </Link>
                                     <Button
                                       className="footer-btn reset"
                                       onClick={(e) =>
