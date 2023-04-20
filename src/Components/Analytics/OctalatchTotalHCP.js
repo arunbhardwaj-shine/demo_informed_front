@@ -132,7 +132,7 @@ const OctalatchTotalHCP = () => {
     //   showTable: true,
     // },
     series: [],
-    month: [],
+    months: [],
   });
 
   Highcharts.setOptions({
@@ -158,92 +158,90 @@ const OctalatchTotalHCP = () => {
     try {
       // const response = await getData(ENDPOINT.OCTALATCH_TOTAL_HCP);
       loader("show");
-      axios
-        .get(ENDPOINT.OCTALATCH_TOTAL_HCP)
-        .then((response) => {
-            const data = response?.data?.response?.data;
-            const seriesMonth = response?.data?.response?.months;
-            const lineMonth = response?.data?.response?.months_reverse;
+      axios.get(ENDPOINT.OCTALATCH_TOTAL_HCP).then((response) => {
+        const data = response?.data?.response?.data;
+        const seriesMonth = response?.data?.response?.months;
+        const lineMonth = response?.data?.response?.months_reverse;
 
-            if (data.length <= 0) {
-              setIsDataNotFound(true);
-            }
+        if (data.length <= 0) {
+          setIsDataNotFound(true);
+        }
 
-            const newSeriesData = [
-              {
-                name: "",
-                data: "",
-                color: "",
-              },
-            ];
-            const newLineData = [
-              {
-                name: "",
-                data: "",
-                color: "",
-              },
-            ];
+        const newSeriesData = [
+          {
+            name: "",
+            data: "",
+            color: "",
+          },
+        ];
+        const newLineData = [
+          {
+            name: "",
+            data: "",
+            color: "",
+          },
+        ];
 
-            data.map((item, index) => {
-              newSeriesData?.push({
-                name: item?.name + " (" + JSON.parse(item?.total) + ")",
-                data: item?.graph1,
-                color: Highcharts?.getOptions()?.colors[index],
-              });
-              newLineData.push({
-                name: item.name + " (" + JSON.parse(item?.total) + ")",
-                data: item?.graph2,
-                color: Highcharts?.getOptions()?.colors[index],
-              });
-            });
-
-            // Set options for HCP chart
-
-            // const categories = JSON.parse(data[0]?.Months);
-            const seriesCategories = seriesMonth;
-
-            const newHcpOptions = {
-              ...hcpOptions,
-              xAxis: {
-                categories: seriesCategories,
-              },
-              series: newSeriesData?.slice(1),
-            };
-
-            setHcpOptions(newHcpOptions);
-
-            // Set options for Base line chart
-
-            const lineCategories = lineMonth;
-
-            const newLineOptions = {
-              ...lineOptions,
-              xAxis: {
-                categories: lineCategories,
-              },
-              series: newLineData?.slice(1),
-            };
-            setLineOptions(newLineOptions);
-
-            // Create table data
-
-            const newTableSeries = data?.map((item) => ({
-              data: item?.graph1,
-            }));
-
-            const newTable = {
-              ...tableData,
-              xAxis: {
-                categories: newSeriesData?.slice(1).map((item) => {
-                  return item?.name;
-                }),
-              },
-              series: newTableSeries,
-              months: seriesCategories,
-            };
-            setTableData(newTable);
+        data.map((item, index) => {
+          newSeriesData?.push({
+            name: item?.name + " (" + JSON.parse(item?.total) + ")",
+            data: item?.graph1,
+            color: Highcharts?.getOptions()?.colors[index],
+          });
+          newLineData.push({
+            name: item.name + " (" + JSON.parse(item?.total) + ")",
+            data: item?.graph2,
+            color: Highcharts?.getOptions()?.colors[index],
+          });
         });
-        loader("hide");
+
+        // Set options for HCP chart
+
+        // const categories = JSON.parse(data[0]?.Months);
+        const seriesCategories = seriesMonth;
+
+        const newHcpOptions = {
+          ...hcpOptions,
+          xAxis: {
+            categories: seriesCategories,
+          },
+          series: newSeriesData?.slice(1),
+        };
+
+        setHcpOptions(newHcpOptions);
+
+        // Set options for Base line chart
+
+        const lineCategories = lineMonth;
+
+        const newLineOptions = {
+          ...lineOptions,
+          xAxis: {
+            categories: lineCategories,
+          },
+          series: newLineData?.slice(1),
+        };
+        setLineOptions(newLineOptions);
+
+        // Create table data
+
+        const newTableSeries = data?.map((item) => ({
+          data: item?.graph1,
+        }));
+
+        const newTable = {
+          ...tableData,
+          xAxis: {
+            categories: newSeriesData?.slice(1).map((item) => {
+              return item?.name;
+            }),
+          },
+          series: newTableSeries,
+          months: seriesCategories,
+        };
+        setTableData(newTable);
+      });
+      loader("hide");
     } catch (error) {
       setIsDataNotFound(true);
       loader("hide");

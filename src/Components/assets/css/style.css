@@ -2958,7 +2958,7 @@ form#add_hcp_form .row:not(:first-child) {
 .loader-view {
   color: var(--white);
   position: relative;
-  font-size: 11px;
+  font-size: 11px !important;
   background: var(--white);
   animation: escaleY 1s infinite ease-in-out;
   width: 1.4em;

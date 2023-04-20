@@ -4,6 +4,7 @@ import Select from "react-select";
 
 const Webinar = () => {
   const [userInputs, setUserInputs] = useState({});
+  const [userSignInInputs, setUserSignInInputs] = useState({});
   const [signInModal, setSignInModal] = useState(false);
   const [selctOptions, setSelectOptions] = useState([
     { value: "1", label: "1" },
@@ -33,6 +34,27 @@ const Webinar = () => {
   const clickSignInButton = (e) => {
     e.preventDefault();
     setSignInModal(true);
+  };
+
+  const handleSignInChange = async (e, isSelectedName) => {
+    if (e?.target?.files?.length < 1) {
+      return;
+    }
+    setUserSignInInputs({
+      ...userSignInInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e?.target?.files
+          : e
+        : e?.target?.value,
+    });
+  };
+  const handleSignInSubmit = async () => {
+    console.log("sign in inputs", userSignInInputs);
+  };
+
+  const handleClose = () => {
+    setSignInModal(false);
   };
 
   useEffect(() => {}, []);
@@ -967,77 +989,96 @@ const Webinar = () => {
           </div>
         </div>
       </div>
-      <Modal show={signInModal}>
-        <div className="login-form-view">
-          <div className="modal fade" id="myModal">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <button type="button" className="close" data-dismiss="modal">
-                    &times;
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <div className="row no-gutters">
-                    <div className="col-md-5">
-                      <div className="login-form-view-left">
-                        <div className="form-bg-image">
-                          <img src="./img/modal-banner-img.png" alt="" />
-                        </div>
-                        <div className="image-over-txt">
-                          <img src="./img/login-popup-img.png" alt="" />
-                          <ul className="form-view-left-txt">
-                            <li>DocIntel</li>|<li> Webinars</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-7">
-                      <div className="login-form-view-right">
-                        <h3>Sign In</h3>
-                        <form>
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="exampleInputname"
-                              placeholder="Username"
-                            />
-                          </div>
-                          <div className="form-group">
-                            <input
-                              type="password"
-                              className="form-control"
-                              id="exampleInputPassword1"
-                              placeholder="Password"
-                            />
-                          </div>
-                          <button
-                            type="submit"
-                            className="btn btn-primary signin_btn"
-                          >
-                            Sign In
-                          </button>
-                          <button
-                            type="submit"
-                            className="btn btn-primary signup_btn"
-                          >
-                            Sign Up
-                          </button>
-                          <div className="forgot_password">
-                            <a href="#!" className="forgot-password-link">
-                              Forgot password?
-                            </a>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+      <Modal
+        show={signInModal}
+        onHide={handleClose}
+        className="login-form-view modal fade modal-dialog modal-dialog-centered"
+        id="myModal"
+      >
+        <Modal.Header className="modal-content modal-header">
+          <div className="login-form-view">
+            <div className="modal fade" id="myModal">
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <button
+                      type="button"
+                      onClick={handleClose}
+                      className="close"
+                      data-dismiss="modal"
+                    >
+                      &times;
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="modal-body">
+            <div className="row no-gutters">
+              <div className="col-md-5">
+                <div className="login-form-view-left">
+                  <div className="form-bg-image">
+                    <img src="./img/modal-banner-img.png" alt="" />
+                  </div>
+                  <div className="image-over-txt">
+                    <img src="./img/login-popup-img.png" alt="" />
+                    <ul className="form-view-left-txt">
+                      <li>DocIntel</li>|<li> Webinars</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-7">
+                <div className="login-form-view-right">
+                  <h3>Sign In</h3>
+                  <form>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        name="username"
+                        className="form-control"
+                        id="exampleInputname"
+                        placeholder="Username"
+                        onChange={(e) => handleSignInChange(e)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="password"
+                        name="password"
+                        className="form-control"
+                        id="exampleInputPassword1"
+                        placeholder="Password"
+                        onChange={(e) => handleSignInChange(e)}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-primary signin_btn"
+                      onClick={handleSignInSubmit}
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn btn-primary signup_btn"
+                    >
+                      Sign Up
+                    </button>
+                    <div className="forgot_password">
+                      <a href="#!" className="forgot-password-link">
+                        Forgot password?
+                      </a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
       </Modal>
     </>
   );

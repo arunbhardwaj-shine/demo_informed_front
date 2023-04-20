@@ -54,7 +54,7 @@ export default function ContentAnalyticsComponent({ data }) {
 
   let agreed_limit = data.limit != "" && data.limt != 0 ? data.limit : 1000;
   const arr = ["Openings", "Unique Readers"];
-  var categories_data = Object.keys(data.graph.openig);
+  var categories_data = Object.keys(data?.graph?.openig);
   var series_data = Object.entries(data.graph).map(([name, values], index) => ({
     name: arr[index],
     data: Object.values(values),

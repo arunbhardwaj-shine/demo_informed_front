@@ -392,9 +392,12 @@ const LicenseContentDetail = () => {
                                                 <tr>
                                                   <th>ePrint type</th>
                                                   <td>
-                                                    {data?.linkType
-                                                      ? data?.linkType
-                                                      : "N/A"}
+                                                    {
+                                                      data?.spc_included ? "PDF+SPC" :
+                                                      data?.file_type == "ebook" ? "Ebook" :
+                                                      data?.file_type == "video" ? "Video" :
+                                                       "PDF"
+                                                    }
                                                   </td>
                                                 </tr>
                                                 {
@@ -432,7 +435,7 @@ const LicenseContentDetail = () => {
                                                       </td>
                                                     </tr>
                                                   :  null
-                                                }  
+                                                }
                                                 <tr>
                                                   <th>
                                                     Production notes to Docintel
