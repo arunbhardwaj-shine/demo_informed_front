@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Container, Nav, Navbar, Row, Form, NavDropdown, Button, Modal, Col } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 
 const PublisherPage = () => {
     const [show, setShow] = useState(false);
@@ -15,9 +16,9 @@ const PublisherPage = () => {
                     <Navbar.Toggle aria-controls="informed-login" />
                     <Navbar.Collapse id="informed-login">
                         <Nav className="ms-auto justify-content-end">
-                            <Nav.Link href="#home">Publisher</Nav.Link>
-                            <Nav.Link href="#link">Webinar</Nav.Link>
-                            <Nav.Link href="#link">Contact Us</Nav.Link>
+                            <Link to="/informed">Lifescience</Link>
+                            <Link to="/">Webinar</Link>
+                            <Link to="/">Contact Us</Link>
                             <NavDropdown title="Login">
                                 <Form>
                                     <Form.Control
@@ -46,7 +47,7 @@ const PublisherPage = () => {
                     <Col sm={5}>
                     <div className="banner-content bnr-c2">
                         <h1>Help your clients <span>get digital right</span></h1>
-                        <h4 className="banner-content-context">inforMed.pro hosting is built on the desire to say "YES" to your clients. To help them learn what works and drive more usage. </h4>
+                        <h5 className="banner-content-context">inforMed.pro hosting is built on the desire to say "YES" to your clients. To help them learn what works and drive more usage.</h5>
                     </div>
                     <div className="banner-content-video">
                         <div className="banner-content-video-popup" onclick="video_clicked('this');" data-toggle="modal" data-target="#video1" id="playVideo">

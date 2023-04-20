@@ -383,7 +383,7 @@ const DeliveryTrends = () => {
                       <h2>Delivery Trends</h2>
                 </div>
               </div>
-              <div className="create-change-content spc-content analytic-charts">
+              <div className="create-change-content spc-content analytic-charts small-space">
                   <div className="delivery-trends">
                     <div className="tabs_content_load">
                       <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>

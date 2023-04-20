@@ -270,8 +270,8 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
                 </div>
               </div>
               <div className="create-change-content spc-content analytic-charts">
-                  <div className="delivery-trends space-added">
-                      <div className="tabs_content_load margin">
+                  <div className="delivery-trends space-added" style={{padding:"10px"}}>
+                      <div className="tabs_content_load">
                         <Tabs
                           defaultActiveKey={activeTab.current}
                           onSelect={handleTabChange}

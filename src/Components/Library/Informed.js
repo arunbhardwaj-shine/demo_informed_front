@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Container, Nav, Navbar, Row, Form, NavDropdown, Button, Modal, Col } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 
 const Informed = () => {
     const [show, setShow] = useState(false);
@@ -15,9 +16,10 @@ const Informed = () => {
                     <Navbar.Toggle aria-controls="informed-login" />
                     <Navbar.Collapse id="informed-login">
                         <Nav className="ms-auto justify-content-end">
-                            <Nav.Link href="#home">Publisher</Nav.Link>
-                            <Nav.Link href="#link">Webinar</Nav.Link>
-                            <Nav.Link href="#link">Contact Us</Nav.Link>
+                            {/* <Nav.Link href="/publisher-page">Publisher</Nav.Link> */}
+                            <Link to="/publisher-page">Publisher</Link>
+                            <Link to="/">Webinar</Link>
+                            <Link to="/">Contact Us</Link>
                             <NavDropdown title="Login">
                                 <Form>
                                     <Form.Control
