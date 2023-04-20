@@ -714,10 +714,10 @@ const LicenseContent = (props) => {
 
   return (
     <>
-      <Col className="right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header sticky">
               <div className="page-title">
                 <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2>
               </div>
@@ -1024,9 +1024,7 @@ const LicenseContent = (props) => {
                 </div>
               </div>
             ) : null}
-          </Row>
 
-          <Row>
             <div className="library-content-box-layuot d-flex">
               <>
                 {libraryData?.length || updateflag ? (
