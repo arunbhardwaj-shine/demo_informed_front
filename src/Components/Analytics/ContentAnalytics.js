@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Form, Row, Accordion, ProgressBar } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
@@ -10,14 +11,13 @@ import Select from "react-select";
 import HighchartsReact from "highcharts-react-official";
 import ContentAnalyticsComponent from "./ContentAnalyticsComponent";
 import html2canvas from "html2canvas";
-
-import { Link } from "react-router-dom";
 import MapComponent from "./MapComponent";
 
 exporting(Highcharts);
 exportData(Highcharts);
 
 const ContentAnalytics = () => {
+  const { state } = useLocation();
   const [pdfData, setPdfData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);

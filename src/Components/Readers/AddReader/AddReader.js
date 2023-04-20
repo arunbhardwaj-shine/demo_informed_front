@@ -27,9 +27,11 @@ const ReaderAdd = () => {
     { value: "production3", label: "production3" },
   ]);
   const [ibu, setIbu] = useState([
-    { value: "critical care1", label: "critical care1" },
-    { value: "critical care2", label: "critical care2" },
-    { value: "critical care3", label: "critical care3" },
+      {
+          label:"Critical Care",
+          value:"Critical Care"
+      },
+      {label:"Haematology",value:"Haematology"},{label:"Immunotherapy",value:"Immunotherapy"},
   ]);
   const [hospital, setHospital] = useState([]);
   const [countryCode, setCountryCode] = useState([
@@ -159,6 +161,7 @@ const ReaderAdd = () => {
         value: key,
       });
     });
+    
     setCountryAll(country);
     setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
@@ -327,7 +330,7 @@ const ReaderAdd = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label}-${userInputs?.primary_phone}`,
+          primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
 
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
@@ -348,7 +351,6 @@ const ReaderAdd = () => {
           sub_role: userInputs?.sub_role,
           ibu: userInputs?.ibu,
         };
-        console.log("data", data);
         await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
 

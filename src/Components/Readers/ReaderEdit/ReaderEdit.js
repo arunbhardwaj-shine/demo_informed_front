@@ -121,9 +121,11 @@ const ReaderEdit = () => {
       { value: "production3", label: "production3" },
     ],
     ibu: [
-      { value: "critical care1", label: "critical care1" },
-      { value: "critical care2", label: "critical care2" },
-      { value: "critical care3", label: "critical care3" },
+      {
+        label:"Critical Care",
+        value:"Critical Care"
+    },
+    {label:"Haematology",value:"Haematology"},{label:"Immunotherapy",value:"Immunotherapy"},
     ],
     blind_type: [],
   });
@@ -278,7 +280,7 @@ const ReaderEdit = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label}-${userInputs?.primary_phone}`,
+          primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province,
@@ -296,7 +298,6 @@ const ReaderEdit = () => {
           irt: userInputs?.irt,
           ibu: userInputs?.ibu,
         };
-        console.log("data", data);
         await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
         navigate("/readers-view");
@@ -779,7 +780,16 @@ const ReaderEdit = () => {
                                 </Form.Label>
                                 <Select
                                   options={userDetail?.ibu}
-                                  defaultValue={userInputs?.ibu}
+                                  // defaultValue={userInputs?.ibu}
+                                  defaultValue={
+                                    userDetail?.ibu?.length
+                                    ? userDetail?.ibu[
+                                      userDetail?.ibu?.findIndex(
+                                  (el) => el.value ==userInputs?.ibu
+                                   )
+                                   ]
+                                  : ""
+                                  }
                                   placeholder="Select Bussiness Unit"
                                   name="ibu"
                                   className="dropdown-basic-button split-button-dropup"

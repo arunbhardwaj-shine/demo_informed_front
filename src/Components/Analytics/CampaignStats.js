@@ -620,12 +620,12 @@ const CampaignStats = () => {
       const { cis, ibu } = hadData;
       const monthsString = cis[0].Months;
       const months = monthsString
-        .split(",")
-        .map((month) => month.replace(/[[\]]/g, ""))
-        .reverse();
+        // .split(",")
+        // .map((month) => month.replace(/[[\]]/g, ""))
+        // .reverse();
 
       const newSeriesCis = cis.map((item, index) => {
-        const totalSum = JSON.parse(item.totalSum);
+        const totalSum = item.total;
         const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
         return {
           name: item.ibu,
@@ -637,17 +637,19 @@ const CampaignStats = () => {
 
       //  for total column cis
       const totalDataCis = months.map((month, index) => {
+
         const total = newSeriesCis.reduce(
           (sum, series) => sum + series.data[index],
           0
         );
         return total;
       });
+
       const totalDataCisNoNaN = totalDataCis.map((val) =>
         isNaN(val) ? 0 : val
       );
+
       const totalCis = totalDataCisNoNaN.reduce((acc, val) => acc + val, 0);
-      console.log(totalCis);
 
       const newSeriesDataCis = [
         ...newSeriesCis.map((series, index) => ({
@@ -669,11 +671,10 @@ const CampaignStats = () => {
         },
         series: newSeriesDataCis,
       };
-      // console.log(newSeriesDataCis);
       setCampaignStatsLineOption(newHcpOptions);
 
       const newSeriesIbu = ibu.map((item, index) => {
-        const totalSum = JSON.parse(item.totalSum);
+        const totalSum = item.total
         const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
         return {
           name: item.ibu,
@@ -683,9 +684,10 @@ const CampaignStats = () => {
         };
       });
 
-      // for   ibu
 
+      // for   ibu
       const totalDataIbu = months.map((month, index) => {
+
         const total = newSeriesIbu.reduce(
           (sum, series) => sum + series.data[index],
           0
@@ -697,8 +699,6 @@ const CampaignStats = () => {
         isNaN(val) ? 0 : val
       );
       const totalIbu = newSeriesIbuNoNaN.reduce((acc, val) => acc + val, 0);
-      console.log("ibu", totalIbu);
-
       const newSeriesDataIbu = [
         ...newSeriesIbu.map((series, index) => ({
           name: `${series.name} (${series.totalReaders})`,
@@ -721,7 +721,6 @@ const CampaignStats = () => {
       };
 
       setCampaignStatsLineOptionIBU(newHcpOptionsIbu);
-
       setIsDataFound(true);
       setData(cis);
     } catch (err) {
