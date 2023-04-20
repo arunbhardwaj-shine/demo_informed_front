@@ -63,9 +63,7 @@ const ContentAnalytics = () => {
     } catch (err) {
       setIsDataFound(false);
       console.log(err);
-    } finally {
-      // loader("hide");
-    }
+    } 
   }
 
   async function filterPdfData(pdfId) {
@@ -96,7 +94,8 @@ const ContentAnalytics = () => {
 
   useEffect(() => {
     if (pdfOptions.length > 0) {
-      filterPdfData(pdfOptions[0]);
+      let pdfId = state?.pdfId?{value:state?.pdfId}:pdfOptions[0]
+      filterPdfData(pdfId);
     }
   }, [pdfOptions]);
   const handleAccordionOpen = async () => {
@@ -190,7 +189,7 @@ const ContentAnalytics = () => {
                         }}
                         className="dropdown-basic-button split-button-dropup mr-2"
                         isClearable
-                        defaultValue={pdfOptions[0]} // pass the first object as the default value
+                        defaultValue={state?.pdfId?pdfOptions?.filter(item =>item?.value ==state?.pdfId):pdfOptions?.[0]} // pass the first object as the default value
                       />
                       <Select
                         options={urlOptions}
