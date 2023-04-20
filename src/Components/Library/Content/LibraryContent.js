@@ -35,10 +35,12 @@ import { toast } from "react-toastify";
 import moment from "moment";
 // import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
+import { connect } from "react-redux";
+import { getEmailData, getDraftData, getSelectedSmartListData } from "../../../actions";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LibraryContent = () => {
+const LibraryContent = (props) => {
   const limit = 24;
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
@@ -706,6 +708,13 @@ const LibraryContent = () => {
     return data;
   }
 
+  const nextClicked = (id) => {
+    props.getDraftData(null);
+    props.getSelectedSmartListData(null);
+    props.getEmailData(null);
+    props.getEmailData({ PdfSelected: id });
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1246,14 +1255,24 @@ const LibraryContent = () => {
                                       >
                                         Download QR
                                       </Button>
-                                      <Button
+                                      {
+                                        /*<Button
+                                          className="footer-btn"
+                                          onClick={() => {
+                                            navigate("/CreateEmail");
+                                          }}
+                                        >
+                                          Send in email
+                                        </Button>*/
+                                      }
+                                      <Link
+                                        to="/CreateEmail"
+                                        state={{ PdfSelected: data.id }}
+                                        onClick={nextClicked(data.id)}
                                         className="footer-btn"
-                                        onClick={() => {
-                                          navigate("/CreateEmail");
-                                        }}
                                       >
                                         Send in email
-                                      </Button>
+                                      </Link>
                                     </div>
                                   </div>
                                 ) : null}
@@ -1794,7 +1813,7 @@ const LibraryContent = () => {
                   </div>
                 ) : null}
                 {isLoaded == true ? (
-              
+
               <div className="load_more">
                 <Button
                   className="btn btn-primary btn-filled"
@@ -1819,7 +1838,7 @@ const LibraryContent = () => {
             ) : null}
               </>
             </div>
-            
+
           </Row>
         </div>
       </Col>
@@ -1929,4 +1948,12 @@ const LibraryContent = () => {
   );
 };
 
-export default LibraryContent;
+const mapStateToProps = (state) => {
+  return state;
+};
+
+export default connect(mapStateToProps, {
+  getDraftData: getDraftData,
+  getSelectedSmartListData: getSelectedSmartListData,
+  getEmailData: getEmailData,
+})(LibraryContent);
