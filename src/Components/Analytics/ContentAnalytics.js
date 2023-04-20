@@ -139,14 +139,22 @@ const ContentAnalytics = () => {
   };
 
   const handleParent = () => {
-    html2canvas(document.getElementById("parent")).then((canvas) => {
-      const link = document.createElement("a");
-      link.download = `${Math.random()}.png`;
-      link.href = canvas
-        .toDataURL("image/png")
-        .replace("image/png", "image/octet-stream");
-      link.click();
-    });
+    try {
+      loader("show");
+
+      html2canvas(document.getElementById("parent")).then((canvas) => {
+        const link = document.createElement("a");
+        link.download = `${Math.random()}.png`;
+        link.href = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+        link.click();
+      });
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log(err);
+    }
   };
 
   const downloadUniqueStats = async () => {

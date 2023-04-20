@@ -85,6 +85,7 @@ const RenderLayout = ({ data }) => {
         link.href = canvas
           .toDataURL("image/png")
           .replace("image/png", "image/octet-stream");
+        document.body.appendChild(link);
         link.click();
         loader("hide");
       });
@@ -323,7 +324,7 @@ const RenderLayout = ({ data }) => {
                       </a>
                       <Button
                         className="btn next-content btn-bordered"
-                        onClick={() => handleDownloadClick(element.pdf_id)}
+                        onClick={() => handleDownloadClick(element?.pdf_id)}
                       >
                         Download Stats
                       </Button>
