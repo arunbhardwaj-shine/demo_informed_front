@@ -7,7 +7,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { getData } from "../../../axios/apiHelper";
 import exporting from 'highcharts/modules/exporting';
 import exportData from 'highcharts/modules/export-data';
-
+import { loader } from "../../../loader";
 
 exporting(Highcharts);
 exportData(Highcharts);
@@ -138,6 +138,7 @@ const Totalhcp = () => {
 
   const getDataFromApi = async () => {
     try {
+      loader("show");
       const response = await getData(ENDPOINT.ANALYTICS);
       const data = response.data.data;
       if (data.length <= 0) {
@@ -236,10 +237,11 @@ const Totalhcp = () => {
         series: newTableSeries,
       };
       setTableData(newTable);
-
+      loader("hide");
     } catch (error) {
       setIsDataNotFound(true);
       console.log(error);
+      loader("hide");
     }
     setIsLoaded(true)
   };

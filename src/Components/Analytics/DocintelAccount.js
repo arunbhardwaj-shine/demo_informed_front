@@ -230,7 +230,7 @@ const DocintelAccount = ({ data }) => {
                               fontSize: "12px",
                             },
                           },
-                          pointWidth: 30
+                          pointWidth: 35
                         },
                       ],
                       

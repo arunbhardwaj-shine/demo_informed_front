@@ -11,11 +11,14 @@ import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import Select from "react-select";
 import { useMemo } from 'react';
 import { loader } from "../../loader";
+
+highchartsMap(Highcharts);
 MapModule(Highcharts);
 
 const CountryRegistration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [newData, setNewData] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [monthYear, setMonthYear] = useState();
   let startMonth = new Date("March 2022");
@@ -38,67 +41,76 @@ const CountryRegistration = () => {
       options={mapOptions}
     />
   ));
-  
+
   // for map
   const mapOptions = useMemo(() => {
-   return {
-     chart: {
-       type: "map",
-       
-       events: {
-        load: function (e) {
-          this.mapZoom(0.3, 4500, -4500);
+    return {
+      chart: {
+        type: "map",
+        events: {
+          load: function () {
+            this.mapZoom(0.3, 4500, -4500);
+          }
         }
-      }
-     },
-     title: {
-       text: "Country Registration"
-     },
-     credits: {
-       enabled: false
-     },
-     mapNavigation: {
-       enabled: true,
-       buttonOptions: {
-         align: "right",
-         verticalAlign: "bottom",
-         x: -10,
-         y: -10
-       },
-     },
-     series: [
-       {
-         name: "Country Registration",
-         data: newData?.filter(country => country.lat && country.lon),
-         mapData: worldMap,
-         showInLegend: false,
-         joinBy: ["name"],
-         keys: ["code", "value"],
-         tooltip: {
-           headerFormat: "",
-           pointFormat: "Total Registration: {point.totalIndex}",
-          
-         },
-         states: {
-           hover: {
-             color: "#BADA55",
-           },
-         },
-         dataLabels: {
-           enabled: true,
-           formatter: function () {
-             const countries = this.series.options.data.filter(country => country.name === this.point.name);
-             if (countries.length > 0) {
-               return this.point.name;
-             } else {
-               return null;
-             }
-           }
-         },
-       },
-     ],
-   };
- }, [newData]);
+      },
+      title: {
+        text: "Country Registration"
+      },
+      credits: {
+        enabled: false
+      },
+      mapNavigation: {
+        enabled: true,
+        buttonOptions: {
+          align: "right",
+          verticalAlign: "bottom",
+          x: -10,
+          y: -10
+        },
+      },
+
+    //   mapView: {
+    //     projection: {
+    //         name: 'WebMercator'
+    //     },
+    //     center: [20.1683,41.1533],
+    //     zoom: 2.8
+    // },
+
+
+      series: [
+        {
+          name: "Country Registration",
+          data: newData?.filter(country => country.lat && country.lon),
+          mapData: worldMap,
+          showInLegend: false,
+          joinBy: ["name"],
+          keys: ["code", "value"],
+          tooltip: {
+            headerFormat: "",
+            pointFormat: "Total Registration: {point.totalIndex}",
+
+          },
+          states: {
+            hover: {
+              color: "#BADA55",
+            },
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: function () {
+              const countries = this.series.options.data.filter(country => country.name === this.point.name);
+              if (countries.length > 0) {
+                return this.point.name;
+              } else {
+                return null;
+              }
+            }
+          },
+        },
+      ],
+    };
+  }, [newData]);
 
   // country list
   const [countryList, SetCountryList] = useState({
@@ -144,7 +156,7 @@ const CountryRegistration = () => {
     series: []
 
   });
-
+  
   Highcharts.setOptions({
 
     colors: ["#FFBE2C", "#00D4C0", "#F58289"]
@@ -163,7 +175,8 @@ const CountryRegistration = () => {
       const apiData = response.data;
       const countryData = apiData.data.coordination.map((coordObject, index) => {
         const [lat, lon] = Object.values(coordObject)[0].split("~");
-        const totalIndex = apiData.data.critical_care[index] + apiData.data.haematology[index] + apiData.data.immunotherapy[index];
+        const formattedIndex = apiData.data.critical_care[index] + apiData.data.haematology[index] + apiData.data.immunotherapy[index];
+        const totalIndex = isNaN(formattedIndex) ? 0 : formattedIndex;
         return {
           name: Object.keys(coordObject)[0],
           lat: parseFloat(lat),
@@ -177,7 +190,7 @@ const CountryRegistration = () => {
         };
       });
       setNewData(countryData);
-      // setChartUpdate(prev => prev + 1);
+      console.log(countryData);
       const newSeries = [
         {
           name: `critical_care`,
@@ -204,7 +217,7 @@ const CountryRegistration = () => {
         },
         series: newSeries,
       };
-
+      setIsLoaded(true);
       SetCountryList(newCountryList)
       setIsDataFound(true);
       loader("hide");
@@ -231,7 +244,7 @@ const CountryRegistration = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-          <div className="top-header">
+            <div className="top-header">
               <div className="page-title d-flex">
                 <h2>Country Registration</h2>
               </div>
@@ -253,15 +266,24 @@ const CountryRegistration = () => {
                 </Form>
               </div>
               <div className="high_charts">
-              
-                {newData.length? (
+                {newData.length ? (
                   <MemoizedMap data={newData} />
                 ) : null}
               </div>
-              
-              <div className="high_charts">
-                <HighchartsReact highcharts={Highcharts} options={countryList} />
-              </div>
+              {countryList.series.some(series => series.data.length > 0) ? (
+                <div>
+                  <div className="high_charts">
+                    <HighchartsReact highcharts={Highcharts} options={countryList} />
+                  </div>
+                  <div className="table-container">
+                    <HighchartsReact data={countryList.series} />
+                  </div>
+                </div>
+              ) : isLoaded ? (
+                <div className="no_found">
+                  <p>No Data Found</p>
+                </div>
+              ): null}
             </div>
           </Row>
         </div>
