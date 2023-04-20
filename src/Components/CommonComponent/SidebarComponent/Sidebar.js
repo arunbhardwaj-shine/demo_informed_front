@@ -1068,6 +1068,7 @@ const Sidebar = () => {
                 </ul>
               </>
             ) : null
+          
           ) : localStorage.getItem("group_id") == 3 ? (
             localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? (
               window.location.pathname == "/totalhcp" ||
@@ -1325,6 +1326,7 @@ const Sidebar = () => {
               window.location.pathname == "/octa-country" ||
               window.location.pathname == "/octa-country-registration" ||
               window.location.pathname == "/octalatch-deliveryregistration" ||
+              window.location.pathname == "/octa-trending-content" ||
               window.location.pathname == "/octa-trending-contenty" ? (
                 <ul>
                   <li
@@ -1425,7 +1427,7 @@ const Sidebar = () => {
 
                   <li
                     className={
-                      location.pathname == "/trending-content"
+                      location.pathname == "/octa-trending-content"
                         ? "active"
                         : "side_li"
                     }
