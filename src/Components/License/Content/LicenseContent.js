@@ -136,6 +136,9 @@ const LicenseContent = (props) => {
   useEffect(() => {
     applyFilters();
     getLibraryData(page, filterObject, search);
+    props.getDraftData(null);
+    props.getSelectedSmartListData(null);
+    props.getEmailData(null);
   }, []);
 
   const applyFilters = async () => {
@@ -706,9 +709,6 @@ const LicenseContent = (props) => {
 
 
   const nextClicked = (id) => {
-      props.getDraftData(null);
-      props.getSelectedSmartListData(null);
-      props.getEmailData(null);
       props.getEmailData({ PdfSelected: id });
   };
 
@@ -1265,7 +1265,9 @@ const LicenseContent = (props) => {
                                       <Link
                                         to="/CreateEmail"
                                         state={{ PdfSelected: data.id }}
-                                        onClick={nextClicked(data.id)}
+                                        onClick={() => {
+                                          nextClicked(data.id)
+                                        }}
                                         className="footer-btn"
                                       >
                                         Send in email

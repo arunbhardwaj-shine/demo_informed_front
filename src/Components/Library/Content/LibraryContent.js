@@ -37,7 +37,6 @@ import moment from "moment";
 import QRCode from "qrcode.react";
 import { connect } from "react-redux";
 import { getEmailData, getDraftData, getSelectedSmartListData } from "../../../actions";
-
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryContent = (props) => {
@@ -138,6 +137,9 @@ const LibraryContent = (props) => {
   useEffect(() => {
     applyFilters();
     getLibraryData(page, filterObject, search);
+    props.getDraftData(null);
+    props.getSelectedSmartListData(null);
+    props.getEmailData(null);
   }, []);
 
   const applyFilters = async () => {
@@ -709,10 +711,7 @@ const LibraryContent = (props) => {
   }
 
   const nextClicked = (id) => {
-    props.getDraftData(null);
-    props.getSelectedSmartListData(null);
-    props.getEmailData(null);
-    props.getEmailData({ PdfSelected: id });
+      props.getEmailData({ PdfSelected: id });
   };
 
   return (
@@ -1265,10 +1264,13 @@ const LibraryContent = (props) => {
                                           Send in email
                                         </Button>*/
                                       }
+
                                       <Link
                                         to="/CreateEmail"
                                         state={{ PdfSelected: data.id }}
-                                        onClick={nextClicked(data.id)}
+                                        onClick={() => {
+                                          nextClicked(data.id)
+                                        }}
                                         className="footer-btn"
                                       >
                                         Send in email
