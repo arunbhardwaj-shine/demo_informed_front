@@ -62,7 +62,8 @@ const OctaCountry = () => {
       categories: [],
     },
     exporting: {
-      showTable: true
+      showTable: true,
+      tableCaption: '',
     },
     yAxis: {
       title: {
@@ -83,6 +84,7 @@ const OctaCountry = () => {
         stacking: 'normal'
       }
     },
+    
     series: []
   });
 

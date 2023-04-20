@@ -192,7 +192,6 @@ const Routing = () => {
                 {/* end webinar */}
                 <Route path="/cis_stats" element={<CisStats />} />
                 <Route path="/totalhcp" element={<Totalhcp />} />
-
                 {/*
                   <Route path="/trending-content" element={<TrendingContent />} />
 
@@ -202,7 +201,6 @@ const Routing = () => {
                   path="/country-registration"
                   element={<CountryRegistration />}
                 />
-
                 <Route
                   path="/octalatch-deliveryregistration"
                   element={<OctalatchDeliveryRegistration />}
@@ -212,16 +210,10 @@ const Routing = () => {
                   path="/octalach-country-stats"
                   element={<OctalatchCountryStats />}
                 />
+                <Route path="/trending-content" element={<TrendingContent />} />
                 <Route
-                  path="/trending-content"
-                  element={
-                    localStorage.getItem("user_id") ==
-                    "iSnEsKu5gB/DRlycxB6G4g==" ? (
-                      <TrendingContentOcta />
-                    ) : (
-                      <TrendingContent />
-                    )
-                  }
+                  path="/octa-trending-content"
+                  element={<TrendingContentOcta />}
                 />
 
                 <Route path="/top-clients" element={<TopClients />} />
@@ -229,7 +221,6 @@ const Routing = () => {
                   path="/octa-country-registration"
                   element={<OctaCountryRegistration />}
                 />
-
                 <Route path="/top-reseller" element={<TopReseller />} />
                 <Route path="/top-sales" element={<TopSales />} />
                 <Route
@@ -249,7 +240,7 @@ const Routing = () => {
                 />
                 <Route path="/campaign-stats" element={<CampaignStats />} />
                 <Route path="/delivery-stats" element={<DeliveryTrends />} />
-
+                <Route path="/informed" element={<Informed />} />
                 <Route
                   path="/registration-type"
                   element={<RegistrationType />}
@@ -258,7 +249,6 @@ const Routing = () => {
                   path="/content-analytics"
                   element={<ContentAnalytics />}
                 />
-
                 <Route path="/sales-by-country" element={<SalesByCountry />} />
                 <Route path="/readers-view" element={<NewReaders />} />
                 <Route path="/reader-edit" element={<ReaderEdit />} />
@@ -338,7 +328,6 @@ const Routing = () => {
                 <Route path="/EmailStatss" element={<EmailStatss />} />
                 <Route path="/bounced-email" element={<BouncedEmail />} />
                 <Route path="/get-details" element={<GetDetails />} />
-
                 <Route path="/license-content" element={<LicenseContent />} />
                 <Route
                   path="/license-edit-listing"
