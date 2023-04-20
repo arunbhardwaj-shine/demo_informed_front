@@ -347,6 +347,7 @@ const DeliveryTrends = () => {
       setIsDataFound(true);
       setData(updatedData);
       setListData(updatedListData);
+      // setIsTabClicked(true);
       // setData(hadData);
       setSectionLoader(false);
     } catch (err) {

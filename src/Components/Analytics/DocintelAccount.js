@@ -222,18 +222,17 @@ const DocintelAccount = ({ data }) => {
                           showInLegend: false,
                           dataLabels: {
                             enabled: true,
-                            inside: true,
-                            color: "#FFFFFF",
-                            align: "center",
-                            verticalAlign: "top",
+                            inside: false,
                             format: "{y}", // this will display the y value on top of the column
                             style: {
                               textOutline: "none", // to remove the border around the text
                               fontSize: "12px",
                             },
                           },
+                         
                         },
                       ],
+                      
                     }}
                   />
                 </Col>
