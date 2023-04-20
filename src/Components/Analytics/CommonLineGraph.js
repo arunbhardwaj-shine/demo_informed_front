@@ -6,7 +6,7 @@ import HighchartsReact from "highcharts-react-official";
 exporting(Highcharts);
 exportData(Highcharts);
 
-const CommonLineGraph = ({ data, name, months }) => {
+const CommonLineGraph = ({ data, name }) => {
   Highcharts.setOptions({
     colors: [
       "#FFBE2C",
@@ -110,22 +110,34 @@ const CommonLineGraph = ({ data, name, months }) => {
         data: "",
       },
     ];
+
+    const newMonth = [
+      {
+        month: "",
+      },
+    ];
+
     Object.keys(data)?.forEach((item, index) => {
       newLineData.push({
         name: data[item]?.ibu + "(" + JSON.parse(data[item]?.total) + ")",
         data: data[item]?.total_data,
         color: Highcharts?.getOptions()?.colors[index],
+        month: data[item]?.months,
       });
       newTableSeries.push({
         name: data[item]?.ibu + "(" + JSON.parse(data[item]?.total) + ")",
         data: data[item]?.month_data ? data[item]?.month_data : 0,
       });
+      newMonth.push({
+        month: data[item]?.months,
+      });
     });
 
+    // setMonths(month);
     const newLineOptions = {
       ...lineOption,
       xAxis: {
-        categories: months,
+        categories: newLineData[1]?.month,
       },
       series: newLineData.slice(1),
     };
@@ -141,6 +153,7 @@ const CommonLineGraph = ({ data, name, months }) => {
         }),
       },
       series: newTableSeries.slice(1),
+      month: newMonth[1],
     };
     setTableData(newTable);
   };
@@ -168,7 +181,7 @@ const CommonLineGraph = ({ data, name, months }) => {
             </tr>
           </thead>
           <tbody>
-            {months?.map((month, index) => (
+            {tableData?.month?.month?.map((month, index) => (
               <tr key={index}>
                 <td>{month}</td>
                 {tableData?.series?.map((serie, serieIndex) => (
