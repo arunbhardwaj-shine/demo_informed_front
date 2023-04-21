@@ -35,6 +35,7 @@ const DocintelAccount = ({ data }) => {
             return (
               <Row key={index} className="no-margin">
                 <Col sm={2} md={2} className="img-box justify-content-center">
+                <span>{index + 1}</span>
                   <div style={{ width: "100px", height: "100px" }}>
                     <Image
                       src={
@@ -229,7 +230,7 @@ const DocintelAccount = ({ data }) => {
                               fontSize: "12px",
                             },
                           },
-                         
+                          pointWidth: 35
                         },
                       ],
                       

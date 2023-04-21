@@ -941,7 +941,6 @@ const NewReaders = () => {
                                       Emails Sent
                                       <LinkWithTooltip
                                         tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
-                                        href="#"
                                       >
                                         <img
                                           src={
@@ -974,7 +973,6 @@ const NewReaders = () => {
                                       Emails Opened
                                       <LinkWithTooltip
                                         tooltip="Number of opening counts for specific article."
-                                        href="#"
                                       >
                                         <img
                                           src={
@@ -1007,7 +1005,6 @@ const NewReaders = () => {
                                       Content Delivered
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
-                                        href="#"
                                       >
                                         <img
                                           src={
@@ -1040,7 +1037,6 @@ const NewReaders = () => {
                                       Content with RTR
                                       <LinkWithTooltip
                                         tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
-                                        href="#"
                                       >
                                         <img
                                           src={
@@ -1073,7 +1069,6 @@ const NewReaders = () => {
                                       QR Openings
                                       <LinkWithTooltip
                                         tooltip="Number of opening counts for specific article."
-                                        href="#"
                                       >
                                         <img
                                           src={
@@ -1106,7 +1101,6 @@ const NewReaders = () => {
                                       GO Openings
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
-                                        href="#"
                                       >
                                         <img
                                           src={
@@ -1139,7 +1133,6 @@ const NewReaders = () => {
                                       Content Openings
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
-                                        href="#"
                                       >
                                         <img
                                           src={

@@ -1286,7 +1286,6 @@ const LicenseContent = (props) => {
                                         Unique Reader (total)
                                         <LinkWithTooltip
                                           tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
-                                          href="#"
                                         >
                                           <img
                                             src={
@@ -1347,7 +1346,6 @@ const LicenseContent = (props) => {
                                         Openings (total){" "}
                                         <LinkWithTooltip
                                           tooltip="Number of opening counts for specific article."
-                                          href="#"
                                         >
                                           <img
                                             src={
@@ -1386,7 +1384,6 @@ const LicenseContent = (props) => {
                                         Registered readers{" "}
                                         <LinkWithTooltip
                                           tooltip="Number of HCPs who have register for or activated the content."
-                                          href="#"
                                         >
                                           <img
                                             src={
@@ -1427,7 +1424,6 @@ const LicenseContent = (props) => {
                                         SubLinks
                                         <LinkWithTooltip
                                           tooltip="Number of sublinks with content."
-                                          href="#"
                                         >
                                           <img
                                             src={
@@ -1471,7 +1467,6 @@ const LicenseContent = (props) => {
                                           Printed
                                           <LinkWithTooltip
                                             tooltip="Number of HCPs who have print the content."
-                                            href="#"
                                           >
                                             <img
                                               src={
@@ -1517,7 +1512,6 @@ const LicenseContent = (props) => {
                                           Downloaded
                                           <LinkWithTooltip
                                             tooltip="Number of HCPs who have download the content."
-                                            href="#"
                                           >
                                             <img
                                               src={

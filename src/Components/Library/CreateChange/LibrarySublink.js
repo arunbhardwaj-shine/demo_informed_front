@@ -538,7 +538,6 @@ const LibrarySublink = () => {
                                                 Unique Reader (total)
                                                 <LinkWithTooltip
                                                   tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
-                                                  href="#"
                                                 >
                                                   <img
                                                     src={
@@ -605,7 +604,6 @@ const LibrarySublink = () => {
                                                 Openings (total){" "}
                                                 <LinkWithTooltip
                                                   tooltip="Number of opening counts for specific article."
-                                                  href="#"
                                                 >
                                                   <img
                                                     src={
@@ -647,7 +645,6 @@ const LibrarySublink = () => {
                                                 Registered readers{" "}
                                                 <LinkWithTooltip
                                                   tooltip="Number of HCPs who have register for or activated the content."
-                                                  href="#"
                                                 >
                                                   <img
                                                     src={
@@ -908,7 +905,7 @@ const LibrarySublink = () => {
                   Website
                 </Dropdown.Item>
                 </div>
-                
+
               </div>
             </DropdownButton>
           </div>
