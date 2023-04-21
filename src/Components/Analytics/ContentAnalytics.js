@@ -41,7 +41,7 @@ const ContentAnalytics = () => {
     try {
       const requestBody = {
         selectValue: JSON.stringify(["id", "title", "code"]),
-        type:"rest"
+        type: "rest",
       };
       const response = await postData(ENDPOINT.LIBRARY, requestBody);
       const hadData = response?.data?.data?.library || [];
@@ -138,22 +138,34 @@ const ContentAnalytics = () => {
   };
 
   const handleParent = () => {
-    html2canvas(document.getElementById("parent")).then((canvas) => {
-      const link = document.createElement("a");
-      link.download = `${Math.random()}.png`;
-      link.href = canvas
-        .toDataURL("image/png")
-        .replace("image/png", "image/octet-stream");
-      link.click();
-    });
-  };
-
-  const downloadUniqueStats = async() => {
     try {
       loader("show");
-      const res = await postFormData(ENDPOINT.DOWNLOADARTICLEREADERS, {pdfId: selectedPdf}, {
-        responseType: "blob",
+
+      html2canvas(document.getElementById("parent")).then((canvas) => {
+        const link = document.createElement("a");
+        link.download = `${Math.random()}.png`;
+        link.href = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+        link.click();
       });
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log(err);
+    }
+  };
+
+  const downloadUniqueStats = async () => {
+    try {
+      loader("show");
+      const res = await postFormData(
+        ENDPOINT.DOWNLOADARTICLEREADERS,
+        { pdfId: selectedPdf },
+        {
+          responseType: "blob",
+        }
+      );
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
@@ -164,7 +176,7 @@ const ContentAnalytics = () => {
       console.log(err);
       loader("hide");
     }
-  }
+  };
 
   return (
     <>
@@ -203,7 +215,8 @@ const ContentAnalytics = () => {
                     </div>
                   </Form>
                   <div className="clear-search d-flex">
-                    <button style={{marginRight:"10px"}}
+                    <button
+                      style={{ marginRight: "10px" }}
                       onClick={handleParent}
                       className="btn btn-outline-primary"
                     >
@@ -229,8 +242,20 @@ const ContentAnalytics = () => {
                       onClick={downloadUniqueStats}
                       className="btn btn-outline-primary"
                     >
-                      <svg height="141.732px" viewBox="-0.288 -24.675 141.732 141.732" width="141.732px"  xmlns="http://www.w3.org/2000/svg"><g id="Livello_98">
-                      <path fill="#0066BE" d="M37.164,60.964C17.418,61.378,1.395,74.75,0,91.622h18.693l0.009-0.104c0.9-10.901,6.48-21.019,15.712-28.487   C35.305,62.312,36.223,61.622,37.164,60.964 M44.62,27.247c0-2.408,0.255-4.747,0.731-6.98c-2.211-1.199-4.662-1.872-7.244-1.872   c-9.761,0-17.673,9.526-17.673,21.279c0,11.395,7.437,20.695,16.78,21.253c4.202-2.928,8.886-5.22,13.868-6.815   c1.054-1.366,1.952-2.902,2.681-4.568C48.203,44.364,44.62,36.296,44.62,27.247 M92.995,26.994C92.995,12.085,82.958,0,70.578,0   C58.197,0,48.161,12.085,48.161,26.994c0,13.36,8.063,24.457,18.651,26.61C42.957,55.19,23.947,71.714,22.238,92.38h96.68   c-1.71-20.666-20.719-37.19-44.576-38.775C84.93,51.451,92.995,40.357,92.995,26.994 M120.72,40.436   c0-11.753-7.912-21.28-17.674-21.28c-2.583,0-5.031,0.676-7.243,1.872c0.479,2.233,0.729,4.573,0.729,6.98   c0,9.05-3.582,17.117-9.144,22.293c0.726,1.666,1.627,3.202,2.678,4.571c4.984,1.596,9.667,3.888,13.868,6.813   C113.285,61.13,120.72,51.829,120.72,40.436 M141.156,92.383c-1.396-16.872-17.418-30.243-37.164-30.657   c0.94,0.657,1.857,1.346,2.749,2.066c9.23,7.469,14.812,17.586,15.713,28.484l0.009,0.104L141.156,92.383L141.156,92.383z"/></g><g id="Livello_1_1_"/></svg>
+                      <svg
+                        height="141.732px"
+                        viewBox="-0.288 -24.675 141.732 141.732"
+                        width="141.732px"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g id="Livello_98">
+                          <path
+                            fill="#0066BE"
+                            d="M37.164,60.964C17.418,61.378,1.395,74.75,0,91.622h18.693l0.009-0.104c0.9-10.901,6.48-21.019,15.712-28.487   C35.305,62.312,36.223,61.622,37.164,60.964 M44.62,27.247c0-2.408,0.255-4.747,0.731-6.98c-2.211-1.199-4.662-1.872-7.244-1.872   c-9.761,0-17.673,9.526-17.673,21.279c0,11.395,7.437,20.695,16.78,21.253c4.202-2.928,8.886-5.22,13.868-6.815   c1.054-1.366,1.952-2.902,2.681-4.568C48.203,44.364,44.62,36.296,44.62,27.247 M92.995,26.994C92.995,12.085,82.958,0,70.578,0   C58.197,0,48.161,12.085,48.161,26.994c0,13.36,8.063,24.457,18.651,26.61C42.957,55.19,23.947,71.714,22.238,92.38h96.68   c-1.71-20.666-20.719-37.19-44.576-38.775C84.93,51.451,92.995,40.357,92.995,26.994 M120.72,40.436   c0-11.753-7.912-21.28-17.674-21.28c-2.583,0-5.031,0.676-7.243,1.872c0.479,2.233,0.729,4.573,0.729,6.98   c0,9.05-3.582,17.117-9.144,22.293c0.726,1.666,1.627,3.202,2.678,4.571c4.984,1.596,9.667,3.888,13.868,6.813   C113.285,61.13,120.72,51.829,120.72,40.436 M141.156,92.383c-1.396-16.872-17.418-30.243-37.164-30.657   c0.94,0.657,1.857,1.346,2.749,2.066c9.23,7.469,14.812,17.586,15.713,28.484l0.009,0.104L141.156,92.383L141.156,92.383z"
+                          />
+                        </g>
+                        <g id="Livello_1_1_" />
+                      </svg>
                     </button>
                   </div>
                 </div>
@@ -242,7 +267,10 @@ const ContentAnalytics = () => {
                   <div className="content_analytics">
                     <Row>
                       <Col>
-                        <Accordion onSelect={handleAccordionOpen} className="content_analytics_accordian">
+                        <Accordion
+                          onSelect={handleAccordionOpen}
+                          className="content_analytics_accordian"
+                        >
                           <Accordion.Item eventKey="0">
                             <Accordion.Header>
                               See Country Details
@@ -267,7 +295,10 @@ const ContentAnalytics = () => {
 
                     <Row>
                       <Col>
-                        <Accordion onSelect={handleReaderAccordionOpen} className="content_analytics_accordian">
+                        <Accordion
+                          onSelect={handleReaderAccordionOpen}
+                          className="content_analytics_accordian"
+                        >
                           <Accordion.Item eventKey="1">
                             <Accordion.Header>
                               Readers Per Page
@@ -314,7 +345,7 @@ const ReadersPerPageLayout = ({ data }) => {
       <div class="section-detail-box d-flex">
         <div class="detail_section_heading">Readers Per Page</div>
         <div class="detail_section_pages">Total : {data?.length} Pages</div>
-        </div>
+      </div>
       {data?.map((element, index) => {
         return (
           <React.Fragment key={index}>
@@ -323,59 +354,41 @@ const ReadersPerPageLayout = ({ data }) => {
                 <div>{element?.page}</div>
               </div>
               <div className="analytics-reader-detail">
-                  <div className="analytics-reader-detail-box">
-                    <div className="analytics-reader-title">
-                      Ignored:
-                    </div>
-                    <div className="analytics-reader-progress ignored">
-                      <ProgressBar
-                        now={element?.ignored}
-                        label={`${element?.ignored}% Complete`}
-                      />
-                    </div>
+                <div className="analytics-reader-detail-box">
+                  <div className="analytics-reader-title">Ignored:</div>
+                  <div className="analytics-reader-progress ignored">
+                    <ProgressBar now={100} label={`${element?.ignored}`} />
                   </div>
-                  <div className="analytics-reader-detail-box">
-                    <div className="analytics-reader-title">
-                      <span>Browser: </span>
-                    </div>
-                    <div className="analytics-reader-progress browsed">
-                      <ProgressBar
-                        now={element?.browsed}
-                        label={`${element?.browsed}% Complete`}
-                      />
-                    </div>
+                </div>
+                <div className="analytics-reader-detail-box">
+                  <div className="analytics-reader-title">
+                    <span>Browser: </span>
                   </div>
+                  <div className="analytics-reader-progress browsed">
+                    <ProgressBar now={100} label={`${element?.browsed}`} />
+                  </div>
+                </div>
               </div>
               <div className="analytics-reader-detail">
                 <div className="analytics-reader-detail-box">
-                    <div className="analytics-reader-title">Read:
-                    </div>
-                    <div className="analytics-reader-progress read">
-                      <ProgressBar
-                        now={element?.read}
-                        label={`${element?.read}% Complete`}
-                      />
-                    </div>
+                  <div className="analytics-reader-title">Read:</div>
+                  <div className="analytics-reader-progress read">
+                    <ProgressBar now={100} label={`${element?.read}`} />
                   </div>
-                  <div className="analytics-reader-detail-box">
-                    <div className="analytics-reader-title">Reader
-                    </div>
-                    <div className="analytics-reader-progress reader">
-                      <ProgressBar
-                        now={element?.readers}
-                        label={`${element?.readers}% Complete`}
-                      />
-                    </div>
+                </div>
+                <div className="analytics-reader-detail-box">
+                  <div className="analytics-reader-title">Reader</div>
+                  <div className="analytics-reader-progress reader">
+                    <ProgressBar now={100} label={`${element?.readers}`} />
                   </div>
+                </div>
               </div>
               <div className="analytics-time-detail">
                 <div className="time-needed">
-                  Time Needed:{" "}
-                  <span>{element?.avgsecond} Seconds</span>
+                  Time Needed: <span>{element?.avgsecond} Seconds</span>
                 </div>
                 <div className="time-spent">
-                  Time Spent:{" "}
-                  <span> {element?.timeSpent} Seconds</span>
+                  Time Spent: <span> {element?.timeSpent} Seconds</span>
                 </div>
               </div>
             </div>

@@ -22,17 +22,34 @@ const TopClients = () => {
     { value: "live", label: "Live" },
     { value: "expired", label: "Expired" },
   ]);
-  const [Year, setYear] = useState([
-    { value: "", label: "All" },
-    { value: "2023", label: "2023" },
-    { value: "2022", label: "2022" },
-    { value: "2021", label: "2021" },
-    { value: "2020", label: "2020" },
-    { value: "2019", label: "2019" },
-  ]);
+  // const [Year, setYear] = useState([
+  //   { value: "", label: "All" },
+  //   { value: "2023", label: "2023" },
+  //   { value: "2022", label: "2022" },
+  //   { value: "2021", label: "2021" },
+  //   { value: "2020", label: "2020" },
+  //   { value: "2019", label: "2019" },
+  // ]);
+
+
+  
+  const [years, setYears] = useState([]);
+
+  useEffect(() => {
+    const currentYear = new Date().getFullYear();
+    const startYear = 2019;
+    const yearsList = [];
+
+    for (let i = currentYear; i >= startYear; i--) {
+      yearsList.push({ value: i.toString(), label: i.toString() });
+    }
+
+    setYears([{ value: "", label: "All" }, ...yearsList]);
+  }, []);
+  
 
   const dataType = useRef(All[0]);
-  const year = useRef(Year[0]);
+  const year = useRef(years[0]);
   const userType = useRef("topClient");
   Highcharts.setOptions({
     colors: [
@@ -216,7 +233,7 @@ const TopClients = () => {
                       isClearable
                     />
                     <Select
-                      options={Year}
+                      options={years}
                       placeholder="Year"
                       onChange={filterDataByYear}
                       className="dropdown-basic-button split-button-dropup"

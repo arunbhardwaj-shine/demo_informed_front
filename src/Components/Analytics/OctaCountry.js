@@ -6,7 +6,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
+import { loader } from "../../loader";
 
 
 const OctaCountry = () => {
@@ -15,7 +15,7 @@ const OctaCountry = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [selectCountryByRegion, setSelectCountryByRegion] = useState([]);
   const [selectRegionVal, setSelectRegionVal] = useState("");
-
+  const [isDataFound, setIsDataFound] = useState(false);
   const [optionsRev, setOptionsRev] = useState({
     title: {
       text: 'Total HCPs'
@@ -38,13 +38,13 @@ const OctaCountry = () => {
       y: 0
     },
     plotOptions: {
-        series: {
-           stacking: "normal",
-          dataLabels: {
-            enabled: true,
-            format: "{point.y}"
-          }
-        },
+      series: {
+        stacking: "normal",
+        dataLabels: {
+          enabled: true,
+          format: "{point.y}"
+        }
+      },
     },
     series: []
   });
@@ -84,7 +84,7 @@ const OctaCountry = () => {
         stacking: 'normal'
       }
     },
-    
+
     series: []
   });
 
@@ -96,6 +96,7 @@ const OctaCountry = () => {
 
   const getDataFromApi = async () => {
     try {
+      loader("show");
       const region = selectRegionValue.current;
       const country = selectCountryValue.current;
       const payload = { region, country };
@@ -111,7 +112,7 @@ const OctaCountry = () => {
       const lastValue = lineData[lineData.length - 1];
       const lineSeries = [
         {
-          name: country+'('+lastValue+')',
+          name: country + '(' + lastValue + ')',
           data: JSON.parse(data.haematology_data_rev),
         },
       ];
@@ -132,7 +133,7 @@ const OctaCountry = () => {
 
       const barSeries = [
         {
-          name: country + '(' +totalValue+ ')',
+          name: country + '(' + totalValue + ')',
           data: JSON.parse(data.haematology_data).reverse(),
         },
       ];
@@ -146,10 +147,13 @@ const OctaCountry = () => {
         series: barSeries,
       };
       setOptionBar(newBarOption);
-
+      setIsDataFound(true);
+      loader("hide");
 
     } catch (error) {
       console.log(error);
+      setIsDataFound(false);
+      loader("hide");
     }
   };
 
@@ -169,7 +173,8 @@ const OctaCountry = () => {
     const firstCountry = filteredCountries[0][0];
     setSelectedCountry(filteredCountries[0]);
     selectCountryValue.current = firstCountry;
-
+    setIsDataFound(true);
+    loader("hide");
     getDataFromApi();
   }
 
@@ -210,12 +215,16 @@ const OctaCountry = () => {
                 </div>
               </Form>
             </div>
-            <div className="high_charts">
-              <HighchartsReact highcharts={Highcharts} options={optionsRev} />
-            </div>
-            <div className="high_charts">
-              <HighchartsReact highcharts={Highcharts} options={optionBar} />
-            </div>
+            {isDataFound ? (
+              <div>
+                <div className="high_charts">
+                  <HighchartsReact highcharts={Highcharts} options={optionsRev} />
+                </div>
+                <div className="high_charts">
+                  <HighchartsReact highcharts={Highcharts} options={optionBar} />
+                </div>
+              </div>
+            ) : null}
           </div>
         </Row>
       </div>
@@ -223,4 +232,4 @@ const OctaCountry = () => {
   );
 };
 
-      export default OctaCountry;
+export default OctaCountry;
