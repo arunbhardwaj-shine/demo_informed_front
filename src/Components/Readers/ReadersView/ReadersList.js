@@ -330,7 +330,9 @@ const NewReaders = () => {
           readerDataList[lib_data_index].country = country;
         }
         if (type != "") {
-          readerDataList[lib_data_index].user_status = type;
+          // types
+          let searchres = types.find(({value}) => value === type)?.label;
+          readerDataList[lib_data_index].user_status = searchres;
         }
         const new_data = readerDataList;
         setReaderDataList(new_data);
