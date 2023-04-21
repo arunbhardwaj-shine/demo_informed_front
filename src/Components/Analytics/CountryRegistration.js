@@ -47,12 +47,22 @@ const CountryRegistration = () => {
     return {
       chart: {
         type: "map",
+        height: 1000,
         events: {
           load: function () {
-            this.mapZoom(0.3, 4500, -4500);
-          }
+            const countryLatLon = newData?.filter(countryLati => countryLati.countryLat && countryLati.countryLon);
+            if (countryLatLon.length > 0) {
+              const { countryLat, countryLon } = countryLatLon[0];
+              this.mapZoom(0.5, countryLon, countryLat)
+            }
+          },
         }
       },
+      // events: {
+      //   load: function () {
+      //     this.mapZoom(0.4, 4500, -4500);
+      //   }
+      // }
       title: {
         text: "Country Registration"
       },
@@ -68,15 +78,6 @@ const CountryRegistration = () => {
           y: -10
         },
       },
-
-    //   mapView: {
-    //     projection: {
-    //         name: 'WebMercator'
-    //     },
-    //     center: [20.1683,41.1533],
-    //     zoom: 2.8
-    // },
-
 
       series: [
         {
@@ -116,7 +117,7 @@ const CountryRegistration = () => {
   const [countryList, SetCountryList] = useState({
     chart: {
       type: 'bar',
-      height: 4000
+      height: 3000
     },
     title: {
       text: 'Country List'
@@ -141,10 +142,9 @@ const CountryRegistration = () => {
     },
     plotOptions: {
       bar: {
+        pointWidth: 18,
         dataLabels: {
           enabled: true,
-          pointWidth: 25,
-
         }
 
       },
@@ -156,7 +156,7 @@ const CountryRegistration = () => {
     series: []
 
   });
-  
+
   Highcharts.setOptions({
 
     colors: ["#FFBE2C", "#00D4C0", "#F58289"]
@@ -190,7 +190,7 @@ const CountryRegistration = () => {
         };
       });
       setNewData(countryData);
-      console.log(countryData);
+
       const newSeries = [
         {
           name: `critical_care`,
@@ -283,7 +283,7 @@ const CountryRegistration = () => {
                 <div className="no_found">
                   <p>No Data Found</p>
                 </div>
-              ): null}
+              ) : null}
             </div>
           </Row>
         </div>
