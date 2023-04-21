@@ -494,23 +494,36 @@ const LibraryContent = (props) => {
        await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
       let normal_data = opening_details;
       const lib_data_index = normal_data.findIndex(
-        (el) => el.pdf_id === pdf_id
+        (el) => el.pdfId === pdf_id
       );
-      normal_data[lib_data_index].uniqueReader = 0;
-      normal_data[lib_data_index].opening = 0;
-      normal_data[lib_data_index].registeredReader = 0;
+      if(lib_data_index != -1){
+        normal_data[lib_data_index].unique = 0;
+        normal_data[lib_data_index].opening = 0;
+        normal_data[lib_data_index].reader = 0;
+        normal_data[lib_data_index].download = 0;
+        normal_data[lib_data_index].print = 0;
+        normal_data[lib_data_index].subLink = 0;
 
-      setOpeningDetails(normal_data);
-      setFlag(1);
-      setUpdate(update + 1);
+        setOpeningDetails(normal_data);
+        setFlag(1);
+        setUpdate(update + 1);
 
-      loader("hide");
-      popup_alert({
-        visible: "show",
-        message: "Your stats has been reset <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your stats has been reset <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
+      }else{
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Something went wrong, Please try again.",
+          type: "error",
+          redirect: "",
+        });
+      }
     } catch (err) {
       console.log("err", err);
       loader("hide");
@@ -1272,7 +1285,6 @@ const LibraryContent = (props) => {
                                         Unique Reader (total)
                                         <LinkWithTooltip
                                           tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
-                                          href="#"
                                         >
                                           <img
                                             src={
@@ -1333,7 +1345,6 @@ const LibraryContent = (props) => {
                                         Openings (total){" "}
                                         <LinkWithTooltip
                                           tooltip="Number of opening counts for specific article."
-                                          href="#"
                                         >
                                           <img
                                             src={
@@ -1372,7 +1383,6 @@ const LibraryContent = (props) => {
                                         Registered readers{" "}
                                         <LinkWithTooltip
                                           tooltip="Number of HCPs who have register for or activated the content."
-                                          href="#"
                                         >
                                           <img
                                             src={
@@ -1413,7 +1423,6 @@ const LibraryContent = (props) => {
                                         SubLinks
                                         <LinkWithTooltip
                                           tooltip="Number of sublinks with content."
-                                          href="#"
                                         >
                                           <img
                                             src={
@@ -1457,7 +1466,6 @@ const LibraryContent = (props) => {
                                           Printed
                                           <LinkWithTooltip
                                             tooltip="Number of HCPs who have print the content."
-                                            href="#"
                                           >
                                             <img
                                               src={
@@ -1503,7 +1511,6 @@ const LibraryContent = (props) => {
                                           Downloaded
                                           <LinkWithTooltip
                                             tooltip="Number of HCPs who have download the content."
-                                            href="#"
                                           >
                                             <img
                                               src={

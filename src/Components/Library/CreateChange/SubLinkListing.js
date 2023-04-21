@@ -122,7 +122,10 @@ const SubLinkListing = ({
                         </div>
                       </div>
                     </div>
-                    <Button className="btn-bordered">Analytics</Button>
+                      {/*<Button className="btn-bordered">Analytics</Button>*/}
+                    <Link className="btn-bordered" to="/content-analytics" state={{ pdfId: pdfid }}>
+                      Analytics
+                    </Link>
                   </div>
                 </div>
                 <QRCode

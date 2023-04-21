@@ -1241,7 +1241,7 @@ const EditConsentOptions = (props) => {
                   <div className="template_language">
                     <span>
                       Consent type{" "}
-                      <LinkWithTooltip tooltip="Consent Type" href="#">
+                      <LinkWithTooltip tooltip="Consent Type">
                         <img
                           src={path_image + "info_circle_icon.svg"}
                           alt="refresh-btn"
@@ -1264,7 +1264,7 @@ const EditConsentOptions = (props) => {
                   <div className="template_language">
                     <span>
                       Language{" "}
-                      <LinkWithTooltip tooltip="Language" href="#">
+                      <LinkWithTooltip tooltip="Language">
                         <img
                           src={path_image + "info_circle_icon.svg"}
                           alt="refresh-btn"
@@ -1322,7 +1322,7 @@ const EditConsentOptions = (props) => {
                   <div className="template_language">
                     <span>
                       Time{" "}
-                      <LinkWithTooltip tooltip="Time" href="#">
+                      <LinkWithTooltip tooltip="Time">
                         <img
                           src={path_image + "info_circle_icon.svg"}
                           alt="refresh-btn"
