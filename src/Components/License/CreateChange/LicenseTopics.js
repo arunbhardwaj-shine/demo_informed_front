@@ -13,7 +13,7 @@ const downloadData = [
   {
     label: "Topic",
     type: "input",
-    placeholder: "Type your product name",
+    placeholder: "Type your topic name",
   },
 ];
 
@@ -54,23 +54,30 @@ function LicenseTopics() {
 
   const handleSubmit = async(e) =>{
     loader("show");
-     await postData(ENDPOINT.ADD_SPC_PRODUCT,{
-        user_id:localStorage.getItem("user_id"),
-        product:newValue?.newProductValue,
-        category:newValue?.category,
-        type:content?.value
-      })
+    try{
+      await postData(ENDPOINT.ADD_SPC_PRODUCT,{
+         user_id:localStorage.getItem("user_id"),
+         product:newValue?.newProductValue,
+         category:newValue?.category,
+         type:content?.value
+       })
+       loader("hide");
+       initFun()
+    }catch(err){
       loader("hide");
-      initFun()
+    }
   }
   const handleConfirmModel = async(id) =>{
       setConfirmationPopup(false)
       loader("show");
-     await deleteMethod(`${ENDPOINT.SPC_PRO_DELETE}${id}`)
-      loader("hide");
-      setClickData(0)
-      initFun()
-
+      try{
+        await deleteMethod(`${ENDPOINT.SPC_PRO_DELETE}${id}`)
+        loader("hide");
+        setClickData(0)
+        initFun()
+      }catch(err){
+        loader("hide");
+      }
   }
   const handleChange = (e) =>{
     setNewValue({...newValue,newProductValue:e.target.value})
