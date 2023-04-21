@@ -42,18 +42,22 @@ const SalesByCountry = () => {
     { value: "live", label: "Live" },
     { value: "expired", label: "Expired" },
   ]);
-  const [Years, setYears] = useState([
-    { value: "", label: "All" },
+  const [year, setYears] = useState([]);
 
-    { value: "2023", label: "2023" },
-    { value: "2022", label: "2022" },
-    { value: "2021", label: "2021" },
-    { value: "2020", label: "2020" },
-    { value: "2019", label: "2019" },
-  ]);
+  useEffect(() => {
+    const currentYear = new Date().getFullYear();
+    const startYear = 2019;
+    const yearsList = [];
+
+    for (let i = currentYear; i >= startYear; i--) {
+      yearsList.push({ value: i.toString(), label: i.toString() });
+    }
+
+    setYears([{ value: "", label: "All" }, ...yearsList]);
+  }, []);
   const dataType = useRef(All[0]);
 
-  const years = useRef(Years[0]);
+  const years = useRef(year[0]);
   const [topClientOptions, setTopClientOptions] = useState({
     chart: {
       marginTop: 100,
@@ -239,7 +243,7 @@ const SalesByCountry = () => {
                         isClearable
                       />
                       <Select
-                        options={Years}
+                        options={year}
                         name="years"
                         placeholder="Filter By"
                         onChange={filterDataByYears}
