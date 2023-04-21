@@ -127,11 +127,6 @@ const LibraryContent = (props) => {
         },
       ],
     },
-    // {
-    //   label: "Product name",
-    //   type: "input",
-    //   placeholder: "Type your product name",
-    // },
   ];
 
   useEffect(() => {
@@ -291,12 +286,6 @@ const LibraryContent = (props) => {
 
       let body = { ...data, ...obj };
 
-      // if (pageAllClicked == true) {
-      //   setPageAll(true);
-      // } else {
-      //   loader("show");
-      // }
-
       const res = await postData(ENDPOINT.LIBRARY, body);
 
       if (totalCount != res?.data?.data?.total) {
@@ -326,14 +315,6 @@ const LibraryContent = (props) => {
       setPageAll(false);
       setApiCallStatus(true);
       loader("hide");
-      // setPageAllClicked(false);
-      // if((res?.data?.data?.library).length>0){
-      //   setIsLoaded(true);
-      //   setNoData(false)
-      // }
-      // else{
-      //   setNoData(true)
-      // }
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -354,7 +335,6 @@ const LibraryContent = (props) => {
 
   const showConfirmationPopup = (stateMsg, e, id) => {
     if (stateMsg == "delete") {
-      // setUserId(id);
       setResetDataId(id);
       setCommonConfirmModelFun(() => deleteUser);
       setPopupMessage({
@@ -511,7 +491,7 @@ const LibraryContent = (props) => {
         user_id: localStorage.getItem("user_id"),
         pdfId: pdf_id,
       };
-      const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
+       await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
       let normal_data = opening_details;
       const lib_data_index = normal_data.findIndex(
         (el) => el.pdf_id === pdf_id
@@ -833,7 +813,8 @@ const LibraryContent = (props) => {
 
                                   <Accordion.Body className="card-body">
                                     <ul>
-                                      {filterdata[key]?.length > 0
+                                      {console.log("---dfdf",filterObject)}
+                                      {filterdata[key]?.length
                                         ? filterdata[key]?.map(
                                             (item, index) => (
                                               <li>
@@ -996,7 +977,7 @@ const LibraryContent = (props) => {
                                 {filterObject[key]?.map((item, index) => (
                                   <div
                                     className="filter-result"
-                                    onClick={(event) =>
+                                    onClick={() =>
                                       removeindividualfilter(key, item)
                                     }
                                   >
