@@ -747,7 +747,6 @@ const Sidebar = () => {
               <li
                 className={
                   location.pathname == "/readers-view" ||
-                  location.pathname == "/reader-edit" ||
                   location.pathname == "/timeline-detail"
                     ? "active"
                     : "side_li"
@@ -775,6 +774,7 @@ const Sidebar = () => {
                 className={
                   location.pathname == "/reader-add" ||
                   location.pathname == "/reader-review" ||
+                  location.pathname == "/reader-edit" ||
                   (location.pathname == "/readers-list" && c_id == 0)
                     ? "active"
                     : "side_li"
@@ -1068,7 +1068,7 @@ const Sidebar = () => {
                 </ul>
               </>
             ) : null
-          
+
           ) : localStorage.getItem("group_id") == 3 ? (
             localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? (
               window.location.pathname == "/totalhcp" ||
