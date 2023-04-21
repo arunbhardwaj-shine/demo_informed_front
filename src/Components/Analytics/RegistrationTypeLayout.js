@@ -77,22 +77,14 @@ export default function RegistrationTypeLayout({ data }) {
 const RenderLayout = ({ data }) => {
   const downloadRef = useRef(null);
   const handleDownloadClick = (pdf_id) => {
-    try {
-      loader("show");
-      html2canvas(document.getElementById(pdf_id)).then((canvas) => {
-        const link = document.createElement("a");
-        link.download = `${pdf_id}.png`;
-        link.href = canvas
-          .toDataURL("image/png")
-          .replace("image/png", "image/octet-stream");
-        document.body.appendChild(link);
-        link.click();
-        loader("hide");
-      });
-    } catch (err) {
-      loader("hide");
-      console.log(err);
-    }
+    html2canvas(document.getElementById(pdf_id)).then((canvas) => {
+      const link = document.createElement("a");
+      link.download = `${pdf_id}.png`;
+      link.href = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      link.click();
+    });
   };
 
   return (
@@ -324,7 +316,7 @@ const RenderLayout = ({ data }) => {
                       </a>
                       <Button
                         className="btn next-content btn-bordered"
-                        onClick={() => handleDownloadClick(element?.pdf_id)}
+                        onClick={() => handleDownloadClick(element.pdf_id)}
                       >
                         Download Stats
                       </Button>

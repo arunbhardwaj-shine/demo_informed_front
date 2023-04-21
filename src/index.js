@@ -15,11 +15,13 @@ PDFJS.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <>
     <Provider store={createStore(reducers)}>
       <Routing />
     </Provider>
-  </React.StrictMode>,
+    </>
+  // </React.StrictMode>,
   // document.getElementById("root")
 );
 

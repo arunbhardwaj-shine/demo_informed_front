@@ -7,7 +7,7 @@ const data = [
   {
     image: `${path_image}create-icon.png`,
     title: "Create",
-    subtitle: "Upload Content here to create  a new 1ClickLink",
+    subtitle: "Upload Content here to create  a new Docintel Link",
   },
   {
     image: `${path_image}edit-icon.png`,
@@ -62,10 +62,10 @@ const LicenseCreate = () => {
   };
   return (
     <>
-      <Col className="right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header sticky">
               <div className="page-title">
                 <h2>Create &amp; Change</h2>
               </div>

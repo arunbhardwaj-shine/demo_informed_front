@@ -3,7 +3,7 @@ import { Col, Form, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { getData } from "../../axios/apiHelper";
+import { getData,postData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
@@ -13,122 +13,11 @@ exporting(Highcharts);
 exportData(Highcharts);
 const CampaignStats = () => {
   const [data, setData] = useState({});
+  const [pieData, setPieData] = useState({});
+
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const selectFilter = useRef(null);
-
-  const chart = useRef(null);
-  Highcharts.setOptions({
-    colors: [
-      "#FFBE2C",
-      "#F58289",
-      "#d1d132",
-      "#D61975",
-      "#0066BE",
-      "#00003C",
-      "#b490f5",
-      "#91817e",
-      "#2b6570",
-      "#9C9CA2",
-      "#7cb0dd",
-      "#4f4566",
-      "#00D4C0",
-      "#32a1d1",
-    ],
-  });
-  const [seriesData, setSeriesData] = useState([]);
-  const [campaignStatsLineOption, setCampaignStatsLineOption] = useState({
-    chart: {
-      type: "line",
-    },
-    title: {
-      text: "Registered HCP's (CIS)",
-    },
-    credits: {
-      enabled: false,
-    },
-    subtitle: {
-      text: "",
-    },
-    exporting: {
-      showHighchart: true,
-      showTable: true,
-      tableCaption: "",
-    },
-    xAxis: {},
-    yAxis: {
-      title: {
-        text: "HCP",
-      },
-    },
-    plotOptions: {
-      line: {
-        dataLabels: {
-          enabled: true,
-        },
-        enableMouseTracking: true,
-      },
-      series: {
-        events: {
-          legendItemClick: function (event) {
-            var sr = this.chart.series;
-            for (let i = 0; i < sr.length; i++) {
-              if (this == sr[i]) sr[i].setVisible(true);
-              else sr[i].setVisible(false);
-            }
-            return false;
-          },
-        },
-      },
-    },
-  });
-  const [campaignStatsLineOptionIBU, setCampaignStatsLineOptionIBU] = useState({
-    chart: {
-      type: "line",
-    },
-    title: {
-      text: "Registered HCP's (IBU)",
-    },
-    credits: {
-      enabled: false,
-    },
-    subtitle: {
-      text: "",
-    },
-
-    exporting: {
-      showHighchart: true,
-      showTable: true,
-      tableCaption: "",
-    },
-    xAxis: {},
-    yAxis: {
-      title: {
-        text: "HCP",
-      },
-    },
-    plotOptions: {
-      line: {
-        dataLabels: {
-          enabled: true,
-        },
-        enableMouseTracking: true,
-      },
-      series: {
-        events: {
-          legendItemClick: function (event) {
-            var sr = this.chart.series;
-            for (let i = 0; i < sr.length; i++) {
-              if (this == sr[i]) sr[i].setVisible(true);
-              else sr[i].setVisible(false);
-            }
-            return false;
-          },
-        },
-      },
-    },
-  });
-
   const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState({
     chart: {
       plotBackgroundColor: null,
@@ -180,7 +69,7 @@ const CampaignStats = () => {
           {
             name: "Email campaign",
 
-            y: 7.2,
+            y: 66.3,
 
             color: Highcharts.getOptions().colors[0],
 
@@ -190,7 +79,7 @@ const CampaignStats = () => {
           {
             name: "inforMedGO",
 
-            y: 40.9,
+            y: 66.3,
 
             color: Highcharts.getOptions().colors[1],
 
@@ -200,7 +89,7 @@ const CampaignStats = () => {
           {
             name: "Docintel Code",
 
-            y: 2.2,
+            y: 66.3,
 
             color: Highcharts.getOptions().colors[2],
 
@@ -298,53 +187,49 @@ const CampaignStats = () => {
           id: "email",
 
           data: [
-            ["Subcampaign A", 5],
+            ["Critical Care", 5],
 
-            ["Subcampaign B", 2.2],
+            ["Haematology", 2.2],
 
-            ["Subcampaign C", 0.5],
+            ["Immunotherapy", 0.5],
           ],
         },
 
         {
-          name: "Email campaign",
-
-          id: "informedgo",
-
+          name: "inforMedGO",
+          id: "inforMedGO",
           data: [
-            ["Subcampaign A", 5],
+            ["Critical Care", 5],
 
-            ["Subcampaign B", 2.2],
+            ["Haematology", 2.2],
 
-            ["Subcampaign C", 10.5],
+            ["Immunotherapy", 0.5],
           ],
         },
 
         {
-          name: "Email campaign",
-
-          id: "docintelcode",
+          name: "Docintel Code",
+          id: "Docintel Code",
 
           data: [
-            ["Subcampaign A", 5],
+            ["Critical Care", 5],
 
-            ["Subcampaign B", 2.2],
+            ["Haematology", 2.2],
 
-            ["Subcampaign C", 10.5],
+            ["Immunotherapy", 0.5],
           ],
         },
 
         {
-          name: "Email campaign",
-
-          id: "direct",
+          name: "QR",
+          id: "QR",
 
           data: [
-            ["Subcampaign A", 5],
+            ["Critical Care", 5],
 
-            ["Subcampaign B", 2.2],
+            ["Haematology", 2.2],
 
-            ["Subcampaign C", 10.5],
+            ["Immunotherapy", 0.5],
           ],
         },
 
@@ -354,11 +239,11 @@ const CampaignStats = () => {
           id: "peer",
 
           data: [
-            ["Subcampaign A", 5],
+            ["Critical Care", 5],
 
-            ["Subcampaign B", 2.2],
+            ["Haematology", 2.2],
 
-            ["Subcampaign C", 10.5],
+            ["Immunotherapy", 0.5],
           ],
         },
 
@@ -368,25 +253,362 @@ const CampaignStats = () => {
           id: "webiner",
 
           data: [
-            ["Subcampaign A", 5],
+            ["Critical Care", 5],
 
-            ["Subcampaign B", 2.2],
+            ["Haematology", 2.2],
 
-            ["Subcampaign C", 10.5],
+            ["Immunotherapy", 0.5],
           ],
         },
       ],
     },
   });
 
+  const chart = useRef(null);
+  Highcharts.setOptions({
+    colors: [
+      "#FFBE2C",
+      "#F58289",
+      "#d1d132",
+      "#D61975",
+      "#0066BE",
+      "#00003C",
+      "#b490f5",
+      "#91817e",
+      "#2b6570",
+      "#9C9CA2",
+      "#7cb0dd",
+      "#4f4566",
+      "#00D4C0",
+      "#32a1d1",
+    ],
+  });
+
+  const initiFun = async()=>{
+    try{
+      loader("show")
+      const result =   await postData(ENDPOINT.CAMPAINGSTAT)
+      
+      let newValue =  [
+        {
+          name: "Article Registration based on delivery",
+  
+          colorByPoint: true,
+  
+          data: [
+            {
+              name: "Email campaign",
+  
+              y: result.data?.tot_email,
+  
+              color: Highcharts.getOptions().colors[0],
+  
+              drilldown: "email",
+            },
+  
+            {
+              name: "inforMedGO",
+  
+              y: result.data?.tot_GO_code,
+  
+              color: Highcharts.getOptions().colors[1],
+  
+              drilldown: "informedgo",
+            },
+  
+            {
+              name: "Docintel Code",
+  
+              y: result.data?.tot_Docintel_code,
+  
+              color: Highcharts.getOptions().colors[2],
+  
+              drilldown: "docintelcode",
+            },
+  
+            {
+              name: "Direct",
+  
+              y: result.data?.tot_web,
+  
+              color: Highcharts.getOptions().colors[4],
+  
+              drilldown: "direct",
+            },
+  
+            {
+              name: "Peer sharing",
+  
+              y: Math.round(result.data?.tot_peer),
+  
+              color: Highcharts.getOptions().colors[5],
+  
+              drilldown: "peer",
+            },
+  
+            {
+              name: "Webinar",
+  
+              y: result.data?.tot_CIS_oc,
+  
+              color: Highcharts.getOptions().colors[6],
+  
+              drilldown: "webinar",
+            },
+  
+            {
+              name: "IBU Email campaign",
+  
+              y:  result.data?.tot_email_oc,
+  
+              color: Highcharts.getOptions().colors[7],
+  
+              drilldown: "ibuemail",
+            },
+  
+            {
+              name: "IBU inforMedGO",
+  
+              y: result.data?.tot_GO_code_oc,
+  
+              color: Highcharts.getOptions().colors[8],
+  
+              drilldown: "ibuinformedgo",
+            },
+  
+            {
+              name: "IBU QR",
+  
+              y:  result.data?.tot_QRcode_oc,
+  
+              color: Highcharts.getOptions().colors[10],
+  
+              drilldown: "ibuqr",
+            },
+  
+            {
+              name: "IBU Direct",
+  
+              y:  result.data?.tot_web_oc,
+  
+              color: Highcharts.getOptions().colors[11],
+  
+              drilldown: "ibudirect",
+            },
+  
+            {
+              name: "Webinar IBU",
+  
+              y: result.data?.tot_IBU_oc,
+  
+              color: Highcharts.getOptions().colors[13],
+  
+              drilldown: "webinaribu",
+            },
+          ],
+        },
+      ]
+      let drillDownValue = [{
+        series: [
+          {
+            name: "Email campaign",
+  
+            id: "email",
+            y: result.data?.tot_email,
+
+            data: [
+              ["Critical Care", result.data?.tot_email_c2],
+  
+              ["Haematology", result.data?.tot_email_h2],
+  
+              ["Immunotherapy", result.data?.tot_email_i2],
+            ],
+          },
+  
+          {
+            name: "inforMedGO",
+            id: "inforMedGO",
+            data: [
+              ["Critical Care", result.data?.tot_GO_code_c2],
+  
+              ["Haematology", result.data?.tot_GO_code_h2],
+  
+              ["Immunotherapy", result.data?.tot_GO_code_i2],
+            ],
+          },
+  
+          {
+            name: "Docintel Code",
+            id: "Docintel Code",
+  
+            data: [
+              ["Critical Care", result.data?.tot_Docintel_code_c2],
+  
+              ["Haematology", result.data?.tot_Docintel_code_h2],
+  
+              ["Immunotherapy", result.data?.tot_Docintel_code_i2],
+            ],
+          },
+  
+          {
+            name: "QR",
+            id: "QR",
+  
+            data: [
+              ["Critical Care", result.data?.tot_QRcode_c2],
+  
+              ["Haematology", result.data?.tot_QRcode_h2],
+  
+              ["Immunotherapy", result.data?.tot_QRcode_i2],
+            ],
+          },
+  
+          {
+            name: "Direct",
+            id: "Direct",
+  
+            data: [
+              ["Critical Care", result.data?.tot_web_c2],
+  
+              ["Haematology", result.data?.tot_web_h2],
+  
+              ["Immunotherapy", result.data?.tot_web_i2],
+            ],
+          },
+  
+          {
+            name: "Email campaign",
+  
+            id: "webiner",
+  
+            data: [
+              ["Critical Care", 5],
+  
+              ["Haematology", 2.2],
+  
+              ["Immunotherapy", 0.5],
+            ],
+          },
+        ],
+      }]
+  
+      setCampaignStatsPieOptions({...campaignStatsPieOptions,series:newValue,drilldown:drillDownValue})
+
+
+      loader("hide");
+
+    }catch(err){
+      loader("hide");
+      console.log("-err",err)
+    }
+      
+
+  }
+  const [seriesData, setSeriesData] = useState([]);
+  const [campaignStatsLineOption, setCampaignStatsLineOption] = useState({
+    chart: {
+      type: "line",
+    },
+    title: {
+      text: "Registered HCP's (CIS)",
+    },
+    credits: {
+      enabled: false,
+    },
+    subtitle: {
+      text: "",
+    },
+    exporting: {
+      showHighchart: true,
+      showTable: true,
+      tableCaption: "",
+    },
+    xAxis: {},
+    yAxis: {
+      title: {
+        text: "HCP",
+      },
+    },
+    plotOptions: {
+      line: {
+        dataLabels: {
+          enabled: true,
+        },
+        enableMouseTracking: true,
+      },
+      series: {
+        events: {
+          legendItemClick: function (event) {
+            var sr = this.chart.series;
+            for (let i = 0; i < sr.length; i++) {
+              if (this == sr[i]) sr[i].setVisible(true);
+              else sr[i].setVisible(false);
+            }
+            return false;
+          },
+        },
+      },
+    },
+  });
+  const [campaignStatsLineOptionIBU, setCampaignStatsLineOptionIBU] = useState({
+    chart: {
+      type: "line",
+    },
+    title: {
+      text: "Registered HCP's (IBU)",
+    },
+    credits: {
+      enabled: false,
+    },
+    subtitle: {
+      text: "",
+    },
+
+    exporting: {
+      showHighchart: true,
+      showTable: true,
+      tableCaption: "",
+    },
+    xAxis: {},
+    yAxis: {
+      title: {
+        text: "HCP",
+      },
+    },
+    plotOptions: {
+      line: {
+        dataLabels: {
+          enabled: true,
+        },
+        enableMouseTracking: true,
+      },
+      series: {
+        events: {
+          legendItemClick: function (event) {
+            var sr = this.chart.series;
+            for (let i = 0; i < sr.length; i++) {
+              if (this == sr[i]) sr[i].setVisible(true);
+              else sr[i].setVisible(false);
+            }
+            return false;
+          },
+        },
+      },
+    },
+  });
+
+
+
   useEffect(() => {
+
+    initiFun()
     getDataFromApi();
+    
   }, []);
 
   const getDataFromApi = async () => {
-    loader("show");
-
     try {
+      loader("show");
       const response = await getData(ENDPOINT.REPORTS);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
@@ -398,12 +620,12 @@ const CampaignStats = () => {
       const { cis, ibu } = hadData;
       const monthsString = cis[0].Months;
       const months = monthsString
-        .split(",")
-        .map((month) => month.replace(/[[\]]/g, ""))
-        .reverse();
+        // .split(",")
+        // .map((month) => month.replace(/[[\]]/g, ""))
+        // .reverse();
 
       const newSeriesCis = cis.map((item, index) => {
-        const totalSum = JSON.parse(item.totalSum);
+        const totalSum = item.total;
         const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
         return {
           name: item.ibu,
@@ -415,17 +637,19 @@ const CampaignStats = () => {
 
       //  for total column cis
       const totalDataCis = months.map((month, index) => {
+
         const total = newSeriesCis.reduce(
           (sum, series) => sum + series.data[index],
           0
         );
         return total;
       });
+
       const totalDataCisNoNaN = totalDataCis.map((val) =>
         isNaN(val) ? 0 : val
       );
+
       const totalCis = totalDataCisNoNaN.reduce((acc, val) => acc + val, 0);
-      console.log(totalCis);
 
       const newSeriesDataCis = [
         ...newSeriesCis.map((series, index) => ({
@@ -447,11 +671,10 @@ const CampaignStats = () => {
         },
         series: newSeriesDataCis,
       };
-      // console.log(newSeriesDataCis);
       setCampaignStatsLineOption(newHcpOptions);
 
       const newSeriesIbu = ibu.map((item, index) => {
-        const totalSum = JSON.parse(item.totalSum);
+        const totalSum = item.total
         const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
         return {
           name: item.ibu,
@@ -461,9 +684,10 @@ const CampaignStats = () => {
         };
       });
 
-      // for   ibu
 
+      // for   ibu
       const totalDataIbu = months.map((month, index) => {
+
         const total = newSeriesIbu.reduce(
           (sum, series) => sum + series.data[index],
           0
@@ -475,8 +699,6 @@ const CampaignStats = () => {
         isNaN(val) ? 0 : val
       );
       const totalIbu = newSeriesIbuNoNaN.reduce((acc, val) => acc + val, 0);
-      console.log("ibu", totalIbu);
-
       const newSeriesDataIbu = [
         ...newSeriesIbu.map((series, index) => ({
           name: `${series.name} (${series.totalReaders})`,
@@ -499,14 +721,13 @@ const CampaignStats = () => {
       };
 
       setCampaignStatsLineOptionIBU(newHcpOptionsIbu);
-
       setIsDataFound(true);
       setData(cis);
     } catch (err) {
+      loader("hide");
       setIsDataFound(false);
     }
 
-    loader("hide");
   };
 
   return (
