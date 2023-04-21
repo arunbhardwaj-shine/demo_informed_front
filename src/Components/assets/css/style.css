@@ -1727,6 +1727,7 @@ form .input-group {
 .form-buttons .approved-btn:hover {
   background: var(--green);
   color: var(--white);
+  border-color: var(--green);
 }
 
 .form-buttons .approved-btn:active,

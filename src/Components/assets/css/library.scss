@@ -2758,6 +2758,7 @@ input[type=number] {
               display: flex;
               align-items: center;
               margin: 0 0 14px;
+              white-space: nowrap;
               &.data-progress {
                 margin: 0;
                 padding: 0;
@@ -4082,14 +4083,14 @@ svg.pencil_icon {
         padding: 100px 0px;
         width: 100%;
         &.height_up{
-          padding-top: 92px;
+          padding-top: 82px;
           padding-bottom: 0;
         }
         &.c-p1 {
           margin: 0px -90px;
         }
         &.c-p2 {
-         padding-top: 43px;
+         padding-top: 65px;
          margin: 0px -90px;
          p{
           margin: 0;
@@ -4142,6 +4143,7 @@ svg.pencil_icon {
           list-style: none;
           display: inline-block;
           vertical-align: top;
+          width: auto;
            p {
               margin: 15px 0 0;
               padding: 0;
@@ -4391,14 +4393,12 @@ svg.pencil_icon {
               vertical-align: top;
               display: inline-block;
               position: relative;
+              width:auto;
               &.cr-flow:after{
                 margin: 0px;
                 padding: 0px;
                 position: absolute;
                 background: url(../../../../public/componentAssets/images/color-flow-icon1.png) no-repeat top;
-                background-position-x: center;
-                background-position-y: top;
-                background-size: auto;
                 content: "";
                 height: 29px;
                 width: 29px;
@@ -4409,9 +4409,17 @@ svg.pencil_icon {
                 left: 25px;
                 z-index: 999;
               }
+              &.c-f2:after{
+                background: url(../../../../public/componentAssets/images/color-flow-icon2.png) no-repeat top;
+                top: 0px;
+                left: 10px;
+                background-size: cover;
+              }
               img {
                   max-width: 93px;
                   max-height: 82px;
+                  width:100%;
+                  height:auto;
               }
               .separator-line {
                   height: 72px;
@@ -4455,7 +4463,7 @@ svg.pencil_icon {
                     padding: 0px;
                     font-size: 36px;
                     line-height: 34px;
-                    font-weight: 100;
+                    font-weight: 300;
                     letter-spacing: -0.920455px;
               }
           }
@@ -4602,14 +4610,14 @@ svg.pencil_icon {
               }
               h5{
                 margin: 0px;
-                padding: 0px;
                 font-size: 18px;
                 color: #00003c;
+                font-weight: 400;
               }
               div {
                   padding: 50px 0px 0 10px;
                   border-left: 3px solid $primary-color;
-                  margin: 43px 0px 0 16px;
+                  margin: 32px 0px 0 16px;
                   p {
                     font-size: 18px;
                     color: #00003c;
@@ -4905,6 +4913,34 @@ svg.pencil_icon {
 }
 .modal-title.h4 {
     color: $primary-color;
+}
+.contact-right form input::-webkit-input-placeholder {
+	font-size:24px;
+	letter-spacing: -0.613636px;
+color: rgba(0, 102, 190, 0.247368);
+opacity:1;
+font-weight: 400;
+}
+.contact-right form input::-moz-placeholder { 
+	font-size:24px;
+	letter-spacing: -0.613636px;
+color: rgba(0, 102, 190, 0.247368);
+opacity:1;
+font-weight: 400;
+}
+.contact-right form input:-ms-input-placeholder {
+	font-size:24px;
+	letter-spacing: -0.613636px;
+color: rgba(0, 102, 190, 0.247368);
+opacity:1;
+font-weight: 400;
+}
+.contact-right form input:-moz-placeholder { 
+	font-size:24px;
+	letter-spacing: -0.613636px;
+color: rgba(0, 102, 190, 0.247368);
+opacity:1;
+font-weight: 400;
 }
 /***Informed End***/
 
