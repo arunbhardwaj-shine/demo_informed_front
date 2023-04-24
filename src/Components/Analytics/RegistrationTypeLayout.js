@@ -99,6 +99,14 @@ const RenderLayout = ({ data }) => {
       <div ref={downloadRef}>
         {typeof data !== "undefined" && Object.keys(data).length > 0 ? (
           data?.map((element, index) => {
+            const currentDate = new Date();
+            let status = element.status;
+            if (new Date(element.exp_datetime) < currentDate) {
+              status = "expired";
+            } else if (new Date(element.exp_datetime) > currentDate) {
+              status = "active";
+            }
+
             return (
               <div
                 key={element.pdf_id}
@@ -133,7 +141,7 @@ const RenderLayout = ({ data }) => {
                           <strong>Company:</strong> {element.company}
                         </h5>
                         <h5 className="status">
-                          <strong>Status:</strong> <span>{element.status}</span>
+                          <strong>Status:</strong> <span>{status}</span>
                         </h5>
                         <h5 className="author_by">
                           <strong>Url code:</strong> {element.code}
@@ -257,7 +265,7 @@ const RenderLayout = ({ data }) => {
                                 innerRadius: "63%",
                                 y: Math.round(
                                   (element.over_all_unique_readers * 100) /
-                                    element.over_all_opening_readers
+                                  element.over_all_opening_readers
                                 ),
                                 z: element.over_all_unique_readers,
                               },
@@ -272,7 +280,7 @@ const RenderLayout = ({ data }) => {
                                 innerRadius: "38%",
                                 y: Math.round(
                                   (element.over_all_rtr * 100) /
-                                    element.over_all_opening_readers
+                                  element.over_all_opening_readers
                                 ),
                                 z: element.over_all_rtr,
                               },
@@ -305,9 +313,9 @@ const RenderLayout = ({ data }) => {
                           <span>
                             {element.pdf_limit != 0
                               ? Math.round(
-                                  (element.over_all_opening_readers * 100) /
-                                    element.pdf_limit
-                                ) + " %"
+                                (element.over_all_opening_readers * 100) /
+                                element.pdf_limit
+                              ) + " %"
                               : 0}
                           </span>
                         </strong>

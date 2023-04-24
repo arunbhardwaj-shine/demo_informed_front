@@ -8,6 +8,7 @@ import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReade
 import { getData, postData, postFormData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
+import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const ReaderAdd = () => {
@@ -139,15 +140,20 @@ const ReaderAdd = () => {
   };
 
   const handleSubmitModelFun = (e) => {
+
     if (newProduct?.value?.length) {
       const newArr = userDetail[newProduct?.label];
+      let checkIndex = newArr.findIndex(el => el.value == newProduct?.value);
+      if(checkIndex == -1){
+        newArr.unshift({
+          value: newProduct?.value,
+          label: newProduct?.value,
+        });
 
-      newArr.push({
-        value: newProduct?.value,
-        label: newProduct?.value,
-      });
-
-      setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
+        setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
+      }else{
+        toast.error(newProduct?.label + " already in list.");
+      }
     }
   };
   const initalFun = async () => {
@@ -161,7 +167,7 @@ const ReaderAdd = () => {
         value: key,
       });
     });
-    
+
     setCountryAll(country);
     setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);

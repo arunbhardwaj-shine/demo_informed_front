@@ -6,6 +6,7 @@ import Select from "react-select";
 import CommonModel from "../../../Model/CommonModel";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
 import { getData, postData, postFormData } from "../../../axios/apiHelper";
+import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 
@@ -137,13 +138,17 @@ const ReaderEdit = () => {
   const handleSubmitModelFun = (e) => {
     if (newProduct?.value?.length) {
       const newArr = userDetail[newProduct?.label];
+      let checkIndex = newArr.findIndex(el => el.value == newProduct?.value);
+      if(checkIndex == -1){
+          newArr.unshift({
+            value: newProduct?.value,
+            label: newProduct?.value,
+          });
 
-      newArr.push({
-        value: newProduct?.value,
-        label: newProduct?.value,
-      });
-
-      setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
+          setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
+      }else{
+        toast.error(newProduct?.label + " already in list.");
+      }
     }
   };
   const initalFun = async () => {
@@ -696,7 +701,6 @@ const ReaderEdit = () => {
                                 }
                               />
                             </Form.Group>
-
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Title</Form.Label>
                               <input

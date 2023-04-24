@@ -633,7 +633,7 @@ const SetPopup = (props) => {
                                       {templateClickedd ? (
                                         <>
                                           <Button
-                                            className={changeEditorCount == 1 ? "btn btn-primary btn-filled btn-disabled" :"btn btn-primary btn-filled"}
+                                            className={changeEditorCount == 1 ? "btn btn-primary btn-filled" :"btn btn-primary btn-filled"}
                                             onClick={(e) => {
                                               updateTemplate(e);
                                               e.preventDefault();

@@ -539,7 +539,6 @@ const LicenseSublink = () => {
                                                 Unique Reader (total)
                                                 <LinkWithTooltip
                                                   tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
-                                                  href="#"
                                                 >
                                                   <img
                                                     src={
@@ -606,7 +605,6 @@ const LicenseSublink = () => {
                                                 Openings (total){" "}
                                                 <LinkWithTooltip
                                                   tooltip="Number of opening counts for specific article."
-                                                  href="#"
                                                 >
                                                   <img
                                                     src={
@@ -648,7 +646,6 @@ const LicenseSublink = () => {
                                                 Registered readers{" "}
                                                 <LinkWithTooltip
                                                   tooltip="Number of HCPs who have register for or activated the content."
-                                                  href="#"
                                                 >
                                                   <img
                                                     src={

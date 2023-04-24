@@ -70,7 +70,7 @@ const OctalatchDeliveryRegistration = () => {
             <Row>
               <div className="top-header">
                 <div className="page-title d-flex">
-                  <h2>Delivery Registration </h2>
+                  <h2>Delivery leading to registration </h2>
                 </div>
               </div>
               <div className="create-change-content spc-content analytic-charts">
