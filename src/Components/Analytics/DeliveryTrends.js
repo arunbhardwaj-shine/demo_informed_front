@@ -359,7 +359,7 @@ const DeliveryTrends = () => {
   };
   const handleTabChange = (event) => {
     setIsDataFound(false);
-    activeTab.current=event
+    activeTab.current = event;
     setSectionLoader(true);
     if (event == 1) {
       getDataFromApi("all");
@@ -372,81 +372,80 @@ const DeliveryTrends = () => {
     }
   };
 
-
   return (
     <>
       <Col className="right-sidebar">
-
-          <div className="custom-container">
-            <Row>
+        <div className="custom-container">
+          <Row>
             <div className="top-header">
-                <div className="page-title d-flex">
-                      <h2>Delivery Trends</h2>
-                </div>
+              <div className="page-title d-flex">
+                <h2>Delivery Trends</h2>
               </div>
-              <div className="create-change-content spc-content analytic-charts small-space">
-                  <div className="delivery-trends">
-                    <div className="tabs_content_load">
-                      <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
-                        <Tab eventKey="1" title="All Business Units">
-                          {isDataFound ? (
-                            <GaugeComponent tab={data.tab} list={listData.tab} />
-                          ) :
-                          apiCallStatus ?
-                          <div className="no_found">
-                                 <p>No Data Found</p>
-                           </div>
-                           : null
-                        }
-                        </Tab>
-                        <Tab eventKey="2" title="Haematology">
-                        {isDataFound ? (
-                          <GaugeComponent tab={data.tab} list={listData.tab} />
-                          ) :
-                          apiCallStatus ?
-                          <div className="no_found">
-                                 <p>No Data Found</p>
-                           </div>
-                           : null
-                        }
-                        </Tab>
-                        <Tab eventKey="3" title="Critical Care">
-                        {isDataFound ? (
-                          <GaugeComponent tab={data.tab} list={listData.tab} />
-                        ) :
-                        apiCallStatus ?
+            </div>
+            <div className="create-change-content spc-content analytic-charts small-space">
+              <div className="delivery-trends">
+                <div className="tabs_content_load">
+                  <Tabs
+                    defaultActiveKey={activeTab.current}
+                    onSelect={handleTabChange}
+                  >
+                    <Tab eventKey="1" title="All Business Units">
+                      {isDataFound ? (
+                        <GaugeComponent tab={data.tab} list={listData.tab} />
+                      ) : apiCallStatus ? (
                         <div className="no_found">
-                               <p>No Data Found</p>
-                         </div>
-                         : null
-                        }
-                        </Tab>
-                        <Tab eventKey="4" title="Immunotherapy">
-                        {isDataFound ? (
-                          <GaugeComponent tab={data.tab} list={listData.tab} />
-                        ) :
-                          apiCallStatus ?
-                          <div className="no_found">
-                                 <p>No Data Found</p>
-                           </div>
-                           : null
-                         }
-                        </Tab>
-                      </Tabs>
-
-                      {
-                        sectionLoader ?
-                        <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
-                          <div className="loader_show"><span className="loader-view"> </span></div>
+                          <p>No Data Found</p>
                         </div>
-                        : ''
-                      }
+                      ) : null}
+                    </Tab>
+                    <Tab eventKey="2" title="Haematology">
+                      {isDataFound ? (
+                        <GaugeComponent tab={data.tab} list={listData.tab} />
+                      ) : apiCallStatus ? (
+                        <div className="no_found">
+                          <p>No Data Found</p>
+                        </div>
+                      ) : null}
+                    </Tab>
+                    <Tab eventKey="3" title="Critical Care">
+                      {isDataFound ? (
+                        <GaugeComponent tab={data.tab} list={listData.tab} />
+                      ) : apiCallStatus ? (
+                        <div className="no_found">
+                          <p>No Data Found</p>
+                        </div>
+                      ) : null}
+                    </Tab>
+                    <Tab eventKey="4" title="Immunotherapy">
+                      {isDataFound ? (
+                        <GaugeComponent tab={data.tab} list={listData.tab} />
+                      ) : apiCallStatus ? (
+                        <div className="no_found">
+                          <p>No Data Found</p>
+                        </div>
+                      ) : null}
+                    </Tab>
+                  </Tabs>
+
+                  {/* {sectionLoader ? ( */}
+                  <div
+                    className={
+                      "loader tab-inside " + (sectionLoader ? "show" : "")
+                    }
+                    id="custom_loader"
+                  >
+                    <div className="loader_show">
+                      <span className="loader-view"> </span>
                     </div>
                   </div>
+                  {/* ) : (
+                    ""
+                  )} */}
+                </div>
               </div>
-            </Row>
-          </div>
-
+            </div>
+          </Row>
+        </div>
       </Col>
     </>
   );

@@ -44,7 +44,8 @@ const ReaderReview = () => {
             <Row className="row justify-content-end align-items-center">
               <Col md="1">
                 <div className="header-btn-left">
-                  <Link
+                {
+                  /*<Link
                     className="btn btn-primary btn-bordered back-btn"
                     to="/readers-view"
                   >
@@ -60,7 +61,9 @@ const ReaderReview = () => {
                         fill="#97B6CF"
                       />
                     </svg>
-                  </Link>
+                  </Link>*/
+                }
+
                   {/* <button className="btn btn-primary btn-bordered back">
                       <Link to="/reader-add">Back</Link>
                     </button> */}
@@ -78,18 +81,19 @@ const ReaderReview = () => {
               </Col>
               <Col md="2">
                 <div className="header-btn">
-                  {/* <Link
+                  <Link
                     className="btn btn-primary btn-bordered move-draft"
                     to="/readers-view"
                     >
-                      Cancel
-                    </Link> */}
+                      Close
+                  </Link>
                   <Button
                     className="btn btn-primary btn-filled next send_btn"
                     onClick={createUser}
                   >
                     Create
                   </Button>
+
                 </div>
               </Col>
             </Row>
@@ -140,8 +144,8 @@ const ReaderReview = () => {
                       <tr>
                         <th className="tab-content-title">Primary phone </th>
                         <td>
-                          {readerData?.country_Code
-                            ? readerData?.country_Code
+                          {readerData?.primary_phone
+                            ? readerData?.primary_phone.replace('informed-','')
                             : "N/A"}
                         </td>
                       </tr>
@@ -165,18 +169,19 @@ const ReaderReview = () => {
                           {readerData?.country ? readerData?.country : "N/A"}
                         </td>
                       </tr>
-                      {readerData?.province ? (
-                        <tr>
-                          <th className="tab-content-title">Province</th>
-                          <td>
-                            {readerData?.province
-                              ? readerData?.province
-                              : "N/A"}
-                          </td>
-                        </tr>
+                      <tr>
+                        <th className="tab-content-title">Province</th>
+                        <td>
+                          {readerData?.province
+                            ? readerData?.province
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      {/*readerData?.province ? (
+
                       ) : (
                         ""
-                      )}
+                      )*/}
                       <tr>
                         <th className="tab-content-title">Hospital</th>
                         <td>
@@ -195,18 +200,20 @@ const ReaderReview = () => {
                             : "N/A"}
                         </td>
                       </tr>
-                      {readerData?.discipline ? (
-                        <tr>
-                          <th className="tab-content-title">Discipline</th>
-                          <td>
-                            {readerData?.discipline
-                              ? readerData?.discipline
-                              : "N/A"}
-                          </td>
-                        </tr>
+
+                      <tr>
+                        <th className="tab-content-title">Discipline</th>
+                        <td>
+                          {readerData?.discipline
+                            ? readerData?.discipline
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      {/*readerData?.discipline ? (
+
                       ) : (
                         ""
-                      )}
+                      )*/}
                       {readerData?.ibu ? (
                         <tr>
                           <th className="tab-content-title">Bussiness Unit</th>
