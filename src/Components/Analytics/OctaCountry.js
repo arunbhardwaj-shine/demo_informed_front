@@ -25,7 +25,7 @@ const OctaCountry = () => {
     },
     yAxis: {
       title: {
-        text: 'Number of Visitors'
+        text: 'HCP'
       }
 
     },
@@ -80,9 +80,12 @@ const OctaCountry = () => {
       y: 0
     },
     plotOptions: {
-      series: {
-        stacking: 'normal'
-      }
+      bar: {
+        dataLabels: {
+          enabled: true,
+        }
+
+      },
     },
 
     series: []
