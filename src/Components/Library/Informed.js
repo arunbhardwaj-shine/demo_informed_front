@@ -80,8 +80,8 @@ const sendContactInformation= (event) => {
                         <Navbar.Collapse id="informed-login">
                             <Nav className="ms-auto justify-content-end">
                                 <Link to="/publisher-page">Publisher</Link>
-                                <Link to="#link">Webinar</Link>
-                                <Link to="#link">Contact Us</Link>
+                                <Link to="/webinar">Webinar</Link>
+                                <Link to="/">Contact Us</Link>
                                 <NavDropdown title="Login">
                                     <Form onSubmit={handleLogin}>
                                         <Form.Control
@@ -494,7 +494,7 @@ const sendContactInformation= (event) => {
                     </p>
                 </footer>
             </div>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} className='header-forgot'>
                 <Modal.Header closeButton>
                     <Modal.Title>Reset Your Password</Modal.Title>
                 </Modal.Header>
