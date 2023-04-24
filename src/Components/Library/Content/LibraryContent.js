@@ -127,11 +127,6 @@ const LibraryContent = (props) => {
         },
       ],
     },
-    // {
-    //   label: "Product name",
-    //   type: "input",
-    //   placeholder: "Type your product name",
-    // },
   ];
 
   useEffect(() => {
@@ -291,12 +286,6 @@ const LibraryContent = (props) => {
 
       let body = { ...data, ...obj };
 
-      // if (pageAllClicked == true) {
-      //   setPageAll(true);
-      // } else {
-      //   loader("show");
-      // }
-
       const res = await postData(ENDPOINT.LIBRARY, body);
 
       if (totalCount != res?.data?.data?.total) {
@@ -326,14 +315,6 @@ const LibraryContent = (props) => {
       setPageAll(false);
       setApiCallStatus(true);
       loader("hide");
-      // setPageAllClicked(false);
-      // if((res?.data?.data?.library).length>0){
-      //   setIsLoaded(true);
-      //   setNoData(false)
-      // }
-      // else{
-      //   setNoData(true)
-      // }
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -354,7 +335,6 @@ const LibraryContent = (props) => {
 
   const showConfirmationPopup = (stateMsg, e, id) => {
     if (stateMsg == "delete") {
-      // setUserId(id);
       setResetDataId(id);
       setCommonConfirmModelFun(() => deleteUser);
       setPopupMessage({
@@ -511,26 +491,39 @@ const LibraryContent = (props) => {
         user_id: localStorage.getItem("user_id"),
         pdfId: pdf_id,
       };
-      const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
+       await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
       let normal_data = opening_details;
       const lib_data_index = normal_data.findIndex(
-        (el) => el.pdf_id === pdf_id
+        (el) => el.pdfId === pdf_id
       );
-      normal_data[lib_data_index].uniqueReader = 0;
-      normal_data[lib_data_index].opening = 0;
-      normal_data[lib_data_index].registeredReader = 0;
+      if(lib_data_index != -1){
+        normal_data[lib_data_index].unique = 0;
+        normal_data[lib_data_index].opening = 0;
+        normal_data[lib_data_index].reader = 0;
+        normal_data[lib_data_index].download = 0;
+        normal_data[lib_data_index].print = 0;
+        normal_data[lib_data_index].subLink = 0;
 
-      setOpeningDetails(normal_data);
-      setFlag(1);
-      setUpdate(update + 1);
+        setOpeningDetails(normal_data);
+        setFlag(1);
+        setUpdate(update + 1);
 
-      loader("hide");
-      popup_alert({
-        visible: "show",
-        message: "Your stats has been reset <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your stats has been reset <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
+      }else{
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Something went wrong, Please try again.",
+          type: "error",
+          redirect: "",
+        });
+      }
     } catch (err) {
       console.log("err", err);
       loader("hide");
@@ -833,7 +826,8 @@ const LibraryContent = (props) => {
 
                                   <Accordion.Body className="card-body">
                                     <ul>
-                                      {filterdata[key]?.length > 0
+                                      {console.log("---dfdf",filterObject)}
+                                      {filterdata[key]?.length
                                         ? filterdata[key]?.map(
                                             (item, index) => (
                                               <li>
@@ -996,7 +990,7 @@ const LibraryContent = (props) => {
                                 {filterObject[key]?.map((item, index) => (
                                   <div
                                     className="filter-result"
-                                    onClick={(event) =>
+                                    onClick={() =>
                                       removeindividualfilter(key, item)
                                     }
                                   >

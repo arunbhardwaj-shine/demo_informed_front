@@ -3906,6 +3906,18 @@ svg.pencil_icon {
     margin-left: 0;
     margin-right: 0;
 }
+
+.accordion-loader {
+height: 400px;position: relative;
+}
+.accordion-loader .loader.tab-inside {
+min-height: initial;
+}
+.accordion-loader .loader.tab-inside .loader_show {
+ top: 50%;
+transform: translateY(-50%);
+
+}
 /**Analytics page End**/
 
 /***INFORMED***/
@@ -4046,6 +4058,7 @@ svg.pencil_icon {
       letter-spacing: -1.0025px;
       color: $primary-color;
       font-family: 'Mulish', sans-serif;
+      text-transform: unset;
     }
   }
   }
@@ -4109,7 +4122,7 @@ svg.pencil_icon {
           margin: 0px -90px;
         }
         &.c-p2 {
-         padding-top: 65px;
+         padding-top: 40px;
          margin: 0px -90px;
          p{
           margin: 0;
@@ -4123,7 +4136,7 @@ svg.pencil_icon {
         }
         h2 {
           font-size: 36px;
-          font-weight: 500;
+          font-weight: 400;
           line-height: 44px;
           letter-spacing: -0.920455px;
           color: $white;
@@ -4163,6 +4176,9 @@ svg.pencil_icon {
           display: inline-block;
           vertical-align: top;
           width: auto;
+          img{
+            height: auto;
+          }
            p {
               margin: 15px 0 0;
               padding: 0;
@@ -4526,6 +4542,7 @@ svg.pencil_icon {
     .dotted-line{
       padding: 0px 38px;
       position: relative;
+      z-index: 1;
       img{
         width: 1128px;
       }
@@ -4648,7 +4665,7 @@ svg.pencil_icon {
         }
       }
       .start-building-gdpr {
-          padding-top: 55px;
+          padding-top: 65px;
           .start-building-gdpr-content {
               background: #F0EEE4;
               padding: 20px 90px 12px 30px;
@@ -6681,3 +6698,366 @@ ul.tab-mail-list.data span.total-left {
 }
 }
 /**Library Responsive**/
+
+
+
+
+/**Informed and Publisher page responsive**/
+@media only screen and (max-width: 1279px) {
+  .informed .banner .banner-content h1 {
+    font-size: 36px;
+  }
+
+  .informed .banner .banner-content h4 {
+    font-size: 18px;
+  }
+
+  .informed .library-section .container {
+    max-width: 1000px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .informed .rtr-section .dotted-line {
+    padding: 0px 25px 0 0;
+  }
+
+  .informed .rtr-section .dotted-line>img,
+  .informed .team-section .dt-line .dt-line-dote img,
+  .informed .team-section .dotted-line img {
+    width: 100%;
+  }
+
+  .informed .team-section .dotted-line {
+    padding: 0 0 0 2px;
+  }
+
+  .informed .informed-nav .container {
+    max-width: 1140px;
+  }
+
+  .informed-nav .navbar-brand img {
+    max-width: 217px;
+  }
+
+  .informed .library-section .content-sec .content-part.personalisation ul li img {
+    width: 143px;
+  }
+
+  .informed .library-section .content-sec ul.library-list li img {
+    width: 143px;
+  }
+
+  .informed .library-section .dotted-line {
+    padding: 0px;
+    left: 39px;
+  }
+
+  .informed .library-section .dotted-line>img {
+    width: 100%;
+  }
+
+  .informed .library-section .dotted-line .dt-line span.dt-line-dote img {
+    width: 100%;
+  }
+
+  .informed .library-section .content-sec .content-part.personalisation ul {
+    right: -142px;
+  }
+
+  .informed .rtr-section .dotted-line .dt-line .dt-line-dote img {
+    max-width: 100%;
+    padding-right: 26px;
+  }
+
+  .informed .rtr-section .top-space .rtr-detial {
+    margin: 87px 0 0;
+  }
+
+  .informed .team-section .content-sec .team-section-map-listing .date-list {
+    justify-content: flex-start;
+  }
+
+  .informed .team-section .content-sec .team-section-map-listing .date-list li div {
+    margin: 43px 0px 0 16px;
+  }
+
+  .informed .team-section .content-sec .team-section-map-listing .date-list {
+    margin-top: -32px;
+  }
+
+  .informed .team-section .content-sec .start-building-gdpr .start-building-gdpr-content {
+    margin-right: 0;
+  }
+
+  .informed .team-section .content-sec .start-building-gdpr {
+    padding-top: 60px;
+  }
+
+  .informed .contact-section .contact-right {
+    width: 100%;
+  }
+
+  .contact-section .mob-img {
+    text-align: center;
+  }
+
+  .informed .news-section {
+    padding: 45px 0 50px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .informed .banner .banner-content h1 {
+    margin: 0px 0px 30px;
+    font-size: 27px;
+    line-height: 1.3;
+  }
+
+  .informed .library-section .dotted-line {
+    padding: 0px;
+    left: -17px;
+  }
+
+  .informed .library-section .content-sec ul.library-list li img {
+    width: 130px;
+    margin-left: 0px;
+  }
+
+  .informed .library-section .content-sec .content-part .feature-list li img {
+    height: 54px;
+  }
+
+  .informed .library-section .content-sec .content-part.c-p2 {
+    padding-top: 0px;
+  }
+
+  .informed .library-section .content-sec .content-part.personalisation ul li img {
+    width: 130px;
+  }
+
+  .informed .library-section .container {
+    max-width: 88%;
+  }
+
+  .informed .library-section .content-sec ul.library-list li {
+    margin-bottom: 67px;
+  }
+
+  .informed .library-section .content-sec .content-part h2 {
+    font-size: 31px;
+    line-height: 39px;
+  }
+
+  .informed .library-section .content-sec .content-part.personalisation .personalisation-content {
+    margin-right: 80px;
+  }
+
+  .informed .library-section .content-sec .content-part.personalisation ul {
+    right: -61px;
+  }
+
+  .informed .library-section .content-sec .content-part.height_up {
+    padding-top: 62px;
+  }
+
+  .informed .container {
+    max-width: 88%;
+  }
+
+  .informed .rtr-section .top-space {
+    max-width: inherit;
+  }
+
+  .informed .library-section {
+    padding: 0px 0 75px;
+  }
+
+  .informed .rtr-section .dotted-line {
+    padding: 0;
+    right: 7px;
+  }
+
+  .informed .rtr-section .dotted-line .dt-line .dt-line-dote img {
+    padding-right: 0;
+    right: 0px;
+    position: relative;
+    height: 1068px;
+  }
+
+  .informed .rtr-section .top-space .albert-inside-upper {
+    padding-right: 78px;
+  }
+
+  .informed .rtr-section .dotted-line .dt-line.r-none {
+    right: 0px;
+  }
+
+  .informed .rtr-section .dotted-line>img {
+    height: 1068px;
+  }
+
+  .informed .rtr-section .top-space .albert-inside-upper .albert-inside-upper-left .albert-inside-upper-left-logo img {
+    max-width: 410px;
+  }
+
+  .informed .rtr-section .top-space .rtr-detial ul.feature-list li {
+    padding: 0px 11px;
+  }
+
+  .informed .rtr-section .top-space .rtr-detial ul.feature-list li img {
+    max-height: 67px;
+    width: auto;
+  }
+
+  .informed .rtr-section .top-space .rtr-detial ul.feature-list li.cr-flow:after {
+    height: 22px;
+    width: 22px;
+    top: 47px;
+    left: 5px;
+  }
+
+  .informed .team-section .content-sec .quick-text .quick-inr {
+    padding: 20px 0px 35px;
+  }
+
+  .informed .team-section .content-sec .quick-text .quick-inr h2 {
+    font-size: 32px;
+    margin: 0px 0px 20px;
+    padding: 0px 0px 15px;
+  }
+
+  .informed .team-section .content-sec .quick-text {
+    background-size: 240px;
+  }
+
+  .informed .team-section .content-sec .team-section-map-listing .date-list li {
+    padding: 0px 13px;
+  }
+
+  .informed .team-section .content-sec .team-section-map-listing .date-list {
+    margin-top: -22px;
+    padding-left: 30px;
+  }
+
+  .informed .team-section .content-sec .team-section-map-listing .date-list li div p {
+    font-size: 16px;
+  }
+
+  .informed .team-section .content-sec .team-section-map-listing .date-list li div {
+    margin: 30px 0px 0 16px;
+  }
+
+  .informed .team-section .content-sec .start-building-gdpr .start-building-gdpr-content .start-building-gdpr-right h4 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .informed .team-section .content-sec .start-building-gdpr .start-building-gdpr-content {
+    max-width: 87%;
+    margin: 0 auto;
+  }
+
+  .informed .team-section .content-sec .start-building-gdpr {
+    padding-top: 12px;
+  }
+
+  .informed .contact-section .contact-left h3 {
+    font-size: 25px;
+    line-height: 30px;
+    margin-bottom: 44px;
+  }
+
+  .informed .contact-section .contact-left p {
+    font-size: 15px;
+    line-height: 20px;
+    padding-right: 0px;
+  }
+
+  .informed .news-section h3 {
+    font-size: 30px;
+    margin-left: 0;
+    line-height: 30px;
+  }
+
+  .informed .news-section .news-dis {
+    margin: 0px 0 10px;
+  }
+
+  .informed .news-section .article_bx {
+    min-height: 270px;
+  }
+
+  .informed .news-section .article_bx h2 {
+    font-size: 30px;
+  }
+
+  .informed .contact-section .contact-right {
+    padding: 25px 25px;
+  }
+
+  .informed .contact-section .contact-right h3 {
+    font-size: 25px;
+  }
+
+  .informed footer {
+    padding: 20px 0;
+  }
+
+  .informed footer p {
+    font-size: 14px;
+  }
+
+  .informed .informed-nav .navbar-nav a {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .informed .banner .banner-infographic .infographic.text-right .dt-line {
+    right: -62px;
+  }
+
+  .informed .banner .banner-content {
+    margin: 0px;
+    padding: 170px 0px 0 60px;
+  }
+}
+@media only screen and (max-width:991px){
+.informed .banner .banner-infographic .bnr-img img {
+    max-width: 85%;
+}
+.informed .banner .banner-infographic .infographic.text-right .dt-line .dt-line-dote .line-dot {
+    max-width: 525px;
+}
+.informed .banner .banner-infographic .infographic.text-right .line-shape {
+    max-width: 525px;
+}
+.informed .banner .banner-infographic .bnr-img {
+    top: 34px;
+    right: -44px;
+}
+.informed .banner .banner-content {
+    padding: 150px 0px 0 0px;
+}
+.informed .container {
+    max-width: 100%;
+}
+.informed .banner .banner-infographic .infographic.text-right .dt-line {
+    right: 0px;
+}
+.informed .library-section .content-sec .content-part .feature-list li {
+    padding: 0px 17px;
+}
+.informed .library-section .content-sec .content-part .feature-list-next-content p {
+    padding: 11px 0px 0 11px;
+}
+.informed .library-section .content-sec .content-part {
+    padding: 85px 0px;
+}
+.informed .library-section .content-sec .content-part.height_up {
+    padding-top: 45px;
+}
+.informed .download-sec .padding_righttt {
+    padding-right: 20px;
+}
+}
+/**Informed and Publisher page responsive End**/

@@ -288,18 +288,16 @@ const CampaignStats = () => {
     try{
       loader("show")
       const result =   await postData(ENDPOINT.CAMPAINGSTAT)
-      
       let newValue =  [
         {
           name: "Article Registration based on delivery",
   
           colorByPoint: true,
-  
           data: [
             {
               name: "Email campaign",
   
-              y: result.data?.tot_email,
+              y: result?.data?.data?.tot_email,
   
               color: Highcharts.getOptions().colors[0],
   
@@ -309,7 +307,7 @@ const CampaignStats = () => {
             {
               name: "inforMedGO",
   
-              y: result.data?.tot_GO_code,
+              y: result?.data?.data?.tot_GO_code,
   
               color: Highcharts.getOptions().colors[1],
   
@@ -319,7 +317,7 @@ const CampaignStats = () => {
             {
               name: "Docintel Code",
   
-              y: result.data?.tot_Docintel_code,
+              y: result?.data?.data?.tot_Docintel_code,
   
               color: Highcharts.getOptions().colors[2],
   
@@ -329,7 +327,7 @@ const CampaignStats = () => {
             {
               name: "Direct",
   
-              y: result.data?.tot_web,
+              y: result?.data?.data?.tot_web,
   
               color: Highcharts.getOptions().colors[4],
   
@@ -339,7 +337,7 @@ const CampaignStats = () => {
             {
               name: "Peer sharing",
   
-              y: Math.round(result.data?.tot_peer),
+              y: Math.round(result?.data?.data?.tot_peer),
   
               color: Highcharts.getOptions().colors[5],
   
@@ -349,7 +347,7 @@ const CampaignStats = () => {
             {
               name: "Webinar",
   
-              y: result.data?.tot_CIS_oc,
+              y: result?.data?.data?.tot_CIS_oc,
   
               color: Highcharts.getOptions().colors[6],
   
@@ -359,7 +357,7 @@ const CampaignStats = () => {
             {
               name: "IBU Email campaign",
   
-              y:  result.data?.tot_email_oc,
+              y:  result?.data?.data?.tot_email_oc,
   
               color: Highcharts.getOptions().colors[7],
   
@@ -369,7 +367,7 @@ const CampaignStats = () => {
             {
               name: "IBU inforMedGO",
   
-              y: result.data?.tot_GO_code_oc,
+              y: result?.data?.data?.tot_GO_code_oc,
   
               color: Highcharts.getOptions().colors[8],
   
@@ -379,7 +377,7 @@ const CampaignStats = () => {
             {
               name: "IBU QR",
   
-              y:  result.data?.tot_QRcode_oc,
+              y:  result?.data?.data?.tot_QRcode_oc,
   
               color: Highcharts.getOptions().colors[10],
   
@@ -389,7 +387,7 @@ const CampaignStats = () => {
             {
               name: "IBU Direct",
   
-              y:  result.data?.tot_web_oc,
+              y:  result?.data?.data?.tot_web_oc,
   
               color: Highcharts.getOptions().colors[11],
   
@@ -399,7 +397,7 @@ const CampaignStats = () => {
             {
               name: "Webinar IBU",
   
-              y: result.data?.tot_IBU_oc,
+              y: result?.data?.data?.tot_IBU_oc,
   
               color: Highcharts.getOptions().colors[13],
   
@@ -414,14 +412,14 @@ const CampaignStats = () => {
             name: "Email campaign",
   
             id: "email",
-            y: result.data?.tot_email,
+            y: result?.data?.data?.tot_email,
 
             data: [
-              ["Critical Care", result.data?.tot_email_c2],
+              ["Critical Care", result?.data?.data?.tot_email_c2],
   
-              ["Haematology", result.data?.tot_email_h2],
+              ["Haematology", result?.data?.data?.tot_email_h2],
   
-              ["Immunotherapy", result.data?.tot_email_i2],
+              ["Immunotherapy", result?.data?.data?.tot_email_i2],
             ],
           },
   
@@ -429,11 +427,11 @@ const CampaignStats = () => {
             name: "inforMedGO",
             id: "inforMedGO",
             data: [
-              ["Critical Care", result.data?.tot_GO_code_c2],
+              ["Critical Care", result?.data?.data?.tot_GO_code_c2],
   
-              ["Haematology", result.data?.tot_GO_code_h2],
+              ["Haematology", result?.data?.data?.tot_GO_code_h2],
   
-              ["Immunotherapy", result.data?.tot_GO_code_i2],
+              ["Immunotherapy", result?.data?.data?.tot_GO_code_i2],
             ],
           },
   
@@ -442,11 +440,11 @@ const CampaignStats = () => {
             id: "Docintel Code",
   
             data: [
-              ["Critical Care", result.data?.tot_Docintel_code_c2],
+              ["Critical Care", result?.data?.data?.tot_Docintel_code_c2],
   
-              ["Haematology", result.data?.tot_Docintel_code_h2],
+              ["Haematology", result?.data?.data?.tot_Docintel_code_h2],
   
-              ["Immunotherapy", result.data?.tot_Docintel_code_i2],
+              ["Immunotherapy", result?.data?.data?.tot_Docintel_code_i2],
             ],
           },
   
@@ -455,11 +453,11 @@ const CampaignStats = () => {
             id: "QR",
   
             data: [
-              ["Critical Care", result.data?.tot_QRcode_c2],
+              ["Critical Care", result?.data?.data?.tot_QRcode_c2],
   
-              ["Haematology", result.data?.tot_QRcode_h2],
+              ["Haematology", result?.data?.data?.tot_QRcode_h2],
   
-              ["Immunotherapy", result.data?.tot_QRcode_i2],
+              ["Immunotherapy", result?.data?.data?.tot_QRcode_i2],
             ],
           },
   
@@ -468,26 +466,22 @@ const CampaignStats = () => {
             id: "Direct",
   
             data: [
-              ["Critical Care", result.data?.tot_web_c2],
+              ["Critical Care", result?.data?.data?.tot_web_c2],
   
-              ["Haematology", result.data?.tot_web_h2],
+              ["Haematology", result?.data?.data?.tot_web_h2],
   
-              ["Immunotherapy", result.data?.tot_web_i2],
+              ["Immunotherapy", result?.data?.data?.tot_web_i2],
             ],
           },
-  
           {
-            name: "Email campaign",
-  
-            id: "webiner",
-  
+            name: "Peer sharing",
+            id: "Peer sharing",
             data: [
-              ["Critical Care", 5],
+              ["Critical Care", result?.data?.data?.tot_peer_c2],
+              ["Haematology", result?.data?.data?.tot_peer_h2],
   
-              ["Haematology", 2.2],
-  
-              ["Immunotherapy", 0.5],
-            ],
+              ["Immunotherapy", result?.data?.data?.tot_peer_i2],
+            ]
           },
         ],
       }]

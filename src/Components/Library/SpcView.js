@@ -174,10 +174,10 @@ const SpcView = () => {
 										  <td>
 											{
                         isJson(data?.product) ?
-                        JSON.parse(data.product)?.map((data, index) => {
-                           return <span className="product_list">{data}
+                        JSON.parse(data.product)?.map((item, index) => {
+                           return <span className="product_list">{item}
                             {
-                              data[index+1] ? ',' : null
+                              JSON.parse(data?.product)?.length -1 == index ? null : ','
                             }
                            </span>;
                         }) :

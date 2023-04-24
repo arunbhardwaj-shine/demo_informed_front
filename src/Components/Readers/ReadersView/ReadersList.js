@@ -39,7 +39,10 @@ const NewReaders = () => {
   const [filterdata, setFilterData] = useState({
     Status: ["Registered", "Unregistered"],
   });
-  const [filterObject, setFilterObject] = useState({});
+  const [filterObject, setFilterObject] = useState({
+    "status":["Registered"],
+    "contactType":["HCP"]
+  });
   const [updateflag, setupdateFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "0", label: "HCP" },
@@ -940,7 +943,7 @@ const NewReaders = () => {
                                 <ul className="tab-mail-list data">
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Emails Sent
+                                      Emails sent
                                       <LinkWithTooltip
                                         tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
                                       >
@@ -972,7 +975,7 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Emails Opened
+                                      Emails opened
                                       <LinkWithTooltip
                                         tooltip="Number of opening counts for specific article."
                                       >
@@ -1004,7 +1007,7 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Content Delivered
+                                      Content delivered
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
                                       >
@@ -1068,7 +1071,7 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      QR Openings
+                                      QR openings
                                       <LinkWithTooltip
                                         tooltip="Number of opening counts for specific article."
                                       >
@@ -1100,7 +1103,7 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      GO Openings
+                                      GO openings
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
                                       >
@@ -1132,7 +1135,7 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Content Openings
+                                      Content openings
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
                                       >
@@ -1183,7 +1186,7 @@ const NewReaders = () => {
                                 <ul className="tab-mail-list data change">
                                   <li>
                                     <h6 className="tab-content-title">
-                                      User Status
+                                      User status
                                     </h6>
                                     <div className="select-dropdown-wrapper">
                                       {/*console.log(
