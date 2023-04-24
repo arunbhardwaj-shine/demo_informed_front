@@ -186,8 +186,7 @@ const ContentAnalytics = () => {
       console.log(err);
       loader("hide");
     }
-  };
-
+  }
   return (
     <>
       <Col className="right-sidebar">
