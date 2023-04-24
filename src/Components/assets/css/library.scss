@@ -7021,5 +7021,43 @@ ul.tab-mail-list.data span.total-left {
     padding: 170px 0px 0 60px;
   }
 }
-
+@media only screen and (max-width:991px){
+.informed .banner .banner-infographic .bnr-img img {
+    max-width: 85%;
+}
+.informed .banner .banner-infographic .infographic.text-right .dt-line .dt-line-dote .line-dot {
+    max-width: 525px;
+}
+.informed .banner .banner-infographic .infographic.text-right .line-shape {
+    max-width: 525px;
+}
+.informed .banner .banner-infographic .bnr-img {
+    top: 34px;
+    right: -44px;
+}
+.informed .banner .banner-content {
+    padding: 150px 0px 0 0px;
+}
+.informed .container {
+    max-width: 100%;
+}
+.informed .banner .banner-infographic .infographic.text-right .dt-line {
+    right: 0px;
+}
+.informed .library-section .content-sec .content-part .feature-list li {
+    padding: 0px 17px;
+}
+.informed .library-section .content-sec .content-part .feature-list-next-content p {
+    padding: 11px 0px 0 11px;
+}
+.informed .library-section .content-sec .content-part {
+    padding: 85px 0px;
+}
+.informed .library-section .content-sec .content-part.height_up {
+    padding-top: 45px;
+}
+.informed .download-sec .padding_righttt {
+    padding-right: 20px;
+}
+}
 /**Informed and Publisher page responsive End**/
