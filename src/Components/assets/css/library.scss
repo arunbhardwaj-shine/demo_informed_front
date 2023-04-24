@@ -3893,6 +3893,9 @@ caption.highcharts-table-caption {
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(3) {
     max-width: 250px;
 }
+.delivery-trends .stats_precenage ul.ul_stats_first.informed {
+  padding-right: 35%;
+}
 .content_analytics .accordion-item button.accordion-button::after {
     margin-left: 5px;
 }
@@ -5352,7 +5355,7 @@ font-weight: 400;
           border-radius: 50%;
           top: 10px;
         }
-        &::before:first-child{
+        &:first-child::before{
           background: $primary-color;
         }
         a {
@@ -5365,6 +5368,7 @@ font-weight: 400;
             &.prof_clr{
               color:$primary-color;
             }
+            
         }
       }
     }
@@ -5493,6 +5497,7 @@ font-weight: 400;
         .pub-list {
             margin: -10px 0 0;
             padding: 0 0 0 23px;
+            z-index: 1;
           li {
             margin: 0px;
             padding: 0px 9px;
@@ -5523,6 +5528,10 @@ font-weight: 400;
 }
 .b-top-space {
     margin-top: 85px;
+}
+.upp_padd.padd_none img {
+    z-index: 1;
+    position: relative;
 }
 .build-content {
     margin: 105px 0 0px;
@@ -5995,14 +6004,6 @@ ul.tab-mail-list.data span.total-left {
     min-width: 80px;
     font-size: 12px;
   }
-  // .library-content-box-layuot
-  //   .doc-content-main-box
-  //   .tab-content
-  //   .tab-mail-list.change
-  //   .form-group
-  //   label {
-  //   font-size: 13px;
-  // }
   .split-button-dropup > div:nth-child(4) > div {
     padding-right: 0px;
   }
@@ -6805,6 +6806,25 @@ ul.tab-mail-list.data span.total-left {
   .informed .news-section {
     padding: 45px 0 50px;
   }
+
+  .slide-content ul li a {
+    line-height: 19px;
+    font-size: 18px;
+}
+.service-not-section {
+    padding: 70px 130px 70px;
+}
+.informed .team-section.infomed-sec .dotted-line img {
+    width: auto;
+}
+.publish-description h4, .publish-description p {
+    font-size: 21px;
+    line-height: 28px;
+    margin-right: 0;
+}
+.infomed-sec {
+    padding-bottom: 250px;
+}
 }
 
 @media only screen and (max-width: 1199px) {
@@ -7059,5 +7079,50 @@ ul.tab-mail-list.data span.total-left {
 .informed .download-sec .padding_righttt {
     padding-right: 20px;
 }
+.informed .team-section .content-sec .team-section-map-listing .date-list {
+    margin-top: 8px;
+    padding-left: 10px;
+}
+.informed .team-section .content-sec .start-building-gdpr {
+    padding-top: 32px;
+}
+.informed .contact-section {
+    padding: 40px 0 0;
+}
+.informed .news-section {
+    padding: 35px 0 35px;
+}
+.informed .informed-nav #informed-login {
+    background: #fafafa;
+    box-shadow: 0px 3px 6px 0px #e6e6e694;
+    max-width: 300px;
+    position: absolute;
+    width: 100%;
+    right: 24px;
+    top: 60px;
+}
+.informed .informed-nav #informed-login .navbar-nav {
+    padding: 10px;
+}
+.informed .informed-nav .navbar-nav .nav-item.dropdown a {
+    margin-left: 0;
+    max-width: 110px;
+    text-align: center;
+}
+.informed .informed-nav .navbar-nav .nav-item.dropdown .dropdown-menu {
+    right: -10px;
+}
+}
+
+@media only screen and (max-width:767px){
+  .informed div[class*="col-"] {
+      width: 100%;
+  }
+  body{
+    background-color: green;
+  }
+  .informed .library-section .content-sec{
+    display: none;
+  }
 }
 /**Informed and Publisher page responsive End**/
