@@ -76,10 +76,10 @@ export default function RegistrationTypeLayout({ data }) {
 
 const RenderLayout = ({ data }) => {
   const downloadRef = useRef(null);
-  const handleDownloadClick = (pdf_id) => {
+  const handleDownloadClick = async (pdf_id) => {
     try {
       loader("show");
-      html2canvas(document.getElementById(pdf_id)).then((canvas) => {
+      await html2canvas(document.getElementById(pdf_id)).then((canvas) => {
         const link = document.createElement("a");
         link.download = `${pdf_id}.png`;
         link.href = canvas

@@ -158,13 +158,15 @@ const OctalatchTotalHCP = () => {
     try {
       // const response = await getData(ENDPOINT.OCTALATCH_TOTAL_HCP);
       loader("show");
-      axios.get(ENDPOINT.OCTALATCH_TOTAL_HCP).then((response) => {
+      await axios.get(ENDPOINT.OCTALATCH_TOTAL_HCP).then((response) => {
         const data = response?.data?.response?.data;
         const seriesMonth = response?.data?.response?.months;
         const lineMonth = response?.data?.response?.months_reverse;
 
         if (data.length <= 0) {
           setIsDataNotFound(true);
+          loader("hide");
+          return;
         }
 
         const newSeriesData = [
