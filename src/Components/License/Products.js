@@ -7,6 +7,7 @@ import { loader } from "../../loader";
 import CommanModel from "../../Model/CommonModel"
 import CommonConfirmModel from "../../Model/CommonConfirmModel"
 import { Link } from "react-router-dom";
+import { popup_alert } from "../../popup_alert";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const downloadData = [
@@ -78,6 +79,12 @@ function Products() {
          loader("hide");
          setClickData(0)
          initFun()
+         popup_alert({
+           visible: "show",
+           message: "Your Products has been deleted <br />successfully !",
+           type: "success",
+           redirect: "",
+         });
       }catch(err){
         loader("hide");
       }
@@ -106,7 +113,11 @@ function Products() {
           </div>
           <div className="create-change-content spc-content">
             <div className="form_action">
-              <h4>Please select the business unit to show the products</h4>
+            {
+                productData?.flag?(
+                  <h4>Please select the business unit to show the products</h4>
+                ):null
+            }
                   <Form className="product-unit d-flex justify-content-between align-items-center">
                   {
                       productData?.flag?(
