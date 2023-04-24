@@ -39,7 +39,10 @@ const NewReaders = () => {
   const [filterdata, setFilterData] = useState({
     Status: ["Registered", "Unregistered"],
   });
-  const [filterObject, setFilterObject] = useState({});
+  const [filterObject, setFilterObject] = useState({
+    "status":["Registered"],
+    "contactType":["HCP"]
+  });
   const [updateflag, setupdateFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "0", label: "HCP" },
