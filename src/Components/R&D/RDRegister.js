@@ -12,6 +12,7 @@ const RDRegister = () => {
   const [show, setShow] = useState(false);
   const [siteCountry, setSiteCountry] = useState([]);
   const [siteNumber, setSiteNumber] = useState([]);
+  const [apiData, setApiData] = useState([]);
   const [error, setError] = useState({});
   const [userInputs, setInputs] = useState({
     name: "",
@@ -37,30 +38,12 @@ const RDRegister = () => {
           .then((response) => {
             let site_number = response?.data?.response?.data?.site_number;
             let country = response?.data?.response?.data?.country;
-
-            let siteNumber = [], siteCountries = [];
-            Object.entries(site_number).map(([index, item]) => {
-              let label = item;
-              siteNumber.push({
-                value: item,
-                label: label,
-              });
-            });
-
-            Object.entries(country).map(([index, item]) => {
-              let label = item;
-              if (index == "B&H") {
-                label = "Bosnia and Herzegovina";
-              }
-              siteCountries.push({
-                value: item,
-                label: label,
-              });
-            });
-
-              setSiteCountry(siteCountries);
-              setSiteNumber(siteNumber);
-              loader("hide");
+            let siteNumber    = createSelectObj(site_number);
+            let siteCountries = createSelectObj(country);
+            setApiData(response?.data?.response?.data);
+            setSiteCountry(siteCountries);
+            setSiteNumber(siteNumber);
+            loader("hide");
           });
       }catch(err){
         console.log(err);
@@ -77,6 +60,11 @@ const RDRegister = () => {
           : e
         : e?.target?.value,
     });
+
+    if(isSelectedName == "country"){
+      console.log(apiData?.site_country_data);
+    }
+
   };
 
   const submitHandler = () => {
@@ -90,6 +78,21 @@ const RDRegister = () => {
         setError({});
         setShow(true);
     }
+  }
+
+  const createSelectObj = (data) => {
+    let objData = [];
+    Object.entries(data).map(([index, item]) => {
+      let label = item;
+      if (index == "B&H") {
+        label = "Bosnia and Herzegovina";
+      }
+      objData.push({
+        value: item,
+        label: label,
+      });
+    });
+    return objData;
   }
 
   return (
