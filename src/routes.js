@@ -123,6 +123,7 @@ import PublisherPage from "./Components/Library/PublisherPage";
 import OctalatchDeliveryRegistration from "./Components/Analytics/OctalatchDeliveryRegistration";
 import Webinar from "./Components/Library/Webinar";
 import BouncedEmail from "./Components/Distributes/BouncedEmail";
+import RDRegister from "./Components/R&D/RDRegister";
 
 let platform = 0;
 let show = 0;
@@ -379,6 +380,7 @@ const Routing = () => {
                   element={<LoginLayout component={LicenseContentDetail} />}
                 />
                 <Route path="/license-edit"  element={<LoginLayout component={EditLicense} />} />
+                 <Route path="rd_register" element={<RDRegister/>}/>
         </Routes>
       </Router>
   );
