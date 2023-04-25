@@ -29,28 +29,33 @@ const OctalatchDeliveryRegistration = () => {
     loader("show");
 
     try {
+      loader("show");
       // const response = await getData(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION);
 
-      axios.get(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION).then((response) => {
-        const hadData = response?.data?.response?.data;
-        const pieData = response?.data?.response?.pie_graph;
+      await axios
+        .get(ENDPOINT.OCTALATCH_DELIVERY_REGISTRATION)
+        .then((response) => {
+          const hadData = response?.data?.response?.data;
+          const pieData = response?.data?.response?.pie_graph;
 
-        if (hadData.length <= 0) {
-          setIsDataFound(false);
+          if (hadData.length <= 0) {
+            setIsDataFound(false);
+            loader("hide");
+            return;
+          }
+
+          const ibu = hadData?.Ibu;
+
+          const data = hadData;
+
+          setPieData(pieData);
+          setData(data);
+
+          setIsDataFound(true);
           loader("hide");
-          return;
-        }
-
-        const ibu = hadData?.Ibu;
-
-        const data = hadData;
-
-        setPieData(pieData);
-        setData(data);
-
-        setIsDataFound(true);
-      });
+        });
     } catch (err) {
+      loader("hide");
       setIsDataFound(false);
     }
     setIsLoaded(true);

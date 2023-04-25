@@ -115,13 +115,13 @@ const OpeningByCountry = () => {
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
 
-      if (hadData.length <= 0) {
+      if (hadData?.length <= 0) {
         setIsDataFound(false);
       } else {
         setIsDataFound(true);
       }
 
-      if (hadData.name.length <= 0) {
+      if (hadData?.name?.length <= 0) {
         setIsDataFound(false);
       } else {
         setIsDataFound(true);
