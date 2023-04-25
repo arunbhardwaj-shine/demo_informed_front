@@ -314,7 +314,12 @@ const Routing = () => {
                 />
                 <Route path="/spc" element={<LoginLayout component={Spc} /> } />
                 <Route path="/spc-create" element={<LoginLayout component={SpcCreate} /> } />
-                <Route path="/products" element={<LoginLayout component={Products} /> } />
+                
+                {localStorage.getItem("user_id") ==
+                "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
+                  <Route path="/products" element={<LoginLayout component={Products} /> } />
+                )}
+
                 <Route path="/new-webinar"  element={<LoginLayout component={DefaultWebinar} /> } />
                 <Route path="/contact-form"  element={<LoginLayout component={ContactForm} /> } />
                 <Route path="/email-statsss"  element={<LoginLayout component={EmailStatsss} /> } />
