@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Form, Modal, Button } from "react-bootstrap";
+import { Form, Modal, Button, NavItem, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import Select from "react-select";
 
 const Webinar = () => {
-   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [userInputs, setUserInputs] = useState({});
   const [userSignInInputs, setUserSignInInputs] = useState({});
   const [signInModal, setSignInModal] = useState(false);
@@ -13,7 +13,8 @@ const Webinar = () => {
     { value: "3", label: "3" },
     { value: "4", label: "4" },
   ]);
-
+   const [show, setShow] = useState(false);
+const handleShow = () => setShow(true);
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
@@ -63,107 +64,59 @@ const Webinar = () => {
     <>
       <header className="header">
         <div className="custom-container">
-          <div className="row">
-            <nav className="navbar navbar-expand-md navbar-light navbar-dark">
-              <a className="navbar-brand" href="#">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="50.333"
-                  height="50.322"
-                  viewBox="0 0 50.333 50.322"
-                >
-                  <g
-                    id="Group_121"
-                    data-name="Group 121"
-                    transform="translate(-949.788 -26.964)"
-                  >
-                    <g
-                      id="Group_6"
-                      data-name="Group 6"
-                      transform="translate(939.85 17)"
-                    >
-                      <g
-                        id="Group_5"
-                        data-name="Group 5"
-                        transform="translate(9.939 9.964)"
-                      >
-                        <path
-                          id="Path_212"
-                          data-name="Path 212"
-                          d="M94.241,41.237l-.006,0A25.174,25.174,0,1,0,68.7,66.356v.008h.182c.127,0,.253,0,.379,0H94.241Z"
-                          transform="translate(-43.907 -16.044)"
-                          fill="#fff"
-                        />
-                        <path
-                          id="Path_213"
-                          data-name="Path 213"
-                          d="M89.736,60.758a16.572,16.572,0,0,1-10.909,5.249,2.3,2.3,0,0,1-1.838-.708l-.009-.009a7.359,7.359,0,0,1-1.052-8.773l2.43,1.651-1.543-7.615-7.089,1.871,2.353,1.493a11.817,11.817,0,0,0-1.661,6.97A11.6,11.6,0,0,0,71.464,64.9,16.651,16.651,0,0,1,62.332,42.72a2.923,2.923,0,0,1,1.97-1.647,7.359,7.359,0,0,1,8.123,3.476l-2.645,1.278L77.148,48.3l1.924-7.075L76.6,42.515a11.715,11.715,0,0,0-9.478-6.047A16.635,16.635,0,0,1,91.207,39.9a2.661,2.661,0,0,1,.371,2.282l0,.015a7.406,7.406,0,0,1-7.068,5.3h0l.215-2.929-5.824,5.145,5.165,5.2.116-2.784a11.712,11.712,0,0,0,9.863-5.022,16.821,16.821,0,0,1,.16,2.311,16.576,16.576,0,0,1-4.462,11.337M77.563,28.952A20.448,20.448,0,1,0,98.01,49.4,20.448,20.448,0,0,0,77.563,28.952"
-                          transform="translate(-52.287 -24.234)"
-                          fill="#0066be"
-                        />
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </a>
-              <button
-                type="button"
-                className="navbar-toggle"
-                data-toggle="collapse"
-                data-target="#navbarsExampleDefault"
-              >
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
-
-              <div
-                className="collapse navbar-collapse"
-                id="navbarsExampleDefault"
-              >
-                <ul className="navbar-nav mr-auto">
-                  <li className="nav-item active">
-                    <a className="nav-link" href="#building-section">
-                      Relationships <span className="sr-only">(current)</span>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#feature">
-                      Features
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#testimonial">
-                      Testimonial
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#cases">
-                      Cases
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#request_demo">
-                      Request Demo
-                    </a>
-                  </li>
-                </ul>
-                <ul>
-                  <li>
-                    <Button
-                      className="sign"
-                      data-toggle="modal"
-                      data-target="#myModal"
-                      onClick={clickSignInButton}
-                    >
-                      Sign in
-                      <img src={path_image + "signin.svg"} alt="" />
-                    </Button>
-                  </li>
-                </ul>
-              </div>
-            </nav>
-          </div>
+         <Navbar expand="lg" className='webinar-nav'>
+          <Navbar.Brand href="#home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50.333" height="50.322" viewBox="0 0 50.333 50.322" > <g id="Group_121" data-name="Group 121" transform="translate(-949.788 -26.964)" > <g id="Group_6" data-name="Group 6" transform="translate(939.85 17)" > <g id="Group_5" data-name="Group 5" transform="translate(9.939 9.964)" > <path id="Path_212" data-name="Path 212" d="M94.241,41.237l-.006,0A25.174,25.174,0,1,0,68.7,66.356v.008h.182c.127,0,.253,0,.379,0H94.241Z" transform="translate(-43.907 -16.044)" fill="#fff" /> <path id="Path_213" data-name="Path 213" d="M89.736,60.758a16.572,16.572,0,0,1-10.909,5.249,2.3,2.3,0,0,1-1.838-.708l-.009-.009a7.359,7.359,0,0,1-1.052-8.773l2.43,1.651-1.543-7.615-7.089,1.871,2.353,1.493a11.817,11.817,0,0,0-1.661,6.97A11.6,11.6,0,0,0,71.464,64.9,16.651,16.651,0,0,1,62.332,42.72a2.923,2.923,0,0,1,1.97-1.647,7.359,7.359,0,0,1,8.123,3.476l-2.645,1.278L77.148,48.3l1.924-7.075L76.6,42.515a11.715,11.715,0,0,0-9.478-6.047A16.635,16.635,0,0,1,91.207,39.9a2.661,2.661,0,0,1,.371,2.282l0,.015a7.406,7.406,0,0,1-7.068,5.3h0l.215-2.929-5.824,5.145,5.165,5.2.116-2.784a11.712,11.712,0,0,0,9.863-5.022,16.821,16.821,0,0,1,.16,2.311,16.576,16.576,0,0,1-4.462,11.337M77.563,28.952A20.448,20.448,0,1,0,98.01,49.4,20.448,20.448,0,0,0,77.563,28.952" transform="translate(-52.287 -24.234)" fill="#0066be" /> </g> </g> </g> </svg>
+          </Navbar.Brand>
+              <Navbar.Toggle aria-controls="webinar-login" />
+              <Navbar.Collapse id="webinar-login">
+                  <Nav className="justify-content-start">
+                      <NavItem className="nav-item active">
+                      <a className="nav-link" href="#building-section">
+                        Relationships <span className="sr-only">(current)</span>
+                      </a>
+                    </NavItem>
+                    <NavItem className="nav-item">
+                      <a className="nav-link" href="#feature">
+                        Features
+                      </a>
+                    </NavItem>
+                    <NavItem className="nav-item">
+                      <a className="nav-link" href="#testimonial">
+                        Testimonial
+                      </a>
+                    </NavItem>
+                    <NavItem className="nav-item">
+                      <a className="nav-link" href="#cases">
+                        Cases
+                      </a>
+                    </NavItem>
+                    <NavItem className="nav-item">
+                      <a className="nav-link" href="#request_demo">
+                        Request Demo
+                      </a>
+                    </NavItem>
+                      <NavDropdown title="Sign in">
+                          <Form>
+                              <Form.Control
+                              type="text"
+                              placeholder="Username"
+                              className="form-field"
+                              aria-label="Name"
+                              />
+                              <Form.Control
+                              type="password"
+                              placeholder="Password"
+                              className="form-field"
+                              aria-label="Password"
+                              />
+                              <Button variant="outline-success" className="go-btn">Go</Button>
+                              <p onClick={handleShow} className="forgot-link">Forgot password?</p>
+                          </Form>
+                      </NavDropdown>
+                  </Nav>
+            </Navbar.Collapse>
+        </Navbar>
         </div>
       </header>
       {/* ---------------header section ends here------------- */}
@@ -352,284 +305,6 @@ const Webinar = () => {
                   data-ride="carousel"
                 >
                   <div className="col-md-8 col-sm-8 col-8 cst-cs-item pl-0">
-                    {/* <div className="carousel-inner">
-                      <div className="carousel-item active">
-                        <img
-                          src={path_image + "slide1.png"}
-                          className="img-fluid"
-                          alt=""
-                        />
-                        <div className="div-left-text caption-crausal">
-                          <div
-                            className="caption-crausal-inside collapse show"
-                            id="slide_content"
-                          >
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              Your choice of streaming technology
-                            </p>
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              Automated interactions
-                              <ul>
-                                <li>Calendar invites</li>
-                                <li>Auto mail reminders</li>
-                                <li>Single Sign-in (SSi) to webinars</li>
-                              </ul>
-                            </p>
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              Compliance simplified
-                              <ul>
-                                <li>You control who has access</li>
-                                <li>
-                                  Pre- registration set to custom regulation
-                                </li>
-                                <li>GDPR/CCPA compliant </li>
-                              </ul>
-                            </p>
-                          </div>
-                          <div className="caption-crausal-footer">
-                            <button
-                              className="btn btn-link"
-                              type="button"
-                              data-toggle="collapse"
-                              data-target="#slide_content"
-                            >
-                              <img src={path_image + "down-arrow.png"} alt="" />
-                            </button>
-                            <div className="watch-demo-img">
-                              <button
-                                type="submit"
-                                className="btn btn-default watch-demo"
-                                data-toggle="modal"
-                                data-target="#video1"
-                              >
-                                Watch Video
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="carousel-item">
-                        <img
-                          src={path_image + "slide2.png"}
-                          className="img-fluid"
-                          alt=""
-                        />
-                        <div className="div-left-text caption-crausal">
-                          <div
-                            className="caption-crausal-inside collapse show"
-                            id="slide_content_two"
-                          >
-                            <div className="caption-crausal-inside-top">
-                              <span>1 WEEK</span>
-                              <p>Setup Time</p>
-                            </div>
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              Set up your URL and bespoke branding
-                            </p>
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              Build email templates, AutoMails and calendar
-                              reminders
-                            </p>
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              Invite your audience your way or through us
-                            </p>
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              Gain consent to stay in touch post webinar.
-                            </p>
-                          </div>
-                          <div className="caption-crausal-footer">
-                            <button
-                              className="btn btn-link"
-                              type="button"
-                              data-toggle="collapse"
-                              data-target="#slide_content_two"
-                            >
-                              <img src={path_image + "down-arrow.png"} alt="" />
-                            </button>
-                            <div className="watch-demo-img">
-                              <button
-                                type="submit"
-                                className="btn btn-default watch-demo"
-                                data-toggle="modal"
-                                data-target="#video1"
-                              >
-                                Watch Video
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="carousel-item">
-                        <img
-                          src={path_image + "slide1.png"}
-                          className="img-fluid"
-                          alt=""
-                        />
-                        <div className="div-left-text caption-crausal">
-                          <div
-                            className="caption-crausal-inside  collapse show"
-                            id="slide-content3"
-                          >
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              Interactive: encouraging active participation
-                              <ul>
-                                <li>Live video questions</li>
-                                <li>Written questions (pre-screen option)</li>
-                                <li>On screen polls</li>
-                              </ul>
-                            </p>
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              Monitor your audience
-                              <ul>
-                                <li>Remove unwanted guests</li>
-                                <li>Learn who stays</li>
-                              </ul>
-                            </p>
-                          </div>
-                          <div className="caption-crausal-footer">
-                            <button
-                              className="btn btn-link"
-                              type="button"
-                              data-toggle="collapse"
-                              data-target="#slide-content3"
-                            >
-                              <img src={path_image + "down-arrow.png"} alt="" />
-                            </button>
-                            <div className="watch-demo-img">
-                              <button
-                                type="submit"
-                                className="btn btn-default watch-demo"
-                                data-toggle="modal"
-                                data-target="#video1"
-                              >
-                                Watch Video
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="carousel-item">
-                        <img
-                          src={path_image + "slide2.png"}
-                          className="img-fluid"
-                          alt=""
-                        />
-                        <div className="div-left-text caption-crausal">
-                          <div
-                            className="caption-crausal-inside collapse show"
-                            id="slide-content4"
-                          >
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              The Host
-                              <ul>
-                                <li>Analysis of engagement</li>
-                                <li>Automatic behaviour segmentation</li>
-                                <li>Personalised follow up emails</li>
-                                <li>Award CPD/CME credit (optional)</li>
-                              </ul>
-                            </p>
-                            <p>
-                              <span className="caption-img">
-                                <img
-                                  src={path_image + "slider-over-img.png"}
-                                  alt="sdlc-icon"
-                                />
-                              </span>
-                              The HCP
-                              <ul>
-                                <li>Receive video and slides from webinar</li>
-                                <li>View past webinars in portal</li>
-                                <li>
-                                  Download the DocIntel app to build personal
-                                  libraries on and offline
-                                </li>
-                              </ul>
-                            </p>
-                          </div>
-                          <div className="caption-crausal-footer">
-                            <button
-                              className="btn btn-link"
-                              type="button"
-                              data-toggle="collapse"
-                              data-target="#slide-content4"
-                            >
-                              <img src={path_image + "down-arrow.png"} alt="" />
-                            </button>
-                            <div className="watch-demo-img">
-                              <button
-                                type="submit"
-                                className="btn btn-default watch-demo"
-                                data-toggle="modal"
-                                data-target="#video1"
-                              >
-                                Watch Video
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> */}
                     <div id="slider">
                                  <input type="radio" className="slide-radio" name="slide-radio" id="s1" value="1" />
                                  <input type="radio" className="slide-radio" name="slide-radio" id="s2" value="2"/>

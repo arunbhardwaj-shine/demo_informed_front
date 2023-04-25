@@ -9,12 +9,15 @@ import axios from "axios";
 const RDRegister = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [siteCountry, setSiteCountry] = useState([]);
+  const [siteNumber, setSiteNumber] = useState([]);
 
   useEffect(() => {
     getData();
-  });
+  }, []);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const getData = async () => {
       loader("show");
@@ -23,11 +26,35 @@ const RDRegister = () => {
           user_id: "56Ek4feL/1A8mZgIKQWEqg==",
         };
         await axios
-          .post(ENDPOINT.FILTERLIST)
+          .post(ENDPOINT.FILTERLIST, body)
           .then((response) => {
-            console.log(response?.data?.response?.data);
+            let site_number = response?.data?.response?.data?.site_number;
+            let country = response?.data?.response?.data?.country;
+
+            let siteNumber = [], siteCountries = [];
+            Object.entries(site_number).map(([index, item]) => {
+              let label = item;
+              siteNumber.push({
+                value: item,
+                label: label,
+              });
+            });
+
+            Object.entries(country).map(([index, item]) => {
+              let label = item;
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              siteCountries.push({
+                value: item,
+                label: label,
+              });
+            });
+
+              setSiteCountry(siteCountries);
+              setSiteNumber(siteNumber);
+              loader("hide");
           });
-          loader("hide");
       }catch(err){
         console.log(err);
         loader("hide");
@@ -45,8 +72,8 @@ const RDRegister = () => {
                         <h1>LEX-210 <span>Study</span></h1>
                     </div>
                     <div className="header-right">
-                        <p>Study of in <img className="text-img" src={path_image + "text-img.png"} alt="text-img"/>
-                          Patients With Acute Major Bleeding on DOAC Therapy With Factor Xa Inhibitor</p>
+                        <p>Study of <img className="text-img" src={path_image + "text-img.png"} alt="text-img"/>
+                          in Patients With Acute Major Bleeding on DOAC Therapy With Factor Xa Inhibitor</p>
                     </div>
                 </div>
                 <div className="form-wrapper">
@@ -64,7 +91,7 @@ const RDRegister = () => {
                                     <input type="text" placeholder="Enter your name"/>
                                 </div>
                             </Col>
-                            <Col md={6}>
+                            <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                     <label>Email <span>*</span></label>
                                     <input type="email" placeholder="Enter your email"/>
@@ -72,54 +99,30 @@ const RDRegister = () => {
                             </Col>
                             <Col md={6}>
                                 <div className="form-group">
-                                    <label>Country <span>*</span></label>
-                                    {/* <div className="select">
-                                        <div className="selectBtn" data-type="firstOption">Select country
-                                        </div>
-                                        <div className="selectDropdown" style={{zIndex:"1"}}>
-                                            <div className="scrollbar" id="style-1">
-                                                <div className="force-overflow">
-                                                    <div className="option" data-type="firstOption">India</div>
-                                                    <div className="option" data-type="secondOption">Canada</div>
-                                                    <div className="option" data-type="thirdOption">USA</div>
-                                                    <div className="option" data-type="thirdOption">UK</div>
-                                                    <div className="option" data-type="thirdOption">New Zealand</div>
-                                                    <div className="option" data-type="thirdOption">Australia</div>
-                                                    <div className="option" data-type="thirdOption">Russia</div>
-                                                    <div className="option" data-type="thirdOption">New York</div>
-                                                    <div className="option" data-type="firstOption">India</div>
-                                                    <div className="option" data-type="secondOption">Canada</div>
-                                                    <div className="option" data-type="thirdOption">USA</div>
-                                                    <div className="option" data-type="thirdOption">UK</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> */}
-                                    <Form.Select aria-label="Default select example">
-                                      <option>Open this select menu</option>
-                                      <option value="1">One</option>
-                                      <option value="2">Two</option>
-                                      <option value="3">Three</option>
-                                      <option value="firstOption">India</option>
-                                      <option value="secondOption">Canada</option>
-                                      <option value="thirdOption">USA</option>
-                                      <option value="thirdOption">UK</option>
-                                      <option value="thirdOption">New Zealand</option>
-                                      <option value="thirdOption">Australia</option>
-                                      <option value="thirdOption">Russia</option>
-                                      <option value="thirdOption">New York</option>
-                                      <option value="firstOption">India</option>
-                                      <option value="secondOption">Canada</option>
-                                      <option value="thirdOption">USA</option>
-                                      <option value="thirdOption">UK</option>
-                                    </Form.Select>
-
+                                  <label>Country <span>*</span></label>
+                                  {
+                                    typeof siteCountry !== "undefined" && siteCountry.length > 0 ?
+                                    <Select
+                                      options={siteCountry}
+                                      placeholder="Select country"
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                    />
+                                    : null
+                                  }
                                 </div>
                             </Col>
-                            <Col md={6}>
+                            <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                     <label>Site number <span>*</span></label>
-                                    <input type="text" placeholder="Enter your site number"/>
+                                    {
+                                      typeof siteNumber !== "undefined" && siteNumber.length > 0 ?
+                                      <Select
+                                        options={siteNumber}
+                                        placeholder="Select site number"
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      />
+                                      : null
+                                    }
                                 </div>
                             </Col>
                         </Row>
