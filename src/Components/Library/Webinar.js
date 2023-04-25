@@ -3,6 +3,7 @@ import { Form, Modal, Button } from "react-bootstrap";
 import Select from "react-select";
 
 const Webinar = () => {
+   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [userInputs, setUserInputs] = useState({});
   const [userSignInInputs, setUserSignInInputs] = useState({});
   const [signInModal, setSignInModal] = useState(false);
@@ -60,7 +61,6 @@ const Webinar = () => {
   useEffect(() => {}, []);
   return (
     <>
-      {/* ---------------header section start here------------- */}
       <header className="header">
         <div className="custom-container">
           <div className="row">
@@ -157,7 +157,7 @@ const Webinar = () => {
                       onClick={clickSignInButton}
                     >
                       Sign in
-                      <img src="./img/signin.svg" alt="" />
+                      <img src={path_image + "signin.svg"} alt="" />
                     </Button>
                   </li>
                 </ul>
@@ -188,7 +188,7 @@ const Webinar = () => {
             </div>
             <div className="col-md-6 right-sec">
               <div className="right-banner">
-                <img src="img/banner-main.png" alt="" />
+                <img src={path_image + "banner-main.png"} alt="" />
               </div>
             </div>
           </div>
@@ -208,7 +208,7 @@ const Webinar = () => {
       {/* <!------------------scroll-sec-----------------> */}
       <div className="scroll-sec demo" id="section07" data-anchor="section07">
         <a href="#building-section" id="scroll-img">
-          <img src="./img/scroll-down.png" alt="" width="25px" />
+          <img src={path_image +"scroll-down.png"} alt="" width="25px" />
         </a>
         <div className="animated-arrow">
           <a href="#building-section">
@@ -237,12 +237,7 @@ const Webinar = () => {
             <div className="col-md-5 left-sec">
               <div className="content">
                 <div className="video-sec">
-                  <img src="img/building-rl.png" alt="video" />
-                  <img
-                    src="img/play-btn.png"
-                    alt="play-btn"
-                    className="play-btn"
-                  />
+                  <img src={path_image +"jdflindtWebinar.png"} alt="video" />
                 </div>
                 <p>
                   We believe that consented, databased relationships last
@@ -271,13 +266,13 @@ const Webinar = () => {
                     <ul className="timeline">
                       <li>
                         <span>
-                          <img src="./img/build1.png" alt="" />
+                          <img src={path_image + "build1.png"} alt="" />
                         </span>
                         <p className="float-right">Capture consent</p>
                       </li>
                       <li>
                         <span>
-                          <img src="./img/build2.png" alt="" />
+                          <img src={path_image + "build2.png"} alt="" />
                         </span>
                         <p className="float-right">
                           Engage HCP’s with speakers at Webinars
@@ -285,7 +280,7 @@ const Webinar = () => {
                       </li>
                       <li>
                         <span>
-                          <img src="./img/build3.png" alt="" />
+                          <img src={path_image + "build3.png"} alt="" />
                         </span>
                         <p className="float-right">
                           Analyse HCP Webinar behaviour using our bespoke system
@@ -293,7 +288,7 @@ const Webinar = () => {
                       </li>
                       <li>
                         <span>
-                          <img src="./img/build4.png" alt="" />
+                          <img src={path_image + "build4.png"} alt="" />
                         </span>
                         <p className="float-right">
                           Our system creates automatic segmentation and emailing
@@ -301,7 +296,7 @@ const Webinar = () => {
                       </li>
                       <li>
                         <span>
-                          <img src="./img/build5.png" alt="" />
+                          <img src={path_image + "build5.png"} alt="" />
                         </span>
                         <p className="float-right">
                           HCP’s can download Docintel app to watch previous
@@ -310,7 +305,7 @@ const Webinar = () => {
                       </li>
                       <li>
                         <span>
-                          <img src="./img/build6.png" alt="" />
+                          <img src={path_image + "build6.png"} alt="" />
                         </span>
                         <p className="float-right">
                           Personalise future invites and interactions based on
@@ -342,8 +337,8 @@ const Webinar = () => {
   </div> --> */}
 
             <div className="col-md-12 d-flex justify-content-between">
-              <h2>Platform Features</h2>
-              <a className="btnn">Request Demo</a>
+              <h2 data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1000">Platform Features</h2>
+              <a href="https://docintel.app/Webinar/Docintel/login.php" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1000" className="btnn">Request Demo</a>
             </div>
           </div>
         </div>
@@ -357,10 +352,10 @@ const Webinar = () => {
                   data-ride="carousel"
                 >
                   <div className="col-md-8 col-sm-8 col-8 cst-cs-item pl-0">
-                    <div className="carousel-inner">
+                    {/* <div className="carousel-inner">
                       <div className="carousel-item active">
                         <img
-                          src="./img/slide1.png"
+                          src={path_image + "slide1.png"}
                           className="img-fluid"
                           alt=""
                         />
@@ -372,7 +367,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -381,7 +376,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -395,7 +390,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -416,7 +411,7 @@ const Webinar = () => {
                               data-toggle="collapse"
                               data-target="#slide_content"
                             >
-                              <img src="./img/down-arrow.png" alt="" />
+                              <img src={path_image + "down-arrow.png"} alt="" />
                             </button>
                             <div className="watch-demo-img">
                               <button
@@ -434,7 +429,7 @@ const Webinar = () => {
 
                       <div className="carousel-item">
                         <img
-                          src="./img/slide2.png"
+                          src={path_image + "slide2.png"}
                           className="img-fluid"
                           alt=""
                         />
@@ -450,7 +445,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -459,7 +454,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -469,7 +464,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -478,7 +473,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -492,7 +487,7 @@ const Webinar = () => {
                               data-toggle="collapse"
                               data-target="#slide_content_two"
                             >
-                              <img src="./img/down-arrow.png" alt="" />
+                              <img src={path_image + "down-arrow.png"} alt="" />
                             </button>
                             <div className="watch-demo-img">
                               <button
@@ -509,7 +504,7 @@ const Webinar = () => {
                       </div>
                       <div className="carousel-item">
                         <img
-                          src="./img/slide1.png"
+                          src={path_image + "slide1.png"}
                           className="img-fluid"
                           alt=""
                         />
@@ -521,7 +516,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -535,7 +530,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -553,7 +548,7 @@ const Webinar = () => {
                               data-toggle="collapse"
                               data-target="#slide-content3"
                             >
-                              <img src="./img/down-arrow.png" alt="" />
+                              <img src={path_image + "down-arrow.png"} alt="" />
                             </button>
                             <div className="watch-demo-img">
                               <button
@@ -570,7 +565,7 @@ const Webinar = () => {
                       </div>
                       <div className="carousel-item">
                         <img
-                          src="./img/slide2.png"
+                          src={path_image + "slide2.png"}
                           className="img-fluid"
                           alt=""
                         />
@@ -582,7 +577,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -597,7 +592,7 @@ const Webinar = () => {
                             <p>
                               <span className="caption-img">
                                 <img
-                                  src="./img/slider-over-img.png"
+                                  src={path_image + "slider-over-img.png"}
                                   alt="sdlc-icon"
                                 />
                               </span>
@@ -619,7 +614,7 @@ const Webinar = () => {
                               data-toggle="collapse"
                               data-target="#slide-content4"
                             >
-                              <img src="./img/down-arrow.png" alt="" />
+                              <img src={path_image + "down-arrow.png"} alt="" />
                             </button>
                             <div className="watch-demo-img">
                               <button
@@ -634,7 +629,137 @@ const Webinar = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
+                    <div id="slider">
+                                 <input type="radio" className="slide-radio" name="slide-radio" id="s1" value="1" />
+                                 <input type="radio" className="slide-radio" name="slide-radio" id="s2" value="2"/>
+                                 <input type="radio" className="slide-radio" name="slide-radio" id="s3" checked value="3" />
+                                 {/* <input type="radio" className="slide-radio" name="slide-radio" id="s4" checked value="4"> */}
+                                 <label for="s1" id="slide1">
+                                    <img src={path_image + "post-webinar.png"} className="img-fluid" alt=""/>
+                                    <div className="div-left-text caption-crausal">
+                                       <div className="caption-crausal-inside collapse show" id="slide_content">
+                                          <p>
+                                             <span className="caption-img">
+                                             <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
+                                             </span>
+                                             Your choice of streaming technology
+                                          </p>
+                                          <p>
+                                             <span className="caption-img">
+                                             <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
+                                             </span>
+                                             Automated interactions
+                                          <ul>
+                                             <li>Calendar invites</li>
+                                             <li>Auto mail reminders</li>
+                                             <li>Single Sign-in (SSi) to webinars</li>
+                                          </ul>
+                                          </p>
+                                          <p>
+                                             <span className="caption-img">
+                                             <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
+                                             </span>
+                                             Compliance simplified
+                                          <ul>
+                                             <li>You control who has access</li>
+                                             <li>Pre- registration set to custom regulation</li>
+                                             <li>GDPR/CCPA compliant </li>
+                                          </ul>
+                                          </p>
+                                       </div>
+                                       <div className="caption-crausal-footer">
+                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide_content">
+                                          <img src={path_image + "down-arrow1.png"} alt=""/>
+                                          </button>
+                                          <div className="watch-demo-video">
+                                              <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </label>
+                                 <label for="s2" id="slide2">
+                                    <img src={path_image + "audience-engagement.png"} className="img-fluid" alt=""/>
+                                    <div className="div-left-text caption-crausal">
+                                       <div className="caption-crausal-inside collapse show" id="slide_content_two">
+
+                                          <p>
+                                             <span className="caption-img">
+                                             <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
+                                             </span>
+                                             Set up your URL and bespoke branding
+                                          </p>
+                                          <p>
+                                             <span className="caption-img">
+                                             <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
+                                             </span>
+                                             Build email templates, AutoMails and calendar reminders
+                                          </p>
+                                          <p>
+                                             <span className="caption-img">
+                                             <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
+                                             </span>
+                                             Invite your audience your way or through us
+                                          </p>
+                                          <p>
+                                             <span className="caption-img">
+                                             <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
+                                             </span>
+                                             Gain consent to stay in touch post webinar.
+                                          </p>
+                                       </div>
+                                       <div className="caption-crausal-footer">
+                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide_content_two">
+                                          <img src={path_image + "down-arrow1.png"} alt=""/>
+                                          </button>
+                                          <div className="watch-demo-video">
+                                              <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
+
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </label>
+                                 <label for="s3" id="slide3" className="active">
+                                    <img src={path_image + "pre-webinar.png"} className="img-fluid active" alt=""/>
+                                    <div className="div-left-text caption-crausal">
+                                       <div className="caption-crausal-inside collapse show" id="slide-content3">
+                                       <div className="caption-crausal-inside-top">
+                                             <span>1 WEEK</span>
+                                             <p>Setup Time</p>
+                                          </div>
+                                          <p>
+                                             <span className="caption-img">
+                                             <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
+                                             </span>
+                                             Interactive: encouraging active participation
+                                          <ul>
+                                             <li>Live video questions</li>
+                                             <li>Written questions (pre-screen option)</li>
+                                             <li>On screen polls</li>
+                                          </ul>
+                                          </p>
+                                          <p>
+                                             <span className="caption-img">
+                                             <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
+                                             </span>
+                                             Monitor your audience
+                                          <ul>
+                                             <li>Remove unwanted guests</li>
+                                             <li>Learn who stays</li>
+                                          </ul>
+                                          </p>
+                                       </div>
+                                       <div className="caption-crausal-footer">
+                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide-content3">
+                                          <img src={path_image + "down-arrow1.png"} alt=""/>
+                                          </button>
+                                          <div className="watch-demo-video">
+                                             <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </label>
+                                </div>
                   </div>
                   <div className="col-md-4 col-sm-4 col-4 left-sdd">
                     <ol className="carousel-indicators cst-tab">
@@ -645,12 +770,12 @@ const Webinar = () => {
                       >
                         <img
                           className="without-active"
-                          src="./img/feature-active1.png"
+                          src={path_image + "feature-active1.png"}
                           alt=""
                         />
                         <img
                           className="with-active"
-                          src="./img/feature1.png"
+                          src={path_image + "feature1.png"}
                           alt=""
                         />
                         Tech Made easy <span>Our System</span>
@@ -662,12 +787,12 @@ const Webinar = () => {
                       >
                         <img
                           className="without-active"
-                          src="./img/feature2.png"
+                          src={path_image + "feature2.png"}
                           alt=""
                         />
                         <img
                           className="with-active"
-                          src="./img/feature-active2.png"
+                          src={path_image + "feature-active2.png"}
                           alt=""
                         />
                         Getting Started <span>Pre-Webinar</span>
@@ -679,12 +804,12 @@ const Webinar = () => {
                       >
                         <img
                           className="without-active"
-                          src="./img/feature3.png"
+                          src={path_image + "feature3.png"}
                           alt=""
                         />
                         <img
                           className="with-active"
-                          src="./img/feature-active3.png"
+                          src={path_image + "feature-active3.png"}
                           alt=""
                         />
                         Audience Engagement <span>Webinar</span>
@@ -696,12 +821,12 @@ const Webinar = () => {
                       >
                         <img
                           className="without-active"
-                          src="./img/feature4.png"
+                          src={path_image + "feature4.png"}
                           alt=""
                         />
                         <img
                           className="with-active"
-                          src="./img/feature-active4.png"
+                          src={path_image + "feature-active4.png"}
                           alt=""
                         />
                         Relationship Building <span>Post-Webinar</span>
@@ -733,25 +858,25 @@ const Webinar = () => {
               <ul className="efft-list">
                 <li>
                   <span>
-                    <img src="./img/effect1.png" alt="" />
+                    <img src={path_image + "effect1.png"} alt="" />
                   </span>
                   <p>Gathering HCP's together</p>
                 </li>
                 <li>
                   <span>
-                    <img src="./img/effect3.png" alt="" />
+                    <img src={path_image + "effect3.png"} alt="" />
                   </span>
                   <p>Sharing new information and the latest learnings</p>
                 </li>
                 <li>
                   <span>
-                    <img src="./img/effect2.png" alt="" />
+                    <img src={path_image + "effect2.png"} alt="" />
                   </span>
                   <p>Seeking feedback from HCP's</p>
                 </li>
                 <li>
                   <span>
-                    <img src="./img/effect4.png" alt="" />
+                    <img src={path_image + "effect4.png"} alt="" />
                   </span>
                   <p>Debating Issues</p>
                 </li>
@@ -793,23 +918,33 @@ const Webinar = () => {
         id="cases"
         data-anchor="cases"
       >
-        <div className="container">
+        <div className="custom-container">
           <div className="row">
             <div className="col-md-12 blue-br">
               <h3>Case Examples</h3>
+              <div class="map_buttons">
+                <ul>
+                    <li><a class="map-button active" href="javascript:void(0)" id="mapButton">Single</a></li>
+                    <li><a class="map-button" href="javascript:void(0)" id="compareButton">Compare</a></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </section>
       <section className="map-outer">
-        <div className="container">
-          <div className="row">
-            <img src="./img/map.png" alt="map" />
-            {/* <!--<div className="trial-outer">
-          <h5>Trial recruitment Spanish</h5>
-          <span>#0056A4</span>
-      </div>--> */}
-          </div>
+        <div className="custom-container">
+          <div class="row">
+                  <div id="chartdiv"></div>
+                  <div class="horizon-arrows">
+                  <div class="horizon horizon-prev">
+                      <img src="<?php echo INFORMEDPROURL ?>img/webinar/left-arrow-line-symbol.png" />
+                    </div>
+                    <div class="horizon horizon-next show-next">
+                      <img src="<?php echo INFORMEDPROURL ?>img/webinar/right-arrow-angle.png" />
+                    </div>
+                    </div>
+               </div>
         </div>
       </section>
       {/* <!--------------case example section ends here------------------> */}
@@ -817,93 +952,55 @@ const Webinar = () => {
       <section className="blank-space">
         <div className="blank-background"></div>
       </section>
+       <section class="common" idd="66" id="request_demo" data-anchor="section6">
+            <div class="request_demo_main">
+               <div class="container">
+                  <div class="row">
+                     <div class="demo-video-form">
+                  <form class="form-horizontal" >
+                           <h2>Get a FREE walkthrough</h2>
+                           <p>Need further information?<br/>Receive a walkthrough from a dedicated member of our team</p>
+                           <div class="form-left-fields">
+                              <div class="form-group">
+                                 <input type="text" id="name" class="contact-field" placeholder="Name" />
+                              </div>
+                              <div class="form-group">
+                                 <input type="email" id="email" class="contact-field" placeholder="Email" />
+                              </div>
+                              <div class="form-group">
+                                 <input type="number" id="phone" class="contact-field" placeholder="Contact Number" />
+                              </div>
+                              <div class="form-group">
+                                 <input type="text" id="company" class="contact-field" placeholder="Company"/>
+                              </div>
+                              <div class="form-group select-option input-group">
+                                 <select class="form-control contact-field" id="country">
+                                    <option value="">Select Country</option>
+
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-right-fields">
+                              <div class="form-group input-group">
+                                 <textarea class="form-control" rows="8" id="comment" placeholder="Comments"></textarea>
+                              </div>
+                           </div>
+                           <img src="<?php INFORMEDPROURL;?>img/loader.gif" width="50" id="contact-form-loader" style={{display:"none"}}/>
+                           <button type="button" id="contact-button" onclick="submitContactForm()" class="btn btn-default requst-demo">Request Demo</button>
+                           <p class="alert alert-success" style={{display:"none",marginTop:"15px"}} id="contact-success-msg"> Thank you for contacting us. We will get back to you shortly. </p>
+                            <p class="alert alert-danger" style={{display:"none",marginTop:"15px"}} id="contact-error-msg">  </p>
+                        </form>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </section>
       <footer
         className="common"
         idd="66"
         id="request_demo"
         data-anchor="section6"
       >
-        <div className="footer-main">
-          <div className="container">
-            <div className="row">
-              <div className="demo-video-form">
-                <div className="form-horizontal">
-                  <h2>Get a FREE Walkthrough</h2>
-                  <p>
-                    Need further Information?
-                    <br />
-                    Receive a walkthrough from a dedicated member of our team
-                  </p>
-                  <div className="form-left-fields">
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        placeholder="Name"
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder="Email"
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="number"
-                        id="phone"
-                        name="phone"
-                        placeholder="Contact Number"
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        placeholder="Company"
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-right-fields">
-                    <div className="form-group select-option">
-                      <Select
-                        options={selctOptions}
-                        name="service"
-                        placeholder="Service"
-                        onChange={(e) => handleChange(e?.value, "service")}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <textarea
-                        className="form-control"
-                        rows="5"
-                        id="comment"
-                        placeholder="Comments"
-                        onChange={(e) =>
-                          handleChange(e?.target?.value, "comment")
-                        }
-                      ></textarea>
-                    </div>
-                  </div>
-                  <button
-                    className="btn btn-default requst-demo"
-                    onClick={(e) => handleSubmit(e)}
-                  >
-                    Request Demo
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <div className="copyright">
           <ul>
             <li>&copy; 2020 DocIntel</li>
@@ -913,15 +1010,13 @@ const Webinar = () => {
             <li>
               <a href="javascript:void(0)">Privacy Policy</a>
             </li>
-            <li>
-              <a href="javascript:void(0)">Legal Notice</a>
-            </li>
+            
           </ul>
         </div>
       </footer>
       <div className="scroll-top">
         <a href="javascript:void(0);" id="myBtn" onClick="topFunction()">
-          <img src="./img/scroll-top.png" alt="top-scroll" />
+          <img src={path_image + "scroll-top.png"} alt="top-scroll" />
         </a>
       </div>
 
@@ -963,123 +1058,6 @@ const Webinar = () => {
           </li>
         </ul>
       </div>
-
-      <div className="modal fade" id="video1">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            {/* <!-- Modal Header --> */}
-            <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal">
-                <img src="./img/close-arrow.png" alt="" />
-              </button>
-            </div>
-
-            {/* <!-- Modal body --> */}
-            <div className="modal-body">
-              <h3>Our System | Tech made easy</h3>
-              <iframe
-                width="100%"
-                height="611"
-                src="https://www.youtube.com/embed/IwpXTjighY8"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Modal
-        show={signInModal}
-        onHide={handleClose}
-        className="login-form-view modal fade modal-dialog modal-dialog-centered"
-        id="myModal"
-      >
-        <Modal.Header className="modal-content modal-header">
-          <div className="login-form-view">
-            <div className="modal fade" id="myModal">
-              <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <button
-                      type="button"
-                      onClick={handleClose}
-                      className="close"
-                      data-dismiss="modal"
-                    >
-                      &times;
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="modal-body">
-            <div className="row no-gutters">
-              <div className="col-md-5">
-                <div className="login-form-view-left">
-                  <div className="form-bg-image">
-                    <img src="./img/modal-banner-img.png" alt="" />
-                  </div>
-                  <div className="image-over-txt">
-                    <img src="./img/login-popup-img.png" alt="" />
-                    <ul className="form-view-left-txt">
-                      <li>DocIntel</li>|<li> Webinars</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-7">
-                <div className="login-form-view-right">
-                  <h3>Sign In</h3>
-                  <form>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        name="username"
-                        className="form-control"
-                        id="exampleInputname"
-                        placeholder="Username"
-                        onChange={(e) => handleSignInChange(e)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="password"
-                        name="password"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Password"
-                        onChange={(e) => handleSignInChange(e)}
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      className="btn btn-primary signin_btn"
-                      onClick={handleSignInSubmit}
-                    >
-                      Sign In
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn btn-primary signup_btn"
-                    >
-                      Sign Up
-                    </button>
-                    <div className="forgot_password">
-                      <a href="#!" className="forgot-password-link">
-                        Forgot password?
-                      </a>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
     </>
   );
 };

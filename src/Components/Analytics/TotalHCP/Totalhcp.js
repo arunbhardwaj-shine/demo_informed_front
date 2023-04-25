@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { getData } from "../../../axios/apiHelper";
-import exporting from 'highcharts/modules/exporting';
-import exportData from 'highcharts/modules/export-data';
+import exporting from "highcharts/modules/exporting";
+import exportData from "highcharts/modules/export-data";
 import { loader } from "../../../loader";
 
 exporting(Highcharts);
@@ -17,7 +17,7 @@ const Totalhcp = () => {
   const [hcpOptions, setHcpOptions] = useState({
     chart: {
       type: "bar",
-      height:1000
+      height: 1000,
     },
     title: {
       text: "Total HCPs",
@@ -35,25 +35,23 @@ const Totalhcp = () => {
       },
     },
     legend: {
-      align: 'center',
-      verticalAlign: 'bottom',
-      layout: 'horizontal',
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "horizontal",
       x: 0,
       y: 0,
-      reversed: true
+      reversed: true,
     },
     plotOptions: {
       series: {
         stacking: "normal",
-        pointWidth: 30
-      }
-
+        pointWidth: 30,
+      },
     },
     // exporting: {
     //   showTable: true
     // },
     series: [],
-
   });
 
   // base line highchart
@@ -74,18 +72,18 @@ const Totalhcp = () => {
       },
     },
     legend: {
-      align: 'center',
-      verticalAlign: 'bottom',
-      layout: 'horizontal',
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "horizontal",
       x: 0,
-      y: 0
+      y: 0,
     },
     plotOptions: {
       series: {
         dataLabels: {
           enabled: true,
-          format: "{point.y}"
-        }
+          format: "{point.y}",
+        },
       },
     },
     series: [],
@@ -109,11 +107,11 @@ const Totalhcp = () => {
       },
     },
     legend: {
-      align: 'center',
-      verticalAlign: 'bottom',
-      layout: 'horizontal',
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "horizontal",
       x: 0,
-      y: 0
+      y: 0,
     },
     plotOptions: {
       series: {
@@ -121,16 +119,13 @@ const Totalhcp = () => {
       },
     },
     exporting: {
-      showTable: true
+      showTable: true,
     },
     series: [],
-
   });
 
   Highcharts.setOptions({
-
-    colors: ["#FFBE2C", "#00D4C0", "#F58289"]
-
+    colors: ["#FFBE2C", "#00D4C0", "#F58289"],
   });
 
   const [isDataNotFound, setIsDataNotFound] = useState(false);
@@ -149,7 +144,10 @@ const Totalhcp = () => {
       const newSeries = data.map((item, index) => ({
         name: item.ibu,
         // name: item.ibu + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
-        totalReaders: JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0),
+        totalReaders: JSON.parse(item.total_readers).reduce(
+          (acc, val) => acc + val,
+          0
+        ),
         data: JSON.parse(item.total_readers),
         color: Highcharts.getOptions().colors[index],
       }));
@@ -173,7 +171,19 @@ const Totalhcp = () => {
       ];
 
       const categories = JSON.parse(data[0].Months);
-      console.log(categories);
+      categories.sort(function (a, b) {
+        if (a === "Before April(2022)") return -1;
+        if (b === "Before April(2022)") return 1;
+
+        const dateA = new Date("01 " + a);
+        const dateB = new Date("01 " + b);
+
+        if (dateA < dateB) return -1;
+        if (dateA > dateB) return 1;
+        return 0;
+      });
+      categories.reverse();
+
       const newHcpOptions = {
         ...hcpOptions,
         xAxis: {
@@ -182,14 +192,16 @@ const Totalhcp = () => {
         series: newSeriesData,
       };
 
-      setHcpOptions(newHcpOptions)
-
+      setHcpOptions(newHcpOptions);
 
       // Set options for Base line chart
       const lineSeries = data.map((item) => ({
         name: item.ibu,
         // name: item.ibu + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
-        totalReaders: JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0),
+        totalReaders: JSON.parse(item.total_readers).reduce(
+          (acc, val) => acc + val,
+          0
+        ),
         data: item.hcp,
       }));
 
@@ -210,7 +222,20 @@ const Totalhcp = () => {
           color: Highcharts?.getOptions()?.colors[0],
         },
       ];
+
       const lineCategories = JSON.parse(data[0].Months);
+      lineCategories.sort(function (a, b) {
+        if (a === "Before April(2022)") return -1;
+        if (b === "Before April(2022)") return 1;
+
+        const dateA = new Date("01 " + a);
+        const dateB = new Date("01 " + b);
+
+        if (dateA < dateB) return -1;
+        if (dateA > dateB) return 1;
+        return 0;
+      });
+
       const newLineOptions = {
         ...lineOptions,
         xAxis: {
@@ -220,14 +245,20 @@ const Totalhcp = () => {
       };
       setLineOptions(newLineOptions);
 
-
       // Create table data
       const newTableSeries = data.map((item) => ({
         months: JSON.parse(item.Months),
         data: JSON.parse(item.total_readers),
       }));
       const tableDatas = data.map((ibuitems) => ({
-        name: ibuitems.ibu + ' ( ' + JSON.parse(ibuitems.total_readers).reduce((acc, val) => acc + val, 0) + ')',
+        name:
+          ibuitems.ibu +
+          " ( " +
+          JSON.parse(ibuitems.total_readers).reduce(
+            (acc, val) => acc + val,
+            0
+          ) +
+          ")",
       }));
       const newTable = {
         ...tableData,
@@ -243,7 +274,7 @@ const Totalhcp = () => {
       console.log(error);
       loader("hide");
     }
-    setIsLoaded(true)
+    setIsLoaded(true);
   };
 
   useEffect(() => {
@@ -254,7 +285,6 @@ const Totalhcp = () => {
   const total = tableData.series.reduce((acc, serie) => {
     return acc + serie.data.reduce((a, b) => a + b, 0);
   }, 0);
-
 
   return (
     <>
@@ -273,37 +303,48 @@ const Totalhcp = () => {
               </div>
               <div className="create-change-content spc-content analytic-charts">
                 <div className="high_charts">
-                  <HighchartsReact highcharts={Highcharts} options={hcpOptions} />
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={hcpOptions}
+                  />
                 </div>
                 <div className="high_charts">
-                  <HighchartsReact highcharts={Highcharts} options={lineOptions} />
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={lineOptions}
+                  />
                 </div>
-              <div className="high_charts">
-              <div className="highcharts-data-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    {tableData.xAxis.categories.map((category, index) => (
-                      <th key={index}>{category.name}</th>
-                    ))}
-                    <th>Total ({total})</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableData.series[0]?.months.map((month, index) => (
-                    <tr key={index}>
-                      <td>{month}</td>
-                      {tableData.series.map((serie, serieIndex) => (
-                        <td key={serieIndex}>{serie.data[index]}</td>
-                      ))}
-                      <td>{tableData.series.reduce((total, serie) => total + serie.data[index], 0)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              </div>
-              </div>
+                <div className="high_charts">
+                  <div className="highcharts-data-table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          {tableData.xAxis.categories.map((category, index) => (
+                            <th key={index}>{category.name}</th>
+                          ))}
+                          <th>Total ({total})</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableData.series[0]?.months.map((month, index) => (
+                          <tr key={index}>
+                            <td>{month}</td>
+                            {tableData.series.map((serie, serieIndex) => (
+                              <td key={serieIndex}>{serie.data[index]}</td>
+                            ))}
+                            <td>
+                              {tableData.series.reduce(
+                                (total, serie) => total + serie.data[index],
+                                0
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </Row>
           </div>
