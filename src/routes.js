@@ -139,6 +139,12 @@ if (
   require("./Components/assets/fonts/fonts.css");
   platform = 0;
   show = 0;
+}else if(window.location.pathname == "/webinar" || window.location.pathname == "/rd_register"){
+  require("./Components/assets/css/webinar.css");
+  require("./Components/assets/css/webinar-responsive.css");
+  require("./Components/assets/css/aos.css");
+  platform = 0;
+  show = 0;
 } else {
   // require("./Components/NewWebinar/assets/css/webinar.css");
   require("./Components/assets/css/style.css");
@@ -148,8 +154,6 @@ if (
   require("./Components/assets/fonts/fonts.css");
   require("./Components/assets/css/video.css");
 }
-
-
 
 const Routing = () => {
   return (
