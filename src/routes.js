@@ -215,7 +215,6 @@ const Routing = () => {
                   path="/octa-trending-content"
                   element={<TrendingContentOcta />}
                 />
-
                 <Route path="/top-clients" element={<TopClients />} />
                 <Route
                   path="/octa-country-registration"
@@ -289,7 +288,10 @@ const Routing = () => {
                 />
                 <Route path="/spc" element={<Spc />} />
                 <Route path="/spc-create" element={<SpcCreate />} />
-                <Route path="/products" element={<Products />} />
+                {localStorage.getItem("user_id") ==
+                "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
+                  <Route path="/products" element={<Products />} />
+                )}
                 <Route path="/new-webinar" element={<DefaultWebinar />} />
                 <Route path="/contact-form" element={<ContactForm />} />
                 <Route path="/email-statsss" element={<EmailStatsss />} />
