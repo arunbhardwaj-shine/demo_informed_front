@@ -155,14 +155,17 @@ const TopClients = () => {
       }
 
       const categories = hadData?.name;
-      Object.keys(categories).forEach((key) => {
-        if (typeof categories[key] === "string") {
-          categories[key] = categories[key].trim();
-          categories[key] = categories[key].replace(/\b\w/g, (c) =>
-            c.toUpperCase()
-          );
-        }
-      });
+
+      if (categories) {
+        Object.keys(categories)?.forEach((key) => {
+          if (typeof categories[key] === "string") {
+            categories[key] = categories[key].trim();
+            categories[key] = categories[key].replace(/\b\w/g, (c) =>
+              c.toUpperCase()
+            );
+          }
+        });
+      }
 
       const newSeries = [
         {
