@@ -35,14 +35,13 @@ const SalesByCountry = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const selectFilterType = useRef("saleCountry");
 
-
   const chart = useRef(null);
   const [All, setAll] = useState([
     { value: "", label: "All" },
     { value: "live", label: "Live" },
     { value: "expired", label: "Expired" },
   ]);
-  const [year, setYears] = useState([]);
+  const [year, setYears] = useState([{ value: "", label: "All" }]);
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
@@ -53,7 +52,7 @@ const SalesByCountry = () => {
       yearsList.push({ value: i.toString(), label: i.toString() });
     }
 
-    setYears([{ value: "", label: "All" }, ...yearsList]);
+    setYears([...year, ...yearsList]);
   }, []);
   const dataType = useRef(All[0]);
 
@@ -132,6 +131,11 @@ const SalesByCountry = () => {
     loader("show");
 
     try {
+      if (dataType?.current?.value == "" && years?.current?.value == "") {
+        selectFilterType.current = "saleCountry";
+      } else {
+        selectFilterType.current = "saleCountryFilter";
+      }
       const requestBody = {
         type: selectFilterType.current,
         dataType: dataType?.current?.value ? dataType?.current?.value : "",
@@ -140,12 +144,10 @@ const SalesByCountry = () => {
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
 
-      if (hadData.length <= 0 ) {
+      if (hadData?.name?.length <= 0) {
         setIsDataFound(false);
-      }
-      else{
-      setIsDataFound(true);
-
+      } else {
+        setIsDataFound(true);
       }
 
       const categories = hadData?.name;
@@ -178,7 +180,7 @@ const SalesByCountry = () => {
       setTopClientOptions(newClientOptions);
 
       setData(hadData);
-      setIsLoaded(true)
+      setIsLoaded(true);
 
       loader("hide");
     } catch (err) {
@@ -191,11 +193,6 @@ const SalesByCountry = () => {
 
   const filterDataByDataType = (e) => {
     setIsLoaded(false);
-    if(e.value==""){
-      selectFilterType.current="saleCountry"
-
-    }else
-    selectFilterType.current="saleCountryFilter"
     dataType.current = e;
     setIsDataFound(false);
     getDataFromApi();
@@ -203,13 +200,6 @@ const SalesByCountry = () => {
 
   const filterDataByYears = (e) => {
     setIsLoaded(false);
-
-    if(e.value==""){
-      selectFilterType.current="saleCountry"
-
-    }else
-    selectFilterType.current="saleCountryFilter"
-
     years.current = e;
     setIsDataFound(false);
     getDataFromApi();
@@ -218,43 +208,42 @@ const SalesByCountry = () => {
   return (
     <>
       <Col className="right-sidebar">
-
-          <div className="custom-container">
-            <Row>
-              <div className="top-header">
-                <div className="page-title d-flex">
-                  <h2>Sales by country</h2>
-                </div>
+        <div className="custom-container">
+          <Row>
+            <div className="top-header">
+              <div className="page-title d-flex">
+                <h2>Sales by country</h2>
               </div>
-              <div className="create-change-content spc-content analytic-charts">
-                <div className="form_action">
-                  <Form className="product-unit d-flex justify-content-between align-items-center">
-                    <div className="form-group d-flex align-items-center">
-                      <label htmlFor="">Filter By</label>
-                      <Select
-                        options={All}
-                        placeholder="All"
-                        onChange={filterDataByDataType}
-                        defaultValue={
-                          dataType?.current ? dataType?.current : null
-                        }
-                        name="first"
-                        className="dropdown-basic-button split-button-dropup mr-2"
-                        isClearable
-                      />
-                      <Select
-                        options={year}
-                        name="years"
-                        placeholder="Filter By"
-                        onChange={filterDataByYears}
-                        defaultValue={years?.current ? years?.current : null}
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                      />
-                    </div>
-                  </Form>
-                </div>
-                {isDataFound ? (
+            </div>
+            <div className="create-change-content spc-content analytic-charts">
+              <div className="form_action">
+                <Form className="product-unit d-flex justify-content-between align-items-center">
+                  <div className="form-group d-flex align-items-center">
+                    <label htmlFor="">Filter By</label>
+                    <Select
+                      options={All}
+                      placeholder="All"
+                      onChange={filterDataByDataType}
+                      // defaultValue={
+                      //   dataType?.current ? dataType?.current : null
+                      // }
+                      name="first"
+                      className="dropdown-basic-button split-button-dropup mr-2"
+                      isClearable
+                    />
+                    <Select
+                      options={year}
+                      name="years"
+                      placeholder="Year"
+                      onChange={filterDataByYears}
+                      // defaultValue={years?.current ? years?.current : null}
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                    />
+                  </div>
+                </Form>
+              </div>
+              {isDataFound ? (
                 <div className="high_charts space-added">
                   <HighchartsReact
                     highcharts={Highcharts}
@@ -262,11 +251,14 @@ const SalesByCountry = () => {
                     ref={chart}
                   />
                 </div>
-                 ) : isLoaded ?<h2>No Data Found</h2>:null}
-              </div>
-            </Row>
-          </div>
-
+              ) : isLoaded ? (
+                <div className="no_found">
+                  <p>No Data Found</p>
+                </div>
+              ) : null}
+            </div>
+          </Row>
+        </div>
       </Col>
     </>
   );

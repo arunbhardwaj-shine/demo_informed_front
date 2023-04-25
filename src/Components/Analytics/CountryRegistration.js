@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { postData } from '../../axios/apiHelper';
+import React, { useState, useEffect, useRef } from "react";
+import { postData } from "../../axios/apiHelper";
 import { Col, Row, Form } from "react-bootstrap";
-import { Link } from 'react-router-dom';
-import { ENDPOINT } from '../../axios/apiConfig';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import { Link } from "react-router-dom";
+import { ENDPOINT } from "../../axios/apiConfig";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 import highchartsMap from "highcharts/modules/map";
 import MapModule from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import Select from "react-select";
-import { useMemo } from 'react';
+import { useMemo } from "react";
 import { loader } from "../../loader";
 
 highchartsMap(Highcharts);
@@ -20,19 +20,21 @@ const CountryRegistration = () => {
   const [newData, setNewData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const [monthYear, setMonthYear] = useState();
   let startMonth = new Date("March 2022");
   let endMonth = new Date();
-  let months = [{ value: "All", label: "All" }];
+  let months = [];
 
   while (startMonth <= endMonth) {
-    let monthName = startMonth.toLocaleString('default', { month: 'long' });
+    let monthName = startMonth.toLocaleString("default", { month: "long" });
     let year = startMonth.getFullYear();
-
-    months.push({ value: `${monthName} ${year}`, label: `${monthName} ${year}` });
-
+    months.push({
+      value: `${monthName} ${year}`,
+      label: `${monthName} ${year}`,
+    });
     startMonth.setMonth(startMonth.getMonth() + 1);
   }
+  months.reverse();
+  const [monthYear, setMonthYear] = useState(months[0]?.value);
 
   const MemoizedMap = React.memo(({ data }) => (
     <HighchartsReact
@@ -47,27 +49,18 @@ const CountryRegistration = () => {
     return {
       chart: {
         type: "map",
-        height: 1000,
+        height: "60%",
         events: {
           load: function () {
-            const countryLatLon = newData?.filter(countryLati => countryLati.countryLat && countryLati.countryLon);
-            if (countryLatLon.length > 0) {
-              const { countryLat, countryLon } = countryLatLon[0];
-              this.mapZoom(0.5, countryLon, countryLat)
-            }
+            this.mapZoom(0.5, 7000, 41.1533);
           },
-        }
+        },
       },
-      // events: {
-      //   load: function () {
-      //     this.mapZoom(0.4, 4500, -4500);
-      //   }
-      // }
       title: {
-        text: "Country Registration"
+        text: "Country Registration",
       },
       credits: {
-        enabled: false
+        enabled: false,
       },
       mapNavigation: {
         enabled: true,
@@ -75,14 +68,14 @@ const CountryRegistration = () => {
           align: "right",
           verticalAlign: "bottom",
           x: -10,
-          y: -10
+          y: -10,
         },
       },
 
       series: [
         {
           name: "Country Registration",
-          data: newData?.filter(country => country.lat && country.lon),
+          data: newData?.filter((country) => country.lat && country.lon),
           mapData: worldMap,
           showInLegend: false,
           joinBy: ["name"],
@@ -90,7 +83,6 @@ const CountryRegistration = () => {
           tooltip: {
             headerFormat: "",
             pointFormat: "Total Registration: {point.totalIndex}",
-
           },
           states: {
             hover: {
@@ -100,13 +92,15 @@ const CountryRegistration = () => {
           dataLabels: {
             enabled: true,
             formatter: function () {
-              const countries = this.series.options.data.filter(country => country.name === this.point.name);
+              const countries = this.series.options.data.filter(
+                (country) => country.name === this.point.name
+              );
               if (countries.length > 0) {
                 return this.point.name;
               } else {
                 return null;
               }
-            }
+            },
           },
         },
       ],
@@ -116,51 +110,47 @@ const CountryRegistration = () => {
   // country list
   const [countryList, SetCountryList] = useState({
     chart: {
-      type: 'bar',
-      height: 3000
+      type: "bar",
+      height: 3000,
     },
     title: {
-      text: 'Country List'
+      text: "Country List",
     },
     xAxis: {
       categories: [],
     },
     yAxis: {
       title: {
-        text: 'Number of Cases'
-      }
+        text: "Number of Cases",
+      },
     },
     stackLabels: {
       enabled: true,
     },
     legend: {
-      align: 'center',
-      verticalAlign: 'bottom',
-      layout: 'horizontal',
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "horizontal",
       x: 0,
-      y: 0
+      y: 0,
     },
     plotOptions: {
       bar: {
         pointWidth: 18,
         dataLabels: {
           enabled: true,
-        }
-
+        },
       },
     },
     exporting: {
       showTable: true,
-      tableCaption: '',
+      tableCaption: "",
     },
-    series: []
-
+    series: [],
   });
 
   Highcharts.setOptions({
-
-    colors: ["#FFBE2C", "#00D4C0", "#F58289"]
-
+    colors: ["#FFBE2C", "#00D4C0", "#F58289"],
   });
 
   const optionMonth = useRef();
@@ -171,24 +161,32 @@ const CountryRegistration = () => {
       loader("show");
       const month = optionMonth.current;
       const year = optionYear.current;
-      const response = await postData(ENDPOINT.COUNTRY_REGISTRATION, { year, month });
-      const apiData = response.data;
-      const countryData = apiData.data.coordination.map((coordObject, index) => {
-        const [lat, lon] = Object.values(coordObject)[0].split("~");
-        const formattedIndex = apiData.data.critical_care[index] + apiData.data.haematology[index] + apiData.data.immunotherapy[index];
-        const totalIndex = isNaN(formattedIndex) ? 0 : formattedIndex;
-        return {
-          name: Object.keys(coordObject)[0],
-          lat: parseFloat(lat),
-          lon: parseFloat(lon),
-          critical_care: apiData.data.critical_care[index],
-          haematology: apiData.data.haematology[index],
-          immunotherapy: apiData.data.immunotherapy[index],
-          totalIndex: totalIndex,
-          countryLat: apiData.data.lat,
-          countryLon: apiData.data.long,
-        };
+      const response = await postData(ENDPOINT.COUNTRY_REGISTRATION, {
+        year,
+        month,
       });
+      const apiData = response.data;
+      const countryData = apiData.data.coordination.map(
+        (coordObject, index) => {
+          const [lat, lon] = Object.values(coordObject)[0].split("~");
+          const formattedIndex =
+            apiData.data.critical_care[index] +
+            apiData.data.haematology[index] +
+            apiData.data.immunotherapy[index];
+          const totalIndex = isNaN(formattedIndex) ? 0 : formattedIndex;
+          return {
+            name: Object.keys(coordObject)[0],
+            lat: parseFloat(lat),
+            lon: parseFloat(lon),
+            critical_care: apiData.data.critical_care[index],
+            haematology: apiData.data.haematology[index],
+            immunotherapy: apiData.data.immunotherapy[index],
+            totalIndex: totalIndex,
+            countryLat: apiData.data.lat,
+            countryLon: apiData.data.long,
+          };
+        }
+      );
       setNewData(countryData);
 
       const newSeries = [
@@ -218,7 +216,7 @@ const CountryRegistration = () => {
         series: newSeries,
       };
       setIsLoaded(true);
-      SetCountryList(newCountryList)
+      SetCountryList(newCountryList);
       setIsDataFound(true);
       loader("hide");
     } catch (error) {
@@ -232,12 +230,13 @@ const CountryRegistration = () => {
     getDataFromApi();
   }, []);
 
-  const selectMonthYear = (e) => {
-    const [month, year] = e.value.split(" ");
+  const selectMonthYear = (selectedOption) => {
+    setMonthYear(selectedOption?.value);
+    const [month, year] = selectedOption?.value?.split(" ") || [];
     optionMonth.current = month;
     optionYear.current = year;
     getDataFromApi();
-  }
+  };
 
   return (
     <>
@@ -256,24 +255,26 @@ const CountryRegistration = () => {
                     <label htmlFor="">Months</label>
                     <Select
                       options={months}
-                      value={monthYear}
+                      value={months.find(
+                        (option) => option.value === monthYear
+                      )}
                       onChange={selectMonthYear}
-                      placeholder="All"
                       className="dropdown-basic-button split-button-dropup"
-                      isClearable
+                      isClearable={true}
                     />
                   </div>
                 </Form>
               </div>
               <div className="high_charts">
-                {newData.length ? (
-                  <MemoizedMap data={newData} />
-                ) : null}
+                {newData.length ? <MemoizedMap data={newData} /> : null}
               </div>
-              {countryList.series.some(series => series.data.length > 0) ? (
+              {countryList.series.some((series) => series.data.length > 0) ? (
                 <div>
                   <div className="high_charts">
-                    <HighchartsReact highcharts={Highcharts} options={countryList} />
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={countryList}
+                    />
                   </div>
                   <div className="table-container">
                     <HighchartsReact data={countryList.series} />
@@ -289,7 +290,6 @@ const CountryRegistration = () => {
         </div>
       </Col>
     </>
-
   );
 };
 
