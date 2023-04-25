@@ -680,20 +680,15 @@ const handleShow = () => setShow(true);
           <ul>
             <li>&copy; 2020 DocIntel</li>
             <li>
-              <a href="javascript:void(0)">Terms and Conditions</a>
+              <a target="_blank" href="https://albert.docintel.app/terms_of_use/">Terms and Conditions</a>
             </li>
             <li>
-              <a href="javascript:void(0)">Privacy Policy</a>
+              <a target="_blank" href="https://albert.docintel.app/privacy_policy/">Privacy Policy</a>
             </li>
             
           </ul>
         </div>
       </footer>
-      <div className="scroll-top">
-        <a href="javascript:void(0);" id="myBtn" onClick="topFunction()">
-          <img src={path_image + "scroll-top.png"} alt="top-scroll" />
-        </a>
-      </div>
 
       <div
         id="pp-nav"
@@ -701,6 +696,44 @@ const handleShow = () => setShow(true);
         style={{ color: " rgb(0, 0, 0)", margintop: 161 }}
       >
         <ul>
+            <li data-scroll="banner-section">
+               <a href="#banner-section" class="page-scroll act11 activeMenu">
+                  <span></span>
+                  <p>Banner</p>
+               </a>
+            </li>
+            <li data-scroll="building-section">
+               <a href="#building-section" menuAct="22" class="page-scroll act22">
+                  <span></span>
+                  <p>Relationships</p>
+               </a>
+            </li>
+            <li data-scroll="feature">
+               <a href="#feature" menuAct="33" class="page-scroll act33">
+                  <span></span>
+                  <p>Features</p>
+               </a>
+            </li>
+            <li data-scroll="testimonial">
+               <a href="#testimonial" menuAct="44" class="page-scroll act44">
+                  <span></span>
+                  <p>Testimonial</p>
+               </a>
+            </li>
+            <li data-scroll="cases">
+               <a href="#cases" menuAct="55" class="page-scroll act55">
+                  <span></span>
+                  <p>Cases</p>
+               </a>
+            </li>
+            <li data-scroll="request_demo">
+               <a href="#request_demo" menuAct="66" class="page-scroll act66">
+                  <span></span>
+                  <p>Request Demo</p>
+               </a>
+            </li>
+         </ul>
+        {/* <ul>
           <li data-scroll="banner-section">
             <a href="#banner-section" className="page-scroll act11 active">
               <span style={{}}></span>
@@ -731,7 +764,7 @@ const handleShow = () => setShow(true);
               <span style={{}}></span>
             </a>
           </li>
-        </ul>
+        </ul> */}
       </div>
     </>
   );
