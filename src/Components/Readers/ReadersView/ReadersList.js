@@ -67,7 +67,7 @@ const NewReaders = () => {
   const [changeBlindedType, setChangeBlindedType] = useState([]);
   const [changeRoleType, setChangeRoleType] = useState([]);
   const [changeIRTType, setChangeIRTType] = useState([]);
-  const [changeSiteNumberType, setchangeSiteNumberType] = useState([]);
+  const [changeSiteNumberType, setChangeSiteNumberType] = useState([]);
 
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
@@ -292,95 +292,122 @@ const NewReaders = () => {
       index: i,
       value: consetValue,
     };
-
     const found = changeCountry.some((el) => el.index === i);
     if (!found) {
       setChangeCountry((oldarray) => [...oldarray, consent]);
     } else {
-      const index = changeCountry.findIndex((el) => el.index === i);
-      changeCountry[index].value = consetValue;
+      const updatedArray = changeCountry.map((el) =>
+        el.index === i ? { ...el, value: consetValue } : el
+      );
+      setChangeCountry(updatedArray);
     }
   };
 
   const onUserChange = (e, i) => {
-    let consetValue = e.value;
-    let consent = {
+    const consetValue = e.value;
+    const consent = {
       index: i,
       value: consetValue,
     };
     const found = changeUserType.some((el) => el.index === i);
+
     if (!found) {
-      setChangeUserType((oldarray) => [...oldarray, consent]);
+      setChangeUserType((oldArray) => [...oldArray, consent]);
     } else {
-      const index = changeUserType.findIndex((el) => el.index === i);
-      changeUserType[index].value = consetValue;
+      setChangeUserType((oldArray) =>
+        oldArray.map((el) =>
+          el.index === i ? { ...el, value: consetValue } : el
+        )
+      );
     }
   };
+
   const onBlindedChange = (e, i) => {
-    let consetValue = e.value;
-    let consent = {
+    const consetValue = e.value;
+    const consent = {
       index: i,
       value: consetValue,
     };
     const found = changeBlindedType.some((el) => el.index === i);
+
     if (!found) {
-      setChangeBlindedType((oldarray) => [...oldarray, consent]);
+      setChangeBlindedType((oldArray) => [...oldArray, consent]);
     } else {
-      const index = changeBlindedType.findIndex((el) => el.index === i);
-      changeBlindedType[index].value = consetValue;
+      setChangeBlindedType((oldArray) =>
+        oldArray.map((el) =>
+          el.index === i ? { ...el, value: consetValue } : el
+        )
+      );
     }
   };
 
   const onRoleChange = (e, i) => {
-    let consetValue = e.value;
-    let consent = {
+    const consetValue = e.value;
+    const consent = {
       index: i,
       value: consetValue,
     };
     const found = changeRoleType.some((el) => el.index === i);
+
     if (!found) {
-      setChangeRoleType((oldarray) => [...oldarray, consent]);
+      setChangeRoleType((oldArray) => [...oldArray, consent]);
     } else {
-      const index = changeRoleType.findIndex((el) => el.index === i);
-      changeRoleType[index].value = consetValue;
+      setChangeRoleType((oldArray) =>
+        oldArray.map((el) =>
+          el.index === i ? { ...el, value: consetValue } : el
+        )
+      );
     }
   };
+
   const onIrtChange = (e, i) => {
     let consetValue = e.value;
     let consent = {
       index: i,
       value: consetValue,
     };
-    const found = changeIRTType.some((el) => el.index === i);
-    if (!found) {
+    console.log(consent);
+    const foundIndex = changeIRTType.findIndex((el) => el.index === i);
+    if (foundIndex === -1) {
       setChangeIRTType((oldarray) => [...oldarray, consent]);
     } else {
-      const index = changeIRTType.findIndex((el) => el.index === i);
-      changeIRTType[index].value = consetValue;
+      setChangeIRTType((oldarray) =>
+        oldarray.map((el) => {
+          if (el.index === i) {
+            return { ...el, value: consetValue };
+          }
+          return el;
+        })
+      );
     }
   };
+
   const onSiteNumberChange = (e, i) => {
     let consetValue = e.value;
     let consent = {
       index: i,
       value: consetValue,
     };
+
     const found = changeSiteNumberType.some((el) => el.index === i);
     if (!found) {
-      setchangeSiteNumberType((oldarray) => [...oldarray, consent]);
+      setChangeSiteNumberType((oldarray) => [...oldarray, consent]);
     } else {
       const index = changeSiteNumberType.findIndex((el) => el.index === i);
-      changeSiteNumberType[index].value = consetValue;
+      let updatedArray = [...changeSiteNumberType];
+      updatedArray[index].value = consetValue;
+      setChangeSiteNumberType(updatedArray);
     }
   };
+
   const updateReaderDetails = async (reader_id, index) => {
     try {
       const index = changeCountry.findIndex((el) => el.index === reader_id);
+
       let country = "";
       if (index !== -1) {
         country = changeCountry[index].value;
       }
-
       const tindex = changeUserType.findIndex((el) => el.index === reader_id);
       let type = "";
       if (tindex !== -1) {
@@ -561,8 +588,10 @@ const NewReaders = () => {
       key == "change-tab" &&
       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
     ) {
-      const res = await getData(ENDPOINT.READER_USER_DROP);
-      setChanges(res.data);
+      const res = await getData(
+        "https://informedback.shinedezign.pro/reader/user-detail"
+      );
+      setChanges(res.data.data);
       console.log(res);
     }
   };
