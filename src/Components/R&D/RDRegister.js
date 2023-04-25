@@ -1,11 +1,39 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Button, Col, Container, Form, ModalTitle, Row, Modal } from 'react-bootstrap'
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
+import { loader } from "../../loader";
+import Select from "react-select";
+import axios from "axios";
 
 const RDRegister = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    getData();
+  });
+
+  const getData = async () => {
+      loader("show");
+      try {
+        let body = {
+          user_id: "56Ek4feL/1A8mZgIKQWEqg==",
+        };
+        await axios
+          .post(ENDPOINT.FILTERLIST)
+          .then((response) => {
+            console.log(response?.data?.response?.data);
+          });
+          loader("hide");
+      }catch(err){
+        console.log(err);
+        loader("hide");
+      }
+  };
+
   return (
     <>
     <div className="rd-main-wrapper">
