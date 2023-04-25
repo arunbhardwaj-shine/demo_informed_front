@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Button, Col, Container, Form, ModalTitle, Row, Modal } from 'react-bootstrap'
+import { rdregistration } from "../Validations/RegisterValidation/Rdregistration";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
@@ -11,13 +12,19 @@ const RDRegister = () => {
   const [show, setShow] = useState(false);
   const [siteCountry, setSiteCountry] = useState([]);
   const [siteNumber, setSiteNumber] = useState([]);
+  const [error, setError] = useState({});
+  const [userInputs, setInputs] = useState({
+    name: "",
+    email: "",
+    country: "",
+    sitenumber: "",
+  });
 
   useEffect(() => {
     getData();
   }, []);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const getData = async () => {
       loader("show");
@@ -61,6 +68,30 @@ const RDRegister = () => {
       }
   };
 
+  const handleChange = (e, isSelectedName) => {
+    setInputs({
+      ...userInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e?.target?.files
+          : e
+        : e?.target?.value,
+    });
+  };
+
+  const submitHandler = () => {
+    const err = rdregistration(
+      userInputs,
+    );
+    if (Object.keys(err)?.length) {
+      setError(err);
+      return;
+    } else {
+        setError({});
+        setShow(true);
+    }
+  }
+
   return (
     <>
     <div className="rd-main-wrapper">
@@ -88,13 +119,21 @@ const RDRegister = () => {
                             <Col md={6}>
                                 <div className="form-group">
                                     <label>Name <span>*</span></label>
-                                    <input type="text" placeholder="Enter your name"/>
+                                    <input type="text" placeholder="Enter your name" name="name" onChange={handleChange} />
+
+                                    {error?.name ? (
+                                      <div className="login-validation">{error?.name}</div>
+                                    ) : null}
                                 </div>
                             </Col>
                             <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                     <label>Email <span>*</span></label>
-                                    <input type="email" placeholder="Enter your email"/>
+                                    <input type="email" placeholder="Enter your email" name="email" onChange={handleChange} />
+
+                                    {error?.email ? (
+                                      <div className="login-validation">{error?.email}</div>
+                                    ) : null}
                                 </div>
                             </Col>
                             <Col md={6}>
@@ -102,11 +141,18 @@ const RDRegister = () => {
                                   <label>Country <span>*</span></label>
                                   {
                                     typeof siteCountry !== "undefined" && siteCountry.length > 0 ?
+                                    <>
                                     <Select
                                       options={siteCountry}
                                       placeholder="Select country"
+                                      name="country"
+                                      onChange={(e) => handleChange(e?.value, "country")}
                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                     />
+                                    {error?.country ? (
+                                      <div className="login-validation">{error?.country}</div>
+                                    ) : null}
+                                    </>
                                     : null
                                   }
                                 </div>
@@ -116,18 +162,26 @@ const RDRegister = () => {
                                     <label>Site number <span>*</span></label>
                                     {
                                       typeof siteNumber !== "undefined" && siteNumber.length > 0 ?
+                                      <>
                                       <Select
                                         options={siteNumber}
                                         placeholder="Select site number"
+                                        name="sitenumber"
+                                        onChange={(e) => handleChange(e?.value, "sitenumber")}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       />
+
+                                        {error?.sitenumber ? (
+                                          <div className="login-validation">{error?.sitenumber}</div>
+                                        ) : null}
+                                      </>
                                       : null
                                     }
                                 </div>
                             </Col>
                         </Row>
                         <div className="submit-btn">
-                            <Button className='btn btn-filled' onClick={handleShow} role="button">Submit</Button>
+                            <Button className='btn btn-filled' onClick={submitHandler} role="button">Submit</Button>
                         </div>
                     </Form>
                 </div>
