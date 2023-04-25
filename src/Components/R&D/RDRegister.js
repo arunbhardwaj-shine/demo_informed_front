@@ -17,8 +17,8 @@ const RDRegister = () => {
                         <h1>LEX-210 <span>Study</span></h1>
                     </div>
                     <div className="header-right">
-                        <p>Study of in <img className="text-img" src={path_image + "text-img.png"} alt="text-img"/>
-                          Patients With Acute Major Bleeding on DOAC Therapy With Factor Xa Inhibitor</p>
+                        <p>Study of <img className="text-img" src={path_image + "text-img.png"} alt="text-img"/>
+                          in Patients With Acute Major Bleeding on DOAC Therapy With Factor Xa Inhibitor</p>
                     </div>
                 </div>
                 <div className="form-wrapper">
@@ -36,7 +36,7 @@ const RDRegister = () => {
                                     <input type="text" placeholder="Enter your name"/>
                                 </div>
                             </Col>
-                            <Col md={6}>
+                            <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                     <label>Email <span>*</span></label>
                                     <input type="email" placeholder="Enter your email"/>
@@ -88,7 +88,7 @@ const RDRegister = () => {
 
                                 </div>
                             </Col>
-                            <Col md={6}>
+                            <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                     <label>Site number <span>*</span></label>
                                     <input type="text" placeholder="Enter your site number"/>
