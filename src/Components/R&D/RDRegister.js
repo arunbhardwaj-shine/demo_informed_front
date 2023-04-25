@@ -66,7 +66,7 @@ const RDRegister = () => {
     <div className="rd-main-wrapper">
         <Container>
             <div className="container-sm">
-                <div className="header-sec">
+                <div className="header-sec d-flex">
                     <div className="header-left">
                         <span>Welcome to </span>
                         <h1>LEX-210 <span>Study</span></h1>
@@ -140,7 +140,7 @@ const RDRegister = () => {
                 </div>
             </div>
         </Container>
-        <Modal show={show} onHide={handleClose} className='success_modal'>
+        <Modal show={show} onHide={handleClose} className='success_modal' centered>
           <div className='modal-wrapper'>
             <Modal.Header closeButton>
             </Modal.Header>
