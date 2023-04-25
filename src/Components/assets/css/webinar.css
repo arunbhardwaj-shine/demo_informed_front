@@ -2751,6 +2751,25 @@ a {
     max-width: 395px;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-background-color: 0 0 0 30px white inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.register_form .form-group.radio .login-validation {
+    text-align: left;
+    bottom: -18px;
+}
+
+.rd-main-wrapper .form-wrapper .form-group .login-validation {
+    color: #E94362;
+    font-size: 14px;
+    margin: 3px 0 0;
+}
+
 .rd-main-wrapper .form-wrapper select {
     background-image: url(../../../../public/componentAssets/images/dropdown-arrow.svg);
 }
@@ -2956,14 +2975,19 @@ a {
     padding: 10px 0;
 }
 
+.success_modal .modal-header .btn-close {
+    background: transparent url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIuNzI3NTEiIGhlaWdodD0iMTkuNzQwMiIgcng9IjEuMzYzNzYiIHRyYW5zZm9ybT0ibWF0cml4KDAuNzAyMDQ2IDAuNzEyMTMyIC0wLjcwMjA0NiAwLjcxMjEzMiAxNC4wODQ2IDApIiBmaWxsPSIjNzA4OTlFIi8+CjxyZWN0IHdpZHRoPSIyLjcyNzUxIiBoZWlnaHQ9IjE5Ljc0MDIiIHJ4PSIxLjM2Mzc2IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjcwMjA0NiAtMC43MTIxMzIgMC43MDIwNDYgMC43MTIxMzIgMCAxLjk0MjM4KSIgZmlsbD0iIzcwODk5RSIvPgo8L3N2Zz4K") center/1em auto no-repeat;
+    opacity: 1;
+}
+
 .modal .popup-title {
-    font-weight: 700;
+    font-weight: 600;
     font-size: 24px;
     line-height: 28px;
     text-align: center;
     text-transform: capitalize;
     color: #092CA6;
-    margin-top: 32px;
+    margin: 20px 10px 32px;
     font-family: 'Poppins';
 }
 

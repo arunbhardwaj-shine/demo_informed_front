@@ -199,30 +199,11 @@ const RDRegister = () => {
             <Modal.Header closeButton>
             </Modal.Header>
             <Modal.Body>
-              <img alt="popup-img" src={path_image + "popup-img.png"}/>
-                <h3 className="popup-title" id="exampleModalCenterTitle">Thank You For Register Here.</h3>
+              <h3 className="popup-title" id="exampleModalCenterTitle">Thank You For Register Here.</h3>
             </Modal.Body>
           </div>
         </Modal>
-        {/* <div className="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1"
-            style={{display: "none"}} aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-wrapper">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <img alt="popup-img" src={path_image + "popup-img.png"}/>
-                            <h3 className="popup-title" id="exampleModalCenterTitle">Thank You </h3>
-                        </div>
-                        <div className="modal-body">
-                        </div>
-                        <div className="modal-footer">
-                            <button className="popup-btn" data-bs-target="#exampleModalToggle2"
-                                data-bs-toggle="modal">Continue</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> */}
+        
     </div>
     </>
   )
