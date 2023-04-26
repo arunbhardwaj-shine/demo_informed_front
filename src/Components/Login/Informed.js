@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
 import { Container, Nav, Navbar, Row, Form, NavDropdown, Button, Modal, Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
+import { loader } from "../../loader";
 
 const Informed = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showError, setShowError] = useState(false);
 
     const [email, setEmail] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
-    
+
     const[name,setName] = useState("");
     const[contactEmail,setContactEmail] = useState("");
     const[phone,setPhone] = useState("");
@@ -22,7 +26,7 @@ const Informed = () => {
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
     // for login
-    const handleLogin = (event) => {
+    const handleLogin = async(event) => {
         event.preventDefault();
         if (username === "" && password === "") {
           setShowError("Please enter a username and password");
@@ -32,14 +36,43 @@ const Informed = () => {
           setShowError("Please enter a password");
         } else {
           setShowError(null);
-          console.log("Logging in...");
+          loader("show");
+          try{
+            const res = await postData(ENDPOINT.LOGIN, {
+              email: username,
+              password: password,
+              type: "informed",
+            });
+
+            localStorage.clear();
+            localStorage.setItem("user_id", res?.data?.data?.encryped_id);
+            localStorage.setItem("group_id", res?.data?.data?.group_id);
+            localStorage.setItem("webinar_flag", res?.data?.data?.webinar_flag);
+            localStorage.setItem("name", res?.data?.data?.name);
+            localStorage.setItem("decrypted_token", res?.data?.data?.loginToken);
+
+            // console.log(res?.data?.data?.name);
+            loader("hide");
+            navigate("/library-content");
+            // {
+            //   state: {
+            //     pdfId: res?.data?.data?.pdfId,
+            //     fileType: userInputs?.docintelFormat,
+            //     isEdit: 0,
+            //   },
+            // }
+          }catch(err){
+            console.log(err);
+            setShowError(err?.response?.data?.message);
+            loader("hide");
+          }
         }
       };
 
       // for send email forgetpassword
       const onSendEmail = (event) => {
         event.preventDefault();
-        
+
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         if (email.trim() === "") {
           setErrorMsg("Please enter your email.");
@@ -54,7 +87,7 @@ const Informed = () => {
 // send contact infromation
 const sendContactInformation= (event) => {
     event.preventDefault();
- 
+
     if(name === "" && contactEmail === "" && phone === "" && company === " "){
     setContactError("please enter all field");
     } else if ( name === "" ){
@@ -72,6 +105,12 @@ const sendContactInformation= (event) => {
 
     return (
         <>
+            <div className="loader" id="custom_loader">
+              <div className="loader_show">
+                <span className="loader-view"> </span>
+              </div>
+            </div>
+
             <div className='informed'>
                 <Navbar expand="lg" className='informed-nav'>
                     <Container>
@@ -80,8 +119,8 @@ const sendContactInformation= (event) => {
                         <Navbar.Collapse id="informed-login">
                             <Nav className="ms-auto justify-content-end">
                                 <Link to="/publisher-page">Publisher</Link>
-                                <Link to="#link">Webinar</Link>
-                                <Link to="#link">Contact Us</Link>
+                                <Link to="/webinar">Webinar</Link>
+                                <Link to="/">Contact Us</Link>
                                 <NavDropdown title="Login">
                                     <Form onSubmit={handleLogin}>
                                         <Form.Control
@@ -90,8 +129,9 @@ const sendContactInformation= (event) => {
                                             className="form-field"
                                             aria-label="Name"
                                             value={username}
+                                            autoComplete="off"
                                             onChange={(event) => setUsername(event.target.value)}
-                                            
+
                                         />
                                         <Form.Control
                                             type="password"
@@ -99,8 +139,9 @@ const sendContactInformation= (event) => {
                                             className="form-field"
                                             aria-label="Password"
                                             value={password}
+                                            autoComplete="off"
                                             onChange={(event) => setPassword(event.target.value)}
-                                            
+
                                         />
                                       {showError && <p style={{ color: "red" }}>{showError}</p>}
                                         <Button variant="outline-success" type="submit">
@@ -420,8 +461,8 @@ const sendContactInformation= (event) => {
                                     <Form className="contact_inforMed" onSubmit={sendContactInformation}>
                                         <Row className="mb-3">
                                             <Col>
-                                                <Form.Control 
-                                                type="text" 
+                                                <Form.Control
+                                                type="text"
                                                 placeholder="Your name"
                                                 className="form-field"
                                                 aria-label="Your Name"
@@ -430,17 +471,17 @@ const sendContactInformation= (event) => {
                                                  />
                                             </Col>
                                             <Col>
-                                                <Form.Control 
-                                                type="email" 
-                                                placeholder="Email" 
+                                                <Form.Control
+                                                type="email"
+                                                placeholder="Email"
                                                 aria-label="Your Email"
                                                 value={contactEmail}
                                                 onChange={(event) => setContactEmail(event.target.value)}
                                                 />
                                             </Col>
                                             <Col>
-                                                <Form.Control type="tel" 
-                                                placeholder="Phone" 
+                                                <Form.Control type="tel"
+                                                placeholder="Phone"
                                                 pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                                                 aria-label="Your Phone"
                                                 value={phone}
@@ -449,8 +490,8 @@ const sendContactInformation= (event) => {
                                             </Col>
                                             <Col>
                                                 <Form.Control
-                                                 type="text" 
-                                                 placeholder="Company" 
+                                                 type="text"
+                                                 placeholder="Company"
                                                  aria-label="Your Comapny"
                                                  value={company}
                                                 onChange={(event) => setCompany(event.target.value)}
@@ -494,7 +535,7 @@ const sendContactInformation= (event) => {
                     </p>
                 </footer>
             </div>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} className='header-forgot'>
                 <Modal.Header closeButton>
                     <Modal.Title>Reset Your Password</Modal.Title>
                 </Modal.Header>
