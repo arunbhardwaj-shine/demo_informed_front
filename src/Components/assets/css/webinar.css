@@ -2964,10 +2964,10 @@ input:-webkit-autofill:active {
 }
 
 .loader-view {
-    color: var(--white);
+    color: #ffffff;
     position: relative;
     font-size: 11px !important;
-    background: var(--white);
+    background: #ffffff;
     animation: escaleY 1s infinite ease-in-out;
     width: 1.4em;
     height: 6em;
@@ -2980,7 +2980,7 @@ input:-webkit-autofill:active {
     position: absolute;
     top: 0;
     left: 2.6em;
-    background: var(--white);
+    background: #ffffff;
     width: 1.4em;
     height: 6em;
     animation: escaleY 1s infinite ease-in-out;
@@ -2998,15 +2998,15 @@ input:-webkit-autofill:active {
     100% {
         box-shadow: 0 0;
         height: 6em;
-        background: var(--light-blue);
-        color: var(--light-blue);
+        background: #0066be;
+        color: #0066be;
     }
 
     40% {
         box-shadow: 0 -2em;
         height: 7.8em;
-        background: var(--white);
-        color: var(--white);
+        background: #ffffff;
+        color: #ffffff;
     }
 }
 
