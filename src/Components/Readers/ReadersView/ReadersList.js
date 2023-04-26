@@ -43,7 +43,7 @@ const NewReaders = () => {
 
   const [countryAll, setCountryAll] = useState([]);
   const defaultCountry = useRef(null);
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState([]);
 
   const [filterdata, setFilterData] = useState({
     Status: ["Registered", "Unregistered"],
@@ -280,18 +280,15 @@ const NewReaders = () => {
       (item) => item.country === consetValue
     );
 
-    // Create an array of objects containing the site numbers from the filtered data
     const siteNumbers = filteredData.map((item) => ({
       label: item.site_number,
       value: item.site_number,
     }));
-
-    // Update the siteNumber state with the new array of site numbers
     setSiteNumber((prevSiteNumbers) => ({
       ...prevSiteNumbers,
       [index]: siteNumbers,
     }));
-    console.log(siteNumber);
+  
 
     let consent = {
       index: i,
@@ -386,19 +383,23 @@ const NewReaders = () => {
     }
   };
 
-  const onSiteNumberChange = (e, i) => {
+  const onSiteNumberChange = (e, i, index) => {
     const selectedSiteNumber = e.value;
     const selectedItem = change.sideData.find(
       (item) => item.site_number === selectedSiteNumber
     );
-    const selectedCountry = selectedItem.country;
-    const defaultValue = { value: selectedCountry, label: selectedCountry };
-
+    const selectedCountry1 = selectedItem.country;
+    const defaultValue = { value: selectedCountry1, label: selectedCountry1 };
+    setSelectedCountry((prevSiteNumbers) => ({
+      ...prevSiteNumbers,
+      [index]: defaultValue,
+    }));
     let consetValue = e.value;
     let consent = {
       index: i,
       value: consetValue,
     };
+
     const found = changeSiteNumberType.some((el) => el.index === i);
     if (!found) {
       setChangeSiteNumberType((oldarray) => [...oldarray, consent]);
@@ -1510,56 +1511,28 @@ const NewReaders = () => {
                                         </h6>
                                         <div className="select-dropdown-wrapper">
                                           <div className="select">
-                                            {selectedCountry ? (
-                                              <Select
-                                                ref={defaultCountry}
-                                                options={countryAll}
-                                                defaultValue={
-                                                  selectedCountry
-                                                    ? selectedCountry
-                                                    : countryAll[
-                                                        countryAll.findIndex(
-                                                          (el) =>
-                                                            el.value ==
-                                                            data?.country
-                                                        )
-                                                      ]
-                                                }
-                                                onChange={(event) =>
-                                                  onCountryChange(
-                                                    event,
-                                                    data.id
-                                                  )
-                                                }
-                                                id={data.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            ) : (
-                                              <Select
-                                                ref={defaultCountry}
-                                                options={countryAll}
-                                                defaultValue={
-                                                  countryAll[
-                                                    countryAll.findIndex(
-                                                      (el) =>
-                                                        el.value ==
-                                                        data?.country
-                                                    )
-                                                  ]
-                                                }
-                                                onChange={(event) =>
-                                                  onCountryChange(
-                                                    event,
-                                                    data.id,
-                                                    index
-                                                  )
-                                                }
-                                                id={data.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            )}
+                                            <Select
+                                              ref={defaultCountry}
+                                              options={countryAll}
+                                              value={
+                                                selectedCountry[index] !=
+                                                undefined
+                                                  ? selectedCountry[index]
+                                                  : countryAll[
+                                                      countryAll.findIndex(
+                                                        (el) =>
+                                                          el.value ==
+                                                          data?.country
+                                                      )
+                                                    ]
+                                              }
+                                              onChange={(event) =>
+                                                onCountryChange(event, data.id)
+                                              }
+                                              id={data.id}
+                                              className="dropdown-basic-button split-button-dropup"
+                                              isClearable
+                                            />
                                           </div>
                                         </div>
                                       </li>
@@ -1590,7 +1563,8 @@ const NewReaders = () => {
                                               onChange={(event) =>
                                                 onSiteNumberChange(
                                                   event,
-                                                  data.id
+                                                  data.id,
+                                                  index
                                                 )
                                               }
                                               id={"siteNumber_type" + data?.id}
@@ -1662,7 +1636,24 @@ const NewReaders = () => {
                                         </div>
                                       </li>
                                     </>
-                                  ) : null}
+                                  ) : (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        width: "100%",
+                                        height: "100%",
+                                      }}
+                                    >
+                                      <Spinner
+                                        color="#53aff4"
+                                        size={32}
+                                        speed={1}
+                                        animating={true}
+                                      />
+                                    </div>
+                                  )}
                                 </ul>
 
                                 {apiCallStatus ? (
