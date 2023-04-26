@@ -1095,7 +1095,7 @@ const FilterSegment = (props) => {
                                   <ul>
                                     {Object.entries(filters.speciality).map(
                                       ([index, item]) => (
-                                        <li key={index}>
+                                        <li>
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
@@ -1134,7 +1134,7 @@ const FilterSegment = (props) => {
                                   <ul>
                                     {Object.entries(filters.ibu).map(
                                       ([index, item]) => (
-                                        <li key={index}>
+                                        <li>
                                           <div className="select-multiple-option">
                                             <input
                                               type="radio"
@@ -1167,7 +1167,7 @@ const FilterSegment = (props) => {
                                   <ul>
                                     {Object.entries(filters.product).map(
                                       ([index, item]) => (
-                                        <li key={index}>
+                                        <li>
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
@@ -1248,7 +1248,7 @@ const FilterSegment = (props) => {
                                   <ul>
                                     {Object.entries(filters.country).map(
                                       ([index, item]) => (
-                                        <li key={index}>
+                                        <li>
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
@@ -1403,7 +1403,7 @@ const FilterSegment = (props) => {
                                 <div className="smart-name-list">
                                   <ul>
                                     {filters.consent_type.map((item, index) => (
-                                      <li key={index}>
+                                      <li>
                                         <div className="select-multiple-option">
                                           <input
                                             type="checkbox"
@@ -1479,7 +1479,7 @@ const FilterSegment = (props) => {
                                   <ul>
                                     {Object.entries(filters.sub_role).map(
                                       ([index, item]) => (
-                                        <li key={item}>
+                                        <li>
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
@@ -1705,7 +1705,7 @@ const FilterSegment = (props) => {
                                     {Object.entries(
                                       filters.reader_selection
                                     ).map(([index, item]) => (
-                                      <li key={index}>
+                                      <li>
                                         <div className="select-multiple-option">
                                           <input
                                             type="radio"
@@ -1769,8 +1769,8 @@ const FilterSegment = (props) => {
                                     </ul>
                                   </div>
                                 </div>
-                            </>
-                          )}
+                              </>
+                            )}
 
                             {selectedcampaign.length > 0 && (
                               <>
@@ -2233,7 +2233,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedcountry).map(([index, item]) => (
-                        <div className="filter-result" key={index}>
+                        <div className="filter-result">
                           {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
                           <img
                             onClick={() =>
@@ -2283,7 +2283,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedprovince).map(([index, item]) => (
-                        <div className="filter-result" key={index}>
+                        <div className="filter-result">
                           {item}
                           <img
                             onClick={() =>
@@ -2309,7 +2309,7 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedterritory).map(
                         ([index, item]) => (
-                          <div className="filter-result" key={index}>
+                          <div className="filter-result">
                             {item}
                             <img
                               onClick={() =>
@@ -2336,7 +2336,7 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedcontacttype).map(
                         ([index, item]) => (
-                          <div className="filter-result" key={index}>
+                          <div className="filter-result">
                             {item}{" "}
                             <img
                               onClick={() =>
@@ -2363,7 +2363,7 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedspeciality).map(
                         ([index, item]) => (
-                          <div className="filter-result" key={index}>
+                          <div className="filter-result">
                             {item}{" "}
                             <img
                               onClick={() =>
@@ -2389,7 +2389,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedproduct).map(([index, item]) => (
-                        <div className="filter-result" key={index}>
+                        <div className="filter-result">
                           {item}{" "}
                           <img
                             onClick={() =>
@@ -2423,7 +2423,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedarticles).map(([index, item]) => (
-                        <div className="filter-result" key={index}>
+                        <div className="filter-result">
                           {item}{" "}
                           <img
                             onClick={() =>
@@ -2448,7 +2448,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedconsent).map(([index, item]) => (
-                        <div className="filter-result" key={index}>
+                        <div className="filter-result">
                           {item}{" "}
                           <img
                             onClick={() =>
