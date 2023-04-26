@@ -2751,6 +2751,17 @@ a {
     max-width: 395px;
 }
 
+.common-login-validation {
+    border-radius: 3px;
+    text-align: center;
+    background: #a4000061;
+    margin: 0px 0 20px;
+    color: #b80000;
+    font-size: 15px;
+    padding: 7px;
+    border: 1px solid #dd010175;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
