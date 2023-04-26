@@ -142,6 +142,9 @@ const RDRegister = () => {
 
   return (
     <>
+    {
+      /*Loader code*/
+    }
     <div className="loader" id="custom_loader">
       <div className="loader_show">
         <span className="loader-view"> </span>
