@@ -296,18 +296,15 @@ const NewReaders = () => {
       (item) => item.country === consetValue
     );
 
-    // Create an array of objects containing the site numbers from the filtered data
     const siteNumbers = filteredData.map((item) => ({
       label: item.site_number,
       value: item.site_number,
     }));
-
-    // Update the siteNumber state with the new array of site numbers
     setSiteNumber((prevSiteNumbers) => ({
       ...prevSiteNumbers,
       [index]: siteNumbers,
     }));
-    console.log(siteNumber);
+  
 
     let consent = {
       index: i,
