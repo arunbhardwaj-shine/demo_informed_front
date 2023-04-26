@@ -164,7 +164,7 @@ const NewReaders = () => {
           ...oldArray,
           ...res?.data?.data?.result,
         ]);
-      } else {  
+      } else {
         total_results = res?.data?.data?.result?.length;
         setReaderDataList(res?.data?.data?.result);
       }
@@ -175,7 +175,7 @@ const NewReaders = () => {
         setIsLoaded(false);
       }
 
-     
+
       setPageAll(false);
       setApiCallStatus(true);
       loader("hide");
@@ -288,7 +288,7 @@ const NewReaders = () => {
       ...prevSiteNumbers,
       [index]: siteNumbers,
     }));
-  
+
 
     let consent = {
       index: i,
@@ -774,7 +774,7 @@ const NewReaders = () => {
                                               <li key={index}>
                                                 {  item != "" ? (
                                                   <label className="select-multiple-option">
-                                                   
+
                                                     <input
                                                       type={
                                                         key == "status" ||
@@ -815,9 +815,9 @@ const NewReaders = () => {
                                                       ? "draft" &&  typeof item  == "string"
                                                       : item} */}
                                                     <span className="checkmark"></span>
-                                                   
+
                                                   </label>
-                                                  
+
                                                 ) : null}
                                               </li>
                                             )
@@ -1026,17 +1026,20 @@ const NewReaders = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
+                                      {
+                                        /*<li>
+                                          <h6 className="tab-content-title">
+                                            Role
+                                          </h6>
+                                          <h6>
+                                            {data?.role ? data?.role : "N/A"}
+                                          </h6>
+                                        </li>*/
+                                      }
+
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Role
-                                        </h6>
-                                        <h6>
-                                          {data?.role ? data?.role : "N/A"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Blinded/Unblinded
+                                          Blinded
                                         </h6>
                                         <h6>
                                           {data?.binded ? data?.binded : "N/A"}
@@ -1069,7 +1072,7 @@ const NewReaders = () => {
                                       <h6>{data?.user_status}</h6>
                                     </li>
                                     }
-                                     
+
                                       {
                                         data?.ipAddress?"": <li>
                                         <h6 className="tab-content-title">
@@ -1082,7 +1085,7 @@ const NewReaders = () => {
                                         </h6>
                                       </li>
                                       }
-                                     
+
                                       {
                                         data?.ipAddress?"":<li>
                                         <h6 className="tab-content-title">
