@@ -107,7 +107,7 @@ console.log("colors ",bgColors)
     <Col>
       <HighchartsReact highcharts={Highcharts} options={options} />
       <div class="stats_precenage">
-        <ul class="ul_stats_first" style={{listStyle:"none"}}>
+        <ul class={label == "informed.pro" ? "ul_stats_first informed" : "ul_stats_first"} style={{listStyle:"none"}}>
           {list.map((item, index) => {
             const key = Object.keys(item)[0];
             const value = item[key];

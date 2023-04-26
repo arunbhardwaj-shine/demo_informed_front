@@ -150,8 +150,6 @@ const TopReseller = () => {
       const hadData = response?.data?.data;
       if (hadData?.name?.length <= 0) {
         setIsDataFound(false);
-        loader("hide");
-        return;
       } else {
         setIsDataFound(true);
       }
