@@ -52,33 +52,39 @@ const RDRegister = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
-    setInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-        ? e?.target?.files
-          ? e?.target?.files
-          : e
-        : e?.target?.value,
-    });
 
     if(isSelectedName == "country"){
-      console.log(apiData?.site_country_data);
+      setInputs({
+        name: userInputs?.name,
+        email: userInputs?.email,
+        country: e,
+        sitenumber: "",
+      });
+    }else{
+      setInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+        ? e?.target?.files
+        : e
+        : e?.target?.value,
+      });
     }
 
+    if(isSelectedName == "country"){
+      let newSite = [];
+      Object.entries(apiData?.site_country_data).forEach(([key, value]) => {
+          if(e == "B&H"){
+            e = "Bosnia and Herzegovina";
+          }
+          if(value == e){
+            newSite.push({label:key,value:key})
+          }
+      });
+
+      setSiteNumber(newSite);
+    }
   };
-
-  const submitHandler = () => {
-    const err = rdregistration(
-      userInputs,
-    );
-    if (Object.keys(err)?.length) {
-      setError(err);
-      return;
-    } else {
-        setError({});
-        setShow(true);
-    }
-  }
 
   const createSelectObj = (data) => {
     let objData = [];
@@ -95,12 +101,36 @@ const RDRegister = () => {
     return objData;
   }
 
+  const submitHandler = async() => {
+    const err = rdregistration(
+      userInputs,
+    );
+    if (Object.keys(err)?.length) {
+      setError(err);
+      return;
+    } else {
+      loader("show");
+      try {
+        await axios
+          .post(ENDPOINT.REGISTERRD, userInputs)
+          .then((response) => {
+            loader("hide");
+          });
+      }catch(err){
+        console.log(err);
+        loader("hide");
+      }
+      // setError({});
+      // setShow(true);
+    }
+  }
+
   return (
     <>
     <div className="rd-main-wrapper">
         <Container>
             <div className="container-sm">
-                <div className="header-sec">
+                <div className="header-sec d-flex">
                     <div className="header-left">
                         <span>Welcome to </span>
                         <h1>LEX-210 <span>Study</span></h1>
@@ -142,9 +172,6 @@ const RDRegister = () => {
                             <Col md={6}>
                                 <div className="form-group">
                                   <label>Country <span>*</span></label>
-                                  {
-                                    typeof siteCountry !== "undefined" && siteCountry.length > 0 ?
-                                    <>
                                     <Select
                                       options={siteCountry}
                                       placeholder="Select country"
@@ -155,31 +182,23 @@ const RDRegister = () => {
                                     {error?.country ? (
                                       <div className="login-validation">{error?.country}</div>
                                     ) : null}
-                                    </>
-                                    : null
-                                  }
                                 </div>
                             </Col>
                             <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                     <label>Site number <span>*</span></label>
-                                    {
-                                      typeof siteNumber !== "undefined" && siteNumber.length > 0 ?
-                                      <>
                                       <Select
                                         options={siteNumber}
                                         placeholder="Select site number"
                                         name="sitenumber"
+                                        value={siteNumber.findIndex((el) => el.value == userInputs?.sitenumber) == -1 ? '' : siteNumber[siteNumber.findIndex((el) => el.value == userInputs?.sitenumber)]}
                                         onChange={(e) => handleChange(e?.value, "sitenumber")}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        isClearable={true}
                                       />
-
-                                        {error?.sitenumber ? (
-                                          <div className="login-validation">{error?.sitenumber}</div>
-                                        ) : null}
-                                      </>
-                                      : null
-                                    }
+                                      {error?.sitenumber ? (
+                                        <div className="login-validation">{error?.sitenumber}</div>
+                                      ) : null}
                                 </div>
                             </Col>
                         </Row>
@@ -197,35 +216,16 @@ const RDRegister = () => {
                 </div>
             </div>
         </Container>
-        <Modal show={show} onHide={handleClose} className='success_modal'>
+        <Modal show={show} onHide={handleClose} className='success_modal' centered>
           <div className='modal-wrapper'>
             <Modal.Header closeButton>
             </Modal.Header>
             <Modal.Body>
-              <img alt="popup-img" src={path_image + "popup-img.png"}/>
-                <h3 className="popup-title" id="exampleModalCenterTitle">Thank You For Register Here.</h3>
+              <h3 className="popup-title" id="exampleModalCenterTitle">Thank You For Register Here.</h3>
             </Modal.Body>
           </div>
         </Modal>
-        {/* <div className="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1"
-            style={{display: "none"}} aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-wrapper">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <img alt="popup-img" src={path_image + "popup-img.png"}/>
-                            <h3 className="popup-title" id="exampleModalCenterTitle">Thank You </h3>
-                        </div>
-                        <div className="modal-body">
-                        </div>
-                        <div className="modal-footer">
-                            <button className="popup-btn" data-bs-target="#exampleModalToggle2"
-                                data-bs-toggle="modal">Continue</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> */}
+
     </div>
     </>
   )
