@@ -81,7 +81,6 @@ const RDRegister = () => {
             newSite.push({label:key,value:key})
           }
       });
-
       setSiteNumber(newSite);
     }
   };
@@ -111,22 +110,46 @@ const RDRegister = () => {
     } else {
       loader("show");
       try {
+
+        const options = {
+          headers: {'Content-Type': 'application/json'}
+        };
         await axios
-          .post(ENDPOINT.REGISTERRD, userInputs)
+          .post(ENDPOINT.REGISTERRD, userInputs,options)
           .then((response) => {
+            if(response?.data?.status_code == 200){
+              setInputs({
+                name: "",
+                email: "",
+                country: "",
+                sitenumber: "",
+              });
+              document.getElementById("myForm").reset();
+              setError({});
+              setShow(true);
+            }else{
+              let obj = {"Api": response?.data?.message};
+              setError(obj);
+            }
             loader("hide");
           });
       }catch(err){
         console.log(err);
         loader("hide");
       }
-      // setError({});
-      // setShow(true);
     }
   }
 
   return (
     <>
+    {
+      /*Loader code*/
+    }
+    <div className="loader" id="custom_loader">
+      <div className="loader_show">
+        <span className="loader-view"> </span>
+      </div>
+    </div>
     <div className="rd-main-wrapper">
         <Container>
             <div className="container-sm">
@@ -141,13 +164,16 @@ const RDRegister = () => {
                     </div>
                 </div>
                 <div className="form-wrapper">
+                    {error?.Api ? (
+                      <div className="common-login-validation">{error?.Api}</div>
+                    ) : null}
                     <div className="form-head-sec">
                         <h3>
                             Access is only for Study participants. Please check your details and give your consent for
                             Octapharma to track your engagement with the content provided.
                         </h3>
                     </div>
-                    <Form className="form">
+                    <Form className="form" id="myForm">
                         <Row>
                             <Col md={6}>
                                 <div className="form-group">
@@ -176,6 +202,7 @@ const RDRegister = () => {
                                       options={siteCountry}
                                       placeholder="Select country"
                                       name="country"
+                                      value={siteCountry.findIndex((el) => el.value == userInputs?.country) == -1 ? '' : siteCountry[siteCountry.findIndex((el) => el.value == userInputs?.country)]}
                                       onChange={(e) => handleChange(e?.value, "country")}
                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                     />
@@ -203,9 +230,11 @@ const RDRegister = () => {
                             </Col>
                         </Row>
                         <div className="submit-btn">
+
                             <Button className='btn btn-filled' onClick={submitHandler} role="button">Submit</Button>
                         </div>
                     </Form>
+
                 </div>
                 <div className="footer-content">
                     <p>This content is for invited healthcare professionals only. Please do not share this link with
