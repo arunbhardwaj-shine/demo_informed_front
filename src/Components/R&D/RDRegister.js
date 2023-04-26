@@ -12,6 +12,7 @@ const RDRegister = () => {
   const [show, setShow] = useState(false);
   const [siteCountry, setSiteCountry] = useState([]);
   const [siteNumber, setSiteNumber] = useState([]);
+  const [apiData, setApiData] = useState([]);
   const [error, setError] = useState({});
   const [userInputs, setInputs] = useState({
     name: "",
@@ -37,30 +38,12 @@ const RDRegister = () => {
           .then((response) => {
             let site_number = response?.data?.response?.data?.site_number;
             let country = response?.data?.response?.data?.country;
-
-            let siteNumber = [], siteCountries = [];
-            Object.entries(site_number).map(([index, item]) => {
-              let label = item;
-              siteNumber.push({
-                value: item,
-                label: label,
-              });
-            });
-
-            Object.entries(country).map(([index, item]) => {
-              let label = item;
-              if (index == "B&H") {
-                label = "Bosnia and Herzegovina";
-              }
-              siteCountries.push({
-                value: item,
-                label: label,
-              });
-            });
-
-              setSiteCountry(siteCountries);
-              setSiteNumber(siteNumber);
-              loader("hide");
+            let siteNumber    = createSelectObj(site_number);
+            let siteCountries = createSelectObj(country);
+            setApiData(response?.data?.response?.data);
+            setSiteCountry(siteCountries);
+            setSiteNumber(siteNumber);
+            loader("hide");
           });
       }catch(err){
         console.log(err);
@@ -69,17 +52,56 @@ const RDRegister = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
-    setInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+
+    if(isSelectedName == "country"){
+      setInputs({
+        name: userInputs?.name,
+        email: userInputs?.email,
+        country: e,
+        sitenumber: "",
+      });
+    }else{
+      setInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
         ? e?.target?.files
-          ? e?.target?.files
-          : e
+        ? e?.target?.files
+        : e
         : e?.target?.value,
-    });
+      });
+    }
+
+    if(isSelectedName == "country"){
+      let newSite = [];
+      Object.entries(apiData?.site_country_data).forEach(([key, value]) => {
+          if(e == "B&H"){
+            e = "Bosnia and Herzegovina";
+          }
+          if(value == e){
+            newSite.push({label:key,value:key})
+          }
+      });
+
+      setSiteNumber(newSite);
+    }
   };
 
-  const submitHandler = () => {
+  const createSelectObj = (data) => {
+    let objData = [];
+    Object.entries(data).map(([index, item]) => {
+      let label = item;
+      if (index == "B&H") {
+        label = "Bosnia and Herzegovina";
+      }
+      objData.push({
+        value: item,
+        label: label,
+      });
+    });
+    return objData;
+  }
+
+  const submitHandler = async() => {
     const err = rdregistration(
       userInputs,
     );
@@ -87,8 +109,19 @@ const RDRegister = () => {
       setError(err);
       return;
     } else {
-        setError({});
-        setShow(true);
+      loader("show");
+      try {
+        await axios
+          .post(ENDPOINT.REGISTERRD, userInputs)
+          .then((response) => {
+            loader("hide");
+          });
+      }catch(err){
+        console.log(err);
+        loader("hide");
+      }
+      // setError({});
+      // setShow(true);
     }
   }
 
@@ -139,9 +172,6 @@ const RDRegister = () => {
                             <Col md={6}>
                                 <div className="form-group">
                                   <label>Country <span>*</span></label>
-                                  {
-                                    typeof siteCountry !== "undefined" && siteCountry.length > 0 ?
-                                    <>
                                     <Select
                                       options={siteCountry}
                                       placeholder="Select country"
@@ -152,31 +182,23 @@ const RDRegister = () => {
                                     {error?.country ? (
                                       <div className="login-validation">{error?.country}</div>
                                     ) : null}
-                                    </>
-                                    : null
-                                  }
                                 </div>
                             </Col>
                             <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                     <label>Site number <span>*</span></label>
-                                    {
-                                      typeof siteNumber !== "undefined" && siteNumber.length > 0 ?
-                                      <>
                                       <Select
                                         options={siteNumber}
                                         placeholder="Select site number"
                                         name="sitenumber"
+                                        value={siteNumber.findIndex((el) => el.value == userInputs?.sitenumber) == -1 ? '' : siteNumber[siteNumber.findIndex((el) => el.value == userInputs?.sitenumber)]}
                                         onChange={(e) => handleChange(e?.value, "sitenumber")}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        isClearable={true}
                                       />
-
-                                        {error?.sitenumber ? (
-                                          <div className="login-validation">{error?.sitenumber}</div>
-                                        ) : null}
-                                      </>
-                                      : null
-                                    }
+                                      {error?.sitenumber ? (
+                                        <div className="login-validation">{error?.sitenumber}</div>
+                                      ) : null}
                                 </div>
                             </Col>
                         </Row>
@@ -203,7 +225,7 @@ const RDRegister = () => {
             </Modal.Body>
           </div>
         </Modal>
-        
+
     </div>
     </>
   )

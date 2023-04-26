@@ -87,7 +87,6 @@ const ReaderAdd = () => {
 
   const [userInputs, setAddReaderInputs] = useState({
     alternativeEmail: "",
-
     alternativePhone: "",
     blind_type: "",
     country: "",
@@ -184,6 +183,7 @@ const ReaderAdd = () => {
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
       siteName: hasData?.data?.data?.siteName,
+      sideData: hasData?.data?.data?.sideData,
       siteNumber: hasData?.data?.data?.siteNumber,
       irt: hasData?.data?.data?.irt,
     });
@@ -275,15 +275,81 @@ const ReaderAdd = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
+     if(isSelectedName == "country"){
+      if(!userDetail?.flag){
+        let newSite=[],newSiteNumber =[]
+        userDetail?.sideData?.forEach(item =>{
+              if(item?.country == e){
+                newSite.push({label:item?.site_name,value:item?.site_name})
+                newSiteNumber.push({label:item.site_number,value:item?.site_number})
+              }
+        })
+        setUserDetail({
+          ...userDetail,
+          flag:1,
+          siteName:newSite,
+          siteNumber: newSiteNumber,
+        });
+        setAddReaderInputs({...userInputs,["siteNumber"]:"",["siteName"]:""})
 
-    setAddReaderInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-        ? e?.target?.files
+      }
+      
+      setAddReaderInputs({...userInputs,[isSelectedName]:e})
+
+    }else if(isSelectedName == "siteNumber"){
+      let newSite=[],country =[]
+      if(!userDetail?.flag){
+        userDetail?.sideData?.forEach(item =>{
+          if(item?.site_number == e){
+            newSite.push({label:item?.site_name,value:item?.site_name})
+            country.push({label:item.country,value:item?.country})
+          }
+    })
+      setUserDetail({
+        ...userDetail,
+        flag:1,
+        siteName:newSite,
+      });
+      setCountryAll(country)
+      setAddReaderInputs({...userInputs,["country"]:"",["siteName"]:""})
+
+      }
+      setAddReaderInputs({...userInputs,[isSelectedName]:e})
+    }else if(isSelectedName == "siteName"){
+      if(!userDetail?.flag){
+        let newSiteNumber=[],country =[]
+        userDetail?.sideData?.forEach(item =>{
+              if(item?.site_name == e){
+                newSiteNumber.push({label:item?.site_number,value:item?.site_number})
+                country.push({label:item.country,value:item?.country})
+              }
+        })
+        setUserDetail({
+          ...userDetail,
+          flag:1,
+          siteNumber:newSiteNumber,
+        });
+        setCountryAll(country)
+        setAddReaderInputs({...userInputs,["country"]:"",["siteNumber"]:""})
+
+      }
+   
+      setAddReaderInputs({...userInputs,[isSelectedName]:e})
+    }
+    
+    else{
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e?.target?.files
-          : e
-        : e?.target?.value,
-    });
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    }
+    
+
+    
   };
 
   const handleFileUpload = async (e) => {
@@ -419,6 +485,23 @@ const ReaderAdd = () => {
             onChange={(e) => handleChange(e?.value, "irt")}
           />
         </Form.Group>
+        <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Country *</Form.Label>
+         <Select
+               options={countryAll}
+               defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+               placeholder="Select country"
+              name="country"
+                  className="dropdown-basic-button split-button-dropup"
+             isClearable
+               onChange={(e) => handleChange(e?.value, "country")}
+              />
+               {error?.country ? (
+                        <div className="login-validation">{error?.country}</div>
+                      ) : (
+                        ""
+                      )}
+         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Site Number </Form.Label>
           <Select
@@ -642,7 +725,7 @@ const ReaderAdd = () => {
 
                     {groupId == 3 && flag == 1 ? RDAccount() : ""}
 
-                    <Form.Group className="form-group">
+                    {groupId == 3 && flag == 1 ?"":<Form.Group className="form-group">
                       <Form.Label htmlFor="">Country *</Form.Label>
                       <Select
                         options={countryAll}
@@ -657,8 +740,7 @@ const ReaderAdd = () => {
                       ) : (
                         ""
                       )}
-                    </Form.Group>
-
+                    </Form.Group> }
                     {groupId == 2 ||
                     (groupId == 3 && flag == 0 && pharmaData == 0) ? (
                       <Form.Group className="form-group">

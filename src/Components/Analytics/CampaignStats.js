@@ -9,8 +9,10 @@ import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
 import HighchartsReact from "highcharts-react-official";
 import { Link } from "react-router-dom";
+import drilldown from "highcharts/modules/drilldown.js";
 exporting(Highcharts);
 exportData(Highcharts);
+drilldown(Highcharts);
 const CampaignStats = () => {
   const [data, setData] = useState({});
   const [pieData, setPieData] = useState({});
@@ -21,39 +23,28 @@ const CampaignStats = () => {
   const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState({
     chart: {
       plotBackgroundColor: null,
-
       plotBorderWidth: null,
-
       plotShadow: false,
-
       type: "pie",
     },
-
     title: {
       text: "Registration based on delivery",
-
       align: "left",
     },
-
     tooltip: {
       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
     },
-
     accessibility: {
       point: {
         valueSuffix: "%",
       },
     },
-
     plotOptions: {
       pie: {
         allowPointSelect: true,
-
         cursor: "pointer",
-
         dataLabels: {
           enabled: true,
-
           format: "<b>{point.name}</b>: {point.percentage:.1f} %",
         },
       },
@@ -62,9 +53,8 @@ const CampaignStats = () => {
     series: [
       {
         name: "Article Registration based on delivery",
-
         colorByPoint: true,
-
+        drilldown: true,
         data: [
           {
             name: "Email campaign",
@@ -291,159 +281,105 @@ const CampaignStats = () => {
       let newValue =  [
         {
           name: "Article Registration based on delivery",
-  
           colorByPoint: true,
           data: [
             {
               name: "Email campaign",
-  
               y: result?.data?.data?.tot_email,
-  
               color: Highcharts.getOptions().colors[0],
-  
               drilldown: "email",
             },
-  
             {
               name: "inforMedGO",
-  
               y: result?.data?.data?.tot_GO_code,
-  
               color: Highcharts.getOptions().colors[1],
-  
-              drilldown: "informedgo",
-            },
-  
+              drilldown: "inforMedGO",
+            },  
             {
               name: "Docintel Code",
-  
               y: result?.data?.data?.tot_Docintel_code,
-  
               color: Highcharts.getOptions().colors[2],
-  
-              drilldown: "docintelcode",
+              drilldown: "Docintel Code",
             },
-  
             {
               name: "Direct",
-  
               y: result?.data?.data?.tot_web,
-  
               color: Highcharts.getOptions().colors[4],
-  
               drilldown: "direct",
             },
-  
             {
               name: "Peer sharing",
-  
               y: Math.round(result?.data?.data?.tot_peer),
-  
               color: Highcharts.getOptions().colors[5],
-  
               drilldown: "peer",
             },
-  
             {
               name: "Webinar",
-  
               y: result?.data?.data?.tot_CIS_oc,
-  
               color: Highcharts.getOptions().colors[6],
-  
               drilldown: "webinar",
             },
-  
             {
               name: "IBU Email campaign",
-  
               y:  result?.data?.data?.tot_email_oc,
-  
               color: Highcharts.getOptions().colors[7],
-  
               drilldown: "ibuemail",
             },
-  
             {
               name: "IBU inforMedGO",
-  
               y: result?.data?.data?.tot_GO_code_oc,
-  
               color: Highcharts.getOptions().colors[8],
-  
               drilldown: "ibuinformedgo",
             },
-  
             {
               name: "IBU QR",
-  
               y:  result?.data?.data?.tot_QRcode_oc,
-  
               color: Highcharts.getOptions().colors[10],
-  
-              drilldown: "ibuqr",
+              drilldown: "QR",
             },
-  
             {
               name: "IBU Direct",
-  
               y:  result?.data?.data?.tot_web_oc,
-  
               color: Highcharts.getOptions().colors[11],
-  
               drilldown: "ibudirect",
             },
-  
             {
               name: "Webinar IBU",
-  
               y: result?.data?.data?.tot_IBU_oc,
-  
               color: Highcharts.getOptions().colors[13],
-  
               drilldown: "webinaribu",
             },
           ],
         },
       ]
+
       let drillDownValue = [{
         series: [
           {
             name: "Email campaign",
-  
             id: "email",
             y: result?.data?.data?.tot_email,
-
             data: [
               ["Critical Care", result?.data?.data?.tot_email_c2],
-  
               ["Haematology", result?.data?.data?.tot_email_h2],
-  
               ["Immunotherapy", result?.data?.data?.tot_email_i2],
             ],
           },
-  
           {
             name: "inforMedGO",
             id: "inforMedGO",
             data: [
               ["Critical Care", result?.data?.data?.tot_GO_code_c2],
-  
               ["Haematology", result?.data?.data?.tot_GO_code_h2],
-  
               ["Immunotherapy", result?.data?.data?.tot_GO_code_i2],
             ],
           },
-  
           {
             name: "Docintel Code",
             id: "Docintel Code",
-  
             data: [
               ["Critical Care", result?.data?.data?.tot_Docintel_code_c2],
-  
               ["Haematology", result?.data?.data?.tot_Docintel_code_h2],
-  
               ["Immunotherapy", result?.data?.data?.tot_Docintel_code_i2],
             ],
           },
@@ -451,12 +387,9 @@ const CampaignStats = () => {
           {
             name: "QR",
             id: "QR",
-  
             data: [
               ["Critical Care", result?.data?.data?.tot_QRcode_c2],
-  
               ["Haematology", result?.data?.data?.tot_QRcode_h2],
-  
               ["Immunotherapy", result?.data?.data?.tot_QRcode_i2],
             ],
           },
@@ -464,12 +397,9 @@ const CampaignStats = () => {
           {
             name: "Direct",
             id: "Direct",
-  
             data: [
               ["Critical Care", result?.data?.data?.tot_web_c2],
-  
               ["Haematology", result?.data?.data?.tot_web_h2],
-  
               ["Immunotherapy", result?.data?.data?.tot_web_i2],
             ],
           },
@@ -485,7 +415,7 @@ const CampaignStats = () => {
           },
         ],
       }]
-  
+
       setCampaignStatsPieOptions({...campaignStatsPieOptions,series:newValue,drilldown:drillDownValue})
 
 
@@ -617,7 +547,7 @@ const CampaignStats = () => {
         // .split(",")
         // .map((month) => month.replace(/[[\]]/g, ""))
         // .reverse();
-
+             console.log("graph",months);
       const newSeriesCis = cis.map((item, index) => {
         const totalSum = item.total;
         const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
@@ -638,7 +568,7 @@ const CampaignStats = () => {
         );
         return total;
       });
-
+            
       const totalDataCisNoNaN = totalDataCis.map((val) =>
         isNaN(val) ? 0 : val
       );
@@ -689,10 +619,13 @@ const CampaignStats = () => {
         return total;
       });
 
+
+      
       const newSeriesIbuNoNaN = totalDataIbu.map((val) =>
         isNaN(val) ? 0 : val
       );
       const totalIbu = newSeriesIbuNoNaN.reduce((acc, val) => acc + val, 0);
+      
       const newSeriesDataIbu = [
         ...newSeriesIbu.map((series, index) => ({
           name: `${series.name} (${series.totalReaders})`,
