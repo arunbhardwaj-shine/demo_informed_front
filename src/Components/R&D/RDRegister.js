@@ -1,24 +1,143 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Button, Col, Container, Form, ModalTitle, Row, Modal } from 'react-bootstrap'
+import { rdregistration } from "../Validations/RegisterValidation/Rdregistration";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
+import { loader } from "../../loader";
+import Select from "react-select";
+import axios from "axios";
 
 const RDRegister = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  const [siteCountry, setSiteCountry] = useState([]);
+  const [siteNumber, setSiteNumber] = useState([]);
+  const [apiData, setApiData] = useState([]);
+  const [error, setError] = useState({});
+  const [userInputs, setInputs] = useState({
+    name: "",
+    email: "",
+    country: "",
+    sitenumber: "",
+  });
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const handleClose = () => setShow(false);
+
+  const getData = async () => {
+      loader("show");
+      try {
+        let body = {
+          user_id: "56Ek4feL/1A8mZgIKQWEqg==",
+        };
+        await axios
+          .post(ENDPOINT.FILTERLIST, body)
+          .then((response) => {
+            let site_number = response?.data?.response?.data?.site_number;
+            let country = response?.data?.response?.data?.country;
+            let siteNumber    = createSelectObj(site_number);
+            let siteCountries = createSelectObj(country);
+            setApiData(response?.data?.response?.data);
+            setSiteCountry(siteCountries);
+            setSiteNumber(siteNumber);
+            loader("hide");
+          });
+      }catch(err){
+        console.log(err);
+        loader("hide");
+      }
+  };
+
+  const handleChange = (e, isSelectedName) => {
+
+    if(isSelectedName == "country"){
+      setInputs({
+        name: userInputs?.name,
+        email: userInputs?.email,
+        country: e,
+        sitenumber: "",
+      });
+    }else{
+      setInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+        ? e?.target?.files
+        : e
+        : e?.target?.value,
+      });
+    }
+
+    if(isSelectedName == "country"){
+      let newSite = [];
+      Object.entries(apiData?.site_country_data).forEach(([key, value]) => {
+          if(e == "B&H"){
+            e = "Bosnia and Herzegovina";
+          }
+          if(value == e){
+            newSite.push({label:key,value:key})
+          }
+      });
+
+      setSiteNumber(newSite);
+    }
+  };
+
+  const createSelectObj = (data) => {
+    let objData = [];
+    Object.entries(data).map(([index, item]) => {
+      let label = item;
+      if (index == "B&H") {
+        label = "Bosnia and Herzegovina";
+      }
+      objData.push({
+        value: item,
+        label: label,
+      });
+    });
+    return objData;
+  }
+
+  const submitHandler = async() => {
+    const err = rdregistration(
+      userInputs,
+    );
+    if (Object.keys(err)?.length) {
+      setError(err);
+      return;
+    } else {
+      loader("show");
+      try {
+        await axios
+          .post(ENDPOINT.REGISTERRD, userInputs)
+          .then((response) => {
+            loader("hide");
+          });
+      }catch(err){
+        console.log(err);
+        loader("hide");
+      }
+      // setError({});
+      // setShow(true);
+    }
+  }
+
   return (
     <>
     <div className="rd-main-wrapper">
         <Container>
             <div className="container-sm">
-                <div className="header-sec">
+                <div className="header-sec d-flex">
                     <div className="header-left">
                         <span>Welcome to </span>
                         <h1>LEX-210 <span>Study</span></h1>
                     </div>
                     <div className="header-right">
-                        <p>Study of in <img className="text-img" src={path_image + "text-img.png"} alt="text-img"/>
-                          Patients With Acute Major Bleeding on DOAC Therapy With Factor Xa Inhibitor</p>
+                        <p>Study of <img className="text-img" src={path_image + "text-img.png"} alt="text-img"/>
+                          in Patients With Acute Major Bleeding on DOAC Therapy With Factor Xa Inhibitor</p>
                     </div>
                 </div>
                 <div className="form-wrapper">
@@ -33,70 +152,58 @@ const RDRegister = () => {
                             <Col md={6}>
                                 <div className="form-group">
                                     <label>Name <span>*</span></label>
-                                    <input type="text" placeholder="Enter your name"/>
+                                    <input type="text" placeholder="Enter your name" name="name" onChange={handleChange} />
+
+                                    {error?.name ? (
+                                      <div className="login-validation">{error?.name}</div>
+                                    ) : null}
                                 </div>
                             </Col>
-                            <Col md={6}>
+                            <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                     <label>Email <span>*</span></label>
-                                    <input type="email" placeholder="Enter your email"/>
+                                    <input type="email" placeholder="Enter your email" name="email" onChange={handleChange} />
+
+                                    {error?.email ? (
+                                      <div className="login-validation">{error?.email}</div>
+                                    ) : null}
                                 </div>
                             </Col>
                             <Col md={6}>
                                 <div className="form-group">
-                                    <label>Country <span>*</span></label>
-                                    {/* <div className="select">
-                                        <div className="selectBtn" data-type="firstOption">Select country
-                                        </div>
-                                        <div className="selectDropdown" style={{zIndex:"1"}}>
-                                            <div className="scrollbar" id="style-1">
-                                                <div className="force-overflow">
-                                                    <div className="option" data-type="firstOption">India</div>
-                                                    <div className="option" data-type="secondOption">Canada</div>
-                                                    <div className="option" data-type="thirdOption">USA</div>
-                                                    <div className="option" data-type="thirdOption">UK</div>
-                                                    <div className="option" data-type="thirdOption">New Zealand</div>
-                                                    <div className="option" data-type="thirdOption">Australia</div>
-                                                    <div className="option" data-type="thirdOption">Russia</div>
-                                                    <div className="option" data-type="thirdOption">New York</div>
-                                                    <div className="option" data-type="firstOption">India</div>
-                                                    <div className="option" data-type="secondOption">Canada</div>
-                                                    <div className="option" data-type="thirdOption">USA</div>
-                                                    <div className="option" data-type="thirdOption">UK</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> */}
-                                    <Form.Select aria-label="Default select example">
-                                      <option>Open this select menu</option>
-                                      <option value="1">One</option>
-                                      <option value="2">Two</option>
-                                      <option value="3">Three</option>
-                                      <option value="firstOption">India</option>
-                                      <option value="secondOption">Canada</option>
-                                      <option value="thirdOption">USA</option>
-                                      <option value="thirdOption">UK</option>
-                                      <option value="thirdOption">New Zealand</option>
-                                      <option value="thirdOption">Australia</option>
-                                      <option value="thirdOption">Russia</option>
-                                      <option value="thirdOption">New York</option>
-                                      <option value="firstOption">India</option>
-                                      <option value="secondOption">Canada</option>
-                                      <option value="thirdOption">USA</option>
-                                      <option value="thirdOption">UK</option>
-                                    </Form.Select>
-
+                                  <label>Country <span>*</span></label>
+                                    <Select
+                                      options={siteCountry}
+                                      placeholder="Select country"
+                                      name="country"
+                                      onChange={(e) => handleChange(e?.value, "country")}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                    />
+                                    {error?.country ? (
+                                      <div className="login-validation">{error?.country}</div>
+                                    ) : null}
                                 </div>
                             </Col>
-                            <Col md={6}>
+                            <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                     <label>Site number <span>*</span></label>
-                                    <input type="text" placeholder="Enter your site number"/>
+                                      <Select
+                                        options={siteNumber}
+                                        placeholder="Select site number"
+                                        name="sitenumber"
+                                        value={siteNumber.findIndex((el) => el.value == userInputs?.sitenumber) == -1 ? '' : siteNumber[siteNumber.findIndex((el) => el.value == userInputs?.sitenumber)]}
+                                        onChange={(e) => handleChange(e?.value, "sitenumber")}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        isClearable={true}
+                                      />
+                                      {error?.sitenumber ? (
+                                        <div className="login-validation">{error?.sitenumber}</div>
+                                      ) : null}
                                 </div>
                             </Col>
                         </Row>
                         <div className="submit-btn">
-                            <Button className='btn btn-filled' onClick={handleShow} role="button">Submit</Button>
+                            <Button className='btn btn-filled' onClick={submitHandler} role="button">Submit</Button>
                         </div>
                     </Form>
                 </div>
@@ -109,35 +216,16 @@ const RDRegister = () => {
                 </div>
             </div>
         </Container>
-        <Modal show={show} onHide={handleClose} className='success_modal'>
+        <Modal show={show} onHide={handleClose} className='success_modal' centered>
           <div className='modal-wrapper'>
             <Modal.Header closeButton>
             </Modal.Header>
             <Modal.Body>
-              <img alt="popup-img" src={path_image + "popup-img.png"}/>
-                <h3 className="popup-title" id="exampleModalCenterTitle">Thank You For Register Here.</h3>
+              <h3 className="popup-title" id="exampleModalCenterTitle">Thank You For Register Here.</h3>
             </Modal.Body>
           </div>
         </Modal>
-        {/* <div className="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1"
-            style={{display: "none"}} aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-wrapper">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <img alt="popup-img" src={path_image + "popup-img.png"}/>
-                            <h3 className="popup-title" id="exampleModalCenterTitle">Thank You </h3>
-                        </div>
-                        <div className="modal-body">
-                        </div>
-                        <div className="modal-footer">
-                            <button className="popup-btn" data-bs-target="#exampleModalToggle2"
-                                data-bs-toggle="modal">Continue</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> */}
+
     </div>
     </>
   )

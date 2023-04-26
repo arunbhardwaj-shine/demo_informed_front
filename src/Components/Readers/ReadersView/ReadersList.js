@@ -155,13 +155,13 @@ const NewReaders = () => {
 
       let total_results = 0;
       if (page != 1) {
-        total_results = res?.data?.data?.result.length + readerDataList.length;
+        total_results = res?.data?.data?.result?.length + readerDataList?.length;
         setReaderDataList((oldArray) => [
           ...oldArray,
           ...res?.data?.data?.result,
         ]);
-      } else {
-        total_results = res?.data?.data?.result.length;
+      } else {  
+        total_results = res?.data?.data?.result?.length;
         setReaderDataList(res?.data?.data?.result);
       }
 
@@ -171,19 +171,7 @@ const NewReaders = () => {
         setIsLoaded(false);
       }
 
-      // if(res?.data?.data){
-      //     let count = res?.data?.data.length;
-      //     if(count < limit){
-      //       setIsLoaded(false);
-      //     }else{
-      //       setIsLoaded(true);
-      //       setPage(page + 1);
-      //     }
-      // }
-
-      // setPageAll(false);
-      // setPageAllClicked(false);
-      // setIsLoaded(true);
+     
       setPageAll(false);
       setApiCallStatus(true);
       loader("hide");
@@ -246,17 +234,13 @@ const NewReaders = () => {
   };
 
   const handleOnFilterChange = (e, item, index, key) => {
+
     if (!filterObject[key]) {
       filterObject[key] = [];
     }
 
     if (e?.target?.checked == true) {
-      if (
-        key == "status" ||
-        key == "contactType" ||
-        key == "userAction" ||
-        key == "webinarRegistered"
-      ) {
+      if (key == "status" || key == "contactType" ||  key == "userAction" || key == "webinarRegistered" ||  key == "List") {
         filterObject[key] = [];
       }
       filterObject[key]?.push(item);
@@ -616,15 +600,14 @@ const NewReaders = () => {
   const deleteUser = async (id) => {
     loader("show");
     try {
-      const res = await deleteData(ENDPOINT.DELETEREADER, id);
-      // if (res?.data?.message == "Library deleted successfully") {
-      loader("hide");
-      popup_alert({
-        visible: "show",
-        message: "Reader has been deleted <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
+        await deleteData(ENDPOINT.DELETEREADER, id);
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Reader has been deleted <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
 
       const updatedRes = readerDataList.filter((item) => item.id !== id);
       setReaderDataList(updatedRes);
@@ -754,24 +737,22 @@ const NewReaders = () => {
 
                                   <Accordion.Body className="card-body">
                                     <ul>
-                                      {filterdata[key]?.length > 0
+                                      {filterdata[key]?.length
                                         ? filterdata[key]?.map(
                                             (item, index) => (
                                               <li key={index}>
-                                                {item != "" ? (
+                                                {  item != "" ? (
                                                   <label className="select-multiple-option">
+                                                   
                                                     <input
                                                       type={
                                                         key == "status" ||
-                                                        key == "contactType" ||
-                                                        key == "userAction" ||
-                                                        key ==
-                                                          "webinarRegistered"
+                                                        key == "contactType" ||  key == "userAction" || key == "webinarRegistered" || key == "List"
                                                           ? "radio"
                                                           : "checkbox"
                                                       }
                                                       id={`custom-checkbox-tags-${index}`}
-                                                      value={item}
+                                                      value={typeof item == "object"?item?.title:item}
                                                       name={key}
                                                       defaultChecked={
                                                         filterObject?.hasOwnProperty(
@@ -786,22 +767,26 @@ const NewReaders = () => {
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
                                                           e,
-                                                          item,
+                                                          typeof item == "object"?item.id:item,
                                                           index,
                                                           key
                                                         )
                                                       }
                                                     />
-
-                                                    {key == "draft" &&
-                                                    item == "0"
+                                                    {
+                                                      typeof item == "object"?item?.title:item
+                                                    }
+                                                    {/* {key == "draft" &&
+                                                      typeof item  == "string" && item == "0"
                                                       ? "live"
-                                                      : key == "draft" &&
+                                                      : key == "draft" &&  typeof item  == "string" &&
                                                         item == "1"
-                                                      ? "draft"
-                                                      : item}
+                                                      ? "draft" &&  typeof item  == "string"
+                                                      : item} */}
                                                     <span className="checkmark"></span>
+                                                   
                                                   </label>
+                                                  
                                                 ) : null}
                                               </li>
                                             )
@@ -1045,13 +1030,17 @@ const NewReaders = () => {
                                     </>
                                   ) : (
                                     <>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          User Status
-                                        </h6>
-                                        <h6>{data?.user_status}</h6>
-                                      </li>
-                                      <li>
+                                    {
+                                      data?.ipAddress?"": <li>
+                                      <h6 className="tab-content-title">
+                                        User Status
+                                      </h6>
+                                      <h6>{data?.user_status}</h6>
+                                    </li>
+                                    }
+                                     
+                                      {
+                                        data?.ipAddress?"": <li>
                                         <h6 className="tab-content-title">
                                           Interests
                                         </h6>
@@ -1061,7 +1050,10 @@ const NewReaders = () => {
                                             : "N/A"}
                                         </h6>
                                       </li>
-                                      <li>
+                                      }
+                                     
+                                      {
+                                        data?.ipAddress?"":<li>
                                         <h6 className="tab-content-title">
                                           Last Email
                                         </h6>
@@ -1071,6 +1063,7 @@ const NewReaders = () => {
                                             : "N/A"}
                                         </h6>
                                       </li>
+                                      }
                                       <li>
                                         <h6 className="tab-content-title">
                                           Last Activity

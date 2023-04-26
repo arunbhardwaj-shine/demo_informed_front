@@ -140,7 +140,7 @@ if (
   require("./Components/assets/fonts/fonts.css");
   platform = 0;
   show = 0;
-}else if(window.location.pathname == "/webinar" || window.location.pathname == "/rd_register"){
+}else if(window.location.pathname == "/webinar" || window.location.pathname == "/rd-register"){
   require("./Components/assets/css/webinar.css");
   require("./Components/assets/css/webinar-responsive.css");
   require("./Components/assets/css/aos.css");
@@ -177,6 +177,11 @@ const Routing = () => {
               <DefaultLayout component={Webinar} />
             }
           />
+
+         <Route path="rd-register" element={
+             <DefaultLayout component={RDRegister} />
+           }
+         />
 
           //LoginLayout for pages after login
           <Route path="/library-content"
@@ -314,7 +319,7 @@ const Routing = () => {
                 />
                 <Route path="/spc" element={<LoginLayout component={Spc} /> } />
                 <Route path="/spc-create" element={<LoginLayout component={SpcCreate} /> } />
-                
+
                 {localStorage.getItem("user_id") ==
                 "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
                   <Route path="/products" element={<LoginLayout component={Products} /> } />
@@ -385,7 +390,6 @@ const Routing = () => {
                   element={<LoginLayout component={LicenseContentDetail} />}
                 />
                 <Route path="/license-edit"  element={<LoginLayout component={EditLicense} />} />
-                 <Route path="rd_register" element={<RDRegister/>}/>
         </Routes>
       </Router>
   );
