@@ -132,10 +132,7 @@ const NewReaders = () => {
       // } else {
       //   loader("show");
       // }
-      const res = await postData(
-        "https://informedback.shinedezign.pro/reader/reader",
-        payload
-      );
+      const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
@@ -296,18 +293,14 @@ const NewReaders = () => {
       (item) => item.country === consetValue
     );
 
-    // Create an array of objects containing the site numbers from the filtered data
     const siteNumbers = filteredData.map((item) => ({
       label: item.site_number,
       value: item.site_number,
     }));
-
-    // Update the siteNumber state with the new array of site numbers
     setSiteNumber((prevSiteNumbers) => ({
       ...prevSiteNumbers,
       [index]: siteNumbers,
     }));
-    console.log(siteNumber);
 
     let consent = {
       index: i,
@@ -409,12 +402,25 @@ const NewReaders = () => {
     );
     const selectedCountry1 = selectedItem.country;
     const defaultValue = { value: selectedCountry1, label: selectedCountry1 };
-    setSelectedCountry((prevSiteNumbers) => ({
-      ...prevSiteNumbers,
-      [index]: defaultValue,
-    }));
-    let consetValue = e.value;
     let consent = {
+      index: i,
+      value: selectedCountry1,
+    };
+    const found1 = changeCountry.some((el) => el.index === i);
+    if (!found1) {
+      setChangeCountry((oldarray) => [...oldarray, consent]);
+    } else {
+      const updatedArray = changeCountry.map((el) =>
+        el.index === i ? { ...el, value: selectedCountry1 } : el
+      );
+      setChangeCountry(updatedArray);
+    }
+    // setSelectedCountry((prevSiteNumbers) => ({
+    //   ...prevSiteNumbers,
+    //   [index]: defaultValue,
+    // }));
+    let consetValue = e.value;
+    consent = {
       index: i,
       value: consetValue,
     };
@@ -528,7 +534,7 @@ const NewReaders = () => {
         }
 
         if (irt !== "") {
-          readerDataList[libDataIndex].irt = irt;
+          readerDataList[libDataIndex].irt = irt == 1 ? "Yes" : "No";
         }
         if (binded !== "") {
           readerDataList[libDataIndex].binded = binded;
@@ -1453,9 +1459,10 @@ const NewReaders = () => {
                                           <div className="select">
                                             <Select
                                               options={change?.role}
-                                              defaultValue={
-                                                change?.role[data?.role]
-                                              }
+                                              defaultValue={change?.role.find(
+                                                (roleObj) =>
+                                                  roleObj.value === data?.role
+                                              )}
                                               onChange={(event) =>
                                                 onRoleChange(event, data.id)
                                               }
@@ -1525,16 +1532,16 @@ const NewReaders = () => {
                                               ref={defaultCountry}
                                               options={countryAll}
                                               value={
-                                                selectedCountry[index] !=
-                                                undefined
-                                                  ? selectedCountry[index]
-                                                  : countryAll[
-                                                      countryAll.findIndex(
-                                                        (el) =>
-                                                          el.value ==
-                                                          data?.country
-                                                      )
-                                                    ]
+                                                // selectedCountry[index] !=
+                                                // undefined
+                                                //   ? selectedCountry[index]
+                                                // :
+                                                countryAll[
+                                                  countryAll.findIndex(
+                                                    (el) =>
+                                                      el.value == data?.country
+                                                  )
+                                                ]
                                               }
                                               onChange={(event) =>
                                                 onCountryChange(event, data.id)
