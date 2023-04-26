@@ -210,7 +210,7 @@ const FilterSegment = (props) => {
       }
 
       if (typeof props.selectedFilter.campaing_status !== "undefined") {
-          setSelectedReadOpen(props.selectedFilter.campaing_status);
+        setSelectedReadOpen(props.selectedFilter.campaing_status);
       }
 
       //Display table In case of update
@@ -224,18 +224,60 @@ const FilterSegment = (props) => {
     }
   }, []);
 
-  const handleOnCountryChange = (country) => {
-    let country_index = selectedcountry.indexOf(country);
-    if (country_index !== -1) {
-      selectedcountry.splice(country_index, 1);
-      setSelectedCountry(selectedcountry);
-      let up = updateflag + 1;
-      setUpdateFlag(up);
+  // const handleOnCountryChange = (country, sitecountryflag = 0) => {
+  //   let country_index = selectedcountry.indexOf(country);
+  //   if (country_index !== -1) {
+  //     selectedcountry.splice(country_index, 1);
+  //     setSelectedCountry(selectedcountry);
+  //     let up = updateflag + 1;
+  //     setUpdateFlag(up);
+  //   } else {
+  //     selectedcountry.push(country);
+  //     setSelectedCountry(selectedcountry);
+  //     let up = updateflag + 1;
+  //     setUpdateFlag(up);
+  //   }
+  //   if (sitecountryflag == 0) {
+  //     if ("site_country_data" in filters) {
+  //       let getCountryData = filters.site_country_data;
+
+  //       let site_number_value = Object.keys(getCountryData).filter(
+  //         (key) => getCountryData[key] === country
+  //       );
+
+  //       handleOnSiteNumberChange(site_number_value, 1);
+  //     }
+  //   }
+  // };
+  const handleOnCountryChange = (country, setcountryflag = 0) => {
+    if (typeof country == "string") {
+      let country_index = selectedcountry.indexOf(country);
+      if (country_index !== -1) {
+        selectedcountry.splice(country_index, 1);
+        setSelectedCountry(selectedcountry);
+      } else {
+        selectedcountry.push(country);
+        setSelectedCountry(selectedcountry);
+      }
     } else {
-      selectedcountry.push(country);
-      setSelectedCountry(selectedcountry);
-      let up = updateflag + 1;
-      setUpdateFlag(up);
+      let arr = [];
+      country.map((item) => {
+        arr.push(item);
+      });
+      setSelectedCountry(arr);
+    }
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+    if (setcountryflag == 0) {
+      if ("site_number" in filters) {
+        setSelectedsitenumber([]);
+        let getSiteData = filters.site_country_data;
+        let site_number_value = Object.keys(getSiteData).filter((key) =>
+          selectedcountry.includes(getSiteData[key])
+        );
+
+        handleOnSiteNumberChange(site_number_value, 1);
+      }
     }
   };
 
@@ -368,14 +410,63 @@ const FilterSegment = (props) => {
     // setUpdateFlag(up);
   };
 
+  // const handleOnSiteNumberChange = (sitenumber, sitenumberflag = 0) => {
+  //   let site_number_index = selectedsitenumber.indexOf(sitenumber);
+  //   if (site_number_index !== -1) {
+  //     selectedsitenumber.splice(site_number_index, 1);
+  //   } else if (typeof sitenumber == "object") {
+  //     sitenumber.map((item, index) => {
+  //       let site_number_index = selectedsitenumber.indexOf(item);
+
+  //       if (site_number_index !== -1) {
+  //         selectedsitenumber.splice(site_number_index, 1);
+  //       } else {
+  //         selectedsitenumber.push(item);
+  //       }
+  //     });
+  //   } else {
+  //     selectedsitenumber.push(sitenumber);
+  //   }
+
+  //   setSelectedsitenumber(selectedsitenumber);
+  //   let up = updateflag + 1;
+  //   setUpdateFlag(up);
+
+  //   if (sitenumberflag == 0) {
+  //     if ("site_data" in filters) {
+  //       let getSiteData = filters.site_data;
+  //       let site_name_value = getSiteData[sitenumber];
+  //       handleOnSiteNameChange(site_name_value, 1);
+  //     }
+
+  //     if ("site_country_data" in filters) {
+  //       let getSiteCountryData = filters.site_country_data;
+
+  //       let site_country_value = Object.keys(getSiteCountryData).filter((key) =>
+  //         console.log("key", getSiteCountryData[key])
+  //       );
+  //     }
+  //   }
+  // };
+
   const handleOnSiteNumberChange = (sitenumber, sitenumberflag = 0) => {
-    let site_number_index = selectedsitenumber.indexOf(sitenumber);
-    if (site_number_index !== -1) {
-      selectedsitenumber.splice(site_number_index, 1);
+    if (typeof sitenumber == "string") {
+      let site_number_index = selectedsitenumber.indexOf(sitenumber);
+      if (site_number_index !== -1) {
+        selectedsitenumber.splice(site_number_index, 1);
+        setSelectedsitenumber(selectedsitenumber);
+      } else {
+        selectedsitenumber.push(sitenumber);
+        setSelectedsitenumber(selectedsitenumber);
+      }
     } else {
-      selectedsitenumber.push(sitenumber);
+      let arr = [];
+      sitenumber.map((item, index) => {
+        arr.push(item);
+      });
+      setSelectedsitenumber(arr);
     }
-    setSelectedsitenumber(selectedsitenumber);
+
     let up = updateflag + 1;
     setUpdateFlag(up);
 
@@ -385,6 +476,19 @@ const FilterSegment = (props) => {
         let site_name_value = getSiteData[sitenumber];
         handleOnSiteNameChange(site_name_value, 1);
       }
+      // if ("site_country_data" in filters) {
+      //   setSelectedCountry([]);
+      //   let getSiteCountryData = filters.site_country_data;
+      //   let site_country_value = selectedsitenumber.map(
+      //     (item) => getSiteCountryData[item]
+      //   );
+
+      //   let unique = site_country_value.filter(
+      //     (item, index) => site_country_value.indexOf(item) === index
+      //   );
+
+      //   handleOnCountryChange(unique, 1);
+      // }
     }
   };
 
@@ -402,10 +506,16 @@ const FilterSegment = (props) => {
     if (sitenameflag == 0) {
       if ("site_data" in filters) {
         let getSiteData = filters.site_data;
+        let getCountryData = filters.site_country_data;
         let site_number_value = Object.keys(getSiteData).find(
           (key) => getSiteData[key] === sitename
         );
+
         handleOnSiteNumberChange(site_number_value, 1);
+        // if ("site_country_data" in filters) {
+        //   let site_country_value = getCountryData[site_number_value];
+        //   handleOnCountryChange(site_country_value, 1);
+        // }
       }
     }
   };
@@ -505,7 +615,7 @@ const FilterSegment = (props) => {
       selectedcampaign.push(campaign);
     }
     setSelectedCampaign(selectedcampaign);
-    if(selectedcampaign.length == 0){
+    if (selectedcampaign.length == 0) {
       setSelectedReadOpen();
     }
     let up = updateflag + 1;
@@ -614,8 +724,6 @@ const FilterSegment = (props) => {
       flag_to_check_data = true;
     }
 
-
-
     // for Campaign listing
     if (typeof selectedcampaign === "object" && selectedcampaign.length > 0) {
       let campaign = selectedcampaign.map((item) => {
@@ -627,8 +735,8 @@ const FilterSegment = (props) => {
 
     // for Campaign status Read Open
     if (selectedReadOpen) {
-        Object.assign(payload, { campaing_status: selectedReadOpen });
-        flag_to_check_data = true;
+      Object.assign(payload, { campaing_status: selectedReadOpen });
+      flag_to_check_data = true;
     }
 
     // if (typeof selectedBlindType === "object" && selectedBlindType.length > 0) {
@@ -640,7 +748,7 @@ const FilterSegment = (props) => {
     // }
 
     if (selectedBlindType) {
-      if(selectedBlindType != "all"){
+      if (selectedBlindType != "all") {
         Object.assign(payload, { blind_type: [selectedBlindType] });
         flag_to_check_data = true;
       }
@@ -913,9 +1021,9 @@ const FilterSegment = (props) => {
       handleOnSiteNameChange(item);
     } else if (src == "blind_type") {
       handleOnBlindTypeChange();
-    }else if (src == "campaign") {
+    } else if (src == "campaign") {
       handleOnCampaingChange(item);
-    }else if (src == "campaign_status") {
+    } else if (src == "campaign_status") {
       setSelectedReadOpen();
     }
   };
@@ -1515,8 +1623,7 @@ const FilterSegment = (props) => {
                               <div className="col block-smart-name">
                                 <h6>Blind Type</h6>
                                 <div className="smart-name-list">
-                                {
-                                  /*
+                                  {/*
                                   <ul>
                                     {Object.entries(filters.blind_type).map(
                                       ([index, item]) => (
@@ -1545,31 +1652,29 @@ const FilterSegment = (props) => {
                                       )
                                     )}
                                   </ul>
-                                  */
-                                }
-
+                                  */}
 
                                   <ul>
-                                  <li>
-                                    <div className="select-multiple-option">
-                                      <input
-                                        type="radio"
-                                        id="blind_all"
-                                        name="blindTye"
-                                        value="all"
-                                        checked={
-                                          typeof selectedBlindType !==
-                                            "undefined" &&
-                                          selectedBlindType == "all"
-                                        }
-                                        onChange={() =>
-                                          handleOnBlindTypeChange("all")
-                                        }
-                                      />
-                                      <span className="checkmark"></span>
-                                    </div>
-                                    All
-                                  </li>
+                                    <li>
+                                      <div className="select-multiple-option">
+                                        <input
+                                          type="radio"
+                                          id="blind_all"
+                                          name="blindTye"
+                                          value="all"
+                                          checked={
+                                            typeof selectedBlindType !==
+                                              "undefined" &&
+                                            selectedBlindType == "all"
+                                          }
+                                          onChange={() =>
+                                            handleOnBlindTypeChange("all")
+                                          }
+                                        />
+                                        <span className="checkmark"></span>
+                                      </div>
+                                      All
+                                    </li>
                                     <li>
                                       <div className="select-multiple-option">
                                         <input
@@ -1732,89 +1837,91 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                          {"campaign_listing" in filters &&
-                            Object.keys(filters.campaign_listing).length > 0 &&  (
-                              <>
-                                <div className="col block-smart-name">
-                                  <h6>Campaign</h6>
+                        {"campaign_listing" in filters &&
+                          Object.keys(filters.campaign_listing).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Campaign</h6>
 
-                                  <div className="smart-name-list">
-                                    <ul>
-                                      {Object.entries(filters.campaign_listing).map(
-                                        ([index, item]) => (
-                                          <li>
-                                            <div className="select-multiple-option">
-                                              <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-campaign_listing-${index}`}
-                                                name="campaign_listing[]"
-                                                value={index}
-                                                checked={
-                                                  typeof selectedcampaign !==
-                                                    "undefined" &&
-                                                  selectedcampaign.indexOf(
-                                                    index
-                                                  ) !== -1
-                                                }
-                                                onChange={() =>
-                                                  handleOnCampaingChange(index)
-                                                }
-                                              />
-                                              <span className="checkmark"></span>
-                                            </div>
-                                            {item}
-                                          </li>
-                                        )
-                                      )}
-                                    </ul>
-                                  </div>
-                                </div>
-                            </>
-                          )}
-
-                            {selectedcampaign.length > 0 && (
-                              <>
-                                <div className="col block-smart-name registered">
-                                  <h6>Campaign?</h6>
+                                <div className="smart-name-list">
                                   <ul>
-                                    <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="read_camp"
-                                          name="read"
-                                          value="Read"
-                                          checked={
-                                            typeof selectedReadOpen !== "undefined" &&
-                                            selectedReadOpen == "Read"
-                                          }
-                                          onChange={() => handleReadOpen("Read")}
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      Read
-                                    </li>
-                                    <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="open_camp"
-                                          name="open"
-                                          value="Open"
-                                          checked={
-                                            typeof selectedReadOpen !== "undefined" &&
-                                            selectedReadOpen == "Open"
-                                          }
-                                          onChange={() => handleReadOpen("Open")}
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      Open
-                                    </li>
+                                    {Object.entries(
+                                      filters.campaign_listing
+                                    ).map(([index, item]) => (
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="checkbox"
+                                            id={`custom-checkbox-campaign_listing-${index}`}
+                                            name="campaign_listing[]"
+                                            value={index}
+                                            checked={
+                                              typeof selectedcampaign !==
+                                                "undefined" &&
+                                              selectedcampaign.indexOf(
+                                                index
+                                              ) !== -1
+                                            }
+                                            onChange={() =>
+                                              handleOnCampaingChange(index)
+                                            }
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        {item}
+                                      </li>
+                                    ))}
                                   </ul>
-                            </div>
+                                </div>
+                              </div>
                             </>
                           )}
+
+                        {selectedcampaign.length > 0 && (
+                          <>
+                            <div className="col block-smart-name registered">
+                              <h6>Campaign?</h6>
+                              <ul>
+                                <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="radio"
+                                      id="read_camp"
+                                      name="read"
+                                      value="Read"
+                                      checked={
+                                        typeof selectedReadOpen !==
+                                          "undefined" &&
+                                        selectedReadOpen == "Read"
+                                      }
+                                      onChange={() => handleReadOpen("Read")}
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                  Read
+                                </li>
+                                <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="radio"
+                                      id="open_camp"
+                                      name="open"
+                                      value="Open"
+                                      checked={
+                                        typeof selectedReadOpen !==
+                                          "undefined" &&
+                                        selectedReadOpen == "Open"
+                                      }
+                                      onChange={() => handleReadOpen("Open")}
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                  Open
+                                </li>
+                              </ul>
+                            </div>
+                          </>
+                        )}
 
                         <div className="col block-smart-name registered">
                           {localStorage.getItem("user_id") ==
@@ -1954,7 +2061,6 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-
                         {showhidearticle == 1 &&
                         localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -2065,14 +2171,14 @@ const FilterSegment = (props) => {
                                   No
                                 </li>
                               </ul>
-                        </div>
-                        </>
-                      )}
+                            </div>
+                          </>
+                        )}
 
-                      {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" && (
-                        <>
-                        <div className="col block-smart-name 21">
+                        {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" && (
+                          <>
+                            <div className="col block-smart-name 21">
                               <h6>Trial Registered ?</h6>
                               <ul>
                                 <li>
@@ -2114,9 +2220,9 @@ const FilterSegment = (props) => {
                                   No
                                 </li>
                               </ul>
-                        </div>
-                        </>
-                      )}
+                            </div>
+                          </>
+                        )}
 
                         {/*
                           <div className="col block-smart-name">
@@ -2555,7 +2661,10 @@ const FilterSegment = (props) => {
                         {selectedBlindType}
                         <img
                           onClick={() =>
-                            removeindividualfilter("blind_type", selectedBlindType)
+                            removeindividualfilter(
+                              "blind_type",
+                              selectedBlindType
+                            )
                           }
                           src={path_image + "filter-close.svg"}
                           alt="Close-filter"
@@ -2566,7 +2675,6 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-
               {updateflag > 0 ? (
                 typeof selectedcampaign === "object" &&
                 selectedcampaign.length > 0 ? (
@@ -2575,49 +2683,49 @@ const FilterSegment = (props) => {
                       <span>Campaign |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedcampaign).map(
-                        ([index, item]) => (
-                          <div className="filter-result">
-                            {
-                              filters.campaign_listing[item]
-                            }{" "}
-                            <img
-                              onClick={() =>
-                                removeindividualfilter("campaign", item)
-                              }
-                              src={path_image + "filter-close.svg"}
-                              alt="Close-filter"
-                            />
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-                ) : null
-              ) : null}
-
-              {
-                updateflag > 0 ? (
-                  typeof selectedcampaign === "object" && typeof selectedReadOpen !== "undefined" && selectedcampaign.length > 0 ? (
-                    <div className="filter-div">
-                      <div className="filter-div-title">
-                        <span>Campaign? |</span>
-                      </div>
-                      <div className="filter-div-list">
+                      {Object.entries(selectedcampaign).map(([index, item]) => (
                         <div className="filter-result">
-                          {selectedReadOpen}
+                          {filters.campaign_listing[item]}{" "}
                           <img
                             onClick={() =>
-                              removeindividualfilter("campaign_status",selectedReadOpen)
+                              removeindividualfilter("campaign", item)
                             }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
                         </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+              {updateflag > 0 ? (
+                typeof selectedcampaign === "object" &&
+                typeof selectedReadOpen !== "undefined" &&
+                selectedcampaign.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Campaign? |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      <div className="filter-result">
+                        {selectedReadOpen}
+                        <img
+                          onClick={() =>
+                            removeindividualfilter(
+                              "campaign_status",
+                              selectedReadOpen
+                            )
+                          }
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                        />
                       </div>
                     </div>
-                  ) : null
-                ) : null}
+                  </div>
+                ) : null
+              ) : null}
 
               {updateflag > 0 ? (
                 typeof selectedsitenumber === "object" &&
