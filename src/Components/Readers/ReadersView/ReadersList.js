@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Accordion,
   Button,
@@ -39,16 +39,17 @@ const NewReaders = () => {
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [pageAll, setPageAll] = useState(false);
   const [pageAllClicked, setPageAllClicked] = useState(false);
-  const [type, setType] = useState("");
+  const [siteNumber, setSiteNumber] = useState([]);
+
   const [countryAll, setCountryAll] = useState([]);
+  const defaultCountry = useRef(null);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+
   const [filterdata, setFilterData] = useState({
     Status: ["Registered", "Unregistered"],
   });
-  const [filterObject, setFilterObject] = useState({
-    status: ["Registered"],
-    contactType: ["HCP"],
-  });
-  const [updateflag, setupdateFlag] = useState(0);
+  const [filterObject, setFilterObject] = useState({});
+  const [updateflag, setUpdateFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "0", label: "HCP" },
     { value: "1", label: "Staff User" },
@@ -131,8 +132,10 @@ const NewReaders = () => {
       // } else {
       //   loader("show");
       // }
-      const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
-
+      const res = await postData(
+        "https://informedback.shinedezign.pro/reader/reader",
+        payload
+      );
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
@@ -144,6 +147,7 @@ const NewReaders = () => {
             value: item,
             label: item == "B&H" ? "Bosnia and Herzegovina" : item,
           });
+
           setCountryAll(countries);
         });
         setSpcFlag(1);
@@ -270,8 +274,25 @@ const NewReaders = () => {
       </OverlayTrigger>
     );
   }
-  const onCountryChange = (e, i) => {
+  const onCountryChange = (e, i, index) => {
     let consetValue = e.value;
+    const filteredData = change.sideData.filter(
+      (item) => item.country === consetValue
+    );
+
+    // Create an array of objects containing the site numbers from the filtered data
+    const siteNumbers = filteredData.map((item) => ({
+      label: item.site_number,
+      value: item.site_number,
+    }));
+
+    // Update the siteNumber state with the new array of site numbers
+    setSiteNumber((prevSiteNumbers) => ({
+      ...prevSiteNumbers,
+      [index]: siteNumbers,
+    }));
+    console.log(siteNumber);
+
     let consent = {
       index: i,
       value: consetValue,
@@ -350,7 +371,6 @@ const NewReaders = () => {
       index: i,
       value: consetValue,
     };
-    console.log(consent);
     const foundIndex = changeIRTType.findIndex((el) => el.index === i);
     if (foundIndex === -1) {
       setChangeIRTType((oldarray) => [...oldarray, consent]);
@@ -367,12 +387,18 @@ const NewReaders = () => {
   };
 
   const onSiteNumberChange = (e, i) => {
+    const selectedSiteNumber = e.value;
+    const selectedItem = change.sideData.find(
+      (item) => item.site_number === selectedSiteNumber
+    );
+    const selectedCountry = selectedItem.country;
+    const defaultValue = { value: selectedCountry, label: selectedCountry };
+
     let consetValue = e.value;
     let consent = {
       index: i,
       value: consetValue,
     };
-
     const found = changeSiteNumberType.some((el) => el.index === i);
     if (!found) {
       setChangeSiteNumberType((oldarray) => [...oldarray, consent]);
@@ -472,10 +498,9 @@ const NewReaders = () => {
         if (country !== "") {
           readerDataList[libDataIndex].country = country;
         }
-        if (type != "") {
-          // types
-          let searchres = types.find(({ value }) => value === type)?.label;
-          readerDataList[libDataIndex].user_status = searchres;
+
+        if (type !== "") {
+          readerDataList[libDataIndex].user_status = type;
         }
 
         if (role !== "") {
@@ -491,7 +516,7 @@ const NewReaders = () => {
 
         const newData = readerDataList;
         setReaderDataList(newData);
-        setupdateFlag(updateflag + 1);
+        setUpdateFlag(updateflag + 1);
         loader("hide");
         popup_alert({
           visible: "show",
@@ -549,6 +574,7 @@ const NewReaders = () => {
   };
 
   const tabClicked = async (key, userId) => {
+    setApiCallStatus(false);
     if (key == "usage") {
       let index = emailStats.findIndex((el) => el.userId == userId);
       if (index === -1) {
@@ -576,8 +602,12 @@ const NewReaders = () => {
         "https://informedback.shinedezign.pro/reader/user-detail"
       );
       setChanges(res.data.data);
-      console.log(res);
+      setSiteNumber((prevSiteNumbers) => ({
+        ...prevSiteNumbers,
+        all: res.data.data.siteNumber,
+      }));
     }
+    setApiCallStatus(true);
   };
 
   const showConfirmationPopup = (stateMsg, e, id) => {
@@ -1120,8 +1150,11 @@ const NewReaders = () => {
                                 <ul className="tab-mail-list data">
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Emails sent
-                                      <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser).">
+                                      Emails Sent
+                                      <LinkWithTooltip
+                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                        href="#"
+                                      >
                                         <img
                                           src={
                                             path_image + "info_circle_icon.svg"
@@ -1150,8 +1183,11 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Emails opened
-                                      <LinkWithTooltip tooltip="Number of opening counts for specific article.">
+                                      Emails Opened
+                                      <LinkWithTooltip
+                                        tooltip="Number of opening counts for specific article."
+                                        href="#"
+                                      >
                                         <img
                                           src={
                                             path_image + "info_circle_icon.svg"
@@ -1180,8 +1216,11 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Content delivered
-                                      <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
+                                      Content Delivered
+                                      <LinkWithTooltip
+                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        href="#"
+                                      >
                                         <img
                                           src={
                                             path_image + "info_circle_icon.svg"
@@ -1211,7 +1250,10 @@ const NewReaders = () => {
                                   <li>
                                     <h6 className="tab-content-title">
                                       Content with RTR
-                                      <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser).">
+                                      <LinkWithTooltip
+                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                        href="#"
+                                      >
                                         <img
                                           src={
                                             path_image + "info_circle_icon.svg"
@@ -1240,8 +1282,11 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      QR openings
-                                      <LinkWithTooltip tooltip="Number of opening counts for specific article.">
+                                      QR Openings
+                                      <LinkWithTooltip
+                                        tooltip="Number of opening counts for specific article."
+                                        href="#"
+                                      >
                                         <img
                                           src={
                                             path_image + "info_circle_icon.svg"
@@ -1270,8 +1315,11 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      GO openings
-                                      <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
+                                      GO Openings
+                                      <LinkWithTooltip
+                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        href="#"
+                                      >
                                         <img
                                           src={
                                             path_image + "info_circle_icon.svg"
@@ -1300,8 +1348,11 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Content openings
-                                      <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
+                                      Content Openings
+                                      <LinkWithTooltip
+                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        href="#"
+                                      >
                                         <img
                                           src={
                                             path_image + "info_circle_icon.svg"
@@ -1347,67 +1398,42 @@ const NewReaders = () => {
                             <Tab eventKey="change-tab" title="Change">
                               <div className="data-main-box change-tab-main-box">
                                 <ul className="tab-mail-list data change">
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      User status
-                                    </h6>
-                                    <div className="select-dropdown-wrapper">
-                                      {/*console.log(
+                                  {localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" && change ? (
+                                    <>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          User Status
+                                        </h6>
+                                        <div className="select-dropdown-wrapper">
+                                          {/*console.log(
                                             types.findIndex(
                                               (el) =>
                                               el.label.toLowerCase() == data?.user_status.toLowerCase()
                                             ))*/}
-                                      <div className="select">
-                                        <Select
-                                          options={types}
-                                          defaultValue={
-                                            types[
-                                              types.findIndex(
-                                                (el) =>
-                                                  el.label.toLowerCase() ==
-                                                  data?.user_status?.toLowerCase()
-                                              )
-                                            ]
-                                          }
-                                          onChange={(event) =>
-                                            onUserChange(event, data.id)
-                                          }
-                                          id={"user_type_" + data?.id}
-                                          className="dropdown-basic-button split-button-dropup"
-                                          isClearable
-                                        />
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      User Country
-                                    </h6>
-                                    <div className="select-dropdown-wrapper">
-                                      <div className="select">
-                                        <Select
-                                          options={countryAll}
-                                          defaultValue={
-                                            countryAll[
-                                              countryAll.findIndex(
-                                                (el) =>
-                                                  el.value == data?.country
-                                              )
-                                            ]
-                                          }
-                                          onChange={(event) =>
-                                            onCountryChange(event, data.id)
-                                          }
-                                          id={"country_" + data?.id}
-                                          className="dropdown-basic-button split-button-dropup"
-                                          isClearable
-                                        />
-                                      </div>
-                                    </div>
-                                  </li>
-                                  {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" && change ? (
-                                    <>
+                                          <div className="select">
+                                            <Select
+                                              options={types}
+                                              defaultValue={
+                                                types[
+                                                  types.findIndex(
+                                                    (el) =>
+                                                      el.label.toLowerCase() ==
+                                                      data?.user_status?.toLowerCase()
+                                                  )
+                                                ]
+                                              }
+                                              onChange={(event) =>
+                                                onUserChange(event, data.id)
+                                              }
+                                              id={"user_type_" + data?.id}
+                                              className="dropdown-basic-button split-button-dropup"
+                                              isClearable
+                                            />
+                                          </div>
+                                        </div>
+                                      </li>
+
                                       <li>
                                         <h6 className="tab-content-title">
                                           Role
@@ -1477,6 +1503,66 @@ const NewReaders = () => {
                                           </div>
                                         </div>
                                       </li>
+
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Country
+                                        </h6>
+                                        <div className="select-dropdown-wrapper">
+                                          <div className="select">
+                                            {selectedCountry ? (
+                                              <Select
+                                                ref={defaultCountry}
+                                                options={countryAll}
+                                                defaultValue={
+                                                  selectedCountry
+                                                    ? selectedCountry
+                                                    : countryAll[
+                                                        countryAll.findIndex(
+                                                          (el) =>
+                                                            el.value ==
+                                                            data?.country
+                                                        )
+                                                      ]
+                                                }
+                                                onChange={(event) =>
+                                                  onCountryChange(
+                                                    event,
+                                                    data.id
+                                                  )
+                                                }
+                                                id={data.id}
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            ) : (
+                                              <Select
+                                                ref={defaultCountry}
+                                                options={countryAll}
+                                                defaultValue={
+                                                  countryAll[
+                                                    countryAll.findIndex(
+                                                      (el) =>
+                                                        el.value ==
+                                                        data?.country
+                                                    )
+                                                  ]
+                                                }
+                                                onChange={(event) =>
+                                                  onCountryChange(
+                                                    event,
+                                                    data.id,
+                                                    index
+                                                  )
+                                                }
+                                                id={data.id}
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            )}
+                                          </div>
+                                        </div>
+                                      </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           Site Number
@@ -1484,7 +1570,11 @@ const NewReaders = () => {
                                         <div className="select-dropdown-wrapper">
                                           <div className="select">
                                             <Select
-                                              options={change?.siteNumber}
+                                              options={
+                                                siteNumber[index] != undefined
+                                                  ? siteNumber[index]
+                                                  : siteNumber?.all
+                                              }
                                               const
                                               defaultValue={
                                                 data?.siteNumber
@@ -1511,21 +1601,85 @@ const NewReaders = () => {
                                         </div>
                                       </li>
                                     </>
+                                  ) : apiCallStatus ? (
+                                    <>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          User Status
+                                        </h6>
+                                        <div className="select-dropdown-wrapper">
+                                          {/*console.log(
+                                            types.findIndex(
+                                              (el) =>
+                                              el.label.toLowerCase() == data?.user_status.toLowerCase()
+                                            ))*/}
+                                          <div className="select">
+                                            <Select
+                                              options={types}
+                                              defaultValue={
+                                                types[
+                                                  types.findIndex(
+                                                    (el) =>
+                                                      el.label.toLowerCase() ==
+                                                      data?.user_status?.toLowerCase()
+                                                  )
+                                                ]
+                                              }
+                                              onChange={(event) =>
+                                                onUserChange(event, data.id)
+                                              }
+                                              id={"user_type_" + data?.id}
+                                              className="dropdown-basic-button split-button-dropup"
+                                              isClearable
+                                            />
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Country
+                                        </h6>
+                                        <div className="select-dropdown-wrapper">
+                                          <div className="select">
+                                            <Select
+                                              options={countryAll}
+                                              defaultValue={
+                                                countryAll[
+                                                  countryAll.findIndex(
+                                                    (el) =>
+                                                      el.value == data?.country
+                                                  )
+                                                ]
+                                              }
+                                              onChange={(event) =>
+                                                onCountryChange(event, data.id)
+                                              }
+                                              id={data.id}
+                                              className="dropdown-basic-button split-button-dropup"
+                                              isClearable
+                                            />
+                                          </div>
+                                        </div>
+                                      </li>
+                                    </>
                                   ) : null}
                                 </ul>
-                                <div className="data-main-footer-sec">
-                                  <div className="footer-btn d-flex justify-content-end">
-                                    <Button
-                                      className="btn btn-primary btn-filled update"
-                                      onClick={(e) =>
-                                        updateReaderDetails(data?.id, index)
-                                      }
-                                      id={data?.id}
-                                    >
-                                      Update
-                                    </Button>
+
+                                {apiCallStatus ? (
+                                  <div className="data-main-footer-sec">
+                                    <div className="footer-btn d-flex justify-content-end">
+                                      <Button
+                                        className="btn btn-primary btn-filled update"
+                                        onClick={(e) =>
+                                          updateReaderDetails(data?.id, index)
+                                        }
+                                        id={data?.id}
+                                      >
+                                        Update
+                                      </Button>
+                                    </div>
                                   </div>
-                                </div>
+                                ) : null}
                               </div>
                             </Tab>
                           </Tabs>

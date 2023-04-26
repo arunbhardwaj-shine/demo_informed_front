@@ -122,6 +122,7 @@ const Totalhcp = () => {
       showTable: true,
     },
     series: [],
+    months:[]
   });
 
   Highcharts.setOptions({
@@ -136,6 +137,7 @@ const Totalhcp = () => {
       loader("show");
       const response = await getData(ENDPOINT.ANALYTICS);
       const data = response.data.data;
+      const seriesMonth = JSON.parse(data[0].Months);
       if (data.length <= 0) {
         setIsDataNotFound(true);
       }
@@ -247,9 +249,13 @@ const Totalhcp = () => {
 
       // Create table data
       const newTableSeries = data.map((item) => ({
-        months: JSON.parse(item.Months),
         data: JSON.parse(item.total_readers),
       }));
+      
+
+
+      
+   console.log(newTableSeries);
       const tableDatas = data.map((ibuitems) => ({
         name:
           ibuitems.ibu +
@@ -266,6 +272,7 @@ const Totalhcp = () => {
           categories: tableDatas,
         },
         series: newTableSeries,
+        months: categories,
       };
       setTableData(newTable);
       loader("hide");
@@ -286,6 +293,7 @@ const Totalhcp = () => {
     return acc + serie.data.reduce((a, b) => a + b, 0);
   }, 0);
 
+  
   return (
     <>
       <Col className="right-sidebar">
@@ -327,15 +335,15 @@ const Totalhcp = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {tableData.series[0]?.months.map((month, index) => (
+                        {tableData?.months?.map((month, index) => (
                           <tr key={index}>
                             <td>{month}</td>
-                            {tableData.series.map((serie, serieIndex) => (
-                              <td key={serieIndex}>{serie.data[index]}</td>
+                            {tableData?.series?.map((serie, serieIndex) => (
+                              <td key={serieIndex}>{serie?.data[index]}</td>
                             ))}
                             <td>
-                              {tableData.series.reduce(
-                                (total, serie) => total + serie.data[index],
+                              {tableData?.series?.reduce(
+                                (total, serie) => total + serie?.data[index],
                                 0
                               )}
                             </td>
