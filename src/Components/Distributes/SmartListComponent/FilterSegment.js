@@ -476,19 +476,19 @@ const FilterSegment = (props) => {
         let site_name_value = getSiteData[sitenumber];
         handleOnSiteNameChange(site_name_value, 1);
       }
-      if ("site_country_data" in filters) {
-        setSelectedCountry([]);
-        let getSiteCountryData = filters.site_country_data;
-        let site_country_value = selectedsitenumber.map(
-          (item) => getSiteCountryData[item]
-        );
+      // if ("site_country_data" in filters) {
+      //   setSelectedCountry([]);
+      //   let getSiteCountryData = filters.site_country_data;
+      //   let site_country_value = selectedsitenumber.map(
+      //     (item) => getSiteCountryData[item]
+      //   );
 
-        let unique = site_country_value.filter(
-          (item, index) => site_country_value.indexOf(item) === index
-        );
+      //   let unique = site_country_value.filter(
+      //     (item, index) => site_country_value.indexOf(item) === index
+      //   );
 
-        handleOnCountryChange(unique, 1);
-      }
+      //   handleOnCountryChange(unique, 1);
+      // }
     }
   };
 
@@ -512,10 +512,10 @@ const FilterSegment = (props) => {
         );
 
         handleOnSiteNumberChange(site_number_value, 1);
-        if ("site_country_data" in filters) {
-          let site_country_value = getCountryData[site_number_value];
-          handleOnCountryChange(site_country_value, 1);
-        }
+        // if ("site_country_data" in filters) {
+        //   let site_country_value = getCountryData[site_number_value];
+        //   handleOnCountryChange(site_country_value, 1);
+        // }
       }
     }
   };
