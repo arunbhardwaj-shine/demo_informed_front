@@ -132,10 +132,7 @@ const NewReaders = () => {
       // } else {
       //   loader("show");
       // }
-      const res = await postData(
-        "https://informedback.shinedezign.pro/reader/reader",
-        payload
-      );
+      const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
@@ -537,7 +534,7 @@ const NewReaders = () => {
         }
 
         if (irt !== "") {
-          readerDataList[libDataIndex].irt = irt;
+          readerDataList[libDataIndex].irt = irt == 1 ? "Yes" : "No";
         }
         if (binded !== "") {
           readerDataList[libDataIndex].binded = binded;
@@ -1462,9 +1459,10 @@ const NewReaders = () => {
                                           <div className="select">
                                             <Select
                                               options={change?.role}
-                                              defaultValue={
-                                                change?.role[data?.role]
-                                              }
+                                              defaultValue={change?.role.find(
+                                                (roleObj) =>
+                                                  roleObj.value === data?.role
+                                              )}
                                               onChange={(event) =>
                                                 onRoleChange(event, data.id)
                                               }
