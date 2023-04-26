@@ -16,6 +16,7 @@ exportData(Highcharts);
 
 const TopSales = () => {
   const [isDataFound, setIsDataFound] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [All, setAll] = useState([
     { value: "", label: "All" },
@@ -31,7 +32,7 @@ const TopSales = () => {
   //   { value: "2019", label: "2019" },
   // ]);
 
-  const [years, setYears] = useState([]);
+  const [years, setYears] = useState([{ value: "", label: "All" }]);
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
@@ -42,7 +43,7 @@ const TopSales = () => {
       yearsList.push({ value: i.toString(), label: i.toString() });
     }
 
-    setYears([{ value: "", label: "All" }, ...yearsList]);
+    setYears([...years, ...yearsList]);
   }, []);
 
   const dataType = useRef(All[0]);
@@ -147,8 +148,10 @@ const TopSales = () => {
       const response = await postData(ENDPOINT.TOPSALES, data);
 
       const hadData = response?.data?.data;
-      if (hadData.length <= 0) {
+      if (hadData?.name?.length <= 0) {
         setIsDataFound(false);
+      } else {
+        setIsDataFound(true);
       }
 
       const categories = hadData?.name;
@@ -177,7 +180,7 @@ const TopSales = () => {
       };
 
       setTopSaleOptions(newSaleOptions);
-      setIsDataFound(true);
+      setIsLoaded(true);
       loader("hide");
     } catch (err) {
       setIsDataFound(false);
@@ -187,11 +190,13 @@ const TopSales = () => {
   };
 
   const filterDataByDataType = (e) => {
+    setIsLoaded(false);
     dataType.current = e;
     setIsDataFound(false);
     getDataFromApi(e.value);
   };
   const filterDataByYear = (e) => {
+    setIsLoaded(false);
     year.current = e;
     setIsDataFound(false);
     getDataFromApi();
@@ -235,6 +240,10 @@ const TopSales = () => {
                     highcharts={Highcharts}
                     options={topSaleOptions}
                   />
+                </div>
+              ) : isLoaded ? (
+                <div className="no_found">
+                  <p>No Data Found</p>
                 </div>
               ) : null}
             </div>

@@ -25,10 +25,9 @@ const ContentAnalytics = () => {
   const [urlOptions, setUrlOptions] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(0);
   const [isPdfData, setIsPdfData] = useState(false);
-  const mapData = useRef([]);
-  const readersData = useRef([]);
-  const barData = useRef(null);
-
+  const [sectionLoader, setSectionLoader] = useState(false);
+  const [mapData, setMapData] = useState([]);
+  const [readerData, setReaderData] = useState([]);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [isReaderAccordionOpen, setIsReaderAccordionOpen] = useState(false);
 
@@ -63,12 +62,12 @@ const ContentAnalytics = () => {
     } catch (err) {
       setIsDataFound(false);
       console.log(err);
-    } 
+    }
   }
 
   async function filterPdfData(pdfId) {
     setIsLoaded(false);
-    // setIsDataFound(false)
+
     setIsAccordionOpen(false);
     setIsReaderAccordionOpen(false);
 
@@ -94,54 +93,65 @@ const ContentAnalytics = () => {
 
   useEffect(() => {
     if (pdfOptions.length > 0) {
-      let pdfId = state?.pdfId?{value:state?.pdfId}:pdfOptions[0]
+      let pdfId = state?.pdfId ? { value: state?.pdfId } : pdfOptions[0];
       filterPdfData(pdfId);
     }
   }, [pdfOptions]);
   const handleAccordionOpen = async () => {
     try {
-      loader("show");
       if (!isAccordionOpen) {
-        const requestBody = { pdfId: selectedPdf };
-        const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
-        const hadData = response?.data?.data || [];
-        mapData.current = hadData;
-        barData.current = response?.data || [];
+        setSectionLoader(true);
+
+        if (!Object.keys(mapData)?.length) {
+          const requestBody = { pdfId: selectedPdf };
+          const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
+          const hadMapData = response?.data || [];
+
+          setMapData(hadMapData);
+        }
         setIsAccordionOpen(true);
       } else {
         setIsAccordionOpen(false);
       }
     } catch (error) {
-      // Handle error here
+      console.log(error);
+      setSectionLoader(false);
     } finally {
-      loader("hide");
+      setSectionLoader(false);
     }
   };
 
   const handleReaderAccordionOpen = async () => {
     try {
-      loader("show");
       if (!isReaderAccordionOpen) {
-        const requestBody = { pdfId: selectedPdf };
-        const response = await postData(ENDPOINT.READERANALYTICS, requestBody);
-        const hadData = response?.data?.data || [];
-        readersData.current = hadData;
+        setSectionLoader(true);
+        if (!readerData?.length) {
+          const requestBody = { pdfId: selectedPdf };
+          const response = await postData(
+            ENDPOINT.READERANALYTICS,
+            requestBody
+          );
+          const hadData = response?.data?.data || [];
+
+          setReaderData(hadData);
+        }
         setIsReaderAccordionOpen(true);
       } else {
         setIsReaderAccordionOpen(false);
       }
     } catch (error) {
-      // Handle error here
+      console.log(error);
+      setSectionLoader(false);
     } finally {
-      loader("hide");
+      setSectionLoader(false);
     }
   };
 
-  const handleParent = () => {
+  const handleParent = async () => {
     try {
       loader("show");
 
-      html2canvas(document.getElementById("parent")).then((canvas) => {
+      await html2canvas(document.getElementById("parent")).then((canvas) => {
         const link = document.createElement("a");
         link.download = `${Math.random()}.png`;
         link.href = canvas
@@ -200,7 +210,13 @@ const ContentAnalytics = () => {
                         }}
                         className="dropdown-basic-button split-button-dropup mr-2"
                         isClearable
-                        defaultValue={state?.pdfId?pdfOptions?.filter(item =>item?.value ==state?.pdfId):pdfOptions?.[0]} // pass the first object as the default value
+                        defaultValue={
+                          state?.pdfId
+                            ? pdfOptions?.filter(
+                                (item) => item?.value == state?.pdfId
+                              )
+                            : pdfOptions?.[0]
+                        } // pass the first object as the default value
                       />
                       <Select
                         options={urlOptions}
@@ -274,19 +290,37 @@ const ContentAnalytics = () => {
                             <Accordion.Header>
                               See Country Details
                             </Accordion.Header>
-                            {isAccordionOpen ? (
-                              <Accordion.Body>
-                                <MapComponent
-                                  data={mapData.current}
-                                  status={false}
-                                />
-                                <Row>
-                                  <Col>
-                                    <BarComponent data={barData.current} />
-                                  </Col>
-                                </Row>
-                              </Accordion.Body>
-                            ) : null}
+
+                            <Accordion.Body>
+                              {!isAccordionOpen ? (
+                                <div className="accordion-loader">
+                                  <div
+                                    className={
+                                      "loader tab-inside " +
+                                      (sectionLoader ? "show" : "")
+                                    }
+                                    id="custom_loader"
+                                  >
+                                    <div className="loader_show">
+                                      <span className="loader-view"> </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : null}
+                              {isAccordionOpen ? (
+                                <>
+                                  <MapComponent
+                                    data={mapData?.data}
+                                    status={false}
+                                  />
+                                  <Row>
+                                    <Col>
+                                      <BarComponent data={mapData} />
+                                    </Col>
+                                  </Row>
+                                </>
+                              ) : null}
+                            </Accordion.Body>
                           </Accordion.Item>
                         </Accordion>
                       </Col>
@@ -302,13 +336,27 @@ const ContentAnalytics = () => {
                             <Accordion.Header>
                               Readers Per Page
                             </Accordion.Header>
-                            {isReaderAccordionOpen ? (
-                              <Accordion.Body>
-                                <ReadersPerPageLayout
-                                  data={readersData.current}
-                                />
-                              </Accordion.Body>
-                            ) : null}
+
+                            <Accordion.Body>
+                              {!isReaderAccordionOpen ? (
+                                <div className="accordion-loader">
+                                  <div
+                                    className={
+                                      "loader tab-inside " +
+                                      (sectionLoader ? "show" : "")
+                                    }
+                                    id="custom_loader"
+                                  >
+                                    <div className="loader_show">
+                                      <span className="loader-view"> </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : null}
+                              {isReaderAccordionOpen ? (
+                                <ReadersPerPageLayout data={readerData} />
+                              ) : null}
+                            </Accordion.Body>
                           </Accordion.Item>
                         </Accordion>
                       </Col>

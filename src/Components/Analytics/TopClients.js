@@ -16,6 +16,7 @@ exportData(Highcharts);
 
 const TopClients = () => {
   const [isDataFound, setIsDataFound] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [All, setAll] = useState([
     { value: "", label: "All" },
@@ -31,9 +32,7 @@ const TopClients = () => {
   //   { value: "2019", label: "2019" },
   // ]);
 
-
-  
-  const [years, setYears] = useState([]);
+  const [years, setYears] = useState([{ value: "", label: "All" }]);
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
@@ -44,9 +43,8 @@ const TopClients = () => {
       yearsList.push({ value: i.toString(), label: i.toString() });
     }
 
-    setYears([{ value: "", label: "All" }, ...yearsList]);
+    setYears([...years, ...yearsList]);
   }, []);
-  
 
   const dataType = useRef(All[0]);
   const year = useRef(years[0]);
@@ -150,21 +148,25 @@ const TopClients = () => {
       const response = await postData(ENDPOINT.TOPCLIENTS, data);
 
       const hadData = response?.data?.data;
-      if (hadData.length <= 0) {
+      if (hadData?.name?.length <= 0) {
         setIsDataFound(false);
+      } else {
+        setIsDataFound(true);
       }
 
-
       const categories = hadData?.name;
-      Object.keys(categories).forEach((key) => {
-        if (typeof categories[key] === 'string') {
-          categories[key] = categories[key].trim();
-          categories[key] = categories[key].replace(/\b\w/g, c => c.toUpperCase());
-        }
-      });
 
-      console.log(categories.sort());
-    //  console.log(categories);
+      if (categories) {
+        Object.keys(categories)?.forEach((key) => {
+          if (typeof categories[key] === "string") {
+            categories[key] = categories[key].trim();
+            categories[key] = categories[key].replace(/\b\w/g, (c) =>
+              c.toUpperCase()
+            );
+          }
+        });
+      }
+
       const newSeries = [
         {
           name: `Readers (${hadData?.readerTotal})`,
@@ -190,7 +192,8 @@ const TopClients = () => {
       };
 
       setTopClientOptions(newClientOptions);
-      setIsDataFound(true);
+      setIsLoaded(true);
+
       loader("hide");
     } catch (err) {
       setIsDataFound(false);
@@ -200,11 +203,13 @@ const TopClients = () => {
   };
 
   const filterDataByDataType = (e) => {
+    setIsLoaded(false);
     dataType.current = e;
     setIsDataFound(false);
     getDataFromApi();
   };
   const filterDataByYear = (e) => {
+    setIsLoaded(false);
     year.current = e;
     setIsDataFound(false);
     getDataFromApi();
@@ -248,6 +253,10 @@ const TopClients = () => {
                     highcharts={Highcharts}
                     options={topClientOptions}
                   />
+                </div>
+              ) : isLoaded ? (
+                <div className="no_found">
+                  <p>No Data Found</p>
                 </div>
               ) : null}
             </div>

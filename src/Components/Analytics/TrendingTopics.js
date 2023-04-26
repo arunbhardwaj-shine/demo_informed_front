@@ -15,10 +15,18 @@ HighchartsAccessibility(Highcharts);
 HighchartsSankey(Highcharts);
 HighchartsDependencyWheel(Highcharts);
 
-
 Highcharts.setOptions({
-  colors: ['#00D4C0','#FFBE2C','#F58289', '#D61975', '#00D4C0', '#FFBE2C', '#F58289','#FFBE2C']
- });
+  colors: [
+    "#00D4C0",
+    "#FFBE2C",
+    "#F58289",
+    "#D61975",
+    "#00D4C0",
+    "#FFBE2C",
+    "#F58289",
+    "#FFBE2C",
+  ],
+});
 
 const TrendingTopics = () => {
   const [isDataFound, setIsDataFound] = useState(false);
@@ -29,7 +37,7 @@ const TrendingTopics = () => {
     chart: {
       marginTop: 100,
       type: "dependencywheel",
-      height:600,
+      height: 600,
     },
 
     title: {
@@ -43,7 +51,21 @@ const TrendingTopics = () => {
     },
     exporting: {
       showTable: true,
-      tableCaption: ""
+      tableCaption: "",
+      tableId: "myTableId",
+      csv: {
+        columnHeaderFormatter: function (item, key) {
+          if (key === "weight") {
+            return "Used";
+          } else if (key === "from") {
+            return "From";
+          } else if (key === "to") {
+            return "To";
+          } else {
+            return item;
+          }
+        },
+      },
     },
     series: [
       {
@@ -64,17 +86,16 @@ const TrendingTopics = () => {
     credits: {
       enabled: false,
     },
-
   });
 
-  const getDataFromApi = async (type ="all") => {
+  const getDataFromApi = async (type = "all") => {
     setSectionLoader(true);
     setApiCallStatus(false);
     try {
       const requestBody = {
         type: type,
       };
-      const response = await postData(ENDPOINT.TRENDING_TOPIC,requestBody);
+      const response = await postData(ENDPOINT.TRENDING_TOPIC, requestBody);
       const data = response.data;
       const graphData = JSON.parse(data.data[0].graph_data);
       setOptions((prevOptions) => ({
@@ -85,11 +106,9 @@ const TrendingTopics = () => {
             data: graphData,
           },
         ],
-
-      })
-      );
-     setIsDataFound(true)
-     setSectionLoader(false);
+      }));
+      setIsDataFound(true);
+      setSectionLoader(false);
     } catch (error) {
       setSectionLoader(false);
       console.log(error);
@@ -97,15 +116,13 @@ const TrendingTopics = () => {
     setApiCallStatus(true);
   };
 
-
   useEffect(() => {
-
     getDataFromApi();
   }, []);
 
-   const handleTabChange = (event) => {
+  const handleTabChange = (event) => {
     setIsDataFound(false);
-    activeTab.current=event
+    activeTab.current = event;
     setSectionLoader(true);
     if (event == 1) {
       getDataFromApi("all");
@@ -115,10 +132,10 @@ const TrendingTopics = () => {
       getDataFromApi("critcal_care");
     } else if (event == 4) {
       getDataFromApi("immunology");
-    }else if (event == 5) {
+    } else if (event == 5) {
       getDataFromApi("ibu");
     }
-   };
+  };
 
   return (
     <>
@@ -127,32 +144,37 @@ const TrendingTopics = () => {
           <Row>
             <div className="top-header">
               <div className="page-title d-flex">
-                    <h2>Trending Topics</h2>
+                <h2>Trending Topics</h2>
               </div>
             </div>
             <div className="create-change-content spc-content analytic-charts">
               <Row>
                 <div className="delivery-trends">
                   <div className="tabs_content_load">
-                    <Tabs defaultActiveKey={activeTab.current} onSelect={handleTabChange}>
-                      <Tab eventKey="1" title="All Business Units">
-                      </Tab>
-                      <Tab eventKey="2" title="Haematology">
-                      </Tab>
-                      <Tab eventKey="3" title="Critical Care">
-                      </Tab>
-                      <Tab eventKey="4" title="Immunotherapy">
-                      </Tab>
-                      <Tab eventKey="5" title="IBU">
-                      </Tab>
+                    <Tabs
+                      defaultActiveKey={activeTab.current}
+                      onSelect={handleTabChange}
+                    >
+                      <Tab eventKey="1" title="All Business Units"></Tab>
+                      <Tab eventKey="2" title="Haematology"></Tab>
+                      <Tab eventKey="3" title="Critical Care"></Tab>
+                      <Tab eventKey="4" title="Immunotherapy"></Tab>
+                      <Tab eventKey="5" title="IBU"></Tab>
                     </Tabs>
-                      {
-                        sectionLoader ?
-                        <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
-                          <div className="loader_show"><span className="loader-view"> </span></div>
+                    {sectionLoader ? (
+                      <div
+                        className={
+                          "loader tab-inside " + (sectionLoader ? "show" : "")
+                        }
+                        id="custom_loader"
+                      >
+                        <div className="loader_show">
+                          <span className="loader-view"> </span>
                         </div>
-                        : ''
-                      }
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </Row>

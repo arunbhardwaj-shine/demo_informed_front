@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Container, Nav, Navbar, Row, Form, NavDropdown, Button, Modal, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 
 const PublisherPage = () => {
+     const playerRef = useRef(null);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -17,7 +19,7 @@ const PublisherPage = () => {
                     <Navbar.Collapse id="informed-login">
                         <Nav className="ms-auto justify-content-end">
                             <Link to="/informed">Lifescience</Link>
-                            <Link to="/">Webinar</Link>
+                            <Link to="/webinar">Webinar</Link>
                             <Link to="/">Contact Us</Link>
                             <NavDropdown title="Login">
                                 <Form>
@@ -50,7 +52,7 @@ const PublisherPage = () => {
                         <h5 className="banner-content-context">inforMed.pro hosting is built on the desire to say "YES" to your clients. To help them learn what works and drive more usage.</h5>
                     </div>
                     <div className="banner-content-video">
-                        <div className="banner-content-video-popup" onclick="video_clicked('this');" data-toggle="modal" data-target="#video1" id="playVideo">
+                        <div className="banner-content-video-popup" onClick={handleShow} id="playVideo">
                             <img src={path_image + "jacob_popup.png"} alt=""/>
                             <div className="video_popup_icon">
                                 <img src={path_image + "video-icon.png"} alt="" className="watch-demo"/>
@@ -401,9 +403,19 @@ const PublisherPage = () => {
         </section>
         <footer>
         <p>Copyright 2021 
-            <a href="https://informed.pro/" target="_blank"> InforMed.Pro</a>. Read our <a href="javascript:;" onClick={handleShow}> privacy policy</a>.
+            <a href="https://informed.pro/" target="_blank"> InforMed.Pro</a>. Read our <a href="javascript:;"> privacy policy</a>.
         </p>
         </footer>
+        <Modal show={show} onHide={handleClose} className='video_modal'>
+            <Modal.Header closeButton>
+            </Modal.Header>
+            <Modal.Body>
+                {/* <source id="mp4" className="videeo" src="https://docintel.s3-eu-west-1.amazonaws.com/video/1Bettereprints_25_March_latest.mp4" poster={path_image + "popup_poster.jpg"} data-show-captions="false" scrolling="no" frameborder="0" style={{position: "relative", width: "100%", objectFit:"cover"}} allowtransparency="true" webkitallowfullscreen="" allowfullscreen="" controls="" onpause="pauseVideo()" onplay="playVideo()"></source>
+                <img src={path_image + "video-icon.png"} className="popup_play" alt="" style={{width:"65px"}}/> */}
+                 <ReactPlayer ref={playerRef} url={"https://docintel.s3-eu-west-1.amazonaws.com/video/1Bettereprints_25_March_latest.mp4"} controls={true} width="100%" height="100%" playing={true} muted={true} light={path_image + "popup_poster.jpg"}/>
+            </Modal.Body>
+        </Modal>
+                    
     </div>
    </>
   )

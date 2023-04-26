@@ -15,6 +15,7 @@ exportData(Highcharts);
 
 const TopReseller = () => {
   const [isDataFound, setIsDataFound] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [All, setAll] = useState([
     { value: "", label: "All" },
@@ -30,8 +31,7 @@ const TopReseller = () => {
   //   { value: "2019", label: "2019" },
   // ]);
 
-
-  const [years, setYears] = useState([]);
+  const [years, setYears] = useState([{ value: "", label: "All" }]);
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
@@ -42,9 +42,9 @@ const TopReseller = () => {
       yearsList.push({ value: i.toString(), label: i.toString() });
     }
 
-    setYears([{ value: "", label: "All" }, ...yearsList]);
+    setYears([...years, ...yearsList]);
   }, []);
-  
+
   const dataType = useRef(All[0]);
   const year = useRef(years[0]);
   // const [userType, setUserType] = useState("topSeller");
@@ -119,7 +119,7 @@ const TopReseller = () => {
       bar: {
         dataLabels: {
           enabled: true,
-       },
+        },
       },
     },
 
@@ -148,11 +148,13 @@ const TopReseller = () => {
 
       const response = await postData(ENDPOINT.TOPRESELLER, data);
       const hadData = response?.data?.data;
-      if (hadData.length <= 0) {
+      if (hadData?.name?.length <= 0) {
         setIsDataFound(false);
+      } else {
+        setIsDataFound(true);
       }
-      const categories = hadData?.name.sort();
-     // console.log(categories.sort());
+      const categories = hadData?.name?.sort();
+
       const newSeries = [
         {
           name: `Readers (${hadData?.readerTotal})`,
@@ -177,7 +179,7 @@ const TopReseller = () => {
       };
       setTopResellerOptions(newResellerOptions);
 
-      setIsDataFound(true);
+      setIsLoaded(true);
       loader("hide");
     } catch (err) {
       setIsDataFound(false);
@@ -187,11 +189,13 @@ const TopReseller = () => {
   };
 
   const filterDataByDataType = (e) => {
+    setIsLoaded(false);
     dataType.current = e;
     setIsDataFound(false);
     getDataFromApi();
   };
   const filterDataByYear = (e) => {
+    setIsLoaded(false);
     year.current = e;
     setIsDataFound(false);
     getDataFromApi();
@@ -235,6 +239,10 @@ const TopReseller = () => {
                     highcharts={Highcharts}
                     options={topResellerOptions}
                   />
+                </div>
+              ) : isLoaded ? (
+                <div className="no_found">
+                  <p>No Data Found</p>
                 </div>
               ) : null}
             </div>

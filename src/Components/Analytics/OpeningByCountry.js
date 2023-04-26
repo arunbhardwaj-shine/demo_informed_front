@@ -14,7 +14,7 @@ const OpeningByCountry = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const selectFilter = useRef({ label: "All", value: null });
+  const selectFilter = useRef({ label: "Articles", value: null });
   const selectFilterType = useRef("Openingcountry");
 
   const [filterData, setFilterData] = useState([]);
@@ -115,13 +115,13 @@ const OpeningByCountry = () => {
       const response = await postData(ENDPOINT.OPENING_BY_COUNTRY, requestBody);
       const hadData = response?.data?.data;
 
-      if (hadData.length <= 0) {
+      if (hadData?.length <= 0) {
         setIsDataFound(false);
       } else {
         setIsDataFound(true);
       }
 
-      if (hadData.name.length <= 0) {
+      if (hadData?.name?.length <= 0) {
         setIsDataFound(false);
       } else {
         setIsDataFound(true);
@@ -156,7 +156,7 @@ const OpeningByCountry = () => {
       setTopClientOptions(newClientOptions);
 
       if (filterData?.length == 0) {
-        const newFilterArr = [{ value: null, label: "All" }];
+        const newFilterArr = [{ value: null, label: "Articles" }];
 
         hadData?.pdfData?.map((pdf, index) => {
           newFilterArr.push({
@@ -208,7 +208,7 @@ const OpeningByCountry = () => {
                       placeholder="Filter By"
                       onChange={handleFilterData}
                       defaultValue={
-                        selectFilter?.current ? selectFilter?.current : null
+                        selectFilter?.current ? selectFilter?.current : "null"
                       }
                       className="dropdown-basic-button split-button-dropup"
                       isClearable
