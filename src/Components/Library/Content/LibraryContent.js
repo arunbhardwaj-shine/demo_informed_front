@@ -279,6 +279,7 @@ const LibraryContent = (props) => {
       let data = {
         user_id: localStorage.getItem("user_id"),
         page: page,
+        license:0,
         search: search,
         type: type,
         limit: limit,
