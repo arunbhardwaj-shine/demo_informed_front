@@ -11,8 +11,6 @@ import HighchartsMap from "highcharts/modules/map";
 import proj4 from "proj4";
 import mapDataWorld from "@highcharts/map-collection/custom/world.geo.json";
 
-import MapModule from "highcharts/modules/map";
-import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import axios from "axios";
 import drilldown from "highcharts/modules/drilldown.js";
 
@@ -90,7 +88,6 @@ export default OctaCountryRegestration;
 
 const MapComponent = ({ data }) => {
   const [newData, setNewData] = useState();
-  // const [mapData, setMapData] = useState(null);
 
   const options = {
     chart: {
@@ -127,19 +124,13 @@ const MapComponent = ({ data }) => {
         name: "Total Registrations",
         color: "red",
         data: newData,
-        dataLabels: {
-          enabled: true,
-          style: {
-            fontSize: "9px",
-          },
-          format: "{point.name}",
-        },
+
         tooltip: {
           pointFormat: "{point.totalIndex}",
         },
+
         marker: {
           symbol: `url(${path_image}/marker.png)`,
-
           width: 11,
           height: 15,
           offsetY: -15, // adjust the position of the marker icon
