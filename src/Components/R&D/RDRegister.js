@@ -12,6 +12,7 @@ const RDRegister = () => {
   const [show, setShow] = useState(false);
   const [siteCountry, setSiteCountry] = useState([]);
   const [siteNumber, setSiteNumber] = useState([]);
+  const [apiData, setApiData] = useState([]);
   const [error, setError] = useState({});
   const [userInputs, setInputs] = useState({
     name: "",
@@ -37,30 +38,12 @@ const RDRegister = () => {
           .then((response) => {
             let site_number = response?.data?.response?.data?.site_number;
             let country = response?.data?.response?.data?.country;
-
-            let siteNumber = [], siteCountries = [];
-            Object.entries(site_number).map(([index, item]) => {
-              let label = item;
-              siteNumber.push({
-                value: item,
-                label: label,
-              });
-            });
-
-            Object.entries(country).map(([index, item]) => {
-              let label = item;
-              if (index == "B&H") {
-                label = "Bosnia and Herzegovina";
-              }
-              siteCountries.push({
-                value: item,
-                label: label,
-              });
-            });
-
-              setSiteCountry(siteCountries);
-              setSiteNumber(siteNumber);
-              loader("hide");
+            let siteNumber    = createSelectObj(site_number);
+            let siteCountries = createSelectObj(country);
+            setApiData(response?.data?.response?.data);
+            setSiteCountry(siteCountries);
+            setSiteNumber(siteNumber);
+            loader("hide");
           });
       }catch(err){
         console.log(err);
@@ -69,17 +52,55 @@ const RDRegister = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
-    setInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+
+    if(isSelectedName == "country"){
+      setInputs({
+        name: userInputs?.name,
+        email: userInputs?.email,
+        country: e,
+        sitenumber: "",
+      });
+    }else{
+      setInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
         ? e?.target?.files
-          ? e?.target?.files
-          : e
+        ? e?.target?.files
+        : e
         : e?.target?.value,
-    });
+      });
+    }
+
+    if(isSelectedName == "country"){
+      let newSite = [];
+      Object.entries(apiData?.site_country_data).forEach(([key, value]) => {
+          if(e == "B&H"){
+            e = "Bosnia and Herzegovina";
+          }
+          if(value == e){
+            newSite.push({label:key,value:key})
+          }
+      });
+      setSiteNumber(newSite);
+    }
   };
 
-  const submitHandler = () => {
+  const createSelectObj = (data) => {
+    let objData = [];
+    Object.entries(data).map(([index, item]) => {
+      let label = item;
+      if (index == "B&H") {
+        label = "Bosnia and Herzegovina";
+      }
+      objData.push({
+        value: item,
+        label: label,
+      });
+    });
+    return objData;
+  }
+
+  const submitHandler = async() => {
     const err = rdregistration(
       userInputs,
     );
@@ -87,13 +108,48 @@ const RDRegister = () => {
       setError(err);
       return;
     } else {
-        setError({});
-        setShow(true);
+      loader("show");
+      try {
+
+        const options = {
+          headers: {'Content-Type': 'application/json'}
+        };
+        await axios
+          .post(ENDPOINT.REGISTERRD, userInputs,options)
+          .then((response) => {
+            if(response?.data?.status_code == 200){
+              setInputs({
+                name: "",
+                email: "",
+                country: "",
+                sitenumber: "",
+              });
+              document.getElementById("myForm").reset();
+              setError({});
+              setShow(true);
+            }else{
+              let obj = {"Api": response?.data?.message};
+              setError(obj);
+            }
+            loader("hide");
+          });
+      }catch(err){
+        console.log(err);
+        loader("hide");
+      }
     }
   }
 
   return (
     <>
+    {
+      /*Loader code*/
+    }
+    <div className="loader" id="custom_loader">
+      <div className="loader_show">
+        <span className="loader-view"> </span>
+      </div>
+    </div>
     <div className="rd-main-wrapper">
         <Container>
             <div className="container-sm">
@@ -108,13 +164,16 @@ const RDRegister = () => {
                     </div>
                 </div>
                 <div className="form-wrapper">
+                    {error?.Api ? (
+                      <div className="common-login-validation">{error?.Api}</div>
+                    ) : null}
                     <div className="form-head-sec">
                         <h3>
                             Access is only for Study participants. Please check your details and give your consent for
                             Octapharma to track your engagement with the content provided.
                         </h3>
                     </div>
-                    <Form className="form">
+                    <Form className="form" id="myForm">
                         <Row>
                             <Col md={6}>
                                 <div className="form-group">
@@ -139,51 +198,43 @@ const RDRegister = () => {
                             <Col md={6}>
                                 <div className="form-group">
                                   <label>Country <span>*</span></label>
-                                  {
-                                    typeof siteCountry !== "undefined" && siteCountry.length > 0 ?
-                                    <>
                                     <Select
                                       options={siteCountry}
                                       placeholder="Select country"
                                       name="country"
+                                      value={siteCountry.findIndex((el) => el.value == userInputs?.country) == -1 ? '' : siteCountry[siteCountry.findIndex((el) => el.value == userInputs?.country)]}
                                       onChange={(e) => handleChange(e?.value, "country")}
                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                     />
                                     {error?.country ? (
                                       <div className="login-validation">{error?.country}</div>
                                     ) : null}
-                                    </>
-                                    : null
-                                  }
                                 </div>
                             </Col>
                             <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                     <label>Site number <span>*</span></label>
-                                    {
-                                      typeof siteNumber !== "undefined" && siteNumber.length > 0 ?
-                                      <>
                                       <Select
                                         options={siteNumber}
                                         placeholder="Select site number"
                                         name="sitenumber"
+                                        value={siteNumber.findIndex((el) => el.value == userInputs?.sitenumber) == -1 ? '' : siteNumber[siteNumber.findIndex((el) => el.value == userInputs?.sitenumber)]}
                                         onChange={(e) => handleChange(e?.value, "sitenumber")}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        isClearable={true}
                                       />
-
-                                        {error?.sitenumber ? (
-                                          <div className="login-validation">{error?.sitenumber}</div>
-                                        ) : null}
-                                      </>
-                                      : null
-                                    }
+                                      {error?.sitenumber ? (
+                                        <div className="login-validation">{error?.sitenumber}</div>
+                                      ) : null}
                                 </div>
                             </Col>
                         </Row>
                         <div className="submit-btn">
+
                             <Button className='btn btn-filled' onClick={submitHandler} role="button">Submit</Button>
                         </div>
                     </Form>
+
                 </div>
                 <div className="footer-content">
                     <p>This content is for invited healthcare professionals only. Please do not share this link with
@@ -203,7 +254,7 @@ const RDRegister = () => {
             </Modal.Body>
           </div>
         </Modal>
-        
+
     </div>
     </>
   )
