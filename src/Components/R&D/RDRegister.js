@@ -88,14 +88,54 @@ const RDRegister = () => {
           });
         // }
     } else if(isSelectedName == "sitenumber"){
+
+        let site_name_value =  "";
+        Object.entries(apiData?.site_data).forEach(([key, value]) => {
+            if(e == key){
+              site_name_value = value;
+            }
+        });
+
+        let site_city_value =  "";
+        Object.entries(apiData?.site_city_data).forEach(([key, value]) => {
+            if(e == key){
+              site_city_value = value
+            }
+        });
+
       setInputs({
         name: userInputs?.name,
         email: userInputs?.email,
         country: userInputs?.country,
         institution: userInputs?.institution,
         sitenumber: e,
-        sitename:"",
-        sitecity:"",
+        sitename:site_name_value,
+        sitecity:site_city_value,
+      });
+    }else if(isSelectedName == "sitename"){
+
+        let site_number_value =  "";
+        Object.entries(apiData?.site_data).forEach(([key, value]) => {
+            if(e == value){
+              site_number_value = key;
+            }
+        });
+
+        let site_city_value =  "";
+        Object.entries(apiData?.site_city_data).forEach(([key, value]) => {
+            if(site_number_value == key){
+              site_city_value = value
+            }
+        });
+
+      setInputs({
+        name: userInputs?.name,
+        email: userInputs?.email,
+        country: userInputs?.country,
+        institution: userInputs?.institution,
+        sitenumber: site_number_value,
+        sitename:e,
+        sitecity:site_city_value,
       });
     }else{
       setInputs({
@@ -113,7 +153,10 @@ const RDRegister = () => {
         if(e == "site_name") {
           setInstitutionFlag(true);
           let objcountry = Object.values(apiData?.site_country_data);
-          let countryValues = new Set(objcountry);
+          let countryValuesSet = new Set(objcountry);
+          const sortedArray = [...countryValuesSet].sort();
+          // (optional) convert the sorted array back to a Set object
+          let countryValues = new Set(sortedArray);
           let country = [];
           countryValues?.forEach(element => {
             country.push({label:element,value:element == "Bosnia and Herzegovina" ?  "B&H" : element})
@@ -139,13 +182,15 @@ const RDRegister = () => {
             }
         });
         setSiteNumber(newSite);
-        // let siteName = [];
-        // Object.entries(apiData?.site_data).forEach(([key, value]) => {
-        //     if(sitenumb.includes(key)){
-        //       siteName.push({label:value,value:value})
-        //     }
-        // });
-        setSiteName([]);
+
+        let siteName = [];
+        Object.entries(apiData?.site_data).forEach(([key, value]) => {
+            if(sitenumb.includes(key)){
+              siteName.push({label:value,value:value})
+            }
+        });
+        setSiteName(siteName);
+
         //
         // let siteCity = [];
         // Object.entries(apiData?.site_city_data).forEach(([key, value]) => {
@@ -159,21 +204,32 @@ const RDRegister = () => {
         //       }
         //     }
         // });
-        setSiteCity([]);
+        // setSiteCity(siteCity);
     }
 
-    if(isSelectedName == "sitenumber"){
-        let siteName = [];
-        Object.entries(apiData?.site_data).forEach(([key, value]) => {
-            if(e == key){
-              siteName.push({label:value,value:value})
+    if(isSelectedName == "sitenumber" || isSelectedName == "sitename"){
+        // let siteName = [];
+        // Object.entries(apiData?.site_data).forEach(([key, value]) => {
+        //     if(e == key){
+        //       siteName.push({label:value,value:value})
+        //     }
+        // });
+        // setSiteName(siteName);
+
+        let site_value =  "";
+        if(isSelectedName == "sitename"){
+          Object.entries(apiData?.site_data).forEach(([key, value]) => {
+            if(e == value){
+              site_value = key;
             }
-        });
-        setSiteName(siteName);
+          });
+        }else{
+          site_value =  e;
+        }
 
         let siteCity = [];
         Object.entries(apiData?.site_city_data).forEach(([key, value]) => {
-            if(e == key){
+            if(site_value == key){
               siteCity.push({label:value,value:value})
             }
         });
@@ -205,7 +261,7 @@ const RDRegister = () => {
       setError(err);
       return;
     } else {
-      console.log(userInputs);
+      // console.log(userInputs);
       loader("show");
       try {
         const options = {
