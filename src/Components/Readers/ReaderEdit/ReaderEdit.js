@@ -179,6 +179,7 @@ const ReaderEdit = () => {
       blind_type: hasData?.data?.data?.blind_type,
       siteName: hasData?.data?.data?.siteName,
       siteNumber: hasData?.data?.data?.siteNumber,
+      sideData: hasData?.data?.data?.sideData,
       irt: hasData?.data?.data?.irt,
     });
     loader("hide");
@@ -186,10 +187,33 @@ const ReaderEdit = () => {
 
   const initialReaderFun = async () => {
     loader("show");
-    const hasData = await getData(`${ENDPOINT.READER_GET_READER_USER}/${id} `);
-    setAddReaderInputs(hasData?.data?.data);
+    try{
+      const hasData = await getData(`${ENDPOINT.READER_GET_READER_USER}/${id} `);
+      if(hasData?.data?.data?.country == "B&H"){
+        hasData.data.data.country = "Bosnia and Herzegovina";
+      }
 
-    loader("hide");
+      // let userCountry = hasData?.data?.data?.country;
+      // let newSite=[],newSiteNumber =[];
+      // userDetail?.sideData?.forEach(item =>{
+      //       if(item?.country == userCountry){
+      //         newSite.push({label:item?.site_name,value:item?.site_name})
+      //         newSiteNumber.push({label:item.site_number,value:item?.site_number})
+      //       }
+      // })
+      // console.log(userDetail?.sideData,newSite,newSiteNumber);
+      // setUserDetail({
+      //   ...userDetail,
+      //   siteName:newSite,
+      //   siteNumber: newSiteNumber,
+      // });
+
+      setAddReaderInputs(hasData?.data?.data);
+      loader("hide");
+    }catch(err){
+      console.log(err);
+      loader("hide");
+    }
   };
 
   const addNewProductClicked = (statusMsg, e) => {
@@ -244,15 +268,51 @@ const ReaderEdit = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-
-    setAddReaderInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+    if(isSelectedName == "country"){
+       let newSite=[],newSiteNumber =[]
+       userDetail?.sideData?.forEach(item =>{
+             let countryUpdated = e
+             if(countryUpdated == "Bosnia and Herzegovina"){
+                 countryUpdated="B&H";
+             }
+             if(item?.country == e){
+               newSite.push({label:item?.site_name,value:item?.site_name})
+               newSiteNumber.push({label:item.site_number,value:item?.site_number})
+             }
+       })
+       setUserDetail({
+         ...userDetail,
+         flag:1,
+         siteName:newSite,
+         siteNumber: newSiteNumber,
+       });
+     setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteNumber"]:"",["siteName"]:""})
+   }else if(isSelectedName == "siteNumber"){
+     let siteName = "";
+     userDetail?.sideData?.forEach(item =>{
+             if(item?.site_number == e){
+               siteName = item?.site_name;
+             }
+       })
+     setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteName"]:siteName})
+   }else if(isSelectedName == "siteName"){
+     let siteNum = "";
+     userDetail?.sideData?.forEach(item =>{
+             if(item?.site_name == e){
+               siteNum = item?.site_number;
+             }
+       })
+     setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteNumber"]:siteNum})
+   }else{
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
         ? e?.target?.files
-          ? e?.target?.files
-          : e
+        ? e?.target?.files
+        : e
         : e?.target?.value,
-    });
+      });
+    }
   };
 
   const handleFileUpload = async (e) => {
@@ -375,36 +435,6 @@ const ReaderEdit = () => {
             className="dropdown-basic-button split-button-dropup"
             isClearable
             onChange={(e) => handleChange(e?.value, "irt")}
-          />
-        </Form.Group>
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">Site Number </Form.Label>
-          <Select
-            options={userDetail?.siteNumber}
-            defaultValue={{
-              label: userInputs?.siteNumber,
-              value: userInputs?.siteNumber,
-            }}
-            placeholder="Select Site Number"
-            name="siteNumber"
-            className="dropdown-basic-button split-button-dropup"
-            isClearable
-            onChange={(e) => handleChange(e?.value, "siteNumber")}
-          />
-        </Form.Group>
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">Site Name </Form.Label>
-          <Select
-            options={userDetail?.siteName}
-            defaultValue={{
-              label: userInputs?.siteName,
-              value: userInputs?.siteName,
-            }}
-            placeholder="Select Site Name "
-            name="siteName"
-            className="dropdown-basic-button split-button-dropup"
-            isClearable
-            onChange={(e) => handleChange(e?.value, "siteName")}
           />
         </Form.Group>
       </>
@@ -654,6 +684,48 @@ const ReaderEdit = () => {
                           )}
                         </Form.Group>
                       </>
+                    ) : (
+                      ""
+                    )}
+
+                    {userInputs ? (
+                      <>{groupId == 3 && flag == 1 ?
+                        <>
+                          <Form.Group className="form-group">
+                            <Form.Label htmlFor="">Site Number </Form.Label>
+                            <Select
+                              options={userDetail?.siteNumber}
+                              defaultValue={{
+                                label: userInputs?.siteNumber,
+                                value: userInputs?.siteNumber,
+                              }}
+                              value={userDetail?.siteNumber.findIndex((el) => el.value == userInputs?.siteNumber) == -1 ? '' : userDetail?.siteNumber[userDetail?.siteNumber.findIndex((el) => el.value == userInputs?.siteNumber)]}
+                              placeholder="Select Site Number"
+                              name="siteNumber"
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                              onChange={(e) => handleChange(e?.value, "siteNumber")}
+                            />
+                          </Form.Group>
+                          <Form.Group className="form-group">
+                            <Form.Label htmlFor="">Site Name </Form.Label>
+                            <Select
+                              options={userDetail?.siteName}
+                              defaultValue={{
+                                label: userInputs?.siteName,
+                                value: userInputs?.siteName,
+                              }}
+                              value={userDetail?.siteName.findIndex((el) => el.value == userInputs?.siteName) == -1 ? '' : userDetail?.siteName[userDetail?.siteName.findIndex((el) => el.value == userInputs?.siteName)]}
+                              placeholder="Select Site Name "
+                              name="siteName"
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                              onChange={(e) => handleChange(e?.value, "siteName")}
+                            />
+                          </Form.Group>
+                        </>
+                         :
+                         ""}</>
                     ) : (
                       ""
                     )}
