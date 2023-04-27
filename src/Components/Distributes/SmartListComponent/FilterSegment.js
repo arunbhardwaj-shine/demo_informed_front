@@ -10,6 +10,8 @@ import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 const FilterSegment = (props) => {
+  console.log("props.filter", props.filters);
+
   const tableCompRef = useRef();
   const Navigate = useNavigate();
   const [filters, setFilters] = useState(props.filters);
@@ -1129,8 +1131,12 @@ const FilterSegment = (props) => {
                                 <h6>Speciality</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {Object.entries(filters.speciality).map(
-                                      ([index, item]) => (
+                                    {(() => {
+                                      let entries = Object.entries(
+                                        filters.speciality
+                                      );
+                                      entries.unshift(["All", "All"]);
+                                      return entries.map(([index, item]) => (
                                         <li key={index}>
                                           <div className="select-multiple-option">
                                             <input
@@ -1153,8 +1159,8 @@ const FilterSegment = (props) => {
                                           </div>
                                           {item}
                                         </li>
-                                      )
-                                    )}
+                                      ));
+                                    })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1282,8 +1288,12 @@ const FilterSegment = (props) => {
                                 <h6>Country</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {Object.entries(filters.country).map(
-                                      ([index, item]) => (
+                                    {(() => {
+                                      let entries = Object.entries(
+                                        filters.country
+                                      );
+                                      entries.unshift(["All", "All"]);
+                                      return entries.map(([index, item]) => (
                                         <li key={index}>
                                           <div className="select-multiple-option">
                                             <input
@@ -1306,8 +1316,8 @@ const FilterSegment = (props) => {
                                           </div>
                                           {item}
                                         </li>
-                                      )
-                                    )}
+                                      ));
+                                    })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1474,32 +1484,36 @@ const FilterSegment = (props) => {
                                 <h6>Role</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {Object.entries(
-                                      filters.investigator_type
-                                    ).map(([index, item]) => (
-                                      <li>
-                                        <div className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-investigator_type-${index}`}
-                                            name="investigator_type[]"
-                                            value={item}
-                                            checked={
-                                              typeof selectedinvestigatorType !==
-                                                "undefined" &&
-                                              selectedinvestigatorType.indexOf(
-                                                item
-                                              ) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnInvestigatorChange(item)
-                                            }
-                                          />
-                                          <span className="checkmark"></span>
-                                        </div>
-                                        {item}
-                                      </li>
-                                    ))}
+                                    {(() => {
+                                      let entries = Object.entries(
+                                        filters.investigator_type
+                                      );
+                                      entries.unshift(["All", "All"]);
+                                      return entries.map(([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-investigator_type-${index}`}
+                                              name="investigator_type[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedinvestigatorType !==
+                                                  "undefined" &&
+                                                selectedinvestigatorType.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnInvestigatorChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      ));
+                                    })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1513,8 +1527,12 @@ const FilterSegment = (props) => {
                                 <h6>Sub Roles</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {Object.entries(filters.sub_role).map(
-                                      ([index, item]) => (
+                                    {(() => {
+                                      let entries = Object.entries(
+                                        filters.sub_role
+                                      );
+                                      entries.unshift(["All", "All"]);
+                                      return entries.map(([index, item]) => (
                                         <li key={item}>
                                           <div className="select-multiple-option">
                                             <input
@@ -1537,8 +1555,8 @@ const FilterSegment = (props) => {
                                           </div>
                                           {item}
                                         </li>
-                                      )
-                                    )}
+                                      ));
+                                    })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1681,34 +1699,40 @@ const FilterSegment = (props) => {
                                             {key}
                                           </li>
                                         ))
-                                      : Object.entries(filters.site_number).map(
-                                          ([index, item]) => (
-                                            <li>
-                                              <div className="select-multiple-option">
-                                                <input
-                                                  type="checkbox"
-                                                  id={`custom-checkbox-site_number-${index}`}
-                                                  name="site_number[]"
-                                                  value={item}
-                                                  checked={
-                                                    typeof selectedsitenumber !==
-                                                      "undefined" &&
-                                                    selectedsitenumber.indexOf(
-                                                      item
-                                                    ) !== -1
-                                                  }
-                                                  onChange={() =>
-                                                    handleOnSiteNumberChange(
-                                                      item
-                                                    )
-                                                  }
-                                                />
-                                                <span className="checkmark"></span>
-                                              </div>
-                                              {item}
-                                            </li>
-                                          )
-                                        )}
+                                      : (() => {
+                                          let entries = Object.entries(
+                                            filters.site_number
+                                          );
+                                          entries.unshift(["All", "All"]);
+                                          return entries.map(
+                                            ([index, item]) => (
+                                              <li>
+                                                <div className="select-multiple-option">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-site_number-${index}`}
+                                                    name="site_number[]"
+                                                    value={item}
+                                                    checked={
+                                                      typeof selectedsitenumber !==
+                                                        "undefined" &&
+                                                      selectedsitenumber.indexOf(
+                                                        item
+                                                      ) !== -1
+                                                    }
+                                                    onChange={() =>
+                                                      handleOnSiteNumberChange(
+                                                        item
+                                                      )
+                                                    }
+                                                  />
+                                                  <span className="checkmark"></span>
+                                                </div>
+                                                {item}
+                                              </li>
+                                            )
+                                          );
+                                        })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1747,32 +1771,40 @@ const FilterSegment = (props) => {
                                             {key}
                                           </li>
                                         ))
-                                      : Object.entries(filters.site_name).map(
-                                          ([index, item]) => (
-                                            <li>
-                                              <div className="select-multiple-option">
-                                                <input
-                                                  type="checkbox"
-                                                  id={`custom-checkbox-site_name-${index}`}
-                                                  name="site_name[]"
-                                                  value={item}
-                                                  checked={
-                                                    typeof selectedsitename !==
-                                                      "undefined" &&
-                                                    selectedsitename.indexOf(
-                                                      item
-                                                    ) !== -1
-                                                  }
-                                                  onChange={() =>
-                                                    handleOnSiteNameChange(item)
-                                                  }
-                                                />
-                                                <span className="checkmark"></span>
-                                              </div>
-                                              {item}
-                                            </li>
-                                          )
-                                        )}
+                                      : (() => {
+                                          let entries = Object.entries(
+                                            filters.site_name
+                                          );
+                                          entries.unshift(["All", "All"]);
+                                          return entries.map(
+                                            ([index, item]) => (
+                                              <li>
+                                                <div className="select-multiple-option">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-site_name-${index}`}
+                                                    name="site_name[]"
+                                                    value={item}
+                                                    checked={
+                                                      typeof selectedsitename !==
+                                                        "undefined" &&
+                                                      selectedsitename.indexOf(
+                                                        item
+                                                      ) !== -1
+                                                    }
+                                                    onChange={() =>
+                                                      handleOnSiteNameChange(
+                                                        item
+                                                      )
+                                                    }
+                                                  />
+                                                  <span className="checkmark"></span>
+                                                </div>
+                                                {item}
+                                              </li>
+                                            )
+                                          );
+                                        })()}
                                   </ul>
                                 </div>
                               </div>
