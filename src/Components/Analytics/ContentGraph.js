@@ -9,9 +9,9 @@ import HighchartsReact from "highcharts-react-official";
 import DocintelAccount from "./DocintelAccount";
 const ContentGraph = () => {
   const [data, setData] = useState({});
-const [isDataFound, setIsDataFound] = useState(false);
-const [sectionLoader, setSectionLoader] = useState(false);
-const [apiCallStatus, setApiCallStatus] = useState(false);
+  const [isDataFound, setIsDataFound] = useState(false);
+  const [sectionLoader, setSectionLoader] = useState(false);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
 
   Highcharts.setOptions({
     colors: [
@@ -104,19 +104,18 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
     setSectionLoader(true);
     setApiCallStatus(false);
     try {
-      let requestBody
-      if(localStorage.getItem("user_id")=="iSnEsKu5gB/DRlycxB6G4g=="){
-         requestBody = {
+      let requestBody;
+      if (localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==") {
+        requestBody = {
           type: "octa",
         };
-      }
-      else{
+      } else {
         requestBody = {
           type: type,
         };
       }
 
-      const response = await postData(ENDPOINT.CONTENTTYPE, requestBody);
+      const response = await postData(ENDPOINT.CIS_CONTENT_TYPE, requestBody);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
@@ -125,18 +124,17 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
       setData(hadData);
       // setSectionLoader(false);
 
-      if(type = "all"){
+      if (type == "all") {
         getDataContentGraph();
-      }else if(type = "haematology"){
+      } else if (type == "Haematology") {
         getDataContentGraph("Haematology");
-      }else if(type = "critcal_care"){
-        getDataContentGraph("Critcal_care");
-      }else if(type = "immunology"){
+      } else if (type == "critcal_care") {
+        getDataContentGraph("cc");
+      } else if (type == "immunology") {
         getDataContentGraph("imu");
-      }else{
+      } else {
         getDataContentGraph(type);
       }
-
     } catch (err) {
       setIsDataFound(false);
       // setSectionLoader(false);
@@ -145,13 +143,12 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
     // console.log(chart.current)
   };
 
-
   const getDataContentGraph = async (type = "") => {
+    console.log("type", type);
     // setSectionLoader(true);
     // setApiCallStatus(false);
     try {
-
-      let requestBody = {type: type};
+      let requestBody = { type: type };
       const response = await postData(ENDPOINT.CONTENT_TYPE_GRAPH, requestBody);
 
       const hadData = response?.data?.data?.data;
@@ -197,13 +194,13 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
       getDataFromApi("all");
       // getDataContentGraph("");
     } else if (event == 2) {
-      getDataFromApi("haematology");
+      getDataFromApi("Haematology");
       // getDataContentGraph("Haematology");
     } else if (event == 3) {
-      getDataFromApi("critcal_care");
-      // getDataContentGraph("Critcal_care");
+      getDataFromApi("cc");
+      // getDataContentGraph("cc");
     } else if (event == 4) {
-      getDataFromApi("immunology");
+      getDataFromApi("imu");
       // getDataContentGraph("imu");
     } else if (event == 5) {
       getDataFromApi("ibu");
@@ -262,66 +259,71 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
   return (
     <>
       <Col className="right-sidebar">
-          <div className="custom-container">
-            <Row>
-              <div className="top-header">
-                <div className="page-title d-flex">
-                      <h2>Content in activated HCP Docintel accounts</h2>
+        <div className="custom-container">
+          <Row>
+            <div className="top-header">
+              <div className="page-title d-flex">
+                <h2>Content in activated HCP Docintel accounts</h2>
+              </div>
+            </div>
+            <div className="create-change-content spc-content analytic-charts">
+              <div
+                className="delivery-trends space-added"
+                style={{ padding: "10px" }}
+              >
+                <div className="tabs_content_load">
+                  <Tabs
+                    defaultActiveKey={activeTab.current}
+                    onSelect={handleTabChange}
+                  >
+                    <Tab eventKey="1" title="All Business Units"></Tab>
+                    <Tab eventKey="2" title="Haematology"></Tab>
+                    <Tab eventKey="3" title="Critical Care"></Tab>
+                    <Tab eventKey="4" title="Immunotherapy"></Tab>
+                    <Tab eventKey="5" title="IBU">
+                      {" "}
+                    </Tab>
+                  </Tabs>
+
+                  {isDataFound && data.length > 0 ? (
+                    <>
+                      <div className="high_charts mb-4">
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={lineOption}
+                        />
+                      </div>
+                      {/*<div className="con_title">
+                                Content in activated HCP Docintel accounts
+                              </div>*/}
+
+                      <DocintelAccount data={activeTab.current ? data : null} />
+                    </>
+                  ) : apiCallStatus ? (
+                    <div className="no_found">
+                      <p>No Data Found</p>
+                    </div>
+                  ) : null}
+
+                  {sectionLoader ? (
+                    <div
+                      className={
+                        "loader tab-inside " + (sectionLoader ? "show" : "")
+                      }
+                      id="custom_loader"
+                    >
+                      <div className="loader_show">
+                        <span className="loader-view"> </span>
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
-              <div className="create-change-content spc-content analytic-charts">
-                  <div className="delivery-trends space-added" style={{padding:"10px"}}>
-                      <div className="tabs_content_load">
-                        <Tabs
-                          defaultActiveKey={activeTab.current}
-                          onSelect={handleTabChange}
-                        >
-                          <Tab eventKey="1" title="All Business Units"></Tab>
-                          <Tab eventKey="2" title="Haematology"></Tab>
-                          <Tab eventKey="3" title="Critical Care"></Tab>
-                          <Tab eventKey="4" title="Immunotherapy"></Tab>
-                          <Tab eventKey="5" title="IBU">  </Tab>
-                        </Tabs>
-
-
-
-                          {isDataFound && data.length > 0 ? (
-                            <>
-                            <div className="high_charts mb-4">
-                              <HighchartsReact
-                                highcharts={Highcharts}
-                                options={lineOption}
-                              />
-                            </div>
-                            {
-                              /*<div className="con_title">
-                                Content in activated HCP Docintel accounts
-                              </div>*/
-                            }
-
-                            <DocintelAccount data={activeTab.current ? data:null} />
-                            </>
-                          ) :
-                          apiCallStatus ?
-                          <div className="no_found">
-                                 <p>No Data Found</p>
-                           </div>
-                           : null
-                          }
-
-                        {
-                          sectionLoader ?
-
-                          <div className={"loader tab-inside "+ (sectionLoader ? 'show' : '')} id="custom_loader">
-                            <div className="loader_show"><span className="loader-view"> </span></div>
-                          </div>
-                          : ''
-                        }
-                      </div>
-                  </div>
-              </div>
-            </Row>
-          </div>
+            </div>
+          </Row>
+        </div>
       </Col>
     </>
   );

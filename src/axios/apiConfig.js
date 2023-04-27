@@ -55,6 +55,7 @@ export const ENDPOINT = {
   MAPLOCATION: `analytics/map-location`,
   REPORTS: "analytics/reports",
   CONTENTTYPE: "analytics/content-type",
+  CIS_CONTENT_TYPE: "analytics/contentTypeData",
   CONTENT_TYPE_GRAPH: "/analytics/content-type-graph",
   CONTENT: "analytics/content",
   TRENDING_TOPIC: "analytics/topic",
