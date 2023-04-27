@@ -12,13 +12,25 @@ const RDRegister = () => {
   const [show, setShow] = useState(false);
   const [siteCountry, setSiteCountry] = useState([]);
   const [siteNumber, setSiteNumber] = useState([]);
+  const [siteName, setSiteName] = useState([]);
+  const [siteCity, setSiteCity] = useState([]);
   const [apiData, setApiData] = useState([]);
   const [error, setError] = useState({});
+  const [institutionFlag, setInstitutionFlag] = useState(false);
+  const [siteInstitution, setSiteInstitution] = useState([
+    { value: "site_name", label: "Site Name" },
+    { value: "cro", label: "CRO" },
+    { value: "comac", label: "Comac" },
+    { value: "octapharma", label: "Octapharma" },
+  ]);
   const [userInputs, setInputs] = useState({
     name: "",
     email: "",
     country: "",
+    institution: "",
     sitenumber: "",
+    sitename: "",
+    sitecity: "",
   });
 
   useEffect(() => {
@@ -58,7 +70,32 @@ const RDRegister = () => {
         name: userInputs?.name,
         email: userInputs?.email,
         country: e,
+        institution:userInputs?.institution,
         sitenumber: "",
+        sitename:"",
+        sitecity:"",
+      });
+    }else if(isSelectedName == "institution"){
+        // if(e == "site_name") {
+          setInputs({
+            name: userInputs?.name,
+            email: userInputs?.email,
+            country: "",
+            institution: e,
+            sitenumber: "",
+            sitename:"",
+            sitecity:"",
+          });
+        // }
+    } else if(isSelectedName == "sitenumber"){
+      setInputs({
+        name: userInputs?.name,
+        email: userInputs?.email,
+        country: userInputs?.country,
+        institution: userInputs?.institution,
+        sitenumber: e,
+        sitename:"",
+        sitecity:"",
       });
     }else{
       setInputs({
@@ -71,18 +108,76 @@ const RDRegister = () => {
       });
     }
 
-    if(isSelectedName == "country"){
-      let newSite = [];
-      Object.entries(apiData?.site_country_data).forEach(([key, value]) => {
-          if(e == "B&H"){
-            e = "Bosnia and Herzegovina";
-          }
-          if(value == e){
-            newSite.push({label:key,value:key})
-          }
-      });
 
-      setSiteNumber(newSite);
+    if(isSelectedName == "institution"){
+        if(e == "site_name") {
+          setInstitutionFlag(true);
+          let objcountry = Object.values(apiData?.site_country_data);
+          let countryValues = new Set(objcountry);
+          let country = [];
+          countryValues?.forEach(element => {
+            country.push({label:element,value:element == "Bosnia and Herzegovina" ?  "B&H" : element})
+          });
+          setSiteCountry(country);
+        }else{
+          let updatedCountry = createSelectObj(apiData?.country);
+          setSiteCountry(updatedCountry);
+          setInstitutionFlag(false);
+        }
+    }
+
+    if(isSelectedName == "country"){
+        let newSite = [];
+        let sitenumb = [];
+        Object.entries(apiData?.site_country_data).forEach(([key, value]) => {
+            if(e == "B&H"){
+              e = "Bosnia and Herzegovina";
+            }
+            if(value == e){
+              newSite.push({label:key,value:key})
+              sitenumb.push(key);
+            }
+        });
+        setSiteNumber(newSite);
+        // let siteName = [];
+        // Object.entries(apiData?.site_data).forEach(([key, value]) => {
+        //     if(sitenumb.includes(key)){
+        //       siteName.push({label:value,value:value})
+        //     }
+        // });
+        setSiteName([]);
+        //
+        // let siteCity = [];
+        // Object.entries(apiData?.site_city_data).forEach(([key, value]) => {
+        //     if(sitenumb.includes(key)){
+        //       if(siteCity.length > 0){
+        //         if(siteCity.findIndex((el) => el.value == value) == -1){
+        //           siteCity.push({label:value,value:value})
+        //         }
+        //       }else{
+        //         siteCity.push({label:value,value:value})
+        //       }
+        //     }
+        // });
+        setSiteCity([]);
+    }
+
+    if(isSelectedName == "sitenumber"){
+        let siteName = [];
+        Object.entries(apiData?.site_data).forEach(([key, value]) => {
+            if(e == key){
+              siteName.push({label:value,value:value})
+            }
+        });
+        setSiteName(siteName);
+
+        let siteCity = [];
+        Object.entries(apiData?.site_city_data).forEach(([key, value]) => {
+            if(e == key){
+              siteCity.push({label:value,value:value})
+            }
+        });
+        setSiteCity(siteCity);
     }
   };
 
@@ -106,27 +201,55 @@ const RDRegister = () => {
       userInputs,
     );
     if (Object.keys(err)?.length) {
+      console.log(err);
       setError(err);
       return;
     } else {
+      console.log(userInputs);
       loader("show");
       try {
+        const options = {
+          headers: {'Content-Type': 'application/json'}
+        };
         await axios
-          .post(ENDPOINT.REGISTERRD, userInputs)
+          .post(ENDPOINT.REGISTERRD, userInputs,options)
           .then((response) => {
+            if(response?.data?.status_code == 200){
+              setInputs({
+                name: "",
+                email: "",
+                country: "",
+                institution: "",
+                sitenumber: "",
+                sitename: "",
+                sitecity: "",
+              });
+              document.getElementById("myForm").reset();
+              setError({});
+              setShow(true);
+            }else{
+              let obj = {"Api": response?.data?.message};
+              setError(obj);
+            }
             loader("hide");
           });
       }catch(err){
         console.log(err);
         loader("hide");
       }
-      // setError({});
-      // setShow(true);
     }
   }
 
   return (
     <>
+    {
+      /*Loader code*/
+    }
+    <div className="loader" id="custom_loader">
+      <div className="loader_show">
+        <span className="loader-view"> </span>
+      </div>
+    </div>
     <div className="rd-main-wrapper">
         <Container>
             <div className="container-sm">
@@ -141,13 +264,16 @@ const RDRegister = () => {
                     </div>
                 </div>
                 <div className="form-wrapper">
+                    {error?.Api ? (
+                      <div className="common-login-validation">{error?.Api}</div>
+                    ) : null}
                     <div className="form-head-sec">
                         <h3>
                             Access is only for Study participants. Please check your details and give your consent for
                             Octapharma to track your engagement with the content provided.
                         </h3>
                     </div>
-                    <Form className="form">
+                    <Form className="form" id="myForm">
                         <Row>
                             <Col md={6}>
                                 <div className="form-group">
@@ -169,13 +295,32 @@ const RDRegister = () => {
                                     ) : null}
                                 </div>
                             </Col>
+
                             <Col md={6}>
+                                <div className="form-group">
+                                  <label>Institution <span>*</span></label>
+                                    <Select
+                                      options={siteInstitution}
+                                      placeholder="Select institution"
+                                      name="institution"
+                                      value={siteInstitution.findIndex((el) => el.value == userInputs?.institution) == -1 ? '' : siteInstitution[siteInstitution.findIndex((el) => el.value == userInputs?.institution)]}
+                                      onChange={(e) => handleChange(e?.value, "institution")}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                    />
+                                    {error?.institution ? (
+                                      <div className="login-validation">{error?.institution}</div>
+                                    ) : null}
+                                </div>
+                            </Col>
+
+                            <Col md={6} className='d-flex justify-content-end'>
                                 <div className="form-group">
                                   <label>Country <span>*</span></label>
                                     <Select
                                       options={siteCountry}
                                       placeholder="Select country"
                                       name="country"
+                                      value={siteCountry.findIndex((el) => el.value == userInputs?.country) == -1 ? '' : siteCountry[siteCountry.findIndex((el) => el.value == userInputs?.country)]}
                                       onChange={(e) => handleChange(e?.value, "country")}
                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                     />
@@ -184,28 +329,73 @@ const RDRegister = () => {
                                     ) : null}
                                 </div>
                             </Col>
-                            <Col md={6} className='d-flex justify-content-end'>
-                                <div className="form-group">
-                                    <label>Site number <span>*</span></label>
-                                      <Select
-                                        options={siteNumber}
-                                        placeholder="Select site number"
-                                        name="sitenumber"
-                                        value={siteNumber.findIndex((el) => el.value == userInputs?.sitenumber) == -1 ? '' : siteNumber[siteNumber.findIndex((el) => el.value == userInputs?.sitenumber)]}
-                                        onChange={(e) => handleChange(e?.value, "sitenumber")}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        isClearable={true}
-                                      />
-                                      {error?.sitenumber ? (
-                                        <div className="login-validation">{error?.sitenumber}</div>
-                                      ) : null}
-                                </div>
-                            </Col>
+
+                            {
+                              institutionFlag ?
+                                <>
+                                    <Col md={6}>
+                                        <div className="form-group">
+                                            <label>Site number <span>*</span></label>
+                                              <Select
+                                                options={siteNumber}
+                                                placeholder="Select site number"
+                                                name="sitenumber"
+                                                value={siteNumber.findIndex((el) => el.value == userInputs?.sitenumber) == -1 ? '' : siteNumber[siteNumber.findIndex((el) => el.value == userInputs?.sitenumber)]}
+                                                onChange={(e) => handleChange(e?.value, "sitenumber")}
+                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                isClearable={true}
+                                              />
+                                              {error?.sitenumber ? (
+                                                <div className="login-validation">{error?.sitenumber}</div>
+                                              ) : null}
+                                        </div>
+                                    </Col>
+
+                                    <Col md={6} className='d-flex justify-content-end'>
+                                        <div className="form-group">
+                                            <label>Site name <span>*</span></label>
+                                              <Select
+                                                options={siteName}
+                                                placeholder="Select site name"
+                                                name="sitename"
+                                                value={siteName.findIndex((el) => el.value == userInputs?.sitename) == -1 ? '' : siteName[siteName.findIndex((el) => el.value == userInputs?.sitename)]}
+                                                onChange={(e) => handleChange(e?.value, "sitename")}
+                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                isClearable={true}
+                                              />
+                                              {error?.sitename ? (
+                                                <div className="login-validation">{error?.sitename}</div>
+                                              ) : null}
+                                        </div>
+                                    </Col>
+
+                                    <Col md={6}>
+                                        <div className="form-group">
+                                            <label>Site city <span>*</span></label>
+                                              <Select
+                                                options={siteCity}
+                                                placeholder="Select site city"
+                                                name="sitecity"
+                                                value={siteCity.findIndex((el) => el.value == userInputs?.sitecity) == -1 ? '' : siteCity[siteCity.findIndex((el) => el.value == userInputs?.sitecity)]}
+                                                onChange={(e) => handleChange(e?.value, "sitecity")}
+                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                isClearable={true}
+                                              />
+                                              {error?.sitecity ? (
+                                                <div className="login-validation">{error?.sitecity}</div>
+                                              ) : null}
+                                        </div>
+                                    </Col>
+                                </>
+                              : null
+                            }
                         </Row>
                         <div className="submit-btn">
+
                             <Button className='btn btn-filled' onClick={submitHandler} role="button">Submit</Button>
                         </div>
                     </Form>
+
                 </div>
                 <div className="footer-content">
                     <p>This content is for invited healthcare professionals only. Please do not share this link with

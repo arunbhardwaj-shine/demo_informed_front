@@ -161,12 +161,13 @@ const NewReaders = () => {
 
       let total_results = 0;
       if (page != 1) {
-        total_results = res?.data?.data?.result?.length + readerDataList?.length;
+        total_results =
+          res?.data?.data?.result?.length + readerDataList?.length;
         setReaderDataList((oldArray) => [
           ...oldArray,
           ...res?.data?.data?.result,
         ]);
-      } else {  
+      } else {
         total_results = res?.data?.data?.result?.length;
         setReaderDataList(res?.data?.data?.result);
       }
@@ -177,7 +178,6 @@ const NewReaders = () => {
         setIsLoaded(false);
       }
 
-     
       setPageAll(false);
       setApiCallStatus(true);
       loader("hide");
@@ -240,13 +240,18 @@ const NewReaders = () => {
   };
 
   const handleOnFilterChange = (e, item, index, key) => {
-
     if (!filterObject[key]) {
       filterObject[key] = [];
     }
 
     if (e?.target?.checked == true) {
-      if (key == "status" || key == "contactType" ||  key == "userAction" || key == "webinarRegistered" ||  key == "List") {
+      if (
+        key == "status" ||
+        key == "contactType" ||
+        key == "userAction" ||
+        key == "webinarRegistered" ||
+        key == "List"
+      ) {
         filterObject[key] = [];
       }
       filterObject[key]?.push(item);
@@ -290,7 +295,6 @@ const NewReaders = () => {
       ...prevSiteNumbers,
       [index]: siteNumbers,
     }));
-  
 
     let consent = {
       index: i,
@@ -392,12 +396,25 @@ const NewReaders = () => {
     );
     const selectedCountry1 = selectedItem.country;
     const defaultValue = { value: selectedCountry1, label: selectedCountry1 };
-    setSelectedCountry((prevSiteNumbers) => ({
-      ...prevSiteNumbers,
-      [index]: defaultValue,
-    }));
-    let consetValue = e.value;
     let consent = {
+      index: i,
+      value: selectedCountry1,
+    };
+    const found1 = changeCountry.some((el) => el.index === i);
+    if (!found1) {
+      setChangeCountry((oldarray) => [...oldarray, consent]);
+    } else {
+      const updatedArray = changeCountry.map((el) =>
+        el.index === i ? { ...el, value: selectedCountry1 } : el
+      );
+      setChangeCountry(updatedArray);
+    }
+    // setSelectedCountry((prevSiteNumbers) => ({
+    //   ...prevSiteNumbers,
+    //   [index]: defaultValue,
+    // }));
+    let consetValue = e.value;
+    consent = {
       index: i,
       value: consetValue,
     };
@@ -512,7 +529,7 @@ const NewReaders = () => {
         }
 
         if (irt !== "") {
-          readerDataList[libDataIndex].irt = irt;
+          readerDataList[libDataIndex].irt = irt == 1 ? "Yes" : "No";
         }
         if (binded !== "") {
           readerDataList[libDataIndex].binded = binded;
@@ -634,14 +651,14 @@ const NewReaders = () => {
   const deleteUser = async (id) => {
     loader("show");
     try {
-        await deleteData(ENDPOINT.DELETEREADER, id);
-        loader("hide");
-        popup_alert({
-          visible: "show",
-          message: "Reader has been deleted <br />successfully !",
-          type: "success",
-          redirect: "",
-        });
+      await deleteData(ENDPOINT.DELETEREADER, id);
+      loader("hide");
+      popup_alert({
+        visible: "show",
+        message: "Reader has been deleted <br />successfully !",
+        type: "success",
+        redirect: "",
+      });
 
       const updatedRes = readerDataList.filter((item) => item.id !== id);
       setReaderDataList(updatedRes);
@@ -775,18 +792,25 @@ const NewReaders = () => {
                                         ? filterdata[key]?.map(
                                             (item, index) => (
                                               <li key={index}>
-                                                {  item != "" ? (
+                                                {item != "" ? (
                                                   <label className="select-multiple-option">
-                                                   
                                                     <input
                                                       type={
                                                         key == "status" ||
-                                                        key == "contactType" ||  key == "userAction" || key == "webinarRegistered" || key == "List"
+                                                        key == "contactType" ||
+                                                        key == "userAction" ||
+                                                        key ==
+                                                          "webinarRegistered" ||
+                                                        key == "List"
                                                           ? "radio"
                                                           : "checkbox"
                                                       }
                                                       id={`custom-checkbox-tags-${index}`}
-                                                      value={typeof item == "object"?item?.title:item}
+                                                      value={
+                                                        typeof item == "object"
+                                                          ? item?.title
+                                                          : item
+                                                      }
                                                       name={key}
                                                       defaultChecked={
                                                         filterObject?.hasOwnProperty(
@@ -801,15 +825,18 @@ const NewReaders = () => {
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
                                                           e,
-                                                          typeof item == "object"?item.id:item,
+                                                          typeof item ==
+                                                            "object"
+                                                            ? item.id
+                                                            : item,
                                                           index,
                                                           key
                                                         )
                                                       }
                                                     />
-                                                    {
-                                                      typeof item == "object"?item?.title:item
-                                                    }
+                                                    {typeof item == "object"
+                                                      ? item?.title
+                                                      : item}
                                                     {/* {key == "draft" &&
                                                       typeof item  == "string" && item == "0"
                                                       ? "live"
@@ -818,9 +845,7 @@ const NewReaders = () => {
                                                       ? "draft" &&  typeof item  == "string"
                                                       : item} */}
                                                     <span className="checkmark"></span>
-                                                   
                                                   </label>
-                                                  
                                                 ) : null}
                                               </li>
                                             )
@@ -1029,17 +1054,18 @@ const NewReaders = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
+                                      {/*<li>
+                                          <h6 className="tab-content-title">
+                                            Role
+                                          </h6>
+                                          <h6>
+                                            {data?.role ? data?.role : "N/A"}
+                                          </h6>
+                                        </li>*/}
+
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Role
-                                        </h6>
-                                        <h6>
-                                          {data?.role ? data?.role : "N/A"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Blinded/Unblinded
+                                          Blinded
                                         </h6>
                                         <h6>
                                           {data?.binded ? data?.binded : "N/A"}
@@ -1064,40 +1090,46 @@ const NewReaders = () => {
                                     </>
                                   ) : (
                                     <>
-                                    {
-                                      data?.ipAddress?"": <li>
-                                      <h6 className="tab-content-title">
-                                        User Status
-                                      </h6>
-                                      <h6>{data?.user_status}</h6>
-                                    </li>
-                                    }
-                                     
-                                      {
-                                        data?.ipAddress?"": <li>
-                                        <h6 className="tab-content-title">
-                                          Interests
-                                        </h6>
-                                        <h6>
-                                          {data?.interests
-                                            ? data?.interests
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                      }
-                                     
-                                      {
-                                        data?.ipAddress?"":<li>
-                                        <h6 className="tab-content-title">
-                                          Last Email
-                                        </h6>
-                                        <h6>
-                                          {data?.last_email
-                                            ? data?.last_email
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                      }
+                                      {data?.ipAddress ? (
+                                        ""
+                                      ) : (
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            User Status
+                                          </h6>
+                                          <h6>{data?.user_status}</h6>
+                                        </li>
+                                      )}
+
+                                      {data?.ipAddress ? (
+                                        ""
+                                      ) : (
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Interests
+                                          </h6>
+                                          <h6>
+                                            {data?.interests
+                                              ? data?.interests
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                      )}
+
+                                      {data?.ipAddress ? (
+                                        ""
+                                      ) : (
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Last Email
+                                          </h6>
+                                          <h6>
+                                            {data?.last_email
+                                              ? data?.last_email
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                      )}
                                       <li>
                                         <h6 className="tab-content-title">
                                           Last Activity
@@ -1446,9 +1478,10 @@ const NewReaders = () => {
                                           <div className="select">
                                             <Select
                                               options={change?.role}
-                                              defaultValue={
-                                                change?.role[data?.role]
-                                              }
+                                              defaultValue={change?.role.find(
+                                                (roleObj) =>
+                                                  roleObj.value === data?.role
+                                              )}
                                               onChange={(event) =>
                                                 onRoleChange(event, data.id)
                                               }
@@ -1518,16 +1551,16 @@ const NewReaders = () => {
                                               ref={defaultCountry}
                                               options={countryAll}
                                               value={
-                                                selectedCountry[index] !=
-                                                undefined
-                                                  ? selectedCountry[index]
-                                                  : countryAll[
-                                                      countryAll.findIndex(
-                                                        (el) =>
-                                                          el.value ==
-                                                          data?.country
-                                                      )
-                                                    ]
+                                                // selectedCountry[index] !=
+                                                // undefined
+                                                //   ? selectedCountry[index]
+                                                // :
+                                                countryAll[
+                                                  countryAll.findIndex(
+                                                    (el) =>
+                                                      el.value == data?.country
+                                                  )
+                                                ]
                                               }
                                               onChange={(event) =>
                                                 onCountryChange(event, data.id)

@@ -1139,6 +1139,10 @@ const ViewTable = (props) => {
     } else {
       if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
         let consetValue = e.value;
+        if(e.value == "B&H"){
+          consetValue = "Bosnia and Herzegovina";
+        }
+
         const matchingKeys = Object.entries(change.site_country_data)
           .filter(([key, value]) => value === consetValue)
           .map(([key, value]) => key);
@@ -1947,7 +1951,7 @@ const ViewTable = (props) => {
                   },
                 ]);
                 setActiveManual("active");
-                document.querySelector("#file-4").value = "";
+                // document.querySelector("#file-4").value = "";
                 setActiveExcel("");
               }}
               type="button"

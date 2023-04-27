@@ -10,6 +10,8 @@ import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 const FilterSegment = (props) => {
+  console.log("props.filter", props.filters);
+
   const tableCompRef = useRef();
   const Navigate = useNavigate();
   const [filters, setFilters] = useState(props.filters);
@@ -26,7 +28,9 @@ const FilterSegment = (props) => {
   const [selectedSubRole, setSelectedSubRole] = useState([]);
   const [selectedBlindType, setSelectedBlindType] = useState([]);
   const [selectedsitenumber, setSelectedsitenumber] = useState([]);
+  const [siteNumber, setSiteNumber] = useState([]);
   const [selectedsitename, setSelectedsitename] = useState([]);
+  const [siteName, setSiteName] = useState([]);
   const [selectedreaderselection, setSelectedReaderSelection] = useState("");
   const [selectedibu, setSelectedIbu] = useState();
   const [selectedproduct, setSelectedProduct] = useState([]);
@@ -224,59 +228,47 @@ const FilterSegment = (props) => {
     }
   }, []);
 
-  // const handleOnCountryChange = (country, sitecountryflag = 0) => {
-  //   let country_index = selectedcountry.indexOf(country);
-  //   if (country_index !== -1) {
-  //     selectedcountry.splice(country_index, 1);
-  //     setSelectedCountry(selectedcountry);
-  //     let up = updateflag + 1;
-  //     setUpdateFlag(up);
-  //   } else {
-  //     selectedcountry.push(country);
-  //     setSelectedCountry(selectedcountry);
-  //     let up = updateflag + 1;
-  //     setUpdateFlag(up);
-  //   }
-  //   if (sitecountryflag == 0) {
-  //     if ("site_country_data" in filters) {
-  //       let getCountryData = filters.site_country_data;
-
-  //       let site_number_value = Object.keys(getCountryData).filter(
-  //         (key) => getCountryData[key] === country
-  //       );
-
-  //       handleOnSiteNumberChange(site_number_value, 1);
-  //     }
-  //   }
-  // };
   const handleOnCountryChange = (country, setcountryflag = 0) => {
-    if (typeof country == "string") {
-      let country_index = selectedcountry.indexOf(country);
-      if (country_index !== -1) {
-        selectedcountry.splice(country_index, 1);
-        setSelectedCountry(selectedcountry);
-      } else {
-        selectedcountry.push(country);
-        setSelectedCountry(selectedcountry);
-      }
+    let country_index = selectedcountry?.indexOf(country);
+    if (country_index !== -1) {
+      selectedcountry.splice(country_index, 1);
+      setSelectedCountry(selectedcountry);
+      let up = updateflag + 1;
+      setUpdateFlag(up);
     } else {
-      let arr = [];
-      country.map((item) => {
-        arr.push(item);
-      });
-      setSelectedCountry(arr);
+      selectedcountry.push(country);
+      setSelectedCountry(selectedcountry);
+      let up = updateflag + 1;
+      setUpdateFlag(up);
     }
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-    if (setcountryflag == 0) {
-      if ("site_number" in filters) {
-        setSelectedsitenumber([]);
-        let getSiteData = filters.site_country_data;
-        let site_number_value = Object.keys(getSiteData).filter((key) =>
-          selectedcountry.includes(getSiteData[key])
-        );
 
-        handleOnSiteNumberChange(site_number_value, 1);
+    selectedcountry.map((item) => {
+      if (item == "B&H") {
+        item = "Bosnia and Herzegovina";
+      }
+    });
+
+    if (setcountryflag == 0) {
+      let arr = selectedcountry.map((item, index) => {
+        if (item == "B&H") {
+          item = "Bosnia and Herzegovina";
+        }
+        return item;
+      });
+
+      if ("site_country_data" in filters) {
+        let getSiteCountryData = filters?.site_country_data;
+        let site_number_value = Object.keys(getSiteCountryData)?.filter((key) =>
+          arr?.includes(getSiteCountryData[key])
+        );
+        if ("site_data" in filters) {
+          let getSiteData = filters?.site_data;
+          let site_name_value = site_number_value?.map(
+            (item, index) => getSiteData[item]
+          );
+          setSiteName(site_name_value);
+        }
+        setSiteNumber(site_number_value);
       }
     }
   };
@@ -410,63 +402,16 @@ const FilterSegment = (props) => {
     // setUpdateFlag(up);
   };
 
-  // const handleOnSiteNumberChange = (sitenumber, sitenumberflag = 0) => {
-  //   let site_number_index = selectedsitenumber.indexOf(sitenumber);
-  //   if (site_number_index !== -1) {
-  //     selectedsitenumber.splice(site_number_index, 1);
-  //   } else if (typeof sitenumber == "object") {
-  //     sitenumber.map((item, index) => {
-  //       let site_number_index = selectedsitenumber.indexOf(item);
-
-  //       if (site_number_index !== -1) {
-  //         selectedsitenumber.splice(site_number_index, 1);
-  //       } else {
-  //         selectedsitenumber.push(item);
-  //       }
-  //     });
-  //   } else {
-  //     selectedsitenumber.push(sitenumber);
-  //   }
-
-  //   setSelectedsitenumber(selectedsitenumber);
-  //   let up = updateflag + 1;
-  //   setUpdateFlag(up);
-
-  //   if (sitenumberflag == 0) {
-  //     if ("site_data" in filters) {
-  //       let getSiteData = filters.site_data;
-  //       let site_name_value = getSiteData[sitenumber];
-  //       handleOnSiteNameChange(site_name_value, 1);
-  //     }
-
-  //     if ("site_country_data" in filters) {
-  //       let getSiteCountryData = filters.site_country_data;
-
-  //       let site_country_value = Object.keys(getSiteCountryData).filter((key) =>
-  //         console.log("key", getSiteCountryData[key])
-  //       );
-  //     }
-  //   }
-  // };
-
   const handleOnSiteNumberChange = (sitenumber, sitenumberflag = 0) => {
-    if (typeof sitenumber == "string") {
-      let site_number_index = selectedsitenumber.indexOf(sitenumber);
-      if (site_number_index !== -1) {
-        selectedsitenumber.splice(site_number_index, 1);
-        setSelectedsitenumber(selectedsitenumber);
-      } else {
-        selectedsitenumber.push(sitenumber);
-        setSelectedsitenumber(selectedsitenumber);
-      }
+    let site_number_index = selectedsitenumber.indexOf(sitenumber);
+    if (site_number_index !== -1) {
+      selectedsitenumber.splice(site_number_index, 1);
+      setSelectedsitenumber(selectedsitenumber);
     } else {
-      let arr = [];
-      sitenumber.map((item, index) => {
-        arr.push(item);
-      });
-      setSelectedsitenumber(arr);
+      selectedsitenumber.push(sitenumber);
+      setSelectedsitenumber(selectedsitenumber);
     }
-
+    setSelectedsitenumber(selectedsitenumber);
     let up = updateflag + 1;
     setUpdateFlag(up);
 
@@ -476,46 +421,29 @@ const FilterSegment = (props) => {
         let site_name_value = getSiteData[sitenumber];
         handleOnSiteNameChange(site_name_value, 1);
       }
-      // if ("site_country_data" in filters) {
-      //   setSelectedCountry([]);
-      //   let getSiteCountryData = filters.site_country_data;
-      //   let site_country_value = selectedsitenumber.map(
-      //     (item) => getSiteCountryData[item]
-      //   );
-
-      //   let unique = site_country_value.filter(
-      //     (item, index) => site_country_value.indexOf(item) === index
-      //   );
-
-      //   handleOnCountryChange(unique, 1);
-      // }
     }
   };
 
   const handleOnSiteNameChange = (sitename, sitenameflag = 0) => {
-    let site_name_index = selectedsitename.indexOf(sitename);
+    let site_name_index = selectedsitename?.indexOf(sitename);
     if (site_name_index !== -1) {
-      selectedsitename.splice(site_name_index, 1);
+      selectedsitename?.splice(site_name_index, 1);
+      setSelectedsitename(selectedsitename);
     } else {
-      selectedsitename.push(sitename);
+      selectedsitename?.push(sitename);
+      setSelectedsitename(selectedsitename);
     }
-    setSelectedsitename(selectedsitename);
+
     let up = updateflag + 1;
     setUpdateFlag(up);
 
     if (sitenameflag == 0) {
       if ("site_data" in filters) {
         let getSiteData = filters.site_data;
-        let getCountryData = filters.site_country_data;
         let site_number_value = Object.keys(getSiteData).find(
           (key) => getSiteData[key] === sitename
         );
-
         handleOnSiteNumberChange(site_number_value, 1);
-        // if ("site_country_data" in filters) {
-        //   let site_country_value = getCountryData[site_number_value];
-        //   handleOnCountryChange(site_country_value, 1);
-        // }
       }
     }
   };
@@ -1201,8 +1129,12 @@ const FilterSegment = (props) => {
                                 <h6>Speciality</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {Object.entries(filters.speciality).map(
-                                      ([index, item]) => (
+                                    {(() => {
+                                      let entries = Object.entries(
+                                        filters.speciality
+                                      );
+                                      entries.unshift(["All", "All"]);
+                                      return entries.map(([index, item]) => (
                                         <li key={index}>
                                           <div className="select-multiple-option">
                                             <input
@@ -1225,8 +1157,8 @@ const FilterSegment = (props) => {
                                           </div>
                                           {item}
                                         </li>
-                                      )
-                                    )}
+                                      ));
+                                    })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1242,7 +1174,7 @@ const FilterSegment = (props) => {
                                   <ul>
                                     {Object.entries(filters.ibu).map(
                                       ([index, item]) => (
-                                        <li key={index}>
+                                        <li>
                                           <div className="select-multiple-option">
                                             <input
                                               type="radio"
@@ -1275,7 +1207,7 @@ const FilterSegment = (props) => {
                                   <ul>
                                     {Object.entries(filters.product).map(
                                       ([index, item]) => (
-                                        <li key={index}>
+                                        <li>
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
@@ -1354,8 +1286,12 @@ const FilterSegment = (props) => {
                                 <h6>Country</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {Object.entries(filters.country).map(
-                                      ([index, item]) => (
+                                    {(() => {
+                                      let entries = Object.entries(
+                                        filters.country
+                                      );
+                                      entries.unshift(["All", "All"]);
+                                      return entries.map(([index, item]) => (
                                         <li key={index}>
                                           <div className="select-multiple-option">
                                             <input
@@ -1378,8 +1314,8 @@ const FilterSegment = (props) => {
                                           </div>
                                           {item}
                                         </li>
-                                      )
-                                    )}
+                                      ));
+                                    })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1511,7 +1447,7 @@ const FilterSegment = (props) => {
                                 <div className="smart-name-list">
                                   <ul>
                                     {filters.consent_type.map((item, index) => (
-                                      <li key={index}>
+                                      <li>
                                         <div className="select-multiple-option">
                                           <input
                                             type="checkbox"
@@ -1546,32 +1482,36 @@ const FilterSegment = (props) => {
                                 <h6>Role</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {Object.entries(
-                                      filters.investigator_type
-                                    ).map(([index, item]) => (
-                                      <li>
-                                        <div className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-investigator_type-${index}`}
-                                            name="investigator_type[]"
-                                            value={item}
-                                            checked={
-                                              typeof selectedinvestigatorType !==
-                                                "undefined" &&
-                                              selectedinvestigatorType.indexOf(
-                                                item
-                                              ) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnInvestigatorChange(item)
-                                            }
-                                          />
-                                          <span className="checkmark"></span>
-                                        </div>
-                                        {item}
-                                      </li>
-                                    ))}
+                                    {(() => {
+                                      let entries = Object.entries(
+                                        filters.investigator_type
+                                      );
+                                      entries.unshift(["All", "All"]);
+                                      return entries.map(([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-investigator_type-${index}`}
+                                              name="investigator_type[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedinvestigatorType !==
+                                                  "undefined" &&
+                                                selectedinvestigatorType.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnInvestigatorChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      ));
+                                    })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1585,8 +1525,12 @@ const FilterSegment = (props) => {
                                 <h6>Sub Roles</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {Object.entries(filters.sub_role).map(
-                                      ([index, item]) => (
+                                    {(() => {
+                                      let entries = Object.entries(
+                                        filters.sub_role
+                                      );
+                                      entries.unshift(["All", "All"]);
+                                      return entries.map(([index, item]) => (
                                         <li key={item}>
                                           <div className="select-multiple-option">
                                             <input
@@ -1609,8 +1553,8 @@ const FilterSegment = (props) => {
                                           </div>
                                           {item}
                                         </li>
-                                      )
-                                    )}
+                                      ));
+                                    })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1728,32 +1672,65 @@ const FilterSegment = (props) => {
                                 <h6>Site Number</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {Object.entries(filters.site_number).map(
-                                      ([index, item]) => (
-                                        <li>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-site_number-${index}`}
-                                              name="site_number[]"
-                                              value={item}
-                                              checked={
-                                                typeof selectedsitenumber !==
-                                                  "undefined" &&
-                                                selectedsitenumber.indexOf(
-                                                  item
-                                                ) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnSiteNumberChange(item)
-                                              }
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      )
-                                    )}
+                                    {siteNumber?.length
+                                      ? siteNumber?.map((key, index) => (
+                                          <li>
+                                            <div className="select-multiple-option">
+                                              <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-site_number-${index}`}
+                                                name="site_number[]"
+                                                value={key}
+                                                checked={
+                                                  typeof selectedsitenumber !==
+                                                    "undefined" &&
+                                                  selectedsitenumber.indexOf(
+                                                    key
+                                                  ) !== -1
+                                                }
+                                                onChange={() =>
+                                                  handleOnSiteNumberChange(key)
+                                                }
+                                              />
+                                              <span className="checkmark"></span>
+                                            </div>
+                                            {key}
+                                          </li>
+                                        ))
+                                      : (() => {
+                                          let entries = Object.entries(
+                                            filters.site_number
+                                          );
+                                          entries.unshift(["All", "All"]);
+                                          return entries.map(
+                                            ([index, item]) => (
+                                              <li>
+                                                <div className="select-multiple-option">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-site_number-${index}`}
+                                                    name="site_number[]"
+                                                    value={item}
+                                                    checked={
+                                                      typeof selectedsitenumber !==
+                                                        "undefined" &&
+                                                      selectedsitenumber.indexOf(
+                                                        item
+                                                      ) !== -1
+                                                    }
+                                                    onChange={() =>
+                                                      handleOnSiteNumberChange(
+                                                        item
+                                                      )
+                                                    }
+                                                  />
+                                                  <span className="checkmark"></span>
+                                                </div>
+                                                {item}
+                                              </li>
+                                            )
+                                          );
+                                        })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1767,32 +1744,65 @@ const FilterSegment = (props) => {
                                 <h6>Site Name</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {Object.entries(filters.site_name).map(
-                                      ([index, item]) => (
-                                        <li>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-site_name-${index}`}
-                                              name="site_name[]"
-                                              value={item}
-                                              checked={
-                                                typeof selectedsitename !==
-                                                  "undefined" &&
-                                                selectedsitename.indexOf(
-                                                  item
-                                                ) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnSiteNameChange(item)
-                                              }
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      )
-                                    )}
+                                    {siteName?.length
+                                      ? siteName?.map((key, index) => (
+                                          <li>
+                                            <div className="select-multiple-option">
+                                              <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-site_number-${index}`}
+                                                name="site_number[]"
+                                                value={key}
+                                                checked={
+                                                  typeof selectedsitename !==
+                                                    "undefined" &&
+                                                  selectedsitename.indexOf(
+                                                    key
+                                                  ) !== -1
+                                                }
+                                                onChange={() =>
+                                                  handleOnSiteNameChange(key)
+                                                }
+                                              />
+                                              <span className="checkmark"></span>
+                                            </div>
+                                            {key}
+                                          </li>
+                                        ))
+                                      : (() => {
+                                          let entries = Object.entries(
+                                            filters.site_name
+                                          );
+                                          entries.unshift(["All", "All"]);
+                                          return entries.map(
+                                            ([index, item]) => (
+                                              <li>
+                                                <div className="select-multiple-option">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-site_name-${index}`}
+                                                    name="site_name[]"
+                                                    value={item}
+                                                    checked={
+                                                      typeof selectedsitename !==
+                                                        "undefined" &&
+                                                      selectedsitename.indexOf(
+                                                        item
+                                                      ) !== -1
+                                                    }
+                                                    onChange={() =>
+                                                      handleOnSiteNameChange(
+                                                        item
+                                                      )
+                                                    }
+                                                  />
+                                                  <span className="checkmark"></span>
+                                                </div>
+                                                {item}
+                                              </li>
+                                            )
+                                          );
+                                        })()}
                                   </ul>
                                 </div>
                               </div>
@@ -1810,7 +1820,7 @@ const FilterSegment = (props) => {
                                     {Object.entries(
                                       filters.reader_selection
                                     ).map(([index, item]) => (
-                                      <li key={index}>
+                                      <li>
                                         <div className="select-multiple-option">
                                           <input
                                             type="radio"
@@ -2339,7 +2349,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedcountry).map(([index, item]) => (
-                        <div className="filter-result" key={index}>
+                        <div className="filter-result">
                           {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
                           <img
                             onClick={() =>
@@ -2389,7 +2399,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedprovince).map(([index, item]) => (
-                        <div className="filter-result" key={index}>
+                        <div className="filter-result">
                           {item}
                           <img
                             onClick={() =>
@@ -2415,7 +2425,7 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedterritory).map(
                         ([index, item]) => (
-                          <div className="filter-result" key={index}>
+                          <div className="filter-result">
                             {item}
                             <img
                               onClick={() =>
@@ -2442,7 +2452,7 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedcontacttype).map(
                         ([index, item]) => (
-                          <div className="filter-result" key={index}>
+                          <div className="filter-result">
                             {item}{" "}
                             <img
                               onClick={() =>
@@ -2469,7 +2479,7 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedspeciality).map(
                         ([index, item]) => (
-                          <div className="filter-result" key={index}>
+                          <div className="filter-result">
                             {item}{" "}
                             <img
                               onClick={() =>
@@ -2495,7 +2505,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedproduct).map(([index, item]) => (
-                        <div className="filter-result" key={index}>
+                        <div className="filter-result">
                           {item}{" "}
                           <img
                             onClick={() =>
@@ -2529,7 +2539,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedarticles).map(([index, item]) => (
-                        <div className="filter-result" key={index}>
+                        <div className="filter-result">
                           {item}{" "}
                           <img
                             onClick={() =>
@@ -2554,7 +2564,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedconsent).map(([index, item]) => (
-                        <div className="filter-result" key={index}>
+                        <div className="filter-result">
                           {item}{" "}
                           <img
                             onClick={() =>

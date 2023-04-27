@@ -6,7 +6,9 @@ const Webinar = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [userInputs, setUserInputs] = useState({});
   const [userSignInInputs, setUserSignInInputs] = useState({});
+  const [activeSection, setActiveSection] = useState('banner-section');
   const [signInModal, setSignInModal] = useState(false);
+  const [carousalStatus, setCarousalStatus] = useState(true);
   const [selctOptions, setSelectOptions] = useState([
     { value: "1", label: "1" },
     { value: "2", label: "2" },
@@ -14,7 +16,9 @@ const Webinar = () => {
     { value: "4", label: "4" },
   ]);
    const [show, setShow] = useState(false);
-const handleShow = () => setShow(true);
+   const handleShow = () => setShow(true);
+   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
+
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
@@ -58,6 +62,86 @@ const handleShow = () => setShow(true);
   const handleClose = () => {
     setSignInModal(false);
   };
+
+  const changeSliderTab = (event) => {
+      var slide = event.target.getAttribute('data-slide-to');
+      //var activeSlide = event.target.getAttribute('data-slide-active');
+      var checkbox = document.getElementById('s' + slide);
+      checkbox.checked = true; // Checks the box
+
+      var slideTabs = document.querySelectorAll('.slide-tab');
+      slideTabs.forEach(function(slideTab) {
+        slideTab.classList.remove('active');
+      });
+      var images = document.querySelectorAll('.img-fluid');
+      images.forEach(function(image) {
+        image.classList.remove('active');
+      });
+
+      event.target.classList.add('active');
+      var labels = document.querySelectorAll('label');
+      labels.forEach(function(label) {
+        label.classList.remove('left-slide');
+      });
+
+      var activeSlide = document.getElementById('slide' + slide);
+      activeSlide.classList.add('left-slide');
+      setTimeout(function() {
+        labels.forEach(function(label) {
+          label.classList.remove('active');
+        });
+        activeSlide.classList.add('active');
+        var activeSlideImage = activeSlide.querySelector('img');
+        activeSlideImage.classList.add('active');
+      }, 1000);
+  }
+
+  const changeSlider = (event) => {
+
+      var slide = event.target.value;
+      var slideTabs = document.querySelectorAll(".slide-tab");
+      slideTabs.forEach(function(slideTab) {
+        slideTab.classList.remove("active");
+      });
+      var images = document.querySelectorAll(".img-fluid");
+      images.forEach(function(image) {
+        image.classList.remove("active");
+      });
+
+      var activeSlideTab = document.getElementById("slide-tab" + slide);
+      activeSlideTab.classList.add("active");
+
+      var labels = document.querySelectorAll("label");
+      labels.forEach(function(label) {
+        label.classList.remove("left-slide");
+      });
+
+      var activeSlide = document.getElementById("slide" + slide);
+      activeSlide.classList.add("left-slide");
+
+      setTimeout(function() {
+        labels.forEach(function(label) {
+          label.classList.remove("active");
+        });
+        activeSlide.classList.add("active");
+        var activeSlideImage = activeSlide.querySelector("img");
+        activeSlideImage.classList.add("active");
+      }, 1000);
+  }
+
+  document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("img-fluid") && event.target.classList.contains("active")) {
+      let activeSlide = event.target.parentElement.getAttribute('for').replace('s', '');
+      let videoUrls = ['post-webinar.mp4', 'audience-engagement.mp4', 'pre-webinar.mp4'];
+      let imgUrl = ['post-webinar.png', 'audience-engagement.png', 'pre-webinar.png'];
+      let urlForActiveSlide = `https://informed.pro/webinar/assets/img/${videoUrls[activeSlide - 1]}`;
+      let activePosterUrl = '';
+      document.getElementById('mp4').src = urlForActiveSlide;
+      document.getElementById('mp4').poster = activePosterUrl;
+      document.getElementById('mp4').autoplay = true;
+      document.getElementById('video1').classList.add('show');
+    }
+  });
 
   useEffect(() => {}, []);
   return (
@@ -286,7 +370,7 @@ const handleShow = () => setShow(true);
         <div className="container">
           <div className="row">
             {/* <!-- <div className="why-heading m-100 pl-3">
-  
+
   </div> --> */}
 
             <div className="col-md-12 d-flex justify-content-between">
@@ -306,9 +390,9 @@ const handleShow = () => setShow(true);
                 >
                   <div className="col-md-8 col-sm-8 col-8 cst-cs-item pl-0">
                     <div id="slider">
-                                 <input type="radio" className="slide-radio" name="slide-radio" id="s1" value="1" />
-                                 <input type="radio" className="slide-radio" name="slide-radio" id="s2" value="2"/>
-                                 <input type="radio" className="slide-radio" name="slide-radio" id="s3" checked value="3" />
+                                 <input type="radio" className="slide-radio" name="slide-radio" id="s1" value="1" onClick={(e) => changeSlider(e)} />
+                                 <input type="radio" className="slide-radio" name="slide-radio" id="s2" value="2" onClick={(e) => changeSlider(e)} />
+                                 <input type="radio" className="slide-radio" name="slide-radio" id="s3" checked value="3" onClick={(e) => changeSlider(e)} />
                                  {/* <input type="radio" className="slide-radio" name="slide-radio" id="s4" checked value="4"> */}
                                  <label for="s1" id="slide1">
                                     <img src={path_image + "post-webinar.png"} className="img-fluid" alt=""/>
@@ -397,7 +481,7 @@ const handleShow = () => setShow(true);
                                  <label for="s3" id="slide3" className="active">
                                     <img src={path_image + "pre-webinar.png"} className="img-fluid active" alt=""/>
                                     <div className="div-left-text caption-crausal">
-                                       <div className="caption-crausal-inside collapse show" id="slide-content3">
+                                       <div className= {carousalStatus ? "caption-crausal-inside collapse show" : "caption-crausal-inside collapse"} id="slide-content3">
                                        <div className="caption-crausal-inside-top">
                                              <span>1 WEEK</span>
                                              <p>Setup Time</p>
@@ -425,7 +509,7 @@ const handleShow = () => setShow(true);
                                           </p>
                                        </div>
                                        <div className="caption-crausal-footer">
-                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide-content3">
+                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide-content3" onClick={() => setCarousalStatus((carousalStatus) => !carousalStatus)}>
                                           <img src={path_image + "down-arrow1.png"} alt=""/>
                                           </button>
                                           <div className="watch-demo-video">
@@ -440,25 +524,11 @@ const handleShow = () => setShow(true);
                     <ol className="carousel-indicators cst-tab">
                       <li
                         data-target="#blogCarousel"
-                        data-slide-to="0"
-                        className="active"
-                      >
-                        <img
-                          className="without-active"
-                          src={path_image + "feature-active1.png"}
-                          alt=""
-                        />
-                        <img
-                          className="with-active"
-                          src={path_image + "feature1.png"}
-                          alt=""
-                        />
-                        Tech Made easy <span>Our System</span>
-                      </li>
-                      <li
-                        data-target="#blogCarousel"
-                        data-slide-to="1"
-                        className=""
+                        data-slide-to="3"
+                        data-slide-active="1"
+                        id="slide-tab3"
+                        className="slide-tab active"
+                        onClick={(e) => changeSliderTab(e)}
                       >
                         <img
                           className="without-active"
@@ -475,7 +545,10 @@ const handleShow = () => setShow(true);
                       <li
                         data-target="#blogCarousel"
                         data-slide-to="2"
-                        className=""
+                        data-slide-active="2"
+                        className="slide-tab"
+                        id="slide-tab2"
+                        onClick={(e) => changeSliderTab(e)}
                       >
                         <img
                           className="without-active"
@@ -491,8 +564,11 @@ const handleShow = () => setShow(true);
                       </li>
                       <li
                         data-target="#blogCarousel"
-                        data-slide-to="3"
-                        className=""
+                        data-slide-to="1"
+                        data-slide-active="3"
+                        id="slide-tab1"
+                        className="slide-tab"
+                        onClick={(e) => changeSliderTab(e)}
                       >
                         <img
                           className="without-active"
@@ -506,6 +582,26 @@ const handleShow = () => setShow(true);
                         />
                         Relationship Building <span>Post-Webinar</span>
                       </li>
+                      {
+                        /*<li
+                          data-target="#blogCarousel"
+                          data-slide-to="3"
+                          className=""
+                        >
+                          <img
+                            className="without-active"
+                            src={path_image + "feature4.png"}
+                            alt=""
+                          />
+                          <img
+                            className="with-active"
+                            src={path_image + "feature-active4.png"}
+                            alt=""
+                          />
+                          Relationship Building <span>Post-Webinar</span>
+                        </li>*/
+                      }
+
                     </ol>
                   </div>
                 </div>
@@ -685,7 +781,7 @@ const handleShow = () => setShow(true);
             <li>
               <a target="_blank" href="https://albert.docintel.app/privacy_policy/">Privacy Policy</a>
             </li>
-            
+
           </ul>
         </div>
       </footer>
@@ -697,37 +793,38 @@ const handleShow = () => setShow(true);
       >
         <ul>
             <li data-scroll="banner-section">
-               <a href="#banner-section" class="page-scroll act11 activeMenu">
+               <a href="#banner-section" className={activeSection == "banner-section" ? "page-scroll act11 activeMenu" : "page-scroll act11"}  onClick={() => setActiveSection('banner-section')}>
                   <span></span>
                   <p>Banner</p>
                </a>
             </li>
+
             <li data-scroll="building-section">
-               <a href="#building-section" menuAct="22" class="page-scroll act22">
+               <a href="#building-section" menuAct="22" className={activeSection == "building-section" ? "page-scroll act22 activeMenu" : "page-scroll act22"} onClick={() => setActiveSection('building-section')}>
                   <span></span>
                   <p>Relationships</p>
                </a>
             </li>
             <li data-scroll="feature">
-               <a href="#feature" menuAct="33" class="page-scroll act33">
+               <a href="#feature" menuAct="33" className={activeSection == "feature" ? "page-scroll act33 activeMenu" : "page-scroll act33"} onClick={() => setActiveSection('feature')}>
                   <span></span>
                   <p>Features</p>
                </a>
             </li>
             <li data-scroll="testimonial">
-               <a href="#testimonial" menuAct="44" class="page-scroll act44">
+               <a href="#testimonial" menuAct="44" className={activeSection == "testimonial" ? "page-scroll act44 activeMenu" : "page-scroll act44"} onClick={() => setActiveSection('testimonial')}>
                   <span></span>
                   <p>Testimonial</p>
                </a>
             </li>
             <li data-scroll="cases">
-               <a href="#cases" menuAct="55" class="page-scroll act55">
+               <a href="#cases" menuAct="55" className={activeSection == "cases" ? "page-scroll act55 activeMenu" : "page-scroll act55"} onClick={() => setActiveSection('cases')}>
                   <span></span>
                   <p>Cases</p>
                </a>
             </li>
             <li data-scroll="request_demo">
-               <a href="#request_demo" menuAct="66" class="page-scroll act66">
+               <a href="#request_demo" menuAct="66" className={activeSection == "request_demo" ? "page-scroll act66 activeMenu" : "page-scroll act66"} onClick={() => setActiveSection('request_demo')}>
                   <span></span>
                   <p>Request Demo</p>
                </a>
@@ -766,6 +863,11 @@ const handleShow = () => setShow(true);
           </li>
         </ul> */}
       </div>
+
+
+      {/*Start Video Modal Functionality*/}
+      
+      {/*End Video Modal Functionality*/}
     </>
   );
 };

@@ -9,7 +9,7 @@ export const createContent = (data, fileCheck, groupId = 2) => {
   if (!data?.contentTitle) {
     error.contentTitle = "Content Title is required!";
   }
- 
+
   if(data.hasOwnProperty('chapter')){
     data.chapter?.forEach((item,index) =>{
       if(!item.uploadFile){
@@ -19,18 +19,18 @@ export const createContent = (data, fileCheck, groupId = 2) => {
       }
     })
   }
- 
-  if (data.hasOwnProperty('trial')) {
-    if(!data?.trial){
-      error.trial  = "trial is required";
-    }
-  }
-  if (data.hasOwnProperty('blindType')) {
-    if(!data?.blindType){
-      error.blindType  = "Blind Type is required";
-    }
-  }
-  
+
+  // if (data.hasOwnProperty('trial')) {
+  //   if(!data?.trial){
+  //     error.trial  = "trial is required";
+  //   }
+  // }
+  // if (data.hasOwnProperty('blindType')) {
+  //   if(!data?.blindType){
+  //     error.blindType  = "Blind Type is required";
+  //   }
+  // }
+
 
 
   if (groupId == 2 && !data?.limit) {
