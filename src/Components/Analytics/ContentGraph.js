@@ -150,7 +150,6 @@ const [apiCallStatus, setApiCallStatus] = useState(false);
     // setSectionLoader(true);
     // setApiCallStatus(false);
     try {
-
       let requestBody = {type: type};
       const response = await postData(ENDPOINT.CONTENT_TYPE_GRAPH, requestBody);
 

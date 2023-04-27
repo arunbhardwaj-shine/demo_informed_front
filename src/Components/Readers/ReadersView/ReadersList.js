@@ -132,7 +132,12 @@ const NewReaders = () => {
       // } else {
       //   loader("show");
       // }
-      const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
+      // "https://informedback.shinedezign.pro/reader/reader",
+
+      const res = await postData(
+        ENDPOINT.READER_LIST_DATA,
+        payload
+      );
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
@@ -483,6 +488,7 @@ const NewReaders = () => {
         ) {
           body = {
             userId: 18207,
+             type :1,
             readerId: reader_id,
             userStatus: type,
             country: country,
