@@ -1054,14 +1054,14 @@ const NewReaders = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
-                                      {/*<li>
-                                          <h6 className="tab-content-title">
-                                            Role
-                                          </h6>
-                                          <h6>
-                                            {data?.role ? data?.role : "N/A"}
-                                          </h6>
-                                        </li>*/}
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Role
+                                        </h6>
+                                        <h6>
+                                          {data?.role ? data.role != 0 ? data.role : "N/A" : "N/A"}
+                                        </h6>
+                                      </li>
 
                                       <li>
                                         <h6 className="tab-content-title">
