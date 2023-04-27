@@ -208,7 +208,7 @@ const ContentAnalytics = () => {
                         onChange={(selectedOption) => {
                           filterPdfData(selectedOption); // call the function when an option is selected
                         }}
-                        className="dropdown-basic-button split-button-dropup mr-2"
+                        className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
                         isClearable
                         defaultValue={
                           state?.pdfId

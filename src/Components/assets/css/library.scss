@@ -3145,7 +3145,7 @@ section.verify_email.content_details {
     color: #0b3a81;
 }
 .create-change-content.analytic-charts .product-unit .form-group {
-    flex: 0 0 600px;
+    flex: 0 0 800px;
 }
 
 .high_charts .highcharts-data-table table tr th, .high_charts .highcharts-data-table table tr td {
@@ -3895,6 +3895,15 @@ caption.highcharts-table-caption {
 }
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(3) {
     max-width: 250px;
+}
+.create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button{
+  max-width:250px;
+}
+.create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button.btn-bigger {
+    max-width: 480px;
+}
+.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger > div:nth-child(3) {
+    max-width: 430px;
 }
 .delivery-trends .stats_precenage ul.ul_stats_first.informed {
   padding-right: 35%;
@@ -6567,6 +6576,12 @@ ul.tab-mail-list.data span.total-left {
     width: auto;
     flex: 0 0 50%;
   }
+.create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button.btn-bigger {
+    max-width: 280px;
+}
+.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger > div:nth-child(3) {
+    max-width: 280px;
+}
 .crm-detail .crm-detail-content .crm-review .crm-review-detail ul li h6 {
     font-size: 12px;
     line-height: 17px;
