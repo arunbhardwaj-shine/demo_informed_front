@@ -58,7 +58,8 @@ import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
-
+import AddSite from "./Components/Readers/AddSite/AddSite";
+import SiteListing from "./Components/Readers/AddSite/SiteListing";
 // ----------START-------Webinar routes------------------------
 import WebinarHeader from "./Components/NewWebinar/Layout/Header";
 import WebinarSidebar from "./Components/NewWebinar/Layout/Sidebar";
@@ -288,6 +289,8 @@ const Routing = () => {
                 <Route path="/library-edit" element={<LoginLayout component={EditLibrary} /> }/>
                 <Route path="/library-create" element={<LoginLayout component={LibraryCreate} /> } />
                 <Route path="/library-popup" element={<LoginLayout component={LibraryPopupSet} /> } />
+                <Route path ="/add-site" element={<LoginLayout component={AddSite} /> } />
+                <Route path ="/site-listing" element={<LoginLayout component={SiteListing} /> } />
 
                 <Route
                   path="/library-edit-listing"
