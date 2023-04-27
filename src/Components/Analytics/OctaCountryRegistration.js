@@ -7,17 +7,24 @@ import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 
 import HighchartsReact from "highcharts-react-official";
-import MapModule from "highcharts/modules/map";
-import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+import HighchartsMap from "highcharts/modules/map";
+import proj4 from "proj4";
+import mapDataWorld from "@highcharts/map-collection/custom/world.geo.json";
+
 import axios from "axios";
 import drilldown from "highcharts/modules/drilldown.js";
 
 import { Link } from "react-router-dom";
+HighchartsMap(Highcharts);
 
+// Load Highcharts modules
+require("highcharts/modules/map")(Highcharts);
+require("highcharts/modules/exporting")(Highcharts);
 exporting(Highcharts);
 exportData(Highcharts);
 drilldown(Highcharts);
 
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const OctaCountryRegestration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -81,71 +88,56 @@ export default OctaCountryRegestration;
 
 const MapComponent = ({ data }) => {
   const [newData, setNewData] = useState();
-  const mapOptions = {
+
+  const options = {
     chart: {
-      map: "worldMap",
+      map: "custom/world",
+      proj4,
     },
     title: {
-      text: "",
-    },
-    credits: {
-      enabled: false,
+      text: "Regions",
     },
     mapNavigation: {
       enabled: true,
       buttonOptions: {
-        align: "right",
         verticalAlign: "bottom",
-        x: -10,
-        y: -10,
       },
-    },
-
-    xAxis: {
-      min: 160,
-      max: -120,
-    },
-    yAxis: {
-      min: -60,
-      max: 20,
     },
     series: [
       {
-        name: "",
-        data: newData?.filter((country) => country.lat && country.lon),
-        mapData: worldMap,
-        joinBy: ["name"],
-        keys: ["code", "value"],
+        name: "Basemap",
+        borderColor: "#A0A0A0",
+        nullColor: "rgba(200, 200, 200, 0.3)",
+        showInLegend: false,
+        mapData: mapDataWorld,
+      },
+      {
+        name: "Separators",
+        type: "mapline",
+        nullColor: "#707070",
+        showInLegend: false,
+        enableMouseTracking: false,
+      },
+      {
+        // Specify points using lat/lon
+        type: "mappoint",
+        name: "Total Registrations",
+        color: "red",
+        data: newData,
+
         tooltip: {
-          headerFormat: "",
-          pointFormat:
-            "{point.name} <br/>Total Registration: {point.totalIndex}",
+          pointFormat: "{point.totalIndex}",
         },
-        states: {
-          hover: {
-            color: "#BADA55",
-          },
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function () {
-            const countries = this.series.options.data.filter(
-              (country) => country.name === this.point.name
-            );
-            if (countries.length > 0) {
-              return this.point.name;
-            } else {
-              return null;
-            }
-          },
+
+        marker: {
+          symbol: `url(${path_image}/marker.png)`,
+          width: 11,
+          height: 15,
+          offsetY: -15, // adjust the position of the marker icon
         },
       },
     ],
   };
-
-  Highcharts.setOptions({
-    colors: ["#FFBE2C", "#00D4C0", "#F58289"],
-  });
 
   useEffect(() => {
     getDataFromApi();
@@ -153,45 +145,43 @@ const MapComponent = ({ data }) => {
 
   const getDataFromApi = async () => {
     try {
-      const countryData = data?.response?.data.map((coordObject, index) => {
-        const [lat, lon] = coordObject.coordinates.split("~");
+      const countryData = data?.response?.data
+        .map((coordObject, index) => {
+          const [lat, lon] = coordObject.coordinates.split("~");
+          const latitude = parseFloat(lat);
+          const longitude = parseFloat(lon);
 
-        return {
-          name: coordObject.region_name,
-          totalIndex: coordObject.total,
-          lat: parseFloat(lat),
-          lon: parseFloat(lon),
-        };
-      });
+          if (!isNaN(latitude) && !isNaN(longitude)) {
+            return {
+              name: coordObject.region_name,
+              totalIndex: coordObject.total,
+              lat: latitude,
+              lon: longitude,
+            };
+          } else {
+            console.log(`Invalid coordinates: ${coordObject.coordinates}`);
+            return null;
+          }
+        })
+        .filter((point) => point !== null);
 
       setNewData(countryData);
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <>
-      {
-        /*<Col className="right-sidebar">
-          <div className="custom-container">
-            <Row>*/
-      }
-
-
-              <div className="high_charts"></div>
-              <HighchartsReact
-                constructorType={"mapChart"}
-                highcharts={Highcharts}
-                options={mapOptions}
-              />
-      {
-        /*
-        </Row>
-      </div>*/}
+      <div className="high_charts"></div>
+      <HighchartsReact
+        constructorType={"mapChart"}
+        highcharts={Highcharts}
+        options={options}
+      />
     </>
   );
 };
+
 const PieComponent = ({ data }) => {
   const series = [];
   data?.response?.data.forEach((element, index) => {

@@ -2940,6 +2940,9 @@ input[type=number] {
 .content_details .verify-email-detail h6 strong {
   color: $dark-blue;
 }
+.verify-email-detail h6 strong {
+  white-space: nowrap;
+}
 .content_details .verify-mail-box {
   padding-bottom: 0px;
 }

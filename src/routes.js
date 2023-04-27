@@ -122,7 +122,7 @@ import TrendingContentOcta from "./Components/Analytics/TrendingContentOcta";
 import Informed from "./Components/Login/Informed";
 import PublisherPage from "./Components/Library/PublisherPage";
 import OctalatchDeliveryRegistration from "./Components/Analytics/OctalatchDeliveryRegistration";
-import Webinar from "./Components/Library/Webinar";
+import Webinar from "./Components/Login/Webinar";
 import BouncedEmail from "./Components/Distributes/BouncedEmail";
 import RDRegister from "./Components/R&D/RDRegister";
 

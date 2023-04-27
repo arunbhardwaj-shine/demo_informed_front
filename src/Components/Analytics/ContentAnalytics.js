@@ -10,8 +10,8 @@ import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
 import HighchartsReact from "highcharts-react-official";
 import ContentAnalyticsComponent from "./ContentAnalyticsComponent";
-import html2canvas from "html2canvas";
 import MapComponent from "./MapComponent";
+import domtoimage from "dom-to-image";
 
 exporting(Highcharts);
 exportData(Highcharts);
@@ -151,14 +151,16 @@ const ContentAnalytics = () => {
     try {
       loader("show");
 
-      await html2canvas(document.getElementById("parent")).then((canvas) => {
-        const link = document.createElement("a");
-        link.download = `${Math.random()}.png`;
-        link.href = canvas
-          .toDataURL("image/png")
-          .replace("image/png", "image/octet-stream");
-        link.click();
-      });
+      const element = document.getElementById("parent");
+      // add padding to the element
+
+      const dataUrl = await domtoimage.toPng(element);
+
+      const link = document.createElement("a");
+      link.download = `${Math.random()}.png`;
+      link.href = dataUrl;
+      link.click();
+
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -186,7 +188,7 @@ const ContentAnalytics = () => {
       console.log(err);
       loader("hide");
     }
-  }
+  };
   return (
     <>
       <Col className="right-sidebar">

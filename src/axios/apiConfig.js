@@ -55,6 +55,7 @@ export const ENDPOINT = {
   MAPLOCATION: `analytics/map-location`,
   REPORTS: "analytics/reports",
   CONTENTTYPE: "analytics/content-type",
+  CIS_CONTENT_TYPE: "analytics/contentTypeData",
   CONTENT_TYPE_GRAPH: "/analytics/content-type-graph",
   CONTENT: "analytics/content",
   TRENDING_TOPIC: "analytics/topic",
@@ -69,4 +70,5 @@ export const ENDPOINT = {
   LOGIN: `https://albert-api.shinedezign.pro/api/v2/login`,
   FILTERLIST: `https://webinar.docintel.app/lmn/api/distributes/filters_list`,
   READERLISTING: 'reader/get-trail',
+  REGISTERRD: `https://medarkive.com/Pages/RegisterRd`,
 };

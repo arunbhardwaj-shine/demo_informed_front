@@ -683,19 +683,23 @@ const LibraryCreateUser = () => {
                   </div>
                 </div>
               ) : (
-                <div className="form-group">
-                  <label htmlFor="">Trial</label>
-                  <Select
-                    options={userDetail?.trial}
-                    placeholder="Select the product this is for"
-                    onChange={(e) => handleChange(e?.value, "trial")}
-                    className="dropdown-basic-button split-button-dropup"
-                    isClearable
-                  />
-                  {error?.trial ? (
-                    <div className="login-validation">{error?.trial}</div>
-                  ) : null}
-                </div>
+                <>
+                {
+                  /*<div className="form-group">
+                    <label htmlFor="">Trial</label>
+                    <Select
+                      options={userDetail?.trial}
+                      placeholder="Select the product this is for"
+                      onChange={(e) => handleChange(e?.value, "trial")}
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                    />
+                    {error?.trial ? (
+                      <div className="login-validation">{error?.trial}</div>
+                    ) : null}
+                  </div>*/
+                }
+                </>
               )}
 
               {userDetail?.user?.[0]?.pharmaData == 1 &&
@@ -712,25 +716,29 @@ const LibraryCreateUser = () => {
                 </div>
               ) : userDetail?.user?.[0]?.flag == 1 &&
                 userDetail?.user?.[0]?.group_id == 3 ? (
-                <div className="form-group">
-                  <label htmlFor="">Blind type</label>
-                  <Select
-                    options={blindType}
-                    placeholder="Select Business Unit"
-                    onChange={(e) => handleChange(e?.value, "blindType")}
-                    className="dropdown-basic-button split-button-dropup"
-                    isClearable
-                  />
-                  {error?.blindType ? (
-                    <div className="login-validation">{error?.blindType}</div>
-                  ) : null}
-                </div>
+                  <>
+                  {
+                    /*<div className="form-group">
+                      <label htmlFor="">Blind type</label>
+                      <Select
+                        options={blindType}
+                        placeholder="Select Business Unit"
+                        onChange={(e) => handleChange(e?.value, "blindType")}
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                      {error?.blindType ? (
+                        <div className="login-validation">{error?.blindType}</div>
+                      ) : null}
+                    </div>*/
+                  }
+                  </>
               ) : null}
 
               {userDetail?.user?.[0]?.flag == 1 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
-                  <label htmlFor="">HCP</label>
+                  <label htmlFor="">Role</label>
                   <div className="input-group w-100">
                     <div className="tags_added">
                       <div className="select-tags">
