@@ -49,6 +49,7 @@ const NewReaders = () => {
     Status: ["Registered", "Unregistered"],
   });
   const [filterObject, setFilterObject] = useState({});
+  const [apifilterObject, setApifilterObject] = useState({});
   const [updateflag, setUpdateFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "0", label: "HCP" },
@@ -243,6 +244,9 @@ const NewReaders = () => {
     if (!filterObject[key]) {
       filterObject[key] = [];
     }
+    if (!apifilterObject[key]) {
+      apifilterObject[key] = [];
+    }
 
     if (e?.target?.checked == true) {
       if (
@@ -253,9 +257,10 @@ const NewReaders = () => {
         key == "List"
       ) {
         filterObject[key] = [];
+        apifilterObject[key] = [];
       }
       filterObject[key]?.push(item);
-      // filterObject[key] = item;
+      apifilterObject[key]?.push(e.target.value);
     } else {
       const index = filterObject[key]?.indexOf(item);
       if (index > -1) {
@@ -264,9 +269,17 @@ const NewReaders = () => {
           delete filterObject[key];
         }
       }
+      const index2 = apifilterObject[key]?.indexOf(e.target.value);
+      if (index2 > -1) {
+        apifilterObject[key]?.splice(index2, 1);
+        if (apifilterObject[key]?.length == 0) {
+          delete apifilterObject[key];
+        }
+      }
     }
 
     setFilterObject(filterObject);
+    setApifilterObject(apifilterObject);
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -561,6 +574,7 @@ const NewReaders = () => {
     obj = {};
 
     if (filterApplyflag > 0) {
+      setApifilterObject({});
       setFilterObject({});
       setReaderDataList([]);
 
@@ -581,6 +595,7 @@ const NewReaders = () => {
 
   const removeindividualfilter = (key, item) => {
     let old_object = filterObject;
+    let old_object2 = apifilterObject;
     const index = old_object[key]?.indexOf(item);
     if (index > -1) {
       old_object[key]?.splice(index, 1);
@@ -588,8 +603,16 @@ const NewReaders = () => {
         delete old_object[key];
       }
     }
+    const index2 = old_object2[key]?.indexOf(item);
+    if (index2 > -1) {
+      old_object2[key]?.splice(index, 1);
+      if (old_object2[key]?.length == 0) {
+        delete old_object2[key];
+      }
+    }
 
     setFilterObject(old_object);
+    setApifilterObject(old_object2);
     setReaderDataList([]);
     getReaderListData(page, old_object);
   };
@@ -813,9 +836,14 @@ const NewReaders = () => {
                                                       }
                                                       name={key}
                                                       defaultChecked={
-                                                        filterObject?.hasOwnProperty(
-                                                          key
-                                                        )
+                                                        (key == "status" &&
+                                                          item == "All") ||
+                                                        (key == "contactType" &&
+                                                          item == "HCP")
+                                                          ? true
+                                                          : filterObject?.hasOwnProperty(
+                                                              key
+                                                            )
                                                           ? filterObject[
                                                               key
                                                             ]?.indexOf(item) !==
@@ -955,21 +983,22 @@ const NewReaders = () => {
               </div>
             </div>
 
-            {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
+            {Object.keys(apifilterObject)?.length !== 0 &&
+            filterApplyflag > 0 ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">
                   <div className="filter-block-left full">
-                    {Object.keys(filterObject)?.map((key, index) => {
+                    {Object.keys(apifilterObject)?.map((key, index) => {
                       return (
                         <>
-                          {filterObject[key]?.length > 0 ? (
+                          {apifilterObject[key]?.length > 0 ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
                                 <span>{key} |</span>
                               </div>
                               <div className="filter-div-list">
-                                {filterObject[key]?.map((item, index) => (
+                                {apifilterObject[key]?.map((item, index) => (
                                   <div
                                     className="filter-result"
                                     onClick={(event) =>
@@ -1054,14 +1083,14 @@ const NewReaders = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
-                                      {/*<li>
-                                          <h6 className="tab-content-title">
-                                            Role
-                                          </h6>
-                                          <h6>
-                                            {data?.role ? data?.role : "N/A"}
-                                          </h6>
-                                        </li>*/}
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Role
+                                        </h6>
+                                        <h6>
+                                          {data?.role ? data.role != 0 ? data.role : "N/A" : "N/A"}
+                                        </h6>
+                                      </li>
 
                                       <li>
                                         <h6 className="tab-content-title">

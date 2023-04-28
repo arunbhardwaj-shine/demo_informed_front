@@ -61,6 +61,9 @@ const LibraryCreateUser = () => {
     { value: "blinded", label: "blind" },
     { value: "unblinded", label: "unblind" },
   ]);
+  const [mandatoryRole, setMandatoryRole] = useState([
+    "Investigator-Blinded","Site unblinded pharmacist","Blinded site user"
+  ]);
   const [ebookFile, setEbookFile] = useState([]);
   const [chapter, setChapter] = useState([
     {
@@ -248,6 +251,13 @@ const LibraryCreateUser = () => {
               ? JSON.stringify(userInputs?.mandatory)
               : JSON.stringify(false)
           );
+
+          userInputs?.mandatory ?
+            formData.append(
+              "trail_user_type",
+              mandatoryRole?.length ? JSON.stringify(mandatoryRole) : ""
+            )
+          :
           formData.append(
             "trail_user_type",
             hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
@@ -462,37 +472,46 @@ const LibraryCreateUser = () => {
       toast.error("Please input a tag");
     } else {
       loader("show");
-      const hadData = await postData(ENDPOINT.ADD_TAGS, {
-        product: newTag,
-        type: 2,
-      });
-      loader("hide");
-      let temp_tags = tagClickedFirst.map((data) => {
-        return data.toLowerCase();
-      });
-      let alltemp_tags = [];
-      Object.entries(allTags).map((data) => {
-        return alltemp_tags.push(...data);
-      });
-      alltemp_tags = alltemp_tags.map((data) => {
-        return data.toLowerCase();
-      });
+      try{
+        const hadData = await postData(ENDPOINT.ADD_TAGS, {
+          product: newTag,
+          type: 2,
+        });
+        loader("hide");
+        let temp_tags = tagClickedFirst.map((data) => {
+          return data.toLowerCase();
+        });
+        let alltemp_tags = [];
+        Object.entries(allTags).map((data) => {
+          return alltemp_tags.push(...data);
+        });
+        alltemp_tags = alltemp_tags.map((data) => {
+          return data.toLowerCase();
+        });
 
-      if (
-        !temp_tags.includes(newTag.toLowerCase()) &&
-        !alltemp_tags.includes(newTag.toLowerCase())
-      ) {
-        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+        let prevtag = allTags;
+        prevtag.push(newTag);
+        setAllTags(prevtag)
 
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          tags: newTag,
-        };
-      } else {
-        toast.error("Tag already in list.");
+        if (
+          !temp_tags.includes(newTag.toLowerCase()) &&
+          !alltemp_tags.includes(newTag.toLowerCase())
+        ) {
+          setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+
+          const body = {
+            user_id: localStorage.getItem("user_id"),
+            tags: newTag,
+          };
+        } else {
+          toast.error("Tag already in list.");
+        }
+        setNewTag("");
+        setTagsCounter(tagsCounter + 1);
+      }catch(err){
+        console.log(err);
+        loader("hide");
       }
-      setNewTag("");
-      setTagsCounter(tagsCounter + 1);
     }
   };
 
@@ -735,48 +754,6 @@ const LibraryCreateUser = () => {
                   </>
               ) : null}
 
-              {userDetail?.user?.[0]?.flag == 1 &&
-              userDetail?.user?.[0]?.group_id == 3 ? (
-                <div className="form-group">
-                  <label htmlFor="">Role</label>
-                  <div className="input-group w-100">
-                    <div className="tags_added">
-                      <div className="select-tags">
-                        <ul>
-                          {userDetail?.hcp?.map((item, index) => {
-                            return (
-                              <li
-                                className="list1"
-                                onClick={() => {
-                                  hcpClicked(item);
-                                }}
-                              >
-                                {item}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                        <div className="after-selected">
-                          <ul className="after-tag-selected">
-                            {hcpClickedFirst.map((item, index) => {
-                              return (
-                                <li className="list1">
-                                  {item}
-                                  <img
-                                    src="componentAssets/images/filter-close.svg"
-                                    alt="Close-filter"
-                                    onClick={() => removeHcp(item)}
-                                  />
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : null}
 
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.pharmaData == 0 &&
@@ -805,45 +782,97 @@ const LibraryCreateUser = () => {
                   </fieldset>
                 </div>
               ) : null}
+
+              {
+                userDetail?.user?.[0]?.flag == 1 &&
+                userDetail?.user?.[0]?.group_id == 3 ? (
+                  <>
+                    <div className="form-group justify-content-start rd">
+                      <label htmlFor="">Topics</label>
+                      <div className="input-group w-100">
+                        <div className="input-group-prepend">
+                          <button
+                            className="btn btn-filled btn-primary"
+                            type="button"
+                            id="tags-add"
+                            data-bs-toggle="modal"
+                            data-bs-target="#tagsModal"
+                            onClick={(e) =>
+                              topicButtonClicked(userDetail?.user[0]?.group_id)
+                            }
+                          >
+                            Add Topic +
+                          </button>
+                        </div>
+                        <div className="tags_added">
+                          <div className="select-tags"></div>
+                          <ul>
+                            {tagClickedFirst?.map((item, index) => {
+                              return (
+                                <li className="list1">
+                                  {item}
+                                  <img
+                                    src="componentAssets/images/filter-close.svg"
+                                    alt="Close-filter"
+                                    onClick={() => removeTagFinal(index)}
+                                  />
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ): null
+              }
             </div>
-            <div className="col-12 col-md-6 d-flex justify-content- align-items-start right-change flex-column">
-              <div className="form-group justify-content-end ">
-                <label htmlFor="">Topics</label>
-                <div className="input-group w-100">
-                  <div className="input-group-prepend">
-                    <button
-                      className="btn btn-filled btn-primary"
-                      type="button"
-                      id="tags-add"
-                      data-bs-toggle="modal"
-                      data-bs-target="#tagsModal"
-                      onClick={(e) =>
-                        topicButtonClicked(userDetail?.user[0]?.group_id)
-                      }
-                    >
-                      Add Topic +
-                    </button>
-                  </div>
-                  <div className="tags_added">
-                    <div className="select-tags"></div>
-                    <ul>
-                      {tagClickedFirst?.map((item, index) => {
-                        return (
-                          <li className="list1">
-                            {item}
-                            <img
-                              src="componentAssets/images/filter-close.svg"
-                              alt="Close-filter"
-                              onClick={() => removeTagFinal(index)}
-                            />
-                          </li>
-                        );
-                      })}
-                    </ul>
+
+            {
+              localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                <>
+                <div className="col-12 col-md-6 d-flex justify-content- align-items-start right-change flex-column">
+                  <div className="form-group justify-content-end ">
+                    <label htmlFor="">Topics</label>
+                    <div className="input-group w-100">
+                      <div className="input-group-prepend">
+                        <button
+                          className="btn btn-filled btn-primary"
+                          type="button"
+                          id="tags-add"
+                          data-bs-toggle="modal"
+                          data-bs-target="#tagsModal"
+                          onClick={(e) =>
+                            topicButtonClicked(userDetail?.user[0]?.group_id)
+                          }
+                        >
+                          Add Topic +
+                        </button>
+                      </div>
+                      <div className="tags_added">
+                        <div className="select-tags"></div>
+                        <ul>
+                          {tagClickedFirst?.map((item, index) => {
+                            return (
+                              <li className="list1">
+                                {item}
+                                <img
+                                  src="componentAssets/images/filter-close.svg"
+                                  alt="Close-filter"
+                                  onClick={() => removeTagFinal(index)}
+                                />
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+                </>
+              : null
+            }
+
           </div>
         </div>
       </div>
@@ -1287,6 +1316,75 @@ const LibraryCreateUser = () => {
                             </label>
                           </div>
                         </fieldset>
+                      </div>
+                    ) : null}
+
+                    {userDetail?.user?.[0]?.flag == 1 &&
+                    (!userInputs?.mandatory || userInputs?.mandatory == 0) &&
+                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      <div className="form-group">
+                        <label htmlFor="">Role</label>
+                        <div className="input-group w-100">
+                          <div className="tags_added">
+                            <div className="select-tags">
+                              <ul>
+                                {userDetail?.hcp?.map((item, index) => {
+                                  return (
+                                    <li
+                                      className="list1"
+                                      onClick={() => {
+                                        hcpClicked(item);
+                                      }}
+                                    >
+                                      {item}
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                              <div className="after-selected">
+                                <ul className="after-tag-selected">
+                                  {hcpClickedFirst.map((item, index) => {
+                                    return (
+                                      <li className="list1">
+                                        {item}
+                                        <img
+                                          src="componentAssets/images/filter-close.svg"
+                                          alt="Close-filter"
+                                          onClick={() => removeHcp(item)}
+                                        />
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {userDetail?.user?.[0]?.flag == 1 &&
+                    userInputs?.mandatory == 1 &&
+                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      <div className="form-group">
+                        <label htmlFor="">Role</label>
+                        <div className="input-group w-100">
+                          <div className="tags_added">
+                            <div className="select-tags">
+                              <div className="after-selected">
+                                <ul className="after-tag-selected sp">
+                                  {mandatoryRole.map((item, index) => {
+                                    return (
+                                      <li className="list1">
+                                        {item}
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     ) : null}
 

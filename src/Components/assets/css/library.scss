@@ -5782,6 +5782,21 @@ font-weight: 400;
     transform: translateY(-50%);
     cursor: pointer;
 }
+.after-selected ul.after-tag-selected.sp {
+  padding-top: 0!important;
+  margin-top: 0 !important;
+  border: 0;
+}
+.create-change-content .rd .input-group {
+  margin-bottom: 0;
+}
+.create-change-content.add-site .form-group {
+  width: 50%;
+}
+.create-change-content.add-site button.btn {
+  margin-left: auto;
+  display: block;
+}
 /**Publisher page End**/
 
 

@@ -36,6 +36,9 @@ const EditLibrary = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [finalTags, setFinalTags] = useState([]);
   const [tagsReRender, setTagsReRender] = useState(0);
+  const [mandatoryRole, setMandatoryRole] = useState([
+    "Investigator-Blinded","Site unblinded pharmacist","Blinded site user"
+  ]);
   const [updateflag, setupdateFlag] = useState(0);
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: "",
@@ -364,10 +367,19 @@ const EditLibrary = () => {
               ? JSON.stringify(userInputs?.reader_mandatory)
               : JSON.stringify(false)
           );
+
+
+          userInputs?.reader_mandatory ?
+            formData.append(
+              "trail_user_type",
+              mandatoryRole?.length ? JSON.stringify(mandatoryRole) : ""
+            )
+          :
           formData.append(
             "trail_user_type",
             hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
           );
+
         }
 
         if (
@@ -778,33 +790,37 @@ const EditLibrary = () => {
                   </div>
                 </div>
               ) : (
-                <div className="form-group">
-                  <label htmlFor="">Trial*</label>
+                  <>
+                  {
+                    /*<div className="form-group">
+                      <label htmlFor="">Trial*</label>
 
-                  <Select
-                    options={userDetail?.trial || []}
-                    placeholder="Select the trial "
-                    defaultValue={{
-                      label: userInputs?.trial
-                        ? userDetail?.trial?.[0].value == userInputs?.trial
-                          ? userDetail?.trial?.[0].label
-                          : ""
-                        : "",
-                      value: userInputs?.trial
-                        ? userDetail?.trial?.[0].value == userInputs?.trial
-                          ? userDetail?.trial?.[0].value
-                          : ""
-                        : "",
-                    }}
-                    onChange={(e) => handleChange(e?.value, "trial")}
-                    className="dropdown-basic-button split-button-dropup"
-                    isClearable
-                  />
+                      <Select
+                        options={userDetail?.trial || []}
+                        placeholder="Select the trial "
+                        defaultValue={{
+                          label: userInputs?.trial
+                            ? userDetail?.trial?.[0].value == userInputs?.trial
+                              ? userDetail?.trial?.[0].label
+                              : ""
+                            : "",
+                          value: userInputs?.trial
+                            ? userDetail?.trial?.[0].value == userInputs?.trial
+                              ? userDetail?.trial?.[0].value
+                              : ""
+                            : "",
+                        }}
+                        onChange={(e) => handleChange(e?.value, "trial")}
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
 
-                  {error?.trial ? (
-                    <div className="login-validation">{error?.trial}</div>
-                  ) : null}
-                </div>
+                      {error?.trial ? (
+                        <div className="login-validation">{error?.trial}</div>
+                      ) : null}
+                    </div>*/
+                  }
+                  </>
               )}
               {userDetail?.user?.[0]?.pharmaData == 1 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
@@ -824,67 +840,29 @@ const EditLibrary = () => {
                 </div>
               ) : userDetail?.user?.[0]?.flag == 1 &&
                 userDetail?.user?.[0]?.group_id == 3 ? (
-                <div className="form-group">
-                  <label htmlFor="">Blind type*</label>
-                  <Select
-                    options={blindType || []}
-                    placeholder="Select Blind Type"
-                    defaultValue={{
-                      label: userInputs?.blindType,
-                      value: userInputs?.blindType,
-                    }}
-                    onChange={(e) => handleChange(e?.value, "blindType")}
-                    className="dropdown-basic-button split-button-dropup"
-                    isClearable
-                  />
-                  {error?.blindType ? (
-                    <div className="login-validation">{error?.blindType}</div>
-                  ) : null}
-                </div>
+                  <>
+                  {
+                    /*<div className="form-group">
+                      <label htmlFor="">Blind type*</label>
+                      <Select
+                        options={blindType || []}
+                        placeholder="Select Blind Type"
+                        defaultValue={{
+                          label: userInputs?.blindType,
+                          value: userInputs?.blindType,
+                        }}
+                        onChange={(e) => handleChange(e?.value, "blindType")}
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                      {error?.blindType ? (
+                        <div className="login-validation">{error?.blindType}</div>
+                      ) : null}
+                    </div>*/
+                  }
+                  </>
               ) : null}
 
-              {userDetail?.user?.[0]?.flag == 1 &&
-              userDetail?.user?.[0]?.group_id == 3 ? (
-                <div className="form-group">
-                  <label htmlFor="">HCP</label>
-                  <div className="input-group w-100">
-                    <div className="tags_added">
-                      <div className="select-tags">
-                        <ul>
-                          {userDetail?.hcp?.map((item, index) => {
-                            return (
-                              <li
-                                className="list1"
-                                onClick={() => {
-                                  hcpClicked(item);
-                                }}
-                              >
-                                {item}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                        <div className="after-selected">
-                          <ul className="after-tag-selected">
-                            {hcpClickedFirst.map((item, index) => {
-                              return (
-                                <li className="list1">
-                                  {item}
-                                  <img
-                                    src="componentAssets/images/filter-close.svg"
-                                    alt="Close-filter"
-                                    onClick={() => removeHcp(item)}
-                                  />
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : null}
 
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.pharmaData == 0 &&
@@ -919,105 +897,93 @@ const EditLibrary = () => {
                   </fieldset>
                 </div>
               ) : null}
+
+              {
+                userDetail?.user?.[0]?.flag == 1 &&
+                userDetail?.user?.[0]?.group_id == 3 ? (
+                  <>
+                      <div className="form-group justify-content-start rd">
+                        <label htmlFor="">Topics</label>
+                        <div className="input-group w-100">
+                          <div className="input-group-prepend">
+                            <button
+                              className="btn btn-filled btn-primary"
+                              type="button"
+                              id="tags-add"
+                              data-bs-toggle="modal"
+                              data-bs-target="#tagsModal"
+                              onClick={(e) =>
+                                topicButtonClicked(userDetail?.user[0]?.group_id)
+                              }
+                            >
+                              Add Topic +
+                            </button>
+                          </div>
+                          <div className="tags_added">
+                            <ul>
+                              {tagClickedFirst?.map((item, index) => {
+                                return (
+                                  <li className="list1">
+                                    {item}
+                                    <img
+                                      src="componentAssets/images/filter-close.svg"
+                                      alt="Close-filter"
+                                      onClick={() => removeTagFinal(index)}
+                                    />
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                ) : null
+              }
+
             </div>
-            <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change flex-column">
-              <div className="form-group justify-content-end">
-                <label htmlFor="">Topics</label>
-                <div className="input-group w-100">
-                  <div className="input-group-prepend">
-                    <button
-                      className="btn btn-filled btn-primary"
-                      type="button"
-                      id="tags-add"
-                      data-bs-toggle="modal"
-                      data-bs-target="#tagsModal"
-                      onClick={(e) =>
-                        topicButtonClicked(userDetail?.user[0]?.group_id)
-                      }
-                    >
-                      Add Topic +
-                    </button>
+
+            {
+              localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+              <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change flex-column">
+                  <div className="form-group justify-content-end">
+                    <label htmlFor="">Topics</label>
+                    <div className="input-group w-100">
+                      <div className="input-group-prepend">
+                        <button
+                          className="btn btn-filled btn-primary"
+                          type="button"
+                          id="tags-add"
+                          data-bs-toggle="modal"
+                          data-bs-target="#tagsModal"
+                          onClick={(e) =>
+                            topicButtonClicked(userDetail?.user[0]?.group_id)
+                          }
+                        >
+                          Add Topic +
+                        </button>
+                      </div>
+                      <div className="tags_added">
+                        <ul>
+                          {tagClickedFirst?.map((item, index) => {
+                            return (
+                              <li className="list1">
+                                {item}
+                                <img
+                                  src="componentAssets/images/filter-close.svg"
+                                  alt="Close-filter"
+                                  onClick={() => removeTagFinal(index)}
+                                />
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                  <div className="tags_added">
-                    <ul>
-                      {tagClickedFirst?.map((item, index) => {
-                        return (
-                          <li className="list1">
-                            {item}
-                            <img
-                              src="componentAssets/images/filter-close.svg"
-                              alt="Close-filter"
-                              onClick={() => removeTagFinal(index)}
-                            />
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
                 </div>
-              </div>
-              {/* <div className="form-group justify-content-end">
-              <label htmlFor="">Reseller</label>
-              <div className="form-check-group">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    N/A
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller1"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller1"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller2"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller2"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-              </div>
-            </div> */}
-            </div>
+              : null
+            }
           </div>
         </div>
       </div>
@@ -1538,6 +1504,81 @@ const EditLibrary = () => {
                               </label>
                             </div>
                           </fieldset>
+                        </div>
+                      ) : null}
+
+                      {userDetail?.user?.[0]?.flag == 1 &&
+                      (!userInputs?.reader_mandatory || userInputs?.reader_mandatory == 0) &&
+                      userDetail?.user?.[0]?.group_id == 3 ? (
+                        <div className="form-group">
+                          <label htmlFor="">Role</label>
+                          <div className="input-group w-100">
+                            <div className="tags_added">
+                              <div className="select-tags">
+                                <ul>
+                                  {userDetail?.hcp?.map((item, index) => {
+                                    return (
+                                      <li
+                                        className="list1"
+                                        onClick={() => {
+                                          hcpClicked(item);
+                                        }}
+                                      >
+                                        {item}
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                                <div className="after-selected">
+                                  <ul className="after-tag-selected">
+                                    {hcpClickedFirst.map((item, index) => {
+                                      return (
+                                        <>
+                                        {
+                                          userDetail?.hcp?.includes(item) ?
+                                          <li className="list1">
+                                            {item}
+                                            <img
+                                              src="componentAssets/images/filter-close.svg"
+                                              alt="Close-filter"
+                                              onClick={() => removeHcp(item)}
+                                            />
+                                          </li> : null
+                                        }
+                                        </>
+
+                                      );
+                                    })}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : null}
+
+                      {userDetail?.user?.[0]?.flag == 1 &&
+                      userInputs?.reader_mandatory == 1 &&
+                      userDetail?.user?.[0]?.group_id == 3 ? (
+                        <div className="form-group">
+                          <label htmlFor="">Role</label>
+                          <div className="input-group w-100">
+                            <div className="tags_added">
+                              <div className="select-tags">
+                                <div className="after-selected">
+                                  <ul className="after-tag-selected sp">
+                                    {mandatoryRole.map((item, index) => {
+                                      return (
+                                        <li className="list1">
+                                          {item}
+                                        </li>
+                                      );
+                                    })}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       ) : null}
 
