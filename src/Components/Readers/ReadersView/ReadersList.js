@@ -162,7 +162,7 @@ const NewReaders = () => {
           setCount(res?.data?.data?.total);
         }
       }
-      
+
 
       let total_results = 0;
       if (page != 1) {
@@ -1566,21 +1566,37 @@ const NewReaders = () => {
                                         <div className="select-dropdown-wrapper">
                                           <div className="select">
                                           {
-                                              console.log(changeIRTType)
+                                              changeIRTType[changeIRTType.findIndex((el) => el.index === data.id)]?.value == 1 || data?.irt == "Yes"
+                                              ?
+                                                <Select
+                                                  options={change?.userIrtRoles}
+                                                  defaultValue={change?.userIrtRoles.find(
+                                                    (roleObj) =>
+                                                      roleObj.value === data?.role
+                                                  )}
+                                                  onChange={(event) =>
+                                                    onRoleChange(event, data.id)
+                                                  }
+                                                  id={"role_" + data?.id}
+                                                  className="dropdown-basic-button split-button-dropup"
+                                                  isClearable
+                                                />
+                                              :
+                                                <Select
+                                                  options={change?.role}
+                                                  defaultValue={change?.role.find(
+                                                    (roleObj) =>
+                                                      roleObj.value === data?.role
+                                                  )}
+                                                  onChange={(event) =>
+                                                    onRoleChange(event, data.id)
+                                                  }
+                                                  id={"role_" + data?.id}
+                                                  className="dropdown-basic-button split-button-dropup"
+                                                  isClearable
+                                                />
                                           }
-                                            <Select
-                                              options={change?.role}
-                                              defaultValue={change?.role.find(
-                                                (roleObj) =>
-                                                  roleObj.value === data?.role
-                                              )}
-                                              onChange={(event) =>
-                                                onRoleChange(event, data.id)
-                                              }
-                                              id={"role_" + data?.id}
-                                              className="dropdown-basic-button split-button-dropup"
-                                              isClearable
-                                            />
+
                                           </div>
                                         </div>
                                       </li>
