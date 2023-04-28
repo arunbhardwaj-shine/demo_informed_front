@@ -133,7 +133,7 @@ const NewReaders = () => {
       };
 
       let payload = { ...data, ...obj };
-      
+
       const res = await postData(
         ENDPOINT.READER_LIST_DATA,
         payload
@@ -262,7 +262,7 @@ const NewReaders = () => {
         key == "irt" ||
         key == "List"
 
-        
+
       ) {
         filterObject[key] = [];
         apifilterObject[key] = [];
@@ -650,10 +650,8 @@ const NewReaders = () => {
       key == "change-tab" &&
       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
     ) {
-      const res = await getData(
-        "https://informedback.shinedezign.pro/reader/user-detail"
-      );
-      setChanges(res.data.data);
+      const res = await getData(`${ENDPOINT.READER_USER_DROP}`);
+      setChanges(res?.data?.data);
       setSiteNumber((prevSiteNumbers) => ({
         ...prevSiteNumbers,
         all: res.data.data.siteNumber,
@@ -1474,61 +1472,40 @@ const NewReaders = () => {
                                   {localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" && change ? (
                                     <>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          User Status
-                                        </h6>
-                                        <div className="select-dropdown-wrapper">
-                                          {/*console.log(
-                                            types.findIndex(
-                                              (el) =>
-                                              el.label.toLowerCase() == data?.user_status.toLowerCase()
-                                            ))*/}
-                                          <div className="select">
-                                            <Select
-                                              options={types}
-                                              defaultValue={
-                                                types[
-                                                  types.findIndex(
-                                                    (el) =>
-                                                      el.label.toLowerCase() ==
-                                                      data?.user_status?.toLowerCase()
-                                                  )
-                                                ]
-                                              }
-                                              onChange={(event) =>
-                                                onUserChange(event, data.id)
-                                              }
-                                              id={"user_type_" + data?.id}
-                                              className="dropdown-basic-button split-button-dropup"
-                                              isClearable
-                                            />
+                                      {/*console.log(
+                                        types.findIndex(
+                                          (el) =>
+                                          el.label.toLowerCase() == data?.user_status.toLowerCase()
+                                        ))*/}
+                                      {
+                                        /*<li>
+                                          <h6 className="tab-content-title">
+                                            User Status
+                                          </h6>
+                                          <div className="select-dropdown-wrapper">
+                                            <div className="select">
+                                              <Select
+                                                options={types}
+                                                defaultValue={
+                                                  types[
+                                                    types.findIndex(
+                                                      (el) =>
+                                                        el.label.toLowerCase() ==
+                                                        data?.user_status?.toLowerCase()
+                                                    )
+                                                  ]
+                                                }
+                                                onChange={(event) =>
+                                                  onUserChange(event, data.id)
+                                                }
+                                                id={"user_type_" + data?.id}
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            </div>
                                           </div>
-                                        </div>
-                                      </li>
-
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Role
-                                        </h6>
-                                        <div className="select-dropdown-wrapper">
-                                          <div className="select">
-                                            <Select
-                                              options={change?.role}
-                                              defaultValue={change?.role.find(
-                                                (roleObj) =>
-                                                  roleObj.value === data?.role
-                                              )}
-                                              onChange={(event) =>
-                                                onRoleChange(event, data.id)
-                                              }
-                                              id={"role_" + data?.id}
-                                              className="dropdown-basic-button split-button-dropup"
-                                              isClearable
-                                            />
-                                          </div>
-                                        </div>
-                                      </li>
+                                        </li>*/
+                                      }
                                       <li>
                                         <h6 className="tab-content-title">
                                           Blinded Type
@@ -1577,7 +1554,31 @@ const NewReaders = () => {
                                           </div>
                                         </div>
                                       </li>
-
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Role
+                                        </h6>
+                                        <div className="select-dropdown-wrapper">
+                                          <div className="select">
+                                          {
+                                              console.log(changeIRTType)
+                                          }
+                                            <Select
+                                              options={change?.role}
+                                              defaultValue={change?.role.find(
+                                                (roleObj) =>
+                                                  roleObj.value === data?.role
+                                              )}
+                                              onChange={(event) =>
+                                                onRoleChange(event, data.id)
+                                              }
+                                              id={"role_" + data?.id}
+                                              className="dropdown-basic-button split-button-dropup"
+                                              isClearable
+                                            />
+                                          </div>
+                                        </div>
+                                      </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           Country
