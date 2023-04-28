@@ -9,12 +9,14 @@ import exportData from "highcharts/modules/export-data";
 import HighchartsReact from "highcharts-react-official";
 import HighchartsMap from "highcharts/modules/map";
 import proj4 from "proj4";
-import mapDataWorld from "@highcharts/map-collection/custom/world.geo.json";
+import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 
 import axios from "axios";
 import drilldown from "highcharts/modules/drilldown.js";
 
 import { Link } from "react-router-dom";
+import customWrap from "./customWrap";
+
 HighchartsMap(Highcharts);
 
 // Load Highcharts modules
@@ -23,6 +25,7 @@ require("highcharts/modules/exporting")(Highcharts);
 exporting(Highcharts);
 exportData(Highcharts);
 drilldown(Highcharts);
+customWrap(Highcharts);
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const OctaCountryRegestration = () => {
@@ -109,7 +112,7 @@ const MapComponent = ({ data }) => {
         borderColor: "#A0A0A0",
         nullColor: "rgba(200, 200, 200, 0.3)",
         showInLegend: false,
-        mapData: mapDataWorld,
+        mapData: worldMap,
       },
       {
         name: "Separators",
@@ -122,17 +125,17 @@ const MapComponent = ({ data }) => {
         // Specify points using lat/lon
         type: "mappoint",
         name: "Total Registrations",
-        color: "red",
+        color: "black",
         data: newData,
 
         tooltip: {
           pointFormat: "{point.totalIndex}",
         },
-
+        showInLegend: false,
         marker: {
           symbol: `url(${path_image}/marker.png)`,
-          width: 11,
-          height: 15,
+          width: 20,
+          height: 25,
           offsetY: -15, // adjust the position of the marker icon
         },
       },
@@ -294,6 +297,7 @@ const TabComponent = ({ data }) => {
 };
 
 const Barcomponent = ({ countries, countriesData, title }) => {
+  window.proj4 = null;
   const data = countries.map((country, index) => ({
     name: country,
     value: countriesData[index],
