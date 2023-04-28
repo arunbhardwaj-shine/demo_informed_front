@@ -133,7 +133,12 @@ const NewReaders = () => {
       // } else {
       //   loader("show");
       // }
-      const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
+      // "https://informedback.shinedezign.pro/reader/reader",
+
+      const res = await postData(
+        ENDPOINT.READER_LIST_DATA,
+        payload
+      );
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
@@ -496,6 +501,7 @@ const NewReaders = () => {
         ) {
           body = {
             userId: 18207,
+             type :1,
             readerId: reader_id,
             userStatus: type,
             country: country,
@@ -1077,14 +1083,14 @@ const NewReaders = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
-                                      {/*<li>
-                                          <h6 className="tab-content-title">
-                                            Role
-                                          </h6>
-                                          <h6>
-                                            {data?.role ? data?.role : "N/A"}
-                                          </h6>
-                                        </li>*/}
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Role
+                                        </h6>
+                                        <h6>
+                                          {data?.role ? data.role != 0 ? data.role : "N/A" : "N/A"}
+                                        </h6>
+                                      </li>
 
                                       <li>
                                         <h6 className="tab-content-title">
