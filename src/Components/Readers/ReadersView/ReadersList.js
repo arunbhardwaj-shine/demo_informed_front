@@ -48,8 +48,13 @@ const NewReaders = () => {
   const [filterdata, setFilterData] = useState({
     Status: ["Registered", "Unregistered"],
   });
-  const [filterObject, setFilterObject] = useState({});
-  const [apifilterObject, setApifilterObject] = useState({});
+  const [filterObject, setFilterObject] = useState({
+    status:["Registered"]
+  });
+  const [apifilterObject, setApifilterObject] = useState({
+    status:["Registered"]
+    // status:["Unregistered"]
+  });
   const [updateflag, setUpdateFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "0", label: "HCP" },
@@ -128,13 +133,7 @@ const NewReaders = () => {
       };
 
       let payload = { ...data, ...obj };
-      // if (pageAllClicked == true) {
-      //   setPageAll(true);
-      // } else {
-      //   loader("show");
-      // }
-      // "https://informedback.shinedezign.pro/reader/reader",
-
+      
       const res = await postData(
         ENDPOINT.READER_LIST_DATA,
         payload
@@ -173,11 +172,17 @@ const NewReaders = () => {
         setReaderDataList(res?.data?.data?.result);
       }
 
-      if (res?.data?.data?.total > total_results) {
-        setIsLoaded(true);
-      } else {
+      if ( total_results <= res?.data?.data?.total) {
         setIsLoaded(false);
+       } else {
+        setIsLoaded(true);
       }
+
+      // if (res?.data?.data?.total > total_results) {
+      //   setIsLoaded(true);
+      //  } else {
+      //   setIsLoaded(false);
+      // }
 
       setPageAll(false);
       setApiCallStatus(true);
@@ -254,7 +259,10 @@ const NewReaders = () => {
         key == "contactType" ||
         key == "userAction" ||
         key == "webinarRegistered" ||
+        key == "irt" ||
         key == "List"
+
+        
       ) {
         filterObject[key] = [];
         apifilterObject[key] = [];
@@ -823,6 +831,8 @@ const NewReaders = () => {
                                                         key == "contactType" ||
                                                         key == "userAction" ||
                                                         key ==
+                                                          "irt" ||
+                                                        key ==
                                                           "webinarRegistered" ||
                                                         key == "List"
                                                           ? "radio"
@@ -836,8 +846,6 @@ const NewReaders = () => {
                                                       }
                                                       name={key}
                                                       defaultChecked={
-                                                        (key == "status" &&
-                                                          item == "All") ||
                                                         (key == "contactType" &&
                                                           item == "HCP")
                                                           ? true
@@ -982,9 +990,9 @@ const NewReaders = () => {
                 </div>
               </div>
             </div>
-
-            {Object.keys(apifilterObject)?.length !== 0 &&
-            filterApplyflag > 0 ? (
+            {/* &&
+            filterApplyflag */}
+            {Object.keys(apifilterObject)?.length  ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">

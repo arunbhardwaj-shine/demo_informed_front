@@ -68,7 +68,8 @@ const LibraryContent = (props) => {
   const navigate = useNavigate();
   let obj = {};
   const [userId, setUserId] = useState();
-  const [filterObject, setFilterObject] = useState({});
+  const [filterObject, setFilterObject] = useState({
+  });
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
   const [filterdata, setFilterData] = useState({
@@ -130,8 +131,7 @@ const LibraryContent = (props) => {
   ];
 
   useEffect(() => {
-    applyFilters();
-    getLibraryData(page, filterObject, search);
+    applyFilters()
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
@@ -144,8 +144,25 @@ const LibraryContent = (props) => {
         user_id: localStorage.getItem("user_id"),
       });
       if (res?.data?.data) {
+        let obj = {}
+        if(res.data.data.hasOwnProperty("draft")){
+          obj["draft"] = ["1"]
+        }
+        if(res.data.data.hasOwnProperty("status")){
+          obj["status"] = ["Registered"]
+        }
+        if(res.data.data.hasOwnProperty("Selected By Articles")){
+          obj["Selected By Articles"] = ["All"]
+        }
+
+        
+
+         
+        setFilterObject(obj)
         setFilterData(res?.data?.data);
         setAllTags(res?.data?.data?.tags);
+        getLibraryData(page, obj, search);
+
       }
       // loader("hide");
     } catch (err) {
@@ -284,7 +301,7 @@ const LibraryContent = (props) => {
         type: type,
         limit: limit,
       };
-
+console.log("- im hererererere",obj)
       let body = { ...data, ...obj };
 
       const res = await postData(ENDPOINT.LIBRARY, body);
@@ -974,7 +991,8 @@ const LibraryContent = (props) => {
               level={qrState?.level}
               includeMargin={true}
             />
-            {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0  ? (
+            {/* !== 0 && filterApplyflag > 0 */}
+            {Object.keys(filterObject)?.length  ? (
               <div className="apply-filter">
                 {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
@@ -1181,48 +1199,55 @@ const LibraryContent = (props) => {
                                       </h6>
                                       <h6>{data?.popup_email_content_language?data?.popup_email_content_language:"No"}</h6>
                                     </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Link type
-                                      </h6>
-                                      <h6>{data?.linkType}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Include
-                                      </h6>
-                                      <div className="include-links">
-                                        {data?.spc_included ? (
-                                          <img
-                                            src={path_image + "spc-img.png"}
-                                            alt=""
-                                          />
-                                        ) : (
-                                          ""
-                                        )}
+                                    {
+                                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                      <>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Link type
+                                            </h6>
+                                            <h6>{data?.linkType}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Include
+                                            </h6>
+                                            <div className="include-links">
+                                              {data?.spc_included ? (
+                                                <img
+                                                  src={path_image + "spc-img.png"}
+                                                  alt=""
+                                                />
+                                              ) : (
+                                                ""
+                                              )}
 
-                                        {data?.linkRelations ? (
-                                          <img
-                                            src={path_image + "video-img.png"}
-                                            alt=""
-                                          />
-                                        ) : (
-                                          ""
-                                        )}
-                                        {data?.pdfLinks ? (
-                                          <img
-                                            src={path_image + "link-img.png"}
-                                            alt=""
-                                          />
-                                        ) : (
-                                          ""
-                                        )}
+                                              {data?.linkRelations ? (
+                                                <img
+                                                  src={path_image + "video-img.png"}
+                                                  alt=""
+                                                />
+                                              ) : (
+                                                ""
+                                              )}
+                                              {data?.pdfLinks ? (
+                                                <img
+                                                  src={path_image + "link-img.png"}
+                                                  alt=""
+                                                />
+                                              ) : (
+                                                ""
+                                              )}
 
-                                        {data.spc_included == 0 &&
-                                          data.linkRelations == 0 &&
-                                          data.pdfLinks == 0 && <h6>N/A</h6>}
-                                      </div>
-                                    </li>
+                                              {data.spc_included == 0 &&
+                                                data.linkRelations == 0 &&
+                                                data.pdfLinks == 0 && <h6>N/A</h6>}
+                                            </div>
+                                          </li>
+                                      </>
+                                      : null
+                                    }
+
                                   </ul>
                                 </div>
 
@@ -1379,85 +1404,97 @@ const LibraryContent = (props) => {
                                             />
                                         </div>
                                     </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Registered readers{" "}
-                                        <LinkWithTooltip
-                                          tooltip="Number of HCPs who have register for or activated the content."
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress">
-                                        <ProgressBar
-                                          variant={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? "danger" : "default"
-                                          }
-                                          now={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.reader/
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
-                                            :
-                                            "100"
-                                          }
-                                          label={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].reader
-                                            :
-                                            "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
 
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        SubLinks
-                                        <LinkWithTooltip
-                                          tooltip="Number of sublinks with content."
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
+                                    {
+                                      data?.linkType != "Online"
+                                      ?
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Registered readers{" "}
+                                            <LinkWithTooltip
+                                              tooltip="Number of HCPs who have register for or activated the content."
+                                            >
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "info_circle_icon.svg"
+                                                }
+                                                alt="refresh-btn"
+                                              />
+                                            </LinkWithTooltip>
+                                          </h6>
+                                          <div className="data-progress">
+                                            <ProgressBar
+                                              variant={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ? "danger" : "default"
+                                              }
+                                              now={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ?
+                                                (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.reader/
+                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                                :
+                                                "100"
+                                              }
+                                              label={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ?
+                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].reader
+                                                :
+                                                "Loading"
+                                              }
+                                            />
+                                          </div>
+                                        </li>
+                                        : null
+                                    }
+
+
+                                    {
+                                    	data?.subLinkAdded
+                                      ?
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          SubLinks
+                                          <LinkWithTooltip
+                                            tooltip="Number of sublinks with content."
+                                          >
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ? "sublink" : "default"
                                             }
-                                            alt="refresh-btn"
+                                            now={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.subLink/
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                              :
+                                              "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].subLink
+                                              :
+                                              "Loading"
+                                            }
                                           />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress">
-                                        <ProgressBar
-                                          variant={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? "sublink" : "default"
-                                          }
-                                          now={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.subLink/
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
-                                            :
-                                            "100"
-                                          }
-                                          label={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].subLink
-                                            :
-                                            "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
+                                        </div>
+                                      </li>
+                                      : null
+                                    }
 
                                     {
                                     	data?.allow_print
@@ -1726,7 +1763,7 @@ const LibraryContent = (props) => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            User Types
+                                            Roles
                                           </h6>
                                           <h6>
                                           {data?.trail_user_type
@@ -1743,32 +1780,41 @@ const LibraryContent = (props) => {
                                       :
                                       null
                                     }
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Usage limit
-                                      </h6>
-                                      <h6>
-                                      {
-                                        data?.limit > 0? data?.limit: "Unlimted"
-                                      }
-                                      </h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Enable
-                                      </h6>
-                                      <h6>
-                                        {
-                                          changeFormatForPrint(data)
-                                        }
-                                      </h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Link type
-                                      </h6>
-                                      <h6>{data?.linkType}</h6>
-                                    </li>
+
+                                    {
+                                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                      <>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Usage limit
+                                            </h6>
+                                            <h6>
+                                            {
+                                              data?.limit > 0? data?.limit: "Unlimted"
+                                            }
+                                            </h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Enable
+                                            </h6>
+                                            <h6>
+                                              {
+                                                changeFormatForPrint(data)
+                                              }
+                                            </h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Link type
+                                            </h6>
+                                            <h6>{data?.linkType}</h6>
+                                          </li>
+                                      </>
+                                      : null
+                                    }
+
+
                                     {
                                       /*
                                       <li>
@@ -1787,16 +1833,22 @@ const LibraryContent = (props) => {
                                       </h6>
                                       <h6>{data?.uploadedDate}</h6>
                                     </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Expiration date
-                                      </h6>
-                                      <h6>
-                                        {data?.expireDate
-                                          ? data.expireDate
-                                          : "N/A"}
-                                      </h6>
-                                    </li>
+
+                                    {
+                                      localStorage.getItem("group_id") == "2" ?
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Expiration date
+                                        </h6>
+                                        <h6>
+                                          {data?.expireDate
+                                            ? data.expireDate
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      : null
+                                    }
+
                                   </ul>
                                 </div>
                               </Tab>
