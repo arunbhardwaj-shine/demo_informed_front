@@ -994,7 +994,7 @@ const NewReaders = () => {
             </div>
             {/* &&
             filterApplyflag */}
-            {Object.keys(apifilterObject)?.length  ? (
+            {Object.keys(apifilterObject)?.length && filterApplyflag == 1  ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">
@@ -1529,7 +1529,7 @@ const NewReaders = () => {
                                       }
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Blinded Type
+                                          Blinded
                                         </h6>
                                         <div className="select-dropdown-wrapper">
                                           <div className="select">

@@ -143,20 +143,18 @@ const LibraryContent = (props) => {
       const res = await postData(ENDPOINT.FILTERS, {
         user_id: localStorage.getItem("user_id"),
       });
+
       if (res?.data?.data) {
         let obj = {}
-        if(res.data.data.hasOwnProperty("draft")){
-          obj["draft"] = ["1"]
-        }
-        if(res.data.data.hasOwnProperty("status")){
-          obj["status"] = ["Registered"]
-        }
-        if(res.data.data.hasOwnProperty("Selected By Articles")){
-          obj["Selected By Articles"] = ["All"]
-        }
-
-        
-
+        // if(res.data.data.hasOwnProperty("draft")){
+        //   obj["draft"] = ["1"]
+        // }
+        // if(res.data.data.hasOwnProperty("status")){
+        //   obj["status"] = ["Registered"]
+        // }
+        // if(res.data.data.hasOwnProperty("Selected By Articles")){
+        //   obj["Selected By Articles"] = ["All"]
+        // }
          
         setFilterObject(obj)
         setFilterData(res?.data?.data);
@@ -301,7 +299,6 @@ const LibraryContent = (props) => {
         type: type,
         limit: limit,
       };
-console.log("- im hererererere",obj)
       let body = { ...data, ...obj };
 
       const res = await postData(ENDPOINT.LIBRARY, body);
@@ -844,7 +841,6 @@ console.log("- im hererererere",obj)
 
                                   <Accordion.Body className="card-body">
                                     <ul>
-                                      {console.log("---dfdf",filterObject)}
                                       {filterdata[key]?.length
                                         ? filterdata[key]?.map(
                                             (item, index) => (
@@ -992,7 +988,7 @@ console.log("- im hererererere",obj)
               includeMargin={true}
             />
             {/* !== 0 && filterApplyflag > 0 */}
-            {Object.keys(filterObject)?.length  ? (
+            {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
                 {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
