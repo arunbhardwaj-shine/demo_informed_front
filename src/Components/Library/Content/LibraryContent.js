@@ -1709,12 +1709,15 @@ const LibraryContent = (props) => {
                                       localStorage.getItem("group_id") == "3"
                                       ?
                                       <>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Blind Type
-                                          </h6>
-                                          <h6>{ data?.blindType ? data.blindType == "blinded" ? "Yes" : "No"  : "No" }</h6>
-                                        </li>
+                                        {
+                                          /*<li>
+                                            <h6 className="tab-content-title">
+                                              Blind Type
+                                            </h6>
+                                            <h6>{ data?.blindType ? data.blindType == "blinded" ? "Yes" : "No"  : "No" }</h6>
+                                          </li>*/
+                                        }
+
                                         <li>
                                           <h6 className="tab-content-title">
                                             Mandatory

@@ -122,6 +122,8 @@ const ReaderAdd = () => {
     blind_type: [],
     hospital: [],
     province: [],
+    siteNumber: [],
+    siteName: [],
   });
   const [uploadShow, setUploadShow] = useState(false);
   const [updateFlag, setUpdateFlag] = useState(0);
@@ -182,9 +184,9 @@ const ReaderAdd = () => {
       role: hasData?.data?.data?.role,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
-      siteName: hasData?.data?.data?.siteName,
+      siteName: [],
       sideData: hasData?.data?.data?.sideData,
-      siteNumber: hasData?.data?.data?.siteNumber,
+      siteNumber: [],
       irt: hasData?.data?.data?.irt,
     });
     loader("hide");
@@ -275,10 +277,15 @@ const ReaderAdd = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
+
      if(isSelectedName == "country"){
-      if(!userDetail?.flag){
+      // if(!userDetail?.flag){
         let newSite=[],newSiteNumber =[]
         userDetail?.sideData?.forEach(item =>{
+              let countryUpdated = e
+              if(countryUpdated == "Bosnia and Herzegovina"){
+                  countryUpdated="B&H";
+              }
               if(item?.country == e){
                 newSite.push({label:item?.site_name,value:item?.site_name})
                 newSiteNumber.push({label:item.site_number,value:item?.site_number})
@@ -290,53 +297,28 @@ const ReaderAdd = () => {
           siteName:newSite,
           siteNumber: newSiteNumber,
         });
-        setAddReaderInputs({...userInputs,["siteNumber"]:"",["siteName"]:""})
+        // setAddReaderInputs({...userInputs,["siteNumber"]:"",["siteName"]:""})
 
-      }
-      
-      setAddReaderInputs({...userInputs,[isSelectedName]:e})
+      // }
 
+      setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteNumber"]:"",["siteName"]:""})
     }else if(isSelectedName == "siteNumber"){
-      let newSite=[],country =[]
-      if(!userDetail?.flag){
-        userDetail?.sideData?.forEach(item =>{
-          if(item?.site_number == e){
-            newSite.push({label:item?.site_name,value:item?.site_name})
-            country.push({label:item.country,value:item?.country})
-          }
-    })
-      setUserDetail({
-        ...userDetail,
-        flag:1,
-        siteName:newSite,
-      });
-      setCountryAll(country)
-      setAddReaderInputs({...userInputs,["country"]:"",["siteName"]:""})
-
-      }
-      setAddReaderInputs({...userInputs,[isSelectedName]:e})
-    }else if(isSelectedName == "siteName"){
-      if(!userDetail?.flag){
-        let newSiteNumber=[],country =[]
-        userDetail?.sideData?.forEach(item =>{
-              if(item?.site_name == e){
-                newSiteNumber.push({label:item?.site_number,value:item?.site_number})
-                country.push({label:item.country,value:item?.country})
+      let siteName = "";
+      userDetail?.sideData?.forEach(item =>{
+              if(item?.site_number == e){
+                siteName = item?.site_name;
               }
         })
-        setUserDetail({
-          ...userDetail,
-          flag:1,
-          siteNumber:newSiteNumber,
-        });
-        setCountryAll(country)
-        setAddReaderInputs({...userInputs,["country"]:"",["siteNumber"]:""})
-
-      }
-   
-      setAddReaderInputs({...userInputs,[isSelectedName]:e})
+      setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteName"]:siteName})
+    }else if(isSelectedName == "siteName"){
+      let siteNum = "";
+      userDetail?.sideData?.forEach(item =>{
+              if(item?.site_name == e){
+                siteNum = item?.site_number;
+              }
+        })
+      setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteNumber"]:siteNum})
     }
-    
     else{
       setAddReaderInputs({
         ...userInputs,
@@ -347,9 +329,9 @@ const ReaderAdd = () => {
           : e?.target?.value,
       });
     }
-    
 
-    
+
+
   };
 
   const handleFileUpload = async (e) => {
@@ -485,22 +467,21 @@ const ReaderAdd = () => {
             onChange={(e) => handleChange(e?.value, "irt")}
           />
         </Form.Group>
-        <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Country *</Form.Label>
-         <Select
+          <Form.Group className="form-group">
+              <Form.Label htmlFor="">Country *</Form.Label>
+              <Select
                options={countryAll}
-               defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+               // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
                placeholder="Select country"
-              name="country"
-                  className="dropdown-basic-button split-button-dropup"
-             isClearable
+               name="country"
+               className="dropdown-basic-button split-button-dropup"
+               isClearable
                onChange={(e) => handleChange(e?.value, "country")}
               />
-               {error?.country ? (
-                        <div className="login-validation">{error?.country}</div>
-                      ) : (
-                        ""
-                      )}
+              {error?.country ? (
+                  <div className="login-validation">{error?.country}</div>
+                ) : (""
+              )}
          </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Site Number </Form.Label>
@@ -508,6 +489,7 @@ const ReaderAdd = () => {
             options={userDetail?.siteNumber}
             placeholder="Select Site Number"
             name="siteNumber"
+            value={userDetail?.siteNumber.findIndex((el) => el.value == userInputs?.siteNumber) == -1 ? '' : userDetail?.siteNumber[userDetail?.siteNumber.findIndex((el) => el.value == userInputs?.siteNumber)]}
             className="dropdown-basic-button split-button-dropup"
             isClearable
             onChange={(e) => handleChange(e?.value, "siteNumber")}
@@ -519,6 +501,7 @@ const ReaderAdd = () => {
             options={userDetail?.siteName}
             placeholder="Select Site Name "
             name="siteName"
+            value={userDetail?.siteName.findIndex((el) => el.value == userInputs?.siteName) == -1 ? '' : userDetail?.siteName[userDetail?.siteName.findIndex((el) => el.value == userInputs?.siteName)]}
             className="dropdown-basic-button split-button-dropup"
             isClearable
             onChange={(e) => handleChange(e?.value, "siteName")}
