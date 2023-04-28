@@ -92,13 +92,11 @@ const EditLibrary = () => {
     product: [],
     costCenter: [],
     hcp: [
-      "General information",
-      "Investigator",
-      "Investigator Meeting Winter 2023",
-      "IRT",
-      "Octapharma CRO",
-      "Pharmacist",
-      "Site User",
+      "Principal Investigator",
+      "Sub-Investigator",
+      "Study Coordinator",
+      "Study Nurse",
+      "Other",
     ],
     trial: [{ label: "LEXx210", value: "3972" }],
   });
@@ -239,7 +237,7 @@ const EditLibrary = () => {
     if (!hcpClickedFirst.includes(dd)) {
       setHcpClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in Selected.");
+      toast.error("Role already Selected.");
     }
   };
 
@@ -456,13 +454,20 @@ const EditLibrary = () => {
           },
         });
         loader("hide");
-        navigate("/set-popup", {
-          state: {
-            pdfId: state?.pdfid,
-            fileType: userInputs?.docintelFormat,
-            isEdit: 1,
-          },
-        });
+        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+          navigate("/preview-content", {
+                state: { pdfId:state?.pdfid, isEdit: 1 },
+            });
+        } else {
+          navigate("/set-popup", {
+            state: {
+              pdfId: state?.pdfid,
+              fileType: userInputs?.docintelFormat,
+              isEdit: 1,
+            },
+          });
+        }
+
       } catch (err) {
         console.log(err);
       }
@@ -1171,9 +1176,15 @@ const EditLibrary = () => {
                       <li className="active active-main">
                         <a href="">Edit Your Content</a>
                       </li>
-                      <li className="">
-                        <a href="">Edit Consent Option</a>
-                      </li>
+                      {
+                        localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
+                        ?
+                        <li className="">
+                          <a href="">Edit Consent Option</a>
+                        </li>
+                        : null
+                      }
+
                       <li className="">
                         <a href="">Approve Your Content &amp; Save</a>
                       </li>

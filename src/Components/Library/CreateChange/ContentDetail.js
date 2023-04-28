@@ -488,20 +488,25 @@ const ContentDetail = () => {
                                           <div className="mailbox-table">
                                             <table>
                                               <tbody>
-                                                <tr>
-                                                  <th>ePrint type</th>
-                                                  <td>
-                                                    {
-                                                      data?.spc_included ? "PDF+SPC" :
-                                                      data?.file_type == "ebook" ? "Ebook" :
-                                                      data?.file_type == "video" ? "Video" :
-                                                       "PDF"
-                                                    }
-                                                    {/*data?.linkType
-                                                      ? data?.linkType
-                                                      : "N/A"*/}
-                                                  </td>
-                                                </tr>
+                                                {
+                                                  localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                                    <tr>
+                                                      <th>ePrint type</th>
+                                                      <td>
+                                                        {
+                                                          data?.spc_included ? "PDF+SPC" :
+                                                          data?.file_type == "ebook" ? "Ebook" :
+                                                          data?.file_type == "video" ? "Video" :
+                                                           "PDF"
+                                                        }
+                                                        {/*data?.linkType
+                                                          ? data?.linkType
+                                                          : "N/A"*/}
+                                                      </td>
+                                                    </tr>
+                                                    : null
+                                                }
+
                                                 {
                                                   data?.file_type == "ebook" ?
                                                   <tr>
