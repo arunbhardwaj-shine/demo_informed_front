@@ -227,18 +227,58 @@ const FilterSegment = (props) => {
   }, []);
 
   const handleOnCountryChange = (country, setcountryflag = 0) => {
-    let country_index = selectedcountry?.indexOf(country);
-    if (country_index !== -1) {
-      selectedcountry.splice(country_index, 1);
-      setSelectedCountry(selectedcountry);
-      let up = updateflag + 1;
-      setUpdateFlag(up);
+    if (country == "All") {
+      let all_index = selectedcountry?.indexOf(country);
+
+      if (all_index !== -1) {
+        setSelectedCountry([]);
+      } else {
+        selectedcountry?.push(country);
+        Object.keys(filters?.country)?.map((item, index) => {
+          selectedcountry?.push(item);
+        });
+        setSelectedCountry(selectedcountry);
+      }
     } else {
-      selectedcountry.push(country);
-      setSelectedCountry(selectedcountry);
-      let up = updateflag + 1;
-      setUpdateFlag(up);
+      let country_index = selectedcountry?.indexOf(country);
+
+      if (country_index !== -1) {
+        selectedcountry?.splice(country_index, 1);
+        let all_index = selectedcountry?.indexOf("All");
+        if (all_index !== -1) {
+          selectedcountry?.splice(all_index, 1);
+        }
+        setSelectedCountry(selectedcountry);
+      } else {
+        selectedcountry?.push(country);
+        let all_item_index = Object.keys(filters?.country)?.every((item) =>
+          selectedcountry?.includes(item)
+        );
+        console.log("index all", all_item_index);
+
+        if (all_item_index == true) {
+          selectedcountry?.push("All");
+        }
+        setSelectedCountry(selectedcountry);
+      }
     }
+
+    //-------Old Code------//
+
+    // let country_index = selectedcountry?.indexOf(country);
+    // if (country_index !== -1) {
+    //   selectedcountry.splice(country_index, 1);
+    //   setSelectedCountry(selectedcountry);
+    //   let up = updateflag + 1;
+    //   setUpdateFlag(up);
+    // } else {
+    //   selectedcountry.push(country);
+    //   setSelectedCountry(selectedcountry);
+    //   let up = updateflag + 1;
+    //   setUpdateFlag(up);
+    // }
+
+    //---------below work to select Site Number && Site Name------//
 
     if (setcountryflag == 0) {
       let arr = selectedcountry.map((item, index) => {
@@ -344,37 +384,142 @@ const FilterSegment = (props) => {
   };
 
   const handleOnSpecialityChange = (speciality) => {
-    let speciality_index = selectedspeciality.indexOf(speciality);
-    if (speciality_index !== -1) {
-      selectedspeciality.splice(speciality_index, 1);
+    if (speciality == "All") {
+      let all_index = selectedspeciality.indexOf(speciality);
+
+      if (all_index !== -1) {
+        setSelectedSpeciality([]);
+      } else {
+        selectedspeciality.push(speciality);
+        Object.keys(filters?.speciality)?.map((item, index) => {
+          selectedspeciality.push(item);
+        });
+        setSelectedSpeciality(selectedspeciality);
+      }
     } else {
-      selectedspeciality.push(speciality);
+      let speciality_index = selectedspeciality.indexOf(speciality);
+
+      if (speciality_index !== -1) {
+        selectedspeciality.splice(speciality_index, 1);
+        let all_index = selectedspeciality.indexOf("All");
+        if (all_index !== -1) {
+          selectedspeciality.splice(all_index, 1);
+        }
+        setSelectedSpeciality(selectedspeciality);
+      } else {
+        selectedspeciality.push(speciality);
+        let all_item_index = Object.keys(filters?.speciality)?.every((item) =>
+          selectedspeciality?.includes(item)
+        );
+
+        if (all_item_index == true) {
+          selectedspeciality.push("All");
+        }
+        setSelectedSpeciality(selectedspeciality);
+      }
     }
-    setSelectedSpeciality(selectedspeciality);
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
 
   const handleOnInvestigatorChange = (investigator) => {
-    let speciality_index = selectedinvestigatorType.indexOf(investigator);
-    if (speciality_index !== -1) {
-      selectedinvestigatorType.splice(speciality_index, 1);
+    if (investigator == "All") {
+      let all_index = selectedinvestigatorType?.indexOf(investigator);
+
+      if (all_index !== -1) {
+        setSelectedinvestigatorType([]);
+      } else {
+        selectedinvestigatorType?.push(investigator);
+        Object.keys(filters?.investigator_type)?.map((item, index) => {
+          selectedinvestigatorType?.push(item);
+        });
+        setSelectedinvestigatorType(selectedinvestigatorType);
+      }
     } else {
-      selectedinvestigatorType.push(investigator);
+      let investigator_index = selectedinvestigatorType?.indexOf(investigator);
+
+      if (investigator_index !== -1) {
+        selectedinvestigatorType?.splice(investigator_index, 1);
+        let all_index = selectedinvestigatorType?.indexOf("All");
+        if (all_index !== -1) {
+          selectedinvestigatorType?.splice(all_index, 1);
+        }
+        setSelectedinvestigatorType(selectedinvestigatorType);
+      } else {
+        selectedinvestigatorType?.push(investigator);
+
+        let all_item_index = Object.keys(filters?.investigator_type)?.every(
+          (item) => selectedinvestigatorType.includes(item)
+        );
+
+        if (all_item_index == true) {
+          selectedinvestigatorType?.push("All");
+        }
+        setSelectedinvestigatorType(selectedinvestigatorType);
+      }
     }
-    setSelectedinvestigatorType(selectedinvestigatorType);
+
+    //--------Old Code-----//
+
+    // let speciality_index = selectedinvestigatorType.indexOf(investigator);
+    // if (speciality_index !== -1) {
+    //   selectedinvestigatorType.splice(speciality_index, 1);
+    // } else {
+    //   selectedinvestigatorType.push(investigator);
+    // }
+    // setSelectedinvestigatorType(selectedinvestigatorType);
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
 
   const handleOnSubRoleChange = (subRole) => {
-    let subrole_index = selectedSubRole.indexOf(subRole);
-    if (subrole_index !== -1) {
-      selectedSubRole.splice(subrole_index, 1);
+    if (subRole == "All") {
+      let all_index = selectedSubRole?.indexOf(subRole);
+
+      if (all_index !== -1) {
+        setSelectedSubRole([]);
+      } else {
+        console.log("sub-role", subRole);
+        selectedSubRole?.push(subRole);
+        Object.keys(filters?.sub_role)?.map((item, index) => {
+          selectedSubRole?.push(item);
+        });
+        console.log("selected sub role", selectedSubRole);
+        setSelectedSubRole(selectedSubRole);
+      }
     } else {
-      selectedSubRole.push(subRole);
+      let subRoler_index = selectedSubRole?.indexOf(subRole);
+
+      if (subRoler_index !== -1) {
+        selectedSubRole?.splice(subRoler_index, 1);
+        let all_index = selectedSubRole?.indexOf("All");
+        if (all_index !== -1) {
+          selectedSubRole?.splice(all_index, 1);
+        }
+        setSelectedSubRole(selectedSubRole);
+      } else {
+        selectedSubRole?.push(subRole);
+
+        let all_item_index = Object.keys(filters?.sub_role)?.every((item) =>
+          selectedSubRole.includes(item)
+        );
+
+        if (all_item_index == true) {
+          selectedSubRole?.push("All");
+        }
+        setSelectedSubRole(selectedSubRole);
+      }
     }
-    setSelectedSubRole(selectedSubRole);
+
+    //----------Old code----------//
+
+    // let subrole_index = selectedSubRole.indexOf(subRole);
+    // if (subrole_index !== -1) {
+    //   selectedSubRole.splice(subrole_index, 1);
+    // } else {
+    //   selectedSubRole.push(subRole);
+    // }
+    // setSelectedSubRole(selectedSubRole);
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
@@ -395,55 +540,151 @@ const FilterSegment = (props) => {
   };
 
   const handleOnSiteNumberChange = (sitenumber, sitenumberflag = 0) => {
-    let site_number_index = selectedsitenumber.indexOf(sitenumber);
-    if (site_number_index !== -1) {
-      selectedsitenumber.splice(site_number_index, 1);
-      setSelectedsitenumber(selectedsitenumber);
+    console.log("site number before if", sitenumber);
+    // if (selectedsitename?.includes("All")) {
+    //   sitenumber = "All";
+    // }
+    // console.log("site number after if", sitenumber);
+    if (sitenumber == "All") {
+      let all_index = selectedsitenumber?.indexOf(sitenumber);
+      if (all_index !== -1) {
+        setSelectedsitenumber([]);
+      } else {
+        selectedsitenumber?.push(sitenumber);
+        filters?.site_number?.map((item, index) => {
+          selectedsitenumber?.push(item);
+        });
+
+        setSelectedsitenumber(selectedsitenumber);
+      }
     } else {
-      selectedsitenumber.push(sitenumber);
-      setSelectedsitenumber(selectedsitenumber);
+      let sitenumber_index = selectedsitenumber?.indexOf(sitenumber);
+      if (sitenumber_index !== -1) {
+        selectedsitenumber?.splice(sitenumber_index, 1);
+        let all_index = selectedsitenumber?.indexOf("All");
+        if (all_index !== -1) {
+          selectedsitenumber?.splice(all_index, 1);
+        }
+        setSelectedsitenumber(selectedsitenumber);
+      } else {
+        selectedsitenumber?.push(sitenumber);
+
+        let all_item_index = filters?.site_number?.every((item) =>
+          selectedsitenumber.includes(item)
+        );
+        if (all_item_index == true) {
+          selectedsitenumber?.push("All");
+        }
+        setSelectedsitenumber(selectedsitenumber);
+      }
     }
+
+    //-----Old code-------//
+
+    // let site_number_index = selectedsitenumber.indexOf(sitenumber);
+    // if (site_number_index !== -1) {
+    //   selectedsitenumber.splice(site_number_index, 1);
+    //   setSelectedsitenumber(selectedsitenumber);
+    // } else {
+    //   selectedsitenumber.push(sitenumber);
+    //   setSelectedsitenumber(selectedsitenumber);
+    // }
+
+    //----------old code finish--------//
 
     let up = updateflag + 1;
     setUpdateFlag(up);
 
-    if (sitenumberflag == 0) {
-      if ("site_data" in filters && sitenumber !== "All") {
-        let getSiteData = filters.site_data;
-        let site_name_value = getSiteData[sitenumber];
-        handleOnSiteNameChange(site_name_value, 1);
-      }
-      if (sitenumber == "All") {
-        handleOnSiteNameChange(sitenumber, 1);
-      }
-    }
+    // if (sitenumberflag == 0) {
+    //   if ("site_data" in filters && sitenumber !== "All") {
+    //     let getSiteData = filters.site_data;
+    //     let site_name_value = getSiteData[sitenumber];
+
+    //     // if (selectedsitenumber?.includes("All")) {
+    //     //   handleOnSiteNameChange("All", 1);
+    //     // } else {
+    //     handleOnSiteNameChange(site_name_value, 1);
+    //     // }
+    //   }
+    //   if (sitenumber == "All") {
+    //     handleOnSiteNameChange(sitenumber, 1);
+    //   }
+    // }
   };
 
   const handleOnSiteNameChange = (sitename, sitenameflag = 0) => {
-    let site_name_index = selectedsitename?.indexOf(sitename);
-    if (site_name_index !== -1) {
-      selectedsitename?.splice(site_name_index, 1);
-      setSelectedsitename(selectedsitename);
+    // console.log("site name before if", sitename);
+    // if (selectedsitenumber?.includes("All")) {
+    //   sitename = "All";
+    // }
+    // console.log("site name after if", sitename);
+    if (sitename == "All") {
+      let all_index = selectedsitename?.indexOf(sitename);
+      if (all_index !== -1) {
+        setSelectedsitename([]);
+      } else {
+        selectedsitename?.push(sitename);
+        filters?.site_name?.map((item, index) => {
+          selectedsitename?.push(item);
+        });
+
+        setSelectedsitename(selectedsitename);
+      }
     } else {
-      selectedsitename?.push(sitename);
-      setSelectedsitename(selectedsitename);
+      let sitename_index = selectedsitename?.indexOf(sitename);
+      if (sitename_index !== -1) {
+        selectedsitename?.splice(sitename_index, 1);
+        let all_index = selectedsitename?.indexOf("All");
+        if (all_index !== -1) {
+          selectedsitename?.splice(all_index, 1);
+        }
+        setSelectedsitename(selectedsitename);
+      } else {
+        selectedsitename?.push(sitename);
+
+        let all_item_index = filters?.site_name?.every((item) =>
+          selectedsitename.includes(item)
+        );
+        if (all_item_index == true) {
+          selectedsitename?.push("All");
+        }
+        setSelectedsitename(selectedsitenumber);
+      }
     }
+
+    //----------------old code start--------//
+
+    // let site_name_index = selectedsitename?.indexOf(sitename);
+    // if (site_name_index !== -1) {
+    //   selectedsitename?.splice(site_name_index, 1);
+    //   setSelectedsitename(selectedsitename);
+    // } else {
+    //   selectedsitename?.push(sitename);
+    //   setSelectedsitename(selectedsitename);
+    // }
+
+    //-----------old code finish---------//
 
     let up = updateflag + 1;
     setUpdateFlag(up);
 
-    if (sitenameflag == 0) {
-      if ("site_data" in filters && sitename !== "All") {
-        let getSiteData = filters.site_data;
-        let site_number_value = Object.keys(getSiteData).find(
-          (key) => getSiteData[key] === sitename
-        );
-        handleOnSiteNumberChange(site_number_value, 1);
-      }
-      if (sitename == "All") {
-        handleOnSiteNumberChange(sitename, 1);
-      }
-    }
+    // if (sitenameflag == 0) {
+    //   if ("site_data" in filters && sitename !== "All") {
+    //     let getSiteData = filters.site_data;
+    //     let site_number_value = Object.keys(getSiteData).find(
+    //       (key) => getSiteData[key] === sitename
+    //     );
+
+    //     // if (selectedsitename?.includes("All")) {
+    //     //   handleOnSiteNumberChange("All", 1);
+    //     // } else {
+    //     handleOnSiteNumberChange(site_number_value, 1);
+    //     // }
+    //   }
+    //   if (sitename == "All") {
+    //     handleOnSiteNumberChange(sitename, 1);
+    //   }
+    // }
   };
 
   const handleOnReaderSelectionChange = (reader_selection) => {
@@ -1312,7 +1553,9 @@ const FilterSegment = (props) => {
                                             />
                                             <span className="checkmark"></span>
                                           </div>
-                                          {item}
+                                          {item == "B&H"
+                                            ? "Bosnia and Herzegovina"
+                                            : item}
                                         </li>
                                       ));
                                     })()}
@@ -2129,7 +2372,7 @@ const FilterSegment = (props) => {
                             <div className="col block-smart-name">
                               <h6>IRT</h6>
                               <ul>
-                                <li>
+                                {/* <li>
                                   <div className="select-multiple-option">
                                     <input
                                       type="radio"
@@ -2145,7 +2388,7 @@ const FilterSegment = (props) => {
                                     <span className="checkmark"></span>
                                   </div>
                                   Training
-                                </li>
+                                </li> */}
                                 <li>
                                   <div className="select-multiple-option">
                                     <input
