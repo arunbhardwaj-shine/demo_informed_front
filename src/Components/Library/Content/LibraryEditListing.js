@@ -1182,48 +1182,55 @@ const LibraryEditListing = () => {
                                       </h6>
                                       <h6>{data?.popup_email_content_language?data?.popup_email_content_language:"No"}</h6>
                                     </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Link type
-                                      </h6>
-                                      <h6>{data?.linkType}</h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Include
-                                      </h6>
-                                      <div className="include-links">
-                                        {data?.spc_included ? (
-                                          <img
-                                            src={path_image + "spc-img.png"}
-                                            alt=""
-                                          />
-                                        ) : (
-                                          ""
-                                        )}
 
-                                        {data?.linkRelations ? (
-                                          <img
-                                            src={path_image + "video-img.png"}
-                                            alt=""
-                                          />
-                                        ) : (
-                                          ""
-                                        )}
-                                        {data?.pdfLinks ? (
-                                          <img
-                                            src={path_image + "link-img.png"}
-                                            alt=""
-                                          />
-                                        ) : (
-                                          ""
-                                        )}
+                                    {
+                                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                      <>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Link type
+                                            </h6>
+                                            <h6>{data?.linkType}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Include
+                                            </h6>
+                                            <div className="include-links">
+                                              {data?.spc_included ? (
+                                                <img
+                                                  src={path_image + "spc-img.png"}
+                                                  alt=""
+                                                />
+                                              ) : (
+                                                ""
+                                              )}
 
-                                        {data.spc_included == 0 &&
-                                          data.linkRelations == 0 &&
-                                          data.pdfLinks == 0 && <h6>N/A</h6>}
-                                      </div>
-                                    </li>
+                                              {data?.linkRelations ? (
+                                                <img
+                                                  src={path_image + "video-img.png"}
+                                                  alt=""
+                                                />
+                                              ) : (
+                                                ""
+                                              )}
+                                              {data?.pdfLinks ? (
+                                                <img
+                                                  src={path_image + "link-img.png"}
+                                                  alt=""
+                                                />
+                                              ) : (
+                                                ""
+                                              )}
+
+                                              {data.spc_included == 0 &&
+                                                data.linkRelations == 0 &&
+                                                data.pdfLinks == 0 && <h6>N/A</h6>}
+                                            </div>
+                                          </li>
+                                      </>
+                                      : null
+                                    }
                                   </ul>
                                 </div>
 
@@ -1671,7 +1678,7 @@ const LibraryEditListing = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          User Types
+                                          Roles
                                         </h6>
                                         <h6>
                                         {data?.trail_user_type
@@ -1712,15 +1719,16 @@ const LibraryEditListing = () => {
                                           }
                                         </h6>
                                       </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Link type
+                                        </h6>
+                                        <h6>{data?.linkType}</h6>
+                                      </li>
                                     </>
                                     : null
                                   }
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Link type
-                                    </h6>
-                                    <h6>{data?.linkType}</h6>
-                                  </li>
+
                                   {
                                     /*
                                     <li>
