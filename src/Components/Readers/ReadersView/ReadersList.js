@@ -593,24 +593,21 @@ const NewReaders = () => {
     setShowFilter(false);
   };
 
-  const removeindividualfilter = (key, item) => {
+  const removeindividualfilter = (key, index) => {
+   
     let old_object = filterObject;
     let old_object2 = apifilterObject;
-    const index = old_object[key]?.indexOf(item);
-    if (index > -1) {
+   
       old_object[key]?.splice(index, 1);
       if (old_object[key]?.length == 0) {
         delete old_object[key];
       }
-    }
-    const index2 = old_object2[key]?.indexOf(item);
-    if (index2 > -1) {
+    
       old_object2[key]?.splice(index, 1);
       if (old_object2[key]?.length == 0) {
         delete old_object2[key];
       }
-    }
-
+    
     setFilterObject(old_object);
     setApifilterObject(old_object2);
     setReaderDataList([]);
@@ -990,6 +987,7 @@ const NewReaders = () => {
                 <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(apifilterObject)?.map((key, index) => {
+                     
                       return (
                         <>
                           {apifilterObject[key]?.length > 0 ? (
@@ -999,10 +997,16 @@ const NewReaders = () => {
                               </div>
                               <div className="filter-div-list">
                                 {apifilterObject[key]?.map((item, index) => (
+                                  
                                   <div
                                     className="filter-result"
-                                    onClick={(event) =>
-                                      removeindividualfilter(key, item)
+                                    id={item}
+                                    rt={index}
+                                    onClick={(event) => {
+                                      
+                                      removeindividualfilter(key, index)
+                                    }
+                                      
                                     }
                                   >
                                     {key == "draft" && item == "0"
