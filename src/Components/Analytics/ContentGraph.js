@@ -144,7 +144,7 @@ const ContentGraph = () => {
   };
 
   const getDataContentGraph = async (type = "") => {
-    console.log("type", type);
+    // console.log("type", type);
     // setSectionLoader(true);
     // setApiCallStatus(false);
     try {
