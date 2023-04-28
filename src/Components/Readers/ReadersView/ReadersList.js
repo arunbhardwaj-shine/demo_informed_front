@@ -716,7 +716,7 @@ const NewReaders = () => {
               </div>
               <div className="top-right-action library_content_view">
                 <div className="search-bar">
-                  <Form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
                       type="text"
@@ -725,7 +725,7 @@ const NewReaders = () => {
                       id="email_search"
                       onChange={(e) => searchChange(e)}
                     />
-                    <Button className="btn btn-outline-success" type="submit">
+                    <button className="btn-outline-success" type="submit">
                       <svg
                         width="16"
                         height="16"
@@ -738,8 +738,8 @@ const NewReaders = () => {
                           fill="#97B6CF"
                         />
                       </svg>
-                    </Button>
-                  </Form>
+                    </button>
+                  </form>
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
