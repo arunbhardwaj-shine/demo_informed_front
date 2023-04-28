@@ -264,7 +264,8 @@ const NewReaders = () => {
         key == "contactType" ||
         key == "userAction" ||
         key == "webinarRegistered" ||
-        key == "irt" ||
+        key == "IRT" ||
+        key == "Blinded" ||
         key == "List"
 
 
@@ -395,11 +396,13 @@ const NewReaders = () => {
   };
 
   const onIrtChange = (e, i) => {
+    
     let consetValue = e.value;
     let consent = {
       index: i,
-      value: consetValue,
+      value: parseInt(consetValue),
     };
+
     const foundIndex = changeIRTType.findIndex((el) => el.index === i);
     if (foundIndex === -1) {
       setChangeIRTType((oldarray) => [...oldarray, consent]);
@@ -407,7 +410,7 @@ const NewReaders = () => {
       setChangeIRTType((oldarray) =>
         oldarray.map((el) => {
           if (el.index === i) {
-            return { ...el, value: consetValue };
+            return { ...el, value: parseInt(consetValue) };
           }
           return el;
         })
@@ -833,8 +836,9 @@ const NewReaders = () => {
                                                         key == "status" ||
                                                         key == "contactType" ||
                                                         key == "userAction" ||
+                                                        key == "Blinded" ||
                                                         key ==
-                                                          "irt" ||
+                                                          "IRT" ||
                                                         key ==
                                                           "webinarRegistered" ||
                                                         key == "List"
@@ -1549,8 +1553,9 @@ const NewReaders = () => {
                                                   ? change?.irt[0]
                                                   : change?.irt[1]
                                               }
-                                              onChange={(event) =>
+                                              onChange={(event) =>{
                                                 onIrtChange(event, data.id)
+                                              }
                                               }
                                               id={"irt_type" + data?.id}
                                               className="dropdown-basic-button split-button-dropup"
@@ -1566,9 +1571,8 @@ const NewReaders = () => {
                                         <div className="select-dropdown-wrapper">
                                           <div className="select">
                                           {
-                                              changeIRTType[changeIRTType.findIndex((el) => el.index === data.id)]?.value == 1 || data?.irt == "Yes"
-                                              ?
-                                                <Select
+                                              (changeIRTType.filter((el) => el.index == data.id)?.length ?changeIRTType.filter((el) => el.index == data.id)?.[0]?.value:data?.irt == "Yes"?true:false)
+                                              ?<Select
                                                   options={change?.userIrtRoles}
                                                   defaultValue={change?.userIrtRoles.find(
                                                     (roleObj) =>
