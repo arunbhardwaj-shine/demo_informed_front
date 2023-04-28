@@ -80,13 +80,11 @@ const LibraryCreateUser = () => {
     format: [],
     product: [],
     hcp: [
-      "General information",
-      "Investigator",
-      "Investigator Meeting Winter 2023",
-      "IRT",
-      "Octapharma CRO",
-      "Pharmacist",
-      "Site User",
+      "Principal Investigator",
+      "Sub-Investigator",
+      "Study Coordinator",
+      "Study Nurse",
+      "Other",
     ],
   });
 
@@ -337,13 +335,20 @@ const LibraryCreateUser = () => {
           },
         });
         loader("hide");
-        navigate("/set-popup", {
-          state: {
-            pdfId: res?.data?.data?.pdfId,
-            fileType: userInputs?.docintelFormat,
-            isEdit: 0,
-          },
-        });
+
+        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+          navigate("/preview-content", {
+                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
+            });
+        } else {
+          navigate("/set-popup", {
+            state: {
+              pdfId: res?.data?.data?.pdfId,
+              fileType: userInputs?.docintelFormat,
+              isEdit: 0,
+            },
+          });
+        }
       } catch (err) {
         loader("hide");
       }
@@ -439,7 +444,7 @@ const LibraryCreateUser = () => {
     if (!hcpClickedFirst.includes(dd)) {
       setHcpClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in Selected.");
+      toast.error("Role already Selected.");
     }
   };
 
@@ -1050,9 +1055,15 @@ const LibraryCreateUser = () => {
                     <li className="active active-main">
                       <a href="">Create Your Content</a>
                     </li>
-                    <li className="">
-                      <a href="">Edit Consent Option</a>
-                    </li>
+                    {
+                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
+                      ?
+                      <li className="">
+                        <a href="">Edit Consent Option</a>
+                      </li>
+                      : null
+                    }
+
                     <li className="">
                       <a href="">Approve Your Content &amp; Publish</a>
                     </li>
