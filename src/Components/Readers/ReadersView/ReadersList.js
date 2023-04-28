@@ -264,7 +264,8 @@ const NewReaders = () => {
         key == "contactType" ||
         key == "userAction" ||
         key == "webinarRegistered" ||
-        key == "irt" ||
+        key == "IRT" ||
+        key == "Blinded" ||
         key == "List"
 
 
