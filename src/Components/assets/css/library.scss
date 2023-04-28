@@ -2910,7 +2910,8 @@ input[type=number] {
   font-size: 18px;
   line-height: 21px;
   vertical-align: top;
-  min-width: 156px;
+  min-width: 160px;
+  max-width:160px;
 }
 
 .content_details .smartlist-view .mailbox-table td, .crm-review-detail .tab-mail-list td {

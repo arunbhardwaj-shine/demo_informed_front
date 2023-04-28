@@ -156,8 +156,13 @@ const NewReaders = () => {
       }
 
       if (totalCount != res?.data?.data?.total) {
-        setCount(res?.data?.data?.total);
+        if(res?.data?.data?.result?.length <= 0){
+          setCount(0);
+        }else{
+          setCount(res?.data?.data?.total);
+        }
       }
+      
 
       let total_results = 0;
       if (page != 1) {
@@ -172,17 +177,18 @@ const NewReaders = () => {
         setReaderDataList(res?.data?.data?.result);
       }
 
-      if ( total_results <= res?.data?.data?.total) {
-        setIsLoaded(false);
-       } else {
+      // if ( total_results <= res?.data?.data?.total) {
+      //   setIsLoaded(false);
+      //  } else {
+      //   setIsLoaded(true);
+      // }
+
+      if (res?.data?.data?.total > total_results && res?.data?.data?.result?.length !=0) {
         setIsLoaded(true);
+       }else {
+        setIsLoaded(false);
       }
 
-      // if (res?.data?.data?.total > total_results) {
-      //   setIsLoaded(true);
-      //  } else {
-      //   setIsLoaded(false);
-      // }
 
       setPageAll(false);
       setApiCallStatus(true);
@@ -209,7 +215,6 @@ const NewReaders = () => {
       });
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
-      // console.log(url);
       link.href = url;
       link.download = "readers.xlsx";
       link.click();
