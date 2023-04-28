@@ -203,6 +203,7 @@ const EditLibrary = () => {
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
       if (hadData?.data?.data?.pdfData?.tags?.length) {
         setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags));
+        setFinalTags(JSON.parse(hadData?.data?.data?.pdfData?.tags));
       }
       if (hadData?.data?.data?.pdfData?.trail_user_type?.length) {
         setHcpClickedFirst(
@@ -515,11 +516,11 @@ const EditLibrary = () => {
   };
 
   const removeTagFinal = (index) => {
-    const tags = finalTags;
+    // const tags = finalTags;
     const tagsClickedFirst = tagClickedFirst;
-    tags.splice(index, 1);
+    // tags.splice(index, 1);
     tagsClickedFirst.splice(index, 1);
-    setFinalTags(tags);
+    // setFinalTags(tags);
     setTagClickedFirst(tagsClickedFirst);
 
     setTagsReRender(tagsReRender + 1);
@@ -921,7 +922,7 @@ const EditLibrary = () => {
                           </div>
                           <div className="tags_added">
                             <ul>
-                              {tagClickedFirst?.map((item, index) => {
+                              {finalTags?.map((item, index) => {
                                 return (
                                   <li className="list1">
                                     {item}
@@ -965,7 +966,7 @@ const EditLibrary = () => {
                       </div>
                       <div className="tags_added">
                         <ul>
-                          {tagClickedFirst?.map((item, index) => {
+                          {finalTags?.map((item, index) => {
                             return (
                               <li className="list1">
                                 {item}
@@ -1275,7 +1276,7 @@ const EditLibrary = () => {
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <>
                           {
-                            /*<div className="form-group">
+                            <div className="form-group">
                               <label htmlFor="setasdraft1">Set as draft</label>
                               <fieldset id="group2">
                                 <div className="switch">
@@ -1311,7 +1312,7 @@ const EditLibrary = () => {
                                   </label>
                                 </div>
                               </fieldset>
-                            </div>*/
+                            </div>
                           }
                         </>
                       ) : null}
