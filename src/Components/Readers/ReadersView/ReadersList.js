@@ -1529,7 +1529,7 @@ const NewReaders = () => {
                                       }
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Blinded Type
+                                          Blinded
                                         </h6>
                                         <div className="select-dropdown-wrapper">
                                           <div className="select">
