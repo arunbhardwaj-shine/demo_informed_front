@@ -75,6 +75,7 @@ const NewReaders = () => {
   const [changeRoleType, setChangeRoleType] = useState([]);
   const [changeIRTType, setChangeIRTType] = useState([]);
   const [changeSiteNumberType, setChangeSiteNumberType] = useState([]);
+  
 
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
@@ -425,6 +426,7 @@ const NewReaders = () => {
     );
     const selectedCountry1 = selectedItem.country;
     const defaultValue = { value: selectedCountry1, label: selectedCountry1 };
+    
     let consent = {
       index: i,
       value: selectedCountry1,
@@ -438,10 +440,6 @@ const NewReaders = () => {
       );
       setChangeCountry(updatedArray);
     }
-    // setSelectedCountry((prevSiteNumbers) => ({
-    //   ...prevSiteNumbers,
-    //   [index]: defaultValue,
-    // }));
     let consetValue = e.value;
     consent = {
       index: i,
@@ -1651,7 +1649,6 @@ const NewReaders = () => {
                                                   ? siteNumber[index]
                                                   : siteNumber?.all
                                               }
-                                              const
                                               defaultValue={
                                                 data?.siteNumber
                                                   ? change?.siteNumber[
