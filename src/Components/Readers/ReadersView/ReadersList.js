@@ -994,7 +994,7 @@ const NewReaders = () => {
             </div>
             {/* &&
             filterApplyflag */}
-            {Object.keys(apifilterObject)?.length  ? (
+            {Object.keys(apifilterObject)?.length && filterApplyflag == 1  ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">
