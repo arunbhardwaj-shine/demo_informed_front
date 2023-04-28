@@ -3594,6 +3594,31 @@ padding: 0 10px;
 .tabs_content_load {
     position: relative;
 }
+
+.create-change-content.add-site .form-group {
+width: 50%;
+  }
+
+ .create-change-content.add-site button.btn {
+   margin-left: auto;
+   display: block;
+  }
+
+  .create-change-content.add-site .form-row.d-flex button {
+    margin-left: 15px;
+     display: inline-block;
+    }
+
+    .create_site_form {
+      max-width: 445px;
+      width: 100%;
+      position: relative;
+  }
+  
+  .create_site_form .login-validation {
+      left: 0!important;
+  }
+  
 /**Analytics end**/
 
 /***header-sticky***/

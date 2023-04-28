@@ -122,7 +122,7 @@ const Totalhcp = () => {
       showTable: true,
     },
     series: [],
-    months:[]
+    months: []
   });
 
   Highcharts.setOptions({
@@ -137,6 +137,7 @@ const Totalhcp = () => {
       loader("show");
       const response = await getData(ENDPOINT.ANALYTICS);
       const data = response.data.data;
+
       const seriesMonth = JSON.parse(data[0].Months);
       if (data.length <= 0) {
         setIsDataNotFound(true);
@@ -150,6 +151,7 @@ const Totalhcp = () => {
           (acc, val) => acc + val,
           0
         ),
+        months:JSON.parse(item.Months),
         data: JSON.parse(item.total_readers),
         color: Highcharts.getOptions().colors[index],
       }));
@@ -171,21 +173,15 @@ const Totalhcp = () => {
           color: Highcharts?.getOptions()?.colors[2],
         },
       ];
-
       const categories = JSON.parse(data[0].Months);
-      categories.sort(function (a, b) {
-        if (a === "Before April(2022)") return -1;
-        if (b === "Before April(2022)") return 1;
-
-        const dateA = new Date("01 " + a);
-        const dateB = new Date("01 " + b);
-
-        if (dateA < dateB) return -1;
-        if (dateA > dateB) return 1;
-        return 0;
-      });
-      categories.reverse();
-
+      function compareMonths(a, b) {
+        const aDate = new Date(a.split('-').reverse().join('-'));
+        const bDate = new Date(b.split('-').reverse().join('-'));
+        return bDate - aDate;
+      }
+      categories.sort(compareMonths);
+      
+  
       const newHcpOptions = {
         ...hcpOptions,
         xAxis: {
@@ -226,17 +222,12 @@ const Totalhcp = () => {
       ];
 
       const lineCategories = JSON.parse(data[0].Months);
-      lineCategories.sort(function (a, b) {
-        if (a === "Before April(2022)") return -1;
-        if (b === "Before April(2022)") return 1;
-
-        const dateA = new Date("01 " + a);
-        const dateB = new Date("01 " + b);
-
-        if (dateA < dateB) return -1;
-        if (dateA > dateB) return 1;
-        return 0;
-      });
+      function compareMonthsForLine(a, b) {
+        const aDate = new Date(a.split('-').reverse().join('-'));
+        const bDate = new Date(b.split('-').reverse().join('-'));
+        return bDate - aDate;
+      }
+      lineCategories.sort(compareMonthsForLine).reverse();
 
       const newLineOptions = {
         ...lineOptions,
@@ -251,11 +242,7 @@ const Totalhcp = () => {
       const newTableSeries = data.map((item) => ({
         data: JSON.parse(item.total_readers),
       }));
-      
 
-
-      
-   console.log(newTableSeries);
       const tableDatas = data.map((ibuitems) => ({
         name:
           ibuitems.ibu +
@@ -293,7 +280,7 @@ const Totalhcp = () => {
     return acc + serie.data.reduce((a, b) => a + b, 0);
   }, 0);
 
-  
+
   return (
     <>
       <Col className="right-sidebar">

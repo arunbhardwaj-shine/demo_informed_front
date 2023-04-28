@@ -153,8 +153,9 @@ const CountryRegistration = () => {
     colors: ["#FFBE2C", "#00D4C0", "#F58289"],
   });
 
-  const optionMonth = useRef();
-  const optionYear = useRef();
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const optionMonth = useRef(currentDate.toLocaleString("default", { month: "long" }));
+  const optionYear = useRef(currentDate.getFullYear());
 
   const getDataFromApi = async () => {
     try {
