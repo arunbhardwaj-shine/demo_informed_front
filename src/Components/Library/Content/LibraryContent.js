@@ -1356,8 +1356,7 @@ const LibraryContent = (props) => {
                                 			  {
                                           opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                           ?
-                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
-                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique == 1000 ? "Unlimted"
+                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "Unlimted"
                                           :
                                             opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
                                             opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
@@ -1368,8 +1367,7 @@ const LibraryContent = (props) => {
                                         {
                                           opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                           ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique != 1000
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit != 1000
                                           ?
                                             <small>Left</small>
                                           : null
