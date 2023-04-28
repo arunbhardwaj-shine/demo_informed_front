@@ -193,21 +193,6 @@ const ReaderEdit = () => {
         hasData.data.data.country = "Bosnia and Herzegovina";
       }
 
-      // let userCountry = hasData?.data?.data?.country;
-      // let newSite=[],newSiteNumber =[];
-      // userDetail?.sideData?.forEach(item =>{
-      //       if(item?.country == userCountry){
-      //         newSite.push({label:item?.site_name,value:item?.site_name})
-      //         newSiteNumber.push({label:item.site_number,value:item?.site_number})
-      //       }
-      // })
-      // console.log(userDetail?.sideData,newSite,newSiteNumber);
-      // setUserDetail({
-      //   ...userDetail,
-      //   siteName:newSite,
-      //   siteNumber: newSiteNumber,
-      // });
-
       setAddReaderInputs(hasData?.data?.data);
       loader("hide");
     }catch(err){
@@ -263,6 +248,28 @@ const ReaderEdit = () => {
     initalFun();
     initialReaderFun();
   }, []);
+
+  useEffect(() => {
+    changeSiteData();
+  }, [userDetail?.sideData]);
+
+  const changeSiteData = () => {
+
+    if(typeof userDetail?.sideData !== "undefined"){
+      let newSite=[],newSiteNumber =[];
+        userDetail?.sideData?.forEach(item =>{
+              if(item?.country == userInputs?.country){
+                newSite.push({label:item?.site_name,value:item?.site_name})
+                newSiteNumber.push({label:item.site_number,value:item?.site_number})
+              }
+        })
+        setUserDetail({
+          ...userDetail,
+          siteName:newSite,
+          siteNumber: newSiteNumber,
+        });
+    }
+  }
 
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
