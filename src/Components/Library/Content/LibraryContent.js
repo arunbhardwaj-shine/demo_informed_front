@@ -131,9 +131,7 @@ const LibraryContent = (props) => {
   ];
 
   useEffect(() => {
-    applyFilters().then(item =>{
-      getLibraryData(page, filterObject, search);
-    })
+    applyFilters()
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
@@ -153,10 +151,18 @@ const LibraryContent = (props) => {
         if(res.data.data.hasOwnProperty("status")){
           obj["status"] = ["Registered"]
         }
+        if(res.data.data.hasOwnProperty("Selected By Articles")){
+          obj["Selected By Articles"] = ["All"]
+        }
+
+        
+
          
         setFilterObject(obj)
         setFilterData(res?.data?.data);
         setAllTags(res?.data?.data?.tags);
+        getLibraryData(page, obj, search);
+
       }
       // loader("hide");
     } catch (err) {

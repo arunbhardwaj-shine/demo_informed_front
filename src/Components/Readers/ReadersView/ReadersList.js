@@ -172,11 +172,17 @@ const NewReaders = () => {
         setReaderDataList(res?.data?.data?.result);
       }
 
-      if (res?.data?.data?.total > total_results) {
-        setIsLoaded(true);
-      } else {
+      if ( total_results <= res?.data?.data?.total) {
         setIsLoaded(false);
+       } else {
+        setIsLoaded(true);
       }
+
+      // if (res?.data?.data?.total > total_results) {
+      //   setIsLoaded(true);
+      //  } else {
+      //   setIsLoaded(false);
+      // }
 
       setPageAll(false);
       setApiCallStatus(true);
@@ -253,7 +259,10 @@ const NewReaders = () => {
         key == "contactType" ||
         key == "userAction" ||
         key == "webinarRegistered" ||
+        key == "irt" ||
         key == "List"
+
+        
       ) {
         filterObject[key] = [];
         apifilterObject[key] = [];
@@ -701,7 +710,6 @@ const NewReaders = () => {
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            {console.log("-im hereeeeeeeeeeeeeeeee",apifilterObject)}
             <div className="top-header reader_list sticky">
               <div className="page-title">
                 <h2>CRM</h2>
@@ -823,6 +831,8 @@ const NewReaders = () => {
                                                         key == "contactType" ||
                                                         key == "userAction" ||
                                                         key ==
+                                                          "irt" ||
+                                                        key ==
                                                           "webinarRegistered" ||
                                                         key == "List"
                                                           ? "radio"
@@ -836,8 +846,6 @@ const NewReaders = () => {
                                                       }
                                                       name={key}
                                                       defaultChecked={
-                                                        (key == "status" &&
-                                                          item == "Registered") ||
                                                         (key == "contactType" &&
                                                           item == "HCP")
                                                           ? true
