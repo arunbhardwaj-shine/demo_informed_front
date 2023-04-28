@@ -2910,9 +2910,16 @@ input[type=number] {
   font-size: 18px;
   line-height: 21px;
   vertical-align: top;
-  min-width: 156px;
+  min-width: 160px;
+  max-width:160px;
 }
-
+.btn-check:focus+.btn-outline-success, .btn-outline-success:focus {
+    box-shadow: none;
+}
+.create-change-content.add-site .form-row.d-flex button {
+  margin-left: 15px;
+  display: inline-block;
+}
 .content_details .smartlist-view .mailbox-table td, .crm-review-detail .tab-mail-list td {
   font-size: 18px;
   line-height: 21px;

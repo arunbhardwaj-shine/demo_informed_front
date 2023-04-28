@@ -92,13 +92,11 @@ const EditLibrary = () => {
     product: [],
     costCenter: [],
     hcp: [
-      "General information",
-      "Investigator",
-      "Investigator Meeting Winter 2023",
-      "IRT",
-      "Octapharma CRO",
-      "Pharmacist",
-      "Site User",
+      "Principal Investigator",
+      "Sub-Investigator",
+      "Study Coordinator",
+      "Study Nurse",
+      "Other",
     ],
     trial: [{ label: "LEXx210", value: "3972" }],
   });
@@ -203,6 +201,7 @@ const EditLibrary = () => {
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
       if (hadData?.data?.data?.pdfData?.tags?.length) {
         setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags));
+        setFinalTags(JSON.parse(hadData?.data?.data?.pdfData?.tags));
       }
       if (hadData?.data?.data?.pdfData?.trail_user_type?.length) {
         setHcpClickedFirst(
@@ -238,7 +237,7 @@ const EditLibrary = () => {
     if (!hcpClickedFirst.includes(dd)) {
       setHcpClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in Selected.");
+      toast.error("Role already Selected.");
     }
   };
 
@@ -455,13 +454,20 @@ const EditLibrary = () => {
           },
         });
         loader("hide");
-        navigate("/set-popup", {
-          state: {
-            pdfId: state?.pdfid,
-            fileType: userInputs?.docintelFormat,
-            isEdit: 1,
-          },
-        });
+        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+          navigate("/preview-content", {
+                state: { pdfId:state?.pdfid, isEdit: 1 },
+            });
+        } else {
+          navigate("/set-popup", {
+            state: {
+              pdfId: state?.pdfid,
+              fileType: userInputs?.docintelFormat,
+              isEdit: 1,
+            },
+          });
+        }
+
       } catch (err) {
         console.log(err);
       }
@@ -515,11 +521,11 @@ const EditLibrary = () => {
   };
 
   const removeTagFinal = (index) => {
-    const tags = finalTags;
+    // const tags = finalTags;
     const tagsClickedFirst = tagClickedFirst;
-    tags.splice(index, 1);
+    // tags.splice(index, 1);
     tagsClickedFirst.splice(index, 1);
-    setFinalTags(tags);
+    // setFinalTags(tags);
     setTagClickedFirst(tagsClickedFirst);
 
     setTagsReRender(tagsReRender + 1);
@@ -921,7 +927,7 @@ const EditLibrary = () => {
                           </div>
                           <div className="tags_added">
                             <ul>
-                              {tagClickedFirst?.map((item, index) => {
+                              {finalTags?.map((item, index) => {
                                 return (
                                   <li className="list1">
                                     {item}
@@ -965,7 +971,7 @@ const EditLibrary = () => {
                       </div>
                       <div className="tags_added">
                         <ul>
-                          {tagClickedFirst?.map((item, index) => {
+                          {finalTags?.map((item, index) => {
                             return (
                               <li className="list1">
                                 {item}
@@ -1170,9 +1176,15 @@ const EditLibrary = () => {
                       <li className="active active-main">
                         <a href="">Edit Your Content</a>
                       </li>
-                      <li className="">
-                        <a href="">Edit Consent Option</a>
-                      </li>
+                      {
+                        localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
+                        ?
+                        <li className="">
+                          <a href="">Edit Consent Option</a>
+                        </li>
+                        : null
+                      }
+
                       <li className="">
                         <a href="">Approve Your Content &amp; Save</a>
                       </li>
@@ -1274,43 +1286,45 @@ const EditLibrary = () => {
                       {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <>
-                          <div className="form-group">
-                            <label htmlFor="setasdraft1">Set as draft</label>
-                            <fieldset id="group2">
-                              <div className="switch">
-                                <label className="switch-light">
-                                  <input
-                                    type="checkbox"
-                                    name="group2"
-                                    id="setasdraft1"
-                                    defaultChecked={
-                                      userInputs?.draft ? true : false
-                                    }
-                                    onChange={(e) => {
-                                      handleChange(e.target?.checked, "draft");
-                                    }}
-                                  />
-                                  <span>
-                                    <span
-                                      className={`switch-btn ${
-                                        userInputs?.draft == 0 ? " Active" : ""
-                                      }`}
-                                    >
-                                      No
+                          {
+                            <div className="form-group">
+                              <label htmlFor="setasdraft1">Set as draft</label>
+                              <fieldset id="group2">
+                                <div className="switch">
+                                  <label className="switch-light">
+                                    <input
+                                      type="checkbox"
+                                      name="group2"
+                                      id="setasdraft1"
+                                      defaultChecked={
+                                        userInputs?.draft ? true : false
+                                      }
+                                      onChange={(e) => {
+                                        handleChange(e.target?.checked, "draft");
+                                      }}
+                                    />
+                                    <span>
+                                      <span
+                                        className={`switch-btn ${
+                                          userInputs?.draft == 0 ? " Active" : ""
+                                        }`}
+                                      >
+                                        No
+                                      </span>
+                                      <span
+                                        className={`switch-btn ${
+                                          userInputs?.draft == 1 ? " Active" : ""
+                                        }`}
+                                      >
+                                        Yes
+                                      </span>
                                     </span>
-                                    <span
-                                      className={`switch-btn ${
-                                        userInputs?.draft == 1 ? " Active" : ""
-                                      }`}
-                                    >
-                                      Yes
-                                    </span>
-                                  </span>
-                                  <a className="btn"></a>
-                                </label>
-                              </div>
-                            </fieldset>
-                          </div>
+                                    <a className="btn"></a>
+                                  </label>
+                                </div>
+                              </fieldset>
+                            </div>
+                          }
                         </>
                       ) : null}
 

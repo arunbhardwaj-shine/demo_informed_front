@@ -24,12 +24,18 @@ const data = [
     title: "Set Pop up",
     subtitle: "Update and add the Pop up text and design from here",
   },
-  {
-    image: `${path_image}topics.png`,
-    title: "Topics",
-    subtitle: "Add new or delete an existing topic",
-  },
 ];
+
+if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
+    const newObj = {
+      image: `${path_image}topics.png`,
+      title: "Topics",
+      subtitle: "Add new or delete an existing topic",
+    };
+    data.push(newObj);
+}
+
+
 
 const LibraryCreate = () => {
   const navigate = useNavigate();

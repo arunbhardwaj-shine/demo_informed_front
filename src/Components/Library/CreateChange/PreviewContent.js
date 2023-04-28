@@ -349,9 +349,12 @@ const PreviewContent = () => {
                       <li className="">
                         <a href="">Edit Your Content</a>
                       </li>
-                      <li className="">
+                      {
+                        localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                        <li className="">
                         <a href="">Edit Consent Option</a>
-                      </li>
+                        </li> : null
+                      }
                       <li className="active active-main">
                         <a href="">Approve Your Content &amp; Save</a>
                       </li>
@@ -361,9 +364,12 @@ const PreviewContent = () => {
                     <li className="">
                       <a href="">Create Your Content</a>
                     </li>
-                    <li className="">
+                    {
+                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                      <li className="">
                       <a href="">Edit Consent Option</a>
-                    </li>
+                      </li> : null
+                    }
                     <li className="active active-main">
                       <a href="">Preview Your Content &amp; Publish</a>
                     </li>
