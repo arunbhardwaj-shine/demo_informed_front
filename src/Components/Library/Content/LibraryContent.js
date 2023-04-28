@@ -68,7 +68,8 @@ const LibraryContent = (props) => {
   const navigate = useNavigate();
   let obj = {};
   const [userId, setUserId] = useState();
-  const [filterObject, setFilterObject] = useState({});
+  const [filterObject, setFilterObject] = useState({
+  });
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
   const [filterdata, setFilterData] = useState({
@@ -130,8 +131,9 @@ const LibraryContent = (props) => {
   ];
 
   useEffect(() => {
-    applyFilters();
-    getLibraryData(page, filterObject, search);
+    applyFilters().then(item =>{
+      getLibraryData(page, filterObject, search);
+    })
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
@@ -144,6 +146,15 @@ const LibraryContent = (props) => {
         user_id: localStorage.getItem("user_id"),
       });
       if (res?.data?.data) {
+        let obj = {}
+        if(res.data.data.hasOwnProperty("draft")){
+          obj["draft"] = ["1"]
+        }
+        if(res.data.data.hasOwnProperty("status")){
+          obj["status"] = ["Registered"]
+        }
+         
+        setFilterObject(obj)
         setFilterData(res?.data?.data);
         setAllTags(res?.data?.data?.tags);
       }
@@ -284,7 +295,7 @@ const LibraryContent = (props) => {
         type: type,
         limit: limit,
       };
-
+console.log("- im hererererere",obj)
       let body = { ...data, ...obj };
 
       const res = await postData(ENDPOINT.LIBRARY, body);
@@ -974,7 +985,8 @@ const LibraryContent = (props) => {
               level={qrState?.level}
               includeMargin={true}
             />
-            {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0  ? (
+            {/* !== 0 && filterApplyflag > 0 */}
+            {Object.keys(filterObject)?.length  ? (
               <div className="apply-filter">
                 {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">

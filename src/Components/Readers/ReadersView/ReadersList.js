@@ -48,8 +48,13 @@ const NewReaders = () => {
   const [filterdata, setFilterData] = useState({
     Status: ["Registered", "Unregistered"],
   });
-  const [filterObject, setFilterObject] = useState({});
-  const [apifilterObject, setApifilterObject] = useState({});
+  const [filterObject, setFilterObject] = useState({
+    status:["Registered"]
+  });
+  const [apifilterObject, setApifilterObject] = useState({
+    status:["Registered"]
+    // status:["Unregistered"]
+  });
   const [updateflag, setUpdateFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "0", label: "HCP" },
@@ -128,13 +133,7 @@ const NewReaders = () => {
       };
 
       let payload = { ...data, ...obj };
-      // if (pageAllClicked == true) {
-      //   setPageAll(true);
-      // } else {
-      //   loader("show");
-      // }
-      // "https://informedback.shinedezign.pro/reader/reader",
-
+      
       const res = await postData(
         ENDPOINT.READER_LIST_DATA,
         payload
@@ -702,6 +701,7 @@ const NewReaders = () => {
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
+            {console.log("-im hereeeeeeeeeeeeeeeee",apifilterObject)}
             <div className="top-header reader_list sticky">
               <div className="page-title">
                 <h2>CRM</h2>
@@ -837,7 +837,7 @@ const NewReaders = () => {
                                                       name={key}
                                                       defaultChecked={
                                                         (key == "status" &&
-                                                          item == "All") ||
+                                                          item == "Registered") ||
                                                         (key == "contactType" &&
                                                           item == "HCP")
                                                           ? true
@@ -982,9 +982,9 @@ const NewReaders = () => {
                 </div>
               </div>
             </div>
-
-            {Object.keys(apifilterObject)?.length !== 0 &&
-            filterApplyflag > 0 ? (
+            {/* &&
+            filterApplyflag */}
+            {Object.keys(apifilterObject)?.length  ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">
