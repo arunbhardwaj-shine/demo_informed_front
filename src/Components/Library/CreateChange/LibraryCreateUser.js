@@ -444,11 +444,8 @@ const LibraryCreateUser = () => {
   };
 
   const removeTagFinal = (index) => {
-    const tags = finalTags;
     const tagsClickedFirst = tagClickedFirst;
-    tags.splice(index, 1);
     tagsClickedFirst.splice(index, 1);
-    setFinalTags(tags);
     setTagClickedFirst(tagsClickedFirst);
 
     setTagsReRender(tagsReRender + 1);
@@ -807,7 +804,7 @@ const LibraryCreateUser = () => {
                         <div className="tags_added">
                           <div className="select-tags"></div>
                           <ul>
-                            {tagClickedFirst?.map((item, index) => {
+                            {finalTags?.map((item, index) => {
                               return (
                                 <li className="list1">
                                   {item}
@@ -852,7 +849,7 @@ const LibraryCreateUser = () => {
                       <div className="tags_added">
                         <div className="select-tags"></div>
                         <ul>
-                          {tagClickedFirst?.map((item, index) => {
+                          {finalTags?.map((item, index) => {
                             return (
                               <li className="list1">
                                 {item}
@@ -1154,29 +1151,31 @@ const LibraryCreateUser = () => {
                     {userDetail?.user?.[0]?.flag == 1 &&
                     userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
-                        <div className="form-group">
-                          <label htmlFor="setasdraft1">Set as draft</label>
-                          <fieldset id="group2">
-                            <div className="switch">
-                              <label className="switch-light">
-                                <input
-                                  type="checkbox"
-                                  value="value1"
-                                  name="group2"
-                                  id="setasdraft1"
-                                  onChange={(e) => {
-                                    handleChange(e.target?.checked, "draft");
-                                  }}
-                                />
-                                <span>
-                                  <span className="switch-btn active">No</span>
-                                  <span className="switch-btn ">Yes</span>
-                                </span>
-                                <a className="btn"></a>
-                              </label>
-                            </div>
-                          </fieldset>
-                        </div>
+                        {
+                          <div className="form-group">
+                            <label htmlFor="setasdraft1">Set as draft</label>
+                            <fieldset id="group2">
+                              <div className="switch">
+                                <label className="switch-light">
+                                  <input
+                                    type="checkbox"
+                                    value="value1"
+                                    name="group2"
+                                    id="setasdraft1"
+                                    onChange={(e) => {
+                                      handleChange(e.target?.checked, "draft");
+                                    }}
+                                  />
+                                  <span>
+                                    <span className="switch-btn active">No</span>
+                                    <span className="switch-btn ">Yes</span>
+                                  </span>
+                                  <a className="btn"></a>
+                                </label>
+                              </div>
+                            </fieldset>
+                          </div>
+                        }
                       </>
                     ) : null}
                     {userDetail?.user?.[0]?.flag == 0 &&

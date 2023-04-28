@@ -1391,85 +1391,97 @@ console.log("- im hererererere",obj)
                                             />
                                         </div>
                                     </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Registered readers{" "}
-                                        <LinkWithTooltip
-                                          tooltip="Number of HCPs who have register for or activated the content."
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress">
-                                        <ProgressBar
-                                          variant={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? "danger" : "default"
-                                          }
-                                          now={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.reader/
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
-                                            :
-                                            "100"
-                                          }
-                                          label={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].reader
-                                            :
-                                            "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
 
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        SubLinks
-                                        <LinkWithTooltip
-                                          tooltip="Number of sublinks with content."
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
+                                    {
+                                      data?.linkType != "Online"
+                                      ?
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Registered readers{" "}
+                                            <LinkWithTooltip
+                                              tooltip="Number of HCPs who have register for or activated the content."
+                                            >
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "info_circle_icon.svg"
+                                                }
+                                                alt="refresh-btn"
+                                              />
+                                            </LinkWithTooltip>
+                                          </h6>
+                                          <div className="data-progress">
+                                            <ProgressBar
+                                              variant={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ? "danger" : "default"
+                                              }
+                                              now={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ?
+                                                (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.reader/
+                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                                :
+                                                "100"
+                                              }
+                                              label={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ?
+                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].reader
+                                                :
+                                                "Loading"
+                                              }
+                                            />
+                                          </div>
+                                        </li>
+                                        : null
+                                    }
+
+
+                                    {
+                                    	data?.subLinkAdded
+                                      ?
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          SubLinks
+                                          <LinkWithTooltip
+                                            tooltip="Number of sublinks with content."
+                                          >
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ? "sublink" : "default"
                                             }
-                                            alt="refresh-btn"
+                                            now={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.subLink/
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                              :
+                                              "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                              ?
+                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].subLink
+                                              :
+                                              "Loading"
+                                            }
                                           />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress">
-                                        <ProgressBar
-                                          variant={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? "sublink" : "default"
-                                          }
-                                          now={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.subLink/
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
-                                            :
-                                            "100"
-                                          }
-                                          label={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].subLink
-                                            :
-                                            "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
+                                        </div>
+                                      </li>
+                                      : null
+                                    }
 
                                     {
                                     	data?.allow_print
@@ -1755,26 +1767,34 @@ console.log("- im hererererere",obj)
                                       :
                                       null
                                     }
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Usage limit
-                                      </h6>
-                                      <h6>
-                                      {
-                                        data?.limit > 0? data?.limit: "Unlimted"
-                                      }
-                                      </h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Enable
-                                      </h6>
-                                      <h6>
-                                        {
-                                          changeFormatForPrint(data)
-                                        }
-                                      </h6>
-                                    </li>
+
+                                    {
+                                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                      <>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Usage limit
+                                            </h6>
+                                            <h6>
+                                            {
+                                              data?.limit > 0? data?.limit: "Unlimted"
+                                            }
+                                            </h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Enable
+                                            </h6>
+                                            <h6>
+                                              {
+                                                changeFormatForPrint(data)
+                                              }
+                                            </h6>
+                                          </li>
+                                      </>
+                                      : null
+                                    }
+
                                     <li>
                                       <h6 className="tab-content-title">
                                         Link type
@@ -1799,16 +1819,22 @@ console.log("- im hererererere",obj)
                                       </h6>
                                       <h6>{data?.uploadedDate}</h6>
                                     </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Expiration date
-                                      </h6>
-                                      <h6>
-                                        {data?.expireDate
-                                          ? data.expireDate
-                                          : "N/A"}
-                                      </h6>
-                                    </li>
+
+                                    {
+                                      localStorage.getItem("group_id") == "2" ?
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Expiration date
+                                        </h6>
+                                        <h6>
+                                          {data?.expireDate
+                                            ? data.expireDate
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      : null
+                                    }
+
                                   </ul>
                                 </div>
                               </Tab>
