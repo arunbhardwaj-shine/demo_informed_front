@@ -83,8 +83,6 @@ const CreateSmartList = () => {
       const ws = readedData.Sheets[wsname];
 
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      console.log(dataParse);
-
       setFileLength(dataParse.length);
     };
     reader.readAsBinaryString(f);
@@ -92,7 +90,6 @@ const CreateSmartList = () => {
   };
 
   const saveButtonClicked = () => {
-    console.log(data);
     if (selectedFile != null) {
       setShow(false);
       setFileName(selectedFile.name);
