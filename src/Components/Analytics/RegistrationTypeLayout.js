@@ -4,7 +4,8 @@ import Highcharts from "highcharts";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import { loader } from "../../loader";
-import html2canvas from "html2canvas";
+import domtoimage from "dom-to-image";
+
 import HighchartsReact from "highcharts-react-official";
 import { Spinner } from "react-activity";
 
@@ -79,18 +80,23 @@ const RenderLayout = ({ data }) => {
   const handleDownloadClick = async (pdf_id) => {
     try {
       loader("show");
-      await html2canvas(document.getElementById(pdf_id)).then((canvas) => {
-        const link = document.createElement("a");
-        link.download = `${pdf_id}.png`;
-        link.href = canvas
-          .toDataURL("image/png")
-          .replace("image/png", "image/octet-stream");
-        link.click();
-      });
+
+      const element = document.getElementById(pdf_id);
+      // add padding to the element
+      element.style.backgroundColor = "white";
+
+      const dataUrl = await domtoimage.toPng(element);
+
+      const link = document.createElement("a");
+      link.download = `${Math.random()}.png`;
+      link.href = dataUrl;
+      link.click();
+      element.style.backgroundColor = "";
+
       loader("hide");
-    } catch (error) {
+    } catch (err) {
       loader("hide");
-      console.log(error);
+      console.log(err);
     }
   };
 
@@ -265,7 +271,7 @@ const RenderLayout = ({ data }) => {
                                 innerRadius: "63%",
                                 y: Math.round(
                                   (element.over_all_unique_readers * 100) /
-                                  element.over_all_opening_readers
+                                    element.over_all_opening_readers
                                 ),
                                 z: element.over_all_unique_readers,
                               },
@@ -280,7 +286,7 @@ const RenderLayout = ({ data }) => {
                                 innerRadius: "38%",
                                 y: Math.round(
                                   (element.over_all_rtr * 100) /
-                                  element.over_all_opening_readers
+                                    element.over_all_opening_readers
                                 ),
                                 z: element.over_all_rtr,
                               },
@@ -313,9 +319,9 @@ const RenderLayout = ({ data }) => {
                           <span>
                             {element.pdf_limit != 0
                               ? Math.round(
-                                (element.over_all_opening_readers * 100) /
-                                element.pdf_limit
-                              ) + " %"
+                                  (element.over_all_opening_readers * 100) /
+                                    element.pdf_limit
+                                ) + " %"
                               : 0}
                           </span>
                         </strong>
