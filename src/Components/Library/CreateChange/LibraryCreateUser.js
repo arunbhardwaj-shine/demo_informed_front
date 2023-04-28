@@ -1154,29 +1154,31 @@ const LibraryCreateUser = () => {
                     {userDetail?.user?.[0]?.flag == 1 &&
                     userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
-                        <div className="form-group">
-                          <label htmlFor="setasdraft1">Set as draft</label>
-                          <fieldset id="group2">
-                            <div className="switch">
-                              <label className="switch-light">
-                                <input
-                                  type="checkbox"
-                                  value="value1"
-                                  name="group2"
-                                  id="setasdraft1"
-                                  onChange={(e) => {
-                                    handleChange(e.target?.checked, "draft");
-                                  }}
-                                />
-                                <span>
-                                  <span className="switch-btn active">No</span>
-                                  <span className="switch-btn ">Yes</span>
-                                </span>
-                                <a className="btn"></a>
-                              </label>
-                            </div>
-                          </fieldset>
-                        </div>
+                        {
+                          /*<div className="form-group">
+                            <label htmlFor="setasdraft1">Set as draft</label>
+                            <fieldset id="group2">
+                              <div className="switch">
+                                <label className="switch-light">
+                                  <input
+                                    type="checkbox"
+                                    value="value1"
+                                    name="group2"
+                                    id="setasdraft1"
+                                    onChange={(e) => {
+                                      handleChange(e.target?.checked, "draft");
+                                    }}
+                                  />
+                                  <span>
+                                    <span className="switch-btn active">No</span>
+                                    <span className="switch-btn ">Yes</span>
+                                  </span>
+                                  <a className="btn"></a>
+                                </label>
+                              </div>
+                            </fieldset>
+                          </div>*/
+                        }
                       </>
                     ) : null}
                     {userDetail?.user?.[0]?.flag == 0 &&

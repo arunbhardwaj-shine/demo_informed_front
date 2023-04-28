@@ -1274,43 +1274,45 @@ const EditLibrary = () => {
                       {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <>
-                          <div className="form-group">
-                            <label htmlFor="setasdraft1">Set as draft</label>
-                            <fieldset id="group2">
-                              <div className="switch">
-                                <label className="switch-light">
-                                  <input
-                                    type="checkbox"
-                                    name="group2"
-                                    id="setasdraft1"
-                                    defaultChecked={
-                                      userInputs?.draft ? true : false
-                                    }
-                                    onChange={(e) => {
-                                      handleChange(e.target?.checked, "draft");
-                                    }}
-                                  />
-                                  <span>
-                                    <span
-                                      className={`switch-btn ${
-                                        userInputs?.draft == 0 ? " Active" : ""
-                                      }`}
-                                    >
-                                      No
+                          {
+                            /*<div className="form-group">
+                              <label htmlFor="setasdraft1">Set as draft</label>
+                              <fieldset id="group2">
+                                <div className="switch">
+                                  <label className="switch-light">
+                                    <input
+                                      type="checkbox"
+                                      name="group2"
+                                      id="setasdraft1"
+                                      defaultChecked={
+                                        userInputs?.draft ? true : false
+                                      }
+                                      onChange={(e) => {
+                                        handleChange(e.target?.checked, "draft");
+                                      }}
+                                    />
+                                    <span>
+                                      <span
+                                        className={`switch-btn ${
+                                          userInputs?.draft == 0 ? " Active" : ""
+                                        }`}
+                                      >
+                                        No
+                                      </span>
+                                      <span
+                                        className={`switch-btn ${
+                                          userInputs?.draft == 1 ? " Active" : ""
+                                        }`}
+                                      >
+                                        Yes
+                                      </span>
                                     </span>
-                                    <span
-                                      className={`switch-btn ${
-                                        userInputs?.draft == 1 ? " Active" : ""
-                                      }`}
-                                    >
-                                      Yes
-                                    </span>
-                                  </span>
-                                  <a className="btn"></a>
-                                </label>
-                              </div>
-                            </fieldset>
-                          </div>
+                                    <a className="btn"></a>
+                                  </label>
+                                </div>
+                              </fieldset>
+                            </div>*/
+                          }
                         </>
                       ) : null}
 
