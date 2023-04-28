@@ -10,8 +10,6 @@ import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 const FilterSegment = (props) => {
-  console.log("props.filter", props.filters);
-
   const tableCompRef = useRef();
   const Navigate = useNavigate();
   const [filters, setFilters] = useState(props.filters);
@@ -242,12 +240,6 @@ const FilterSegment = (props) => {
       setUpdateFlag(up);
     }
 
-    selectedcountry.map((item) => {
-      if (item == "B&H") {
-        item = "Bosnia and Herzegovina";
-      }
-    });
-
     if (setcountryflag == 0) {
       let arr = selectedcountry.map((item, index) => {
         if (item == "B&H") {
@@ -411,15 +403,18 @@ const FilterSegment = (props) => {
       selectedsitenumber.push(sitenumber);
       setSelectedsitenumber(selectedsitenumber);
     }
-    setSelectedsitenumber(selectedsitenumber);
+
     let up = updateflag + 1;
     setUpdateFlag(up);
 
     if (sitenumberflag == 0) {
-      if ("site_data" in filters) {
+      if ("site_data" in filters && sitenumber !== "All") {
         let getSiteData = filters.site_data;
         let site_name_value = getSiteData[sitenumber];
         handleOnSiteNameChange(site_name_value, 1);
+      }
+      if (sitenumber == "All") {
+        handleOnSiteNameChange(sitenumber, 1);
       }
     }
   };
@@ -438,12 +433,15 @@ const FilterSegment = (props) => {
     setUpdateFlag(up);
 
     if (sitenameflag == 0) {
-      if ("site_data" in filters) {
+      if ("site_data" in filters && sitename !== "All") {
         let getSiteData = filters.site_data;
         let site_number_value = Object.keys(getSiteData).find(
           (key) => getSiteData[key] === sitename
         );
         handleOnSiteNumberChange(site_number_value, 1);
+      }
+      if (sitename == "All") {
+        handleOnSiteNumberChange(sitename, 1);
       }
     }
   };
@@ -625,8 +623,8 @@ const FilterSegment = (props) => {
       typeof selectedspeciality === "object" &&
       selectedspeciality.length > 0
     ) {
-      let speciality = selectedspeciality.map((item) => {
-        return item;
+      let speciality = selectedspeciality?.filter((item) => {
+        return item !== "All";
       });
       Object.assign(payload, { speciality: speciality });
       flag_to_check_data = true;
@@ -637,16 +635,16 @@ const FilterSegment = (props) => {
       typeof selectedinvestigatorType === "object" &&
       selectedinvestigatorType.length > 0
     ) {
-      let investigator_type = selectedinvestigatorType.map((item) => {
-        return item;
+      let investigator_type = selectedinvestigatorType?.filter((item) => {
+        return item !== "All";
       });
       Object.assign(payload, { investigator_type: investigator_type });
       flag_to_check_data = true;
     }
 
     if (typeof selectedSubRole === "object" && selectedSubRole.length > 0) {
-      let sub_role = selectedSubRole.map((item) => {
-        return item;
+      let sub_role = selectedSubRole?.filter((item) => {
+        return item !== "All";
       });
       Object.assign(payload, { sub_role: sub_role });
       flag_to_check_data = true;
@@ -687,26 +685,28 @@ const FilterSegment = (props) => {
       typeof selectedsitenumber === "object" &&
       selectedsitenumber.length > 0
     ) {
-      let site_number = selectedsitenumber.map((item) => {
-        return item;
+      let site_number = selectedsitenumber?.filter((item) => {
+        return item !== "All";
       });
+
       Object.assign(payload, { site_number: site_number });
       flag_to_check_data = true;
     }
 
     //For User Type
     if (typeof selectedsitename === "object" && selectedsitename.length > 0) {
-      let site_name = selectedsitename.map((item) => {
-        return item;
+      let site_name = selectedsitename?.filter((item) => {
+        return item !== "All";
       });
+
       Object.assign(payload, { site_name: site_name });
       flag_to_check_data = true;
     }
 
     //For Country
     if (typeof selectedcountry === "object" && selectedcountry.length > 0) {
-      let country = selectedcountry.map((item) => {
-        return item;
+      let country = selectedcountry?.filter((item) => {
+        return item !== "All";
       });
       Object.assign(payload, { country: country });
       flag_to_check_data = true;
@@ -2661,7 +2661,7 @@ const FilterSegment = (props) => {
               ) : null}
 
               {updateflag > 0 ? (
-                selectedBlindType ? (
+                selectedBlindType?.length ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
                       <span>Blind Type |</span>
