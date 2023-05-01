@@ -464,6 +464,15 @@ const NewReaders = () => {
       });
       return newSelectedSiteNumber;
     });
+
+    setSelectedSiteNumber((prev) => {
+      const newSelectedSiteNumber = [...prev];
+      newSelectedSiteNumber.splice(index, 1, {
+        value: e.value,
+        label: e.value,
+      });
+      return newSelectedSiteNumber;
+    });
     const found2 = changeSiteNameType.some((el) => el.index === i);
     if (!found2) {
       setChangeSiteNameType((oldarray) => [...oldarray, consent1]);
@@ -526,7 +535,14 @@ const NewReaders = () => {
       return newSelectedSiteNumber;
     });
     // console.log(selectedSiteNumber[index]);
-
+    setSelectedSiteName((prev) => {
+      const newSelectedSiteNumber = [...prev];
+      newSelectedSiteNumber.splice(index, 1, {
+        value: selectedSiteName,
+        label: selectedSiteName,
+      });
+      return newSelectedSiteNumber;
+    });
     const found2 = changeSiteNumberType.some((el) => el.index === i);
     if (!found2) {
       setChangeSiteNumberType((oldarray) => [...oldarray, consent1]);
