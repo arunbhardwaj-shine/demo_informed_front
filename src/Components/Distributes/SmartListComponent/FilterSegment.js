@@ -254,7 +254,6 @@ const FilterSegment = (props) => {
         let all_item_index = Object.keys(filters?.country)?.every((item) =>
           selectedcountry?.includes(item)
         );
-        console.log("index all", all_item_index);
 
         if (all_item_index == true) {
           selectedcountry?.push("All");
@@ -479,12 +478,11 @@ const FilterSegment = (props) => {
       if (all_index !== -1) {
         setSelectedSubRole([]);
       } else {
-        console.log("sub-role", subRole);
         selectedSubRole?.push(subRole);
         Object.keys(filters?.sub_role)?.map((item, index) => {
           selectedSubRole?.push(item);
         });
-        console.log("selected sub role", selectedSubRole);
+
         setSelectedSubRole(selectedSubRole);
       }
     } else {
@@ -540,11 +538,6 @@ const FilterSegment = (props) => {
   };
 
   const handleOnSiteNumberChange = (sitenumber, sitenumberflag = 0) => {
-    console.log("site number before if", sitenumber);
-    // if (selectedsitename?.includes("All")) {
-    //   sitenumber = "All";
-    // }
-    // console.log("site number after if", sitenumber);
     if (sitenumber == "All") {
       let all_index = selectedsitenumber?.indexOf(sitenumber);
       if (all_index !== -1) {
@@ -595,29 +588,20 @@ const FilterSegment = (props) => {
     let up = updateflag + 1;
     setUpdateFlag(up);
 
-    // if (sitenumberflag == 0) {
-    //   if ("site_data" in filters && sitenumber !== "All") {
-    //     let getSiteData = filters.site_data;
-    //     let site_name_value = getSiteData[sitenumber];
+    if (sitenumberflag == 0) {
+      if ("site_data" in filters && sitenumber !== "All") {
+        let getSiteData = filters.site_data;
+        let site_name_value = getSiteData[sitenumber];
 
-    //     // if (selectedsitenumber?.includes("All")) {
-    //     //   handleOnSiteNameChange("All", 1);
-    //     // } else {
-    //     handleOnSiteNameChange(site_name_value, 1);
-    //     // }
-    //   }
-    //   if (sitenumber == "All") {
-    //     handleOnSiteNameChange(sitenumber, 1);
-    //   }
-    // }
+        handleOnSiteNameChange(site_name_value, 1);
+      }
+      if (sitenumber == "All") {
+        handleOnSiteNameChange(sitenumber, 1);
+      }
+    }
   };
 
   const handleOnSiteNameChange = (sitename, sitenameflag = 0) => {
-    // console.log("site name before if", sitename);
-    // if (selectedsitenumber?.includes("All")) {
-    //   sitename = "All";
-    // }
-    // console.log("site name after if", sitename);
     if (sitename == "All") {
       let all_index = selectedsitename?.indexOf(sitename);
       if (all_index !== -1) {
@@ -645,10 +629,11 @@ const FilterSegment = (props) => {
         let all_item_index = filters?.site_name?.every((item) =>
           selectedsitename.includes(item)
         );
+
         if (all_item_index == true) {
           selectedsitename?.push("All");
         }
-        setSelectedsitename(selectedsitenumber);
+        setSelectedsitename(selectedsitename);
       }
     }
 
@@ -668,23 +653,19 @@ const FilterSegment = (props) => {
     let up = updateflag + 1;
     setUpdateFlag(up);
 
-    // if (sitenameflag == 0) {
-    //   if ("site_data" in filters && sitename !== "All") {
-    //     let getSiteData = filters.site_data;
-    //     let site_number_value = Object.keys(getSiteData).find(
-    //       (key) => getSiteData[key] === sitename
-    //     );
+    if (sitenameflag == 0) {
+      if ("site_data" in filters && sitename !== "All") {
+        let getSiteData = filters.site_data;
+        let site_number_value = Object.keys(getSiteData).find(
+          (key) => getSiteData[key] === sitename
+        );
 
-    //     // if (selectedsitename?.includes("All")) {
-    //     //   handleOnSiteNumberChange("All", 1);
-    //     // } else {
-    //     handleOnSiteNumberChange(site_number_value, 1);
-    //     // }
-    //   }
-    //   if (sitename == "All") {
-    //     handleOnSiteNumberChange(sitename, 1);
-    //   }
-    // }
+        handleOnSiteNumberChange(site_number_value, 1);
+      }
+      if (sitename == "All") {
+        handleOnSiteNumberChange(sitename, 1);
+      }
+    }
   };
 
   const handleOnReaderSelectionChange = (reader_selection) => {
@@ -790,13 +771,79 @@ const FilterSegment = (props) => {
   };
 
   const handleOnConsentChange = (consent) => {
-    let consent_index = selectedconsent.indexOf(consent);
-    if (consent_index !== -1) {
-      selectedconsent.splice(consent_index, 1);
+    if (consent == "All") {
+      let all_index = selectedconsent?.indexOf(consent);
+      if (all_index !== -1) {
+        setConsent([]);
+      } else {
+        console.log("else", selectedconsent);
+        selectedconsent?.splice("None");
+        filters?.consent_type?.filter((item, index) => {
+          if (item == "None") {
+            return;
+          }
+          selectedconsent?.push(item);
+        });
+
+        setConsent(selectedconsent);
+      }
+    } else if (consent == "None") {
+      let none_index = selectedconsent?.indexOf(consent);
+      if (none_index == -1) {
+        setConsent([consent]);
+      } else {
+        selectedconsent?.splice(none_index, 1);
+        setConsent(selectedconsent);
+      }
     } else {
-      selectedconsent.push(consent);
+      let consent_index = selectedconsent?.indexOf(consent);
+
+      if (consent_index !== -1) {
+        selectedconsent?.splice(consent_index, 1);
+
+        let all_index = selectedconsent?.indexOf("All");
+        if (all_index !== -1) {
+          selectedconsent?.splice(all_index, 1);
+        }
+
+        setConsent(selectedconsent);
+      } else {
+        selectedconsent?.push(consent);
+
+        let all_item = filters?.consent_type?.filter((item) => {
+          if (item == "All" || item == "None") {
+            return;
+          }
+          return item;
+        });
+
+        let all_item_index = all_item?.every((item) =>
+          selectedconsent?.includes(item)
+        );
+
+        if (all_item_index == true) {
+          filters?.consent_type?.map((item) => {
+            if (item == "All") {
+              selectedconsent?.push(item);
+            }
+          });
+        }
+        setConsent(selectedconsent);
+      }
     }
-    setConsent(selectedconsent);
+
+    //--------------Old code start-------------//
+    // let consent_index = selectedconsent.indexOf(consent);
+
+    //   if (consent_index !== -1) {
+    //     selectedconsent.splice(consent_index, 1);
+    //   } else {
+    //     selectedconsent.push(consent);
+    //   }
+    // setConsent(selectedconsent);
+
+    //---------Old code ends---------//
+
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
