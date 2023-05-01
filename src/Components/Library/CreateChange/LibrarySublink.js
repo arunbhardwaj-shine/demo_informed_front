@@ -581,17 +581,27 @@ const LibrarySublink = () => {
                                                           <span>
                                                             Agreed Limit |&nbsp;
                                                             {details?.limit == 0
-                                                              ? 1000
-                                                              : details?.limit}
+                                                              ? "Unlimted"
+                                                              : details?.limit == 1000
+                                                              ? "Unlimted"
+                                                              : details?.limit
+                                                            }
                                                           </span>
                                                         </div>
                                                         <span className="total-left">
-                                                          {details?.limit == 0
-                                                            ? 1000 -
-                                                              details?.uniqueReader
-                                                            : details?.limit -
-                                                              details?.uniqueReader}
-                                                          <small>Left</small>
+                                                          {
+                                                            details?.limit == 0 || details?.limit == 1000
+                                                            ? "Unlimted"
+                                                            :
+                                                            <>
+                                                              {details?.limit == 0
+                                                                ? 1000 -
+                                                                  details?.uniqueReader
+                                                                : details?.limit -
+                                                                  details?.uniqueReader}
+                                                              <small>Left</small>
+                                                            </>
+                                                          }
                                                         </span>
                                                       </>
                                                     );

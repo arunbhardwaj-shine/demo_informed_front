@@ -1315,12 +1315,14 @@ const LibraryEditListing = () => {
                                         />
                                         <span>
                                   				Agreed Limit |&nbsp;
-                                  				{
+                                          {
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                             ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "Unlimted"
+                                            :
                                             opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
                                             :
-                                            1000
+                                            "Unlimted"
                                           }
                                 			  </span>
                                       </div>
@@ -1328,12 +1330,23 @@ const LibraryEditListing = () => {
                                 			  {
                                           opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                           ?
-                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
-                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
+                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "Unlimted"
                                           :
-                                          1000
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
+                                          :
+                                          "Unlimted"
                                         }
-                                			  <small>Left</small>
+
+                                        {
+                                          opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                          ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit != 1000
+                                          ?
+                                            <small>Left</small>
+                                          : null
+                                          : null
+                                        }
                                 			</span>
                                     </li>
                                     <li>
