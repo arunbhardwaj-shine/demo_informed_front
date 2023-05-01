@@ -102,13 +102,12 @@ const ContentAnalytics = () => {
       if (!isAccordionOpen) {
         setSectionLoader(true);
 
-        if (!Object.keys(mapData)?.length) {
-          const requestBody = { pdfId: selectedPdf };
-          const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
-          const hadMapData = response?.data || [];
+        const requestBody = { pdfId: selectedPdf };
+        const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
+        const hadMapData = response?.data || [];
 
-          setMapData(hadMapData);
-        }
+        setMapData(hadMapData);
+
         setIsAccordionOpen(true);
       } else {
         setIsAccordionOpen(false);
