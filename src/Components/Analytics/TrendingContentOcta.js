@@ -151,7 +151,11 @@ const DocintelAccount = ({ data }) => {
                 <Col>
                   <h3> {element?.pdf_data?.Pdf?.title}</h3>
                   <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
-                  <a className="btn next-content btn-filled" href={element?.pdf_data?.Pdf?.pdfLink} target="_blank">
+                  <a
+                    className="btn next-content btn-filled"
+                    href={element?.pdf_data?.Pdf?.pdfLink}
+                    target="_blank"
+                  >
                     Preview Article
                   </a>
                   {element?.pdf_data?.Pdf?.product != undefined ? (
@@ -313,6 +317,31 @@ const DocintelAccount = ({ data }) => {
                           text: "",
                         },
                       },
+                      plotOptions: {
+                        column: {
+                          colorByPoint: true,
+                          colors: [
+                            "#FFBE2C",
+                            "#F58289",
+                            "#00D4C0",
+                            "#D61975",
+                            "#0066BE",
+                            "#FFBE2C",
+                            "#F0EEE4",
+                            "#00003C",
+                          ],
+                          dataLabels: {
+                            enabled: true,
+                            inside: false,
+                            format: "{y}", // this will display the y value on top of the column
+                            style: {
+                              textOutline: "none", // to remove the border around the text
+                              fontSize: "12px",
+                            },
+                          },
+                          pointWidth: 35,
+                        },
+                      },
                       series: [
                         {
                           name: "",
@@ -327,7 +356,7 @@ const DocintelAccount = ({ data }) => {
                               fontSize: "12px",
                             },
                           },
-                          pointWidth: 35
+                          pointWidth: 35,
                         },
                       ],
                     }}
