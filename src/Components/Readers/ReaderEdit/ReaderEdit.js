@@ -175,6 +175,7 @@ const ReaderEdit = () => {
       speciality: hasData?.data?.data?.speciality,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
+      userIrtRoles: hasData?.data?.data?.userIrtRoles,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
       siteName: hasData?.data?.data?.siteName,
@@ -192,21 +193,6 @@ const ReaderEdit = () => {
       if(hasData?.data?.data?.country == "B&H"){
         hasData.data.data.country = "Bosnia and Herzegovina";
       }
-
-      // let userCountry = hasData?.data?.data?.country;
-      // let newSite=[],newSiteNumber =[];
-      // userDetail?.sideData?.forEach(item =>{
-      //       if(item?.country == userCountry){
-      //         newSite.push({label:item?.site_name,value:item?.site_name})
-      //         newSiteNumber.push({label:item.site_number,value:item?.site_number})
-      //       }
-      // })
-      // console.log(userDetail?.sideData,newSite,newSiteNumber);
-      // setUserDetail({
-      //   ...userDetail,
-      //   siteName:newSite,
-      //   siteNumber: newSiteNumber,
-      // });
 
       setAddReaderInputs(hasData?.data?.data);
       loader("hide");
@@ -263,6 +249,28 @@ const ReaderEdit = () => {
     initalFun();
     initialReaderFun();
   }, []);
+
+  useEffect(() => {
+    changeSiteData();
+  }, [userDetail?.sideData]);
+
+  const changeSiteData = () => {
+
+    if(typeof userDetail?.sideData !== "undefined"){
+      let newSite=[],newSiteNumber =[];
+        userDetail?.sideData?.forEach(item =>{
+              if(item?.country == userInputs?.country){
+                newSite.push({label:item?.site_name,value:item?.site_name})
+                newSiteNumber.push({label:item.site_number,value:item?.site_number})
+              }
+        })
+        setUserDetail({
+          ...userDetail,
+          siteName:newSite,
+          siteNumber: newSiteNumber,
+        });
+    }
+  }
 
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
@@ -377,19 +385,46 @@ const ReaderEdit = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Role </Form.Label>
+          <Form.Label htmlFor="">IRT </Form.Label>
           <Select
-            options={userDetail?.role}
+            options={userDetail?.irt}
             defaultValue={{
-              label: userInputs?.role,
-              value: userInputs?.role,
+              label: userInputs?.irt,
+              value: userInputs?.irt,
             }}
-            placeholder="Select role"
-            name="role"
+            placeholder="Select IRT"
+            name="irt"
             className="dropdown-basic-button split-button-dropup"
             isClearable
-            onChange={(e) => handleChange(e?.value, "role")}
+            onChange={(e) => handleChange(e?.value, "irt")}
           />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">Role </Form.Label>
+
+          {
+            userInputs?.irt && (userInputs.irt == 1 || userInputs.irt == "Yes") ?
+              <Select
+                options={userDetail?.userIrtRoles}
+                placeholder="Select role"
+                name="role"
+                value={userDetail?.userIrtRoles.findIndex((el) => el.value == userInputs?.role) == -1 ? '' : userDetail?.userIrtRoles[userDetail?.userIrtRoles.findIndex((el) => el.value == userInputs?.role)]}
+                className="dropdown-basic-button split-button-dropup"
+                isClearable
+                onChange={(e) => handleChange(e?.value, "role")}
+              />
+            :
+              <Select
+                options={userDetail?.role}
+                value={userDetail?.role.findIndex((el) => el.value == userInputs?.role) == -1 ? '' : userDetail?.role[userDetail?.role.findIndex((el) => el.value == userInputs?.role)]}
+                placeholder="Select role"
+                name="role"
+                className="dropdown-basic-button split-button-dropup"
+                isClearable
+                onChange={(e) => handleChange(e?.value, "role")}
+              />
+          }
+
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Sub Role </Form.Label>
@@ -420,21 +455,6 @@ const ReaderEdit = () => {
             className="dropdown-basic-button split-button-dropup"
             isClearable
             onChange={(e) => handleChange(e?.value, "blind_type")}
-          />
-        </Form.Group>
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">IRT </Form.Label>
-          <Select
-            options={userDetail?.irt}
-            defaultValue={{
-              label: userInputs?.irt,
-              value: userInputs?.irt,
-            }}
-            placeholder="Select IRT"
-            name="irt"
-            className="dropdown-basic-button split-button-dropup"
-            isClearable
-            onChange={(e) => handleChange(e?.value, "irt")}
           />
         </Form.Group>
       </>
