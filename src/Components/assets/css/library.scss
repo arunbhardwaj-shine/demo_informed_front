@@ -2913,6 +2913,15 @@ input[type=number] {
   min-width: 160px;
   max-width:160px;
 }
+.create_site_form {
+  width: 100%;
+  position: relative;
+  max-width: 445px;
+}
+
+.create_site_form .login-validation {
+  left: 0!important;
+}
 .btn-check:focus+.btn-outline-success, .btn-outline-success:focus {
     box-shadow: none;
 }
