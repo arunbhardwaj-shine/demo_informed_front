@@ -315,6 +315,14 @@ const NewReaders = () => {
     );
   }
   const onCountryChange = (e, i, index) => {
+    setSelectedCountry((prev) => {
+      const newSelectedSiteNumber = [...prev];
+      newSelectedSiteNumber.splice(index, 1, {
+        value: e.value,
+        label: e.value,
+      });
+      return newSelectedSiteNumber;
+    });
     let consetValue = e.value;
     const filteredData = change.sideData.filter(
       (item) => item.country === consetValue
@@ -455,7 +463,14 @@ const NewReaders = () => {
       index: i,
       value: selectedName,
     };
-
+    setSelectedCountry((prev) => {
+      const newSelectedSiteNumber = [...prev];
+      newSelectedSiteNumber.splice(index, 1, {
+        value: selectedCountry1,
+        label: selectedCountry1,
+      });
+      return newSelectedSiteNumber;
+    });
     setSelectedSiteName((prev) => {
       const newSelectedSiteNumber = [...prev];
       newSelectedSiteNumber.splice(index, 1, {
@@ -525,7 +540,14 @@ const NewReaders = () => {
       index: i,
       value: selectedSiteNumber1,
     };
-
+    setSelectedCountry((prev) => {
+      const newSelectedSiteNumber = [...prev];
+      newSelectedSiteNumber.splice(index, 1, {
+        value: selectedCountry1,
+        label: selectedCountry1,
+      });
+      return newSelectedSiteNumber;
+    });
     setSelectedSiteNumber((prev) => {
       const newSelectedSiteNumber = [...prev];
       newSelectedSiteNumber.splice(index, 1, {
@@ -1731,17 +1753,17 @@ const NewReaders = () => {
                                             <Select
                                               ref={defaultCountry}
                                               options={countryAll}
-                                              defaultValue={
-                                                // selectedCountry[index] !=
-                                                // undefined
-                                                //   ? selectedCountry[index]
-                                                // :
-                                                countryAll[
-                                                  countryAll.findIndex(
-                                                    (el) =>
-                                                      el.value == data?.country
-                                                  )
-                                                ]
+                                              value={
+                                                selectedCountry[index] !=
+                                                undefined
+                                                  ? selectedCountry[index]
+                                                  : countryAll[
+                                                      countryAll.findIndex(
+                                                        (el) =>
+                                                          el.value ==
+                                                          data?.country
+                                                      )
+                                                    ]
                                               }
                                               onChange={(event) =>
                                                 onCountryChange(
