@@ -2354,7 +2354,7 @@ const TemplateBuilder = (props) => {
                 className="thumbnail_email_view"
                 ref={ref}
                 dangerouslySetInnerHTML={{
-                  __html: templateSaving,
+                  __html: templateSaving != "" ? templateSaving : template,
                 }}
               ></div>
             </div>

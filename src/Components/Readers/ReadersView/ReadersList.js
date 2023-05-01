@@ -76,6 +76,7 @@ const NewReaders = () => {
   const [changeIRTType, setChangeIRTType] = useState([]);
   const [changeSiteNumberType, setChangeSiteNumberType] = useState([]);
 
+
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
   const [statsFlag, setStatsFlag] = useState(0);
@@ -264,7 +265,8 @@ const NewReaders = () => {
         key == "contactType" ||
         key == "userAction" ||
         key == "webinarRegistered" ||
-        key == "irt" ||
+        key == "IRT" ||
+        key == "Blinded" ||
         key == "List"
 
 
@@ -395,11 +397,13 @@ const NewReaders = () => {
   };
 
   const onIrtChange = (e, i) => {
+
     let consetValue = e.value;
     let consent = {
       index: i,
-      value: consetValue,
+      value: parseInt(consetValue),
     };
+
     const foundIndex = changeIRTType.findIndex((el) => el.index === i);
     if (foundIndex === -1) {
       setChangeIRTType((oldarray) => [...oldarray, consent]);
@@ -407,7 +411,7 @@ const NewReaders = () => {
       setChangeIRTType((oldarray) =>
         oldarray.map((el) => {
           if (el.index === i) {
-            return { ...el, value: consetValue };
+            return { ...el, value: parseInt(consetValue) };
           }
           return el;
         })
@@ -422,6 +426,7 @@ const NewReaders = () => {
     );
     const selectedCountry1 = selectedItem.country;
     const defaultValue = { value: selectedCountry1, label: selectedCountry1 };
+
     let consent = {
       index: i,
       value: selectedCountry1,
@@ -435,10 +440,6 @@ const NewReaders = () => {
       );
       setChangeCountry(updatedArray);
     }
-    // setSelectedCountry((prevSiteNumbers) => ({
-    //   ...prevSiteNumbers,
-    //   [index]: defaultValue,
-    // }));
     let consetValue = e.value;
     consent = {
       index: i,
@@ -606,23 +607,20 @@ const NewReaders = () => {
     setShowFilter(false);
   };
 
-  const removeindividualfilter = (key, item) => {
+  const removeindividualfilter = (key, index) => {
+
     let old_object = filterObject;
     let old_object2 = apifilterObject;
-    const index = old_object[key]?.indexOf(item);
-    if (index > -1) {
+
       old_object[key]?.splice(index, 1);
       if (old_object[key]?.length == 0) {
         delete old_object[key];
       }
-    }
-    const index2 = old_object2[key]?.indexOf(item);
-    if (index2 > -1) {
+
       old_object2[key]?.splice(index, 1);
       if (old_object2[key]?.length == 0) {
         delete old_object2[key];
       }
-    }
 
     setFilterObject(old_object);
     setApifilterObject(old_object2);
@@ -833,8 +831,9 @@ const NewReaders = () => {
                                                         key == "status" ||
                                                         key == "contactType" ||
                                                         key == "userAction" ||
+                                                        key == "Blinded" ||
                                                         key ==
-                                                          "irt" ||
+                                                          "IRT" ||
                                                         key ==
                                                           "webinarRegistered" ||
                                                         key == "List"
@@ -995,12 +994,13 @@ const NewReaders = () => {
             </div>
             {/* &&
             filterApplyflag */}
-            {Object.keys(apifilterObject)?.length  ? (
+            {Object.keys(apifilterObject)?.length && filterApplyflag == 1  ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(apifilterObject)?.map((key, index) => {
+
                       return (
                         <>
                           {apifilterObject[key]?.length > 0 ? (
@@ -1010,10 +1010,16 @@ const NewReaders = () => {
                               </div>
                               <div className="filter-div-list">
                                 {apifilterObject[key]?.map((item, index) => (
+
                                   <div
                                     className="filter-result"
-                                    onClick={(event) =>
-                                      removeindividualfilter(key, item)
+                                    id={item}
+                                    rt={index}
+                                    onClick={(event) => {
+
+                                      removeindividualfilter(key, index)
+                                    }
+
                                     }
                                   >
                                     {key == "draft" && item == "0"
@@ -1124,6 +1130,16 @@ const NewReaders = () => {
                                         <h6>
                                           {data?.siteNumber
                                             ? data?.siteNumber
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Site Name
+                                        </h6>
+                                        <h6>
+                                          {data?.siteName
+                                            ? data?.siteName
                                             : "N/A"}
                                         </h6>
                                       </li>
@@ -1513,7 +1529,7 @@ const NewReaders = () => {
                                       }
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Blinded Type
+                                          Blinded
                                         </h6>
                                         <div className="select-dropdown-wrapper">
                                           <div className="select">
@@ -1549,8 +1565,9 @@ const NewReaders = () => {
                                                   ? change?.irt[0]
                                                   : change?.irt[1]
                                               }
-                                              onChange={(event) =>
+                                              onChange={(event) =>{
                                                 onIrtChange(event, data.id)
+                                              }
                                               }
                                               id={"irt_type" + data?.id}
                                               className="dropdown-basic-button split-button-dropup"
@@ -1566,9 +1583,8 @@ const NewReaders = () => {
                                         <div className="select-dropdown-wrapper">
                                           <div className="select">
                                           {
-                                              changeIRTType[changeIRTType.findIndex((el) => el.index === data.id)]?.value == 1 || data?.irt == "Yes"
-                                              ?
-                                                <Select
+                                              (changeIRTType.filter((el) => el.index == data.id)?.length ?changeIRTType.filter((el) => el.index == data.id)?.[0]?.value:data?.irt == "Yes"?true:false)
+                                              ?<Select
                                                   options={change?.userIrtRoles}
                                                   defaultValue={change?.userIrtRoles.find(
                                                     (roleObj) =>
@@ -1617,7 +1633,7 @@ const NewReaders = () => {
                                                 countryAll[
                                                   countryAll.findIndex(
                                                     (el) =>
-                                                      el.value == data?.country
+                                                      el.value == "B&H" ? "Bosnia and Herzegovina" : el.value  == data?.country
                                                   )
                                                 ]
                                               }
@@ -1643,7 +1659,6 @@ const NewReaders = () => {
                                                   ? siteNumber[index]
                                                   : siteNumber?.all
                                               }
-                                              const
                                               defaultValue={
                                                 data?.siteNumber
                                                   ? change?.siteNumber[
