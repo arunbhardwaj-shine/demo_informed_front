@@ -9,9 +9,8 @@ import exportData from "highcharts/modules/export-data";
 import HighchartsReact from "highcharts-react-official";
 import HighchartsMap from "highcharts/modules/map";
 import proj4 from "proj4";
-
-import MapModule from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+
 import axios from "axios";
 import drilldown from "highcharts/modules/drilldown.js";
 
@@ -92,12 +91,11 @@ export default OctaCountryRegestration;
 
 const MapComponent = ({ data }) => {
   const [newData, setNewData] = useState();
-  // const [mapData, setMapData] = useState(null);
 
   const options = {
     chart: {
       map: "custom/world",
-     
+      proj4,
     },
     title: {
       text: "Regions",
@@ -129,13 +127,7 @@ const MapComponent = ({ data }) => {
         name: "Total Registrations",
         color: "black",
         data: newData,
-        dataLabels: {
-          enabled: true,
-          style: {
-            fontSize: "9px",
-          },
-          format: "{point.name}",
-        },
+
         tooltip: {
           pointFormat: "{point.totalIndex}",
         },
