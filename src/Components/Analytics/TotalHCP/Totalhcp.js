@@ -137,7 +137,7 @@ const Totalhcp = () => {
       loader("show");
       const response = await getData(ENDPOINT.ANALYTICS);
       const data = response.data.data;
-      const seriesMonth = JSON.parse(data[0].Months);
+      const seriesMonth =data[0].Months
       if (data.length <= 0) {
         setIsDataNotFound(true);
       }
@@ -146,11 +146,11 @@ const Totalhcp = () => {
       const newSeries = data.map((item, index) => ({
         name: item.ibu,
         // name: item.ibu + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
-        totalReaders: JSON.parse(item.total_readers).reduce(
+        totalReaders: item.total_readers.reduce(
           (acc, val) => acc + val,
           0
         ),
-        data: JSON.parse(item.total_readers),
+        data:item.total_readers,
         color: Highcharts.getOptions().colors[index],
       }));
 
@@ -172,7 +172,7 @@ const Totalhcp = () => {
         },
       ];
 
-      const categories = JSON.parse(data[0].Months);
+      const categories = data[0]?.Months;
       categories.sort(function (a, b) {
         if (a === "Before April(2022)") return -1;
         if (b === "Before April(2022)") return 1;
@@ -200,7 +200,7 @@ const Totalhcp = () => {
       const lineSeries = data.map((item) => ({
         name: item.ibu,
         // name: item.ibu + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
-        totalReaders: JSON.parse(item.total_readers).reduce(
+        totalReaders: item.total_readers.reduce(
           (acc, val) => acc + val,
           0
         ),
@@ -225,7 +225,7 @@ const Totalhcp = () => {
         },
       ];
 
-      const lineCategories = JSON.parse(data[0].Months);
+      const lineCategories =data[0].Months;
       lineCategories.sort(function (a, b) {
         if (a === "Before April(2022)") return -1;
         if (b === "Before April(2022)") return 1;
@@ -249,7 +249,7 @@ const Totalhcp = () => {
 
       // Create table data
       const newTableSeries = data.map((item) => ({
-        data: JSON.parse(item.total_readers),
+        data:item.total_readers,
       }));
       
 
@@ -260,7 +260,7 @@ const Totalhcp = () => {
         name:
           ibuitems.ibu +
           " ( " +
-          JSON.parse(ibuitems.total_readers).reduce(
+          ibuitems.total_readers.reduce(
             (acc, val) => acc + val,
             0
           ) +
