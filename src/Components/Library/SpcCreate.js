@@ -173,7 +173,7 @@ const SpcCreate = () => {
         visible: "show",
         message: "Your SPC has been published <br />successfully !",
         type: "success",
-        redirect: "spc-view",
+        redirect: "/spc-view",
       });
       loader("hide");
     } catch (err) {

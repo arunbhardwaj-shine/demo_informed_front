@@ -468,6 +468,7 @@ const RDRegister = () => {
             </Modal.Header>
             <Modal.Body>
               <h3 className="popup-title" id="exampleModalCenterTitle">Thank You For Register Here.</h3>
+              <p className="popup_subtitle">An email is on the way with your login details.</p>
             </Modal.Body>
           </div>
         </Modal>
