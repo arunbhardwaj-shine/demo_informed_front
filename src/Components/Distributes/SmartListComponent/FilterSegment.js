@@ -538,11 +538,13 @@ const FilterSegment = (props) => {
   };
 
   const handleOnSiteNumberChange = (sitenumber, sitenumberflag = 0) => {
+    console.log("ste", sitenumber);
     if (sitenumber == "All") {
       let all_index = selectedsitenumber?.indexOf(sitenumber);
       if (all_index !== -1) {
         setSelectedsitenumber([]);
       } else {
+        console.log("All", sitenumber);
         selectedsitenumber?.push(sitenumber);
         filters?.site_number?.map((item, index) => {
           selectedsitenumber?.push(item);
@@ -777,7 +779,7 @@ const FilterSegment = (props) => {
         setConsent([]);
       } else {
         console.log("else", selectedconsent);
-        selectedconsent?.splice("None");
+        selectedconsent?.splice("None", 1);
         filters?.consent_type?.filter((item, index) => {
           if (item == "None") {
             return;
@@ -796,6 +798,12 @@ const FilterSegment = (props) => {
         setConsent(selectedconsent);
       }
     } else {
+      let none_index = selectedconsent?.indexOf("None");
+      console.log("none_index", none_index);
+      if (none_index !== -1) {
+        selectedconsent?.splice(none_index, 1);
+        console.log("i m here--->");
+      }
       let consent_index = selectedconsent?.indexOf(consent);
 
       if (consent_index !== -1) {
@@ -828,6 +836,7 @@ const FilterSegment = (props) => {
             }
           });
         }
+
         setConsent(selectedconsent);
       }
     }
