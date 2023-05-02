@@ -155,7 +155,7 @@ const NewReaders = () => {
         let countries = [];
         Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
           countries.push({
-            value: item,
+            value: item == "B&H" ? "Bosnia and Herzegovina" : item,
             label: item == "B&H" ? "Bosnia and Herzegovina" : item,
           });
 
@@ -355,13 +355,13 @@ const NewReaders = () => {
     // console.log(selectedSiteNumber);
     setSelectedSiteNumber((prev) => {
       const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber[index] = null;
+      newSelectedSiteNumber[index] = {};
       return newSelectedSiteNumber;
     });
 
     setSelectedSiteName((prev) => {
       const newSelectedSiteName = [...prev];
-      newSelectedSiteName[index] = null;
+      newSelectedSiteName[index] = {};
       return newSelectedSiteName;
     });
     let consetValue = e.value;
@@ -1837,19 +1837,18 @@ const NewReaders = () => {
                                               }
                                               value={
                                                 selectedSiteNumber[index] !=
-                                                undefined
+                                                  undefined &&
+                                                selectedSiteNumber[index] !=
+                                                  null
                                                   ? selectedSiteNumber[index]
-                                                  : selectedSiteNumber[index] !=
-                                                    null
-                                                  ? change?.siteNumber
-                                                    ? change?.siteNumber[
-                                                        change?.siteNumber.findIndex(
-                                                          (el) =>
-                                                            el.label.toLowerCase() ===
-                                                            data?.siteNumber?.toLowerCase()
-                                                        )
-                                                      ]
-                                                    : null
+                                                  : change?.siteNumber
+                                                  ? change?.siteNumber[
+                                                      change?.siteNumber.findIndex(
+                                                        (el) =>
+                                                          el.label.toLowerCase() ===
+                                                          data?.siteNumber?.toLowerCase()
+                                                      )
+                                                    ]
                                                   : null
                                               }
                                               // placeholder="Select Site Number"
@@ -1883,16 +1882,16 @@ const NewReaders = () => {
                                               value={
                                                 selectedSiteName[index] !=
                                                 undefined
-                                                  ? selectedSiteName[index] !=
+                                                  ? selectedSiteName[index]
+                                                  : selectedSiteName[index] !=
                                                     null
-                                                    ? selectedSiteName[index]
-                                                    : change?.siteName[
-                                                        change?.siteName.findIndex(
-                                                          (el) =>
-                                                            el.label.toLowerCase() ===
-                                                            data?.siteName?.toLowerCase()
-                                                        )
-                                                      ]
+                                                  ? change?.siteName[
+                                                      change?.siteName.findIndex(
+                                                        (el) =>
+                                                          el.label.toLowerCase() ===
+                                                          data?.siteName?.toLowerCase()
+                                                      )
+                                                    ]
                                                   : null
                                               }
                                               placeholder="Select Site Name"
