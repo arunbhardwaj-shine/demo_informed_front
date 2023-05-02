@@ -27,6 +27,7 @@ exportData(Highcharts);
 drilldown(Highcharts);
 customWrap(Highcharts);
 
+//set image path
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const OctaCountryRegestration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
