@@ -110,9 +110,7 @@ const NewReaders = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(
-        "https://informedback.shinedezign.pro/reader/get-reader-filter"
-      );
+      const res = await getData(ENDPOINT.READERSFILTER);
       setFilterData(res?.data?.data);
     } catch (err) {
       loader("hide");
@@ -146,10 +144,7 @@ const NewReaders = () => {
         let body = {
           user_id: localStorage.getItem("user_id"),
         };
-        const res_data = await postData(
-          "https://informedback.shinedezign.pro/library/spc-helper-listing",
-          body
-        );
+        const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING, body);
         let countries = [];
         Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
           countries.push({
@@ -323,78 +318,80 @@ const NewReaders = () => {
       };
       return newSelectedSiteNumber;
     });
-    let consent1 = {
-      index: i,
-      value: "",
-    };
-    const found2 = changeSiteNumberType.some((el) => el.index === i);
-    if (!found2) {
-      setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
-    } else {
-      const updatedArray = changeSiteNumberType.map((el) =>
-        el.index === i ? { ...el, value: consent1.value } : el
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      let consent1 = {
+        index: i,
+        value: "",
+      };
+      const found2 = changeSiteNumberType.some((el) => el.index === i);
+      if (!found2) {
+        setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
+      } else {
+        const updatedArray = changeSiteNumberType.map((el) =>
+          el.index === i ? { ...el, value: consent1.value } : el
+        );
+        setChangeSiteNumberType(updatedArray);
+      }
+
+      let consent2 = {
+        index: i,
+        value: "",
+      };
+      const found3 = changeSiteNameType.some((el) => el.index === i);
+      if (!found3) {
+        setChangeSiteNameType((oldarray) => [...oldarray, consent2.value]);
+      } else {
+        const updatedArray = changeSiteNameType.map((el) =>
+          el.index === i ? { ...el, value: consent2.value } : el
+        );
+        setChangeSiteNameType(updatedArray);
+      }
+      // console.log(selectedSiteNumber);
+      setSelectedSiteNumber((prev) => {
+        const newSelectedSiteNumber = [...prev];
+        newSelectedSiteNumber[index] = true;
+        return newSelectedSiteNumber;
+      });
+
+      setSelectedSiteName((prev) => {
+        const newSelectedSiteName = [...prev];
+        newSelectedSiteName[index] = true;
+        return newSelectedSiteName;
+      });
+
+      // console.log(selectedSiteName[0].length);
+      let consetValue = e.value;
+      const filteredData = change.sideData.filter(
+        (item) => item.country === consetValue
       );
-      setChangeSiteNumberType(updatedArray);
+
+      const siteNumbers = filteredData.map((item) => ({
+        label: item.site_number,
+        value: item.site_number,
+      }));
+      const siteNames = filteredData.map((item) => ({
+        label: item.site_name,
+        value: item.site_name,
+      }));
+      setSiteNumber((prevSiteNumbers) => ({
+        ...prevSiteNumbers,
+        [index]: siteNumbers,
+      }));
+      setSiteName((prevSiteNumbers) => ({
+        ...prevSiteNumbers,
+        [index]: siteNames,
+      }));
     }
-
-    let consent2 = {
-      index: i,
-      value: "",
-    };
-    const found3 = changeSiteNameType.some((el) => el.index === i);
-    if (!found3) {
-      setChangeSiteNameType((oldarray) => [...oldarray, consent2.value]);
-    } else {
-      const updatedArray = changeSiteNameType.map((el) =>
-        el.index === i ? { ...el, value: consent2.value } : el
-      );
-      setChangeSiteNameType(updatedArray);
-    }
-    // console.log(selectedSiteNumber);
-    setSelectedSiteNumber((prev) => {
-      const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber[index] = true;
-      return newSelectedSiteNumber;
-    });
-
-    setSelectedSiteName((prev) => {
-      const newSelectedSiteName = [...prev];
-      newSelectedSiteName[index] = true;
-      return newSelectedSiteName;
-    });
-
-    // console.log(selectedSiteName[0].length);
-    let consetValue = e.value;
-    const filteredData = change.sideData.filter(
-      (item) => item.country === consetValue
-    );
-
-    const siteNumbers = filteredData.map((item) => ({
-      label: item.site_number,
-      value: item.site_number,
-    }));
-    const siteNames = filteredData.map((item) => ({
-      label: item.site_name,
-      value: item.site_name,
-    }));
-    setSiteNumber((prevSiteNumbers) => ({
-      ...prevSiteNumbers,
-      [index]: siteNumbers,
-    }));
-    setSiteName((prevSiteNumbers) => ({
-      ...prevSiteNumbers,
-      [index]: siteNames,
-    }));
     let consent = {
       index: i,
-      value: consetValue,
+      value: e.value,
     };
     const found = changeCountry.some((el) => el.index === i);
     if (!found) {
       setChangeCountry((oldarray) => [...oldarray, consent]);
     } else {
       const updatedArray = changeCountry.map((el) =>
-        el.index === i ? { ...el, value: consetValue } : el
+        el.index === i ? { ...el, value: e.value } : el
       );
       setChangeCountry(updatedArray);
     }
@@ -832,9 +829,7 @@ const NewReaders = () => {
       key == "change-tab" &&
       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
     ) {
-      const res = await getData(
-        `https://informedback.shinedezign.pro/reader/user-detail`
-      );
+      const res = await getData(ENDPOINT.READER_USER_DROP);
       setChanges(res?.data?.data);
       setSiteNumber((prevSiteNumbers) => ({
         ...prevSiteNumbers,
