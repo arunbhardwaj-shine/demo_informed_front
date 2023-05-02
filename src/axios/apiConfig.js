@@ -73,4 +73,5 @@ export const ENDPOINT = {
   REGISTERRD: `https://medarkive.com/Pages/RegisterRd`,
   EDITSITE:'reader/trailId',
   ADDSITE:'reader/add-trail',
+  UPDATESITE:'reader/edit-trail',
 };
