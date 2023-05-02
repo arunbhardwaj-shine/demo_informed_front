@@ -57,13 +57,13 @@ const Informed = () => {
             });
 
             localStorage.clear();
-            localStorage.setItem("user_id", res?.data?.data?.encryped_id);
-            localStorage.setItem("group_id", res?.data?.data?.group_id);
+            localStorage.setItem("user_id", res?.data?.data?.userToken);
+            localStorage.setItem("group_id", res?.data?.data?.groupId);
             localStorage.setItem("webinar_flag", res?.data?.data?.webinar_flag);
             localStorage.setItem("name", res?.data?.data?.name);
-            localStorage.setItem("decrypted_token", res?.data?.data?.loginToken);
+            localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
 
-            // console.log(res?.data?.data?.name);
+            // console.log(res?.data?.data);
             loader("hide");
             navigate("/library-content");
             // {
