@@ -14,6 +14,11 @@ exportData(Highcharts);
 
 // base bar highchart
 const Totalhcp = () => {
+  const colorObj = {
+    "Critical_care": "#00D4C0",
+    "immunotherapy": "#FFBE2C",
+    "Haematology": "#F58289"
+  }
   const [hcpOptions, setHcpOptions] = useState({
     chart: {
       type: "bar",
@@ -122,7 +127,7 @@ const Totalhcp = () => {
       showTable: true,
     },
     series: [],
-    months:[]
+    months: []
   });
 
   Highcharts.setOptions({
@@ -137,125 +142,60 @@ const Totalhcp = () => {
       loader("show");
       const response = await getData(ENDPOINT.ANALYTICS);
       const data = response.data.data;
-      const seriesMonth =data[0].Months
+      const seriesMonth = data[0].Months
       if (data.length <= 0) {
         setIsDataNotFound(true);
       }
 
       // Set options for HCP chart
-      const newSeries = data.map((item, index) => ({
-        name: item.ibu,
-        // name: item.ibu + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
-        totalReaders: item.total_readers.reduce(
-          (acc, val) => acc + val,
-          0
-        ),
-        data:item.total_readers,
-        color: Highcharts.getOptions().colors[index],
-      }));
-
-      const newSeriesData = [
-        {
-          name: `immunotherapy (${newSeries[2].totalReaders})`,
-          data: newSeries[0].data,
-          color: Highcharts?.getOptions()?.colors[0],
-        },
-        {
-          name: `Haematology (${newSeries[1].totalReaders})`,
-          data: newSeries[1].data,
-          color: Highcharts?.getOptions()?.colors[1],
-        },
-        {
-          name: `Critical_care (${newSeries[0].totalReaders})`,
-          data: newSeries[2].data,
-          color: Highcharts?.getOptions()?.colors[2],
-        },
-      ];
-
-      const categories = data[0]?.Months;
-      categories.sort(function (a, b) {
-        if (a === "Before April(2022)") return -1;
-        if (b === "Before April(2022)") return 1;
-
-        const dateA = new Date("01 " + a);
-        const dateB = new Date("01 " + b);
-
-        if (dateA < dateB) return -1;
-        if (dateA > dateB) return 1;
-        return 0;
+      const newSeries = data.map((item) => {
+        return {
+          name: `${item.ibu} (${item.total})`,
+          data: item.total_readers.slice().reverse(),
+          colors: colorObj[item?.ibu]
+        };
       });
-      categories.reverse();
 
+      const seriesCategories = [...data[0].Months].reverse();
       const newHcpOptions = {
         ...hcpOptions,
         xAxis: {
-          categories: categories,
+          categories: seriesCategories,
         },
-        series: newSeriesData,
+        series: newSeries,
       };
-
       setHcpOptions(newHcpOptions);
 
       // Set options for Base line chart
-      const lineSeries = data.map((item) => ({
-        name: item.ibu,
-        // name: item.ibu + ' ( ' + JSON.parse(item.total_readers).reduce((acc, val) => acc + val, 0) + ')',
-        totalReaders: item.total_readers.reduce(
-          (acc, val) => acc + val,
-          0
-        ),
-        data: item.hcp,
-      }));
 
-      const newLineData = [
-        {
-          name: `Critical_care (${newSeries[0].totalReaders})`,
-          data: lineSeries[0].data,
-          color: Highcharts?.getOptions()?.colors[2],
-        },
-        {
-          name: `Haematology (${newSeries[1].totalReaders})`,
-          data: lineSeries[1].data,
-          color: Highcharts?.getOptions()?.colors[1],
-        },
-        {
-          name: `immunotherapy (${newSeries[2].totalReaders})`,
-          data: lineSeries[2].data,
-          color: Highcharts?.getOptions()?.colors[0],
-        },
-      ];
-
-      const lineCategories =data[0].Months;
-      lineCategories.sort(function (a, b) {
-        if (a === "Before April(2022)") return -1;
-        if (b === "Before April(2022)") return 1;
-
-        const dateA = new Date("01 " + a);
-        const dateB = new Date("01 " + b);
-
-        if (dateA < dateB) return -1;
-        if (dateA > dateB) return 1;
-        return 0;
+      const lineSeries = data.map((item) => {
+        let newData =0,newAr =[]
+        item.hcp.forEach(value =>{
+          newData += value
+           newAr.push(newData)
+        })
+        return {
+          name: `${item.ibu} (${item.total})`,
+          data: newAr
+        }
+       
       });
-
+   
+     const lineCategories = data[0].reverseMonth;
       const newLineOptions = {
         ...lineOptions,
         xAxis: {
           categories: lineCategories,
         },
-        series: newLineData,
+        series: lineSeries,
       };
       setLineOptions(newLineOptions);
 
       // Create table data
       const newTableSeries = data.map((item) => ({
-        data:item.total_readers,
+        data: item.total_readers.slice().reverse(),
       }));
-      
 
-
-      
-   console.log(newTableSeries);
       const tableDatas = data.map((ibuitems) => ({
         name:
           ibuitems.ibu +
@@ -272,7 +212,7 @@ const Totalhcp = () => {
           categories: tableDatas,
         },
         series: newTableSeries,
-        months: categories,
+        months: seriesCategories,
       };
       setTableData(newTable);
       loader("hide");
@@ -293,7 +233,7 @@ const Totalhcp = () => {
     return acc + serie.data.reduce((a, b) => a + b, 0);
   }, 0);
 
-  
+
   return (
     <>
       <Col className="right-sidebar">

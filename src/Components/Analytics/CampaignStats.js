@@ -544,20 +544,22 @@ const CampaignStats = () => {
       const { cis, ibu } = hadData;
       const monthsString = cis[0].Months;
       const months = monthsString
+      console.log("month",months);
         // .split(",")
         // .map((month) => month.replace(/[[\]]/g, ""))
         // .reverse();
-             console.log("graph",months);
-      const newSeriesCis = cis.map((item, index) => {
-        const totalSum = item.total;
-        const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
-        return {
-          name: item.ibu,
-          totalReaders,
-          data: totalSum,
-          color: Highcharts.getOptions().colors[index],
-        };
-      });
+        const reversedMonths = [...months].reverse();
+        console.log("reverse",reversedMonths);
+        const newSeriesCis = cis.map((item, index) => {
+          const totalSum = item.totalSum;
+          const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
+          return {
+            name: item.ibu,
+            totalReaders,
+            data: totalSum,
+            color: Highcharts.getOptions().colors[index],
+          };
+        });
 
       //  for total column cis
       const totalDataCis = months.map((month, index) => {
@@ -598,7 +600,7 @@ const CampaignStats = () => {
       setCampaignStatsLineOption(newHcpOptions);
 
       const newSeriesIbu = ibu.map((item, index) => {
-        const totalSum = item.total
+        const totalSum = item.totalSum
         const totalReaders = totalSum.reduce((acc, val) => acc + val, 0);
         return {
           name: item.ibu,

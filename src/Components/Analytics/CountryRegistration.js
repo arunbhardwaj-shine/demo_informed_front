@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { postData } from "../../axios/apiHelper";
 import { Col, Row, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -20,6 +20,12 @@ const CountryRegistration = () => {
   const [newData, setNewData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
+
+  useEffect(() => {
+    getDataFromApi();
+  }, []);
+
+
   let startMonth = new Date("March 2022");
   let endMonth = new Date();
   let months = [];
@@ -36,13 +42,15 @@ const CountryRegistration = () => {
   months.reverse();
   const [monthYear, setMonthYear] = useState(months[0]?.value);
 
-  const MemoizedMap = React.memo(({ data }) => (
-    <HighchartsReact
-      constructorType={"mapChart"}
-      highcharts={Highcharts}
-      options={mapOptions}
-    />
-  ));
+  const MemoizedMap = ({ data, options }) => {
+    return (
+      <HighchartsReact
+        highcharts={Highcharts}
+        constructorType={"mapChart"}
+        options={options}
+      />
+    );
+  };
 
   // for map
   const mapOptions = useMemo(() => {
@@ -153,8 +161,9 @@ const CountryRegistration = () => {
     colors: ["#FFBE2C", "#00D4C0", "#F58289"],
   });
 
-  const optionMonth = useRef();
-  const optionYear = useRef();
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const optionMonth = useRef(currentDate.toLocaleString("default", { month: "long" }));
+  const optionYear = useRef(currentDate.getFullYear());
 
   const getDataFromApi = async () => {
     try {
@@ -226,17 +235,17 @@ const CountryRegistration = () => {
     }
   };
 
-  useEffect(() => {
-    getDataFromApi();
-  }, []);
 
-  const selectMonthYear = (selectedOption) => {
+
+  const selectMonthYear = useCallback((selectedOption) => {
     setMonthYear(selectedOption?.value);
     const [month, year] = selectedOption?.value?.split(" ") || [];
     optionMonth.current = month;
     optionYear.current = year;
+    setNewData([]);
     getDataFromApi();
-  };
+  }, [getDataFromApi]);
+
 
   return (
     <>
@@ -266,21 +275,20 @@ const CountryRegistration = () => {
                 </Form>
               </div>
               <div className="high_charts">
-                {newData.length ? <MemoizedMap data={newData} /> : null}
+                {newData.length ? (
+                  <MemoizedMap data={newData} options={mapOptions} />
+                ) : null}
               </div>
-              {countryList.series.some((series) => series.data.length > 0) ? (
+              {countryList.series.some((series) => series.data.length > 0) && newData.length > 0 ? (
                 <div>
                   <div className="high_charts">
-                    <HighchartsReact
-                      highcharts={Highcharts}
-                      options={countryList}
-                    />
+                    <HighchartsReact highcharts={Highcharts} options={countryList} />
                   </div>
                   <div className="table-container">
                     <HighchartsReact data={countryList.series} />
                   </div>
                 </div>
-              ) : isLoaded ? (
+              ) : isLoaded && newData.length > 0 ? (
                 <div className="no_found">
                   <p>No Data Found</p>
                 </div>
