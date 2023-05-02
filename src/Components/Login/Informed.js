@@ -88,7 +88,6 @@ const Informed = () => {
             const res = await postData(ENDPOINT.FORGET, {
               email: email,
             });
-            console.log(res?.data?.message);
             loader("hide");
             setEmail('');
             setErrorMsg(null);
@@ -96,6 +95,7 @@ const Informed = () => {
             // setShow(false)
           } catch(err){
             // console.log(err);
+            setSuccessMsg(null);
             setErrorMsg(err?.response?.data?.message);
             loader("hide");
           }
