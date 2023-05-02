@@ -44,9 +44,7 @@ const LibraryContent = (props) => {
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
-    { value: "Online Offer", label: "Online Offer" },
-    { value: "Offline Offer", label: "Offline Offer" },
-    { value: "Sunshine", label: "Sunshine" },
+    { value: "Online Offer", label: "Online Offer" }
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [filterApplyflag, setFilterApplyflag] = useState(0);
@@ -131,6 +129,11 @@ const LibraryContent = (props) => {
   ];
 
   useEffect(() => {
+    if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
+      let linktype = types;
+      linktype.push({ value: "Offline Offer", label: "Offline Offer" },{ value: "Sunshine", label: "Sunshine" });
+      setTypes(linktype);
+    }
     applyFilters()
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
