@@ -3961,6 +3961,28 @@ transform: translateY(-50%);
 .sublink_left .doc-content-main-box ul.tab-mail-list.data span.total-left {
     top: 0px;
 }
+.distribute-page-reader {
+    background: rgba(0, 102, 190, 0.03);
+    border-radius: 0px 15px 15px 15px;
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin: 12px 0 0;
+}
+
+.distribute-page-reader svg {
+    width: 24px;
+    max-height: 24px;
+}
+
+.distribute-page-reader p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 19px;
+    text-transform: capitalize;
+    color: #004A89;
+    padding-left: 15px;
+}
 /**Analytics page End**/
 
 /***INFORMED***/
@@ -6280,10 +6302,6 @@ ul.tab-mail-list.data span.total-left {
   .create-change-content .right-change .form-group > label {
     text-align: left;
   }
-  // .create-change-content .right-change .form-group {
-  //   justify-content: flex-end !important;
-  // }
-
   .create-change-content .right-change .form-group > label {
     padding-top: 10px;
   }
@@ -6422,9 +6440,7 @@ ul.tab-mail-list.data span.total-left {
     padding: 8px 6px;
     font-size: 14px;
   }
-  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
-    flex: 0 0 130px;
-}
+
   .data-progress {
     margin-right: 4px;
   }
