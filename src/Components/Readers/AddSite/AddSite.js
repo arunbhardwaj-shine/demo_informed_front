@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Row, Form, Button } from "react-bootstrap";
 
 import { ENDPOINT } from "../../../axios/apiConfig";
-import { getData, postData } from "../../../axios/apiHelper";
+import { getData, postData , updateConsent} from "../../../axios/apiHelper";
 import Select from "react-select";
 import { useLocation } from 'react-router-dom';
 import { loader } from "../../../loader";
@@ -23,7 +23,6 @@ const AddSite = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const id = searchParams.get("id");
-
     const getCountryFromApi = async () => {
         try {
             const response = await getData(ENDPOINT.READER_USER_DROP);
@@ -90,11 +89,18 @@ const AddSite = () => {
                 sitePostal: sitePostal,
                 siteCountry: selectedCountry
               };
-              console.log("data",formData);
+              if (id) {
+                formData.id = id;
+              }
                 try {
                     loader("show");
-                    const addResponse = await postData(ENDPOINT.ADDSITE,formData);
+                    if (id) {
+                        const updateResponse = await postData(ENDPOINT.UPDATESITE, formData);
+                      } else {
+                        const addResponse = await postData(ENDPOINT.ADDSITE, formData);
+                      }
                     loader("hide");
+                    navigate('/site-listing');
                 } catch (error) {
                     console.log(error);
                     loader("hide");
@@ -224,7 +230,7 @@ const AddSite = () => {
                                     </div>
                                 </Col>
                             </div>
-                            <div class="form-row d-flex justify-content-end">
+                            <div className="form-row d-flex justify-content-end">
                                 {id && (
                                     <Button onClick={handleBack} className="btn-bordered">Back</Button>
                                 )}
