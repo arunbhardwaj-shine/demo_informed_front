@@ -721,7 +721,7 @@ const NewReaders = () => {
             irt: irt,
             role: role,
             siteNumber: siteNumber,
-            siteNumber: siteName,
+            siteName: siteName,
           };
         }
       } else {
