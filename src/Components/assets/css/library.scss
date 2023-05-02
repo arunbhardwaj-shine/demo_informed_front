@@ -4082,13 +4082,14 @@ transform: translateY(-50%);
     .infographic{
       &.text-right{
         text-align: right;
+        padding-right:14px;
       .line-shape{
         max-width: 549px;
       }
       .dt-line{
         position: absolute;
         text-align: center;
-        right: 0;
+        right: 13px;
         top: 0;
       .dt-line-dote{
         text-align: center;
