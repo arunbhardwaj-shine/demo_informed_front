@@ -74,4 +74,5 @@ export const ENDPOINT = {
   EDITSITE:'reader/trailId',
   ADDSITE:'reader/add-trail',
   UPDATESITE:'reader/edit-trail',
+  DELETESITE:'reader/delete-trail',
 };
