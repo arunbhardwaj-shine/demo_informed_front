@@ -109,7 +109,9 @@ const NewReaders = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(ENDPOINT.READERSFILTER);
+      const res = await getData(
+        "https://informedback.shinedezign.pro/reader/get-reader-filter"
+      );
       setFilterData(res?.data?.data);
     } catch (err) {
       loader("hide");
@@ -317,11 +319,50 @@ const NewReaders = () => {
   const onCountryChange = (e, i, index) => {
     setSelectedCountry((prev) => {
       const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber.splice(index, 1, {
+      newSelectedSiteNumber[index] = {
         value: e.value,
         label: e.value,
-      });
+      };
       return newSelectedSiteNumber;
+    });
+    let consent1 = {
+      index: i,
+      value: "",
+    };
+    const found2 = changeSiteNumberType.some((el) => el.index === i);
+    if (!found2) {
+      setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
+    } else {
+      const updatedArray = changeSiteNumberType.map((el) =>
+        el.index === i ? { ...el, value: consent1.value } : el
+      );
+      setChangeSiteNumberType(updatedArray);
+    }
+
+    let consent2 = {
+      index: i,
+      value: "",
+    };
+    const found3 = changeSiteNameType.some((el) => el.index === i);
+    if (!found3) {
+      setChangeSiteNameType((oldarray) => [...oldarray, consent2.value]);
+    } else {
+      const updatedArray = changeSiteNameType.map((el) =>
+        el.index === i ? { ...el, value: consent2.value } : el
+      );
+      setChangeSiteNameType(updatedArray);
+    }
+    // console.log(selectedSiteNumber);
+    setSelectedSiteNumber((prev) => {
+      const newSelectedSiteNumber = [...prev];
+      newSelectedSiteNumber[index] = {};
+      return newSelectedSiteNumber;
+    });
+
+    setSelectedSiteName((prev) => {
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] = {};
+      return newSelectedSiteName;
     });
     let consetValue = e.value;
     const filteredData = change.sideData.filter(
@@ -464,20 +505,21 @@ const NewReaders = () => {
       value: selectedName,
     };
     setSelectedCountry((prev) => {
-      const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber.splice(index, 1, {
+      const newSelectedCountry = [...prev];
+      newSelectedCountry[index] = {
         value: selectedCountry1,
         label: selectedCountry1,
-      });
-      return newSelectedSiteNumber;
+      };
+      return newSelectedCountry;
     });
+
     setSelectedSiteName((prev) => {
-      const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber.splice(index, 1, {
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] = {
         value: selectedName,
         label: selectedName,
-      });
-      return newSelectedSiteNumber;
+      };
+      return newSelectedSiteName;
     });
 
     setSelectedSiteNumber((prev) => {
@@ -488,6 +530,7 @@ const NewReaders = () => {
       });
       return newSelectedSiteNumber;
     });
+
     const found2 = changeSiteNameType.some((el) => el.index === i);
     if (!found2) {
       setChangeSiteNameType((oldarray) => [...oldarray, consent1]);
@@ -519,76 +562,77 @@ const NewReaders = () => {
     const selectedItem = change.sideData.find(
       (item) => item.site_name === selectedSiteName
     );
-    const selectedCountry1 = selectedItem.country;
-    const selectedSiteNumber1 = selectedItem.site_number;
+    const selectedCountry = selectedItem.country;
+    const selectedSiteNumber = selectedItem.site_number;
 
     let consent = {
       index: i,
-      value: selectedCountry1,
+      value: selectedCountry,
     };
     const found1 = changeCountry.some((el) => el.index === i);
     if (!found1) {
       setChangeCountry((oldarray) => [...oldarray, consent]);
     } else {
       const updatedArray = changeCountry.map((el) =>
-        el.index === i ? { ...el, value: selectedCountry1 } : el
+        el.index === i ? { ...el, value: selectedCountry } : el
       );
       setChangeCountry(updatedArray);
     }
 
     let consent1 = {
       index: i,
-      value: selectedSiteNumber1,
+      value: selectedSiteNumber,
     };
-    setSelectedCountry((prev) => {
-      const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber.splice(index, 1, {
-        value: selectedCountry1,
-        label: selectedCountry1,
-      });
-      return newSelectedSiteNumber;
-    });
-    setSelectedSiteNumber((prev) => {
-      const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber.splice(index, 1, {
-        value: selectedSiteNumber1,
-        label: selectedSiteNumber1,
-      });
-      return newSelectedSiteNumber;
-    });
-    // console.log(selectedSiteNumber[index]);
-    setSelectedSiteName((prev) => {
-      const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber.splice(index, 1, {
-        value: selectedSiteName,
-        label: selectedSiteName,
-      });
-      return newSelectedSiteNumber;
-    });
     const found2 = changeSiteNumberType.some((el) => el.index === i);
     if (!found2) {
       setChangeSiteNumberType((oldarray) => [...oldarray, consent1]);
     } else {
       const updatedArray = changeSiteNumberType.map((el) =>
-        el.index === i ? { ...el, value: selectedSiteNumber1 } : el
+        el.index === i ? { ...el, value: selectedSiteNumber } : el
       );
       setChangeSiteNumberType(updatedArray);
     }
 
-    consent = {
+    let consent2 = {
       index: i,
       value: selectedSiteName,
     };
     const found3 = changeSiteNameType.some((el) => el.index === i);
     if (!found3) {
-      setChangeSiteNameType((oldarray) => [...oldarray, consent]);
+      setChangeSiteNameType((oldarray) => [...oldarray, consent2]);
     } else {
-      const index = changeSiteNameType.findIndex((el) => el.index === i);
-      const updatedArray = [...changeSiteNameType];
-      updatedArray[index].value = selectedSiteName;
+      const updatedArray = changeSiteNameType.map((el) =>
+        el.index === i ? { ...el, value: selectedSiteName } : el
+      );
       setChangeSiteNameType(updatedArray);
     }
-    // console.log(selectedItem);
+
+    setSelectedCountry((prev) => {
+      const newSelectedCountry = [...prev];
+      newSelectedCountry[index] = {
+        value: selectedCountry,
+        label: selectedCountry,
+      };
+      return newSelectedCountry;
+    });
+
+    setSelectedSiteNumber((prev) => {
+      const newSelectedSiteNumber = [...prev];
+      newSelectedSiteNumber[index] = {
+        value: selectedSiteNumber,
+        label: selectedSiteNumber,
+      };
+      return newSelectedSiteNumber;
+    });
+
+    setSelectedSiteName((prev) => {
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] = {
+        value: selectedSiteName,
+        label: selectedSiteName,
+      };
+      return newSelectedSiteName;
+    });
   };
 
   const updateReaderDetails = async (reader_id, index) => {
@@ -1793,15 +1837,19 @@ const NewReaders = () => {
                                               }
                                               value={
                                                 selectedSiteNumber[index] !=
-                                                undefined
+                                                  undefined &&
+                                                selectedSiteNumber[index] !=
+                                                  null
                                                   ? selectedSiteNumber[index]
-                                                  : change?.siteNumber[
+                                                  : change?.siteNumber
+                                                  ? change?.siteNumber[
                                                       change?.siteNumber.findIndex(
                                                         (el) =>
                                                           el.label.toLowerCase() ===
                                                           data?.siteNumber?.toLowerCase()
                                                       )
                                                     ]
+                                                  : null
                                               }
                                               // placeholder="Select Site Number"
                                               onChange={(event) =>
@@ -1833,7 +1881,8 @@ const NewReaders = () => {
                                               }
                                               value={
                                                 selectedSiteName[index] !=
-                                                undefined
+                                                  undefined ||
+                                                selectedSiteName[index] != null
                                                   ? selectedSiteName[index]
                                                   : change?.siteName[
                                                       change?.siteName.findIndex(
