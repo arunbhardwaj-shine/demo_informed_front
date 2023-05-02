@@ -140,10 +140,7 @@ const NewReaders = () => {
 
       let payload = { ...data, ...obj };
 
-      const res = await postData(
-        ENDPOINT.READER_LIST_DATA,
-        payload
-      );
+      const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
@@ -401,7 +398,6 @@ const NewReaders = () => {
   };
 
   const onUserChange = (e, i) => {
-    console.log("value", e.value, "---", i);
     const consetValue = e.value;
     const consent = {
       index: i,
