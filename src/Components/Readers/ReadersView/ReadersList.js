@@ -355,13 +355,13 @@ const NewReaders = () => {
     // console.log(selectedSiteNumber);
     setSelectedSiteNumber((prev) => {
       const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber[index] = {};
+      newSelectedSiteNumber[index] = null;
       return newSelectedSiteNumber;
     });
 
     setSelectedSiteName((prev) => {
       const newSelectedSiteName = [...prev];
-      newSelectedSiteName[index] = {};
+      newSelectedSiteName[index] = null;
       return newSelectedSiteName;
     });
     let consetValue = e.value;
@@ -1837,18 +1837,19 @@ const NewReaders = () => {
                                               }
                                               value={
                                                 selectedSiteNumber[index] !=
-                                                  undefined &&
-                                                selectedSiteNumber[index] !=
-                                                  null
+                                                undefined
                                                   ? selectedSiteNumber[index]
-                                                  : change?.siteNumber
-                                                  ? change?.siteNumber[
-                                                      change?.siteNumber.findIndex(
-                                                        (el) =>
-                                                          el.label.toLowerCase() ===
-                                                          data?.siteNumber?.toLowerCase()
-                                                      )
-                                                    ]
+                                                  : selectedSiteNumber[index] !=
+                                                    null
+                                                  ? change?.siteNumber
+                                                    ? change?.siteNumber[
+                                                        change?.siteNumber.findIndex(
+                                                          (el) =>
+                                                            el.label.toLowerCase() ===
+                                                            data?.siteNumber?.toLowerCase()
+                                                        )
+                                                      ]
+                                                    : null
                                                   : null
                                               }
                                               // placeholder="Select Site Number"
@@ -1881,16 +1882,18 @@ const NewReaders = () => {
                                               }
                                               value={
                                                 selectedSiteName[index] !=
-                                                  undefined ||
-                                                selectedSiteName[index] != null
-                                                  ? selectedSiteName[index]
-                                                  : change?.siteName[
-                                                      change?.siteName.findIndex(
-                                                        (el) =>
-                                                          el.label.toLowerCase() ===
-                                                          data?.siteName?.toLowerCase()
-                                                      )
-                                                    ]
+                                                undefined
+                                                  ? selectedSiteName[index] !=
+                                                    null
+                                                    ? selectedSiteName[index]
+                                                    : change?.siteName[
+                                                        change?.siteName.findIndex(
+                                                          (el) =>
+                                                            el.label.toLowerCase() ===
+                                                            data?.siteName?.toLowerCase()
+                                                        )
+                                                      ]
+                                                  : null
                                               }
                                               placeholder="Select Site Name"
                                               onChange={(event) =>
