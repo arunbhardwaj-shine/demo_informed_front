@@ -267,6 +267,7 @@ const Header = () => {
                   <li className="nav-item">
                     <a
                       className="nav-link"
+                      target="_blank"
                       href="https://informed.pro/webinar/qa_survey?cmid=2147501188"
                     >
                       Q&A/SURVEY
