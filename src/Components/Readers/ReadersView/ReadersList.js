@@ -110,9 +110,7 @@ const NewReaders = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(
-        "https://informedback.shinedezign.pro/reader/get-reader-filter"
-      );
+      const res = await getData(ENDPOINT.READERSFILTER);
       setFilterData(res?.data?.data);
     } catch (err) {
       loader("hide");
@@ -146,10 +144,7 @@ const NewReaders = () => {
         let body = {
           user_id: localStorage.getItem("user_id"),
         };
-        const res_data = await postData(
-          "https://informedback.shinedezign.pro/library/spc-helper-listing",
-          body
-        );
+        const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING, body);
         let countries = [];
         Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
           countries.push({
@@ -832,9 +827,7 @@ const NewReaders = () => {
       key == "change-tab" &&
       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
     ) {
-      const res = await getData(
-        `https://informedback.shinedezign.pro/reader/user-detail`
-      );
+      const res = await getData(ENDPOINT.READER_USER_DROP);
       setChanges(res?.data?.data);
       setSiteNumber((prevSiteNumbers) => ({
         ...prevSiteNumbers,
