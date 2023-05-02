@@ -28,7 +28,6 @@ const AddSite = () => {
         try {
             const response = await getData(ENDPOINT.READER_USER_DROP);
             const countryList = response?.data?.data?.country;
-            console.log(countryList);
             setCountryData(countryList);
         } catch (error) {
             console.log(error);
@@ -123,11 +122,6 @@ const AddSite = () => {
     const handleBack = () => {
         navigate(-1);
     };
-
-
-   
-
-
 
     return (
         <>
