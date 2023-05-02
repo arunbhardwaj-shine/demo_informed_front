@@ -7,11 +7,11 @@ export default function GaugeComponent({ tab, list }) {
   return (
     <div>
       <Row>
-        <ActivityGauge label="informed GO" list={list.g0} series={tab.g0} />
-        <ActivityGauge label="informed.pro" list={list.g1} series={tab.g1} />
+        <ActivityGauge label="InforMed GO" list={list.g0} series={tab.g0} />
+        <ActivityGauge label="InforMed.pro" list={list.g1} series={tab.g1} />
 
         <ActivityGauge label="Docintel Code" list={list.g2} series={tab.g2} />
-        <ActivityGauge label="Qr Activity" list={list.g3} series={tab.g3} />
+        <ActivityGauge label="QR Activity" list={list.g3} series={tab.g3} />
         <ActivityGauge label="Peer Activity" list={list.g4} series={tab.g4} />
       </Row>
     </div>
