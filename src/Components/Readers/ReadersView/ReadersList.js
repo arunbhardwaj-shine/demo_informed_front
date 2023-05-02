@@ -139,7 +139,7 @@ const NewReaders = () => {
       let payload = { ...data, ...obj };
 
       const res = await postData(
-        "https://informedback.shinedezign.pro/reader/reader",
+        ENDPOINT.READER_LIST_DATA,
         payload
       );
       if (spcFlag == 0) {
