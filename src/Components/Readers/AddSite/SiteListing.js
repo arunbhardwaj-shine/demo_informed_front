@@ -3,7 +3,7 @@ import { Col, Row, Button } from "react-bootstrap";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { getData } from "../../../axios/apiHelper";
 import { useNavigate } from 'react-router-dom';
-
+import { loader } from "../../../loader";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SiteListing = () => {
     const navigate = useNavigate();
@@ -16,13 +16,15 @@ const SiteListing = () => {
     const [sortingCount, setSortingCount] = useState(0);
     const getReaderDataApi = async () => {
         try {
+            // loader("show");
             const response = await getData(ENDPOINT.READERLISTING);
             const listingData = response.data.data;
             setListingDataSite(listingData);
             setMainListingDataSite(listingData);
-
+            // loader("hide");
         } catch (error) {
             console.log(error);
+            // loader("hide");
         }
     };
 
@@ -84,12 +86,12 @@ const SiteListing = () => {
         setSortNumber(1 - sortNumber);
         setSortingCountDate(sortingCountDate + 1);
     };
- 
+
 
     const handleEdit = (item) => {
-    console.log("/edit/" + item.id);
+        navigate(`/add-site?id=${item.id}`);
     };
-    
+
     return (
         <div className="right-sidebar">
             <div className="page-top-nav smart_list_names">
@@ -216,8 +218,8 @@ const SiteListing = () => {
                                                         <td> {item?.site_postal}</td>
                                                         <td> {item?.site_country}</td>
                                                         <td>
-                                                        <Button onClick={() => handleEdit(item)}> Edit </Button>
-                                                            <Button> Delete </Button>
+                                                            <Button onClick={() => handleEdit(item)} className="btn-bordered"> Edit </Button>
+                                                            <Button className="btn-bordered"> Delete </Button>
                                                         </td>
                                                     </tr>
                                                 </>

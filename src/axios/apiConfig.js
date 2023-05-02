@@ -71,4 +71,6 @@ export const ENDPOINT = {
   FILTERLIST: `https://webinar.docintel.app/lmn/api/distributes/filters_list`,
   READERLISTING: 'reader/get-trail',
   REGISTERRD: `https://medarkive.com/Pages/RegisterRd`,
+  EDITSITE:'reader/trailId',
+  ADDSITE:'reader/add-trail',
 };
