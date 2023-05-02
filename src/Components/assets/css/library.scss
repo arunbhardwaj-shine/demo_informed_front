@@ -3845,11 +3845,10 @@ width: 50%;
     color: #797979;
     font-size: 12px;
     font-weight: 400;
+    text-align: center;
 }
 .detail-box-grid .reparkive
  .reparkive-box.second p {
-    flex-direction: row;
-    justify-content: center;
     color: #797979;
     font-size: 20px;
     font-weight: 700;
@@ -3880,7 +3879,7 @@ width: 50%;
     padding: 0 8px 0 4px;
     color: #1C3D7B;
     font-weight: 600;
-    font-size: 1px;
+    font-size: 0px;
 }
 .detail-box-grid .reparkive .reparkive-box p {
     display: flex;
@@ -3985,6 +3984,34 @@ transform: translateY(-50%);
 }
 .sublink_left .doc-content-main-box ul.tab-mail-list.data span.total-left {
     top: 0px;
+}
+.distribute-page-reader {
+    background: rgba(0, 102, 190, 0.03);
+    border-radius: 0px 15px 15px 15px;
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin: 12px 0 0;
+}
+
+.distribute-page-reader svg {
+    width: 24px;
+    max-height: 24px;
+}
+
+.distribute-page-reader p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 19px;
+    text-transform: capitalize;
+    color: #004A89;
+    padding-left: 15px;
+}
+.distribute-page-reader + .create-change-content.analytic-charts {
+    margin-top: 25px;
+}
+.distribute-page-reader p strong {
+    font-size: 18px;
 }
 /**Analytics page End**/
 
@@ -5021,6 +5048,34 @@ transform: translateY(-50%);
 }
 .modal-title.h4 {
     color: $primary-color;
+}
+.header-forgot .modal-content {
+    padding: 25px 20px 14px;
+}
+
+.header-forgot .modal-dialog {
+    max-width: 500px;
+}
+
+.header-forgot .modal-content .form-field {
+    margin-bottom: 5px;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    border-radius: 30px;
+    border: 0;
+    padding: 12px 24px;
+}
+.header-forgot .modal-content button.btn {
+    margin: 30px auto 0;
+    display: block;
+    min-width: 150px;
+}
+.header-forgot .modal-content p {
+    color: #d61975;
+    font-size: 14px;
+    margin:0;
+}
+.header-forgot .modal-content .modal-header {
+    padding-bottom: 10px;
 }
 .contact-right form input::-webkit-input-placeholder {
 	font-size:24px;
@@ -6305,10 +6360,6 @@ ul.tab-mail-list.data span.total-left {
   .create-change-content .right-change .form-group > label {
     text-align: left;
   }
-  // .create-change-content .right-change .form-group {
-  //   justify-content: flex-end !important;
-  // }
-
   .create-change-content .right-change .form-group > label {
     padding-top: 10px;
   }
@@ -6447,9 +6498,7 @@ ul.tab-mail-list.data span.total-left {
     padding: 8px 6px;
     font-size: 14px;
   }
-  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
-    flex: 0 0 130px;
-}
+
   .data-progress {
     margin-right: 4px;
   }
