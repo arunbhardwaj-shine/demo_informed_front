@@ -604,7 +604,7 @@ const sendContactInformation= (event) => {
                         </li>
                     </ol>
                     <p>The following data may be collected by MedArkive:</p>
-                    <ol start="a">
+                    <ol start="a" className='list-ol'>
                         <li>name;</li>
                         <li>date of birth;</li>
                         <li>gender;</li>
@@ -625,28 +625,29 @@ const sendContactInformation= (event) => {
                     </ol>
                     <p>MedArkive uses your personal information for the following reasons:</p>
 
-                    <br />
                     <ul>
                         <li>To operate effectively as a business and to perform essential business operations, including providing products optimised for medical professionals</li>
                     </ul>
 
 
                     <p dir="ltr">We are motivated to provide products which offer outstanding resources for medical professionals, including sponsored content. To enhance your enjoyment and productivity on our platform, we endeavour to identify and improve our services. To ensure your experience with our products is seamless, we continuously re-examine and iteratively optimise user journeys on our platform. We infer your location from your device IP address in order to geo restrict certain content on our platform and ensure smooth access for you without the need to re-login when avoidable, and aid content selection for sponsors of content. Product issues, identified by users and communicated through customer support, are effectively diagnosed and resolved using data collected from interactions on the platform. Decisions on product development and evaluations of product performance are based on aggregate analysis and business intelligence based on non-personal data.<br />All our clients and partners are required to take appropriate security measures to protect your personal data in line with national legislation and policies of the countries they reside in. No matter which country our clients reside in MedArkive will always treat personal data as a minimum with a level corresponding to the General Data Protection Regulation. This means that you will have the rights as set out in clause 5 (below) and have the right to disclosure, erasure etc. from MedArkive's database.<br />Should you wish to exercise your right to be forgotten we will erase all data about you in both platforms and request the data controller to do the same. However, where consent was given we keep a record of this for disclosures under legal requirements, but we will delete all other data collected.<br />In addition to the specific disclosure of personal data set out in this section, we may disclose your personal data where such disclosure is necessary for compliance with a legal obligation to which we are subject, or in order to protect your vital interests or the vital interests of another natural person. We may also disclose your personal data where such disclosure is necessary for the establishment, exercise or defence of legal claims, whether in court proceedings or in an administrative or out-of-court procedure.</p>
-
-                    <li className="change_li">To deliver communications of personal interest including product and content releases, motivational prompts and in response to product queries or support requests.</li>
+                    <ul>
+                     <li className="change_li">To deliver communications of personal interest including product and content releases, motivational prompts and in response to product queries or support requests.</li>
+                    </ul>
 
                     <p dir="ltr">Direct communications<br />Communications sent by MedArkive come in the form of emails to the email address provided by you during the registration process and through notifications delivered to your device. MedArkive may send you communications relating to new and existing product and content releases and updates. We send such communications so that you are aware of changes we are making to the content or features of our products, or new releases, which could affect the usefulness of our core services to you. You, of course, have the right to opt out of such email communication at any time by using the unsubscribe link, found at the bottom of every email.<br />Third party communications.<br />Our clients contact you in various ways and deliver content hosted by MedArkive. They will do this under their own set of regulations depending on your relationship with them, which will be independent from MedArkive. We may also from time to time push free sponsored content from our clients into your account. You can always delete content received in your account.</p>
-
+                    <ul>
                     <li className="change_li">To inform commercial partners and clients of engagement and interactions on sponsored content hosted on our platform</li>
-
+                    </ul>
                     <p dir="ltr">When you receive content hosted by MedArkive and sponsored by our clients, such as medical device companies and pharmaceutical companies, they are the data controllers. As data controllers they will have control over your private data which we will host in our inforMed.pro platform and what is done with the data is their decision.<br />The data controllers will have access to see your name, email, IP address, what you read and when, but they will never see your password. Each data controller will only see the data that is in relation to what each of them have sponsored. Only MedArkive and you can see all the content you have engaged with. You can find it in the reading list under your CPD Log in the apps.
                         Should you contact us about your right to disclosure, erasure etc. we will delete what we can from our database and inform each data controller about your desire to be forgotten. We will inform you who has received any personal data about you so that you may contact them for further erasure.<br /><br />Our aim with processing your private data is to help our clients to identify better content that is more suited to help you in your professional capacity.<br /><br />To the extent that the legal basis for our processing of your personal information is consent, you have the right to withdraw that consent at any time by emailing dpo@medarkive.com. Withdrawal will not affect the lawfulness of processing before the withdrawal.</p>
                     <ol start="5">
-                        <li dir="ltr">
-                            <p>Accessing your personal data</p>
-                            <p>Under the data protection legislation you have:</p>
+                        <li dir="ltr">Accessing your personal data
                         </li>
                     </ol>
+
+                     <p>Under the data protection legislation you have:</p>
+                     <ul>
                     <li>the right to be informed;</li>
                     <li>the right to access;</li>
                     <li>the right to rectification;</li>
@@ -654,15 +655,15 @@ const sendContactInformation= (event) => {
                     <li>the right to restrict processing;</li>
                     <li>the right to object; and</li>
                     <li>rights in relation to automated decision making and profiling.</li>
+                     </ul>
+
                     <p dir="ltr"><span>To learn more about your rights you should consult the data protection legislation and the country guidance from the relevant supervisory authority.<br /><br />Upon written request to our data protection officer we will provide you with information about what personal data we hold about you. To be able to process your request we may ask you to verify your identity or ask more information about your request. Where we are legally permitted to do so, we may decline your request but we will explain why if we do so. <br /><br /> You have the right to lodge a complaint with a supervisory authority if you think that our processing of your personal data infringes data protection laws.</span></p>
                     <ol start="6">
                         <li dir="ltr">
                             Data Retention
                         </li>
                     </ol>
-
                     <p dir="ltr"><span>MedArkive will retain personal data for as long as necessary to fulfil our aim of improving content provided to you.</span></p>
-                    <br />
                     <ol start="7">
                         <li dir="ltr">
                             Securing Your Information
@@ -670,7 +671,6 @@ const sendContactInformation= (event) => {
                     </ol>
 
                     <p dir="ltr">Data security is of great importance to MedArkive and to protect your data we have put in place suitable physical, electronic and managerial procedures to safeguard and secure data collected via our website and our apps.<br />Our main office is located in England, UK. We also have affiliate offices situated in the EU and in India. We are hosting all content and personal data on servers within the EU. Our clients are based all over the world. As such we may transfer data across the globe, but will always abide by English data protection legislation and as a minimum The General Data Protection Regulation.</p>
-                    <br />
                     <ol start="8">
                         <li dir="ltr">
                             Third Party Websites and Services
@@ -679,17 +679,13 @@ const sendContactInformation= (event) => {
 
 
                     <p dir="ltr">MedArkive may, from time to time, employ the services of other parties for dealing with matters that may include, but are not limited to, delivery of sponsored items, search engine facilities, advertising and marketing. The providers of such services may have access to certain personal data provided by users of this website.<br />Any data used by such parties is used only to the extent required by them to perform the services that MedArkive requests. Any use for other purposes is strictly prohibited. Furthermore, any data that is processed by third parties shall be processed within the terms of this Policy and in accordance with the data protection legislation.</p>
-                    <br />
 
                     <ol start="9">
                         <li dir="ltr">
                             Links to Other Websites
                         </li>
                     </ol>
-
-
                     <p dir="ltr">This website may, from time to time, provide links to other websites. MedArkive has no control over such websites and is in no way responsible for the content thereof. This Policy does not extend to your use of such websites. Users are advised to read the privacy policy or statement of other websites prior to using them.</p>
-                    <br />
 
                     <ol start="10">
                         <li dir="ltr">
@@ -697,7 +693,6 @@ const sendContactInformation= (event) => {
                         </li>
                     </ol>
                     <p dir="ltr">MedArkive may, from time to time, expand or reduce our business and this may involve the sale and/or the transfer of control of all or part of MedArkive. Data provided by users will, where it is relevant to any part of our business so transferred, be transferred along with that part and the new owner or newly controlling party will, under the terms of this Policy, be permitted to use the data for the purposes for which it was originally supplied to us.<br /><br />In the event that any data submitted by users is to be transferred in such a manner, you will not be contacted in advance and informed of the changes.</p>
-                    <br />
                     <ol start="11">
                         <li dir="ltr">
                             Cookies
