@@ -52,7 +52,6 @@ export default function ContentAnalyticsComponent({ data }) {
     pending_days = 0;
     get_precentage = 100;
   }
-  console.log("pending days", pending_days);
 
   let agreed_limit = data.limit != "" && data.limt != 0 ? data.limit : 1000;
   const arr = ["Openings", "Unique Readers"];
