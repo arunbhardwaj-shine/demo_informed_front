@@ -162,7 +162,7 @@ const Routing = () => {
     <Router>
         <Routes>
           //DefaultLayout for Login pages
-          <Route path="/" element={<DefaultLayout component={App} /> } />
+          <Route path="/" element={<DefaultLayout component={Informed} /> } />
 
           <Route path="/informed" element={
               <DefaultLayout component={Informed} />

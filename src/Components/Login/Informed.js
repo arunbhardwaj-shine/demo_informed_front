@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Nav, Navbar, Row, Form, NavDropdown, Button, Modal, Col } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { ENDPOINT } from "../../axios/apiConfig";
@@ -38,6 +38,13 @@ const Informed = () => {
       }
     }
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+    useEffect(() => {
+      loader("show");
+      setTimeout(() => {
+       loader("hide");
+     }, 2000);
+    }, []);
 
     // for login
     const handleLogin = async(event) => {
