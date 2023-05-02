@@ -401,6 +401,7 @@ const NewReaders = () => {
   };
 
   const onUserChange = (e, i) => {
+    console.log("value", e.value, "---", i);
     const consetValue = e.value;
     const consent = {
       index: i,
@@ -695,7 +696,10 @@ const NewReaders = () => {
           ...body,
           userId: 18207,
           readerId: reader_id,
-          type: 1,
+          type:
+            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="
+              ? 1
+              : 0,
         };
 
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
