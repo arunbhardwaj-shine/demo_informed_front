@@ -35,7 +35,7 @@ const DocintelAccount = ({ data }) => {
             return (
               <Row key={index} className="no-margin">
                 <Col sm={2} md={2} className="img-box justify-content-center">
-                <span>{index + 1}</span>
+                  <span>{index + 1}</span>
                   <div style={{ width: "100px", height: "100px" }}>
                     <Image
                       src={
@@ -55,7 +55,11 @@ const DocintelAccount = ({ data }) => {
                 <Col>
                   <h3> {element?.pdf_data?.Pdf?.title}</h3>
                   <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
-                  <a className="btn next-content btn-filled" href={element?.pdf_data?.Pdf?.pdfLink} target="_blank">
+                  <a
+                    className="btn next-content btn-filled"
+                    href={element?.pdf_data?.Pdf?.pdfLink}
+                    target="_blank"
+                  >
                     Preview Article
                   </a>
                   {element?.pdf_data?.Pdf?.product != undefined ? (
@@ -216,6 +220,20 @@ const DocintelAccount = ({ data }) => {
                           text: "",
                         },
                       },
+                      plotOptions: {
+                        column: {
+                          colorByPoint: true,
+                          colors: [
+                            "#0066BE",
+                            "#00D4C0",
+                            "#FFBE2C",
+                            "#F58289",
+                            "#00003C",
+                            "#F0EEE4",
+                            "#D61975",
+                          ],
+                        },
+                      },
                       series: [
                         {
                           name: "",
@@ -230,10 +248,9 @@ const DocintelAccount = ({ data }) => {
                               fontSize: "12px",
                             },
                           },
-                          pointWidth: 35
+                          pointWidth: 35,
                         },
                       ],
-                      
                     }}
                   />
                 </Col>
