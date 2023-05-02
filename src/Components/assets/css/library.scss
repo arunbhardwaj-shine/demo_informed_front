@@ -5049,6 +5049,30 @@ transform: translateY(-50%);
 .modal-title.h4 {
     color: $primary-color;
 }
+.header-forgot .modal-content {
+    padding: 25px 20px 14px;
+}
+
+.header-forgot .modal-dialog {
+    max-width: 500px;
+}
+
+.header-forgot .modal-content .form-field {
+    margin-bottom: 35px;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    border-radius: 30px;
+    border: 0;
+    padding: 12px 24px;
+}
+.header-forgot .modal-content button.btn {
+    margin: 0 auto;
+    display: block;
+    min-width: 150px;
+}
+
+.header-forgot .modal-content .modal-header {
+    padding-bottom: 10px;
+}
 .contact-right form input::-webkit-input-placeholder {
 	font-size:24px;
 	letter-spacing: -0.613636px;
