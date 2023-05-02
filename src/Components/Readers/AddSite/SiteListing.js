@@ -1,30 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Modal } from "react-bootstrap";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import { getData } from "../../../axios/apiHelper";
+import { deleteData, getData } from "../../../axios/apiHelper";
 import { useNavigate } from 'react-router-dom';
 import { loader } from "../../../loader";
+import { popup_alert } from "../../../popup_alert";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SiteListing = () => {
     const navigate = useNavigate();
     const [listingDataSite, setListingDataSite] = useState([])
     const [mainListingDataSite, setMainListingDataSite] = useState([])
-
+    const [isLoaded, setIsLoaded] = useState(false);
     const [search, setSearch] = useState('');
     const [sortNumber, setSortNumber] = useState(0);
     const [sortingCountDate, setSortingCountDate] = useState(0);
     const [sortingCount, setSortingCount] = useState(0);
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const[deleteItemId, setDeleteItemId] = useState("");
+    const handleShowDeleteModal = (item) => {
+        setDeleteItemId(item.id);
+        setShowDeleteModal(true);
+    };
+    
+    const handleCloseDeleteModal = () => setShowDeleteModal(false);
+
+
     const getReaderDataApi = async () => {
         try {
-            // loader("show");
+            loader("show");
             const response = await getData(ENDPOINT.READERLISTING);
             const listingData = response.data.data;
             setListingDataSite(listingData);
             setMainListingDataSite(listingData);
-            // loader("hide");
+            loader("hide");
         } catch (error) {
             console.log(error);
-            // loader("hide");
+            loader("hide");
         }
     };
 
@@ -91,6 +103,34 @@ const SiteListing = () => {
     const handleEdit = (item) => {
         navigate(`/add-site?id=${item.id}`);
     };
+
+const handleDelete = async () => {
+    console.log("iddelete",deleteItemId);
+    setShowDeleteModal(false);
+    try {
+      loader("show");
+      let message = "";
+      if(deleteItemId){
+       const response = await deleteData(ENDPOINT.DELETESITE,deleteItemId);
+       console.log("deleted succesfully",response);
+       const updatedData = listingDataSite.filter((item) => item.id !== deleteItemId);
+       setListingDataSite(updatedData);
+       setMainListingDataSite(updatedData);
+       const message = "Site Data has been deleted successfully";
+      } 
+      loader("hide");
+      popup_alert({
+        visible: "show",
+        message: message,
+        type: "success",
+        redirect: "/site-listing",
+      });
+    } catch (error) {
+      console.log(error);
+      loader("hide");
+    }
+  };
+  
 
     return (
         <div className="right-sidebar">
@@ -219,20 +259,34 @@ const SiteListing = () => {
                                                         <td> {item?.site_country}</td>
                                                         <td>
                                                             <Button onClick={() => handleEdit(item)} className="btn-bordered"> Edit </Button>
-                                                            <Button className="btn-bordered"> Delete </Button>
+                                                            <Button onClick={() => handleShowDeleteModal(item)} className="btn-bordered"> Delete </Button>
                                                         </td>
                                                     </tr>
                                                 </>
                                             ))
-                                        )
-                                            :
+                                        ) : isLoaded ? (
+
                                             <tr className="data-not-found">
                                                 <td colSpan="12">
                                                     <h4>No Data Found</h4>
                                                 </td>
                                             </tr>
-                                    }
+                                        ) : null}
                                 </tbody>
+                                {showDeleteModal && ( 
+                                <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirm Delete</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        Are you sure you want to delete this Site?
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={handleCloseDeleteModal}>Cancel</Button>
+                                        <Button variant="primary" onClick={handleDelete}>Delete</Button>
+                                    </Modal.Footer>
+                                </Modal>
+                                )}
                             </table>
                         </div>
                     </div>
