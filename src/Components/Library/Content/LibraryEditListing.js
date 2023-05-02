@@ -44,8 +44,6 @@ const LibraryEditListing = () => {
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
-    { value: "Offline Offer", label: "Offline Offer" },
-    { value: "Sunshine", label: "Sunshine" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [filterApplyflag, setFilterApplyflag] = useState(0);
@@ -134,6 +132,11 @@ const LibraryEditListing = () => {
   ];
 
   useEffect(() => {
+    if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
+      let linktype = types;
+      linktype.push({ value: "Offline Offer", label: "Offline Offer" },{ value: "Sunshine", label: "Sunshine" });
+      setTypes(linktype);
+    }
     applyFilters();
     getLibraryData(page, filterObject, search);
   }, []);

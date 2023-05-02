@@ -47,11 +47,14 @@ const LibrarySublink = () => {
 
   const [types, setTypes] = useState([
     { value: "Online", label: "Online" },
-    { value: "Offline", label: "Offline" },
-    { value: "Sunshine", label: "Sunshine" },
   ]);
 
   useEffect(() => {
+    if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
+      let linktype = types;
+      linktype.push({ value: "Offline Offer", label: "Offline Offer" },{ value: "Sunshine", label: "Sunshine" });
+      setTypes(linktype);
+    }
     getLibraryData();
   }, []);
 
