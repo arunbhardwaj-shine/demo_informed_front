@@ -28,11 +28,12 @@ const ReaderAdd = () => {
     { value: "production3", label: "production3" },
   ]);
   const [ibu, setIbu] = useState([
-      {
-          label:"Critical Care",
-          value:"Critical Care"
-      },
-      {label:"Haematology",value:"Haematology"},{label:"Immunotherapy",value:"Immunotherapy"},
+    {
+      label: "Critical Care",
+      value: "Critical Care",
+    },
+    { label: "Haematology", value: "Haematology" },
+    { label: "Immunotherapy", value: "Immunotherapy" },
   ]);
   const [hospital, setHospital] = useState([]);
   const [countryCode, setCountryCode] = useState([
@@ -129,7 +130,10 @@ const ReaderAdd = () => {
   const [updateFlag, setUpdateFlag] = useState(0);
 
   const handleModelFun = (e) => {
-    setNewProduct({ label: e?.target?.name, value: e?.target?.value });
+    setNewProduct({
+      label: e?.target?.name?.trim(),
+      value: e?.target?.value?.trim(),
+    });
   };
 
   const handleShow = () => {
@@ -141,18 +145,17 @@ const ReaderAdd = () => {
   };
 
   const handleSubmitModelFun = (e) => {
-
     if (newProduct?.value?.length) {
       const newArr = userDetail[newProduct?.label];
-      let checkIndex = newArr.findIndex(el => el.value == newProduct?.value);
-      if(checkIndex == -1){
+      let checkIndex = newArr.findIndex((el) => el.value == newProduct?.value);
+      if (checkIndex == -1) {
         newArr.unshift({
           value: newProduct?.value,
           label: newProduct?.value,
         });
 
         setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
-      }else{
+      } else {
         toast.error(newProduct?.label + " already in list.");
       }
     }
@@ -279,48 +282,64 @@ const ReaderAdd = () => {
       return;
     }
 
-     if(isSelectedName == "country"){
+    if (isSelectedName == "country") {
       // if(!userDetail?.flag){
-        let newSite=[],newSiteNumber =[]
-        userDetail?.sideData?.forEach(item =>{
-              let countryUpdated = e
-              if(countryUpdated == "Bosnia and Herzegovina"){
-                  countryUpdated="B&H";
-              }
-              if(item?.country == e){
-                newSite.push({label:item?.site_name,value:item?.site_name})
-                newSiteNumber.push({label:item.site_number,value:item?.site_number})
-              }
-        })
-        setUserDetail({
-          ...userDetail,
-          flag:1,
-          siteName:newSite,
-          siteNumber: newSiteNumber,
-        });
-        // setAddReaderInputs({...userInputs,["siteNumber"]:"",["siteName"]:""})
+      let newSite = [],
+        newSiteNumber = [];
+      userDetail?.sideData?.forEach((item) => {
+        let countryUpdated = e;
+        if (countryUpdated == "Bosnia and Herzegovina") {
+          countryUpdated = "B&H";
+        }
+        if (item?.country == e) {
+          newSite.push({ label: item?.site_name, value: item?.site_name });
+          newSiteNumber.push({
+            label: item.site_number,
+            value: item?.site_number,
+          });
+        }
+      });
+      setUserDetail({
+        ...userDetail,
+        flag: 1,
+        siteName: newSite,
+        siteNumber: newSiteNumber,
+      });
+      // setAddReaderInputs({...userInputs,["siteNumber"]:"",["siteName"]:""})
 
       // }
 
-      setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteNumber"]:"",["siteName"]:""})
-    }else if(isSelectedName == "siteNumber"){
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["siteNumber"]: "",
+        ["siteName"]: "",
+      });
+    } else if (isSelectedName == "siteNumber") {
       let siteName = "";
-      userDetail?.sideData?.forEach(item =>{
-              if(item?.site_number == e){
-                siteName = item?.site_name;
-              }
-        })
-      setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteName"]:siteName})
-    }else if(isSelectedName == "siteName"){
+      userDetail?.sideData?.forEach((item) => {
+        if (item?.site_number == e) {
+          siteName = item?.site_name;
+        }
+      });
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["siteName"]: siteName,
+      });
+    } else if (isSelectedName == "siteName") {
       let siteNum = "";
-      userDetail?.sideData?.forEach(item =>{
-              if(item?.site_name == e){
-                siteNum = item?.site_number;
-              }
-        })
-      setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteNumber"]:siteNum})
-    }
-    else{
+      userDetail?.sideData?.forEach((item) => {
+        if (item?.site_name == e) {
+          siteNum = item?.site_number;
+        }
+      });
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["siteNumber"]: siteNum,
+      });
+    } else {
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -330,9 +349,6 @@ const ReaderAdd = () => {
           : e?.target?.value,
       });
     }
-
-
-
   };
 
   const handleFileUpload = async (e) => {
@@ -438,29 +454,47 @@ const ReaderAdd = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Role </Form.Label>
 
-          {
-            userInputs?.irt && userInputs.irt == 1 ?
-              <Select
-                options={userDetail?.userIrtRoles}
-                placeholder="Select Role"
-                name="role"
-                className="dropdown-basic-button split-button-dropup"
-                value={userDetail?.userIrtRoles.findIndex((el) => el.value == userInputs?.role) == -1 ? '' : userDetail?.userIrtRoles[userDetail?.userIrtRoles.findIndex((el) => el.value == userInputs?.role)]}
-                isClearable
-                onChange={(e) => handleChange(e?.value, "role")}
-              />
-            :
-              <Select
-                options={userDetail?.role}
-                placeholder="Select Role"
-                name="role"
-                className="dropdown-basic-button split-button-dropup"
-                value={userDetail?.role.findIndex((el) => el.value == userInputs?.role) == -1 ? '' : userDetail?.role[userDetail?.role.findIndex((el) => el.value == userInputs?.role)]}
-                isClearable
-                onChange={(e) => handleChange(e?.value, "role")}
-              />
-          }
-
+          {userInputs?.irt && userInputs.irt == 1 ? (
+            <Select
+              options={userDetail?.userIrtRoles}
+              placeholder="Select Role"
+              name="role"
+              className="dropdown-basic-button split-button-dropup"
+              value={
+                userDetail?.userIrtRoles.findIndex(
+                  (el) => el.value == userInputs?.role
+                ) == -1
+                  ? ""
+                  : userDetail?.userIrtRoles[
+                      userDetail?.userIrtRoles.findIndex(
+                        (el) => el.value == userInputs?.role
+                      )
+                    ]
+              }
+              isClearable
+              onChange={(e) => handleChange(e?.value, "role")}
+            />
+          ) : (
+            <Select
+              options={userDetail?.role}
+              placeholder="Select Role"
+              name="role"
+              className="dropdown-basic-button split-button-dropup"
+              value={
+                userDetail?.role.findIndex(
+                  (el) => el.value == userInputs?.role
+                ) == -1
+                  ? ""
+                  : userDetail?.role[
+                      userDetail?.role.findIndex(
+                        (el) => el.value == userInputs?.role
+                      )
+                    ]
+              }
+              isClearable
+              onChange={(e) => handleChange(e?.value, "role")}
+            />
+          )}
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Sub Role </Form.Label>
@@ -485,29 +519,40 @@ const ReaderAdd = () => {
           />
         </Form.Group>
 
-          <Form.Group className="form-group">
-              <Form.Label htmlFor="">Country *</Form.Label>
-              <Select
-               options={countryAll}
-               // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
-               placeholder="Select country"
-               name="country"
-               className="dropdown-basic-button split-button-dropup"
-               isClearable
-               onChange={(e) => handleChange(e?.value, "country")}
-              />
-              {error?.country ? (
-                  <div className="login-validation">{error?.country}</div>
-                ) : (""
-              )}
-         </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">Country *</Form.Label>
+          <Select
+            options={countryAll}
+            // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+            placeholder="Select country"
+            name="country"
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "country")}
+          />
+          {error?.country ? (
+            <div className="login-validation">{error?.country}</div>
+          ) : (
+            ""
+          )}
+        </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Site Number </Form.Label>
           <Select
             options={userDetail?.siteNumber}
             placeholder="Select Site Number"
             name="siteNumber"
-            value={userDetail?.siteNumber.findIndex((el) => el.value == userInputs?.siteNumber) == -1 ? '' : userDetail?.siteNumber[userDetail?.siteNumber.findIndex((el) => el.value == userInputs?.siteNumber)]}
+            value={
+              userDetail?.siteNumber.findIndex(
+                (el) => el.value == userInputs?.siteNumber
+              ) == -1
+                ? ""
+                : userDetail?.siteNumber[
+                    userDetail?.siteNumber.findIndex(
+                      (el) => el.value == userInputs?.siteNumber
+                    )
+                  ]
+            }
             className="dropdown-basic-button split-button-dropup"
             isClearable
             onChange={(e) => handleChange(e?.value, "siteNumber")}
@@ -519,7 +564,17 @@ const ReaderAdd = () => {
             options={userDetail?.siteName}
             placeholder="Select Site Name "
             name="siteName"
-            value={userDetail?.siteName.findIndex((el) => el.value == userInputs?.siteName) == -1 ? '' : userDetail?.siteName[userDetail?.siteName.findIndex((el) => el.value == userInputs?.siteName)]}
+            value={
+              userDetail?.siteName.findIndex(
+                (el) => el.value == userInputs?.siteName
+              ) == -1
+                ? ""
+                : userDetail?.siteName[
+                    userDetail?.siteName.findIndex(
+                      (el) => el.value == userInputs?.siteName
+                    )
+                  ]
+            }
             className="dropdown-basic-button split-button-dropup"
             isClearable
             onChange={(e) => handleChange(e?.value, "siteName")}
@@ -537,8 +592,7 @@ const ReaderAdd = () => {
               <div className="row justify-content-end align-items-center">
                 <Col md="1">
                   <div className="header-btn-left">
-                    {
-                      /*<Link
+                    {/*<Link
                         className="btn btn-primary btn-bordered back-btn"
                         to="/readers-view"
                       >
@@ -554,8 +608,7 @@ const ReaderAdd = () => {
                             fill="#97B6CF"
                           />
                         </svg>
-                      </Link>*/
-                    }
+                      </Link>*/}
 
                     {/* <button className="btn btn-primary btn-bordered back">
                       <Link to="/readers-view">Back</Link>
@@ -726,22 +779,28 @@ const ReaderAdd = () => {
 
                     {groupId == 3 && flag == 1 ? RDAccount() : ""}
 
-                    {groupId == 3 && flag == 1 ?"":<Form.Group className="form-group">
-                      <Form.Label htmlFor="">Country *</Form.Label>
-                      <Select
-                        options={countryAll}
-                        placeholder="Select country"
-                        name="country"
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        onChange={(e) => handleChange(e?.value, "country")}
-                      />
-                      {error?.country ? (
-                        <div className="login-validation">{error?.country}</div>
-                      ) : (
-                        ""
-                      )}
-                    </Form.Group> }
+                    {groupId == 3 && flag == 1 ? (
+                      ""
+                    ) : (
+                      <Form.Group className="form-group">
+                        <Form.Label htmlFor="">Country *</Form.Label>
+                        <Select
+                          options={countryAll}
+                          placeholder="Select country"
+                          name="country"
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                          onChange={(e) => handleChange(e?.value, "country")}
+                        />
+                        {error?.country ? (
+                          <div className="login-validation">
+                            {error?.country}
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </Form.Group>
+                    )}
                     {groupId == 2 ||
                     (groupId == 3 && flag == 0 && pharmaData == 0) ? (
                       <Form.Group className="form-group">

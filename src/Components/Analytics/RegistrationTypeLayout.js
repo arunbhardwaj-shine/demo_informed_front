@@ -396,7 +396,7 @@ const RenderLayout = ({ data }) => {
                         },
                         series: [
                           {
-                            name: "Total Readers",
+                            name: "Total Registrations",
                             data: element.series.total_r,
                             color: Highcharts.getOptions().colors[2],
                           },
