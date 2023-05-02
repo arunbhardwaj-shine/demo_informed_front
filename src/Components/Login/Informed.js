@@ -569,7 +569,7 @@ const sendContactInformation= (event) => {
 
 
 
-            <Modal className='header-forgot' show={privacyshow} onHide={(e) => handleClose("privacy")}>
+            <Modal show={privacyshow} onHide={(e) => handleClose("privacy")}>
                 <Modal.Header closeButton>
                     <Modal.Title>Privacy Policy</Modal.Title>
                 </Modal.Header>
