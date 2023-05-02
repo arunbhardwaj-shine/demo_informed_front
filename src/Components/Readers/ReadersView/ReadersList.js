@@ -47,6 +47,7 @@ const NewReaders = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [selectedSiteName, setSelectedSiteName] = useState([]);
   const [selectedSiteNumber, setSelectedSiteNumber] = useState([]);
+  const [selectedRole, setSelectedRole] = useState([]);
 
   const [filterdata, setFilterData] = useState({
     Status: ["Registered", "Unregistered"],
@@ -352,15 +353,17 @@ const NewReaders = () => {
     // console.log(selectedSiteNumber);
     setSelectedSiteNumber((prev) => {
       const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber[index] = {};
+      newSelectedSiteNumber[index] = true;
       return newSelectedSiteNumber;
     });
 
     setSelectedSiteName((prev) => {
       const newSelectedSiteName = [...prev];
-      newSelectedSiteName[index] = {};
+      newSelectedSiteName[index] = true;
       return newSelectedSiteName;
     });
+
+    // console.log(selectedSiteName[0].length);
     let consetValue = e.value;
     const filteredData = change.sideData.filter(
       (item) => item.country === consetValue
@@ -435,8 +438,16 @@ const NewReaders = () => {
     }
   };
 
-  const onRoleChange = (e, i) => {
+  const onRoleChange = (e, i, index) => {
     const consetValue = e.value;
+    setSelectedRole((prev) => {
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] = {
+        value: consetValue,
+        label: consetValue,
+      };
+      return newSelectedSiteName;
+    });
     const consent = {
       index: i,
       value: consetValue,
@@ -454,7 +465,12 @@ const NewReaders = () => {
     }
   };
 
-  const onIrtChange = (e, i) => {
+  const onIrtChange = (e, i, index) => {
+    setSelectedRole((prev) => {
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] = true;
+      return newSelectedSiteName;
+    });
     let consetValue = e.value;
     let consent = {
       index: i,
@@ -1731,7 +1747,11 @@ const NewReaders = () => {
                                                   : change?.irt[1]
                                               }
                                               onChange={(event) => {
-                                                onIrtChange(event, data.id);
+                                                onIrtChange(
+                                                  event,
+                                                  data.id,
+                                                  index
+                                                );
                                               }}
                                               id={"irt_type" + data?.id}
                                               className="dropdown-basic-button split-button-dropup"
@@ -1759,30 +1779,56 @@ const NewReaders = () => {
                                             ) ? (
                                               <Select
                                                 options={change?.userIrtRoles}
-                                                defaultValue={change?.userIrtRoles.find(
-                                                  (roleObj) =>
-                                                    roleObj.value === data?.role
-                                                )}
+                                                value={
+                                                  selectedRole[index] !=
+                                                    undefined &&
+                                                  selectedRole[index] != true
+                                                    ? selectedRole[index]
+                                                    : selectedRole[index] ==
+                                                      true
+                                                    ? null
+                                                    : change?.userIrtRoles.find(
+                                                        (roleObj) =>
+                                                          roleObj.value ===
+                                                          data?.role
+                                                      )
+                                                }
                                                 onChange={(event) =>
-                                                  onRoleChange(event, data.id)
+                                                  onRoleChange(
+                                                    event,
+                                                    data.id,
+                                                    index
+                                                  )
                                                 }
                                                 id={"role_" + data?.id}
                                                 className="dropdown-basic-button split-button-dropup"
                                                 isClearable
+                                                placeholder="Select Role"
                                               />
                                             ) : (
                                               <Select
                                                 options={change?.role}
-                                                defaultValue={change?.role.find(
-                                                  (roleObj) =>
-                                                    roleObj.value === data?.role
-                                                )}
+                                                value={
+                                                  selectedRole[index] !=
+                                                    undefined &&
+                                                  selectedRole[index] != true
+                                                    ? selectedRole[index]
+                                                    : selectedRole[index] ==
+                                                      true
+                                                    ? null
+                                                    : change?.role.find(
+                                                        (roleObj) =>
+                                                          roleObj.value ===
+                                                          data?.role
+                                                      )
+                                                }
                                                 onChange={(event) =>
                                                   onRoleChange(event, data.id)
                                                 }
                                                 id={"role_" + data?.id}
                                                 className="dropdown-basic-button split-button-dropup"
                                                 isClearable
+                                                placeholder="Select Role"
                                               />
                                             )}
                                           </div>
@@ -1798,16 +1844,20 @@ const NewReaders = () => {
                                               ref={defaultCountry}
                                               options={countryAll}
                                               value={
-                                                selectedCountry[index] !=
+                                                selectedCountry[index] !==
                                                 undefined
                                                   ? selectedCountry[index]
-                                                  : countryAll[
-                                                      countryAll.findIndex(
-                                                        (el) =>
-                                                          el.value ==
-                                                          data?.country
-                                                      )
-                                                    ]
+                                                  : data?.country === "B&H"
+                                                  ? countryAll.find(
+                                                      (el) =>
+                                                        el.value ===
+                                                        "Bosnia and Herzegovina"
+                                                    )
+                                                  : countryAll.find(
+                                                      (el) =>
+                                                        el.value ===
+                                                        data?.country
+                                                    )
                                               }
                                               onChange={(event) =>
                                                 onCountryChange(
@@ -1839,17 +1889,18 @@ const NewReaders = () => {
                                                 selectedSiteNumber[index] !=
                                                   undefined &&
                                                 selectedSiteNumber[index] !=
-                                                  null
+                                                  true
                                                   ? selectedSiteNumber[index]
-                                                  : change?.siteNumber
-                                                  ? change?.siteNumber[
+                                                  : selectedSiteNumber[index] ==
+                                                    true
+                                                  ? null
+                                                  : change?.siteNumber[
                                                       change?.siteNumber.findIndex(
                                                         (el) =>
                                                           el.label.toLowerCase() ===
                                                           data?.siteNumber?.toLowerCase()
                                                       )
                                                     ]
-                                                  : null
                                               }
                                               // placeholder="Select Site Number"
                                               onChange={(event) =>
@@ -1881,18 +1932,19 @@ const NewReaders = () => {
                                               }
                                               value={
                                                 selectedSiteName[index] !=
-                                                undefined
+                                                  undefined &&
+                                                selectedSiteName[index] != true
                                                   ? selectedSiteName[index]
-                                                  : selectedSiteName[index] !=
-                                                    null
-                                                  ? change?.siteName[
+                                                  : selectedSiteName[index] ==
+                                                    true
+                                                  ? null
+                                                  : change?.siteName[
                                                       change?.siteName.findIndex(
                                                         (el) =>
                                                           el.label.toLowerCase() ===
                                                           data?.siteName?.toLowerCase()
                                                       )
                                                     ]
-                                                  : null
                                               }
                                               placeholder="Select Site Name"
                                               onChange={(event) =>
