@@ -13,6 +13,7 @@ const Informed = () => {
 
     const [email, setEmail] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
 
     const[name,setName] = useState("");
     const[contactEmail,setContactEmail] = useState("");
@@ -62,17 +63,9 @@ const Informed = () => {
             localStorage.setItem("webinar_flag", res?.data?.data?.webinar_flag);
             localStorage.setItem("name", res?.data?.data?.name);
             localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
-
-            // console.log(res?.data?.data);
             loader("hide");
             navigate("/library-content");
-            // {
-            //   state: {
-            //     pdfId: res?.data?.data?.pdfId,
-            //     fileType: userInputs?.docintelFormat,
-            //     isEdit: 0,
-            //   },
-            // }
+
           }catch(err){
             console.log(err);
             setShowError(err?.response?.data?.message);
@@ -82,17 +75,30 @@ const Informed = () => {
       };
 
       // for send email forgetpassword
-      const onSendEmail = (event) => {
+      const onSendEmail = async(event) => {
         event.preventDefault();
-
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         if (email.trim() === "") {
           setErrorMsg("Please enter your email.");
         } else if (!emailRegex.test(email)) {
           setErrorMsg("Please enter a valid email address.");
         }else{
+          loader("show");
+          try{
+            const res = await postData(ENDPOINT.FORGET, {
+              email: email,
+            });
+            console.log(res?.data?.message);
+            loader("hide");
+            setEmail('');
             setErrorMsg(null);
-            setShow(false)
+            setSuccessMsg(res?.data?.message);
+            // setShow(false)
+          } catch(err){
+            // console.log(err);
+            setErrorMsg(err?.response?.data?.message);
+            loader("hide");
+          }
         }
       };
 
@@ -561,7 +567,8 @@ const sendContactInformation= (event) => {
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
                         />
-                        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+                        {errorMsg && <p>{errorMsg}</p>}
+                        {successMsg && <p style={{ color: "#39CABC" }}>{successMsg}</p>}
                         <Button type="submit">Send Email</Button>
                     </Form>
                 </Modal.Body>
