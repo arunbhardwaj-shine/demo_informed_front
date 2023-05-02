@@ -48,8 +48,13 @@ const NewReaders = () => {
   const [filterdata, setFilterData] = useState({
     Status: ["Registered", "Unregistered"],
   });
-  const [filterObject, setFilterObject] = useState({});
-  const [apifilterObject, setApifilterObject] = useState({});
+  const [filterObject, setFilterObject] = useState({
+    status:["Registered"]
+  });
+  const [apifilterObject, setApifilterObject] = useState({
+    status:["Registered"]
+    // status:["Unregistered"]
+  });
   const [updateflag, setUpdateFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "0", label: "HCP" },
@@ -70,6 +75,7 @@ const NewReaders = () => {
   const [changeRoleType, setChangeRoleType] = useState([]);
   const [changeIRTType, setChangeIRTType] = useState([]);
   const [changeSiteNumberType, setChangeSiteNumberType] = useState([]);
+
 
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
@@ -128,12 +134,6 @@ const NewReaders = () => {
       };
 
       let payload = { ...data, ...obj };
-      // if (pageAllClicked == true) {
-      //   setPageAll(true);
-      // } else {
-      //   loader("show");
-      // }
-      // "https://informedback.shinedezign.pro/reader/reader",
 
       const res = await postData(
         ENDPOINT.READER_LIST_DATA,
@@ -157,8 +157,13 @@ const NewReaders = () => {
       }
 
       if (totalCount != res?.data?.data?.total) {
-        setCount(res?.data?.data?.total);
+        if(res?.data?.data?.result?.length <= 0){
+          setCount(0);
+        }else{
+          setCount(res?.data?.data?.total);
+        }
       }
+
 
       let total_results = 0;
       if (page != 1) {
@@ -173,11 +178,18 @@ const NewReaders = () => {
         setReaderDataList(res?.data?.data?.result);
       }
 
-      if (res?.data?.data?.total > total_results) {
+      // if ( total_results <= res?.data?.data?.total) {
+      //   setIsLoaded(false);
+      //  } else {
+      //   setIsLoaded(true);
+      // }
+
+      if (res?.data?.data?.total > total_results && res?.data?.data?.result?.length !=0) {
         setIsLoaded(true);
-      } else {
+       }else {
         setIsLoaded(false);
       }
+
 
       setPageAll(false);
       setApiCallStatus(true);
@@ -204,7 +216,6 @@ const NewReaders = () => {
       });
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
-      // console.log(url);
       link.href = url;
       link.download = "readers.xlsx";
       link.click();
@@ -254,7 +265,11 @@ const NewReaders = () => {
         key == "contactType" ||
         key == "userAction" ||
         key == "webinarRegistered" ||
+        key == "IRT" ||
+        key == "Blinded" ||
         key == "List"
+
+
       ) {
         filterObject[key] = [];
         apifilterObject[key] = [];
@@ -382,11 +397,13 @@ const NewReaders = () => {
   };
 
   const onIrtChange = (e, i) => {
+
     let consetValue = e.value;
     let consent = {
       index: i,
-      value: consetValue,
+      value: parseInt(consetValue),
     };
+
     const foundIndex = changeIRTType.findIndex((el) => el.index === i);
     if (foundIndex === -1) {
       setChangeIRTType((oldarray) => [...oldarray, consent]);
@@ -394,7 +411,7 @@ const NewReaders = () => {
       setChangeIRTType((oldarray) =>
         oldarray.map((el) => {
           if (el.index === i) {
-            return { ...el, value: consetValue };
+            return { ...el, value: parseInt(consetValue) };
           }
           return el;
         })
@@ -409,6 +426,7 @@ const NewReaders = () => {
     );
     const selectedCountry1 = selectedItem.country;
     const defaultValue = { value: selectedCountry1, label: selectedCountry1 };
+
     let consent = {
       index: i,
       value: selectedCountry1,
@@ -422,10 +440,6 @@ const NewReaders = () => {
       );
       setChangeCountry(updatedArray);
     }
-    // setSelectedCountry((prevSiteNumbers) => ({
-    //   ...prevSiteNumbers,
-    //   [index]: defaultValue,
-    // }));
     let consetValue = e.value;
     consent = {
       index: i,
@@ -593,23 +607,20 @@ const NewReaders = () => {
     setShowFilter(false);
   };
 
-  const removeindividualfilter = (key, item) => {
+  const removeindividualfilter = (key, index) => {
+
     let old_object = filterObject;
     let old_object2 = apifilterObject;
-    const index = old_object[key]?.indexOf(item);
-    if (index > -1) {
+
       old_object[key]?.splice(index, 1);
       if (old_object[key]?.length == 0) {
         delete old_object[key];
       }
-    }
-    const index2 = old_object2[key]?.indexOf(item);
-    if (index2 > -1) {
+
       old_object2[key]?.splice(index, 1);
       if (old_object2[key]?.length == 0) {
         delete old_object2[key];
       }
-    }
 
     setFilterObject(old_object);
     setApifilterObject(old_object2);
@@ -642,10 +653,8 @@ const NewReaders = () => {
       key == "change-tab" &&
       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
     ) {
-      const res = await getData(
-        "https://informedback.shinedezign.pro/reader/user-detail"
-      );
-      setChanges(res.data.data);
+      const res = await getData(`${ENDPOINT.READER_USER_DROP}`);
+      setChanges(res?.data?.data);
       setSiteNumber((prevSiteNumbers) => ({
         ...prevSiteNumbers,
         all: res.data.data.siteNumber,
@@ -708,7 +717,7 @@ const NewReaders = () => {
               </div>
               <div className="top-right-action library_content_view">
                 <div className="search-bar">
-                  <Form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
                       type="text"
@@ -717,7 +726,7 @@ const NewReaders = () => {
                       id="email_search"
                       onChange={(e) => searchChange(e)}
                     />
-                    <Button className="btn btn-outline-success" type="submit">
+                    <button className="btn-outline-success" type="submit">
                       <svg
                         width="16"
                         height="16"
@@ -730,8 +739,8 @@ const NewReaders = () => {
                           fill="#97B6CF"
                         />
                       </svg>
-                    </Button>
-                  </Form>
+                    </button>
+                  </form>
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
@@ -822,6 +831,9 @@ const NewReaders = () => {
                                                         key == "status" ||
                                                         key == "contactType" ||
                                                         key == "userAction" ||
+                                                        key == "Blinded" ||
+                                                        key ==
+                                                          "IRT" ||
                                                         key ==
                                                           "webinarRegistered" ||
                                                         key == "List"
@@ -836,8 +848,6 @@ const NewReaders = () => {
                                                       }
                                                       name={key}
                                                       defaultChecked={
-                                                        (key == "status" &&
-                                                          item == "All") ||
                                                         (key == "contactType" &&
                                                           item == "HCP")
                                                           ? true
@@ -982,14 +992,15 @@ const NewReaders = () => {
                 </div>
               </div>
             </div>
-
-            {Object.keys(apifilterObject)?.length !== 0 &&
-            filterApplyflag > 0 ? (
+            {/* &&
+            filterApplyflag */}
+            {Object.keys(apifilterObject)?.length && filterApplyflag == 1  ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(apifilterObject)?.map((key, index) => {
+
                       return (
                         <>
                           {apifilterObject[key]?.length > 0 ? (
@@ -999,10 +1010,16 @@ const NewReaders = () => {
                               </div>
                               <div className="filter-div-list">
                                 {apifilterObject[key]?.map((item, index) => (
+
                                   <div
                                     className="filter-result"
-                                    onClick={(event) =>
-                                      removeindividualfilter(key, item)
+                                    id={item}
+                                    rt={index}
+                                    onClick={(event) => {
+
+                                      removeindividualfilter(key, index)
+                                    }
+
                                     }
                                   >
                                     {key == "draft" && item == "0"
@@ -1113,6 +1130,16 @@ const NewReaders = () => {
                                         <h6>
                                           {data?.siteNumber
                                             ? data?.siteNumber
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Site Name
+                                        </h6>
+                                        <h6>
+                                          {data?.siteName
+                                            ? data?.siteName
                                             : "N/A"}
                                         </h6>
                                       </li>
@@ -1466,64 +1493,43 @@ const NewReaders = () => {
                                   {localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" && change ? (
                                     <>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          User Status
-                                        </h6>
-                                        <div className="select-dropdown-wrapper">
-                                          {/*console.log(
-                                            types.findIndex(
-                                              (el) =>
-                                              el.label.toLowerCase() == data?.user_status.toLowerCase()
-                                            ))*/}
-                                          <div className="select">
-                                            <Select
-                                              options={types}
-                                              defaultValue={
-                                                types[
-                                                  types.findIndex(
-                                                    (el) =>
-                                                      el.label.toLowerCase() ==
-                                                      data?.user_status?.toLowerCase()
-                                                  )
-                                                ]
-                                              }
-                                              onChange={(event) =>
-                                                onUserChange(event, data.id)
-                                              }
-                                              id={"user_type_" + data?.id}
-                                              className="dropdown-basic-button split-button-dropup"
-                                              isClearable
-                                            />
+                                      {/*console.log(
+                                        types.findIndex(
+                                          (el) =>
+                                          el.label.toLowerCase() == data?.user_status.toLowerCase()
+                                        ))*/}
+                                      {
+                                        /*<li>
+                                          <h6 className="tab-content-title">
+                                            User Status
+                                          </h6>
+                                          <div className="select-dropdown-wrapper">
+                                            <div className="select">
+                                              <Select
+                                                options={types}
+                                                defaultValue={
+                                                  types[
+                                                    types.findIndex(
+                                                      (el) =>
+                                                        el.label.toLowerCase() ==
+                                                        data?.user_status?.toLowerCase()
+                                                    )
+                                                  ]
+                                                }
+                                                onChange={(event) =>
+                                                  onUserChange(event, data.id)
+                                                }
+                                                id={"user_type_" + data?.id}
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            </div>
                                           </div>
-                                        </div>
-                                      </li>
-
+                                        </li>*/
+                                      }
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Role
-                                        </h6>
-                                        <div className="select-dropdown-wrapper">
-                                          <div className="select">
-                                            <Select
-                                              options={change?.role}
-                                              defaultValue={change?.role.find(
-                                                (roleObj) =>
-                                                  roleObj.value === data?.role
-                                              )}
-                                              onChange={(event) =>
-                                                onRoleChange(event, data.id)
-                                              }
-                                              id={"role_" + data?.id}
-                                              className="dropdown-basic-button split-button-dropup"
-                                              isClearable
-                                            />
-                                          </div>
-                                        </div>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Blinded Type
+                                          Blinded
                                         </h6>
                                         <div className="select-dropdown-wrapper">
                                           <div className="select">
@@ -1559,8 +1565,9 @@ const NewReaders = () => {
                                                   ? change?.irt[0]
                                                   : change?.irt[1]
                                               }
-                                              onChange={(event) =>
+                                              onChange={(event) =>{
                                                 onIrtChange(event, data.id)
+                                              }
                                               }
                                               id={"irt_type" + data?.id}
                                               className="dropdown-basic-button split-button-dropup"
@@ -1569,7 +1576,46 @@ const NewReaders = () => {
                                           </div>
                                         </div>
                                       </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Role
+                                        </h6>
+                                        <div className="select-dropdown-wrapper">
+                                          <div className="select">
+                                          {
+                                              (changeIRTType.filter((el) => el.index == data.id)?.length ?changeIRTType.filter((el) => el.index == data.id)?.[0]?.value:data?.irt == "Yes"?true:false)
+                                              ?<Select
+                                                  options={change?.userIrtRoles}
+                                                  defaultValue={change?.userIrtRoles.find(
+                                                    (roleObj) =>
+                                                      roleObj.value === data?.role
+                                                  )}
+                                                  onChange={(event) =>
+                                                    onRoleChange(event, data.id)
+                                                  }
+                                                  id={"role_" + data?.id}
+                                                  className="dropdown-basic-button split-button-dropup"
+                                                  isClearable
+                                                />
+                                              :
+                                                <Select
+                                                  options={change?.role}
+                                                  defaultValue={change?.role.find(
+                                                    (roleObj) =>
+                                                      roleObj.value === data?.role
+                                                  )}
+                                                  onChange={(event) =>
+                                                    onRoleChange(event, data.id)
+                                                  }
+                                                  id={"role_" + data?.id}
+                                                  className="dropdown-basic-button split-button-dropup"
+                                                  isClearable
+                                                />
+                                          }
 
+                                          </div>
+                                        </div>
+                                      </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           Country
@@ -1587,7 +1633,7 @@ const NewReaders = () => {
                                                 countryAll[
                                                   countryAll.findIndex(
                                                     (el) =>
-                                                      el.value == data?.country
+                                                      el.value == "B&H" ? "Bosnia and Herzegovina" : el.value  == data?.country
                                                   )
                                                 ]
                                               }
@@ -1613,7 +1659,6 @@ const NewReaders = () => {
                                                   ? siteNumber[index]
                                                   : siteNumber?.all
                                               }
-                                              const
                                               defaultValue={
                                                 data?.siteNumber
                                                   ? change?.siteNumber[

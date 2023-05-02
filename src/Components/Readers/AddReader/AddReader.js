@@ -182,6 +182,7 @@ const ReaderAdd = () => {
       speciality: hasData?.data?.data?.speciality,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
+      userIrtRoles: hasData?.data?.data?.userIrtRoles,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
       siteName: [],
@@ -424,15 +425,42 @@ const ReaderAdd = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Role </Form.Label>
+          <Form.Label htmlFor="">IRT </Form.Label>
           <Select
-            options={userDetail?.role}
-            placeholder="Select Role"
-            name="role"
+            options={userDetail?.irt}
+            placeholder="Select IRT"
+            name="irt"
             className="dropdown-basic-button split-button-dropup"
             isClearable
-            onChange={(e) => handleChange(e?.value, "role")}
+            onChange={(e) => handleChange(e?.value, "irt")}
           />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">Role </Form.Label>
+
+          {
+            userInputs?.irt && userInputs.irt == 1 ?
+              <Select
+                options={userDetail?.userIrtRoles}
+                placeholder="Select Role"
+                name="role"
+                className="dropdown-basic-button split-button-dropup"
+                value={userDetail?.userIrtRoles.findIndex((el) => el.value == userInputs?.role) == -1 ? '' : userDetail?.userIrtRoles[userDetail?.userIrtRoles.findIndex((el) => el.value == userInputs?.role)]}
+                isClearable
+                onChange={(e) => handleChange(e?.value, "role")}
+              />
+            :
+              <Select
+                options={userDetail?.role}
+                placeholder="Select Role"
+                name="role"
+                className="dropdown-basic-button split-button-dropup"
+                value={userDetail?.role.findIndex((el) => el.value == userInputs?.role) == -1 ? '' : userDetail?.role[userDetail?.role.findIndex((el) => el.value == userInputs?.role)]}
+                isClearable
+                onChange={(e) => handleChange(e?.value, "role")}
+              />
+          }
+
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Sub Role </Form.Label>
@@ -456,17 +484,7 @@ const ReaderAdd = () => {
             onChange={(e) => handleChange(e?.value, "blind_type")}
           />
         </Form.Group>
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">IRT </Form.Label>
-          <Select
-            options={userDetail?.irt}
-            placeholder="Select IRT"
-            name="irt"
-            className="dropdown-basic-button split-button-dropup"
-            isClearable
-            onChange={(e) => handleChange(e?.value, "irt")}
-          />
-        </Form.Group>
+
           <Form.Group className="form-group">
               <Form.Label htmlFor="">Country *</Form.Label>
               <Select

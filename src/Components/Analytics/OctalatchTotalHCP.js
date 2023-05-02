@@ -167,6 +167,7 @@ const OctalatchTotalHCP = () => {
           setIsDataNotFound(true);
           loader("hide");
           return;
+          
         }
 
         const newSeriesData = [

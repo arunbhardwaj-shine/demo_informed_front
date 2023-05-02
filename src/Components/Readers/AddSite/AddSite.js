@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Row, Form, Button } from "react-bootstrap";
 
 import { ENDPOINT } from "../../../axios/apiConfig";
-import { getData } from "../../../axios/apiHelper";
+import { getData, postData } from "../../../axios/apiHelper";
 import Select from "react-select";
 import { useLocation } from 'react-router-dom';
 import { loader } from "../../../loader";
@@ -50,8 +50,6 @@ const AddSite = () => {
             console.log(error);
             loader("hide");
         }
-
-
     }
 
     useEffect(() => {
@@ -61,7 +59,7 @@ const AddSite = () => {
         }
     }, []);
 
-    const submitFormSite = (event) => {
+    const submitFormSite = async (event) => {
         event.preventDefault();
         const siteNumber = event.target.elements.sitenumber.value;
         const siteName = event.target.elements.sitename.value;
@@ -84,12 +82,35 @@ const AddSite = () => {
         } else {
             setAddSiteForm([]);
             // addSiteErrorMessage(null);
+            const formData = {
+                siteNumber: siteNumber,
+                siteName: siteName,
+                siteAddress: siteAddress,
+                siteCity: siteCity,
+                sitePostal: sitePostal,
+                siteCountry: selectedCountry
+              };
+              console.log("data",formData);
+                try {
+                    loader("show");
+                    const addResponse = await postData(ENDPOINT.ADDSITE,formData);
+                    loader("hide");
+                } catch (error) {
+                    console.log(error);
+                    loader("hide");
+                }
+            
         }
     };
 
     const handleBack = () => {
         navigate(-1);
     };
+
+
+   
+
+
 
     return (
         <>

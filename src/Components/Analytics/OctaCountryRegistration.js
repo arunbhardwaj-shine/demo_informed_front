@@ -134,8 +134,8 @@ const MapComponent = ({ data }) => {
         showInLegend: false,
         marker: {
           symbol: `url(${path_image}/marker.png)`,
-          width: 20,
-          height: 25,
+          width: 17,
+          height: 24,
           offsetY: -15, // adjust the position of the marker icon
         },
       },
