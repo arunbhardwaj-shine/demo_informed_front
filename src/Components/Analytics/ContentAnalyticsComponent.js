@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Row, Image, ProgressBar } from "react-bootstrap";
 import ContentAnalyticsComponentActivityGauge from "./ContentAnalyticsComponentActivityGauge";
-import Highcharts from "highcharts";
+import Highcharts, { color } from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import highchartsMore from "highcharts/highcharts-more";
 import solidGauge from "highcharts/modules/solid-gauge";
@@ -48,6 +48,7 @@ export default function ContentAnalyticsComponent({ data }) {
       ((total_pending_days - pending_days) * 100) / total_pending_days
     );
   } else {
+    console.log("pending da");
     pending_days = 0;
     get_precentage = 100;
   }
@@ -114,15 +115,41 @@ export default function ContentAnalyticsComponent({ data }) {
                     </p>
                   </div>
                   <div class="reparkive-box second">
-                    <span>{data.daysLeft}</span> days Left{" "}
-                    <div>
+                    {pending_days === 0 ? (
+                      <>
+                        <span> Expired</span>
+                        <div>
+                          <ProgressBar>
+                            <ProgressBar
+                              style={{ background: "#d5182a" }}
+                              now={get_precentage}
+                              label={`${get_precentage}% Complete`}
+                            />
+                          </ProgressBar>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <span>{pending_days}</span> days Left{" "}
+                        <div>
+                          <ProgressBar>
+                            <ProgressBar
+                              now={get_precentage}
+                              label={`${get_precentage}% Complete`}
+                            />
+                          </ProgressBar>
+                        </div>
+                      </>
+                    )}
+
+                    {/* <div>
                       <ProgressBar>
                         <ProgressBar
                           now={get_precentage}
                           label={`${get_precentage}% Complete`}
                         />
                       </ProgressBar>
-                    </div>
+                    </div> */}
                   </div>
                   <div class="reparkive-box">
                     <p>

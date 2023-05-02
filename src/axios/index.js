@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Navigate } from "react-router-dom";
 
 // For GET requests
 const requestHelper = axios.create({
@@ -12,7 +13,9 @@ const requestHelper = axios.create({
 requestHelper.interceptors.request.use(
   (req) => {
     const token = localStorage.getItem("user_id");
+    const jt    = localStorage.getItem("decrypted_token");
     req.headers["token"] = token;
+    req.headers["auth"]  = jt;
     return req;
   },
   (err) => {
@@ -28,6 +31,10 @@ requestHelper.interceptors.response.use(
     switch (err?.response?.status) {
       case 400:
         toast.error(err?.response.data.message)
+        break;
+      case 401:
+        localStorage.clear();
+        window.location.href = "/informed";
         break;
       case 500:
         toast.warning(err?.response.data.message)

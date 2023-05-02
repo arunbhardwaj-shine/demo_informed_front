@@ -67,7 +67,7 @@ export const ENDPOINT = {
   STATEBYREGION: `/analytics/octa-country`,
   DOWNLOADARTICLEREADERS: `/analytics/download-analytics`,
   DELETEREADER: `/reader/delete-reader`,
-  LOGIN: `https://albert-api.shinedezign.pro/api/v2/login`,
+  LOGIN: `auth/login`,
   FILTERLIST: `https://webinar.docintel.app/lmn/api/distributes/filters_list`,
   READERLISTING: 'reader/get-trail',
   REGISTERRD: `https://medarkive.com/Pages/RegisterRd`,

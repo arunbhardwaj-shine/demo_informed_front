@@ -24,47 +24,56 @@ const Header = () => {
     }
   };
 
-  useEffect(() => {
-    if (queryParams?.id && queryParams?.id != "") {
-      let user_id = localStorage.getItem("user_id");
-      if (user_id) {
-        if (user_id != queryParams.id) {
-          localStorage.setItem("user_id", queryParams.id);
-          localStorage.setItem("group_id", queryParams?.group_id ? queryParams.group_id : 2);
-        }
-      } else {
-        localStorage.setItem("user_id", queryParams.id);
-        localStorage.setItem("group_id", queryParams?.group_id ? queryParams.group_id : 2);
-      }
-    } else {
-      let user_id = localStorage.getItem("user_id");
-      if (user_id) {
-      } else {
-        //localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
-        localStorage.setItem("user_id", "");
-        localStorage.setItem("group_id", "");
-      }
-    }
-    if (queryParams?.decrypted_token && queryParams?.decrypted_token != "") {
-      let decrypted_token = localStorage.getItem("decrypted_token");
-      if (decrypted_token) {
-        if (decrypted_token != queryParams.id) {
-          localStorage.setItem("decrypted_token", queryParams.decrypted_token);
-        }
-      } else {
-        localStorage.setItem("decrypted_token", queryParams.decrypted_token);
-      }
-    } else {
-      let decrypted_token = localStorage.getItem("decrypted_token");
-      if (decrypted_token) {
-      } else {
-        //localStorage.setItem("decrypted_token", "rjiGlqA9DXJVH7bDDTX0Lg==");
-        localStorage.setItem("decrypted_token", "");
-      }
-    }
+  const logout = () => {
+    localStorage.clear();
+    navigate("/informed");
+  }
 
-    if (queryParams?.name && queryParams?.name != "") {
-      setUserName(queryParams.name);
+  useEffect(() => {
+    // if (queryParams?.id && queryParams?.id != "") {
+    //   let user_id = localStorage.getItem("user_id");
+    //   if (user_id) {
+    //     if (user_id != queryParams.id) {
+    //       localStorage.setItem("user_id", queryParams.id);
+    //       localStorage.setItem("group_id", queryParams?.group_id ? queryParams.group_id : 2);
+    //       localStorage.setItem("webinar_flag", queryParams?.webinar_flag ? queryParams.webinar_flag : 0);
+    //     }
+    //   } else {
+    //     localStorage.setItem("user_id", queryParams.id);
+    //     localStorage.setItem("group_id", queryParams?.group_id ? queryParams.group_id : 2);
+    //     localStorage.setItem("webinar_flag", queryParams?.webinar_flag ? queryParams.webinar_flag : 0);
+    //   }
+    // } else {
+    //   let user_id = localStorage.getItem("user_id");
+    //   if (user_id) {
+    //   } else {
+    //     localStorage.setItem("user_id", "");
+    //     localStorage.setItem("group_id", "");
+    //   }
+    // }
+    // if (queryParams?.decrypted_token && queryParams?.decrypted_token != "") {
+    //   let decrypted_token = localStorage.getItem("decrypted_token");
+    //   if (decrypted_token) {
+    //     if (decrypted_token != queryParams.id) {
+    //       localStorage.setItem("decrypted_token", queryParams.decrypted_token);
+    //     }
+    //   } else {
+    //     localStorage.setItem("decrypted_token", queryParams.decrypted_token);
+    //   }
+    // } else {
+    //   let decrypted_token = localStorage.getItem("decrypted_token");
+    //   if (decrypted_token) {
+    //   } else {
+    //     localStorage.setItem("decrypted_token", "");
+    //   }
+    // }
+    //
+    // if (queryParams?.name && queryParams?.name != "") {
+    //   setUserName(queryParams.name);
+    // }
+    let name = localStorage.getItem("name");
+    if (name && name != "") {
+      setUserName(name);
     }
   }, []);
 
@@ -240,7 +249,7 @@ const Header = () => {
                   </li>
                 ) : null}
 
-                {queryParams?.webinar_flag && queryParams.webinar_flag == 1 ? (
+                {/*typeof localStorage.getItem("webinar_flag") !== "undefined" && localStorage.getItem("webinar_flag") == 1 ? (
                   <li className="nav-item">
                     <a
                       className="nav-link"
@@ -251,7 +260,7 @@ const Header = () => {
                   </li>
                 ) : (
                   ""
-                )}
+                )*/}
 
                 {localStorage.getItem("user_id") ==
                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -295,8 +304,8 @@ const Header = () => {
                     Raise a ticket
                   </Dropdown.Item>
                   <Dropdown.Item
-                    href="https://informed.pro/Users/logout/"
                     className="dropdown-item"
+                    onClick={() => logout()}
                   >
                     Logout
                   </Dropdown.Item>
