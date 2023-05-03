@@ -52,8 +52,7 @@ const ContentAnalytics = () => {
       const urlObj = hadData.map((item) => ({
         label: item.code,
         value: item.id,
-      }));
-
+      })).sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
       setPdfOptions(pdfObj);
       setUrlOptions(urlObj);
       // alert(pdfObj[0].value)
