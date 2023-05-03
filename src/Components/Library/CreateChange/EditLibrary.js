@@ -36,6 +36,7 @@ const EditLibrary = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [finalTags, setFinalTags] = useState([]);
   const [tagsReRender, setTagsReRender] = useState(0);
+  const [hcpIrtClickedFirst, setHcpIrtClickedFirst] = useState([]);
   const [mandatoryRole, setMandatoryRole] = useState([
     "Investigator-Blinded","Site unblinded pharmacist","Blinded site user"
   ]);
@@ -217,9 +218,15 @@ const EditLibrary = () => {
         setFinalTags(JSON.parse(hadData?.data?.data?.pdfData?.tags));
       }
       if (hadData?.data?.data?.pdfData?.trail_user_type?.length) {
-        setHcpClickedFirst(
-          JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
-        );
+          if(hadData?.data?.data?.pdfData?.reader_mandatory == 1){
+            setHcpIrtClickedFirst(
+              JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
+            );
+          }else{
+              setHcpClickedFirst(
+                JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
+              );
+          }
       }
       setReseller(
         hadData?.data?.data?.pdfData?.multiple_publisher && isJsonString(hadData?.data?.data?.pdfData?.multiple_publisher)
@@ -242,14 +249,31 @@ const EditLibrary = () => {
     initalFun();
   }, []);
 
-  const removeHcp = (data) => {
-    const hcpData = hcpClickedFirst.filter((item) => item != data);
-    setHcpClickedFirst(hcpData);
+  // const removeHcp = (data) => {
+  //   const hcpData = hcpClickedFirst.filter((item) => item != data);
+  //   setHcpClickedFirst(hcpData);
+  // };
+  const removeHcp = (data,type="") => {
+    if(type=="irt"){
+      const hcpData = hcpIrtClickedFirst.filter((item) => item != data);
+      setHcpIrtClickedFirst(hcpData);
+    }else{
+      const hcpData = hcpClickedFirst.filter((item) => item != data);
+      setHcpClickedFirst(hcpData);
+    }
   };
 
   const hcpClicked = (dd) => {
     if (!hcpClickedFirst.includes(dd)) {
       setHcpClickedFirst((oldArray) => [...oldArray, dd]);
+    } else {
+      toast.error("Role already Selected.");
+    }
+  };
+
+  const hcpIrtClicked = (dd) => {
+    if (!hcpIrtClickedFirst.includes(dd)) {
+      setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
       toast.error("Role already Selected.");
     }
@@ -390,7 +414,7 @@ const EditLibrary = () => {
           userInputs?.reader_mandatory ?
             formData.append(
               "trail_user_type",
-              mandatoryRole?.length ? JSON.stringify(mandatoryRole) : ""
+              hcpIrtClickedFirst?.length ? JSON.stringify(hcpIrtClickedFirst) : ""
             )
           :
           formData.append(
@@ -1283,27 +1307,60 @@ const EditLibrary = () => {
                           </div>
                         ) : null}
                       </div>
-                      <div className="form-group">
-                        {userDetail?.user?.[0]?.flag == 0 &&
-                        userDetail?.user?.[0]?.group_id == 3 ? (
-                          <label htmlFor="">Sub title</label>
-                        ) : (
-                          <label htmlFor="">Journal title</label>
-                        )}
+                      {
+                        userDetail?.user?.[0]?.flag == 1 && userDetail?.user?.[0]?.group_id == 3
+                        ?
+                          <div className="form-group">
+                            <label htmlFor="">Comment</label>
+                            {
+                              /*<input
+                                type="text"
+                                name="journalTitle"
+                                defaultValue={userInputs?.journalTitle}
+                                className="form-control"
+                                onChange={(e) => handleChange(e)}
+                              />*/
+                            }
+                            <textarea
+                              className="form-control"
+                              id="formControlTextarea"
+                              name="journalTitle"
+                              rows="5"
+                              defaultValue={userInputs?.journalTitle}
+                              onChange={(e) => handleChange(e)}
+                              placeholder="Please type your comments here.."
+                            ></textarea>
 
-                        <input
-                          type="text"
-                          name="journalTitle"
-                          defaultValue={userInputs?.journalTitle}
-                          className="form-control"
-                          onChange={(e) => handleChange(e)}
-                        />
-                        {error?.journalTitle ? (
-                          <div className="login-validation">
-                            {error?.journalTitle}
+                            {error?.journalTitle ? (
+                              <div className="login-validation">
+                                {error?.journalTitle}
+                              </div>
+                            ) : null}
                           </div>
-                        ) : null}
-                      </div>
+                        :
+                        <div className="form-group">
+                          {userDetail?.user?.[0]?.flag == 0 &&
+                          userDetail?.user?.[0]?.group_id == 3 ? (
+                            <label htmlFor="">Sub title</label>
+                          ) : (
+                            <label htmlFor="">Journal title</label>
+                          )}
+
+                          <input
+                            type="text"
+                            name="journalTitle"
+                            defaultValue={userInputs?.journalTitle}
+                            className="form-control"
+                            onChange={(e) => handleChange(e)}
+                          />
+                          {error?.journalTitle ? (
+                            <div className="login-validation">
+                              {error?.journalTitle}
+                            </div>
+                          ) : null}
+                        </div>
+                      }
+
                       <div className="form-group">
                         <label htmlFor="">Author</label>
                         <input
@@ -1607,21 +1664,43 @@ const EditLibrary = () => {
                       userInputs?.reader_mandatory == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">
-                          <label htmlFor="">Role</label>
+                          <label htmlFor="">IRT Role</label>
                           <div className="input-group w-100">
                             <div className="tags_added">
                               <div className="select-tags">
-                                <div className="after-selected">
                                   <ul className="after-tag-selected sp">
                                     {mandatoryRole.map((item, index) => {
                                       return (
-                                        <li className="list1">
+                                        <li className="list1" onClick={() => {
+                                          hcpIrtClicked(item);
+                                        }}>
                                           {item}
                                         </li>
                                       );
                                     })}
                                   </ul>
-                                </div>
+                                  <div className="after-selected">
+                                    <ul className="after-tag-selected">
+                                      {hcpIrtClickedFirst.map((item, index) => {
+                                        return (
+                                          <>
+                                          {
+                                            mandatoryRole.includes(item) ?
+                                            <li className="list1">
+                                              {item}
+                                              <img
+                                                src="componentAssets/images/filter-close.svg"
+                                                alt="Close-filter"
+                                                onClick={() => removeHcp(item,"irt")}
+                                              />
+                                            </li> : null
+                                          }
+                                          </>
+
+                                        );
+                                      })}
+                                    </ul>
+                                  </div>
                               </div>
                             </div>
                           </div>
@@ -1723,7 +1802,12 @@ const EditLibrary = () => {
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
                                   <label htmlFor="">
-                                    Chapter title {i + 1}
+                                  {
+                                    localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                       "Chapter title"
+                                    :
+                                      "File title"
+                                  } {i + 1}
                                   </label>
                                   <input
                                     type="text"
@@ -1929,23 +2013,28 @@ const EditLibrary = () => {
                       ) : null} */}
                       </div>
                     </Col>
-                    <Col className="d-flex justify-content-end align-items-start right-change" md={6}>
-                      <div className="form-group justify-content-end">
-                        <label htmlFor="">
-                          Production notes to Docintel team
-                        </label>
-                        <textarea
-                          className="form-control"
-                          id="formControlTextarea"
-                          rows="5"
-                          defaultValue={userInputs?.productionNotes}
-                          onChange={(e) =>
-                            handleChange(e?.target.value, "productionNotes")
-                          }
-                          placeholder="Please type your notes here.."
-                        ></textarea>
-                      </div>
-                    </Col>
+
+                    {
+                      localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                      <Col className="d-flex justify-content-end align-items-start right-change" md={6}>
+                        <div className="form-group justify-content-end">
+                          <label htmlFor="">
+                            Production notes to Docintel team
+                          </label>
+                          <textarea
+                            className="form-control"
+                            id="formControlTextarea"
+                            rows="5"
+                            defaultValue={userInputs?.productionNotes}
+                            onChange={(e) =>
+                              handleChange(e?.target.value, "productionNotes")
+                            }
+                            placeholder="Please type your notes here.."
+                          ></textarea>
+                        </div>
+                      </Col>
+                      : null
+                    }
                   </Row>
                 </div>
               </div>
