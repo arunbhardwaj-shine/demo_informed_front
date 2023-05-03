@@ -1,30 +1,79 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Modal } from "react-bootstrap";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import { getData } from "../../../axios/apiHelper";
+import { deleteData, getData } from "../../../axios/apiHelper";
 import { useNavigate } from 'react-router-dom';
 import { loader } from "../../../loader";
+import { popup_alert } from "../../../popup_alert";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SiteListing = () => {
     const navigate = useNavigate();
     const [listingDataSite, setListingDataSite] = useState([])
     const [mainListingDataSite, setMainListingDataSite] = useState([])
-
+    const [isLoaded, setIsLoaded] = useState(false);
     const [search, setSearch] = useState('');
     const [sortNumber, setSortNumber] = useState(0);
     const [sortingCountDate, setSortingCountDate] = useState(0);
     const [sortingCount, setSortingCount] = useState(0);
+
+    // const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleteItemId, setDeleteItemId] = useState("");
+    // const handleShowDeleteModal = (item) => {
+    //     setDeleteItemId(item.id);
+    //     setShowDeleteModal(true);
+    // };
+
+    // const handleCloseDeleteModal = () => setShowDeleteModal(false);
+
+
+    const [resetDataId, setResetDataId] = useState();
+    const [confirmationpopup, setConfirmationPopup] = useState(false);
+    const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
+    
+
+      const [popupMessage, setPopupMessage] = useState({
+        message1: "",
+        message2: "",
+        footerButton: "",
+      });
+
+      const showConfirmationPopup = (item) => {
+        
+        // setDeleteItemId(item.id);
+        // setResetDataId(item.id);
+        // setCommonConfirmModelFun(() => handleDelete);
+        // setCommonConfirmModelFun(true);
+        // setPopupMessage({
+        //   message1: "Are you sure to delete this site?",
+        //   footerButton:"Delete",
+        // });
+        setConfirmationPopup(true);
+
+        setResetDataId(item.id);
+        setCommonConfirmModelFun(() => handleDelete);
+        setPopupMessage({
+            message1: " Are you sure to delete this Site?",
+            footerButton: "Delete",
+        });
+        if (confirmationpopup) {
+            setConfirmationPopup(false);
+        } else {
+            setConfirmationPopup(true);
+        }
+      };
+
     const getReaderDataApi = async () => {
         try {
-            // loader("show");
+            loader("show");
             const response = await getData(ENDPOINT.READERLISTING);
             const listingData = response.data.data;
             setListingDataSite(listingData);
             setMainListingDataSite(listingData);
-            // loader("hide");
+            loader("hide");
         } catch (error) {
             console.log(error);
-            // loader("hide");
+            loader("hide");
         }
     };
 
@@ -32,7 +81,9 @@ const SiteListing = () => {
         getReaderDataApi();
     }, []);
 
-
+    const hideConfirmationModal = () => {
+        setConfirmationPopup(false);
+      };
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -89,8 +140,34 @@ const SiteListing = () => {
 
 
     const handleEdit = (item) => {
-        navigate(`/add-site?id=${item.id}`);
+        navigate(`/edit-site?id=${item.id}`);
     };
+
+    const handleDelete = async (id) => {
+        console.log("clicked",id);
+        setConfirmationPopup(false);
+        try {
+            loader("show");
+            if (id) {
+                const response = await deleteData(ENDPOINT.DELETESITE, id);
+                console.log("deleted succesfully", response);
+                const updatedData = listingDataSite.filter((item) => item.id !== id);
+                setListingDataSite(updatedData);
+                setMainListingDataSite(updatedData);
+            }
+            loader("hide");
+            popup_alert({
+                visible: "show",
+                message: "Site Data has been deleted successfully",
+                type: "success",
+                redirect: "/site-listing",
+            });
+        } catch (error) {
+            console.log(error);
+            loader("hide");
+        }
+    };
+
 
     return (
         <div className="right-sidebar">
@@ -219,20 +296,28 @@ const SiteListing = () => {
                                                         <td> {item?.site_country}</td>
                                                         <td>
                                                             <Button onClick={() => handleEdit(item)} className="btn-bordered"> Edit </Button>
-                                                            <Button className="btn-bordered"> Delete </Button>
+                                                            <Button onClick={() => showConfirmationPopup(item)} className="btn-bordered"> Delete </Button>
                                                         </td>
                                                     </tr>
                                                 </>
                                             ))
-                                        )
-                                            :
+                                        ) : isLoaded ? (
+
                                             <tr className="data-not-found">
                                                 <td colSpan="12">
                                                     <h4>No Data Found</h4>
                                                 </td>
                                             </tr>
-                                    }
+                                        ) : null}
                                 </tbody>
+                                <CommonConfirmModel
+                                    show={confirmationpopup}
+                                    onClose={hideConfirmationModal}
+                                    fun={commonConfirmModelFun}
+                                    popupMessage={popupMessage}
+                                    path_image={path_image}
+                                    resetDataId={resetDataId}
+                                />
                             </table>
                         </div>
                     </div>

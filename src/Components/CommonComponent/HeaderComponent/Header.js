@@ -88,12 +88,12 @@ const Header = () => {
       <header>
         <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
-            <a
+            <Link
               className="navbar-brand"
-              href="https://informed.pro/Libraries/home"
+              to={"/library-content"}
             >
               <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
-            </a>
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -267,6 +267,7 @@ const Header = () => {
                   <li className="nav-item">
                     <a
                       className="nav-link"
+                      target="_blank"
                       href="https://informed.pro/webinar/qa_survey?cmid=2147501188"
                     >
                       Q&A/SURVEY

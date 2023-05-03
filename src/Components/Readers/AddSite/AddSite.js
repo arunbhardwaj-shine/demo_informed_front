@@ -6,6 +6,7 @@ import { getData, postData , updateConsent} from "../../../axios/apiHelper";
 import Select from "react-select";
 import { useLocation } from 'react-router-dom';
 import { loader } from "../../../loader";
+import { popup_alert } from "../../../popup_alert";
 import { useNavigate } from 'react-router-dom';
 const AddSite = () => {
     const [selectedCountry, setSelectedCountry] = useState("");
@@ -94,13 +95,22 @@ const AddSite = () => {
               }
                 try {
                     loader("show");
+                    let message = "";
                     if (id) {
                         const updateResponse = await postData(ENDPOINT.UPDATESITE, formData);
+                        message = "Site Data has been udpated successfully";
                       } else {
                         const addResponse = await postData(ENDPOINT.ADDSITE, formData);
+                        message = "Site Data has been created successfully";
                       }
                     loader("hide");
-                    navigate('/site-listing');
+                    popup_alert({
+                        visible: "show",
+                        message: message,
+                        type: "success",
+                        redirect: "/site-listing",
+                      });
+                    // navigate('/site-listing');
                 } catch (error) {
                     console.log(error);
                     loader("hide");
@@ -112,11 +122,6 @@ const AddSite = () => {
     const handleBack = () => {
         navigate(-1);
     };
-
-
-   
-
-
 
     return (
         <>

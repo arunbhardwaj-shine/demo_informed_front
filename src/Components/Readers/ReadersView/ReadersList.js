@@ -47,6 +47,7 @@ const NewReaders = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [selectedSiteName, setSelectedSiteName] = useState([]);
   const [selectedSiteNumber, setSelectedSiteNumber] = useState([]);
+  const [selectedRole, setSelectedRole] = useState([]);
 
   const [filterdata, setFilterData] = useState({
     Status: ["Registered", "Unregistered"],
@@ -140,18 +141,12 @@ const NewReaders = () => {
 
       let payload = { ...data, ...obj };
 
-      const res = await postData(
-        ENDPOINT.READER_LIST_DATA,
-        payload
-      );
+      const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
         };
-        const res_data = await postData(
-          "https://informedback.shinedezign.pro/library/spc-helper-listing",
-          body
-        );
+        const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING, body);
         let countries = [];
         Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
           countries.push({
@@ -325,76 +320,80 @@ const NewReaders = () => {
       };
       return newSelectedSiteNumber;
     });
-    let consent1 = {
-      index: i,
-      value: "",
-    };
-    const found2 = changeSiteNumberType.some((el) => el.index === i);
-    if (!found2) {
-      setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
-    } else {
-      const updatedArray = changeSiteNumberType.map((el) =>
-        el.index === i ? { ...el, value: consent1.value } : el
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      let consent1 = {
+        index: i,
+        value: "",
+      };
+      const found2 = changeSiteNumberType.some((el) => el.index === i);
+      if (!found2) {
+        setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
+      } else {
+        const updatedArray = changeSiteNumberType.map((el) =>
+          el.index === i ? { ...el, value: consent1.value } : el
+        );
+        setChangeSiteNumberType(updatedArray);
+      }
+
+      let consent2 = {
+        index: i,
+        value: "",
+      };
+      const found3 = changeSiteNameType.some((el) => el.index === i);
+      if (!found3) {
+        setChangeSiteNameType((oldarray) => [...oldarray, consent2.value]);
+      } else {
+        const updatedArray = changeSiteNameType.map((el) =>
+          el.index === i ? { ...el, value: consent2.value } : el
+        );
+        setChangeSiteNameType(updatedArray);
+      }
+      // console.log(selectedSiteNumber);
+      setSelectedSiteNumber((prev) => {
+        const newSelectedSiteNumber = [...prev];
+        newSelectedSiteNumber[index] = true;
+        return newSelectedSiteNumber;
+      });
+
+      setSelectedSiteName((prev) => {
+        const newSelectedSiteName = [...prev];
+        newSelectedSiteName[index] = true;
+        return newSelectedSiteName;
+      });
+
+      // console.log(selectedSiteName[0].length);
+      let consetValue = e.value;
+      const filteredData = change.sideData.filter(
+        (item) => item.country === consetValue
       );
-      setChangeSiteNumberType(updatedArray);
+
+      const siteNumbers = filteredData.map((item) => ({
+        label: item.site_number,
+        value: item.site_number,
+      }));
+      const siteNames = filteredData.map((item) => ({
+        label: item.site_name,
+        value: item.site_name,
+      }));
+      setSiteNumber((prevSiteNumbers) => ({
+        ...prevSiteNumbers,
+        [index]: siteNumbers,
+      }));
+      setSiteName((prevSiteNumbers) => ({
+        ...prevSiteNumbers,
+        [index]: siteNames,
+      }));
     }
-
-    let consent2 = {
-      index: i,
-      value: "",
-    };
-    const found3 = changeSiteNameType.some((el) => el.index === i);
-    if (!found3) {
-      setChangeSiteNameType((oldarray) => [...oldarray, consent2.value]);
-    } else {
-      const updatedArray = changeSiteNameType.map((el) =>
-        el.index === i ? { ...el, value: consent2.value } : el
-      );
-      setChangeSiteNameType(updatedArray);
-    }
-    // console.log(selectedSiteNumber);
-    setSelectedSiteNumber((prev) => {
-      const newSelectedSiteNumber = [...prev];
-      newSelectedSiteNumber[index] = {};
-      return newSelectedSiteNumber;
-    });
-
-    setSelectedSiteName((prev) => {
-      const newSelectedSiteName = [...prev];
-      newSelectedSiteName[index] = {};
-      return newSelectedSiteName;
-    });
-    let consetValue = e.value;
-    const filteredData = change.sideData.filter(
-      (item) => item.country === consetValue
-    );
-
-    const siteNumbers = filteredData.map((item) => ({
-      label: item.site_number,
-      value: item.site_number,
-    }));
-    const siteNames = filteredData.map((item) => ({
-      label: item.site_name,
-      value: item.site_name,
-    }));
-    setSiteNumber((prevSiteNumbers) => ({
-      ...prevSiteNumbers,
-      [index]: siteNumbers,
-    }));
-    setSiteName((prevSiteNumbers) => ({
-      ...prevSiteNumbers,
-      [index]: siteNames,
-    }));
     let consent = {
       index: i,
-      value: consetValue,
+      value: e.value,
     };
     const found = changeCountry.some((el) => el.index === i);
     if (!found) {
       setChangeCountry((oldarray) => [...oldarray, consent]);
     } else {
       const updatedArray = changeCountry.map((el) =>
-        el.index === i ? { ...el, value: consetValue } : el
+        el.index === i ? { ...el, value: e.value } : el
       );
       setChangeCountry(updatedArray);
     }
@@ -438,8 +437,16 @@ const NewReaders = () => {
     }
   };
 
-  const onRoleChange = (e, i) => {
+  const onRoleChange = (e, i, index) => {
     const consetValue = e.value;
+    setSelectedRole((prev) => {
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] = {
+        value: consetValue,
+        label: consetValue,
+      };
+      return newSelectedSiteName;
+    });
     const consent = {
       index: i,
       value: consetValue,
@@ -457,7 +464,12 @@ const NewReaders = () => {
     }
   };
 
-  const onIrtChange = (e, i) => {
+  const onIrtChange = (e, i, index) => {
+    setSelectedRole((prev) => {
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] = true;
+      return newSelectedSiteName;
+    });
     let consetValue = e.value;
     let consent = {
       index: i,
@@ -637,111 +649,142 @@ const NewReaders = () => {
 
   const updateReaderDetails = async (reader_id, index) => {
     try {
+      const index = changeCountry.findIndex((el) => el.index === reader_id);
+
+      let country = "";
+      if (index !== -1) {
+        country = changeCountry[index].value;
+      }
+      const tindex = changeUserType.findIndex((el) => el.index === reader_id);
+      let type = "";
+      if (tindex !== -1) {
+        type = changeUserType[tindex].value;
+      }
       let body = {};
-      let changed = false;
+      let role = "";
+      let irt = "";
+      let siteNumber = "";
+      let siteName = "";
 
-      const changeFields = [
-        {
-          field: "country",
-          data: changeCountry,
-        },
-        {
-          field: "userStatus",
-          data: changeUserType,
-        },
-        {
-          field: "role",
-          data: changeRoleType,
-          condition:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==",
-        },
-        {
-          field: "irt",
-          data: changeIRTType,
-          condition:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==",
-        },
-        {
-          field: "binded",
-          data: changeBlindedType,
-          condition:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==",
-        },
-        {
-          field: "siteName",
-          data: changeSiteNameType,
-          condition:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==",
-        },
-        {
-          field: "siteNumber",
-          data: changeSiteNumberType,
-          condition:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==",
-        },
-      ];
+      let binded = "";
 
-      for (const field of changeFields) {
-        const index = field.data.findIndex((el) => el.index === reader_id);
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        const roleIndex = changeRoleType.findIndex(
+          (el) => el.index === reader_id
+        );
+        if (roleIndex !== -1) {
+          role = changeRoleType[roleIndex].value;
+        }
 
-        if (index !== -1 && (!field.condition || field.condition)) {
-          body[field.field] = field.data[index].value;
-          changed = true;
+        const irtIndex = changeIRTType.findIndex(
+          (el) => el.index === reader_id
+        );
+        if (irtIndex !== -1) {
+          irt = changeIRTType[irtIndex].value;
+        }
+
+        const blindedIndex = changeBlindedType.findIndex(
+          (el) => el.index === reader_id
+        );
+        if (blindedIndex !== -1) {
+          binded = changeBlindedType[blindedIndex].value;
+        }
+
+        const siteNumberIndex = changeSiteNumberType.findIndex(
+          (el) => el.index === reader_id
+        );
+        if (siteNumberIndex !== -1) {
+          siteNumber = changeSiteNumberType[siteNumberIndex].value;
+        }
+
+        const siteNameIndex = changeSiteNameType.findIndex(
+          (el) => el.index === reader_id
+        );
+        if (siteNameIndex !== -1) {
+          siteName = changeSiteNameType[siteNameIndex].value;
+        }
+
+        if (
+          country !== "" ||
+          type !== "" ||
+          role !== "" ||
+          irt !== "" ||
+          binded !== "" ||
+          siteNumber !== "" ||
+          siteName !== ""
+        ) {
+          body = {
+            userId: 18207,
+            type: 1,
+            readerId: reader_id,
+            userStatus: type,
+            country: country,
+            binded: binded,
+            irt: irt,
+            role: role,
+            siteNumber: siteNumber,
+            siteName: siteName,
+          };
+        }
+      } else {
+        if (country !== "" || type !== "") {
+          loader("show");
+          body = {
+            userId: 18207,
+            readerId: reader_id,
+            userStatus: type,
+            country: country,
+          };
         }
       }
 
-      if (changed) {
-        body = {
-          ...body,
-          userId: 18207,
-          readerId: reader_id,
-          type: 1,
-        };
-
+      if (Object.keys(body).length !== 0) {
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
-
         const libDataIndex = readerDataList.findIndex(
           (el) => el.id === reader_id
         );
 
-        if (libDataIndex !== -1) {
-          if (body.country) {
-            readerDataList[libDataIndex].country = body.country;
-          }
-          if (body.userStatus) {
-            readerDataList[libDataIndex].user_status = body.userStatus;
-          }
-          if (body.role) {
-            readerDataList[libDataIndex].role = body.role;
-          }
-          if (body.irt) {
-            readerDataList[libDataIndex].irt = body.irt == 1 ? "Yes" : "No";
-          }
-          if (body.binded) {
-            readerDataList[libDataIndex].binded = body.binded;
-          }
-          if (body.siteName) {
-            readerDataList[libDataIndex].siteName = body.siteName;
-          }
-          if (body.siteNumber) {
-            readerDataList[libDataIndex].siteNumber = body.siteNumber;
-          }
-
-          const newData = [...readerDataList];
-          setReaderDataList(newData);
-          setUpdateFlag(updateflag + 1);
-          popup_alert({
-            visible: "show",
-            message: "Your Profile has been updated successfully!",
-            type: "success",
-            redirect: "",
-          });
+        if (country !== "") {
+          readerDataList[libDataIndex].country = country;
         }
+
+        if (type !== "") {
+          readerDataList[libDataIndex].user_status = type;
+        }
+
+        if (role !== "") {
+          readerDataList[libDataIndex].role = role;
+        }
+
+        if (irt !== "") {
+          readerDataList[libDataIndex].irt = irt == 1 ? "Yes" : "No";
+        }
+        if (binded !== "") {
+          readerDataList[libDataIndex].binded = binded;
+        }
+        if (siteName !== "") {
+          readerDataList[libDataIndex].siteName = siteName;
+        }
+        if (siteNumber !== "") {
+          readerDataList[libDataIndex].siteNumber = siteNumber;
+        }
+
+        const newData = readerDataList;
+        setReaderDataList(newData);
+        setUpdateFlag(updateflag + 1);
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your Profile has been updated successfully!",
+          type: "success",
+          redirect: "",
+        });
       } else {
         toast.warning("Nothing to update.");
       }
     } catch (err) {
       console.log("err", err);
+      loader("hide");
     }
   };
 
@@ -816,17 +859,15 @@ const NewReaders = () => {
       key == "change-tab" &&
       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
     ) {
-      const res = await getData(
-        `https://informedback.shinedezign.pro/reader/user-detail`
-      );
+      const res = await getData(ENDPOINT.READER_USER_DROP);
       setChanges(res?.data?.data);
       setSiteNumber((prevSiteNumbers) => ({
         ...prevSiteNumbers,
-        all: res.data.data.siteNumber,
+        all: res?.data?.data?.siteNumber,
       }));
       setSiteName((prevSiteName) => ({
         ...prevSiteName,
-        all: res.data.data.siteName,
+        all: res?.data?.data?.siteName,
       }));
     }
     setApiCallStatus(true);
@@ -1731,7 +1772,11 @@ const NewReaders = () => {
                                                   : change?.irt[1]
                                               }
                                               onChange={(event) => {
-                                                onIrtChange(event, data.id);
+                                                onIrtChange(
+                                                  event,
+                                                  data.id,
+                                                  index
+                                                );
                                               }}
                                               id={"irt_type" + data?.id}
                                               className="dropdown-basic-button split-button-dropup"
@@ -1759,30 +1804,56 @@ const NewReaders = () => {
                                             ) ? (
                                               <Select
                                                 options={change?.userIrtRoles}
-                                                defaultValue={change?.userIrtRoles.find(
-                                                  (roleObj) =>
-                                                    roleObj.value === data?.role
-                                                )}
+                                                value={
+                                                  selectedRole[index] !=
+                                                    undefined &&
+                                                  selectedRole[index] != true
+                                                    ? selectedRole[index]
+                                                    : selectedRole[index] ==
+                                                      true
+                                                    ? null
+                                                    : change?.userIrtRoles.find(
+                                                        (roleObj) =>
+                                                          roleObj.value ===
+                                                          data?.role
+                                                      )
+                                                }
                                                 onChange={(event) =>
-                                                  onRoleChange(event, data.id)
+                                                  onRoleChange(
+                                                    event,
+                                                    data.id,
+                                                    index
+                                                  )
                                                 }
                                                 id={"role_" + data?.id}
                                                 className="dropdown-basic-button split-button-dropup"
                                                 isClearable
+                                                placeholder="Select Role"
                                               />
                                             ) : (
                                               <Select
                                                 options={change?.role}
-                                                defaultValue={change?.role.find(
-                                                  (roleObj) =>
-                                                    roleObj.value === data?.role
-                                                )}
+                                                value={
+                                                  selectedRole[index] !=
+                                                    undefined &&
+                                                  selectedRole[index] != true
+                                                    ? selectedRole[index]
+                                                    : selectedRole[index] ==
+                                                      true
+                                                    ? null
+                                                    : change?.role.find(
+                                                        (roleObj) =>
+                                                          roleObj.value ===
+                                                          data?.role
+                                                      )
+                                                }
                                                 onChange={(event) =>
                                                   onRoleChange(event, data.id)
                                                 }
                                                 id={"role_" + data?.id}
                                                 className="dropdown-basic-button split-button-dropup"
                                                 isClearable
+                                                placeholder="Select Role"
                                               />
                                             )}
                                           </div>
@@ -1798,16 +1869,20 @@ const NewReaders = () => {
                                               ref={defaultCountry}
                                               options={countryAll}
                                               value={
-                                                selectedCountry[index] !=
+                                                selectedCountry[index] !==
                                                 undefined
                                                   ? selectedCountry[index]
-                                                  : countryAll[
-                                                      countryAll.findIndex(
-                                                        (el) =>
-                                                          el.value ==
-                                                          data?.country
-                                                      )
-                                                    ]
+                                                  : data?.country === "B&H"
+                                                  ? countryAll.find(
+                                                      (el) =>
+                                                        el.value ===
+                                                        "Bosnia and Herzegovina"
+                                                    )
+                                                  : countryAll.find(
+                                                      (el) =>
+                                                        el.value ===
+                                                        data?.country
+                                                    )
                                               }
                                               onChange={(event) =>
                                                 onCountryChange(
@@ -1839,17 +1914,18 @@ const NewReaders = () => {
                                                 selectedSiteNumber[index] !=
                                                   undefined &&
                                                 selectedSiteNumber[index] !=
-                                                  null
+                                                  true
                                                   ? selectedSiteNumber[index]
-                                                  : change?.siteNumber
-                                                  ? change?.siteNumber[
+                                                  : selectedSiteNumber[index] ==
+                                                    true
+                                                  ? null
+                                                  : change?.siteNumber[
                                                       change?.siteNumber.findIndex(
                                                         (el) =>
                                                           el.label.toLowerCase() ===
                                                           data?.siteNumber?.toLowerCase()
                                                       )
                                                     ]
-                                                  : null
                                               }
                                               // placeholder="Select Site Number"
                                               onChange={(event) =>
@@ -1881,18 +1957,19 @@ const NewReaders = () => {
                                               }
                                               value={
                                                 selectedSiteName[index] !=
-                                                undefined
+                                                  undefined &&
+                                                selectedSiteName[index] != true
                                                   ? selectedSiteName[index]
-                                                  : selectedSiteName[index] !=
-                                                    null
-                                                  ? change?.siteName[
+                                                  : selectedSiteName[index] ==
+                                                    true
+                                                  ? null
+                                                  : change?.siteName[
                                                       change?.siteName.findIndex(
                                                         (el) =>
                                                           el.label.toLowerCase() ===
                                                           data?.siteName?.toLowerCase()
                                                       )
                                                     ]
-                                                  : null
                                               }
                                               placeholder="Select Site Name"
                                               onChange={(event) =>
