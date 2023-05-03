@@ -125,6 +125,14 @@ const EditLibrary = () => {
   const [changeEmbeddedVideo, setChangeEmbeddedVideo] = useState("");
   const [showFlag, setShowFlag] = useState(false);
   const [hcpClickedFirst, setHcpClickedFirst] = useState([]);
+  function isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 
   const initalFun = async () => {
     loader("show");
@@ -199,7 +207,7 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
-      if (hadData?.data?.data?.pdfData?.tags?.length) {
+      if (hadData?.data?.data?.pdfData?.tags?.length &&  isJsonString(hadData?.data?.data?.pdfData?.tags)) {
         setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags));
         setFinalTags(JSON.parse(hadData?.data?.data?.pdfData?.tags));
       }
@@ -209,7 +217,7 @@ const EditLibrary = () => {
         );
       }
       setReseller(
-        hadData?.data?.data?.pdfData?.multiple_publisher
+        hadData?.data?.data?.pdfData?.multiple_publisher && isJsonString(hadData?.data?.data?.pdfData?.multiple_publisher)
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
           : []
       );
