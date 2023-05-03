@@ -68,7 +68,7 @@ const NewReaders = () => {
   ]);
   const [change, setChanges] = useState(null);
   const userTypeValues = {
-    0: "Hcp",
+    0: "HCP",
     1: "Staff User",
     3: "Test User",
     4: "Competitor",
@@ -436,6 +436,7 @@ const NewReaders = () => {
   };
 
   const onRoleChange = (e, i, index) => {
+    
     const consetValue = e.value;
     setSelectedRole((prev) => {
       const newSelectedSiteName = [...prev];
@@ -445,10 +446,12 @@ const NewReaders = () => {
       };
       return newSelectedSiteName;
     });
+
     const consent = {
       index: i,
       value: consetValue,
     };
+
     const found = changeRoleType.some((el) => el.index === i);
 
     if (!found) {
@@ -712,7 +715,6 @@ const NewReaders = () => {
           siteName !== ""
         ) {
           body = {
-            userId: 18207,
             type: 1,
             readerId: reader_id,
             userStatus: type,
@@ -728,7 +730,7 @@ const NewReaders = () => {
         if (country !== "" || type !== "") {
           loader("show");
           body = {
-            userId: 18207,
+            type: 0,
             readerId: reader_id,
             userStatus: type,
             country: country,
@@ -747,7 +749,8 @@ const NewReaders = () => {
         }
 
         if (type !== "") {
-          readerDataList[libDataIndex].user_status = type;
+          let userTypeValue = userTypeValues?.[type];
+          readerDataList[libDataIndex].user_status = userTypeValue;
         }
 
         if (role !== "") {
@@ -1739,11 +1742,14 @@ const NewReaders = () => {
                                           <div className="select">
                                             <Select
                                               options={change?.blind_type}
-                                              const
-                                              defaultValue={
-                                                data?.binded === "Yes"
-                                                  ? change?.blind_type[0]
-                                                  : change?.blind_type[1]
+                                              value={
+                                                changeBlindedType?.[changeBlindedType.findIndex(el => el.index == data.id)]?.value == "blinded"
+                                                ? change?.blind_type[0]
+                                                : changeBlindedType?.[changeBlindedType.findIndex(el => el.index == data.id)]?.value == "unblinded"
+                                                ? change?.blind_type[1]
+                                                : data?.binded === "Yes"
+                                                ? change?.blind_type[0]
+                                                : change?.blind_type[1]
                                               }
                                               onChange={(event) =>
                                                 onBlindedChange(event, data.id)
@@ -1763,11 +1769,14 @@ const NewReaders = () => {
                                           <div className="select">
                                             <Select
                                               options={change?.irt}
-                                              const
-                                              defaultValue={
-                                                data?.irt === "Yes"
-                                                  ? change?.irt[0]
-                                                  : change?.irt[1]
+                                              value={
+                                                changeIRTType?.[changeIRTType.findIndex(el => el.index == data.id)]?.value == 1
+                                                ? change?.irt[0]
+                                                : changeIRTType?.[changeIRTType.findIndex(el => el.index == data.id)]?.value == 0
+                                                ? change?.irt[1]
+                                                : data?.irt === "Yes"
+                                                ? change?.irt[0]
+                                                : change?.irt[1]
                                               }
                                               onChange={(event) => {
                                                 onIrtChange(
@@ -1846,7 +1855,7 @@ const NewReaders = () => {
                                                       )
                                                 }
                                                 onChange={(event) =>
-                                                  onRoleChange(event, data.id)
+                                                  onRoleChange(event, data.id,index)
                                                 }
                                                 id={"role_" + data?.id}
                                                 className="dropdown-basic-button split-button-dropup"
