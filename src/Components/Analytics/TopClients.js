@@ -165,6 +165,7 @@ const TopClients = () => {
             );
           }
         });
+        categories.sort();
       }
 
       const newSeries = [
