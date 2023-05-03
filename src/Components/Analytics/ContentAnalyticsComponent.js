@@ -9,7 +9,6 @@ highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
 export default function ContentAnalyticsComponent({ data }) {
-  console.log("data", data);
   let client = "";
   if (data.country == "" && data.company == "" && data.product == "") {
     client = "NA";
@@ -49,7 +48,6 @@ export default function ContentAnalyticsComponent({ data }) {
       ((total_pending_days - pending_days) * 100) / total_pending_days
     );
   } else {
-    console.log("pending da");
     pending_days = 0;
     get_precentage = 100;
   }
@@ -69,8 +67,8 @@ export default function ContentAnalyticsComponent({ data }) {
       <div className="content_analytics">
         <Row>
           <Col sm={7}>
-            <div class="detail-box left">
-              <div class="media d-flex">
+            <div className="detail-box left">
+              <div className="media d-flex">
                 <div className="media-left media-middle">
                   <Image src={data.coverImage} alt="Image not availble" fluid />
                 </div>
