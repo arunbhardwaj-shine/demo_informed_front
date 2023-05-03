@@ -36,14 +36,15 @@ RegistrationTypeLayout({ data }) {
     // loader("show")
     setPageAll(true);
     setTimeout(function () {
-      setAllItemsToShow(data?.slice(numItemsToShow, data.length));
+     // setAllItemsToShow(data?.slice(numItemsToShow, data.length));
+      setNumItemsToShow(numItemsToShow + data.length);
       setPageAll(false);
     }, 300);
   };
-
   const displayData = data?.slice(0, numItemsToShow);
   return (
     <>
+   
       {allItemsToShow?.length ? (
         <RenderLayout data={allItemsToShow} />
       ) : (
@@ -87,7 +88,7 @@ const RenderLayout = ({ data }) => {
       element.style.backgroundColor = "white";
 
       const dataUrl = await domtoimage.toPng(element);
-
+           
       const link = document.createElement("a");
       link.download = `${Math.random()}.png`;
       link.href = dataUrl;
@@ -113,7 +114,6 @@ const RenderLayout = ({ data }) => {
             } else if (new Date(element.exp_datetime) > currentDate) {
               status = "active";
             }
- 
             return (
               <div
                 key={element.pdf_id}
