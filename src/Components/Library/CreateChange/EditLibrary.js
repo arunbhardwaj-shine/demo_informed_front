@@ -125,6 +125,14 @@ const EditLibrary = () => {
   const [changeEmbeddedVideo, setChangeEmbeddedVideo] = useState("");
   const [showFlag, setShowFlag] = useState(false);
   const [hcpClickedFirst, setHcpClickedFirst] = useState([]);
+  function isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 
   const initalFun = async () => {
     loader("show");
@@ -199,7 +207,7 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
-      if (hadData?.data?.data?.pdfData?.tags?.length) {
+      if (hadData?.data?.data?.pdfData?.tags?.length &&  isJsonString(hadData?.data?.data?.pdfData?.tags)) {
         setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags));
         setFinalTags(JSON.parse(hadData?.data?.data?.pdfData?.tags));
       }
@@ -209,7 +217,7 @@ const EditLibrary = () => {
         );
       }
       setReseller(
-        hadData?.data?.data?.pdfData?.multiple_publisher
+        hadData?.data?.data?.pdfData?.multiple_publisher && isJsonString(hadData?.data?.data?.pdfData?.multiple_publisher)
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
           : []
       );
@@ -520,12 +528,15 @@ const EditLibrary = () => {
     setChapter(list);
   };
 
-  const removeTagFinal = (index) => {
-    // const tags = finalTags;
+  const removeTagFinal = (index,status="") => {
+    // console.log("RemoveFinal Tags",status);
+    if(status == ""){
+      const tags = finalTags;
+      tags.splice(index, 1);
+      setFinalTags(tags);
+    }
     const tagsClickedFirst = tagClickedFirst;
-    // tags.splice(index, 1);
     tagsClickedFirst.splice(index, 1);
-    // setFinalTags(tags);
     setTagClickedFirst(tagsClickedFirst);
 
     setTagsReRender(tagsReRender + 1);
@@ -536,12 +547,16 @@ const EditLibrary = () => {
 
   const saveButtonClicked = async () => {
     loader("show");
-
+    // console.log("PHuncha");
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
-      let prev_tags = finalTags;
-      let new_tags = prev_tags.concat(tagClickedFirst);
-      const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
-      setFinalTags(uniqueTags);
+        if(typeof tagClickedFirst != "undefined" && tagClickedFirst.length > 0){
+            let prev_tags = finalTags;
+            let new_tags = prev_tags.concat(tagClickedFirst);
+            const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
+            setFinalTags(uniqueTags);
+        }else{
+          setFinalTags(tagClickedFirst);
+        }
     } else {
       setFinalTags(tagClickedFirst);
     }
@@ -2098,7 +2113,7 @@ const EditLibrary = () => {
                       <img
                         src={path_image + "filter-close.svg"}
                         alt="Close-filter"
-                        onClick={() => removeTagFinal(index)}
+                        onClick={() => removeTagFinal(index,"remove")}
                       />
                     </div>
                   </>
