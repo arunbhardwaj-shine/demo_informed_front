@@ -150,6 +150,8 @@ const DocintelAccount = ({ data }) => {
                 </Col>
                 <Col>
                   <h3> {element?.pdf_data?.Pdf?.title}</h3>
+                  <br />
+                  <br />
                   <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
                   <a
                     className="btn next-content btn-filled"
