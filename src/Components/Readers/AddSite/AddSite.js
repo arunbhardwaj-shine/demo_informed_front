@@ -7,8 +7,8 @@ import Select from "react-select";
 import { useLocation } from 'react-router-dom';
 import { loader } from "../../../loader";
 import { popup_alert } from "../../../popup_alert";
-import { useNavigate } from 'react-router-dom';
-const AddSite = () => {
+import { Link, useNavigate } from "react-router-dom";
+const AddSite = (props) => {
     const [selectedCountry, setSelectedCountry] = useState("");
     const [countryData, setCountryData] = useState([]);
     const [siteNumber, setSiteNumber] = useState("");
@@ -23,7 +23,7 @@ const AddSite = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const id = searchParams.get("id");
+    const id = props?.siteid;
     const getCountryFromApi = async () => {
         try {
             const response = await getData(ENDPOINT.READER_USER_DROP);
@@ -115,7 +115,7 @@ const AddSite = () => {
                     console.log(error);
                     loader("hide");
                 }
-            
+
         }
     };
 
@@ -126,127 +126,161 @@ const AddSite = () => {
     return (
         <>
             <Col className="right-sidebar">
-                <Row>
-                    <div className="create-change-content add-site">
-                        <Form className="add-site" onSubmit={submitFormSite}>
-                            <div className="form-row">
-                                <Col sm={6} className="form-group">
-                                    <label htmlFor="">Site Number</label>
-                                    <div className="create_site_form">
-                                        <input
-                                            type="text"
-                                            name="sitenumber"
-                                            className="form-control"
-                                            placeholder="Enter Site Number"
-                                            value={siteNumber}
-                                            onChange={(e) => {
-                                                if (e.target.value !== undefined) {
-                                                    setSiteNumber(e.target.value)
-                                                }
-                                            }}
-                                        />
+              <div className="custom-container">
+                <Form className="add-site" onSubmit={submitFormSite}>
+                    <div className="page-top-nav ">
+                      <Row className="justify-content-end align-items-center">
+                        <Col md={1}>
 
-                                        {addSiteForm.includes("sitenumber") && <p className="login-validation">Site Number field is required</p>}
-                                    </div>
-                                </Col>
-                                <Col sm={6} className="form-group justify-content-end">
-                                    <label htmlFor="">Site Name</label>
-                                    <div className="create_site_form">
-                                        <input
-                                            type="text"
-                                            name="sitename"
-                                            className="form-control"
-                                            placeholder="Enter Site Name"
-                                            value={siteName}
-                                            onChange={(e) => {
-                                                if (e.target.value !== undefined) {
-                                                    setSiteName(e.target.value)
-                                                }
-                                            }}
-                                        />
-                                        {addSiteForm.includes("sitename") && <p className="login-validation">Site Name field is required</p>}
-                                    </div>
-                                </Col>
-                                <Col sm={6} className="form-group">
-                                    <label htmlFor="">Site Address</label>
-                                    <div className="create_site_form">
-                                        <input
-                                            type="text"
-                                            name="siteaddress"
-                                            className="form-control"
-                                            placeholder="Enter Site Address"
-                                            value={siteAddress}
-                                            onChange={(e) => {
-                                                if (e.target.value !== undefined) {
-                                                    setSiteAddress(e.target.value)
-                                                }
-                                            }}
-                                        />
-                                    </div>
-                                </Col>
-                                <Col sm={6} className="form-group justify-content-end">
-                                    <label htmlFor="">Site City</label>
-                                    <div className="create_site_form">
-                                        <input
-                                            type="text"
-                                            name="sitecity"
-                                            className="form-control"
-                                            placeholder="Enter Site City"
-                                            value={siteCity}
-                                            onChange={(e) => {
-                                                if (e.target.value !== undefined) {
-                                                    setSiteCity(e.target.value)
-                                                }
-                                            }}
-                                        />
-                                    </div>
-                                </Col>
+                        </Col>
+                        <Col md={6}>
 
-                                <Col sm={6} className="form-group">
-                                    <label htmlFor="">Site Postal Code</label>
-                                    <div className="create_site_form">
-                                        <input
-                                            type="text"
-                                            name="sitepostalcode"
-                                            className="form-control"
-                                            placeholder="Enter Site Postal Code"
-                                            value={sitePostal}
-                                            onChange={(e) => {
-                                                if (e.target.value !== undefined) {
-                                                    setSitePostal(e.target.value)
-                                                }
-                                            }}
-                                        />
-                                    </div>
-                                </Col>
-                                <Col sm={6} className="form-group justify-content-end">
-                                    <label htmlFor="sitecategory">Site Country</label>
-                                    <div className="create_site_form">
-                                        <Select
-                                            className="dropdown-basic-button split-button-dropup"
-                                            id="sitecountry"
-                                            name="sitecountry"
-                                            placeholder="Select the Country"
-                                            value={selectedCountry ? { label: selectedCountry, value: selectedCountry } : null}
-                                            options={countryData.map((country) => ({ label: country, value: country }))}
-                                            onChange={(selectedOption) => setSelectedCountry(selectedOption.value)}
-                                        />
-                                        {addSiteForm.includes("sitecountry") && <p className="login-validation">Please Select Site Country</p>}
-                                    </div>
-                                </Col>
-                            </div>
-                            <div className="form-row d-flex justify-content-end">
-                                {id && (
-                                    <Button onClick={handleBack} className="btn-bordered">Back</Button>
-                                )}
-                                <Button type="submit"> Submit </Button>
-                            </div>
+                        </Col>
+                        <Col md={5}>
+                          <div className="header-btn">
+                            <Link
+                              className="btn btn-primary btn-bordered move-draft"
+                              to="/site"
+                            >
+                              Close
+                            </Link>
 
-
-                        </Form>
-
+                            <button
+                              className="btn btn-primary btn-filled next "
+                              type="Submit"
+                            >
+                              {
+                                props?.siteid ? "Update" : "Create"
+                              }
+                            </button>
+                          </div>
+                        </Col>
+                      </Row>
                     </div>
-                </Row>
+                    <Row>
+                        <div className="create-change-content add-site">
+                          <div className="form_action">
+                            <h4>Add the Site Data you're making</h4>
+                          </div>
+
+                                <div className="form-row">
+                                    <Col sm={6} className="form-group">
+                                        <label htmlFor="">Site Number</label>
+                                        <div className="create_site_form">
+                                            <input
+                                                type="text"
+                                                name="sitenumber"
+                                                className="form-control"
+                                                placeholder="Enter Site Number"
+                                                value={siteNumber}
+                                                onChange={(e) => {
+                                                    if (e.target.value !== undefined) {
+                                                        setSiteNumber(e.target.value)
+                                                    }
+                                                }}
+                                            />
+
+                                            {addSiteForm.includes("sitenumber") && <p className="login-validation">Site Number field is required</p>}
+                                        </div>
+                                    </Col>
+                                    <Col sm={6} className="form-group justify-content-end">
+                                        <label htmlFor="">Site Name</label>
+                                        <div className="create_site_form">
+                                            <input
+                                                type="text"
+                                                name="sitename"
+                                                className="form-control"
+                                                placeholder="Enter Site Name"
+                                                value={siteName}
+                                                onChange={(e) => {
+                                                    if (e.target.value !== undefined) {
+                                                        setSiteName(e.target.value)
+                                                    }
+                                                }}
+                                            />
+                                            {addSiteForm.includes("sitename") && <p className="login-validation">Site Name field is required</p>}
+                                        </div>
+                                    </Col>
+                                    <Col sm={6} className="form-group">
+                                        <label htmlFor="">Site Address</label>
+                                        <div className="create_site_form">
+                                            <input
+                                                type="text"
+                                                name="siteaddress"
+                                                className="form-control"
+                                                placeholder="Enter Site Address"
+                                                value={siteAddress}
+                                                onChange={(e) => {
+                                                    if (e.target.value !== undefined) {
+                                                        setSiteAddress(e.target.value)
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+                                    <Col sm={6} className="form-group justify-content-end">
+                                        <label htmlFor="">Site City</label>
+                                        <div className="create_site_form">
+                                            <input
+                                                type="text"
+                                                name="sitecity"
+                                                className="form-control"
+                                                placeholder="Enter Site City"
+                                                value={siteCity}
+                                                onChange={(e) => {
+                                                    if (e.target.value !== undefined) {
+                                                        setSiteCity(e.target.value)
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+
+                                    <Col sm={6} className="form-group">
+                                        <label htmlFor="">Site Postal Code</label>
+                                        <div className="create_site_form">
+                                            <input
+                                                type="text"
+                                                name="sitepostalcode"
+                                                className="form-control"
+                                                placeholder="Enter Site Postal Code"
+                                                value={sitePostal}
+                                                onChange={(e) => {
+                                                    if (e.target.value !== undefined) {
+                                                        setSitePostal(e.target.value)
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+                                    <Col sm={6} className="form-group justify-content-end">
+                                        <label htmlFor="sitecategory">Site Country</label>
+                                        <div className="create_site_form">
+                                            <Select
+                                                className="dropdown-basic-button split-button-dropup"
+                                                id="sitecountry"
+                                                name="sitecountry"
+                                                placeholder="Select the Country"
+                                                value={selectedCountry ? { label: selectedCountry, value: selectedCountry } : null}
+                                                options={countryData.map((country) => ({ label: country, value: country }))}
+                                                onChange={(selectedOption) => setSelectedCountry(selectedOption.value)}
+                                            />
+                                            {addSiteForm.includes("sitecountry") && <p className="login-validation">Please Select Site Country</p>}
+                                        </div>
+                                    </Col>
+                                </div>
+                                {
+                                  /*<div className="form-row d-flex justify-content-end">
+                                      {id && (
+                                          <Button onClick={handleBack} className="btn-bordered">Back</Button>
+                                      )}
+                                      <Button type="submit"> Submit </Button>
+                                  </div>*/
+                                }
+                        </div>
+                    </Row>
+                </Form>
+              </div>
             </Col>
         </>
     );
