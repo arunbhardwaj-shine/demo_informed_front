@@ -369,22 +369,31 @@ const RDRegister = () => {
                                 </div>
                             </Col>
 
-                            <Col md={6} className='d-flex justify-content-end'>
-                                <div className="form-group">
-                                  <label>Country <span>*</span></label>
-                                    <Select
-                                      options={siteCountry}
-                                      placeholder="Select country"
-                                      name="country"
-                                      value={siteCountry.findIndex((el) => el.value == userInputs?.country) == -1 ? '' : siteCountry[siteCountry.findIndex((el) => el.value == userInputs?.country)]}
-                                      onChange={(e) => handleChange(e?.value, "country")}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                    />
-                                    {error?.country ? (
-                                      <div className="login-validation">{error?.country}</div>
-                                    ) : null}
-                                </div>
-                            </Col>
+                            {
+                              userInputs?.institution ?
+                              <Col md={6} className='d-flex justify-content-end'>
+                                  <div className="form-group">
+                                    <label>Country
+                                      {
+                                        userInputs?.institution  == "site_name" ? <span>*</span> : ""
+                                      }
+                                      </label>
+                                      <Select
+                                        options={siteCountry}
+                                        placeholder="Select country"
+                                        name="country"
+                                        value={siteCountry.findIndex((el) => el.value == userInputs?.country) == -1 ? '' : siteCountry[siteCountry.findIndex((el) => el.value == userInputs?.country)]}
+                                        onChange={(e) => handleChange(e?.value, "country")}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      />
+                                      {error?.country ? (
+                                        <div className="login-validation">{error?.country}</div>
+                                      ) : null}
+                                  </div>
+                              </Col>
+                              : null
+                            }
+
 
                             {
                               institutionFlag ?
