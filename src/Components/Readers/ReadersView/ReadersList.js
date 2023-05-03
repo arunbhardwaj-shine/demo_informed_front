@@ -647,114 +647,142 @@ const NewReaders = () => {
 
   const updateReaderDetails = async (reader_id, index) => {
     try {
+      const index = changeCountry.findIndex((el) => el.index === reader_id);
+
+      let country = "";
+      if (index !== -1) {
+        country = changeCountry[index].value;
+      }
+      const tindex = changeUserType.findIndex((el) => el.index === reader_id);
+      let type = "";
+      if (tindex !== -1) {
+        type = changeUserType[tindex].value;
+      }
       let body = {};
-      let changed = false;
+      let role = "";
+      let irt = "";
+      let siteNumber = "";
+      let siteName = "";
 
-      const changeFields = [
-        {
-          field: "country",
-          data: changeCountry,
-        },
-        {
-          field: "userStatus",
-          data: changeUserType,
-        },
-        {
-          field: "role",
-          data: changeRoleType,
-          condition:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==",
-        },
-        {
-          field: "irt",
-          data: changeIRTType,
-          condition:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==",
-        },
-        {
-          field: "binded",
-          data: changeBlindedType,
-          condition:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==",
-        },
-        {
-          field: "siteName",
-          data: changeSiteNameType,
-          condition:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==",
-        },
-        {
-          field: "siteNumber",
-          data: changeSiteNumberType,
-          condition:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==",
-        },
-      ];
+      let binded = "";
 
-      for (const field of changeFields) {
-        const index = field.data.findIndex((el) => el.index === reader_id);
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        const roleIndex = changeRoleType.findIndex(
+          (el) => el.index === reader_id
+        );
+        if (roleIndex !== -1) {
+          role = changeRoleType[roleIndex].value;
+        }
 
-        if (index !== -1 && (!field.condition || field.condition)) {
-          body[field.field] = field.data[index].value;
-          changed = true;
+        const irtIndex = changeIRTType.findIndex(
+          (el) => el.index === reader_id
+        );
+        if (irtIndex !== -1) {
+          irt = changeIRTType[irtIndex].value;
+        }
+
+        const blindedIndex = changeBlindedType.findIndex(
+          (el) => el.index === reader_id
+        );
+        if (blindedIndex !== -1) {
+          binded = changeBlindedType[blindedIndex].value;
+        }
+
+        const siteNumberIndex = changeSiteNumberType.findIndex(
+          (el) => el.index === reader_id
+        );
+        if (siteNumberIndex !== -1) {
+          siteNumber = changeSiteNumberType[siteNumberIndex].value;
+        }
+
+        const siteNameIndex = changeSiteNameType.findIndex(
+          (el) => el.index === reader_id
+        );
+        if (siteNameIndex !== -1) {
+          siteName = changeSiteNameType[siteNameIndex].value;
+        }
+
+        if (
+          country !== "" ||
+          type !== "" ||
+          role !== "" ||
+          irt !== "" ||
+          binded !== "" ||
+          siteNumber !== "" ||
+          siteName !== ""
+        ) {
+          body = {
+            userId: 18207,
+            type: 1,
+            readerId: reader_id,
+            userStatus: type,
+            country: country,
+            binded: binded,
+            irt: irt,
+            role: role,
+            siteNumber: siteNumber,
+            siteName: siteName,
+          };
+        }
+      } else {
+        if (country !== "" || type !== "") {
+          loader("show");
+          body = {
+            userId: 18207,
+            readerId: reader_id,
+            userStatus: type,
+            country: country,
+          };
         }
       }
 
-      if (changed) {
-        body = {
-          ...body,
-          userId: 18207,
-          readerId: reader_id,
-          type:
-            localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="
-              ? 1
-              : 0,
-        };
-
+      if (Object.keys(body).length !== 0) {
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
-
         const libDataIndex = readerDataList.findIndex(
           (el) => el.id === reader_id
         );
 
-        if (libDataIndex !== -1) {
-          if (body.country) {
-            readerDataList[libDataIndex].country = body.country;
-          }
-          if (body.userStatus) {
-            readerDataList[libDataIndex].user_status = body.userStatus;
-          }
-          if (body.role) {
-            readerDataList[libDataIndex].role = body.role;
-          }
-          if (body.irt) {
-            readerDataList[libDataIndex].irt = body.irt == 1 ? "Yes" : "No";
-          }
-          if (body.binded) {
-            readerDataList[libDataIndex].binded = body.binded;
-          }
-          if (body.siteName) {
-            readerDataList[libDataIndex].siteName = body.siteName;
-          }
-          if (body.siteNumber) {
-            readerDataList[libDataIndex].siteNumber = body.siteNumber;
-          }
-
-          const newData = [...readerDataList];
-          setReaderDataList(newData);
-          setUpdateFlag(updateflag + 1);
-          popup_alert({
-            visible: "show",
-            message: "Your Profile has been updated successfully!",
-            type: "success",
-            redirect: "",
-          });
+        if (country !== "") {
+          readerDataList[libDataIndex].country = country;
         }
+
+        if (type !== "") {
+          readerDataList[libDataIndex].user_status = type;
+        }
+
+        if (role !== "") {
+          readerDataList[libDataIndex].role = role;
+        }
+
+        if (irt !== "") {
+          readerDataList[libDataIndex].irt = irt == 1 ? "Yes" : "No";
+        }
+        if (binded !== "") {
+          readerDataList[libDataIndex].binded = binded;
+        }
+        if (siteName !== "") {
+          readerDataList[libDataIndex].siteName = siteName;
+        }
+        if (siteNumber !== "") {
+          readerDataList[libDataIndex].siteNumber = siteNumber;
+        }
+
+        const newData = readerDataList;
+        setReaderDataList(newData);
+        setUpdateFlag(updateflag + 1);
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your Profile has been updated successfully!",
+          type: "success",
+          redirect: "",
+        });
       } else {
         toast.warning("Nothing to update.");
       }
     } catch (err) {
       console.log("err", err);
+      loader("hide");
     }
   };
 
@@ -833,11 +861,11 @@ const NewReaders = () => {
       setChanges(res?.data?.data);
       setSiteNumber((prevSiteNumbers) => ({
         ...prevSiteNumbers,
-        all: res.data.data.siteNumber,
+        all: res?.data?.data?.siteNumber,
       }));
       setSiteName((prevSiteName) => ({
         ...prevSiteName,
-        all: res.data.data.siteName,
+        all: res?.data?.data?.siteName,
       }));
     }
     setApiCallStatus(true);
