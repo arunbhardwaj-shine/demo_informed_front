@@ -22,6 +22,7 @@ const LibraryCreateUser = () => {
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
   const [hcpClickedFirst, setHcpClickedFirst] = useState([]);
+  const [hcpIrtClickedFirst, setHcpIrtClickedFirst] = useState([]);
 
   const [id, setId] = useState(localStorage.getItem("user_id"));
   const handleClose = () => setShow(false);
@@ -113,69 +114,74 @@ const LibraryCreateUser = () => {
 
   const initalFun = async () => {
     loader("show");
-    const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
-      user_id: id,
-    });
-    let country = [];
-    if (hadData?.data?.data?.country?.length) {
-      if (typeof hadData?.data?.data?.country == "string") {
-        JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
-          country.push({
-            label: key,
-            value: key,
+    try{
+      const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
+        user_id: id,
+      });
+      let country = [];
+      if (hadData?.data?.data?.country?.length) {
+        if (typeof hadData?.data?.data?.country == "string") {
+          JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
+            country.push({
+              label: key,
+              value: key,
+            });
           });
-        });
-      } else {
-        hadData?.data?.data?.country?.reduce((objEntries, key) => {
-          country.push({
+        } else {
+          hadData?.data?.data?.country?.reduce((objEntries, key) => {
+            country.push({
+              label: key,
+              value: key,
+            });
+          });
+        }
+      }
+
+      setSpcType(hadData?.data?.data?.spcInc);
+
+      let category = [];
+      if (hadData?.data?.data?.category?.length) {
+        hadData?.data?.data?.category?.reduce((objEntries, key) => {
+          category.push({
             label: key,
             value: key,
           });
         });
       }
-    }
-
-    setSpcType(hadData?.data?.data?.spcInc);
-
-    let category = [];
-    if (hadData?.data?.data?.category?.length) {
-      hadData?.data?.data?.category?.reduce((objEntries, key) => {
-        category.push({
-          label: key,
-          value: key,
+      let tags = [];
+      if (hadData?.data?.data?.tags?.length) {
+        hadData?.data?.data?.tags?.forEach((item) => {
+          tags.push(item?.value);
         });
-      });
-    }
-    let tags = [];
-    if (hadData?.data?.data?.tags?.length) {
-      hadData?.data?.data?.tags?.forEach((item) => {
-        tags.push(item?.value);
-      });
-    }
+      }
 
-    setePrintType(hadData?.data?.data?.fileType);
-    setAllTags(tags);
-    setUserDetail({
-      ...userDetail,
-      user: hadData?.data?.data?.user,
-      production: hadData?.data?.data?.production,
-      country: country,
-      costCenter: hadData?.data?.data?.costCenter,
-      sales: hadData?.data?.data?.sale,
-      format: hadData?.data?.data?.format?.sort((a, b) =>
-        a.value > b.value ? 1 : -1
-      ),
-      category: category?.sort((a, b) => (a.value > b.value ? 1 : -1)),
-      ibu: hadData?.data?.data?.ibu,
-      product: hadData?.data?.data?.product?.sort((a, b) =>
-        a.value > b.value ? 1 : -1
-      ),
-      reseller: hadData?.data?.data?.reseller,
-      trial: [{ label: "LEXx210", value: "3972" }],
-    });
+      setePrintType(hadData?.data?.data?.fileType);
+      setAllTags(tags);
+      setUserDetail({
+        ...userDetail,
+        user: hadData?.data?.data?.user,
+        production: hadData?.data?.data?.production,
+        country: country,
+        costCenter: hadData?.data?.data?.costCenter,
+        sales: hadData?.data?.data?.sale,
+        format: hadData?.data?.data?.format?.sort((a, b) =>
+          a.value > b.value ? 1 : -1
+        ),
+        category: category?.sort((a, b) => (a.value > b.value ? 1 : -1)),
+        ibu: hadData?.data?.data?.ibu,
+        product: hadData?.data?.data?.product?.sort((a, b) =>
+          a.value > b.value ? 1 : -1
+        ),
+        reseller: hadData?.data?.data?.reseller,
+        trial: [{ label: "LEXx210", value: "3972" }],
+      });
 
-    loader("hide");
+      loader("hide");
+    }catch(err){
+      loader("hide");
+    }
   };
+
   useEffect(() => {
     initalFun();
   }, []);
@@ -253,7 +259,7 @@ const LibraryCreateUser = () => {
           userInputs?.mandatory ?
             formData.append(
               "trail_user_type",
-              mandatoryRole?.length ? JSON.stringify(mandatoryRole) : ""
+              hcpIrtClickedFirst?.length ? JSON.stringify(hcpIrtClickedFirst) : ""
             )
           :
           formData.append(
@@ -448,6 +454,14 @@ const LibraryCreateUser = () => {
     }
   };
 
+  const hcpIrtClicked = (dd) => {
+    if (!hcpIrtClickedFirst.includes(dd)) {
+      setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
+    } else {
+      toast.error("Role already Selected.");
+    }
+  };
+
   const removeTagFinal = (index) => {
     const tagsClickedFirst = tagClickedFirst;
     tagsClickedFirst.splice(index, 1);
@@ -456,10 +470,14 @@ const LibraryCreateUser = () => {
     setTagsReRender(tagsReRender + 1);
   };
 
-  const removeHcp = (data) => {
-    const hcpData = hcpClickedFirst.filter((item) => item != data);
-
-    setHcpClickedFirst(hcpData);
+  const removeHcp = (data,type="") => {
+    if(type=="irt"){
+      const hcpData = hcpIrtClickedFirst.filter((item) => item != data);
+      setHcpIrtClickedFirst(hcpData);
+    }else{
+      const hcpData = hcpClickedFirst.filter((item) => item != data);
+      setHcpClickedFirst(hcpData);
+    }
   };
 
   const newTagChanged = (e) => {
@@ -1129,26 +1147,58 @@ const LibraryCreateUser = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="form-group">
-                      {userDetail?.user?.[0]?.flag == 0 &&
-                      userDetail?.user?.[0]?.group_id == 3 ? (
-                        <label htmlFor="">Subtitle</label>
-                      ) : (
-                        <label htmlFor="">Journal title</label>
-                      )}
 
-                      <input
-                        type="text"
-                        name="journalTitle"
-                        className="form-control"
-                        onChange={(e) => handleChange(e)}
-                      />
-                      {error?.journalTitle ? (
-                        <div className="login-validation">
-                          {error?.journalTitle}
+                    {
+                      userDetail?.user?.[0]?.flag == 1 && userDetail?.user?.[0]?.group_id == 3
+                      ?
+                        <div className="form-group">
+                          <label htmlFor="">Comment</label>
+                          {
+                            /*<input
+                              type="text"
+                              name="journalTitle"
+                              className="form-control"
+                              onChange={(e) => handleChange(e)}
+                            />*/
+                          }
+                          <textarea
+                            className="form-control"
+                            id="formControlTextarea"
+                            rows="5"
+                            name="journalTitle"
+                            onChange={(e) => handleChange(e)}
+                            placeholder="Please type your comments here.."
+                          ></textarea>
+
+                          {error?.journalTitle ? (
+                            <div className="login-validation">
+                              {error?.journalTitle}
+                            </div>
+                          ) : null}
                         </div>
-                      ) : null}
-                    </div>
+                      :
+                        <div className="form-group">
+                          {userDetail?.user?.[0]?.flag == 0 &&
+                          userDetail?.user?.[0]?.group_id == 3 ? (
+                            <label htmlFor="">Subtitle</label>
+                          ) : (
+                            <label htmlFor="">Journal title</label>
+                          )}
+
+                          <input
+                            type="text"
+                            name="journalTitle"
+                            className="form-control"
+                            onChange={(e) => handleChange(e)}
+                          />
+                          {error?.journalTitle ? (
+                            <div className="login-validation">
+                              {error?.journalTitle}
+                            </div>
+                          ) : null}
+                        </div>
+                    }
+
                     <div className="form-group">
                       <label htmlFor="">Author</label>
                       <input
@@ -1377,20 +1427,42 @@ const LibraryCreateUser = () => {
                     userInputs?.mandatory == 1 &&
                     userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
-                        <label htmlFor="">Role</label>
+                        <label htmlFor="">IRT Role</label>
                         <div className="input-group w-100">
                           <div className="tags_added">
                             <div className="select-tags">
-                              <div className="after-selected">
-                                <ul className="after-tag-selected sp">
+                                <ul className="after-tag-selected">
                                   {mandatoryRole.map((item, index) => {
                                     return (
-                                      <li className="list1">
+                                      <li className="list1" onClick={() => {
+                                          hcpIrtClicked(item);
+                                        }}>
                                         {item}
                                       </li>
                                     );
                                   })}
                                 </ul>
+                                <div className="after-selected">
+                                  <ul className="after-tag-selected">
+                                    {hcpIrtClickedFirst.map((item, index) => {
+                                      return (
+                                        <>
+                                        {
+                                          mandatoryRole?.includes(item) ?
+                                          <li className="list1">
+                                            {item}
+                                            <img
+                                              src="componentAssets/images/filter-close.svg"
+                                              alt="Close-filter"
+                                              onClick={() => removeHcp(item,"irt")}
+                                            />
+                                          </li> : null
+                                        }
+                                        </>
+
+                                      );
+                                    })}
+                                  </ul>
                               </div>
                             </div>
                           </div>
@@ -1485,7 +1557,15 @@ const LibraryCreateUser = () => {
                           <>
                             <div className="form-group val chapter-title">
                               <div className="ebook-format">
-                                <label htmlFor="">Chapter title {i + 1}</label>
+                                <label htmlFor="">
+                                  {
+                                    localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                       "Chapter title"
+                                    :
+                                      "File title"
+                                  }
+                                   {i + 1}
+                                </label>
                                 <input
                                   type="text"
                                   className="form-control"
@@ -1640,22 +1720,28 @@ const LibraryCreateUser = () => {
                       </div>
                     </div>
                   </Col>
-                  <Col md={6} className="d-flex justify-content-end align-items-start right-change">
-                    <div className="form-group justify-content-end">
-                      <label htmlFor="">
-                        Production notes to Docintel team
-                      </label>
-                      <textarea
-                        className="form-control"
-                        id="formControlTextarea"
-                        rows="5"
-                        onChange={(e) =>
-                          handleChange(e?.target.value, "productionNotes")
-                        }
-                        placeholder="Please type your notes here.."
-                      ></textarea>
-                    </div>
-                  </Col>
+
+                  {
+                    localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                    <Col md={6} className="d-flex justify-content-end align-items-start right-change">
+                      <div className="form-group justify-content-end">
+                        <label htmlFor="">
+                          Production notes to Docintel team
+                        </label>
+                        <textarea
+                          className="form-control"
+                          id="formControlTextarea"
+                          rows="5"
+                          onChange={(e) =>
+                            handleChange(e?.target.value, "productionNotes")
+                          }
+                          placeholder="Please type your notes here.."
+                        ></textarea>
+                      </div>
+                    </Col>
+                    : null
+                  }
+
                 </Row>
               </div>
             </div>

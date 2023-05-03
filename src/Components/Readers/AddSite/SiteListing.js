@@ -30,7 +30,7 @@ const SiteListing = () => {
     const [resetDataId, setResetDataId] = useState();
     const [confirmationpopup, setConfirmationPopup] = useState(false);
     const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
-    
+
 
       const [popupMessage, setPopupMessage] = useState({
         message1: "",
@@ -39,7 +39,7 @@ const SiteListing = () => {
       });
 
       const showConfirmationPopup = (item) => {
-        
+
         // setDeleteItemId(item.id);
         // setResetDataId(item.id);
         // setCommonConfirmModelFun(() => handleDelete);
@@ -140,17 +140,15 @@ const SiteListing = () => {
 
 
     const handleEdit = (item) => {
-        navigate(`/edit-site?id=${item.id}`);
+        navigate("/edit-site",{state: { siteId: item?.id} });
     };
 
     const handleDelete = async (id) => {
-        console.log("clicked",id);
         setConfirmationPopup(false);
         try {
             loader("show");
             if (id) {
                 const response = await deleteData(ENDPOINT.DELETESITE, id);
-                console.log("deleted succesfully", response);
                 const updatedData = listingDataSite.filter((item) => item.id !== id);
                 setListingDataSite(updatedData);
                 setMainListingDataSite(updatedData);

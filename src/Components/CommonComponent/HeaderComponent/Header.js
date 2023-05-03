@@ -147,6 +147,10 @@ const Header = () => {
                     window.location.pathname == "/smart-list-add" ||
                     window.location.pathname == "/reader-review" ||
                     window.location.pathname == "/timeline-detail" ||
+                    window.location.pathname == "/add-site" ||
+                    window.location.pathname == "/site-listing" ||
+                    window.location.pathname == "/edit-site" ||
+                    window.location.pathname == "/site" ||
                     window.location.pathname == "/article_type_registration"
                       ? "nav-item active active-main"
                       : "nav-item"

@@ -58,6 +58,7 @@ import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
+import TrialSite from "./Components/Readers/AddSite/TrialSite";
 import AddSite from "./Components/Readers/AddSite/AddSite";
 import EditSite from "./Components/Readers/AddSite/EditSite";
 import SiteListing from "./Components/Readers/AddSite/SiteListing";
@@ -290,10 +291,11 @@ const Routing = () => {
                 <Route path="/library-edit" element={<LoginLayout component={EditLibrary} /> }/>
                 <Route path="/library-create" element={<LoginLayout component={LibraryCreate} /> } />
                 <Route path="/library-popup" element={<LoginLayout component={LibraryPopupSet} /> } />
+                <Route path ="/site" element={<LoginLayout component={TrialSite} /> } />
                 <Route path ="/add-site" element={<LoginLayout component={AddSite} /> } />
                 <Route path ="/edit-site" element={<LoginLayout component={EditSite} /> } />
-                
-                
+
+
                 <Route path ="/site-listing" element={<LoginLayout component={SiteListing} /> } />
 
                 <Route

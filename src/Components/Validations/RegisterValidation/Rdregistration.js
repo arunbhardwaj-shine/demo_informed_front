@@ -15,8 +15,10 @@ export const rdregistration = (data) => {
       error.institution = "Please Select institution";
     }
 
-    if (!data?.country) {
-      error.country = "Please Select country";
+    if(data?.institution == "site_name"){
+      if (!data?.country) {
+        error.country = "Please Select country";
+      }
     }
 
     if(data?.institution == "site_name") {
