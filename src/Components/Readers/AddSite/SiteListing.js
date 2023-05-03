@@ -149,7 +149,6 @@ const SiteListing = () => {
             loader("show");
             if (id) {
                 const response = await deleteData(ENDPOINT.DELETESITE, id);
-                console.log("deleted succesfully", response);
                 const updatedData = listingDataSite.filter((item) => item.id !== id);
                 setListingDataSite(updatedData);
                 setMainListingDataSite(updatedData);
