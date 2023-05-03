@@ -2024,7 +2024,7 @@ left:0!important
       text-decoration: none;
       color:$primary-color;
       border:1px solid $primary-color;
-      border-radius: 30px; 
+      border-radius: 30px;
       text-align: center;
       padding: 11px;
       font-weight: 500;
@@ -3631,11 +3631,11 @@ width: 50%;
       width: 100%;
       position: relative;
   }
-  
+
   .create_site_form .login-validation {
       left: 0!important;
   }
-  
+
 /**Analytics end**/
 
 /***header-sticky***/
@@ -3937,10 +3937,10 @@ caption.highcharts-table-caption {
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(3) {
     max-width: 250px;
 }
-.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(4) { 
+.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(4) {
      max-height: 350px;
 }
-.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(4) > div { 
+.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(4) > div {
      max-height: 330px;
 }
 .create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button{
@@ -4012,6 +4012,11 @@ transform: translateY(-50%);
 }
 .distribute-page-reader p strong {
     font-size: 18px;
+}
+
+#analytics-hcp-table td button {
+    min-width: 60px;
+    margin: 1px;
 }
 /**Analytics page End**/
 
@@ -5087,7 +5092,7 @@ color: rgba(0, 102, 190, 0.247368);
 opacity:1;
 font-weight: 400;
 }
-.contact-right form input::-moz-placeholder { 
+.contact-right form input::-moz-placeholder {
 	font-size:24px;
 	letter-spacing: -0.613636px;
 color: rgba(0, 102, 190, 0.247368);
@@ -5101,7 +5106,7 @@ color: rgba(0, 102, 190, 0.247368);
 opacity:1;
 font-weight: 400;
 }
-.contact-right form input:-moz-placeholder { 
+.contact-right form input:-moz-placeholder {
 	font-size:24px;
 	letter-spacing: -0.613636px;
 color: rgba(0, 102, 190, 0.247368);
@@ -5496,7 +5501,7 @@ font-weight: 400;
             &.prof_clr{
               color:$primary-color;
             }
-            
+
         }
       }
     }
@@ -5649,8 +5654,8 @@ font-weight: 400;
             }
           }
         }
-      } 
-        
+      }
+
     }
   }
 }
