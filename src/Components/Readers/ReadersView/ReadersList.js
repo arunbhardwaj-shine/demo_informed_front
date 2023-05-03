@@ -110,7 +110,9 @@ const NewReaders = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(ENDPOINT.READERSFILTER);
+      const res = await getData(
+      ENDPOINT.READERSFILTER
+      );
       setFilterData(res?.data?.data);
     } catch (err) {
       loader("hide");
