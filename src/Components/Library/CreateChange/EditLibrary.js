@@ -136,73 +136,78 @@ const EditLibrary = () => {
 
   const initalFun = async () => {
     loader("show");
-    const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
-      user_id: id,
-    });
+    try{
+      const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
+        user_id: id,
+      });
 
-    if (hadData?.data?.data?.fileType) {
-      setePrintType(hadData?.data?.data?.fileType);
-    }
+      if (hadData?.data?.data?.fileType) {
+        setePrintType(hadData?.data?.data?.fileType);
+      }
 
-    let country = [];
-    if (hadData?.data?.data?.country?.length) {
-      if (typeof hadData?.data?.data?.country == "string") {
-        JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
-          country.push({
-            label: key,
-            value: key,
+      let country = [];
+      if (hadData?.data?.data?.country?.length) {
+        if (typeof hadData?.data?.data?.country == "string") {
+          JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
+            country.push({
+              label: key,
+              value: key,
+            });
           });
-        });
-      } else {
-        hadData?.data?.data?.country?.reduce((objEntries, key) => {
-          country.push({
+        } else {
+          hadData?.data?.data?.country?.reduce((objEntries, key) => {
+            country.push({
+              label: key,
+              value: key,
+            });
+          });
+        }
+      }
+
+      setSpcType(hadData?.data?.data?.spcInc);
+
+      let category = [];
+      if (hadData?.data?.data?.category?.length) {
+        hadData?.data?.data?.category.reduce((objEntries, key) => {
+          category.push({
             label: key,
             value: key,
           });
         });
       }
-    }
 
-    setSpcType(hadData?.data?.data?.spcInc);
-
-    let category = [];
-    if (hadData?.data?.data?.category?.length) {
-      hadData?.data?.data?.category.reduce((objEntries, key) => {
-        category.push({
-          label: key,
-          value: key,
+      let tags = [];
+      if (hadData?.data?.data?.tags?.length) {
+        hadData?.data?.data?.tags?.forEach((item) => {
+          tags.push(item?.value);
         });
+      }
+
+      setAllTags(tags);
+
+      setUserDetail({
+        ...userDetail,
+        user: hadData?.data?.data?.user,
+        production: hadData?.data?.data?.production,
+        country: country,
+        costCenter: hadData?.data?.data?.costCenter,
+        sales: hadData?.data?.data?.sale,
+        format: hadData?.data?.data?.format,
+        category: category,
+        ibu: hadData?.data?.data?.ibu,
+        product: hadData?.data?.data?.product,
+        reseller: hadData?.data?.data?.reseller,
       });
+
+      loader("hide");
+    }catch(err){
+      // console.log(err);
+      loader("hide");
     }
-
-    let tags = [];
-    if (hadData?.data?.data?.tags?.length) {
-      hadData?.data?.data?.tags?.forEach((item) => {
-        tags.push(item?.value);
-      });
-    }
-
-    setAllTags(tags);
-
-    setUserDetail({
-      ...userDetail,
-      user: hadData?.data?.data?.user,
-      production: hadData?.data?.data?.production,
-      country: country,
-      costCenter: hadData?.data?.data?.costCenter,
-      sales: hadData?.data?.data?.sale,
-      format: hadData?.data?.data?.format,
-      category: category,
-      ibu: hadData?.data?.data?.ibu,
-      product: hadData?.data?.data?.product,
-      reseller: hadData?.data?.data?.reseller,
-    });
-
-    loader("hide");
   };
   const libraryDetail = async () => {
+    loader("show");
     try {
-      loader("show");
       const hadData = await getData(
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
@@ -228,6 +233,7 @@ const EditLibrary = () => {
 
       loader("hide");
     } catch (err) {
+      loader("hide");
       console.log("-err", err);
     }
   };
@@ -269,37 +275,42 @@ const EditLibrary = () => {
       toast.error("Please input a tag");
     } else {
       loader("show");
-      await postData(ENDPOINT.ADD_TAGS, {
-        product: newTag,
-        type: 2,
-      });
-      loader("hide");
-      let temp_tags = tagClickedFirst.map((data) => {
-        return data.toLowerCase();
-      });
-      let alltemp_tags = [];
-      Object.entries(allTags).map((data) => {
-        return alltemp_tags.push(...data);
-      });
-      alltemp_tags = alltemp_tags.map((data) => {
-        return data.toLowerCase();
-      });
+      try{
+          await postData(ENDPOINT.ADD_TAGS, {
+            product: newTag,
+            type: 2,
+          });
+          loader("hide");
+          let temp_tags = tagClickedFirst.map((data) => {
+            return data.toLowerCase();
+          });
+          let alltemp_tags = [];
+          Object.entries(allTags).map((data) => {
+            return alltemp_tags.push(...data);
+          });
+          alltemp_tags = alltemp_tags.map((data) => {
+            return data.toLowerCase();
+          });
 
-      if (
-        !temp_tags.includes(newTag.toLowerCase()) &&
-        !alltemp_tags.includes(newTag.toLowerCase())
-      ) {
-        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+          if (
+            !temp_tags.includes(newTag.toLowerCase()) &&
+            !alltemp_tags.includes(newTag.toLowerCase())
+          ) {
+            setTagClickedFirst((oldArray) => [...oldArray, newTag]);
 
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          tags: newTag,
-        };
-      } else {
-        toast.error("Tag already in list.");
+            const body = {
+              user_id: localStorage.getItem("user_id"),
+              tags: newTag,
+            };
+          } else {
+            toast.error("Tag already in list.");
+          }
+          setNewTag("");
+          setTagsCounter(tagsCounter + 1);
+      }catch(err){
+          loader("hide");
+          // console.log(err);
       }
-      setNewTag("");
-      setTagsCounter(tagsCounter + 1);
     }
   };
   const handleChange = (e, isSelectedName) => {
@@ -477,7 +488,8 @@ const EditLibrary = () => {
         }
 
       } catch (err) {
-        console.log(err);
+        loader("hide");
+        // console.log(err);
       }
     }
   };
@@ -510,8 +522,13 @@ const EditLibrary = () => {
   const deleteRecord = async (i, id) => {
     if (id) {
       loader("show");
-      await deleteFormData(`${ENDPOINT.DELETE_PDF_FILE}/${id}`);
-      loader("hide");
+      try{
+        await deleteFormData(`${ENDPOINT.DELETE_PDF_FILE}/${id}`);
+        loader("hide");
+      }catch(err){
+        // console.log(err);
+        loader("hide");
+      }
     }
     const list = chapter;
 

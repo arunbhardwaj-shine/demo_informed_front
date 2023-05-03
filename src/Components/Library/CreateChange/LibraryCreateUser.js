@@ -113,69 +113,74 @@ const LibraryCreateUser = () => {
 
   const initalFun = async () => {
     loader("show");
-    const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
-      user_id: id,
-    });
-    let country = [];
-    if (hadData?.data?.data?.country?.length) {
-      if (typeof hadData?.data?.data?.country == "string") {
-        JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
-          country.push({
-            label: key,
-            value: key,
+    try{
+      const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
+        user_id: id,
+      });
+      let country = [];
+      if (hadData?.data?.data?.country?.length) {
+        if (typeof hadData?.data?.data?.country == "string") {
+          JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
+            country.push({
+              label: key,
+              value: key,
+            });
           });
-        });
-      } else {
-        hadData?.data?.data?.country?.reduce((objEntries, key) => {
-          country.push({
+        } else {
+          hadData?.data?.data?.country?.reduce((objEntries, key) => {
+            country.push({
+              label: key,
+              value: key,
+            });
+          });
+        }
+      }
+
+      setSpcType(hadData?.data?.data?.spcInc);
+
+      let category = [];
+      if (hadData?.data?.data?.category?.length) {
+        hadData?.data?.data?.category?.reduce((objEntries, key) => {
+          category.push({
             label: key,
             value: key,
           });
         });
       }
-    }
-
-    setSpcType(hadData?.data?.data?.spcInc);
-
-    let category = [];
-    if (hadData?.data?.data?.category?.length) {
-      hadData?.data?.data?.category?.reduce((objEntries, key) => {
-        category.push({
-          label: key,
-          value: key,
+      let tags = [];
+      if (hadData?.data?.data?.tags?.length) {
+        hadData?.data?.data?.tags?.forEach((item) => {
+          tags.push(item?.value);
         });
-      });
-    }
-    let tags = [];
-    if (hadData?.data?.data?.tags?.length) {
-      hadData?.data?.data?.tags?.forEach((item) => {
-        tags.push(item?.value);
-      });
-    }
+      }
 
-    setePrintType(hadData?.data?.data?.fileType);
-    setAllTags(tags);
-    setUserDetail({
-      ...userDetail,
-      user: hadData?.data?.data?.user,
-      production: hadData?.data?.data?.production,
-      country: country,
-      costCenter: hadData?.data?.data?.costCenter,
-      sales: hadData?.data?.data?.sale,
-      format: hadData?.data?.data?.format?.sort((a, b) =>
-        a.value > b.value ? 1 : -1
-      ),
-      category: category?.sort((a, b) => (a.value > b.value ? 1 : -1)),
-      ibu: hadData?.data?.data?.ibu,
-      product: hadData?.data?.data?.product?.sort((a, b) =>
-        a.value > b.value ? 1 : -1
-      ),
-      reseller: hadData?.data?.data?.reseller,
-      trial: [{ label: "LEXx210", value: "3972" }],
-    });
+      setePrintType(hadData?.data?.data?.fileType);
+      setAllTags(tags);
+      setUserDetail({
+        ...userDetail,
+        user: hadData?.data?.data?.user,
+        production: hadData?.data?.data?.production,
+        country: country,
+        costCenter: hadData?.data?.data?.costCenter,
+        sales: hadData?.data?.data?.sale,
+        format: hadData?.data?.data?.format?.sort((a, b) =>
+          a.value > b.value ? 1 : -1
+        ),
+        category: category?.sort((a, b) => (a.value > b.value ? 1 : -1)),
+        ibu: hadData?.data?.data?.ibu,
+        product: hadData?.data?.data?.product?.sort((a, b) =>
+          a.value > b.value ? 1 : -1
+        ),
+        reseller: hadData?.data?.data?.reseller,
+        trial: [{ label: "LEXx210", value: "3972" }],
+      });
 
-    loader("hide");
+      loader("hide");
+    }catch(err){
+      loader("hide");
+    }
   };
+
   useEffect(() => {
     initalFun();
   }, []);
