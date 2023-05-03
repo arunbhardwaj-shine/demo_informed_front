@@ -110,7 +110,7 @@ const NewReaders = () => {
     try {
       loader("show");
       const res = await getData(
-        "https://informedback.shinedezign.pro/reader/get-reader-filter"
+      ENDPOINT.READERSFILTER
       );
       setFilterData(res?.data?.data);
     } catch (err) {
