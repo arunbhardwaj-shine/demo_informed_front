@@ -721,7 +721,7 @@ const NewReaders = () => {
             irt: irt,
             role: role,
             siteNumber: siteNumber,
-            siteNumber: siteName,
+            siteName: siteName,
           };
         }
       } else {
@@ -861,11 +861,11 @@ const NewReaders = () => {
       setChanges(res?.data?.data);
       setSiteNumber((prevSiteNumbers) => ({
         ...prevSiteNumbers,
-        all: res.data.data.siteNumber,
+        all: res?.data?.data?.siteNumber,
       }));
       setSiteName((prevSiteName) => ({
         ...prevSiteName,
-        all: res.data.data.siteName,
+        all: res?.data?.data?.siteName,
       }));
     }
     setApiCallStatus(true);
