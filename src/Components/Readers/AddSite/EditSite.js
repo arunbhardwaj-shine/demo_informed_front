@@ -8,11 +8,11 @@ const EditSite = () => {
             <Col className="right-sidebar">
                 <Row>
                     <div className="create-change-content add-site">
-                      <AddSite />
+                        <AddSite />
                     </div>
-   </Row>
-   </Col>
-   </>
+                </Row>
+            </Col>
+        </>
     );
 }
 
