@@ -565,7 +565,9 @@ const Sidebar = () => {
                 </li>
               ) : null}
               {localStorage.getItem("user_id") ==
-              "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
+              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ? null :
+              localStorage.getItem("group_id") == 2 ? null :
+              (
                 <li
                   className={
                     location.pathname == "/products" && c_id == 0
