@@ -448,7 +448,11 @@ const LibraryCreateUser = () => {
   };
   const hcpClicked = (dd) => {
     if (!hcpClickedFirst.includes(dd)) {
-      setHcpClickedFirst((oldArray) => [...oldArray, dd]);
+      if(dd == "All"){
+        setHcpClickedFirst(userDetail?.hcp);
+      }else{
+        setHcpClickedFirst((oldArray) => [...oldArray, dd]);
+      }
     } else {
       toast.error("Role already Selected.");
     }
@@ -456,7 +460,11 @@ const LibraryCreateUser = () => {
 
   const hcpIrtClicked = (dd) => {
     if (!hcpIrtClickedFirst.includes(dd)) {
-      setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
+        if(dd == "All"){
+          setHcpIrtClickedFirst(mandatoryRole);
+        }else{
+          setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
+        }
     } else {
       toast.error("Role already Selected.");
     }
@@ -1388,6 +1396,13 @@ const LibraryCreateUser = () => {
                           <div className="tags_added">
                             <div className="select-tags">
                               <ul>
+                                <>
+
+                                <li className={hcpClickedFirst.length == 5 ? "list1 all fade-down" : "list1 all fade-up"} onClick={() => {
+                                    hcpClicked("All");
+                                  }}>
+                                  All
+                                </li>
                                 {userDetail?.hcp?.map((item, index) => {
                                   return (
                                     <li
@@ -1400,6 +1415,7 @@ const LibraryCreateUser = () => {
                                     </li>
                                   );
                                 })}
+                                </>
                               </ul>
                               <div className="after-selected">
                                 <ul className="after-tag-selected">
@@ -1432,15 +1448,22 @@ const LibraryCreateUser = () => {
                           <div className="tags_added">
                             <div className="select-tags">
                                 <ul className="after-tag-selected">
-                                  {mandatoryRole.map((item, index) => {
-                                    return (
-                                      <li className="list1" onClick={() => {
-                                          hcpIrtClicked(item);
-                                        }}>
-                                        {item}
-                                      </li>
-                                    );
-                                  })}
+                                  <>
+                                    <li className={hcpIrtClickedFirst.length == 3 ? "list1 all fade-down" : "list1 all fade-up"} onClick={() => {
+                                        hcpIrtClicked("All");
+                                      }}>
+                                      All
+                                    </li>
+                                    {mandatoryRole.map((item, index) => {
+                                      return (
+                                        <li className="list1" onClick={() => {
+                                            hcpIrtClicked(item);
+                                          }}>
+                                          {item}
+                                        </li>
+                                      );
+                                    })}
+                                  </>
                                 </ul>
                                 <div className="after-selected">
                                   <ul className="after-tag-selected">
