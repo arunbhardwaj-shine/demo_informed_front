@@ -48,12 +48,11 @@ export default function ContentAnalyticsComponent({ data }) {
       ((total_pending_days - pending_days) * 100) / total_pending_days
     );
   } else {
-    console.log("pending da");
     pending_days = 0;
     get_precentage = 100;
   }
 
-  let agreed_limit = data.limit != "" && data.limt != 0 ? data.limit : 1000;
+  let agreed_limit = data.limit != "" && data.limit != 0 ? data.limit : 1000;
   const arr = ["Openings", "Unique Readers"];
   var categories_data = Object.keys(data?.graph?.openig);
   var series_data = Object.entries(data.graph).map(([name, values], index) => ({
@@ -68,8 +67,8 @@ export default function ContentAnalyticsComponent({ data }) {
       <div className="content_analytics">
         <Row>
           <Col sm={7}>
-            <div class="detail-box left">
-              <div class="media d-flex">
+            <div className="detail-box left">
+              <div className="media d-flex">
                 <div className="media-left media-middle">
                   <Image src={data.coverImage} alt="Image not availble" fluid />
                 </div>
@@ -96,7 +95,8 @@ export default function ContentAnalyticsComponent({ data }) {
                 Client :<span>{client}</span>
               </p>
               <p>
-                Agreed Limit: <span>{data.limit}</span>
+                Agreed Limit:{" "}
+                <span>{data?.limit == 0 ? "Unlimited" : data?.limit}</span>
               </p>
             </div>
             <div class="detail-box right">
@@ -183,7 +183,9 @@ export default function ContentAnalyticsComponent({ data }) {
               value={data.uniqueReader}
               color="#f4c64b"
               limit={agreed_limit}
-              label={`Unique Reader (total)<br>Agreed Limit | ${agreed_limit}`}
+              label={`Unique Reader (total)<br>Agreed Limit | ${
+                data?.limit == 0 ? "Unlimited" : data?.limit
+              }`}
             />
 
             <ContentAnalyticsComponentActivityGauge

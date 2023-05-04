@@ -165,6 +165,10 @@ const OpeningByCountry = () => {
           });
         });
 
+        newFilterArr.sort((a, b) =>
+          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+        );
+
         setFilterData(newFilterArr);
       }
 

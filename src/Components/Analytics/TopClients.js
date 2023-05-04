@@ -148,6 +148,7 @@ const TopClients = () => {
       const response = await postData(ENDPOINT.TOPCLIENTS, data);
 
       const hadData = response?.data?.data;
+      console.log("had data", hadData);
       if (hadData?.name?.length <= 0) {
         setIsDataFound(false);
       } else {
@@ -258,7 +259,11 @@ const TopClients = () => {
                 <div className="no_found">
                   <p>No Data Found</p>
                 </div>
-              ) : null}
+              ) : (
+                <div className="no_found">
+                  <p>No Data Found</p>
+                </div>
+              )}
             </div>
           </Row>
         </div>

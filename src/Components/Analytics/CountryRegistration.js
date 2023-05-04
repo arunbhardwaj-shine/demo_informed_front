@@ -117,7 +117,7 @@ const CountryRegistration = () => {
   const [countryList, SetCountryList] = useState({
     chart: {
       type: "bar",
-      height: 3000,
+      height: 1500,
     },
     title: {
       text: "Country List",
@@ -129,9 +129,55 @@ const CountryRegistration = () => {
       title: {
         text: "Number of Cases",
       },
+      stackLabels: {
+        enabled: true,
+      },
     },
-    stackLabels: {
-      enabled: true,
+    
+    legend: {
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "horizontal",
+      x: 0,
+      y: 0,
+    },
+    // plotOptions: {
+    //   bar: {
+    //    // pointWidth: 18,
+    //     dataLabels: {
+    //       enabled: true,
+    //     },
+    //   },
+    // },
+    plotOptions: {
+      series: {
+        stacking: "normal",
+        pointWidth: 30,
+      },
+    },
+    series: [],
+  });
+
+  Highcharts.setOptions({
+    colors: ["#FFBE2C", "#00D4C0", "#F58289"],
+  });
+
+  // for table
+  const [tableData, setTableData] = useState({
+    title: {
+      text: "",
+    },
+    xAxis: {
+      categories: [],
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: "HCP",
+      },
+      stackLabels: {
+        enabled: true,
+      },
     },
     legend: {
       align: "center",
@@ -141,23 +187,18 @@ const CountryRegistration = () => {
       y: 0,
     },
     plotOptions: {
-      bar: {
-        pointWidth: 18,
-        dataLabels: {
-          enabled: true,
-        },
+      series: {
+        stacking: "normal",
       },
     },
     exporting: {
       showTable: true,
-      tableCaption: "",
     },
     series: [],
+    tableCountry: [],
   });
 
-  Highcharts.setOptions({
-    colors: ["#FFBE2C", "#00D4C0", "#F58289"],
-  });
+
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const optionMonth = useRef(
@@ -227,13 +268,54 @@ const CountryRegistration = () => {
       setIsLoaded(true);
       SetCountryList(newCountryList);
       setIsDataFound(true);
+
+
+      //create table 
+      const tableCountry = apiData?.data.country;
+      const criticalCare = apiData?.data.critical_care || [];
+      const haematology = apiData?.data.haematology || [];
+      const immunotherapy = apiData?.data.immunotherapy || [];
+      const tableDatas = [
+        {
+          name: `Critical Care (${criticalCare.reduce((acc, val) => acc + val, 0)})`,
+          data: criticalCare,
+        },
+        {
+          name: `Haematology (${haematology.reduce((acc, val) => acc + val, 0)})`,
+          data: haematology,
+        },
+        {
+          name: `Immunotherapy (${immunotherapy.reduce((acc, val) => acc + val, 0)})`,
+          data: immunotherapy,
+        },
+      ];
+
+      const newTable = {
+        ...tableData,
+        xAxis: {
+          categories: tableDatas,
+
+        },
+        series: tableDatas,
+        tableCountry: tableCountry
+      };
+      setTableData(newTable);
+
       loader("hide");
     } catch (error) {
       setIsDataFound(false);
       console.log(error);
       loader("hide");
     }
+
+
   };
+
+// for total column
+  const total = tableData.series.reduce((acc, serie) => {
+    return acc + serie.data.reduce((a, b) => a + b, 0);
+  }, 0);
+
 
   const selectMonthYear = useCallback(
     (selectedOption) => {
@@ -305,7 +387,7 @@ const CountryRegistration = () => {
                 ) : null}
               </div>
               {countryList.series.some((series) => series.data.length > 0) &&
-              newData.length > 0 ? (
+                newData.length > 0 ? (
                 <div>
                   <div className="high_charts">
                     <HighchartsReact
@@ -316,7 +398,42 @@ const CountryRegistration = () => {
                   <div className="table-container">
                     <HighchartsReact data={countryList.series} />
                   </div>
+                  <div className="high_charts">
+                    <div className="highcharts-data-table">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Category</th>
+                            {tableData.xAxis.categories.map((category, index) => (
+                              <th key={index}>{category.name}</th>
+                            ))}
+                            <th>Total ({total})</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {tableData?.tableCountry?.map((category, index) => (
+                            <tr key={index}>
+                              <td>{category}</td>
+                              {tableData?.series?.map((serie, serieIndex) => (
+                              <td key={serieIndex}>{serie?.data[index]}</td>
+                            ))}
+                            <td>
+                              {tableData?.series?.reduce(
+                                (total, serie) => total + serie?.data[index],
+                                0
+                              )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+
+
+
+                      </table>
+                    </div>
+                  </div>
                 </div>
+
               ) : isLoaded && newData.length > 0 ? (
                 <div className="no_found">
                   <p>No Data Found</p>
