@@ -3635,7 +3635,14 @@ width: 50%;
   .create_site_form .login-validation {
       left: 0!important;
   }
+  .create-change-content .input-group .tags_added .select-tags > ul li.all {
+      background: $voilet;
+      color: $white;
+  }
 
+  .create-change-content .input-group .tags_added .select-tags > ul li.all.fade-down {
+      opacity: 0.7;
+  }
 /**Analytics end**/
 
 /***header-sticky***/
