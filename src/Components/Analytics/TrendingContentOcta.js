@@ -149,7 +149,7 @@ const DocintelAccount = ({ data }) => {
                   </div>
                 </Col>
                 <Col>
-                  <h3> {element?.pdf_data?.Pdf?.title}</h3>
+                  <h3> {element?.pdf_data?.Pdf?.title.toUpperCase()}</h3>
                   <br />
                   <br />
                   <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
