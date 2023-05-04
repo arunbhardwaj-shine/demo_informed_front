@@ -181,10 +181,7 @@ const Routing = () => {
             }
           />
 
-         <Route path="rd-register" element={
-             <DefaultLayout component={RDRegister} />
-           }
-         />
+         <Route path="rd-register" element={<RDRegister />} />
 
           //LoginLayout for pages after login
           <Route path="/library-content"
