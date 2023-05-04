@@ -150,6 +150,8 @@ const DocintelAccount = ({ data }) => {
                 </Col>
                 <Col>
                   <h3> {element?.pdf_data?.Pdf?.title}</h3>
+                  <br />
+                  <br />
                   <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
                   <a
                     className="btn next-content btn-filled"
@@ -189,7 +191,7 @@ const DocintelAccount = ({ data }) => {
                         },
                         valueSuffix: "%",
                         pointFormat:
-                          '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.z}</span>',
+                          '{series.name}<br><span style="font-size:2em;  font-weight: bold">{point.z}</span>',
                         positioner: function (labelWidth) {
                           return {
                             x: (this.chart.chartWidth - labelWidth) / 2,
@@ -270,9 +272,10 @@ const DocintelAccount = ({ data }) => {
                               color: Highcharts.getOptions().colors[2],
                               radius: "69%",
                               innerRadius: "44%",
-                              y: Math.round(
-                                (element.opened / 100) * element.distribute
-                              ),
+                              // y: Math.round(
+                              //   (element.opened / 100) * element.distribute
+                              // ),
+                              y: element.opened,
                               z: element.opened,
                             },
                           ],
@@ -284,9 +287,12 @@ const DocintelAccount = ({ data }) => {
                               color: Highcharts.getOptions().colors[3],
                               radius: "44%",
                               innerRadius: "18%",
-                              y: Math.round(
-                                (element.rtr * 100) / element.distribute
-                              ),
+                              y: element.rtr,
+
+                              // y: Math.round(
+                              //   (element.rtr * 100) / element.distribute
+                              //   // (element.rtr / 100) * element.opened
+                              // ),
                               z: element.rtr,
                             },
                           ],
@@ -321,14 +327,13 @@ const DocintelAccount = ({ data }) => {
                         column: {
                           colorByPoint: true,
                           colors: [
+                            "#0066BE",
+                            "#00D4C0",
                             "#FFBE2C",
                             "#F58289",
-                            "#00D4C0",
-                            "#D61975",
-                            "#0066BE",
-                            "#FFBE2C",
-                            "#F0EEE4",
                             "#00003C",
+                            "#F0EEE4",
+                            "#D61975",
                           ],
                           dataLabels: {
                             enabled: true,

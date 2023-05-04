@@ -93,7 +93,7 @@ const DocintelAccount = ({ data }) => {
                         },
                         valueSuffix: "%",
                         pointFormat:
-                          '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.z}</span>',
+                          '{series.name}<br><span style="font-size:2em; font-weight: bold">{point.z}</span>',
                         positioner: function (labelWidth) {
                           return {
                             x: (this.chart.chartWidth - labelWidth) / 2,

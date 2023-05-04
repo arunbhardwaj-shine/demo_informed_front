@@ -12,7 +12,8 @@ import { Spinner } from "react-activity";
 exporting(Highcharts);
 exportData(Highcharts);
 
-export default function RegistrationTypeLayout({ data }) {
+export default function 
+RegistrationTypeLayout({ data }) {
   Highcharts.setOptions({
     colors: [
       "#F58289",
@@ -35,14 +36,15 @@ export default function RegistrationTypeLayout({ data }) {
     // loader("show")
     setPageAll(true);
     setTimeout(function () {
-      setAllItemsToShow(data?.slice(numItemsToShow, data.length));
+     // setAllItemsToShow(data?.slice(numItemsToShow, data.length));
+      setNumItemsToShow(numItemsToShow + data.length);
       setPageAll(false);
     }, 300);
   };
-
   const displayData = data?.slice(0, numItemsToShow);
   return (
     <>
+   
       {allItemsToShow?.length ? (
         <RenderLayout data={allItemsToShow} />
       ) : (
@@ -86,7 +88,7 @@ const RenderLayout = ({ data }) => {
       element.style.backgroundColor = "white";
 
       const dataUrl = await domtoimage.toPng(element);
-
+           
       const link = document.createElement("a");
       link.download = `${Math.random()}.png`;
       link.href = dataUrl;
@@ -112,7 +114,6 @@ const RenderLayout = ({ data }) => {
             } else if (new Date(element.exp_datetime) > currentDate) {
               status = "active";
             }
-
             return (
               <div
                 key={element.pdf_id}
@@ -129,9 +130,9 @@ const RenderLayout = ({ data }) => {
                   <Col sm={5} md={5} className="content-listed">
                     <div className="content-listed-content">
                       <h3 className="remove_bg">
-                        <i>{element.pdf_title}</i>
+                        <i>{element.pdf_title.toUpperCase()}</i>
                       </h3>
-                      <h5 className="sub_title">{element.pdf_sub_title}</h5>
+                      <h5 className="sub_title">{element.pdf_sub_title.toUpperCase()}</h5>
                       <div className="content-listed-content-inside">
                         <h5 className="created">
                           <strong>Created:</strong> {element.created}

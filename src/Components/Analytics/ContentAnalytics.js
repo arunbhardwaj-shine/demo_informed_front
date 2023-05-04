@@ -45,15 +45,22 @@ const ContentAnalytics = () => {
       const response = await postData(ENDPOINT.LIBRARY, requestBody);
       const hadData = response?.data?.data?.library || [];
 
-      const pdfObj = hadData.map((item) => ({
-        label: item.title,
-        value: item.id,
-      }));
-      const urlObj = hadData.map((item) => ({
-        label: item.code,
-        value: item.id,
-      }));
-
+      const pdfObj = hadData
+        .map((item) => ({
+          label: item.title,
+          value: item.id,
+        }))
+        .sort((a, b) =>
+          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+        );
+      const urlObj = hadData
+        .map((item) => ({
+          label: item.code,
+          value: item.id,
+        }))
+        .sort((a, b) =>
+          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+        );
       setPdfOptions(pdfObj);
       setUrlOptions(urlObj);
       // alert(pdfObj[0].value)
