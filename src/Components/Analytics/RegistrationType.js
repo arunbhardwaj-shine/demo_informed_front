@@ -21,7 +21,7 @@ const RegistrationType = () => {
   const [All, setAll] = useState([
     { value: "", label: "All" },
     { value: "active", label: "Active" },
-    { value: "expired", label: "Expired" },
+    { value: "expire", label: "Expired" },
   ]);
 
   const activeTab = useRef(1);
