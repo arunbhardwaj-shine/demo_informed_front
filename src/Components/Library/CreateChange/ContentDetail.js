@@ -162,10 +162,17 @@ const ContentDetail = () => {
                                         {data?.title ? data?.title : "N/A"}
                                       </h6>
                                       <h6>
-                                        <strong>Content subtitle | </strong>
+                                        <>
+                                        {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                         ?
+                                          <strong>Comment | </strong>
+                                         :
+                                          <strong>Content subtitle | </strong>
+                                        }
                                         {data?.pdf_sub_title
                                           ? data?.pdf_sub_title
                                           : "N/A"}
+                                        </>
                                       </h6>
                                       <h6>
                                         <strong>Author | </strong>
@@ -544,56 +551,60 @@ const ContentDetail = () => {
                                                   </tr>
                                                   : null
                                                 }
-
-                                                <tr>
-                                                  <th>
-                                                    Production notes to Docintel
-                                                    team
-                                                  </th>
-                                                  <td>
-                                                    {data?.production_notes
-                                                      ? data?.production_notes?.trim()
-                                                          .length > 100
-                                                        ? data?.production_notes?.substring(
-                                                            0,
-                                                            100
-                                                          )
-                                                        : data?.production_notes.trim()
-                                                      : "N/A"}
-                                                    <Collapse
-                                                      in={openProduction}
-                                                    >
-                                                      <div id="collapse-text-view">
-                                                        {data?.production_notes
-                                                          ? data?.production_notes?.trim()
-                                                          : ""}
-                                                      </div>
-                                                    </Collapse>
-                                                    {data?.production_notes ? (
-                                                      data?.production_notes?.trim()
-                                                        .length > 100 ? (
-                                                        <span
-                                                          className="show_more"
-                                                          onClick={() =>
-                                                            setOpenProduction(
-                                                              !openProduction
+                                                {
+                                                  localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
+                                                  ?
+                                                  <tr>
+                                                    <th>
+                                                      Production notes to Docintel
+                                                      team
+                                                    </th>
+                                                    <td>
+                                                      {data?.production_notes
+                                                        ? data?.production_notes?.trim()
+                                                            .length > 100
+                                                          ? data?.production_notes?.substring(
+                                                              0,
+                                                              100
                                                             )
-                                                          }
-                                                          aria-controls="example-collapse-text"
-                                                          aria-expanded={
-                                                            openProduction
-                                                          }
-                                                        >
-                                                          ...
-                                                        </span>
+                                                          : data?.production_notes.trim()
+                                                        : "N/A"}
+                                                      <Collapse
+                                                        in={openProduction}
+                                                      >
+                                                        <div id="collapse-text-view">
+                                                          {data?.production_notes
+                                                            ? data?.production_notes?.trim()
+                                                            : ""}
+                                                        </div>
+                                                      </Collapse>
+                                                      {data?.production_notes ? (
+                                                        data?.production_notes?.trim()
+                                                          .length > 100 ? (
+                                                          <span
+                                                            className="show_more"
+                                                            onClick={() =>
+                                                              setOpenProduction(
+                                                                !openProduction
+                                                              )
+                                                            }
+                                                            aria-controls="example-collapse-text"
+                                                            aria-expanded={
+                                                              openProduction
+                                                            }
+                                                          >
+                                                            ...
+                                                          </span>
+                                                        ) : (
+                                                          ""
+                                                        )
                                                       ) : (
                                                         ""
-                                                      )
-                                                    ) : (
-                                                      ""
-                                                    )}
-                                                  </td>
-                                                </tr>
+                                                      )}
+                                                    </td>
+                                                  </tr>
+                                                  : null
+                                                }
                                               </tbody>
                                             </table>
                                           </div>
