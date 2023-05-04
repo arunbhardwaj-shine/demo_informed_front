@@ -4025,6 +4025,13 @@ transform: translateY(-50%);
     min-width: 60px;
     margin: 1px;
 }
+.apply-filter {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.filter-by.nav-item.dropdown>button:focus {
+    border: 0.5px solid transparent;
+}
 /**Analytics page End**/
 
 /***INFORMED***/
