@@ -8,7 +8,12 @@ export const LibraryEditValidation = (data) => {
     data.chapter?.forEach((item,index) =>{
       if(item.hasOwnProperty('uploadFile') && item?.uploadFile =="" ){
         if(!error?.chapter?.[index]){
-          error.chapter = {...error.chapter,[index]:"Chapter is required"};
+          if(localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg=="){
+            error.chapter = {...error.chapter,[index]:"Chapter is required"};
+          }else{
+            error.chapter = {...error.chapter,[index]:"File is required"};
+          }
+          // error.chapter = {...error.chapter,[index]:"Chapter is required"};
         }
       }
     })

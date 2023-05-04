@@ -30,7 +30,9 @@ requestHelper.interceptors.response.use(
   (err) => {
     switch (err?.response?.status) {
       case 400:
-        toast.error(err?.response.data.message)
+        if(err?.response?.data?.message != "Invalid Credentials! please try again."){
+          toast.error(err?.response.data.message)
+        }
         break;
       case 401:
         localStorage.clear();

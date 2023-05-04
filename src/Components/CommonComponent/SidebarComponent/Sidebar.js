@@ -755,6 +755,10 @@ const Sidebar = () => {
             window.location.pathname == "/reader-edit" ||
             window.location.pathname == "/readers-list" ||
             window.location.pathname == "/reader-review" ||
+            window.location.pathname == "/site" ||
+            window.location.pathname == "/add-site" ||
+            window.location.pathname == "/edit-site" ||
+            window.location.pathname == "/site-listing" ||
             window.location.pathname == "/timeline-detail" ? (
             <ul>
               <li
@@ -820,6 +824,26 @@ const Sidebar = () => {
                   <p>Add Contact</p>
                 </Link>
               </li>
+
+              {
+                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                  <li
+                    className={
+                      location.pathname == "/add-site" ||
+                      location.pathname == "/site" ||
+                      location.pathname == "/site-listing" ||
+                      location.pathname == "/edit-site"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/site"}>
+                      <svg style={{width:"22",height:"22"}} version="1.0" width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#0066BE" fillOpacity="0.6" stroke="none"> <path d="M790 5105 c-195 -36 -349 -116 -497 -258 -111 -107 -194 -236 -242 -374 -52 -155 -51 -105 -51 -1913 0 -1808 -1 -1758 51 -1913 93 -271 325 -503 596 -596 155 -52 105 -51 1913 -51 1808 0 1758 -1 1913 51 271 93 503 325 596 596 52 155 51 105 51 1913 0 1808 1 1758 -51 1913 -93 271 -325 503 -596 596 -155 52 -103 51 -1922 50 -1371 -1 -1700 -3 -1761 -14z m2070 -859 c49 -26 79 -55 103 -101 22 -39 22 -49 25 -597 l3 -557 557 -3 c521 -3 559 -4 592 -22 49 -26 79 -55 103 -101 21 -38 22 -53 22 -305 0 -252 -1 -267 -22 -305 -24 -46 -54 -75 -103 -101 -33 -18 -71 -19 -592 -22 l-557 -3 -3 -557 c-3 -548 -3 -558 -25 -597 -24 -46 -54 -75 -103 -101 -32 -17 -60 -19 -300 -19 -240 0 -268 2 -300 19 -49 26 -79 55 -103 101 -22 39 -22 49 -25 597 l-3 557 -557 3 c-548 3 -558 3 -597 25 -46 24 -75 54 -101 103 -17 32 -19 60 -19 300 0 240 2 268 19 300 26 49 55 79 101 103 39 22 49 22 597 25 l557 3 3 557 c3 521 4 559 22 592 35 66 81 103 151 121 17 4 140 7 275 6 218 -2 249 -4 280 -21z"/> </g> </svg>
+                      <p>Add Site</p>
+                    </Link>
+                  </li>
+                : null
+              }
             </ul>
           ) : localStorage.getItem("group_id") == 2 ? (
             window.location.pathname == "/registration-type" ||

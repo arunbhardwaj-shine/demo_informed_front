@@ -36,6 +36,7 @@ const EditLibrary = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [finalTags, setFinalTags] = useState([]);
   const [tagsReRender, setTagsReRender] = useState(0);
+  const [hcpIrtClickedFirst, setHcpIrtClickedFirst] = useState([]);
   const [mandatoryRole, setMandatoryRole] = useState([
     "Investigator-Blinded","Site unblinded pharmacist","Blinded site user"
   ]);
@@ -125,91 +126,110 @@ const EditLibrary = () => {
   const [changeEmbeddedVideo, setChangeEmbeddedVideo] = useState("");
   const [showFlag, setShowFlag] = useState(false);
   const [hcpClickedFirst, setHcpClickedFirst] = useState([]);
+  function isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 
   const initalFun = async () => {
     loader("show");
-    const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
-      user_id: id,
-    });
+    try{
+      const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
+        user_id: id,
+      });
 
-    if (hadData?.data?.data?.fileType) {
-      setePrintType(hadData?.data?.data?.fileType);
-    }
+      if (hadData?.data?.data?.fileType) {
+        setePrintType(hadData?.data?.data?.fileType);
+      }
 
-    let country = [];
-    if (hadData?.data?.data?.country?.length) {
-      if (typeof hadData?.data?.data?.country == "string") {
-        JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
-          country.push({
-            label: key,
-            value: key,
+      let country = [];
+      if (hadData?.data?.data?.country?.length) {
+        if (typeof hadData?.data?.data?.country == "string") {
+          JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
+            country.push({
+              label: key,
+              value: key,
+            });
           });
-        });
-      } else {
-        hadData?.data?.data?.country?.reduce((objEntries, key) => {
-          country.push({
+        } else {
+          hadData?.data?.data?.country?.reduce((objEntries, key) => {
+            country.push({
+              label: key,
+              value: key,
+            });
+          });
+        }
+      }
+
+      setSpcType(hadData?.data?.data?.spcInc);
+
+      let category = [];
+      if (hadData?.data?.data?.category?.length) {
+        hadData?.data?.data?.category.reduce((objEntries, key) => {
+          category.push({
             label: key,
             value: key,
           });
         });
       }
-    }
 
-    setSpcType(hadData?.data?.data?.spcInc);
-
-    let category = [];
-    if (hadData?.data?.data?.category?.length) {
-      hadData?.data?.data?.category.reduce((objEntries, key) => {
-        category.push({
-          label: key,
-          value: key,
+      let tags = [];
+      if (hadData?.data?.data?.tags?.length) {
+        hadData?.data?.data?.tags?.forEach((item) => {
+          tags.push(item?.value);
         });
+      }
+
+      setAllTags(tags);
+
+      setUserDetail({
+        ...userDetail,
+        user: hadData?.data?.data?.user,
+        production: hadData?.data?.data?.production,
+        country: country,
+        costCenter: hadData?.data?.data?.costCenter,
+        sales: hadData?.data?.data?.sale,
+        format: hadData?.data?.data?.format,
+        category: category,
+        ibu: hadData?.data?.data?.ibu,
+        product: hadData?.data?.data?.product,
+        reseller: hadData?.data?.data?.reseller,
       });
+
+      loader("hide");
+    }catch(err){
+      // console.log(err);
+      loader("hide");
     }
-
-    let tags = [];
-    if (hadData?.data?.data?.tags?.length) {
-      hadData?.data?.data?.tags?.forEach((item) => {
-        tags.push(item?.value);
-      });
-    }
-
-    setAllTags(tags);
-
-    setUserDetail({
-      ...userDetail,
-      user: hadData?.data?.data?.user,
-      production: hadData?.data?.data?.production,
-      country: country,
-      costCenter: hadData?.data?.data?.costCenter,
-      sales: hadData?.data?.data?.sale,
-      format: hadData?.data?.data?.format,
-      category: category,
-      ibu: hadData?.data?.data?.ibu,
-      product: hadData?.data?.data?.product,
-      reseller: hadData?.data?.data?.reseller,
-    });
-
-    loader("hide");
   };
   const libraryDetail = async () => {
+    loader("show");
     try {
-      loader("show");
       const hadData = await getData(
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
-      if (hadData?.data?.data?.pdfData?.tags?.length) {
+      if (hadData?.data?.data?.pdfData?.tags?.length &&  isJsonString(hadData?.data?.data?.pdfData?.tags)) {
         setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags));
         setFinalTags(JSON.parse(hadData?.data?.data?.pdfData?.tags));
       }
       if (hadData?.data?.data?.pdfData?.trail_user_type?.length) {
-        setHcpClickedFirst(
-          JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
-        );
+          if(hadData?.data?.data?.pdfData?.reader_mandatory == 1){
+            setHcpIrtClickedFirst(
+              JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
+            );
+          }else{
+              setHcpClickedFirst(
+                JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
+              );
+          }
       }
       setReseller(
-        hadData?.data?.data?.pdfData?.multiple_publisher
+        hadData?.data?.data?.pdfData?.multiple_publisher && isJsonString(hadData?.data?.data?.pdfData?.multiple_publisher)
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
           : []
       );
@@ -220,6 +240,7 @@ const EditLibrary = () => {
 
       loader("hide");
     } catch (err) {
+      loader("hide");
       console.log("-err", err);
     }
   };
@@ -228,14 +249,31 @@ const EditLibrary = () => {
     initalFun();
   }, []);
 
-  const removeHcp = (data) => {
-    const hcpData = hcpClickedFirst.filter((item) => item != data);
-    setHcpClickedFirst(hcpData);
+  // const removeHcp = (data) => {
+  //   const hcpData = hcpClickedFirst.filter((item) => item != data);
+  //   setHcpClickedFirst(hcpData);
+  // };
+  const removeHcp = (data,type="") => {
+    if(type=="irt"){
+      const hcpData = hcpIrtClickedFirst.filter((item) => item != data);
+      setHcpIrtClickedFirst(hcpData);
+    }else{
+      const hcpData = hcpClickedFirst.filter((item) => item != data);
+      setHcpClickedFirst(hcpData);
+    }
   };
 
   const hcpClicked = (dd) => {
     if (!hcpClickedFirst.includes(dd)) {
       setHcpClickedFirst((oldArray) => [...oldArray, dd]);
+    } else {
+      toast.error("Role already Selected.");
+    }
+  };
+
+  const hcpIrtClicked = (dd) => {
+    if (!hcpIrtClickedFirst.includes(dd)) {
+      setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
       toast.error("Role already Selected.");
     }
@@ -261,37 +299,42 @@ const EditLibrary = () => {
       toast.error("Please input a tag");
     } else {
       loader("show");
-      await postData(ENDPOINT.ADD_TAGS, {
-        product: newTag,
-        type: 2,
-      });
-      loader("hide");
-      let temp_tags = tagClickedFirst.map((data) => {
-        return data.toLowerCase();
-      });
-      let alltemp_tags = [];
-      Object.entries(allTags).map((data) => {
-        return alltemp_tags.push(...data);
-      });
-      alltemp_tags = alltemp_tags.map((data) => {
-        return data.toLowerCase();
-      });
+      try{
+          await postData(ENDPOINT.ADD_TAGS, {
+            product: newTag,
+            type: 2,
+          });
+          loader("hide");
+          let temp_tags = tagClickedFirst.map((data) => {
+            return data.toLowerCase();
+          });
+          let alltemp_tags = [];
+          Object.entries(allTags).map((data) => {
+            return alltemp_tags.push(...data);
+          });
+          alltemp_tags = alltemp_tags.map((data) => {
+            return data.toLowerCase();
+          });
 
-      if (
-        !temp_tags.includes(newTag.toLowerCase()) &&
-        !alltemp_tags.includes(newTag.toLowerCase())
-      ) {
-        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+          if (
+            !temp_tags.includes(newTag.toLowerCase()) &&
+            !alltemp_tags.includes(newTag.toLowerCase())
+          ) {
+            setTagClickedFirst((oldArray) => [...oldArray, newTag]);
 
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          tags: newTag,
-        };
-      } else {
-        toast.error("Tag already in list.");
+            const body = {
+              user_id: localStorage.getItem("user_id"),
+              tags: newTag,
+            };
+          } else {
+            toast.error("Tag already in list.");
+          }
+          setNewTag("");
+          setTagsCounter(tagsCounter + 1);
+      }catch(err){
+          loader("hide");
+          // console.log(err);
       }
-      setNewTag("");
-      setTagsCounter(tagsCounter + 1);
     }
   };
   const handleChange = (e, isSelectedName) => {
@@ -371,7 +414,7 @@ const EditLibrary = () => {
           userInputs?.reader_mandatory ?
             formData.append(
               "trail_user_type",
-              mandatoryRole?.length ? JSON.stringify(mandatoryRole) : ""
+              hcpIrtClickedFirst?.length ? JSON.stringify(hcpIrtClickedFirst) : ""
             )
           :
           formData.append(
@@ -469,7 +512,8 @@ const EditLibrary = () => {
         }
 
       } catch (err) {
-        console.log(err);
+        loader("hide");
+        // console.log(err);
       }
     }
   };
@@ -502,8 +546,13 @@ const EditLibrary = () => {
   const deleteRecord = async (i, id) => {
     if (id) {
       loader("show");
-      await deleteFormData(`${ENDPOINT.DELETE_PDF_FILE}/${id}`);
-      loader("hide");
+      try{
+        await deleteFormData(`${ENDPOINT.DELETE_PDF_FILE}/${id}`);
+        loader("hide");
+      }catch(err){
+        // console.log(err);
+        loader("hide");
+      }
     }
     const list = chapter;
 
@@ -520,12 +569,15 @@ const EditLibrary = () => {
     setChapter(list);
   };
 
-  const removeTagFinal = (index) => {
-    // const tags = finalTags;
+  const removeTagFinal = (index,status="") => {
+    // console.log("RemoveFinal Tags",status);
+    if(status == ""){
+      const tags = finalTags;
+      tags.splice(index, 1);
+      setFinalTags(tags);
+    }
     const tagsClickedFirst = tagClickedFirst;
-    // tags.splice(index, 1);
     tagsClickedFirst.splice(index, 1);
-    // setFinalTags(tags);
     setTagClickedFirst(tagsClickedFirst);
 
     setTagsReRender(tagsReRender + 1);
@@ -536,12 +588,16 @@ const EditLibrary = () => {
 
   const saveButtonClicked = async () => {
     loader("show");
-
+    // console.log("PHuncha");
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
-      let prev_tags = finalTags;
-      let new_tags = prev_tags.concat(tagClickedFirst);
-      const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
-      setFinalTags(uniqueTags);
+        if(typeof tagClickedFirst != "undefined" && tagClickedFirst.length > 0){
+            let prev_tags = finalTags;
+            let new_tags = prev_tags.concat(tagClickedFirst);
+            const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
+            setFinalTags(uniqueTags);
+        }else{
+          setFinalTags(tagClickedFirst);
+        }
     } else {
       setFinalTags(tagClickedFirst);
     }
@@ -1251,27 +1307,60 @@ const EditLibrary = () => {
                           </div>
                         ) : null}
                       </div>
-                      <div className="form-group">
-                        {userDetail?.user?.[0]?.flag == 0 &&
-                        userDetail?.user?.[0]?.group_id == 3 ? (
-                          <label htmlFor="">Sub title</label>
-                        ) : (
-                          <label htmlFor="">Journal title</label>
-                        )}
+                      {
+                        userDetail?.user?.[0]?.flag == 1 && userDetail?.user?.[0]?.group_id == 3
+                        ?
+                          <div className="form-group">
+                            <label htmlFor="">Comment</label>
+                            {
+                              /*<input
+                                type="text"
+                                name="journalTitle"
+                                defaultValue={userInputs?.journalTitle}
+                                className="form-control"
+                                onChange={(e) => handleChange(e)}
+                              />*/
+                            }
+                            <textarea
+                              className="form-control"
+                              id="formControlTextarea"
+                              name="journalTitle"
+                              rows="5"
+                              defaultValue={userInputs?.journalTitle}
+                              onChange={(e) => handleChange(e)}
+                              placeholder="Please type your comments here.."
+                            ></textarea>
 
-                        <input
-                          type="text"
-                          name="journalTitle"
-                          defaultValue={userInputs?.journalTitle}
-                          className="form-control"
-                          onChange={(e) => handleChange(e)}
-                        />
-                        {error?.journalTitle ? (
-                          <div className="login-validation">
-                            {error?.journalTitle}
+                            {error?.journalTitle ? (
+                              <div className="login-validation">
+                                {error?.journalTitle}
+                              </div>
+                            ) : null}
                           </div>
-                        ) : null}
-                      </div>
+                        :
+                        <div className="form-group">
+                          {userDetail?.user?.[0]?.flag == 0 &&
+                          userDetail?.user?.[0]?.group_id == 3 ? (
+                            <label htmlFor="">Sub title</label>
+                          ) : (
+                            <label htmlFor="">Journal title</label>
+                          )}
+
+                          <input
+                            type="text"
+                            name="journalTitle"
+                            defaultValue={userInputs?.journalTitle}
+                            className="form-control"
+                            onChange={(e) => handleChange(e)}
+                          />
+                          {error?.journalTitle ? (
+                            <div className="login-validation">
+                              {error?.journalTitle}
+                            </div>
+                          ) : null}
+                        </div>
+                      }
+
                       <div className="form-group">
                         <label htmlFor="">Author</label>
                         <input
@@ -1575,21 +1664,43 @@ const EditLibrary = () => {
                       userInputs?.reader_mandatory == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">
-                          <label htmlFor="">Role</label>
+                          <label htmlFor="">IRT Role</label>
                           <div className="input-group w-100">
                             <div className="tags_added">
                               <div className="select-tags">
-                                <div className="after-selected">
                                   <ul className="after-tag-selected sp">
                                     {mandatoryRole.map((item, index) => {
                                       return (
-                                        <li className="list1">
+                                        <li className="list1" onClick={() => {
+                                          hcpIrtClicked(item);
+                                        }}>
                                           {item}
                                         </li>
                                       );
                                     })}
                                   </ul>
-                                </div>
+                                  <div className="after-selected">
+                                    <ul className="after-tag-selected">
+                                      {hcpIrtClickedFirst.map((item, index) => {
+                                        return (
+                                          <>
+                                          {
+                                            mandatoryRole.includes(item) ?
+                                            <li className="list1">
+                                              {item}
+                                              <img
+                                                src="componentAssets/images/filter-close.svg"
+                                                alt="Close-filter"
+                                                onClick={() => removeHcp(item,"irt")}
+                                              />
+                                            </li> : null
+                                          }
+                                          </>
+
+                                        );
+                                      })}
+                                    </ul>
+                                  </div>
                               </div>
                             </div>
                           </div>
@@ -1691,7 +1802,12 @@ const EditLibrary = () => {
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
                                   <label htmlFor="">
-                                    Chapter title {i + 1}
+                                  {
+                                    localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                       "Chapter title"
+                                    :
+                                      "File title"
+                                  } {i + 1}
                                   </label>
                                   <input
                                     type="text"
@@ -1897,23 +2013,28 @@ const EditLibrary = () => {
                       ) : null} */}
                       </div>
                     </Col>
-                    <Col className="d-flex justify-content-end align-items-start right-change" md={6}>
-                      <div className="form-group justify-content-end">
-                        <label htmlFor="">
-                          Production notes to Docintel team
-                        </label>
-                        <textarea
-                          className="form-control"
-                          id="formControlTextarea"
-                          rows="5"
-                          defaultValue={userInputs?.productionNotes}
-                          onChange={(e) =>
-                            handleChange(e?.target.value, "productionNotes")
-                          }
-                          placeholder="Please type your notes here.."
-                        ></textarea>
-                      </div>
-                    </Col>
+
+                    {
+                      localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                      <Col className="d-flex justify-content-end align-items-start right-change" md={6}>
+                        <div className="form-group justify-content-end">
+                          <label htmlFor="">
+                            Production notes to Docintel team
+                          </label>
+                          <textarea
+                            className="form-control"
+                            id="formControlTextarea"
+                            rows="5"
+                            defaultValue={userInputs?.productionNotes}
+                            onChange={(e) =>
+                              handleChange(e?.target.value, "productionNotes")
+                            }
+                            placeholder="Please type your notes here.."
+                          ></textarea>
+                        </div>
+                      </Col>
+                      : null
+                    }
                   </Row>
                 </div>
               </div>
@@ -2098,7 +2219,7 @@ const EditLibrary = () => {
                       <img
                         src={path_image + "filter-close.svg"}
                         alt="Close-filter"
-                        onClick={() => removeTagFinal(index)}
+                        onClick={() => removeTagFinal(index,"remove")}
                       />
                     </div>
                   </>
