@@ -565,7 +565,7 @@ const Sidebar = () => {
                 </li>
               ) : null}
               {localStorage.getItem("user_id") ==
-              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ? null :
+              "56Ek4feL/1A8mZgIKQWEqg==" ? null :
               localStorage.getItem("group_id") == 2 ? null :
               (
                 <li
@@ -610,7 +610,10 @@ const Sidebar = () => {
                         fillOpacity="0.6"
                       />
                     </svg>
-                    <p>Products</p>
+                    {
+                      localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ? <p>Products & Topics</p> : <p>Products</p>
+                    }
+
                   </Link>
                 </li>
               )}
