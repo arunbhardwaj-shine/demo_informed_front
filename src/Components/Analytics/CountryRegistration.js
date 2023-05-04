@@ -26,7 +26,7 @@ const CountryRegistration = () => {
 
   let startMonth = new Date("March 2022");
   let endMonth = new Date();
-  let months = [];
+  let months = [{ value: 'All', label: 'All' }];
 
   while (startMonth <= endMonth) {
     let monthName = startMonth.toLocaleString("default", { month: "long" });
