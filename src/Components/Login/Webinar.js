@@ -406,10 +406,10 @@ const Webinar = () => {
                       </li>
                       <li>
                         <span>
-                          <img src={path_image + "build4.png"} alt="" />
+                          <img src={path_image + "diagram.png"} alt="" />
                         </span>
                         <p className="float-right">
-                          Our system creates automatic segmentation and emailing
+                          Our system creates automatic segmentation and AutoMail
                         </p>
                       </li>
                       <li>
@@ -417,8 +417,7 @@ const Webinar = () => {
                           <img src={path_image + "build5.png"} alt="" />
                         </span>
                         <p className="float-right">
-                          HCP’s can download Docintel app to watch previous
-                          webinars
+                          HCP’s can download Docintel app to watch previous webinars
                         </p>
                       </li>
                       <li>
@@ -426,8 +425,7 @@ const Webinar = () => {
                           <img src={path_image + "build6.png"} alt="" />
                         </span>
                         <p className="float-right">
-                          Personalise future invites and interactions based on
-                          RWE actions.
+                          Personalise future invites and interactions based on RWE.
                         </p>
                       </li>
                     </ul>
