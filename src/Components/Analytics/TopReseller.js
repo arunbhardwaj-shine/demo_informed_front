@@ -153,7 +153,7 @@ const TopReseller = () => {
       } else {
         setIsDataFound(true);
       }
-      const categories = hadData?.name?.sort();
+      const categories = hadData?.name;
 
       const newSeries = [
         {

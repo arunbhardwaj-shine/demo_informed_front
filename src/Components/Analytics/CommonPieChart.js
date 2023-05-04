@@ -6,6 +6,25 @@ exporting(Highcharts);
 exportData(Highcharts);
 
 const CommonPieChart = ({ data, value }) => {
+  Highcharts.setOptions({
+    colors: [
+      "#FFBE2C",
+      "#F58289",
+      "#d1d132",
+      "#D61975",
+      "#0066BE",
+      "#00003C",
+      "#b490f5",
+      "#7cb0dd",
+      "#9C9CA2",
+      "#91817e",
+      "#2b6570",
+
+      "#4f4566",
+      "#00D4C0",
+      "#32a1d1",
+    ],
+  });
   const series = [];
   data?.map((element, index) => {
     const newSeries = {
@@ -17,28 +36,10 @@ const CommonPieChart = ({ data, value }) => {
     series.push(newSeries);
   });
 
-  Highcharts.setOptions({
-    colors: [
-      "#FFBE2C",
-      "#F58289",
-      "#d1d132",
-      "#D61975",
-      "#0066BE",
-      "#00003C",
-      "#b490f5",
-      "#91817e",
-      "#2b6570",
-      "#9C9CA2",
-      "#7cb0dd",
-      "#4f4566",
-      "#00D4C0",
-      "#32a1d1",
-    ],
-  });
-
   const deliveryRegistrationPieOptions = {
     chart: {
       type: "pie",
+      height: "600",
     },
     title: {
       text: "Registration based on delivery",

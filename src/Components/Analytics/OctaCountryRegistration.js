@@ -220,6 +220,7 @@ const PieComponent = ({ data }) => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
+      height: "600",
     },
     title: {
       text: "",
