@@ -6,17 +6,6 @@ exporting(Highcharts);
 exportData(Highcharts);
 
 const CommonPieChart = ({ data, value }) => {
-  const series = [];
-  data?.map((element, index) => {
-    const newSeries = {
-      name: element,
-      y: value[index],
-      color: Highcharts.getOptions().colors[index],
-    };
-
-    series.push(newSeries);
-  });
-
   Highcharts.setOptions({
     colors: [
       "#FFBE2C",
@@ -35,6 +24,16 @@ const CommonPieChart = ({ data, value }) => {
       "#00D4C0",
       "#32a1d1",
     ],
+  });
+  const series = [];
+  data?.map((element, index) => {
+    const newSeries = {
+      name: element,
+      y: value[index],
+      color: Highcharts.getOptions().colors[index],
+    };
+
+    series.push(newSeries);
   });
 
   const deliveryRegistrationPieOptions = {
