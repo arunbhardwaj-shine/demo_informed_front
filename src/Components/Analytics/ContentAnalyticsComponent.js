@@ -99,10 +99,10 @@ export default function ContentAnalyticsComponent({ data }) {
                 <span>{data?.limit == 0 ? "Unlimited" : data?.limit}</span>
               </p>
             </div>
-            <div class="detail-box right">
-              <div class="detail-box-grid">
-                <div class="reparkive">
-                  <div class="reparkive-box">
+            <div className="detail-box right">
+              <div className="detail-box-grid">
+                <div className="reparkive">
+                  <div className="reparkive-box">
                     <p>
                       Upload date:{" "}
                       <span>
@@ -114,7 +114,7 @@ export default function ContentAnalyticsComponent({ data }) {
                       </span>
                     </p>
                   </div>
-                  <div class="reparkive-box second">
+                  <div className="reparkive-box second">
                     {pending_days === 0 ? (
                       <>
                         <span> Expired</span>
@@ -151,7 +151,7 @@ export default function ContentAnalyticsComponent({ data }) {
                       </ProgressBar>
                     </div> */}
                   </div>
-                  <div class="reparkive-box">
+                  <div className="reparkive-box">
                     <p>
                       Exp Date :
                       <span>
@@ -308,7 +308,7 @@ export default function ContentAnalyticsComponent({ data }) {
                         },
                         formatter: function () {
                           return (
-                            "<div class=" +
+                            "<div className=" +
                             this.series.name +
                             '><span style="font-weight: bold;">' +
                             this.x +
@@ -508,7 +508,7 @@ export default function ContentAnalyticsComponent({ data }) {
                           },
                           formatter: function () {
                             return (
-                              "<div class=" +
+                              "<div className=" +
                               this.series.name +
                               '><span style="font-weight: bold;">' +
                               this.x +
