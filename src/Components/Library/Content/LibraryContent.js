@@ -196,7 +196,7 @@ const LibraryContent = (props) => {
     if (e?.target?.checked == true) {
       if(key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
       key == "SPC Included" || key == "Blinded" || key == "Mandatory" || key == "List"  || key == "language"
-      || key == "Business Unit"
+      || key == "Business Unit" || key == "Platform" 
       ){
         filterObject[key] = [];
       }
@@ -856,7 +856,7 @@ const LibraryContent = (props) => {
                                                       type={
                                                         key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
                                                         key == "SPC Included" || key == "Blinded" || key == "Mandatory" || key == "List"
-                                                        || key == "language" || key == "Business Unit"
+                                                        || key == "language" || key == "Business Unit" || key == "Platform" 
                                                         ? "radio" : "checkbox" }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
