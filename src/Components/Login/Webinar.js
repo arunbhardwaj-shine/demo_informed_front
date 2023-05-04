@@ -26,6 +26,8 @@ const Webinar = () => {
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
+  const [videoImage, setVideoImage] = useState("");
   const [selctOptions, setSelectOptions] = useState([
     { value: "1", label: "1" },
     { value: "2", label: "2" },
@@ -216,6 +218,22 @@ const Webinar = () => {
         setErrorMsg(err?.response?.data?.message);
         loader("hide");
       }
+    }
+  };
+
+  const watchVideo = (slideType) => {
+    if(slideType == "slide1") {
+      setVideoUrl("https://informed.pro/webinar/assets/img/post-webinar.mp4");
+      setVideoImage("https://informed.pro/img/webinar/post-webinar.png");
+      setOpenVideoPopup(true);
+    }else if(slideType == "slide2") {
+      setVideoUrl("https://informed.pro/webinar/assets/img/audience-engagement.mp4");
+      setVideoImage("https://informed.pro/img/webinar/audience-engagement.png");
+      setOpenVideoPopup(true);
+    }else if(slideType == "slide3") {
+      setVideoUrl("https://informed.pro/webinar/assets/img/pre-webinar.mp4");
+      setVideoImage("https://informed.pro/img/webinar/pre-webinar.png");
+      setOpenVideoPopup(true);
     }
   };
 
@@ -512,7 +530,10 @@ const Webinar = () => {
                                           <img src={path_image + "down-arrow1.png"} alt=""/>
                                           </button>
                                           <div className="watch-demo-video">
-                                              <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
+                                              {
+                                                /*<a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>*/
+                                              }
+                                              <button className="watch-demo" onClick={(e) => watchVideo("slide1")}>Watch Video</button>
                                           </div>
                                        </div>
                                     </div>
@@ -551,8 +572,7 @@ const Webinar = () => {
                                           <img src={path_image + "down-arrow1.png"} alt=""/>
                                           </button>
                                           <div className="watch-demo-video">
-                                              <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
-
+                                              <button className="watch-demo" onClick={(e) => watchVideo("slide2")}>Watch Video</button>
                                           </div>
                                        </div>
                                     </div>
@@ -592,7 +612,7 @@ const Webinar = () => {
                                           <img src={path_image + "down-arrow1.png"} alt=""/>
                                           </button>
                                           <div className="watch-demo-video">
-                                             <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
+                                             <button className="watch-demo" onClick={(e) => watchVideo("slide3")}>Watch Video</button>
                                           </div>
                                        </div>
                                     </div>
@@ -961,6 +981,12 @@ const Webinar = () => {
           ></button>
         </Modal.Header>
         <Modal.Body>
+          {
+            videoUrl !== "" && videoImage !== "" ?
+              <ReactPlayer url={videoUrl} controls={true} width="100%" height="100%" playing={true} muted={true} light={videoImage}/>
+            : null
+          }
+
           {
             /*<Player playsInline poster={video_poster} src={video_url}>
               <BigPlayButton position="center" />
