@@ -464,7 +464,6 @@ const NewReaders = () => {
   };
 
   const onRoleChange = (e, i, index) => {
-    
     const consetValue = e.value;
     setSelectedRole((prev) => {
       const newSelectedSiteName = [...prev];
@@ -825,10 +824,14 @@ const NewReaders = () => {
 
     if (filterApplyflag > 0) {
       setApifilterObject({});
-      setFilterObject({});
+      let obj = {
+        status: ["Registered"],
+      };
+
+      setFilterObject(obj);
       setReaderDataList([]);
 
-      getReaderListData(page, {}, search);
+      getReaderListData(page, obj, search);
       setSearch("");
     }
     setShowFilter(false);
@@ -856,11 +859,18 @@ const NewReaders = () => {
     if (old_object2[key]?.length == 0) {
       delete old_object2[key];
     }
-
-    setFilterObject(old_object);
-    setApifilterObject(old_object2);
-    setReaderDataList([]);
-    getReaderListData(page, old_object);
+    if (Object.keys(old_object)?.length !== 0) {
+      setFilterObject(old_object);
+      setApifilterObject(old_object2);
+      setReaderDataList([]);
+      getReaderListData(page, old_object);
+    } else {
+      let obj = { status: ["Registered"] };
+      setFilterObject(obj);
+      setApifilterObject(old_object2);
+      setReaderDataList([]);
+      getReaderListData(page, obj);
+    }
   };
 
   const tabClicked = async (key, userId) => {
@@ -1774,13 +1784,22 @@ const NewReaders = () => {
                                             <Select
                                               options={change?.blind_type}
                                               value={
-                                                changeBlindedType?.[changeBlindedType.findIndex(el => el.index == data.id)]?.value == "blinded"
-                                                ? change?.blind_type[0]
-                                                : changeBlindedType?.[changeBlindedType.findIndex(el => el.index == data.id)]?.value == "unblinded"
-                                                ? change?.blind_type[1]
-                                                : data?.binded === "Yes"
-                                                ? change?.blind_type[0]
-                                                : change?.blind_type[1]
+                                                changeBlindedType?.[
+                                                  changeBlindedType.findIndex(
+                                                    (el) => el.index == data.id
+                                                  )
+                                                ]?.value == "blinded"
+                                                  ? change?.blind_type[0]
+                                                  : changeBlindedType?.[
+                                                      changeBlindedType.findIndex(
+                                                        (el) =>
+                                                          el.index == data.id
+                                                      )
+                                                    ]?.value == "unblinded"
+                                                  ? change?.blind_type[1]
+                                                  : data?.binded === "Yes"
+                                                  ? change?.blind_type[0]
+                                                  : change?.blind_type[1]
                                               }
                                               onChange={(event) =>
                                                 onBlindedChange(event, data.id)
@@ -1801,13 +1820,22 @@ const NewReaders = () => {
                                             <Select
                                               options={change?.irt}
                                               value={
-                                                changeIRTType?.[changeIRTType.findIndex(el => el.index == data.id)]?.value == 1
-                                                ? change?.irt[0]
-                                                : changeIRTType?.[changeIRTType.findIndex(el => el.index == data.id)]?.value == 0
-                                                ? change?.irt[1]
-                                                : data?.irt === "Yes"
-                                                ? change?.irt[0]
-                                                : change?.irt[1]
+                                                changeIRTType?.[
+                                                  changeIRTType.findIndex(
+                                                    (el) => el.index == data.id
+                                                  )
+                                                ]?.value == 1
+                                                  ? change?.irt[0]
+                                                  : changeIRTType?.[
+                                                      changeIRTType.findIndex(
+                                                        (el) =>
+                                                          el.index == data.id
+                                                      )
+                                                    ]?.value == 0
+                                                  ? change?.irt[1]
+                                                  : data?.irt === "Yes"
+                                                  ? change?.irt[0]
+                                                  : change?.irt[1]
                                               }
                                               onChange={(event) => {
                                                 onIrtChange(
@@ -1886,7 +1914,11 @@ const NewReaders = () => {
                                                       )
                                                 }
                                                 onChange={(event) =>
-                                                  onRoleChange(event, data.id,index)
+                                                  onRoleChange(
+                                                    event,
+                                                    data.id,
+                                                    index
+                                                  )
                                                 }
                                                 id={"role_" + data?.id}
                                                 className="dropdown-basic-button split-button-dropup"
