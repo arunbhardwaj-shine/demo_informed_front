@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Modal, Row, Table, Form, Accordion } from "react-bootstrap";
+import { Modal, Row, Table, Form, Accordion, Col } from "react-bootstrap";
 import { popup_alert } from "../../popup_alert";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData, deleteData } from "../../axios/apiHelper";
@@ -194,10 +194,10 @@ const SpcView = () => {
   };
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header sticky">
               <div className="page-title d-flex">
                 <Link
                   className="btn btn-primary btn-bordered back-btn"
@@ -636,7 +636,7 @@ const SpcView = () => {
             </div>
           </Row>
         </div>
-      </div>
+      </Col>
 
       <div className="delete">
         <CommonConfirmModel

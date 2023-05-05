@@ -14,6 +14,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import queryString from "query-string";
 import { getSelectedSmartListData } from "../../actions";
+import { Col, Row } from "react-bootstrap";
 const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -571,10 +572,10 @@ const EmailList = (props) => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
-          <div className="row">
-            <div className="top-header">
+          <Row>
+            <div className="top-header sticky">
               <div className="page-title">
                 <h2>Email</h2>
               </div>
@@ -1354,7 +1355,7 @@ const EmailList = (props) => {
                 )}
               </div>
             </div>
-          </div>
+          </Row>
         </div>
         {typeof SendListData !== "undefined" &&
           SendListData.length == 32 &&
@@ -1368,7 +1369,7 @@ const EmailList = (props) => {
               </button>
             </div>
           )}
-      </div>
+      </Col>
 
       <div>
         <Modal className="modal send-confirm" id="resend-confirm" show={isOpen}>
