@@ -1461,11 +1461,7 @@ const LibraryCreateUser = () => {
                             <div className="select-tags">
                                 <ul className="after-tag-selected">
                                   <>
-                                    <li className={hcpIrtClickedFirst.length == 3 ? "list1 all fade-down" : "list1 all fade-up"} onClick={() => {
-                                        hcpIrtClicked("All");
-                                      }}>
-                                      All
-                                    </li>
+                                    
                                     {mandatoryRole.map((item, index) => {
                                       return (
                                         <li className="list1" onClick={() => {
