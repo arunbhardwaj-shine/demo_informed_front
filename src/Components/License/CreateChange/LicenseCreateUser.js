@@ -1226,7 +1226,7 @@ const LicenseCreateUser = () => {
                           <>
                             <div className="form-group val chapter-title">
                               <div className="ebook-format">
-                                <label htmlFor="">Chapter title {i + 1}</label>
+                                <label htmlFor="">Chapter {i + 1} title</label>
                                 <input
                                   type="text"
                                   className="form-control"

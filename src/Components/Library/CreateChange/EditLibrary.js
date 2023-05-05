@@ -1369,16 +1369,20 @@ const EditLibrary = () => {
                         </div>
                       }
 
-                      <div className="form-group">
-                        <label htmlFor="">Author</label>
-                        <input
-                          type="text"
-                          name="keyAuthor"
-                          defaultValue={userInputs?.keyAuthor}
-                          className="form-control"
-                          onChange={handleChange}
-                        />
-                      </div>
+                      {
+                        localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                        <div className="form-group">
+                          <label htmlFor="">Author</label>
+                          <input
+                            type="text"
+                            name="keyAuthor"
+                            defaultValue={userInputs?.keyAuthor}
+                            className="form-control"
+                            onChange={handleChange}
+                          />
+                        </div> : null
+                      }
+
 
                       {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
@@ -1826,10 +1830,10 @@ const EditLibrary = () => {
                                   <label htmlFor="">
                                   {
                                     localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
-                                       "Chapter title"
+                                       "Chapter "
                                     :
-                                      "File title"
-                                  } {i + 1}
+                                      "File "
+                                  } {i + 1} title
                                   </label>
                                   <input
                                     type="text"

@@ -1206,16 +1206,19 @@ const LibraryCreateUser = () => {
                           ) : null}
                         </div>
                     }
+                    {
+                      localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                      <div className="form-group">
+                        <label htmlFor="">Author</label>
+                        <input
+                          type="text"
+                          name="keyAuthor"
+                          className="form-control"
+                          onChange={handleChange}
+                        />
+                      </div> : null
+                    }
 
-                    <div className="form-group">
-                      <label htmlFor="">Author</label>
-                      <input
-                        type="text"
-                        name="keyAuthor"
-                        className="form-control"
-                        onChange={handleChange}
-                      />
-                    </div>
 
                     {userDetail?.user?.[0]?.flag == 1 &&
                     userDetail?.user?.[0]?.group_id == 3 ? (
@@ -1583,11 +1586,11 @@ const LibraryCreateUser = () => {
                                 <label htmlFor="">
                                   {
                                     localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
-                                       "Chapter title"
+                                       "Chapter "
                                     :
-                                      "File title"
+                                      "File "
                                   }
-                                   {i + 1}
+                                   {i + 1} title
                                 </label>
                                 <input
                                   type="text"

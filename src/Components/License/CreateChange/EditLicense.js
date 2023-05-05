@@ -1386,7 +1386,7 @@ const EditLicense = () => {
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
                                   <label htmlFor="">
-                                    Chapter title {i + 1}
+                                    Chapter {i + 1} title 
                                   </label>
                                   <input
                                     type="text"
