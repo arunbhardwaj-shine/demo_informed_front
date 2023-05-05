@@ -12,6 +12,8 @@ import { loader } from "../../../loader";
 
 const ReaderEdit = () => {
   const { state } = useLocation();
+  const nameRef  = useRef(null);
+  const emailRef = useRef(null);
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
   const [groupId, setGroupId] = useState();
@@ -338,11 +340,16 @@ const ReaderEdit = () => {
     e.preventDefault();
 
     const result = AddReaderValidation(userInputs, groupId);
-
     if (Object.keys(result)?.length) {
+        if(Object.keys(result)[0] == "firstName") {
+          nameRef.current.focus();
+        }else if(Object.keys(result)[0] == "email"){
+          emailRef.current.focus();
+        }
       setError(result);
       return;
     } else {
+      return;
       try {
         loader("show");
         let data = {
@@ -543,11 +550,12 @@ const ReaderEdit = () => {
                           <Form.Label htmlFor="">First name *</Form.Label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={error?.firstName ? "form-control error" : "form-control" }
                             name="firstName"
                             defaultValue={userInputs?.firstName}
+                            ref={nameRef}
                             placeholder="First name"
-                            onChange={(e) => handleChange(e)}
+                            onInput={(e) => handleChange(e)}
                           />
 
                           {error?.firstName ? (
@@ -584,11 +592,12 @@ const ReaderEdit = () => {
                           <Form.Label htmlFor="">Primary email *</Form.Label>
                           <input
                             type="email"
-                            className="form-control"
+                            className={error?.email ? "form-control error" : "form-control"}
                             placeholder="example@email.com"
                             name="email"
+                            ref={emailRef}
                             defaultValue={userInputs?.email}
-                            onChange={(e) => handleChange(e)}
+                            onInput={(e) => handleChange(e)}
                           />
                           {error?.email ? (
                             <div className="login-validation">
@@ -681,7 +690,7 @@ const ReaderEdit = () => {
                     {userInputs?.country ? (
                       <>
                         <Form.Group className="form-group">
-                          <Form.Label htmlFor="">Country *</Form.Label>
+                          <Form.Label htmlFor="">Country <span>*</span></Form.Label>
 
                           <Select
                             options={countryAll}
@@ -691,7 +700,7 @@ const ReaderEdit = () => {
                               label: userInputs?.country,
                               value: userInputs?.country,
                             }}
-                            className="dropdown-basic-button split-button-dropup"
+                            className={error?.country ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
                             isClearable
                             onChange={(e) => handleChange(e?.value, "country")}
                           />

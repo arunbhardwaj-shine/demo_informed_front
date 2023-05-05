@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Button, Modal, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const ReaderAdd = () => {
+  const nameRef  = useRef(null);
+  const emailRef = useRef(null);
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -388,6 +390,11 @@ const ReaderAdd = () => {
     const result = AddReaderValidation(userInputs, groupId, flag);
 
     if (Object.keys(result)?.length) {
+        if(Object.keys(result)[0] == "firstName") {
+          nameRef.current.focus();
+        }else if(Object.keys(result)[0] == "email"){
+          emailRef.current.focus();
+        }
       setError(result);
       return;
     } else {
@@ -675,9 +682,10 @@ const ReaderAdd = () => {
                       <input
                         type="text"
                         placeholder="First name"
-                        className="form-control"
+                        className={error?.firstName ? "form-control error" : "form-control" }
+                        ref={nameRef}
                         name="firstName"
-                        onChange={(e) => handleChange(e)}
+                        onInput={(e) => handleChange(e)}
                       />
                       {error?.firstName ? (
                         <div className="login-validation">
@@ -712,10 +720,11 @@ const ReaderAdd = () => {
                       <Form.Label htmlFor="">Primary email <span>*</span></Form.Label>
                       <input
                         type="email"
-                        className="form-control"
+                        className={error?.email ? "form-control error" : "form-control"}
                         placeholder="example@email.com"
+                        ref={emailRef}
                         name="email"
-                        onChange={(e) => handleChange(e)}
+                        onInput={(e) => handleChange(e)}
                       />
                       {error?.email ? (
                         <div className="login-validation">{error?.email}</div>
@@ -788,7 +797,7 @@ const ReaderAdd = () => {
                           options={countryAll}
                           placeholder="Select country"
                           name="country"
-                          className="dropdown-basic-button split-button-dropup"
+                          className={error?.country ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
                           isClearable
                           onChange={(e) => handleChange(e?.value, "country")}
                         />
