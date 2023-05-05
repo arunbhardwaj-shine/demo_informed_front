@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,  useRef } from "react";
 import Select from "react-select";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -22,6 +22,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditLibrary = () => {
   const { state } = useLocation();
+  const titleFieldRef = useRef(null);
+  const limitFieldRef = useRef(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [show, setShow] = useState(false);
   const [allTags, setAllTags] = useState({});
@@ -380,6 +382,11 @@ const EditLibrary = () => {
     }
     const err = LibraryEditValidation(userInputs);
     if (Object.keys(err)?.length) {
+        if(Object.keys(err)[0] == "limit") {
+          limitFieldRef.current.focus();
+        }else if(Object.keys(err)[0] == "contentTitle"){
+          titleFieldRef.current.focus();
+        }
       setError(err);
       return;
     } else {
@@ -1134,6 +1141,8 @@ const EditLibrary = () => {
                   name="limit"
                   min="0"
                   defaultValue={Number(userInputs?.limit)}
+                  className={error?.limit ? "form-control error" : "form-control"}
+                  ref={limitFieldRef}
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
                   onChange={handleChange}
@@ -1299,11 +1308,12 @@ const EditLibrary = () => {
                   <Row>
                     <Col md={6}>
                       <div className="form-group val">
-                        <label htmlFor="">Content title *</label>
+                        <label htmlFor="">Content title <span>*</span></label>
                         <input
                           type="text"
                           name="contentTitle"
-                          className="form-control"
+                          className={error?.contentTitle ? "form-control error" : "form-control"}
+                          ref={titleFieldRef}
                           defaultValue={userInputs?.contentTitle}
                           onChange={(e) => {
                             handleChange(e);
@@ -1330,7 +1340,7 @@ const EditLibrary = () => {
                               />*/
                             }
                             <textarea
-                              className="form-control"
+                              className={error?.journalTitle ? "form-control error" : "form-control"}
                               id="formControlTextarea"
                               name="journalTitle"
                               rows="5"
@@ -1358,7 +1368,7 @@ const EditLibrary = () => {
                             type="text"
                             name="journalTitle"
                             defaultValue={userInputs?.journalTitle}
-                            className="form-control"
+                            className={error?.journalTitle ? "form-control error" : "form-control"}
                             onChange={(e) => handleChange(e)}
                           />
                           {error?.journalTitle ? (
@@ -1369,16 +1379,20 @@ const EditLibrary = () => {
                         </div>
                       }
 
-                      <div className="form-group">
-                        <label htmlFor="">Author</label>
-                        <input
-                          type="text"
-                          name="keyAuthor"
-                          defaultValue={userInputs?.keyAuthor}
-                          className="form-control"
-                          onChange={handleChange}
-                        />
-                      </div>
+                      {
+                        localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                        <div className="form-group">
+                          <label htmlFor="">Author</label>
+                          <input
+                            type="text"
+                            name="keyAuthor"
+                            defaultValue={userInputs?.keyAuthor}
+                            className="form-control"
+                            onChange={handleChange}
+                          />
+                        </div> : null
+                      }
+
 
                       {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
@@ -1730,9 +1744,9 @@ const EditLibrary = () => {
                       ) : null}
 
                       <div className="form-group val">
-                        <label htmlFor="">Docintel format *</label>
+                        <label htmlFor="">Docintel format <span>*</span></label>
                         <Select
-                          className="dropdown-basic-button split-button-dropup"
+                          className={error?.docintelFormat ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
                           options={ePrintType}
                           defaultValue={
                             userInputs?.docintelFormat == "pdf"
@@ -1763,7 +1777,7 @@ const EditLibrary = () => {
                                 type="file"
                                 name="file-6[]"
                                 id="file-6"
-                                className="inputfile inputfile-6"
+                                className={error?.uploadFile ? "inputfile inputfile-6 error" : "inputfile inputfile-6"}
                                 accept="application/pdf"
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
@@ -1826,10 +1840,10 @@ const EditLibrary = () => {
                                   <label htmlFor="">
                                   {
                                     localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
-                                       "Chapter title"
+                                       "Chapter "
                                     :
-                                      "File title"
-                                  } {i + 1}
+                                      "File "
+                                  } {i + 1} title
                                   </label>
                                   <input
                                     type="text"
@@ -1843,7 +1857,7 @@ const EditLibrary = () => {
                                         type="file"
                                         name={`file-${i}`}
                                         id={`file-${i}`}
-                                        className="inputfile inputfile-6"
+                                        className={error?.chapter?.[i] ? "inputfile inputfile-6 error" :"inputfile inputfile-6"}
                                         accept="application/pdf"
                                         onChange={(e) =>
                                           handleOnEbookChange(e, i)
@@ -2018,6 +2032,7 @@ const EditLibrary = () => {
                             ) : (
                               <p>
                                 Chnage your cover image <br />
+                                <span><i>Allowed formats PNG,JPEG</i></span><br />
                                 <span>(Recommended size 88 X 124)</span>
                               </p>
                             )}
@@ -2119,7 +2134,7 @@ const EditLibrary = () => {
                 video in{" "}
               </p>
               <Form.Group className="formgroup">
-                <Form.Label>Videos *</Form.Label>
+                <Form.Label>Videos <span>*</span></Form.Label>
                 {/* <ReactSelect
                   placeholder="Select your chapter"
                   className="dropdown-basic-button split-button-dropup"

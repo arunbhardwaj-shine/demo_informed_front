@@ -373,9 +373,9 @@ const LibraryContent = (props) => {
       setResetDataId(id);
       setCommonConfirmModelFun(() => resetCollection);
       setPopupMessage({
-        message1: " You are about to reset the collected data",
+        message1: " You are about to reset the collected data.",
         message2: "Are you sure you want to do this?",
-        footerButton: "Reset Collection",
+        footerButton: "Delete all data",
       });
       if (confirmationpopup) {
         setConfirmationPopup(false);
@@ -1312,7 +1312,7 @@ const LibraryContent = (props) => {
                                       <h6 className="tab-content-title">
                                         Unique Reader (total)
                                         <LinkWithTooltip
-                                          tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
+                                          tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser)."
                                         >
                                           <img
                                             src={
@@ -1674,7 +1674,7 @@ const LibraryContent = (props) => {
                                       state={{ pdfid: data.id }}
                                       className="footer-btn"
                                     >
-                                      Edit Docintel link
+                                      Edit link
                                     </Link>
                                     {
                                       localStorage.getItem("group_id") == 3 ?
@@ -1682,7 +1682,7 @@ const LibraryContent = (props) => {
                                         className="footer-btn"
                                         onClick={(e) => tagButtonClicked(data.id)}
                                       >
-                                        Add / Remove tags
+                                         Tags
                                       </Button>
                                       : null
                                     }
@@ -1805,13 +1805,13 @@ const LibraryContent = (props) => {
                                             </h6>
                                             <h6>
                                             {
-                                              data?.limit > 0? data?.limit: "Unlimted"
+                                              data?.limit > 0? data?.limit: "Unlimited"
                                             }
                                             </h6>
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              Enable
+                                              Enabled
                                             </h6>
                                             <h6>
                                               {

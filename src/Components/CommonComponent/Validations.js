@@ -6,6 +6,14 @@ export const createContent = (data, fileCheck, groupId = 2) => {
   // if (!data?.limitOfUsage) {
   //   error.limitOfUsage = "Limit of usage is required!";
   // }
+  if (groupId == 2 && !data?.limit) {
+    error.limit = "Limit is required";
+  } else if (groupId == 2 && data?.limit) {
+    if (data?.limit < 0) {
+      error.limit = "Limit must be greater than or equal to 0";
+    }
+  }
+  
   if (!data?.contentTitle) {
     error.contentTitle = "Content Title is required!";
   }
@@ -37,13 +45,6 @@ export const createContent = (data, fileCheck, groupId = 2) => {
 
 
 
-  if (groupId == 2 && !data?.limit) {
-    error.limit = "Limit is required";
-  } else if (groupId == 2 && data?.limit) {
-    if (data?.limit < 0) {
-      error.limit = "Limit must be greater than or equal to 0";
-    }
-  }
   if (!data?.docintelFormat) {
     error.docintelFormat = "Docintel Format is required!";
   } else if (data?.docintelFormat) {

@@ -1,8 +1,16 @@
 export const LibraryEditValidation = (data) => {
   let error = {};
 
+  if (!data?.limit?.toString()) {
+    error.limit = "Limit is required";
+  } else if (data?.limit) {
+    if (data?.limit < 0) {
+      error.limit = "Limit must be greater than or equal to 0";
+    }
+  }
+
   if (!data?.contentTitle) {
-    error.contentTitle = "Content Title is required!";
+    error.contentTitle = "Content title is required!";
   }
   if(data.hasOwnProperty('chapter')){
     data.chapter?.forEach((item,index) =>{
@@ -29,14 +37,6 @@ export const LibraryEditValidation = (data) => {
   //   }
   // }
 
-
-  if (!data?.limit?.toString()) {
-    error.limit = "Limit is required";
-  } else if (data?.limit) {
-    if (data?.limit < 0) {
-      error.limit = "Limit must be greater than or equal to 0";
-    }
-  }
 
   return error;
 };

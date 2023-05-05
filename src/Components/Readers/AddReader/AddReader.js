@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Button, Modal, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const ReaderAdd = () => {
+  const nameRef  = useRef(null);
+  const emailRef = useRef(null);
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -388,6 +390,11 @@ const ReaderAdd = () => {
     const result = AddReaderValidation(userInputs, groupId, flag);
 
     if (Object.keys(result)?.length) {
+        if(Object.keys(result)[0] == "firstName") {
+          nameRef.current.focus();
+        }else if(Object.keys(result)[0] == "email"){
+          emailRef.current.focus();
+        }
       setError(result);
       return;
     } else {
@@ -520,7 +527,7 @@ const ReaderAdd = () => {
         </Form.Group>
 
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Country *</Form.Label>
+          <Form.Label htmlFor="">Country <span>*</span></Form.Label>
           <Select
             options={countryAll}
             // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
@@ -671,13 +678,14 @@ const ReaderAdd = () => {
                 <div className="row">
                   <Col md="7">
                     <Form.Group className="form-group">
-                      <Form.Label htmlFor="">First name *</Form.Label>
+                      <Form.Label htmlFor="">First name <span>*</span></Form.Label>
                       <input
                         type="text"
                         placeholder="First name"
-                        className="form-control"
+                        className={error?.firstName ? "form-control error" : "form-control" }
+                        ref={nameRef}
                         name="firstName"
-                        onChange={(e) => handleChange(e)}
+                        onInput={(e) => handleChange(e)}
                       />
                       {error?.firstName ? (
                         <div className="login-validation">
@@ -709,13 +717,14 @@ const ReaderAdd = () => {
                       />
                     </Form.Group>
                     <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Primary email *</Form.Label>
+                      <Form.Label htmlFor="">Primary email <span>*</span></Form.Label>
                       <input
                         type="email"
-                        className="form-control"
+                        className={error?.email ? "form-control error" : "form-control"}
                         placeholder="example@email.com"
+                        ref={emailRef}
                         name="email"
-                        onChange={(e) => handleChange(e)}
+                        onInput={(e) => handleChange(e)}
                       />
                       {error?.email ? (
                         <div className="login-validation">{error?.email}</div>
@@ -738,7 +747,7 @@ const ReaderAdd = () => {
                           />
                         </Form.Group>
                         <Form.Group className="form-group primary_phone">
-                          <Form.Label htmlFor="">Primary phone *</Form.Label>
+                          <Form.Label htmlFor="">Primary phone </Form.Label>
                           <Select
                             options={countryCode}
                             className="dropdown-basic-button split-button-dropup"
@@ -783,12 +792,12 @@ const ReaderAdd = () => {
                       ""
                     ) : (
                       <Form.Group className="form-group">
-                        <Form.Label htmlFor="">Country *</Form.Label>
+                        <Form.Label htmlFor="">Country <span>*</span></Form.Label>
                         <Select
                           options={countryAll}
                           placeholder="Select country"
                           name="country"
-                          className="dropdown-basic-button split-button-dropup"
+                          className={error?.country ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
                           isClearable
                           onChange={(e) => handleChange(e?.value, "country")}
                         />
@@ -954,7 +963,7 @@ const ReaderAdd = () => {
                           <input
                             type="text"
                             name="repContact"
-                            placeholder="Who is Rep contact?"
+                            placeholder="Who is Internal contact?"
                             className="form-control"
                             onChange={(e) => handleChange(e)}
                           />
@@ -965,17 +974,22 @@ const ReaderAdd = () => {
                     )}
 
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
-                      <Form.Group className="form-group">
-                        <Form.Label htmlFor="">Select User Type</Form.Label>
-                        <Select
-                          options={userDetail?.userType}
-                          placeholder="Select province"
-                          name="userType"
-                          className="dropdown-basic-button split-button-dropup"
-                          isClearable
-                          onChange={(e) => handleChange(e?.value, "UserType")}
-                        />
-                      </Form.Group>
+                      <>
+                        {
+                            localStorage.getItem('user_id') != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                            <Form.Group className="form-group">
+                              <Form.Label htmlFor="">Select User Type</Form.Label>
+                              <Select
+                                options={userDetail?.userType}
+                                placeholder="Select province"
+                                name="userType"
+                                className="dropdown-basic-button split-button-dropup"
+                                isClearable
+                                onChange={(e) => handleChange(e?.value, "UserType")}
+                              />
+                            </Form.Group> : null
+                        }
+                      </>
                     ) : (
                       ""
                     )}

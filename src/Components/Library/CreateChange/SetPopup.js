@@ -439,7 +439,7 @@ const SetPopup = (props) => {
                     <div className="template_language">
                       <span>
                         Consent type
-                        <LinkWithTooltip tooltip="Select Popup Type.">
+                        <LinkWithTooltip tooltip="Please select if you want consent from the reader or not.">
                           <img
                             src={path_image + "info_circle_icon.svg"}
                             alt="refresh-btn"
@@ -517,7 +517,7 @@ const SetPopup = (props) => {
                     <div className="template_language">
                       <span>
                         Time
-                        <LinkWithTooltip tooltip="Select Popup Time.">
+                        <LinkWithTooltip tooltip="How much browsing time will the reader have before the pop-up shows?">
                           <img
                             src={path_image + "info_circle_icon.svg"}
                             alt="refresh-btn"
