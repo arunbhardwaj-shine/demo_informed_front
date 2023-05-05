@@ -420,7 +420,7 @@ const ContentDetail = () => {
                                                       ) !=
                                                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                                         <tr>
-                                                          <th>Enable</th>
+                                                          <th>Enabled</th>
                                                           <td>
                                                             {enableData?.enable
                                                               ? enableData?.enable

@@ -109,7 +109,8 @@
         margin-bottom: 4px;
       }
       p {
-        @include p;
+        font-size: 12px;
+        line-height: 14px;
         color: $library-box-heading;
         margin: 0 0 8px;
       }
@@ -129,7 +130,7 @@
       }
     }
     .tabs-data {
-      flex: 1 1;
+      flex: 0 0 auto;
       .nav-tabs {
         border: 0;
         margin: 0 -16px 0;
@@ -256,19 +257,91 @@
               flex: 0 0 93px;
             }
             .split-button-dropup {
-              width: 100%;
-              margin-right: 16px;
-              & > div {
-                &:nth-child(3) {
-                  max-width: 229px;
-                  padding: 3px 15px;
-                  & div {
-                    font-size: 14px;
-                    line-height: 16px;
-                  }
-                }
-              }
-            }
+	width: 100%;
+	margin-right: 16px;
+  > div {
+    &:nth-child(3) {
+	 max-width: 229px;
+	padding: 3px 15px;
+      @include split-btn;
+      cursor: pointer;
+	  & div {
+			font-size: 14px;
+			line-height: 16px;
+		  }
+      &:hover {
+        box-shadow: 0px 1px 6px rgb(0 102 190 /55%);
+      }
+    }
+  }
+  div {
+    &:nth-child(3) {
+      > div {
+        div {
+          font-size: 14px;
+          color: $primary-color;
+          font-weight: 400;
+        }
+        div[class*="-placeholder"] {
+          color: $light-gray;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+  .dropdown-menu {
+    @include split-btn-dropdown;
+    a.dropdown-item {
+      color: $dark-blue;
+      border-radius: 15px;
+      cursor: pointer;
+      margin: 0 0 2px;
+      word-break: break-word;
+      white-space: normal;
+      font-size: 14px;
+      line-height: 15px;
+      padding: 3px 7px;
+    }
+  }
+}
+.split-button-dropup {
+  > div {
+    &:nth-child(4) {
+      width: 100%;
+      border: 0.5px solid rgba(0, 102, 190, 0.06);
+      box-sizing: border-box;
+      box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+      border-radius: 15px;
+      width: 100%;
+      padding: 8px;
+      max-height: 170px;
+      background-color: $white;
+      background-clip: padding-box;
+      position: absolute;
+      overflow: hidden;
+      z-index: 99;
+      > div {
+        padding-right: 5px;
+        overflow-y: auto;
+        height:100%;
+        max-height: 150px;
+        div {
+          color: $primary-color;
+          font-size: 14px;
+          line-height: 17px;
+          padding: 0.3rem 1rem;
+          border-radius: 15px;
+          cursor: pointer;
+          margin: 0 0 2px;
+          word-break: break-word;
+          white-space: normal;
+        }
+      }
+    }
+    
+  }
+
+}
             .btn {
               padding: 8px 14px;
               min-width: 89px;
@@ -1064,8 +1137,8 @@ ul.tab-mail-list.data span.total-left small {
   .modal-footer {
     border: 0;
     justify-content: center;
-    padding-top: 8px;
-    padding-bottom: 22px;
+    padding-top: 14px;
+    padding-bottom: 24px;
     button {
       min-width: 106px;
     }
@@ -4036,6 +4109,9 @@ transform: translateY(-50%);
 .filter-by.nav-item.dropdown>button:focus {
     border: 0.5px solid transparent;
 }
+.selected-products-list .products-listing:first-letter {
+    text-transform: capitalize;
+}
 /**Analytics page End**/
 
 /***INFORMED***/
@@ -6006,7 +6082,7 @@ ul.tab-mail-list.data span.total-left {
     padding: 0 10px;
 }
 .create-change-content .login-validation, .create-change-content .login-validation-upload {
-    left: 166px !important;
+    left: 146px !important;
 }
 .custom-change {
     padding: 0 25px 0 25px;
@@ -6019,7 +6095,11 @@ ul.tab-mail-list.data span.total-left {
     padding: 30px 10px 30px;
     top: 82px;
 }
-
+.apply-filter {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 0;
+}
 .custom-change .library-content-box-layuot {
     padding: 0 10px;
 }
@@ -6078,6 +6158,22 @@ ul.tab-mail-list.data span.total-left {
   .library_create .library_create-box.spc {
     max-width: 31.3%;
   }
+  .chapter-btn-wrapper {
+    gap: 16px;
+}
+.content_details .smartlist-view .mailbox-table th, .crm-review-detail .tab-mail-list th, .content_details .smartlist-view .mailbox-table td, .crm-review-detail .tab-mail-list td {
+    font-size: 16px;
+    line-height: 19px;
+    padding-bottom: 6px;
+}
+.content_details .mail-recipt h6 {
+    font-size: 16px;
+    line-height: 19px;
+    margin: 0 0 10px;
+}
+button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
+    min-width: 102px;
+}
   .custom-change .create-change-content {
     max-width: 100%;
 }
@@ -6087,8 +6183,8 @@ ul.tab-mail-list.data span.total-left {
   .selected-products-list {
     padding: 20px 12px 0;
 }
-  .custom-change .library-content-box-layuot {
-    margin-top: 0px;
+.custom-change .library-content-box-layuot {
+    margin-top: 15px;
 }
 .custom-change .top-header.sticky, .custom-change .page-top-nav.sticky {
     padding: 24px 10px 24px;

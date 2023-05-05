@@ -325,7 +325,7 @@ const LicenseContentDetail = () => {
                                                   </td>
                                                 </tr>
                                                 <tr>
-                                                  <th>Enable</th>
+                                                  <th>Enabled</th>
                                                   <td>
                                                     {enableData?.enable
                                                       ? enableData?.enable
