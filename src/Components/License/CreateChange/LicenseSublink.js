@@ -538,7 +538,7 @@ const LicenseSublink = () => {
                                               <h6 className="tab-content-title">
                                                 Unique Reader (total)
                                                 <LinkWithTooltip
-                                                  tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
+                                                  tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser)."
                                                 >
                                                   <img
                                                     src={

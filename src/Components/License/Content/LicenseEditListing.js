@@ -366,9 +366,9 @@ const LicenseEditListing = () => {
       setResetDataId(id);
       setCommonConfirmModelFun(() => resetCollection);
       setPopupMessage({
-        message1: " You are about to reset the collected data",
+        message1: " You are about to reset the collected data.",
         message2: "Are you sure you want to do this?",
-        footerButton: "Reset Collection",
+        footerButton: "Delete all data",
       });
       if (confirmationpopup) {
         setConfirmationPopup(false);
@@ -1268,7 +1268,7 @@ const LicenseEditListing = () => {
                                       <h6 className="tab-content-title">
                                         Unique Reader (total)
                                         <LinkWithTooltip
-                                          tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
+                                          tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser)."
                                         >
                                           <img
                                             src={
@@ -1627,14 +1627,14 @@ const LicenseEditListing = () => {
                                     </h6>
                                     <h6>
                                       {
-                                        data?.limit > 0? data?.limit: "Unlimted"
+                                        data?.limit > 0? data?.limit: "Unlimited"
                                       }
                                     </h6>
                                   </li>
 
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Enable
+                                      Enabled
                                     </h6>
                                     <h6>
                                       {

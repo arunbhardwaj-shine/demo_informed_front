@@ -10,7 +10,7 @@ export const LibraryEditValidation = (data) => {
   }
 
   if (!data?.contentTitle) {
-    error.contentTitle = "Content Title is required!";
+    error.contentTitle = "Content title is required!";
   }
   if(data.hasOwnProperty('chapter')){
     data.chapter?.forEach((item,index) =>{
