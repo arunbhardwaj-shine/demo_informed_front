@@ -743,6 +743,17 @@
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
     flex: 0 0 130px;
 }
+.verify-email-detail-clear button {
+font-size: 12px;
+}
+.verify-email-detail-clear .info_btn button, .verify-email-detail-clear .info_btn a {
+margin-right: 9px;
+font-size: 13px;
+padding: 9px 15px;
+}
+.verify-email-detail-clear .info_btn {
+margin: 10px 0 10px;
+}
 input:-webkit-autofill {
 -webkit-text-fill-color: $primary-color !important;
 }
