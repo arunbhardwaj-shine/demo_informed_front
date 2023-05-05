@@ -995,7 +995,7 @@ const EditLicense = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="">Set limit of usage *</label>
+                <label htmlFor="">Set limit of usage <span>*</span></label>
                 <input
                   type="number"
                   name="limit"
@@ -1164,7 +1164,7 @@ const EditLicense = () => {
                   <div className="row">
                     <div className="col-12 col-md-6">
                       <div className="form-group val">
-                        <label htmlFor="">Content title *</label>
+                        <label htmlFor="">Content title <span>*</span></label>
                         <input
                           type="text"
                           name="contentTitle"
@@ -1305,7 +1305,7 @@ const EditLicense = () => {
                       ) : null}
 
                       <div className="form-group val">
-                        <label htmlFor="">Docintel format *</label>
+                        <label htmlFor="">Docintel format <span>*</span></label>
                         <Select
                           className={error?.docintelFormat ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
                           options={ePrintType}
@@ -1674,7 +1674,7 @@ const EditLicense = () => {
                 video in{" "}
               </p>
               <Form.Group className="formgroup">
-                <Form.Label>Videos *</Form.Label>
+                <Form.Label>Videos <span>*</span></Form.Label>
                 {/* <ReactSelect
                   placeholder="Select your chapter"
                   className="dropdown-basic-button split-button-dropup"
