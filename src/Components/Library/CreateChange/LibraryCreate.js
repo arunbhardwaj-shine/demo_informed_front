@@ -31,16 +31,20 @@ const data = [
   },
 ];
 
-// if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
-//     const newObj = {
-//       image: `${path_image}topics.png`,
-//       title: "Topics",
-//       subtitle: "Add new or delete an existing topic",
-//     };
-//     data.push(newObj);
-// }
+if(localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g=="){
+    const newObj = {
+      image: `${path_image}topics.png`,
+      title: "Topics",
+      subtitle: "Add new or delete an existing topic",
+    };
+    data.push(newObj);
+}
 
-
+// {
+//   image: `${path_image}topics.png`,
+//   title: "Topics",
+//   subtitle: "Add new or delete an existing topic",
+// },
 
 const LibraryCreate = () => {
   const navigate = useNavigate();

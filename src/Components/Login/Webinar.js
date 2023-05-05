@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { loader } from "../../loader";
+import ReactPlayer from 'react-player';
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,7 +14,11 @@ const Webinar = () => {
   const [userSignInInputs, setUserSignInInputs] = useState({});
   const [activeSection, setActiveSection] = useState('banner-section');
   const [signInModal, setSignInModal] = useState(false);
-  const [carousalStatus, setCarousalStatus] = useState(true);
+  const [carousalStatus, setCarousalStatus] = useState({
+    slide1 : true,
+    slide2 : true,
+    slide3 : true,
+  });
   const [privacyshow, setPrivacyshow] = useState(false);
   const [email, setEmail] = useState("");
   const [show, setShow] = useState(false);
@@ -21,6 +26,8 @@ const Webinar = () => {
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
+  const [videoImage, setVideoImage] = useState("");
   const [selctOptions, setSelectOptions] = useState([
     { value: "1", label: "1" },
     { value: "2", label: "2" },
@@ -111,7 +118,13 @@ const Webinar = () => {
     }
   }
   const changeSliderTab = (event) => {
-      var slide = event.target.getAttribute('data-slide-to');
+      if (event.target.tagName === 'IMG') {
+        const parentLi = event.target.parentNode;
+        var slide = parentLi.getAttribute('data-slide-to');
+      } else if (event.target.tagName === 'LI') {
+        var slide = event.target.getAttribute('data-slide-to');
+      }
+
       //var activeSlide = event.target.getAttribute('data-slide-active');
       var checkbox = document.getElementById('s' + slide);
       checkbox.checked = true; // Checks the box
@@ -124,8 +137,13 @@ const Webinar = () => {
       images.forEach(function(image) {
         image.classList.remove('active');
       });
+      if (event.target.tagName === 'IMG') {
+        const parentLi = event.target.parentNode;
+        parentLi.classList.add('active');
+      }else if (event.target.tagName === 'LI') {
+        event.target.classList.add('active');
+      }
 
-      event.target.classList.add('active');
       var labels = document.querySelectorAll('label');
       labels.forEach(function(label) {
         label.classList.remove('left-slide');
@@ -176,21 +194,6 @@ const Webinar = () => {
       }, 1000);
   }
 
-  document.addEventListener("click", function(event) {
-    if (event.target.classList.contains("img-fluid") && event.target.classList.contains("active")) {
-      let activeSlide = event.target.parentElement.getAttribute('for').replace('s', '');
-      let videoUrls = ['post-webinar.mp4', 'audience-engagement.mp4', 'pre-webinar.mp4'];
-      let imgUrl = ['post-webinar.png', 'audience-engagement.png', 'pre-webinar.png'];
-      let urlForActiveSlide = `https://informed.pro/webinar/assets/img/${videoUrls[activeSlide - 1]}`;
-      let activePosterUrl = '';
-      document.getElementById('mp4').src = urlForActiveSlide;
-      document.getElementById('mp4').poster = activePosterUrl;
-      document.getElementById('mp4').autoplay = true;
-      document.getElementById('video1').classList.add('show');
-    }
-  });
-
-
   // for send email forgetpassword
   const onSendEmail = async(event) => {
     event.preventDefault();
@@ -215,6 +218,22 @@ const Webinar = () => {
         setErrorMsg(err?.response?.data?.message);
         loader("hide");
       }
+    }
+  };
+
+  const watchVideo = (slideType) => {
+    if(slideType == "slide1") {
+      setVideoUrl("https://informed.pro/webinar/assets/img/post-webinar.mp4");
+      setVideoImage("https://informed.pro/img/webinar/post-webinar.png");
+      setOpenVideoPopup(true);
+    }else if(slideType == "slide2") {
+      setVideoUrl("https://informed.pro/webinar/assets/img/audience-engagement.mp4");
+      setVideoImage("https://informed.pro/img/webinar/audience-engagement.png");
+      setOpenVideoPopup(true);
+    }else if(slideType == "slide3") {
+      setVideoUrl("https://informed.pro/webinar/assets/img/pre-webinar.mp4");
+      setVideoImage("https://informed.pro/img/webinar/pre-webinar.png");
+      setOpenVideoPopup(true);
     }
   };
 
@@ -477,7 +496,7 @@ const Webinar = () => {
                                  <label htmlFor="s1" id="slide1">
                                     <img src={path_image + "post-webinar.png"} className="img-fluid" alt=""/>
                                     <div className="div-left-text caption-crausal">
-                                       <div className="caption-crausal-inside collapse show" id="slide_content">
+                                       <div className= {carousalStatus?.slide1 ? "caption-crausal-inside collapse show" : "caption-crausal-inside collapse"} id="slide_content">
                                           <p>
                                              <span className="caption-img">
                                              <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
@@ -508,11 +527,14 @@ const Webinar = () => {
                                           </p>
                                        </div>
                                        <div className="caption-crausal-footer">
-                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide_content">
+                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide_content" onClick={() => setCarousalStatus(carousalStatus => ({...carousalStatus,slide1: !carousalStatus.slide1,})) }>
                                           <img src={path_image + "down-arrow1.png"} alt=""/>
                                           </button>
                                           <div className="watch-demo-video">
-                                              <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
+                                              {
+                                                /*<a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>*/
+                                              }
+                                              <button className="watch-demo" onClick={(e) => watchVideo("slide1")}>Watch Video</button>
                                           </div>
                                        </div>
                                     </div>
@@ -520,8 +542,7 @@ const Webinar = () => {
                                  <label htmlFor="s2" id="slide2">
                                     <img src={path_image + "audience-engagement.png"} className="img-fluid" alt=""/>
                                     <div className="div-left-text caption-crausal">
-                                       <div className="caption-crausal-inside collapse show" id="slide_content_two">
-
+                                       <div className= {carousalStatus?.slide2 ? "caption-crausal-inside collapse show" : "caption-crausal-inside collapse"} id="slide_content_two">
                                           <p>
                                              <span className="caption-img">
                                              <img src={path_image + "slider-over-img.png"} alt="sdlc-icon"/>
@@ -548,12 +569,11 @@ const Webinar = () => {
                                           </p>
                                        </div>
                                        <div className="caption-crausal-footer">
-                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide_content_two">
+                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide_content_two" onClick={() => setCarousalStatus(carousalStatus => ({...carousalStatus,slide2: !carousalStatus.slide2,})) }>
                                           <img src={path_image + "down-arrow1.png"} alt=""/>
                                           </button>
                                           <div className="watch-demo-video">
-                                              <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
-
+                                              <button className="watch-demo" onClick={(e) => watchVideo("slide2")}>Watch Video</button>
                                           </div>
                                        </div>
                                     </div>
@@ -561,7 +581,7 @@ const Webinar = () => {
                                  <label htmlFor="s3" id="slide3" className="active">
                                     <img src={path_image + "pre-webinar.png"} className="img-fluid active" alt=""/>
                                     <div className="div-left-text caption-crausal">
-                                       <div className= {carousalStatus ? "caption-crausal-inside collapse show" : "caption-crausal-inside collapse"} id="slide-content3">
+                                       <div className= {carousalStatus?.slide3 ? "caption-crausal-inside collapse show" : "caption-crausal-inside collapse"} id="slide-content3">
                                        <div className="caption-crausal-inside-top">
                                              <span>1 WEEK</span>
                                              <p>Setup Time</p>
@@ -589,11 +609,11 @@ const Webinar = () => {
                                           </p>
                                        </div>
                                        <div className="caption-crausal-footer">
-                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide-content3" onClick={() => setCarousalStatus((carousalStatus) => !carousalStatus)}>
+                                          <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#slide-content3" onClick={() => setCarousalStatus(carousalStatus => ({...carousalStatus,slide3: !carousalStatus.slide3,})) }>
                                           <img src={path_image + "down-arrow1.png"} alt=""/>
                                           </button>
                                           <div className="watch-demo-video">
-                                             <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
+                                             <button className="watch-demo" onClick={(e) => watchVideo("slide3")}>Watch Video</button>
                                           </div>
                                        </div>
                                     </div>
@@ -962,6 +982,12 @@ const Webinar = () => {
           ></button>
         </Modal.Header>
         <Modal.Body>
+          {
+            videoUrl !== "" && videoImage !== "" ?
+              <ReactPlayer url={videoUrl} controls={true} width="100%" height="100%" playing={true} muted={true} light={videoImage}/>
+            : null
+          }
+
           {
             /*<Player playsInline poster={video_poster} src={video_url}>
               <BigPlayButton position="center" />
