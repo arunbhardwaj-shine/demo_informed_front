@@ -196,7 +196,7 @@ const LibraryContent = (props) => {
     if (e?.target?.checked == true) {
       if(key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
       key == "SPC Included" || key == "Blinded" || key == "Mandatory" || key == "List"  || key == "language"
-      || key == "Business Unit" || key == "Platform" 
+      || key == "Business Unit" || key == "Platform"
       ){
         filterObject[key] = [];
       }
@@ -373,9 +373,9 @@ const LibraryContent = (props) => {
       setResetDataId(id);
       setCommonConfirmModelFun(() => resetCollection);
       setPopupMessage({
-        message1: " You are about to reset the collected data",
+        message1: " You are about to reset the collected data.",
         message2: "Are you sure you want to do this?",
-        footerButton: "Reset Collection",
+        footerButton: "Delete all data",
       });
       if (confirmationpopup) {
         setConfirmationPopup(false);
@@ -856,7 +856,7 @@ const LibraryContent = (props) => {
                                                       type={
                                                         key == "draft" || key == "ibu" || key == "Selected By Articles"  ||
                                                         key == "SPC Included" || key == "Blinded" || key == "Mandatory" || key == "List"
-                                                        || key == "language" || key == "Business Unit" || key == "Platform" 
+                                                        || key == "language" || key == "Business Unit" || key == "Platform"
                                                         ? "radio" : "checkbox" }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
@@ -1143,7 +1143,7 @@ const LibraryContent = (props) => {
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
-                                        inforMedGo code
+                                        inforMedGO code
                                       </h6>
                                       <h6>
                                         {data?.rep_code}
@@ -1212,7 +1212,7 @@ const LibraryContent = (props) => {
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              Include
+                                              Enhanced
                                             </h6>
                                             <div className="include-links">
                                               {data?.spc_included ? (
@@ -1308,79 +1308,7 @@ const LibraryContent = (props) => {
                               >
                                 <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                                   <ul className="tab-mail-list data">
-                                    <li className="d-flex align-center">
-                                      <h6 className="tab-content-title">
-                                        Unique Reader (total)
-                                        <LinkWithTooltip
-                                          tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress send">
-                                        <ProgressBar
-                                          variant={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? "warning" : "default"
-                                          }
-                                          now={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique/
-                                						opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
-                                            :
-                                            "100"
-                                          }
-                                          label={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
-                                            :
-                                            "Loading"
-                                          }
-                                        />
-                                        <span>
-                                  				Agreed Limit |&nbsp;
-                                  				{
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "Unlimted"
-                                            :
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
-                                            :
-                                            "Unlimted"
-                                          }
-                                			  </span>
-                                      </div>
-                                      <span className="total-left">
-                                			  {
-                                          opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                          ?
-                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "Unlimted"
-                                          :
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
-                                          :
-                                          "Unlimted"
-                                        }
 
-                                        {
-                                          opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                          ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit != 1000
-                                          ?
-                                            <small>Left</small>
-                                          : null
-                                          : null
-                                        }
-                                			</span>
-                                    </li>
                                     <li>
                                       <h6 className="tab-content-title">
                                         Openings (total){" "}
@@ -1418,6 +1346,80 @@ const LibraryContent = (props) => {
                                               }
                                             />
                                         </div>
+                                    </li>
+
+                                    <li className="d-flex align-center">
+                                      <h6 className="tab-content-title">
+                                        Unique Reader (total)
+                                        <LinkWithTooltip
+                                          tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser)."
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <div className="data-progress send">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ? "warning" : "default"
+                                          }
+                                          now={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique/
+                                						opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
+                                            :
+                                            "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
+                                            :
+                                            "Loading"
+                                          }
+                                        />
+                                        <span>
+                                  				Agreed Limit :&nbsp;
+                                  				{
+                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                            ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "Unlimted"
+                                            :
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
+                                            :
+                                            "Unlimted"
+                                          }
+                                			  </span>
+                                      </div>
+                                      <span className="total-left">
+                                			  {
+                                          opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                          ?
+                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? null
+                                          :
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
+                                          :
+                                          null
+                                        }
+
+                                        {
+                                          opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                          ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit != 1000
+                                          ?
+                                            <small>Left</small>
+                                          : null
+                                          : null
+                                        }
+                                			</span>
                                     </li>
 
                                     {
@@ -1674,7 +1676,7 @@ const LibraryContent = (props) => {
                                       state={{ pdfid: data.id }}
                                       className="footer-btn"
                                     >
-                                      Edit Docintel link
+                                      Edit link
                                     </Link>
                                     {
                                       localStorage.getItem("group_id") == 3 ?
@@ -1682,7 +1684,7 @@ const LibraryContent = (props) => {
                                         className="footer-btn"
                                         onClick={(e) => tagButtonClicked(data.id)}
                                       >
-                                        Add / Remove tags
+                                         Tags
                                       </Button>
                                       : null
                                     }
@@ -1805,13 +1807,13 @@ const LibraryContent = (props) => {
                                             </h6>
                                             <h6>
                                             {
-                                              data?.limit > 0? data?.limit: "Unlimted"
+                                              data?.limit > 0? data?.limit: "Unlimited"
                                             }
                                             </h6>
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              Enable
+                                              Enabled
                                             </h6>
                                             <h6>
                                               {

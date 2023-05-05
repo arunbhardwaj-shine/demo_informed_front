@@ -270,6 +270,28 @@ const LicenseSublink = () => {
     setIdentifier(event.target.value);
   };
 
+  const changeFormatForPrint = (value) => {
+    let data = "";
+    if (value?.allow_print) {
+      data += "Print | ";
+    }
+    if (value?.allow_download) {
+      data += "Download | ";
+    }
+    if (value?.allow_share) {
+      data += "Share | ";
+    }
+    if (value?.chat_box) {
+      data += "Request | ";
+    }
+    if (data) {
+      data = data.trim().slice(0, -1);
+    }else{
+      data = "N/A"
+    }
+    return data;
+  }
+
   const navigate = useNavigate();
   return (
     <>
@@ -411,7 +433,7 @@ const LicenseSublink = () => {
                                             </li>
                                             <li>
                                               <h6 className="tab-content-title">
-                                                <strong>inforMedGo code</strong>
+                                                <strong>inforMedGO code</strong>
                                               </h6>
                                               <h6>
                                                 {articleData?.code}
@@ -487,7 +509,7 @@ const LicenseSublink = () => {
                                             </li>
                                             <li>
                                               <h6 className="tab-content-title">
-                                                <strong>Include</strong>
+                                                <strong>Enhanced</strong>
                                               </h6>
                                               <div className="include-links">
 
@@ -534,11 +556,53 @@ const LicenseSublink = () => {
                                       >
                                         <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                                           <ul className="tab-mail-list data">
+
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Openings (total){" "}
+                                                <LinkWithTooltip
+                                                  tooltip="Number of opening counts for specific article."
+                                                >
+                                                  <img
+                                                    src={
+                                                      path_image +
+                                                      "info_circle_icon.svg"
+                                                    }
+                                                    alt="refresh-btn"
+                                                  />
+                                                </LinkWithTooltip>
+                                              </h6>
+                                              {flag == 0 && userId == articleData?.id ? (
+                                                <div className="data-progress limited">
+                                                  <ProgressBar
+                                                    variant="default"
+                                                    now={100}
+                                                    label={"loading"}
+                                                  />
+                                                </div>
+                                              ) : (
+                                                opening_details?.map((details) => {
+                                                  if (details?.pdf_id == articleData?.id) {
+                                                    return (
+                                                      <>
+                                                        <div className="data-progress success-progress">
+                                                          <ProgressBar
+                                                            variant="success"
+                                                            now = {details.opening == 0 ? 0 : 100}
+                                                            label = {details?.opening}
+                                                          />
+                                                        </div>
+                                                      </>
+                                                    );
+                                                  }
+                                                })
+                                              )}
+                                            </li>
                                             <li className="d-flex align-center">
                                               <h6 className="tab-content-title">
                                                 Unique Reader (total)
                                                 <LinkWithTooltip
-                                                  tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
+                                                  tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser)."
                                                 >
                                                   <img
                                                     src={
@@ -580,61 +644,30 @@ const LicenseSublink = () => {
                                                             }
                                                           />
                                                           <span>
-                                                            Agreed Limit |&nbsp;
+                                                            Agreed Limit :&nbsp;
                                                             {details?.limit == 0
-                                                              ? 1000
-                                                              : details?.limit}
+                                                              ? "Unlimted"
+                                                              : details?.limit == 1000
+                                                              ? "Unlimted"
+                                                              : details?.limit
+                                                            }
                                                           </span>
                                                         </div>
                                                         <span className="total-left">
-                                                          {details?.limit == 0
-                                                            ? 1000 -
-                                                              details?.uniqueReader
-                                                            : details?.limit -
-                                                              details?.uniqueReader}
-                                                          <small>Left</small>
+                                                          {
+                                                            details?.limit == 0 || details?.limit == 1000
+                                                            ? ""
+                                                            :
+                                                            <>
+                                                              {details?.limit == 0
+                                                                ? 1000 -
+                                                                  details?.uniqueReader
+                                                                : details?.limit -
+                                                                  details?.uniqueReader}
+                                                              <small>Left</small>
+                                                            </>
+                                                          }
                                                         </span>
-                                                      </>
-                                                    );
-                                                  }
-                                                })
-                                              )}
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                Openings (total){" "}
-                                                <LinkWithTooltip
-                                                  tooltip="Number of opening counts for specific article."
-                                                >
-                                                  <img
-                                                    src={
-                                                      path_image +
-                                                      "info_circle_icon.svg"
-                                                    }
-                                                    alt="refresh-btn"
-                                                  />
-                                                </LinkWithTooltip>
-                                              </h6>
-                                              {flag == 0 && userId == articleData?.id ? (
-                                                <div className="data-progress limited">
-                                                  <ProgressBar
-                                                    variant="default"
-                                                    now={100}
-                                                    label={"loading"}
-                                                  />
-                                                </div>
-                                              ) : (
-                                                opening_details?.map((details) => {
-                                                  if (details?.pdf_id == articleData?.id) {
-                                                    return (
-                                                      <>
-                                                        <div className="data-progress success-progress">
-                                                          <ProgressBar
-                                                            variant="success"
-                                                            now = {details.opening == 0 ? 0 : 100}
-                                                            label = {details?.opening}
-                                                          />
-                                                        </div>
                                                       </>
                                                     );
                                                   }
@@ -735,86 +768,96 @@ const LicenseSublink = () => {
                                         title="Sales"
                                         className="flex-column justify-content-between"
                                       >
-                                        <div className="tab-panel">
-                                          <ul className="tab-mail-list">
+                                      <div className="tab-panel">
+                                        <ul className="tab-mail-list">
+                                        {localStorage.getItem("group_id") == 2 && (
+                                          <>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Sales person
+                                              </h6>
+                                              <h6>{articleData?.saleName ? articleData.saleName : "N/A" }</h6>
+                                            </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Production person
+                                              </h6>
+                                              <h6>{articleData?.productName ?  articleData.productName : "N/A"}</h6>
+                                            </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Client product
+                                              </h6>
+                                              <h6>{articleData?.product ?  articleData.product : "N/A"}</h6>
+                                            </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Country
+                                              </h6>
+                                              <h6>{articleData?.country ?  articleData.country : "N/A"}</h6>
+                                            </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Cost Center
+                                              </h6>
+                                              <h6>{articleData?.cost_center && articleData?.cost_center != 0 ?  articleData.cost_center : "N/A"}</h6>
+                                            </li>
+
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Client name
+                                              </h6>
+                                              <h6>{articleData?.company +" "+ articleData?.product + " " + articleData?.country}</h6>
+                                            </li>
+
+                                          </>
+                                        )}
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Usage limit
+                                          </h6>
+                                          <h6>
                                             {
-                                              articleData?.licensed == 1  &&(
-                                                <>
-                                                <li>
-                                                  <h6 className="tab-content-title">
-                                                    <strong>Sales person</strong>
-                                                  </h6>
-                                                  <h6>{articleData?.saleName}</h6>
-                                                </li>
-                                                <li>
-                                                  <h6 className="tab-content-title">
-                                                    <strong>Production person</strong>
-                                                  </h6>
-                                                  <h6>{articleData?.productName}</h6>
-                                                </li>
-                                                <li>
-                                                  <h6 className="tab-content-title">
-                                                    <strong>Client name</strong>
-                                                  </h6>
-                                                  <h6>{articleData?.company}</h6>
-                                                </li>
-                                                <li>
-                                                  <h6 className="tab-content-title">
-                                                    <strong>Client product</strong>
-                                                  </h6>
-                                                  <h6>{articleData?.product}</h6>
-                                                </li>
-                                                <li>
-                                                  <h6 className="tab-content-title">
-                                                    <strong>Client country</strong>
-                                                  </h6>
-                                                  <h6>{articleData?.country}</h6>
-                                                </li>
-                                                </>
-                                              )
+                                              articleData?.limit > 0? articleData?.limit: "Unlimited"
                                             }
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Opening limit</strong>
-                                              </h6>
-                                              <h6>{articleData?.limit}</h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Link type</strong>
-                                              </h6>
-                                              <h6>{articleData?.linkType}</h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Print</strong>
-                                              </h6>
-                                              <h6>{articleData?.allow_print ? "Yes" : "No" }</h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Download</strong>
-                                              </h6>
-                                              <h6>{articleData?.allow_download ? "Yes" : "No"}</h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Upload date</strong>
-                                              </h6>
-                                              <h6>{articleData?.uploadedDate}</h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Expiration date</strong>
-                                              </h6>
-                                              <h6>{
-                                                articleData?.expireDate
-                                                ? articleData.expireDate
-                                                : "N/A"
-                                              }</h6>
-                                            </li>
-                                          </ul>
-                                        </div>
+                                          </h6>
+                                        </li>
+
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Enabled
+                                          </h6>
+                                          <h6>
+                                            {
+                                              changeFormatForPrint(articleData)
+                                            }
+                                          </h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Link type
+                                          </h6>
+                                          <h6>{articleData?.linkType}</h6>
+                                        </li>
+
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Upload date
+                                          </h6>
+                                          <h6>{articleData?.uploadedDate}</h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Expiration date
+                                          </h6>
+                                          <h6>
+                                            {articleData?.expireDate
+                                              ? articleData.expireDate
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                        </ul>
+                                      </div>
                                       </Tab>
                                     </Tabs>
                                   </div>

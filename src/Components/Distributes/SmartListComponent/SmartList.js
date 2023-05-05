@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { loader } from "../../../loader";
 import { connect } from "react-redux";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Col, Modal, Row } from "react-bootstrap";
 import { getListId } from "../../../actions";
 import CreateSmartList from "./CreateSmartList";
 import { toast } from "react-toastify";
@@ -256,10 +256,10 @@ const SmartList = (props) => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
-          <div className="row">
-            <div className="top-header">
+          <Row>
+            <div className="top-header sticky">
               <div className="page-title">
                 <h2>Smart List</h2>
               </div>
@@ -810,9 +810,9 @@ const SmartList = (props) => {
                   </button>
                 </div>
               )}
-          </div>
+          </Row>
         </div>
-      </div>
+      </Col>
       {/*Modal for delete confrimaton start*/}
       <div className="delete">
         <Modal

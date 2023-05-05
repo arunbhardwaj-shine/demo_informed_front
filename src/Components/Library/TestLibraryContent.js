@@ -772,7 +772,7 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>inforMedGo code</strong>
+                                          <strong>inforMedGO code</strong>
                                         </h6>
                                         <h6>
                                           {data.code}
@@ -1133,10 +1133,10 @@ const LibraryContent = () => {
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn-wrapper">
                                       <Button className="footer-btn">
-                                        Edit Docintel Link
+                                        Edit Link
                                       </Button>
                                       <Button className="footer-btn">
-                                        Add / Remove Tags
+                                        Tags
                                       </Button>
                                       <Button className="footer-btn">
                                         New Sublink

@@ -3260,8 +3260,8 @@ form#add_hcp_form .row:not(:first-child) {
 /**Filter Dropdown**/
 .dropdown-menu.filter-options {
   top: 53px !important;
-  width: 316px;
-  max-width: 316px;
+  width: 440px;
+  max-width: 440px;
   right: 0;
   background: var(--white);
   box-shadow: 0px 3px 16px -3px rgb(0 102 190 / 51%);
@@ -7117,6 +7117,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .top-right-action .filter-by.nav-item.dropdown.highlight button.btn.btn-secondary.dropdown {
   color: #fff !important;
 }
+
 .DefaultLayout .default_page_not_found {
   width: 100%;
   align-items: center;

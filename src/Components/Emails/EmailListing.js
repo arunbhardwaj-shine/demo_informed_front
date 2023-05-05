@@ -14,6 +14,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import queryString from "query-string";
 import { getSelectedSmartListData } from "../../actions";
+import { Col, Row } from "react-bootstrap";
 const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -82,7 +83,9 @@ const EmailList = (props) => {
     series: [
       {
         name: "Email campaign",
-        data: [2, 3, 0],
+        data: [
+          {y: 2, color: '#8a4e9c'}, {y:3,color: '#ffbe2c'}, {y:0,color: '#39cabc'}
+        ],
       },
     ],
   });
@@ -99,9 +102,9 @@ const EmailList = (props) => {
       let getSpecificKeyData = SendListData.filter((p) => p.id == id);
       let valueupdate = options_ch;
       valueupdate.series[0].data = [
-        getSpecificKeyData[0].total_Sent,
-        getSpecificKeyData[0].total_Opened,
-        getSpecificKeyData[0].total_Click,
+        {y: getSpecificKeyData[0].total_Sent, color: '#8a4e9c'},
+        {y: getSpecificKeyData[0].total_Opened, color: '#ffbe2c'},
+        {y: getSpecificKeyData[0].total_Click, color: '#39cabc'}
       ];
       setOptions_ch(valueupdate);
       setviewEmailData(getSpecificKeyData);
@@ -569,10 +572,10 @@ const EmailList = (props) => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
-          <div className="row">
-            <div className="top-header">
+          <Row>
+            <div className="top-header sticky">
               <div className="page-title">
                 <h2>Email</h2>
               </div>
@@ -1352,7 +1355,7 @@ const EmailList = (props) => {
                 )}
               </div>
             </div>
-          </div>
+          </Row>
         </div>
         {typeof SendListData !== "undefined" &&
           SendListData.length == 32 &&
@@ -1366,7 +1369,7 @@ const EmailList = (props) => {
               </button>
             </div>
           )}
-      </div>
+      </Col>
 
       <div>
         <Modal className="modal send-confirm" id="resend-confirm" show={isOpen}>

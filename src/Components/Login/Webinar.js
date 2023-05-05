@@ -14,6 +14,7 @@ const Webinar = () => {
   const [userSignInInputs, setUserSignInInputs] = useState({});
   const [activeSection, setActiveSection] = useState('banner-section');
   const [signInModal, setSignInModal] = useState(false);
+  const [mapbutton, setMapbutton] = useState(false);
   const [carousalStatus, setCarousalStatus] = useState({
     slide1 : true,
     slide2 : true,
@@ -26,6 +27,8 @@ const Webinar = () => {
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
+  const [videoImage, setVideoImage] = useState("");
   const [selctOptions, setSelectOptions] = useState([
     { value: "1", label: "1" },
     { value: "2", label: "2" },
@@ -219,9 +222,26 @@ const Webinar = () => {
     }
   };
 
+  const watchVideo = (slideType) => {
+    if(slideType == "slide1") {
+      setVideoUrl("https://informed.pro/webinar/assets/img/post-webinar.mp4");
+      setVideoImage("https://informed.pro/img/webinar/post-webinar.png");
+      setOpenVideoPopup(true);
+    }else if(slideType == "slide2") {
+      setVideoUrl("https://informed.pro/webinar/assets/img/audience-engagement.mp4");
+      setVideoImage("https://informed.pro/img/webinar/audience-engagement.png");
+      setOpenVideoPopup(true);
+    }else if(slideType == "slide3") {
+      setVideoUrl("https://informed.pro/webinar/assets/img/pre-webinar.mp4");
+      setVideoImage("https://informed.pro/img/webinar/pre-webinar.png");
+      setOpenVideoPopup(true);
+    }
+  };
+
   return (
     <>
-      <header className="header">
+      <div className="informed">
+      <div className="informed-header header">
         <div className="custom-container">
          <Navbar expand="lg" className='webinar-nav'>
           <Navbar.Brand href="#home">
@@ -284,7 +304,7 @@ const Webinar = () => {
             </Navbar.Collapse>
         </Navbar>
         </div>
-      </header>
+      </div>
       {/* ---------------header section ends here------------- */}
       {/* ---------------banner section start here------------- */}
       <div className="fixed_div"></div>
@@ -512,7 +532,10 @@ const Webinar = () => {
                                           <img src={path_image + "down-arrow1.png"} alt=""/>
                                           </button>
                                           <div className="watch-demo-video">
-                                              <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
+                                              {
+                                                /*<a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>*/
+                                              }
+                                              <button className="watch-demo" onClick={(e) => watchVideo("slide1")}>Watch Video</button>
                                           </div>
                                        </div>
                                     </div>
@@ -551,8 +574,7 @@ const Webinar = () => {
                                           <img src={path_image + "down-arrow1.png"} alt=""/>
                                           </button>
                                           <div className="watch-demo-video">
-                                              <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
-
+                                              <button className="watch-demo" onClick={(e) => watchVideo("slide2")}>Watch Video</button>
                                           </div>
                                        </div>
                                     </div>
@@ -592,7 +614,7 @@ const Webinar = () => {
                                           <img src={path_image + "down-arrow1.png"} alt=""/>
                                           </button>
                                           <div className="watch-demo-video">
-                                             <a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>
+                                             <button className="watch-demo" onClick={(e) => watchVideo("slide3")}>Watch Video</button>
                                           </div>
                                        </div>
                                     </div>
@@ -774,8 +796,8 @@ const Webinar = () => {
               <h3>Case Examples</h3>
               <div className="map_buttons">
                 <ul>
-                    <li><Button className="map-button active"id="mapButton">Single</Button></li>
-                    <li><Button className="map-button"  id="compareButton">Compare</Button></li>
+                    <li><Button className= {mapbutton ? "map-button" : "map-button active"} id="mapButton" onClick={(e) => setMapbutton(false)}>Single</Button></li>
+                    <li><Button className= {mapbutton ? "map-button active" : "map-button"}  id="compareButton"  onClick={(e) => setMapbutton(true)}>Compare</Button></li>
                 </ul>
               </div>
             </div>
@@ -942,7 +964,7 @@ const Webinar = () => {
           </li>
         </ul> */}
       </div>
-
+</div>
 
       {/*Start Video Modal Functionality*/}
       <Modal
@@ -961,6 +983,12 @@ const Webinar = () => {
           ></button>
         </Modal.Header>
         <Modal.Body>
+          {
+            videoUrl !== "" && videoImage !== "" ?
+              <ReactPlayer url={videoUrl} controls={true} width="100%" height="100%" playing={true} muted={true} light={videoImage}/>
+            : null
+          }
+
           {
             /*<Player playsInline poster={video_poster} src={video_url}>
               <BigPlayButton position="center" />

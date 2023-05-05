@@ -158,7 +158,7 @@ const LicenseContentDetail = () => {
                                     />
                                     <div className="verify-email-detail-clear">
                                       <h6>
-                                        <strong>Content Title | </strong>
+                                        <strong>Content title | </strong>
                                         {data?.title ? data?.title : "N/A"}
                                       </h6>
                                       <h6>
@@ -325,11 +325,24 @@ const LicenseContentDetail = () => {
                                                   </td>
                                                 </tr>
                                                 <tr>
-                                                  <th>Enable</th>
+                                                  <th>Enabled</th>
                                                   <td>
                                                     {enableData?.enable
                                                       ? enableData?.enable
                                                       : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>inforMedGO code</th>
+                                                  <td>
+                                                    {data?.rep_code}
+                                                  </td>
+                                                </tr>
+
+                                                <tr>
+                                                  <th>Docintel code</th>
+                                                  <td>
+                                                    {data?.docintel_code}
                                                   </td>
                                                 </tr>
                                                 <tr>
@@ -382,7 +395,7 @@ const LicenseContentDetail = () => {
                                   </div>
 
                                   <div className="col-12 col-md-4 mail-recipt-left">
-                                    <h6>Creating the eprint </h6>
+                                    <h6>About the Docintel Link </h6>
                                     <div className="smartlist-view email_box_outer">
                                       <div className="smartlist-view email_box">
                                         <div className="mail-box-content">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -22,6 +22,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditLicense = () => {
   const { state } = useLocation();
+  const titleFieldRef = useRef(null);
+  const limitFieldRef = useRef(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [show, setShow] = useState(false);
   const [allTags, setAllTags] = useState({});
@@ -285,6 +287,11 @@ const EditLicense = () => {
     const err = LibraryEditValidation(userInputs);
 
     if (Object.keys(err)?.length) {
+        if(Object.keys(err)?.[0] == "limit") {
+          limitFieldRef.current.focus();
+        }else if(Object.keys(err)?.[0] == "contentTitle"){
+          titleFieldRef.current.focus();
+        }
       setError(err);
       return;
     } else {
@@ -988,13 +995,14 @@ const EditLicense = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="">Set limit of usage</label>
+                <label htmlFor="">Set limit of usage <span>*</span></label>
                 <input
                   type="number"
                   name="limit"
                   min="0"
+                  ref={limitFieldRef}
                   defaultValue={Number(userInputs?.limit)}
-                  className="form-control"
+                  className={error?.limit ? "form-control error" : "form-control"}
                   placeholder="“0” value means unlimited limit"
                   onChange={handleChange}
                 />
@@ -1156,12 +1164,13 @@ const EditLicense = () => {
                   <div className="row">
                     <div className="col-12 col-md-6">
                       <div className="form-group val">
-                        <label htmlFor="">Content title *</label>
+                        <label htmlFor="">Content title <span>*</span></label>
                         <input
                           type="text"
                           name="contentTitle"
-                          className="form-control"
+                          className={error?.contentTitle ? "form-control error" : "form-control"}
                           defaultValue={userInputs?.contentTitle}
+                          ref={titleFieldRef}
                           onChange={(e) => {
                             handleChange(e);
                           }}
@@ -1184,7 +1193,7 @@ const EditLicense = () => {
                           type="text"
                           name="journalTitle"
                           defaultValue={userInputs?.journalTitle}
-                          className="form-control"
+                          className={error?.journalTitle ? "form-control error" : "form-control"}
                           onChange={(e) => handleChange(e)}
                         />
                         {error?.journalTitle ? (
@@ -1296,9 +1305,9 @@ const EditLicense = () => {
                       ) : null}
 
                       <div className="form-group val">
-                        <label htmlFor="">Docintel format *</label>
+                        <label htmlFor="">Docintel format <span>*</span></label>
                         <Select
-                          className="dropdown-basic-button split-button-dropup"
+                          className={error?.docintelFormat ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
                           options={ePrintType}
                           defaultValue={
                             userInputs?.docintelFormat === "pdf"
@@ -1329,7 +1338,7 @@ const EditLicense = () => {
                                 type="file"
                                 name="file-6[]"
                                 id="file-6"
-                                className="inputfile inputfile-6"
+                                className={error?.uploadFile ? "inputfile inputfile-6 error" : "inputfile inputfile-6"}
                                 accept="application/pdf"
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
@@ -1386,7 +1395,7 @@ const EditLicense = () => {
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
                                   <label htmlFor="">
-                                    Chapter title {i + 1}
+                                    Chapter {i + 1} title
                                   </label>
                                   <input
                                     type="text"
@@ -1400,7 +1409,7 @@ const EditLicense = () => {
                                         type="file"
                                         name={`file-${i}`}
                                         id={`file-${i}`}
-                                        className="inputfile inputfile-6"
+                                        className={error?.chapter?.[i] ? "inputfile inputfile-6 error" :"inputfile inputfile-6"}
                                         accept="application/pdf"
                                         onChange={(e) =>
                                           handleOnEbookChange(e, i)
@@ -1568,6 +1577,7 @@ const EditLicense = () => {
                             ) : (
                               <p>
                                 Chnage your cover image <br />
+                                <span><i>Allowed formats PNG,JPEG</i></span><br />
                                 <span>(Recommended size 88 X 124)</span>
                               </p>
                             )}
@@ -1664,7 +1674,7 @@ const EditLicense = () => {
                 video in{" "}
               </p>
               <Form.Group className="formgroup">
-                <Form.Label>Videos *</Form.Label>
+                <Form.Label>Videos <span>*</span></Form.Label>
                 {/* <ReactSelect
                   placeholder="Select your chapter"
                   className="dropdown-basic-button split-button-dropup"
