@@ -79,11 +79,13 @@ function LibraryTopics() {
             product: newValue?.newProductValue,
           });
           loader("hide");
+
           initFun();
         } catch (err) {
           loader("hide");
         }
       }
+      setTopicId("");
     }
   };
   const handleConfirmModel = async (id) => {
