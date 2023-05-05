@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Tooltip from "react-bootstrap/Tooltip";
 import { popup_alert } from "../../../popup_alert";
+import moment from "moment";
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import {postData, getData} from "../../../axios/apiHelper";
@@ -255,6 +256,29 @@ const LibrarySublink = () => {
     }
   };
 
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
+  };
+
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
       <OverlayTrigger
@@ -271,6 +295,28 @@ const LibrarySublink = () => {
   const onIdentifierChange = (event) => {
     setIdentifier(event.target.value);
   };
+
+  const changeFormatForPrint = (value) => {
+    let data = "";
+    if (value?.allow_print) {
+      data += "Print | ";
+    }
+    if (value?.allow_download) {
+      data += "Download | ";
+    }
+    if (value?.allow_share) {
+      data += "Share | ";
+    }
+    if (value?.chat_box) {
+      data += "Request | ";
+    }
+    if (data) {
+      data = data.trim().slice(0, -1);
+    }else{
+      data = "N/A"
+    }
+    return data;
+  }
 
   const navigate = useNavigate();
   return (
@@ -382,18 +428,17 @@ const LibrarySublink = () => {
                                       >
                                         <div className="tab-panel d-flex flex-column justify-content-between">
                                           <div className="tab-content-links">
-                                            <a href={articleData?.docintelLink} className="doc-link" target="_blank">
+                                            <a
+                                              href={articleData?.docintelLink}
+                                              className="doc-link"
+                                              target="_blank"
+                                            >
                                               {articleData?.docintelLink}
                                             </a>
                                             <span
                                               className="copy-content"
                                               onClick={() => {
-                                                toast.success(
-                                                  "content copied to the clipboard!"
-                                                );
-                                                window.navigator.clipboard.writeText(
-                                                  articleData?.docintelLink
-                                                );
+                                                copyToClipboard(articleData?.docintelLink);
                                               }}
                                             >
                                               <img
@@ -405,126 +450,123 @@ const LibrarySublink = () => {
                                           <ul className="tab-mail-list">
                                             <li>
                                               <h6 className="tab-content-title">
-                                                <strong>Upload date</strong>
+                                                Upload date
                                               </h6>
                                               <h6>
-                                                {articleData?.uploadedDate}
-                                              </h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>inforMedGo code</strong>
-                                              </h6>
-                                              <h6>
-                                                {articleData?.code}
-                                                <span
-                                                  className="copy-content"
-                                                  onClick={() => {
-                                                    toast.success(
-                                                      "content copied to the clipboard!"
-                                                    );
-                                                    navigator.clipboard.writeText(
-                                                      articleData?.code
-                                                    );
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={
-                                                      path_image + "copy-content.svg"
-                                                    }
-                                                    alt="Copy"
-                                                  />
-                                                </span>
-                                              </h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Docintel code</strong>
-                                              </h6>
-                                              <h6>
-                                                {articleData?.docintel_code}
-                                                <span
-                                                  className="copy-content"
-                                                  onClick={() => {
-                                                    toast.success(
-                                                      "content copied to the clipboard!"
-                                                    );
-                                                    navigator.clipboard.writeText(
-                                                      articleData?.docintel_code
-                                                    );
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={
-                                                      path_image + "copy-content.svg"
-                                                    }
-                                                    alt="Copy"
-                                                  />
-                                                </span>
-                                              </h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>SPC included</strong>
-                                              </h6>
-                                              <h6>
-                                                {articleData?.spc_included == 0
-                                                  ? "No"
-                                                  : "Yes"}
-                                              </h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Language</strong>
-                                              </h6>
-                                              <h6>No</h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Link type</strong>
-                                              </h6>
-                                              <h6>
-                                                {articleData?.linkType}
-                                              </h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Include</strong>
-                                              </h6>
-                                              <div className="include-links">
-
-                                                {
-                                                  articleData?.spc_included ?
-                                                    <img
-                                                      src={path_image + "spc-img.png"}
-                                                      alt=""
-                                                    />
-                                                  :""
-                                                }
-
-                                                {
-                                                  articleData?.linkRelations ?
-                                                    <img
-                                                      src={path_image + "video-img.png"}
-                                                      alt=""
-                                                    />
-                                                  :""
-                                                }
-                                                {
-                                                  articleData?.pdfLinks ?
-                                                    <img
-                                                      src={path_image + "link-img.png"}
-                                                      alt=""
-                                                    />
-                                                  :""
-                                                }
-
-                                                {articleData.spc_included == 0 && articleData.linkRelations ==0 && articleData.pdfLinks ==0 && (
-                                                  <h6>N/A</h6>
+                                                {moment(articleData?.created).format(
+                                                  "DD MMM, YYYY"
                                                 )}
-
-                                              </div>
+                                              </h6>
                                             </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                inforMedGO code
+                                              </h6>
+                                              <h6>
+                                                {articleData?.rep_code}
+                                                <span
+                                                  className="copy-content"
+                                                  onClick={() => {
+                                                    copyToClipboard(articleData?.rep_code);
+                                                  }}
+                                                >
+                                                  <img
+                                                    src={
+                                                      path_image + "copy-content.svg"
+                                                    }
+                                                    alt="Copy"
+                                                  />
+                                                </span>
+                                              </h6>
+                                            </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Docintel code
+                                              </h6>
+                                              <h6>
+                                                {articleData.docintel_code}
+                                                {
+                                                  <span
+                                                    className="copy-content"
+                                                    onClick={() => {
+                                                      copyToClipboard(
+                                                        articleData?.docintel_code
+                                                      );
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={
+                                                        path_image + "copy-content.svg"
+                                                      }
+                                                      alt="Copy"
+                                                    />
+                                                  </span>
+                                                }
+                                              </h6>
+                                            </li>
+                                            {/* <li>
+                                              <h6 className="tab-content-title">
+                                                SPC included
+                                              </h6>
+                                              <h6>
+                                                {articleData?.spc_included == 0 ? "No" : "Yes"}
+                                              </h6>
+                                            </li> */}
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Language
+                                              </h6>
+                                              <h6>{articleData?.popup_email_content_language?articleData?.popup_email_content_language:"No"}</h6>
+                                            </li>
+                                            {
+                                              localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                              <>
+                                                  <li>
+                                                    <h6 className="tab-content-title">
+                                                      Link type
+                                                    </h6>
+                                                    <h6>{articleData?.linkType}</h6>
+                                                  </li>
+                                                  <li>
+                                                    <h6 className="tab-content-title">
+                                                      Enhanced
+                                                    </h6>
+                                                    <div className="include-links">
+                                                      {articleData?.spc_included ? (
+                                                        <img
+                                                          src={path_image + "spc-img.png"}
+                                                          alt=""
+                                                        />
+                                                      ) : (
+                                                        ""
+                                                      )}
+
+                                                      {articleData?.linkRelations ? (
+                                                        <img
+                                                          src={path_image + "video-img.png"}
+                                                          alt=""
+                                                        />
+                                                      ) : (
+                                                        ""
+                                                      )}
+                                                      {articleData?.pdfLinks ? (
+                                                        <img
+                                                          src={path_image + "link-img.png"}
+                                                          alt=""
+                                                        />
+                                                      ) : (
+                                                        ""
+                                                      )}
+
+                                                      {articleData.spc_included == 0 &&
+                                                        articleData.linkRelations == 0 &&
+                                                        articleData.pdfLinks == 0 && <h6>N/A</h6>}
+                                                    </div>
+                                                  </li>
+                                              </>
+                                              : null
+                                            }
+
                                           </ul>
                                         </div>
                                       </Tab>
@@ -536,6 +578,48 @@ const LibrarySublink = () => {
                                       >
                                         <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                                           <ul className="tab-mail-list data">
+
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Openings (total){" "}
+                                                <LinkWithTooltip
+                                                  tooltip="Number of opening counts for specific article."
+                                                >
+                                                  <img
+                                                    src={
+                                                      path_image +
+                                                      "info_circle_icon.svg"
+                                                    }
+                                                    alt="refresh-btn"
+                                                  />
+                                                </LinkWithTooltip>
+                                              </h6>
+                                              {flag == 0 && userId == articleData?.id ? (
+                                                <div className="data-progress limited">
+                                                  <ProgressBar
+                                                    variant="default"
+                                                    now={100}
+                                                    label={"loading"}
+                                                  />
+                                                </div>
+                                              ) : (
+                                                opening_details?.map((details) => {
+                                                  if (details?.pdf_id == articleData?.id) {
+                                                    return (
+                                                      <>
+                                                        <div className="data-progress success-progress">
+                                                          <ProgressBar
+                                                            variant="success"
+                                                            now = {details.opening == 0 ? 0 : 100}
+                                                            label = {details?.opening}
+                                                          />
+                                                        </div>
+                                                      </>
+                                                    );
+                                                  }
+                                                })
+                                              )}
+                                            </li>
                                             <li className="d-flex align-center">
                                               <h6 className="tab-content-title">
                                                 Unique Reader (total)
@@ -582,7 +666,7 @@ const LibrarySublink = () => {
                                                             }
                                                           />
                                                           <span>
-                                                            Agreed Limit |&nbsp;
+                                                            Agreed Limit :&nbsp;
                                                             {details?.limit == 0
                                                               ? "Unlimted"
                                                               : details?.limit == 1000
@@ -594,7 +678,7 @@ const LibrarySublink = () => {
                                                         <span className="total-left">
                                                           {
                                                             details?.limit == 0 || details?.limit == 1000
-                                                            ? "Unlimted"
+                                                            ? ""
                                                             :
                                                             <>
                                                               {details?.limit == 0
@@ -606,47 +690,6 @@ const LibrarySublink = () => {
                                                             </>
                                                           }
                                                         </span>
-                                                      </>
-                                                    );
-                                                  }
-                                                })
-                                              )}
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                Openings (total){" "}
-                                                <LinkWithTooltip
-                                                  tooltip="Number of opening counts for specific article."
-                                                >
-                                                  <img
-                                                    src={
-                                                      path_image +
-                                                      "info_circle_icon.svg"
-                                                    }
-                                                    alt="refresh-btn"
-                                                  />
-                                                </LinkWithTooltip>
-                                              </h6>
-                                              {flag == 0 && userId == articleData?.id ? (
-                                                <div className="data-progress limited">
-                                                  <ProgressBar
-                                                    variant="default"
-                                                    now={100}
-                                                    label={"loading"}
-                                                  />
-                                                </div>
-                                              ) : (
-                                                opening_details?.map((details) => {
-                                                  if (details?.pdf_id == articleData?.id) {
-                                                    return (
-                                                      <>
-                                                        <div className="data-progress success-progress">
-                                                          <ProgressBar
-                                                            variant="success"
-                                                            now = {details.opening == 0 ? 0 : 100}
-                                                            label = {details?.opening}
-                                                          />
-                                                        </div>
                                                       </>
                                                     );
                                                   }
@@ -744,87 +787,125 @@ const LibrarySublink = () => {
 
                                       <Tab
                                         eventKey="sales"
-                                        title="Sales"
+                                        title={ localStorage.getItem("group_id") == "3" ? "About" :"Sales" }
                                         className="flex-column justify-content-between"
                                       >
                                         <div className="tab-panel">
                                           <ul className="tab-mail-list">
+                                            {localStorage.getItem("group_id") == 2 && (
+                                              <>
+                                                <li>
+                                                  <h6 className="tab-content-title">
+                                                    Production person
+                                                  </h6>
+                                                  <h6>{articleData?.productName ?  articleData.productName : "N/A"}</h6>
+                                                </li>
+                                                <li>
+                                                  <h6 className="tab-content-title">
+                                                    Publisher
+                                                  </h6>
+                                                  <h6>{articleData?.publisherName ?  articleData.publisherName : "N/A"}</h6>
+                                                </li>
+                                                <li>
+                                                  <h6 className="tab-content-title">
+                                                    Country
+                                                  </h6>
+                                                  <h6>{articleData?.country ? articleData.country : "N/A"}</h6>
+                                                </li>
+                                                <li>
+                                                  <h6 className="tab-content-title">
+                                                    Cost Center
+                                                  </h6>
+                                                  <h6>{articleData?.cost_center && articleData?.cost_center != 0 ?  articleData.cost_center : "N/A"}</h6>
+                                                </li>
+                                              </>
+                                            )}
+
                                             {
-                                              articleData?.licensed == 1  &&(
-                                                <>
+                                              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
+                                              localStorage.getItem("group_id") == "3"
+                                              ?
+                                              <>
                                                 <li>
                                                   <h6 className="tab-content-title">
-                                                    <strong>Sales person</strong>
+                                                    Mandatory
                                                   </h6>
-                                                  <h6>{articleData?.saleName}</h6>
+                                                  <h6>{ articleData?.reader_mandatory ? "Yes" : "No" }</h6>
                                                 </li>
                                                 <li>
                                                   <h6 className="tab-content-title">
-                                                    <strong>Production person</strong>
+                                                    Roles
                                                   </h6>
-                                                  <h6>{articleData?.productName}</h6>
-                                                </li>
-                                                <li>
-                                                  <h6 className="tab-content-title">
-                                                    <strong>Client name</strong>
+                                                  <h6>
+                                                  {articleData?.trail_user_type
+                                                    ?
+                                                      typeof articleData?.trail_user_type == "string" && articleData?.trail_user_type != ""
+                                                      ?
+                                                      JSON.parse(articleData?.trail_user_type).join()
+                                                      : "N/A"
+                                                    : "N/A"
+                                                  }
                                                   </h6>
-                                                  <h6>{articleData?.company}</h6>
                                                 </li>
-                                                <li>
-                                                  <h6 className="tab-content-title">
-                                                    <strong>Client product</strong>
-                                                  </h6>
-                                                  <h6>{articleData?.product}</h6>
-                                                </li>
-                                                <li>
-                                                  <h6 className="tab-content-title">
-                                                    <strong>Client country</strong>
-                                                  </h6>
-                                                  <h6>{articleData?.country}</h6>
-                                                </li>
-                                                </>
-                                              )
+                                              </>
+                                              :
+                                              null
+                                            }
+
+                                            {
+                                              localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                              <>
+                                                  <li>
+                                                    <h6 className="tab-content-title">
+                                                      Usage limit
+                                                    </h6>
+                                                    <h6>
+                                                    {
+                                                      articleData?.limit > 0? articleData?.limit: "Unlimited"
+                                                    }
+                                                    </h6>
+                                                  </li>
+                                                  <li>
+                                                    <h6 className="tab-content-title">
+                                                      Enabled
+                                                    </h6>
+                                                    <h6>
+                                                      {
+                                                        changeFormatForPrint(articleData)
+                                                      }
+                                                    </h6>
+                                                  </li>
+                                                  <li>
+                                                    <h6 className="tab-content-title">
+                                                      Link type
+                                                    </h6>
+                                                    <h6>{articleData?.linkType}</h6>
+                                                  </li>
+                                              </>
+                                              : null
                                             }
                                             <li>
                                               <h6 className="tab-content-title">
-                                                <strong>Opening limit</strong>
-                                              </h6>
-                                              <h6>{articleData?.limit}</h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Link type</strong>
-                                              </h6>
-                                              <h6>{articleData?.linkType}</h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Print</strong>
-                                              </h6>
-                                              <h6>{articleData?.allow_print ? "Yes" : "No" }</h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Download</strong>
-                                              </h6>
-                                              <h6>{articleData?.allow_download ? "Yes" : "No"}</h6>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Upload date</strong>
+                                                Upload date
                                               </h6>
                                               <h6>{articleData?.uploadedDate}</h6>
                                             </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                <strong>Expiration date</strong>
-                                              </h6>
-                                              <h6>{
-                                                articleData?.expireDate
-                                                ? articleData.expireDate
-                                                : "N/A"
-                                              }</h6>
-                                            </li>
+
+                                            {
+                                              localStorage.getItem("group_id") == "2" ?
+                                              <li>
+                                                <h6 className="tab-content-title">
+                                                  Expiration date
+                                                </h6>
+                                                <h6>
+                                                  {articleData?.expireDate
+                                                    ? articleData.expireDate
+                                                    : "N/A"}
+                                                </h6>
+                                              </li>
+                                              : null
+                                            }
+
                                           </ul>
                                         </div>
                                       </Tab>

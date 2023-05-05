@@ -34,12 +34,13 @@ const CommonConfirmModel = ({
         </Modal.Header>
 
         <Modal.Body>
+          <>
           <img src={path_image + "alert.png"} alt="" />
           <h4>
             {popupMessage?.message1 ? popupMessage?.message1 : ""}
-            <br />
-
-            {popupMessage?.message2 ? popupMessage?.message2 : ""}
+          </h4>
+          <h4>
+            <strong>{popupMessage?.message2 ? popupMessage?.message2 : ""}</strong>
           </h4>
           <div className="modal-buttons">
             <button
@@ -58,6 +59,7 @@ const CommonConfirmModel = ({
               Cancel
             </button>
           </div>
+          </>
         </Modal.Body>
       </Modal>
     </>

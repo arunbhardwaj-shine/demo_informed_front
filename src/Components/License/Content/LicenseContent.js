@@ -1137,7 +1137,7 @@ const LicenseContent = (props) => {
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
-                                        inforMedGo code
+                                        inforMedGO code
                                       </h6>
                                       <h6>
                                         {data?.rep_code}
@@ -1203,7 +1203,7 @@ const LicenseContent = (props) => {
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
-                                        Include
+                                        Enhanced
                                       </h6>
                                       <div className="include-links">
                                         {data?.spc_included ? (
@@ -1294,6 +1294,45 @@ const LicenseContent = (props) => {
                               >
                                 <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                                   <ul className="tab-mail-list data">
+
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Openings (total){" "}
+                                        <LinkWithTooltip
+                                          tooltip="Number of opening counts for specific article."
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                        <div className="data-progress limited">
+                                            <ProgressBar
+                                              variant={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ? "success" : "default"
+                                              }
+                                              now={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ?
+                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening
+                                                :
+                                                "100"
+                                              }
+                                              label={
+                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                ?
+                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening
+                                                :
+                                                "Loading"
+                                              }
+                                            />
+                                        </div>
+                                    </li>
                                     <li className="d-flex align-center">
                                       <h6 className="tab-content-title">
                                         Unique Reader (total)
@@ -1332,13 +1371,15 @@ const LicenseContent = (props) => {
                                           }
                                         />
                                         <span>
-                                  				Agreed Limit |&nbsp;
-                                  				{
+                                  				Agreed Limit :&nbsp;
+                                          {
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                             ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "Unlimted"
+                                            :
                                             opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
                                             :
-                                            1000
+                                            "Unlimted"
                                           }
                                 			  </span>
                                       </div>
@@ -1346,51 +1387,24 @@ const LicenseContent = (props) => {
                                 			  {
                                           opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                           ?
-                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
-                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
+                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? null
                                           :
-                                          1000
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
+                                          :
+                                          null
                                         }
-                                			  <small>Left</small>
+
+                                        {
+                                          opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                          ?
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit != 1000
+                                          ?
+                                            <small>Left</small>
+                                          : null
+                                          : null
+                                        }
                                 			</span>
-                                    </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Openings (total){" "}
-                                        <LinkWithTooltip
-                                          tooltip="Number of opening counts for specific article."
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                        <div className="data-progress limited">
-                                            <ProgressBar
-                                              variant={
-                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                                ? "success" : "default"
-                                              }
-                                              now={
-                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                                ?
-                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening
-                                                :
-                                                "100"
-                                              }
-                                              label={
-                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                                ?
-                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening
-                                                :
-                                                "Loading"
-                                              }
-                                            />
-                                        </div>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">

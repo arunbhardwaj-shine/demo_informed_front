@@ -772,7 +772,7 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>inforMedGo code</strong>
+                                          <strong>inforMedGO code</strong>
                                         </h6>
                                         <h6>
                                           {data.code}
