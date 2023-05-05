@@ -547,7 +547,7 @@ const ReaderEdit = () => {
                     {userInputs ? (
                       <>
                         <Form.Group className="form-group">
-                          <Form.Label htmlFor="">First name *</Form.Label>
+                          <Form.Label htmlFor="">First name <span>*</span></Form.Label>
                           <input
                             type="text"
                             className={error?.firstName ? "form-control error" : "form-control" }
@@ -589,7 +589,7 @@ const ReaderEdit = () => {
                           />
                         </Form.Group>
                         <Form.Group className="form-group">
-                          <Form.Label htmlFor="">Primary email *</Form.Label>
+                          <Form.Label htmlFor="">Primary email <span>*</span></Form.Label>
                           <input
                             type="email"
                             className={error?.email ? "form-control error" : "form-control"}
