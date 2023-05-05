@@ -3,40 +3,40 @@ import axios from "axios";
 import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import CommonModel from "../../Model/CommonModel";
-import moment from 'moment'
+import moment from "moment";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const BouncedEmail = () => {
-
   const [bounceData, setBounceData] = useState([]);
   const [mainBounceData, setMainBounceData] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [sortDatee, setSortDate] = useState(0);
   const [sortingCountDate, setSortingCountDate] = useState(0);
   const [sortingCount, setSortingCount] = useState(0);
   const [commanShow, setCommanShow] = useState(false);
-  const [selectedReader, setSelectedReader] = useState('');
+  const [selectedReader, setSelectedReader] = useState("");
   const [changeCount, setChangeCount] = useState(0);
-  const [updatedEmail, setUpdatedEmail] = useState('');
-  const [emailInput, setEmailInput] = useState(
-    [{
+  const [updatedEmail, setUpdatedEmail] = useState("");
+  const [emailInput, setEmailInput] = useState([
+    {
       label: "Email",
       type: "input",
       name: "user_email",
       placeholder: "Type your email",
-      value:""
-    }]);
+      value: "",
+    },
+  ]);
 
   useEffect(() => {
     getBouncedData();
   }, []);
 
-  const getBouncedData = async() => {
+  const getBouncedData = async () => {
     loader("show");
-    try{
+    try {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
-        user_id: localStorage.getItem("user_id")
+        user_id: localStorage.getItem("user_id"),
       };
 
       await axios
@@ -44,8 +44,8 @@ const BouncedEmail = () => {
         .then((res) => {
           if (res?.data?.status_code == 200) {
             res?.data?.response.reverse();
-            setBounceData(res?.data?.response)
-            setMainBounceData(res?.data?.response)
+            setBounceData(res?.data?.response);
+            setMainBounceData(res?.data?.response);
           }
           loader("hide");
         })
@@ -53,19 +53,17 @@ const BouncedEmail = () => {
           loader("hide");
           toast.error("Something went wrong");
         });
-    }catch(err){
+    } catch (err) {
       loader("hide");
     }
-  }
+  };
 
   const submitHandler = (event) => {
     event.preventDefault();
     var lowSearch = search.toLowerCase();
-    let keys = ["email","emailSubject"];
-    let searchRecords = bounceData.filter(item =>
-        keys.some(key =>
-            String(item[key]).toLowerCase().includes(lowSearch)
-        )
+    let keys = ["email", "emailSubject"];
+    let searchRecords = bounceData.filter((item) =>
+      keys.some((key) => String(item[key]).toLowerCase().includes(lowSearch))
     );
     setBounceData(searchRecords);
   };
@@ -79,52 +77,54 @@ const BouncedEmail = () => {
   };
 
   const sortDate = () => {
-      let normalArr = [];
-      normalArr = bounceData;
-      let sortedData;
-      if (sortDatee == 0) {
-        sortedData = normalArr.sort(function (a, b) {
-          var aa = a.bounce_date.split("/").reverse().join(),
-            bb = b.bounce_date.split("/").reverse().join();
-          return aa < bb ? -1 : aa > bb ? 1 : 0;
-        });
-      } else {
-        sortedData = normalArr.sort(function (a, b) {
-          var aa = a.bounce_date.split("/").reverse().join(),
-            bb = b.bounce_date.split("/").reverse().join();
-          return aa > bb ? -1 : aa < bb ? 1 : 0;
-        });
-      }
+    let normalArr = [];
+    normalArr = bounceData;
+    let sortedData;
+    if (sortDatee == 0) {
+      sortedData = normalArr.sort(function (a, b) {
+        var aa = a.bounce_date.split("/").reverse().join(),
+          bb = b.bounce_date.split("/").reverse().join();
+        return aa < bb ? -1 : aa > bb ? 1 : 0;
+      });
+    } else {
+      sortedData = normalArr.sort(function (a, b) {
+        var aa = a.bounce_date.split("/").reverse().join(),
+          bb = b.bounce_date.split("/").reverse().join();
+        return aa > bb ? -1 : aa < bb ? 1 : 0;
+      });
+    }
 
-      setSortingCount(0);
-      setBounceData(sortedData);
-      setSortDate(1 - sortDatee);
-      setSortingCountDate(sortingCountDate + 1);
+    setSortingCount(0);
+    setBounceData(sortedData);
+    setSortDate(1 - sortDatee);
+    setSortingCountDate(sortingCountDate + 1);
   };
 
   const handleModelFun = (e) => {
-      if(e.target.value !== "") {
-        setUpdatedEmail(e.target.value);
-      }
-  }
+    if (e.target.value !== "") {
+      setUpdatedEmail(e.target.value);
+    }
+  };
 
   const handleSubmitModelFun = async (e) => {
-      // console.log("Submit");
+    if (updatedEmail) {
       loader("show");
-      try{
+      try {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        let bounced_data = mainBounceData?.[mainBounceData.findIndex(el => el.user_id == selectedReader)];
-        let bounced_id = 0 ;
-        if(typeof bounced_data !== "undefined" && bounced_data != null){
-           bounced_id = bounced_data.bounce_id;
+        let bounced_data =
+          mainBounceData?.[
+            mainBounceData.findIndex((el) => el.user_id == selectedReader)
+          ];
+        let bounced_id = 0;
+        if (typeof bounced_data !== "undefined" && bounced_data != null) {
+          bounced_id = bounced_data.bounce_id;
         }
         const body = {
           user_id: localStorage.getItem("user_id"),
-          email:updatedEmail,
-          reader_id:selectedReader,
+          email: updatedEmail,
+          reader_id: selectedReader,
           bounce_id: bounced_id,
         };
-
         await axios
           .post(`distributes/update_bounce_email`, body)
           .then((res) => {
@@ -136,22 +136,23 @@ const BouncedEmail = () => {
             loader("hide");
             toast.error("Something went wrong");
           });
-      }catch(err){
+      } catch (err) {
         console.log(err);
         loader("hide");
       }
-  }
+    }
+  };
 
-  const openEditEmail = (item,id) => {
-    emailInput[0].value = item
-    let updateEmail = emailInput
+  const openEditEmail = (item, id) => {
+    emailInput[0].value = item;
+    let updateEmail = emailInput;
     setEmailInput(updateEmail);
-    setSelectedReader(id)
+    setSelectedReader(id);
     setTimeout(function () {
-        setCommanShow(true)
-        setChangeCount( parseInt(changeCount) + 1);
+      setCommanShow(true);
+      setChangeCount(parseInt(changeCount) + 1);
     }, 300);
-  }
+  };
 
   return (
     <div className="right-sidebar">
@@ -176,10 +177,7 @@ const BouncedEmail = () => {
               <div className="smart-list-btns">
                 <div className="top-right-action">
                   <div className="search-bar">
-                    <form
-                      className="d-flex"
-                      onSubmit={(e) => submitHandler(e)}
-                    >
+                    <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                       <input
                         className="form-control me-2"
                         type="search"
@@ -264,33 +262,62 @@ const BouncedEmail = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {
-                    bounceData.length > 0 ? (
-                        bounceData.map((item, index) => (
-                          <>
-                          <tr key={index}>
-                            <td> {index + 1 }</td>
-                            <td>
-                              {item?.email}
+                  {bounceData.length > 0 ? (
+                    bounceData.map((item, index) => (
+                      <>
+                        <tr key={index}>
+                          <td> {index + 1}</td>
+                          <td>
+                            {item?.email}
 
-                              <svg className= "pencil_icon"
-                                onClick={(e) => openEditEmail(item?.email,item?.user_id)}
-                               version="1.0" xmlns="http://www.w3.org/2000/svg" width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet"> <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#0066BE" fillOpacity="0.6" stroke="none"> <path d="M3861 5110 c-57 -12 -157 -60 -201 -96 -55 -45 -3166 -3188 -3178 -3211 -17 -30 -482 -1665 -482 -1691 0 -53 62 -112 117 -112 10 0 394 108 852 239 l834 240 136 134 c399 393 2734 2707 2897 2871 243 243 279 305 279 476 0 89 -17 155 -58 230 -37 69 -787 823 -858 864 -25 14 -68 33 -95 41 -62 19 -186 27 -243 15z m187 -245 c47 -20 784 -752 814 -810 29 -55 29 -145 0 -200 -11 -22 -139 -158 -286 -305 l-266 -265 -512 513 -513 512 265 266 c170 170 279 273 305 285 49 23 142 25 193 4z m-710 -938 l212 -212 -1119 -1119 -1119 -1119 -85 169 c-47 93 -95 178 -107 189 -19 17 -39 21 -137 23 -63 2 -113 7 -111 12 4 9 2241 2268 2248 2269 3 1 101 -95 218 -212z m800 -807 c-5 -10 -2260 -2245 -2268 -2248 -5 -2 -10 48 -12 111 -2 98 -6 118 -23 137 -11 12 -96 60 -189 107 l-169 85 1119 1119 1119 1119 212 -212 c117 -117 212 -215 211 -218z m-3053 -1708 l110 -217 217 -110 218 -110 0 -152 0 -152 -52 -16 c-29 -8 -154 -44 -278 -80 l-225 -64 -282 282 -282 282 64 225 c36 124 72 249 80 278 l16 52 152 0 152 0 110 -218z m-455 -787 c101 -101 182 -186 180 -188 -10 -8 -513 -148 -517 -144 -5 6 140 517 147 517 3 0 88 -83 190 -185z"/> </g> </svg>
-                            </td>
-                            <td> {item?.emailSubject ? item.emailSubject : "N/A"}</td>
-                            <td> {item?.bounceReason ? item.bounceReason : "N/A"}</td>
-                            <td> {item?.bounce_date ? moment(item.bounce_date).format('D/MM/YYYY') : "N/A"}</td>
-                          </tr>
-                          </>
-                        ))
-                    )
-                    :
+                            <svg
+                              className="pencil_icon"
+                              onClick={(e) =>
+                                openEditEmail(item?.email, item?.user_id)
+                              }
+                              version="1.0"
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="512.000000pt"
+                              height="512.000000pt"
+                              viewBox="0 0 512.000000 512.000000"
+                              preserveAspectRatio="xMidYMid meet"
+                            >
+                              {" "}
+                              <g
+                                transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                                fill="#0066BE"
+                                fillOpacity="0.6"
+                                stroke="none"
+                              >
+                                {" "}
+                                <path d="M3861 5110 c-57 -12 -157 -60 -201 -96 -55 -45 -3166 -3188 -3178 -3211 -17 -30 -482 -1665 -482 -1691 0 -53 62 -112 117 -112 10 0 394 108 852 239 l834 240 136 134 c399 393 2734 2707 2897 2871 243 243 279 305 279 476 0 89 -17 155 -58 230 -37 69 -787 823 -858 864 -25 14 -68 33 -95 41 -62 19 -186 27 -243 15z m187 -245 c47 -20 784 -752 814 -810 29 -55 29 -145 0 -200 -11 -22 -139 -158 -286 -305 l-266 -265 -512 513 -513 512 265 266 c170 170 279 273 305 285 49 23 142 25 193 4z m-710 -938 l212 -212 -1119 -1119 -1119 -1119 -85 169 c-47 93 -95 178 -107 189 -19 17 -39 21 -137 23 -63 2 -113 7 -111 12 4 9 2241 2268 2248 2269 3 1 101 -95 218 -212z m800 -807 c-5 -10 -2260 -2245 -2268 -2248 -5 -2 -10 48 -12 111 -2 98 -6 118 -23 137 -11 12 -96 60 -189 107 l-169 85 1119 1119 1119 1119 212 -212 c117 -117 212 -215 211 -218z m-3053 -1708 l110 -217 217 -110 218 -110 0 -152 0 -152 -52 -16 c-29 -8 -154 -44 -278 -80 l-225 -64 -282 282 -282 282 64 225 c36 124 72 249 80 278 l16 52 152 0 152 0 110 -218z m-455 -787 c101 -101 182 -186 180 -188 -10 -8 -513 -148 -517 -144 -5 6 140 517 147 517 3 0 88 -83 190 -185z" />{" "}
+                              </g>{" "}
+                            </svg>
+                          </td>
+                          <td>
+                            {" "}
+                            {item?.emailSubject ? item.emailSubject : "N/A"}
+                          </td>
+                          <td>
+                            {" "}
+                            {item?.bounceReason ? item.bounceReason : "N/A"}
+                          </td>
+                          <td>
+                            {" "}
+                            {item?.bounce_date
+                              ? moment(item.bounce_date).format("D/MM/YYYY")
+                              : "N/A"}
+                          </td>
+                        </tr>
+                      </>
+                    ))
+                  ) : (
                     <tr className="data-not-found">
                       <td colspan="12">
                         <h4>No Data Found</h4>
                       </td>
                     </tr>
-                  }
+                  )}
                 </tbody>
               </table>
             </div>
@@ -298,21 +325,19 @@ const BouncedEmail = () => {
         </div>
       </section>
 
-      {
-        changeCount > 0 ?
+      {changeCount > 0 ? (
         <CommonModel
-        show={commanShow}
-        onClose={setCommanShow}
-        heading={"Update Email"}
-        data={emailInput}
-        footerButton={"Save"}
-        handleChange={handleModelFun}
-        handleSubmit={handleSubmitModelFun}
-        /> : null
-      }
+          show={commanShow}
+          onClose={setCommanShow}
+          heading={"Update Email"}
+          data={emailInput}
+          footerButton={"Save"}
+          handleChange={handleModelFun}
+          handleSubmit={handleSubmitModelFun}
+        />
+      ) : null}
     </div>
-  )
-
-}
+  );
+};
 
 export default BouncedEmail;
