@@ -240,7 +240,8 @@ const Webinar = () => {
 
   return (
     <>
-      <header className="header">
+      <div className="informed">
+      <div className="informed-header header">
         <div className="custom-container">
          <Navbar expand="lg" className='webinar-nav'>
           <Navbar.Brand href="#home">
@@ -303,7 +304,7 @@ const Webinar = () => {
             </Navbar.Collapse>
         </Navbar>
         </div>
-      </header>
+      </div>
       {/* ---------------header section ends here------------- */}
       {/* ---------------banner section start here------------- */}
       <div className="fixed_div"></div>
@@ -963,7 +964,7 @@ const Webinar = () => {
           </li>
         </ul> */}
       </div>
-
+</div>
 
       {/*Start Video Modal Functionality*/}
       <Modal

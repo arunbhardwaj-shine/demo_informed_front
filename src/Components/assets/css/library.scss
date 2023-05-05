@@ -411,6 +411,7 @@
       line-height: 21px;
       color: $dark-blue;
       flex: 0 0 154px;
+      > span{color:#d61975}
     }
     .form-control {
       @include custom-input-drop;
@@ -1579,6 +1580,9 @@ form.product-unit button {
   font-weight: 500;
   min-width: 171px;
   text-align: center;
+}
+.create-change-content .inputfile ~ label span{
+  color:$white;
 }
 .create-change-content .inputfile ~ label:hover {
 background: $dark-blue;

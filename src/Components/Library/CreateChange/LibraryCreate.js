@@ -24,13 +24,17 @@ const data = [
     title: "Set Pop up",
     subtitle: "Update and add the Pop up text and design from here",
   },
-
+  // {
+  //   image: `${path_image}topics.png`,
+  //   title: "Topics & Products",
+  //   subtitle: "Add new or delete an existing topic and product",
+  // },
 ];
 
 if(localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g=="){
     const newObj = {
       image: `${path_image}topics.png`,
-      title: "Topics",
+      title: "Products & Topics",
       subtitle: "Add new or delete an existing topic",
     };
     data.push(newObj);

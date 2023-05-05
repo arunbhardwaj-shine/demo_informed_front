@@ -520,7 +520,7 @@ const ReaderAdd = () => {
         </Form.Group>
 
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Country *</Form.Label>
+          <Form.Label htmlFor="">Country <span>*</span></Form.Label>
           <Select
             options={countryAll}
             // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
@@ -671,7 +671,7 @@ const ReaderAdd = () => {
                 <div className="row">
                   <Col md="7">
                     <Form.Group className="form-group">
-                      <Form.Label htmlFor="">First name *</Form.Label>
+                      <Form.Label htmlFor="">First name <span>*</span></Form.Label>
                       <input
                         type="text"
                         placeholder="First name"
@@ -709,7 +709,7 @@ const ReaderAdd = () => {
                       />
                     </Form.Group>
                     <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Primary email *</Form.Label>
+                      <Form.Label htmlFor="">Primary email <span>*</span></Form.Label>
                       <input
                         type="email"
                         className="form-control"
@@ -738,7 +738,7 @@ const ReaderAdd = () => {
                           />
                         </Form.Group>
                         <Form.Group className="form-group primary_phone">
-                          <Form.Label htmlFor="">Primary phone *</Form.Label>
+                          <Form.Label htmlFor="">Primary phone <span>*</span></Form.Label>
                           <Select
                             options={countryCode}
                             className="dropdown-basic-button split-button-dropup"
@@ -783,7 +783,7 @@ const ReaderAdd = () => {
                       ""
                     ) : (
                       <Form.Group className="form-group">
-                        <Form.Label htmlFor="">Country *</Form.Label>
+                        <Form.Label htmlFor="">Country <span>*</span></Form.Label>
                         <Select
                           options={countryAll}
                           placeholder="Select country"
