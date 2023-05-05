@@ -333,7 +333,7 @@ const LicenseContentDetail = () => {
                                                   </td>
                                                 </tr>
                                                 <tr>
-                                                  <th>inforMedGo code</th>
+                                                  <th>inforMedGO code</th>
                                                   <td>
                                                     {data?.rep_code}
                                                   </td>
