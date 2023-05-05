@@ -620,7 +620,7 @@ const ReaderEdit = () => {
                         </Form.Group>
 
                         <Form.Group className="form-group primary_phone">
-                          <Form.Label htmlFor="">Primary phone *</Form.Label>
+                          <Form.Label htmlFor="">Primary phone</Form.Label>
                           <Select
                             options={countryCode}
                             className="dropdown-basic-button split-button-dropup"
@@ -968,7 +968,7 @@ const ReaderEdit = () => {
                                 type="text"
                                 defaultValue={userInputs?.repContact}
                                 name="repContact"
-                                placeholder="Who is Rep contact?"
+                                placeholder="Who is Internal contact?"
                                 className="form-control"
                                 onChange={(e) => handleChange(e)}
                               />
@@ -983,18 +983,23 @@ const ReaderEdit = () => {
                     )}
 
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
-                      <Form.Group className="form-group">
-                        <Form.Label htmlFor="">Select User Type</Form.Label>
-                        <Select
-                          options={userDetail?.userType}
-                          defaultValue={userInputs?.userType}
-                          placeholder="Select user type"
-                          name="userType"
-                          className="dropdown-basic-button split-button-dropup"
-                          isClearable
-                          onChange={(e) => handleChange(e?.value, "UserType")}
-                        />
-                      </Form.Group>
+                      <>
+                        {
+                          localStorage.getItem('user_id') != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                          <Form.Group className="form-group">
+                            <Form.Label htmlFor="">Select User Type</Form.Label>
+                            <Select
+                              options={userDetail?.userType}
+                              defaultValue={userInputs?.userType}
+                              placeholder="Select user type"
+                              name="userType"
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                              onChange={(e) => handleChange(e?.value, "UserType")}
+                            />
+                          </Form.Group> : null
+                        }
+                      </>
                     ) : (
                       ""
                     )}

@@ -367,7 +367,7 @@ const Sidebar = () => {
                       fillOpacity="0.6"
                     />
                   </svg>
-                  <p>Email Analytics</p>
+                  <p>Email Results</p>
                 </Link>
               </li>
 
@@ -1632,7 +1632,7 @@ const Sidebar = () => {
                         <li>Auto Email</li>
                         <li>Template Builder</li>
                         <li>Smart List</li>
-                        <li>Email Analytics </li>
+                        <li>Email Results </li>
                       </ul>
                     </div>
                     <div className="help-popup-content-library-inside">
