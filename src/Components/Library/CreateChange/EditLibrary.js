@@ -1699,7 +1699,7 @@ const EditLibrary = () => {
                               <div className="select-tags">
                                   <ul className="after-tag-selected">
                                     <>
-                                      
+
                                       {mandatoryRole.map((item, index) => {
                                         return (
                                           <li className="list1" onClick={() => {
@@ -2028,7 +2028,7 @@ const EditLibrary = () => {
                             ) : (
                               <p>
                                 Chnage your cover image <br />
-                                <span><i>Allowed formats PNG,JPEG</i></span><br />
+                                <span><i>Allowed formats: PNG,JPEG</i></span><br />
                                 <span>(Recommended size 88 X 124)</span>
                               </p>
                             )}
