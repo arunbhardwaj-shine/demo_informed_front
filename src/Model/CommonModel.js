@@ -24,7 +24,9 @@ const CommonModel = ({
     let obj = {};
     data?.forEach((item) => {
       if (!obj[item?.name ? item?.name : item?.label]) {
-        obj[item?.name ? item?.name : item?.label] = "";
+        obj[item?.name ? item?.name : item?.label] = item?.value
+          ? item?.value
+          : "";
       }
     });
     setValues(obj);
@@ -107,7 +109,7 @@ const CommonModel = ({
               placeholder={item?.placeholder}
               className="form-control"
               onChange={handleModelChange}
-              defaultValue={item?.value?item?.value:""}
+              defaultValue={item?.value ? item?.value : ""}
 
               // onChange={handleChange}
             />
