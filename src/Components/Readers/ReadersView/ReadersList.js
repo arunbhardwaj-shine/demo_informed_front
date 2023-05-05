@@ -293,7 +293,8 @@ const NewReaders = () => {
         key == "userAction" ||
         key == "Business Unit" ||
         key == "webinarRegistered" ||
-        key == "rtr" ||
+        key == "Register For Webinar" ||
+        key == "RTR?" ||
         key == "region" ||
         key == "IRT" ||
         key == "Blinded" ||
@@ -1047,7 +1048,7 @@ const NewReaders = () => {
                       </svg>
                     )}
                   </button>
-                 
+
                   {showfilter && (
                     <div
                       className="dropdown-menu filter-options"
@@ -1083,10 +1084,12 @@ const NewReaders = () => {
                                                         key == "Blinded" ||
                                                         key == "IRT" ||
                                                         key == "region" ||
-                                                         key == "rtr" ||
+                                                         key == "RTR?" ||
                                                          key == "Business Unit" ||
                                                            key ==
                                                           "webinarRegistered" ||
+                                                           key ==
+                                                          "Register For Webinar" ||
                                                         key == "List"
                                                           ? "radio"
                                                           : "checkbox"

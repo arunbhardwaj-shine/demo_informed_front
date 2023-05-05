@@ -1,5 +1,5 @@
 @media only screen and (max-width:1801px) {
-    .custom-container {
+    .informed .custom-container {
         padding: 0 15px;
     }
 
@@ -48,7 +48,7 @@
 }
 
 @media only screen and (max-width:1659px) {
-    header {
+    .informed header {
         padding: 25px 20px 0;
     }
 
@@ -65,12 +65,12 @@
         margin-right: 100px;
     }
 
-    .header.fixed {
+    .informed .header.fixed {
         padding-left: 20px;
         padding-right: 20px;
     }
 
-    header ul.navbar-nav.mr-auto {
+    .informed header ul.navbar-nav.mr-auto {
         padding-left: 50px;
     }
 
@@ -249,7 +249,7 @@
 }
 
 @media only screen and (max-width:1370px) {
-    .container {
+    .DefaultLayout .informed .container {
         max-width: 1265px;
     }
 }
@@ -271,7 +271,7 @@
         height: 415px;
     }
 
-    .container {
+    .DefaultLayout .informed .container {
         max-width: 1140px;
     }
 
@@ -347,7 +347,7 @@
         line-height: 1;
     }
 
-    .login-form-view .modal-dialog .modal-content .modal-header button.close {
+    .login-form-view .modal-dialog .modal-content .modal-.informed header button.close {
         right: 35px;
         top: 25px;
     }
@@ -397,7 +397,7 @@
 }
 
 @media only screen and (max-width:1199px) {
-    header ul.navbar-nav.mr-auto li a {
+    .informed header ul.navbar-nav.mr-auto li a {
         margin-right: 15px;
     }
 
@@ -456,7 +456,7 @@
         margin-bottom: 6px;
     }
 
-    header ul.navbar-nav.mr-auto {
+    .informed header ul.navbar-nav.mr-auto {
         padding-left: 20px;
     }
 
@@ -502,7 +502,7 @@
         margin-bottom: 8px;
     }
 
-    .container {
+    .DefaultLayout .informed .container {
         max-width: 960px;
     }
 
@@ -514,12 +514,12 @@
         padding: 40px 20px 38px;
     }
 
-    .header .navbar {
+    .informed .header .navbar {
         padding: 0;
     }
 
-    header .navbar-dark .navbar-nav .nav-link,
-    header a.sign {
+    .informed header .navbar-dark .navbar-nav .nav-link,
+    .informed header a.sign {
         font-size: 16px;
     }
 
@@ -569,7 +569,7 @@
         font-size: 18px;
     }
 
-    .header.fixed {
+    .informed .header.fixed {
         padding: 5px 20px 5px;
     }
 
@@ -827,21 +827,21 @@
         transform: translate3d(-66px, 0, -168px);
     }
 
-    .container {
+    .DefaultLayout .informed .container {
         max-width: 720px;
     }
 
-    header ul.navbar-nav.mr-auto {
+    .informed header ul.navbar-nav.mr-auto {
         padding-left: 10px;
     }
 
-    header .navbar-dark .navbar-nav .nav-link,
-    header a.sign {
+    .informed header .navbar-dark .navbar-nav .nav-link,
+    .informed header a.sign {
         font-size: 15px;
         margin-right: 5px;
     }
 
-    header {
+    .informed header {
         padding: 15px 20px 0;
     }
 
@@ -1000,7 +1000,7 @@
 }
 
 @media only screen and (min-width:768px) {
-    header nav.navbar button.navbar-toggle {
+    .informed header nav.navbar button.navbar-toggle {
         display: none;
     }
 }
@@ -1297,7 +1297,7 @@
         background-size: 100%;
     }
 
-    header {
+    .informed header {
         padding: 15px 15px 0;
         z-index: 9999;
     }
@@ -1311,7 +1311,7 @@
         padding-bottom: 8px;
     }
 
-    header nav.navbar.navbar-expand-md.navbar-dark {
+    .informed header nav.navbar.navbar-expand-md.navbar-dark {
         position: static;
     }
 
@@ -1399,7 +1399,7 @@
         flex: 0 0 100%;
     }
 
-    .header.fixed div#navbarsExampleDefault {
+    .informed .header.fixed div#navbarsExampleDefault {
         top: 65px;
     }
 
@@ -1413,7 +1413,7 @@
         height: 258px;
     }
 
-    .header.fixed {
+    .informed .header.fixed {
         padding: 5px 15px 5px;
     }
 
