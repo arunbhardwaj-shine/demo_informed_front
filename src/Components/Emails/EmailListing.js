@@ -82,7 +82,9 @@ const EmailList = (props) => {
     series: [
       {
         name: "Email campaign",
-        data: [2, 3, 0],
+        data: [
+          {y: 2, color: '#8a4e9c'}, {y:3,color: '#ffbe2c'}, {y:0,color: '#39cabc'}
+        ],
       },
     ],
   });
@@ -99,9 +101,9 @@ const EmailList = (props) => {
       let getSpecificKeyData = SendListData.filter((p) => p.id == id);
       let valueupdate = options_ch;
       valueupdate.series[0].data = [
-        getSpecificKeyData[0].total_Sent,
-        getSpecificKeyData[0].total_Opened,
-        getSpecificKeyData[0].total_Click,
+        {y: getSpecificKeyData[0].total_Sent, color: '#8a4e9c'},
+        {y: getSpecificKeyData[0].total_Opened, color: '#ffbe2c'},
+        {y: getSpecificKeyData[0].total_Click, color: '#39cabc'}
       ];
       setOptions_ch(valueupdate);
       setviewEmailData(getSpecificKeyData);

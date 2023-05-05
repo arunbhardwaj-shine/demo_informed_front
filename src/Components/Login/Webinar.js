@@ -14,6 +14,7 @@ const Webinar = () => {
   const [userSignInInputs, setUserSignInInputs] = useState({});
   const [activeSection, setActiveSection] = useState('banner-section');
   const [signInModal, setSignInModal] = useState(false);
+  const [mapbutton, setMapbutton] = useState(false);
   const [carousalStatus, setCarousalStatus] = useState({
     slide1 : true,
     slide2 : true,
@@ -795,8 +796,8 @@ const Webinar = () => {
               <h3>Case Examples</h3>
               <div className="map_buttons">
                 <ul>
-                    <li><Button className="map-button active"id="mapButton">Single</Button></li>
-                    <li><Button className="map-button"  id="compareButton">Compare</Button></li>
+                    <li><Button className= {mapbutton ? "map-button" : "map-button active"} id="mapButton" onClick={(e) => setMapbutton(false)}>Single</Button></li>
+                    <li><Button className= {mapbutton ? "map-button active" : "map-button"}  id="compareButton"  onClick={(e) => setMapbutton(true)}>Compare</Button></li>
                 </ul>
               </div>
             </div>
