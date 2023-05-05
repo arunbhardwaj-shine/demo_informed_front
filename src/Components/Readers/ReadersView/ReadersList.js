@@ -32,6 +32,8 @@ const NewReaders = () => {
   const limit = 24;
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
+  const [country, setCountry] = useState([]);
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const [totalCount, setCount] = useState(0);
@@ -110,7 +112,10 @@ const NewReaders = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(ENDPOINT.READERSFILTER);
+      const res = await getData(
+      ENDPOINT.READERSFILTER
+      );
+      setCountry(res?.data?.data?.country)
       setFilterData(res?.data?.data);
     } catch (err) {
       loader("hide");
@@ -248,6 +253,7 @@ const NewReaders = () => {
 
   const submitHandler = (event) => {
     setReaderDataList([]);
+    // console.log("0 im herererererer",filterObject)
     getReaderListData(page, filterObject, search);
     event.preventDefault();
     return false;
@@ -260,13 +266,35 @@ const NewReaders = () => {
     if (!apifilterObject[key]) {
       apifilterObject[key] = [];
     }
+    if(key == "region"){
+     let newCountry = []
+     if(item == "All"){
+      newCountry = country
+      filterdata.country = []
+      delete apifilterObject.country
+      delete  filterObject.country
+     }else{
+      Object.keys(filterdata?.regionCountry)?.forEach(values =>{
+        if(filterdata?.regionCountry[values] == item){
+         newCountry.push(values)
+        }
+     })
+     delete apifilterObject.country
+     delete  filterObject.country
+
+     }
+      setFilterData({...filterdata,"country":newCountry})
+    }
 
     if (e?.target?.checked == true) {
       if (
         key == "status" ||
         key == "contactType" ||
         key == "userAction" ||
+        key == "Business Unit" ||
         key == "webinarRegistered" ||
+        key == "rtr" ||
+        key == "region" ||
         key == "IRT" ||
         key == "Blinded" ||
         key == "List"
@@ -1019,7 +1047,7 @@ const NewReaders = () => {
                       </svg>
                     )}
                   </button>
-
+                 
                   {showfilter && (
                     <div
                       className="dropdown-menu filter-options"
@@ -1054,7 +1082,10 @@ const NewReaders = () => {
                                                         key == "userAction" ||
                                                         key == "Blinded" ||
                                                         key == "IRT" ||
-                                                        key ==
+                                                        key == "region" ||
+                                                         key == "rtr" ||
+                                                         key == "Business Unit" ||
+                                                           key ==
                                                           "webinarRegistered" ||
                                                         key == "List"
                                                           ? "radio"

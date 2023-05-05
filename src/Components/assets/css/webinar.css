@@ -203,9 +203,19 @@ span {
     line-height: 24px;
 }
 
+.DefaultLayout {
+    background: #ffffff;
+    ;
+}
+
 /*------------typography ends here--------------*/
 header nav.navbar.navbar-expand-md.navbar-dark {
     width: 100%;
+}
+
+header .webinar-nav.navbar {
+    padding: 0;
+    background: transparent;
 }
 
 header .navbar-dark .navbar-nav .nav-link,
@@ -329,7 +339,7 @@ header a.sign:hover {
     padding: 110px 0 170px;
     position: relative;
     background-repeat: no-repeat;
-    background-image: url(../../../../public/componentAssets/images/building-relationship-bg.png);
+    background: #ffffff url(../../../../public/componentAssets/images/building-relationship-bg.png);
     background-size: cover;
     background-position: center -42px;
 }
@@ -343,7 +353,6 @@ header a.sign:hover {
     bottom: -66px;
     height: 173px;
     transform: skew(0deg, -4deg);
-    z-index: -1;
 }
 
 .building-section h2 {
@@ -353,6 +362,7 @@ header a.sign:hover {
 .building-section .content p {
     font-style: italic;
     color: #002B53;
+    margin-bottom: 1rem;
 }
 
 .video-sec {
@@ -739,6 +749,8 @@ ol.carousel-indicators.cst-tab li {
     text-indent: inherit !important;
     padding: 15px 15px 15px 28px;
     margin-bottom: 15px;
+    opacity: .5;
+    cursor: pointer;
 }
 
 ol.carousel-indicators.cst-tab li.active {
@@ -825,6 +837,7 @@ ol.carousel-indicators.cst-tab li img {
     padding: 44px 0 20px;
     position: relative;
     overflow: hidden;
+    background: #fff;
 }
 
 .effective-section ul.efft-list li {
@@ -1273,6 +1286,7 @@ ol.carousel-indicators.cst-tab li {
     -moz--appearance: none;
     -ms-appearance: none;
     appearance: none;
+    box-shadow: none;
 }
 
 .demo-video-form .form-left-fields select::-ms-expand {
@@ -1296,10 +1310,13 @@ ol.carousel-indicators.cst-tab li {
 .demo-video-form .form-right-fields textarea {
     resize: none;
     min-height: 315px;
+    box-shadow: none;
 }
 
 .demo-video-form .form-group {
     margin-bottom: 15px;
+    border: 0;
+    padding: 0;
 }
 
 .form-group.select-option:after {
@@ -1320,6 +1337,9 @@ ol.carousel-indicators.cst-tab li {
 
 .form-group.select-option {
     position: relative;
+    border: 0;
+    padding: 0;
+    box-shadow: none;
 }
 
 .copyright {
@@ -1461,6 +1481,8 @@ ol.carousel-indicators.cst-tab li {
     flex-direction: column;
     height: 100%;
     justify-content: center;
+    margin-left: 0px;
+    padding: 0px;
 }
 
 #pp-nav ul {
@@ -2284,20 +2306,19 @@ ol.carousel-indicators.cst-tab li.active {
     background: #ffffff;
 }
 
-.case-exple ul li a.active {
+.case-exple ul li .map-button.active {
     color: #fff;
-    padding: 4px 24px;
     background: #0056A4;
     border: 1px solid #0056A4;
 }
 
-.case-exple ul li a {
+.case-exple ul li .map-button {
     color: #0056A4;
     font-size: 18px;
     font-weight: 600;
     font-family: 'Roboto';
     text-transform: uppercase;
-    padding: 4px 14px 4px 7px;
+    padding: 7px 19px;
     display: inline-block;
     text-decoration: none;
     border-radius: 40px;

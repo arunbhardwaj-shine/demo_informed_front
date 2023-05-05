@@ -265,7 +265,11 @@ const EditLibrary = () => {
 
   const hcpClicked = (dd) => {
     if (!hcpClickedFirst.includes(dd)) {
-      setHcpClickedFirst((oldArray) => [...oldArray, dd]);
+      if(dd == "All"){
+        setHcpClickedFirst(userDetail?.hcp);
+      }else{
+        setHcpClickedFirst((oldArray) => [...oldArray, dd]);
+      }
     } else {
       toast.error("Role already Selected.");
     }
@@ -273,7 +277,11 @@ const EditLibrary = () => {
 
   const hcpIrtClicked = (dd) => {
     if (!hcpIrtClickedFirst.includes(dd)) {
-      setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
+      if(dd == "All"){
+        setHcpIrtClickedFirst(mandatoryRole);
+      }else{
+        setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
+      }
     } else {
       toast.error("Role already Selected.");
     }
@@ -1619,18 +1627,25 @@ const EditLibrary = () => {
                             <div className="tags_added">
                               <div className="select-tags">
                                 <ul>
-                                  {userDetail?.hcp?.map((item, index) => {
-                                    return (
-                                      <li
-                                        className="list1"
-                                        onClick={() => {
-                                          hcpClicked(item);
-                                        }}
-                                      >
-                                        {item}
-                                      </li>
-                                    );
-                                  })}
+                                  <>
+                                    <li className={hcpClickedFirst.length == 5 ? "list1 all fade-down" : "list1 all fade-up"} onClick={() => {
+                                        hcpClicked("All");
+                                      }}>
+                                      All
+                                    </li>
+                                    {userDetail?.hcp?.map((item, index) => {
+                                      return (
+                                        <li
+                                          className="list1"
+                                          onClick={() => {
+                                            hcpClicked(item);
+                                          }}
+                                        >
+                                          {item}
+                                        </li>
+                                      );
+                                    })}
+                                  </>
                                 </ul>
                                 <div className="after-selected">
                                   <ul className="after-tag-selected">
@@ -1668,16 +1683,23 @@ const EditLibrary = () => {
                           <div className="input-group w-100">
                             <div className="tags_added">
                               <div className="select-tags">
-                                  <ul className="after-tag-selected sp">
-                                    {mandatoryRole.map((item, index) => {
-                                      return (
-                                        <li className="list1" onClick={() => {
-                                          hcpIrtClicked(item);
+                                  <ul className="after-tag-selected">
+                                    <>
+                                      <li className={hcpIrtClickedFirst.length == 3 ? "list1 all fade-down" : "list1 all fade-up"} onClick={() => {
+                                          hcpIrtClicked("All");
                                         }}>
-                                          {item}
-                                        </li>
-                                      );
-                                    })}
+                                        All
+                                      </li>
+                                      {mandatoryRole.map((item, index) => {
+                                        return (
+                                          <li className="list1" onClick={() => {
+                                            hcpIrtClicked(item);
+                                          }}>
+                                            {item}
+                                          </li>
+                                        );
+                                      })}
+                                    </>
                                   </ul>
                                   <div className="after-selected">
                                     <ul className="after-tag-selected">
