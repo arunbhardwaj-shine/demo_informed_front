@@ -26,8 +26,8 @@ const data = [
   },
   {
     image: `${path_image}topics.png`,
-    title: "Topics",
-    subtitle: "Add new or delete an existing topic",
+    title: "Topics & Products",
+    subtitle: "Add new or delete an existing topic and product",
   },
 ];
 
