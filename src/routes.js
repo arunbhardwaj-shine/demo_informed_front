@@ -144,13 +144,13 @@ if (
   platform = 0;
   show = 0;
 }
-// else if(window.location.pathname == "/webinar" || window.location.pathname == "/rd-register"){
-//   require("./Components/assets/css/webinar.css");
-//   require("./Components/assets/css/webinar-responsive.css");
-//   require("./Components/assets/css/aos.css");
-//   platform = 0;
-//   show = 0;
-// } 
+else if(window.location.pathname == "/webinar" || window.location.pathname == "/rd-register"){
+  require("./Components/assets/css/webinar.css");
+  require("./Components/assets/css/webinar-responsive.css");
+  require("./Components/assets/css/aos.css");
+  platform = 0;
+  show = 0;
+} 
 else {
   // require("./Components/NewWebinar/assets/css/webinar.css");
   require("./Components/assets/css/style.css");

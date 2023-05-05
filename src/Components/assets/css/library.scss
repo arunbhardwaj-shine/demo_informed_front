@@ -3,8 +3,6 @@
 @import "./variables";
 @import url('https://fonts.googleapis.com/css?family=Muli');
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap');
-@import "webinar";
-@import "webinar-responsive";
 
 .library-content-box-layuot {
   margin-top: 30px;
@@ -413,6 +411,7 @@
       line-height: 21px;
       color: $dark-blue;
       flex: 0 0 154px;
+      > span{color:#d61975}
     }
     .form-control {
       @include custom-input-drop;
@@ -1581,6 +1580,9 @@ form.product-unit button {
   font-weight: 500;
   min-width: 171px;
   text-align: center;
+}
+.create-change-content .inputfile ~ label span{
+  color:$white;
 }
 .create-change-content .inputfile ~ label:hover {
 background: $dark-blue;
