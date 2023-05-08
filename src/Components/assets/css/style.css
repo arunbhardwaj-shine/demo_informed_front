@@ -5803,7 +5803,7 @@ table thead.sticky-header:after {
 }
 .modal-second #mail-view .modal-body {
 	padding: 0;
-	margin-top: 50px;
+	/* margin-top: 50px; */
 }
 .modal .selected-hcp-list table thead.sticky-header th, #mail-view .modal-body .sticky-header tr {
   background: #ffffff;

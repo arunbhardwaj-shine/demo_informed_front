@@ -3096,6 +3096,7 @@ input:-webkit-autofill:active {
 
 
 /* Modal CSS Start  */
+/*
 .modal .modal-content {
     background: #FFFFFF;
     border-radius: 15px;
@@ -3164,7 +3165,7 @@ input:-webkit-autofill:active {
     font-size: 16px;
     line-height: 22px;
 }
-
+*/
 /* Modal CSS End  */
 
 
