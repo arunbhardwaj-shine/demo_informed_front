@@ -297,7 +297,8 @@ const NewReaders = () => {
         key == "userAction" ||
         key == "Business Unit" ||
         key == "webinarRegistered" ||
-        key == "rtr" ||
+        key == "Register For Webinar" ||
+        key == "RTR?" ||
         key == "region" ||
         key == "IRT" ||
         key == "Blinded" ||
@@ -997,7 +998,7 @@ const NewReaders = () => {
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
-                    className="btn btn-secondary dropdown"
+                    className= {Object.keys(apifilterObject)?.length && filterApplyflag == 1 ? "btn btn-secondary dropdown filter_applied" : "btn btn-secondary dropdown"}
                     type="button"
                     id="dropdownMenuButton2"
                     onClick={() => setShowFilter((showfilter) => !showfilter)}
@@ -1051,7 +1052,6 @@ const NewReaders = () => {
                       </svg>
                     )}
                   </button>
-                 
                   {showfilter && (
                     <div
                       className="dropdown-menu filter-options"
@@ -1087,10 +1087,12 @@ const NewReaders = () => {
                                                         key == "Blinded" ||
                                                         key == "IRT" ||
                                                         key == "region" ||
-                                                         key == "rtr" ||
+                                                         key == "RTR?" ||
                                                          key == "Business Unit" ||
                                                            key ==
                                                           "webinarRegistered" ||
+                                                           key ==
+                                                          "Register For Webinar" ||
                                                         key == "List"
                                                           ? "radio"
                                                           : "checkbox"
