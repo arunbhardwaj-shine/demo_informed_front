@@ -70,12 +70,7 @@ const LicenseEditListing = () => {
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
   const [filterdata, setFilterData] = useState({
-    language: ["English", "Russian", "Spanish", "italian"],
-    business_unit: ["IBU", "MPU", "KSU"],
-    product: ["Octapharma", "IBUE", "Haematology"],
-    topic: ["Topic1", "Topic2", "Topic3"],
-    format: ["format1", "format2", "format3"],
-    list: ["list1", "list2", "list3"],
+    language: ["English", "Russian"],
   });
 
   const [deletestatus, setDeleteStatus] = useState(false);
