@@ -71,6 +71,7 @@ const LibrarySublink = () => {
         user_id: localStorage.getItem("user_id"),
         page: 1,
         search: '',
+        license:0,
         type:'All',
         selectValue:JSON.stringify(selectedValue)
       };
@@ -609,7 +610,7 @@ const LibrarySublink = () => {
                                                       <>
                                                         <div className="data-progress success-progress">
                                                           <ProgressBar
-                                                            variant="success"
+                                                            variant={details.opening == 0 ? "default" : "success"}
                                                             now = {details.opening == 0 ? 0 : 100}
                                                             label = {details?.opening}
                                                           />
@@ -651,7 +652,7 @@ const LibrarySublink = () => {
                                                       <>
                                                         <div className="data-progress limited">
                                                           <ProgressBar
-                                                            variant="warning"
+                                                            variant={details.uniqueReader == 0 ? "default" : "warning"}
                                                             now={
                                                               details?.limit == 0
                                                                 ? (details?.uniqueReader /
@@ -668,9 +669,9 @@ const LibrarySublink = () => {
                                                           <span>
                                                             Agreed Limit :&nbsp;
                                                             {details?.limit == 0
-                                                              ? "Unlimted"
+                                                              ? "unlimited"
                                                               : details?.limit == 1000
-                                                              ? "Unlimted"
+                                                              ? "unlimited"
                                                               : details?.limit
                                                             }
                                                           </span>
@@ -727,7 +728,7 @@ const LibrarySublink = () => {
                                                         <div className="data-progress">
                                                           {/* <span>{details.registeredReader}</span> */}
                                                           <ProgressBar
-                                                            variant="danger"
+                                                            variant={details.registeredReader == 0 ? "default" : "danger"}
                                                             now={
                                                               details.limit == 0
                                                                 ? (details.registeredReader /

@@ -1,6 +1,8 @@
 @use "sass:math";
 @import "./mixins";
 @import "./variables";
+@import "./webinar.css";
+@import "./webinar-responsive.css";
 @import url('https://fonts.googleapis.com/css?family=Muli');
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -527,6 +529,7 @@
           font-size: 16px;
           color: $primary-color;
           font-weight: 400;
+          padding-right: 20px;
         }
         div[class*="-placeholder"] {
           color: $light-gray;
@@ -702,14 +705,29 @@
       box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.55);
     }
     button.dlt_btn {
-      top: 50%;
-      transform: translateY(-50%);
+      bottom: -10px;
       border: 0;
       background: $primary-color;
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       border-radius: 50%;
       right: -20px;
+      img{
+        width:19px;
+      }
+    }
+    button.btn-edit {
+      top: -10px;
+      border: 0;
+      background: $voilet;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      right: -20px;
+      position: absolute;
+      img{
+        width:17px;
+      }
     }
   }
 }
@@ -726,6 +744,17 @@
 }
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
     flex: 0 0 130px;
+}
+.verify-email-detail-clear button {
+font-size: 12px;
+}
+.verify-email-detail-clear .info_btn button, .verify-email-detail-clear .info_btn a {
+margin-right: 9px;
+font-size: 13px;
+padding: 9px 15px;
+}
+.verify-email-detail-clear .info_btn {
+margin: 10px 0 10px;
 }
 input:-webkit-autofill {
 -webkit-text-fill-color: $primary-color !important;
@@ -872,7 +901,18 @@ ul.tab-mail-list.data span.total-left {
   line-height: 16px;
   color: rgba(0, 74, 137, 0.5);
   position: relative;
-  top: 4px;
+  top: -7px;
+}
+#delete-confirm .modal-body h4 + h4 {
+    margin-top: 5px;
+}
+#delete-confirm .modal-body h4 + h4 strong {
+    font-weight: 700;
+}
+#delete-confirm .modal-body h4 {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 ul.tab-mail-list.data span.total-left small {
   font-size: 12px;
@@ -4074,7 +4114,7 @@ transform: translateY(-50%);
     padding: 0px 0 0 20px;
 }
 .sublink_left .doc-content-main-box ul.tab-mail-list.data span.total-left {
-    top: 0px;
+    top: -8px;
 }
 .distribute-page-reader {
     background: rgba(0, 102, 190, 0.03);
@@ -6014,12 +6054,12 @@ font-weight: 400;
 /**Library Responsive**/
 
 @media only screen and (min-width:1921px){
-  .library-content-box-layuot {
-    gap: 0% 3%;
-}
-  .library-content-box-layuot .doc-content-main-box {
-    flex: 0 0 22.7%;
-}
+//   .library-content-box-layuot {
+//     gap: 0% 3%;
+// }
+//   .library-content-box-layuot .doc-content-main-box {
+//     flex: 0 0 22.7%;
+// }
 .spc-delete .email_box {
     max-width: 100%;
     flex: 0 0 100%;
@@ -6165,6 +6205,21 @@ ul.tab-mail-list.data span.total-left {
   .library_create .library_create-box.spc {
     max-width: 31.3%;
   }
+  .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
+    max-width: 190px;
+}
+  ul.tab-mail-list.data span.total-left {
+    font-size: 12px;
+    line-height: 15px;
+    top: -7px;
+    left: -2px;
+    margin-right: -5px;
+}
+ul.tab-mail-list.data span.total-left small {
+    font-size: 10px;
+    line-height: 12px;
+    margin-left: 2px;
+}
   .chapter-btn-wrapper {
     gap: 16px;
 }
@@ -6389,6 +6444,15 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-time-view {
     font-size: 11px;
     line-height: 15px;
+}
+.sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
+    max-width: 122px;
+}
+.split-button-dropup div:nth-child(3) > div div {
+    padding-right: 0px;
+}
+.tab-mail-list.data .progress {
+    max-width: 300px;
 }
 .sublink-listed-view a.btn-bordered {
     min-width: 86px;
@@ -6754,6 +6818,9 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   .sublink_right_block .loader-view {
     width: 60px;
     height: 60px;
+}
+.tab-mail-list.data .progress {
+    max-width: 270px;
 }
 .create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button.btn-bigger {
     max-width: 380px;
@@ -7553,9 +7620,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   .informed div[class*="col-"] {
       width: 100%;
   }
-  body{
-    background-color: green;
-  }
+
   .informed .library-section .content-sec{
     display: none;
   }

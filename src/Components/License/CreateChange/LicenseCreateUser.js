@@ -1373,7 +1373,7 @@ const LicenseCreateUser = () => {
                           ) : (
                             <p>
                               Upload your cover image <br />
-                              <span><i>Allowed formats PNG,JPEG</i></span><br />
+                              <span><i>Allowed formats: PNG,JPEG</i></span><br />
                               <span>(Recommended size 88 X 124)</span>
                             </p>
                           )}

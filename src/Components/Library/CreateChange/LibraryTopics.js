@@ -222,11 +222,8 @@ function LibraryTopics() {
                                 alt="Delete Row"
                               />
                             </button>
-                          </span>
-                          <br />
-                          <span>
                             <button
-                              className="btn-bordered btn-voilet"
+                              className="btn-edit btn-voilet"
                               onClick={(e) => {
                                 setCommonModel(
                                   "Update",

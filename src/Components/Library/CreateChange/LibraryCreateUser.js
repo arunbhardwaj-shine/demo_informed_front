@@ -166,14 +166,10 @@ const LibraryCreateUser = () => {
         country: country,
         costCenter: hadData?.data?.data?.costCenter,
         sales: hadData?.data?.data?.sale,
-        format: hadData?.data?.data?.format?.sort((a, b) =>
-          a.value > b.value ? 1 : -1
-        ),
-        category: category?.sort((a, b) => (a.value > b.value ? 1 : -1)),
+        format: hadData?.data?.data?.format,
+        category: category,
         ibu: hadData?.data?.data?.ibu,
-        product: hadData?.data?.data?.product?.sort((a, b) =>
-          a.value > b.value ? 1 : -1
-        ),
+        product: hadData?.data?.data?.product,
         reseller: hadData?.data?.data?.reseller,
         trial: [{ label: "LEXx210", value: "3972" }],
       });
@@ -1461,7 +1457,7 @@ const LibraryCreateUser = () => {
                             <div className="select-tags">
                                 <ul className="after-tag-selected">
                                   <>
-                                    
+
                                     {mandatoryRole.map((item, index) => {
                                       return (
                                         <li className="list1" onClick={() => {
@@ -1744,7 +1740,7 @@ const LibraryCreateUser = () => {
                           ) : (
                             <p>
                               Upload your cover image <br />
-                              <span><i>Allowed formats PNG,JPEG</i></span><br />
+                              <span><i>Allowed formats: PNG,JPEG</i></span><br />
                               <span>(Recommended size 88 X 124)</span>
                             </p>
                           )}

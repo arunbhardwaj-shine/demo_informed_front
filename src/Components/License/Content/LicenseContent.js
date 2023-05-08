@@ -71,12 +71,7 @@ const LicenseContent = (props) => {
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
   const [filterdata, setFilterData] = useState({
-    language: ["English", "Russian", "Spanish", "italian"],
-    business_unit: ["IBU", "MPU", "KSU"],
-    product: ["Octapharma", "IBUE", "Haematology"],
-    topic: ["Topic1", "Topic2", "Topic3"],
-    format: ["format1", "format2", "format3"],
-    list: ["list1", "list2", "list3"],
+    language: ["English", "Russian"],
   });
 
   const [deletestatus, setDeleteStatus] = useState(false);
@@ -769,7 +764,7 @@ const LicenseContent = (props) => {
                   }
                 >
                   <button
-                    className="btn btn-secondary dropdown"
+                    className={Object.keys(filterObject).length > 0 ? "btn btn-secondary dropdown filter_applied" : "btn btn-secondary dropdown"}
                     type="button"
                     id="dropdownMenuButton2"
                     onClick={() => setShowFilter((showfilter) => !showfilter)}
@@ -1314,7 +1309,10 @@ const LicenseContent = (props) => {
                                             <ProgressBar
                                               variant={
                                                 opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                                ? "success" : "default"
+                                                ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening > 0
+                                                ? "success"
+                                                : "default"
+                                                : "default"
                                               }
                                               now={
                                                 opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
@@ -1352,7 +1350,10 @@ const LicenseContent = (props) => {
                                         <ProgressBar
                                           variant={
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? "warning" : "default"
+                                            ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique > 0
+                                            ? "warning"
+                                            : "default"
+                                            : "default"
                                           }
                                           now={
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
@@ -1375,11 +1376,11 @@ const LicenseContent = (props) => {
                                           {
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                             ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "Unlimted"
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "unlimited"
                                             :
                                             opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
                                             :
-                                            "Unlimted"
+                                            "unlimited"
                                           }
                                 			  </span>
                                       </div>
@@ -1425,7 +1426,10 @@ const LicenseContent = (props) => {
                                         <ProgressBar
                                           variant={
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? "danger" : "default"
+                                            ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.reader
+                                            ? "danger"
+                                            : "default"
+                                            : "default"
                                           }
                                           now={
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
@@ -1465,7 +1469,10 @@ const LicenseContent = (props) => {
                                         <ProgressBar
                                           variant={
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? "sublink" : "default"
+                                            ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.subLink
+                                            ? "sublink"
+                                            : "default"
+                                            : "default"
                                           }
                                           now={
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
@@ -1508,7 +1515,10 @@ const LicenseContent = (props) => {
                                           <ProgressBar
                                             variant={
                                               opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                              ? "print" : "default"
+                                              ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.print
+                                              ? "print"
+                                              : "default"
+                                              : "default"
                                             }
                                             now={
                                               opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
@@ -1553,7 +1563,10 @@ const LicenseContent = (props) => {
                                           <ProgressBar
                                             variant={
                                               opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                              ? "download" : "default"
+                                              ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.download
+                                              ? "download"
+                                              : "default"
+                                              : "default"
                                             }
                                             now={
                                               opening_details.findIndex((el) => el.pdfId == data?.id) !== -1

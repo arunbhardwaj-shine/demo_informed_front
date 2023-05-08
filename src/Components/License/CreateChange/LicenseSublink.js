@@ -587,7 +587,7 @@ const LicenseSublink = () => {
                                                       <>
                                                         <div className="data-progress success-progress">
                                                           <ProgressBar
-                                                            variant="success"
+                                                            variant={details.opening == 0 ? "default" : "success"}
                                                             now = {details.opening == 0 ? 0 : 100}
                                                             label = {details?.opening}
                                                           />
@@ -629,7 +629,7 @@ const LicenseSublink = () => {
                                                       <>
                                                         <div className="data-progress limited">
                                                           <ProgressBar
-                                                            variant="warning"
+                                                            variant={details?.uniqueReader == 0 ? "default" : "warning"}
                                                             now={
                                                               details?.limit == 0
                                                                 ? (details?.uniqueReader /
@@ -646,9 +646,9 @@ const LicenseSublink = () => {
                                                           <span>
                                                             Agreed Limit :&nbsp;
                                                             {details?.limit == 0
-                                                              ? "Unlimted"
+                                                              ? "unlimited"
                                                               : details?.limit == 1000
-                                                              ? "Unlimted"
+                                                              ? "unlimited"
                                                               : details?.limit
                                                             }
                                                           </span>
@@ -705,7 +705,7 @@ const LicenseSublink = () => {
                                                         <div className="data-progress">
                                                           {/* <span>{details.registeredReader}</span> */}
                                                           <ProgressBar
-                                                            variant="danger"
+                                                            variant={details.registeredReader == 0 ? "default" : "danger"}
                                                             now={
                                                               details.limit == 0
                                                                 ? (details.registeredReader /
