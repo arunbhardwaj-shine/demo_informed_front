@@ -56,9 +56,13 @@ const NewReaders = () => {
   });
   const [filterObject, setFilterObject] = useState({
     status: ["Registered"],
+    contactType:["HCP"]
   });
   const [apifilterObject, setApifilterObject] = useState({
     status: ["Registered"],
+    contactType:["HCP"]
+    // status: ["Registered"],
+
     // status:["Unregistered"]
   });
   const [updateflag, setUpdateFlag] = useState(0);
