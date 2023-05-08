@@ -752,7 +752,7 @@ const LicenseEditListing = () => {
                   }
                 >
                   <button
-                    className="btn btn-secondary dropdown"
+                    className={Object.keys(filterObject).length > 0 ? "btn btn-secondary dropdown filter_applied" : "btn btn-secondary dropdown"}
                     type="button"
                     id="dropdownMenuButton2"
                     onClick={() => setShowFilter((showfilter) => !showfilter)}
