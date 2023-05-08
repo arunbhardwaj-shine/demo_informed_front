@@ -668,9 +668,9 @@ const LibrarySublink = () => {
                                                           <span>
                                                             Agreed Limit :&nbsp;
                                                             {details?.limit == 0
-                                                              ? "Unlimted"
+                                                              ? "unlimited"
                                                               : details?.limit == 1000
-                                                              ? "Unlimted"
+                                                              ? "unlimited"
                                                               : details?.limit
                                                             }
                                                           </span>

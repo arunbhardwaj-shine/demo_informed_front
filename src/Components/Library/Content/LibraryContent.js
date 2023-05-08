@@ -1390,11 +1390,11 @@ const LibraryContent = (props) => {
                                   				{
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                             ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "Unlimted"
+                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "unlimited"
                                             :
                                             opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
                                             :
-                                            "Unlimted"
+                                            "unlimited"
                                           }
                                 			  </span>
                                       </div>
