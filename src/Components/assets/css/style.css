@@ -38,7 +38,13 @@ a {
   background: var(--light-blue);
   color: var(--white) !important;
 }
-
+.filter-by button.filter_applied {
+  background: var(--light-blue);
+  color: var(--white) !important;
+}
+.filter-by button.filter_applied svg{
+  fill-opacity: 1;
+}
 .container-fluid>.row {
   justify-content: flex-start;
 }
