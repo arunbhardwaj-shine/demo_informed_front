@@ -1971,7 +1971,7 @@ const EmailList = (props) => {
 
       {/*Modal for Reader Listing*/
         <div>
-          <Modal className="modal send-confirm" show={readerDetailsPopupStatus}>
+          <Modal className="modal modal-second" id="mail-view" show={readerDetailsPopupStatus}>
             <Modal.Header>
               <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => {setReaderDetailsPopupStatus(false);setReaderDetailsData([])}}></button>
             </Modal.Header>

@@ -5356,11 +5356,11 @@ a.show-less-info p.show_less:after {
 }
 
 .modal-dialog[custom-atr="scroll"] .modal-header {
-  box-shadow: 0px 2px 18px rgba(0, 102, 190, 0.12);
-  z-index: 10;
-  /*position: relative;*/
+	box-shadow: 0px 2px 18px rgba(0, 102, 190, 0.12);
+	z-index: 10;
+	/* position: relative; */
+	padding: 15px;
 }
-
 .add-new-field img {
   cursor: pointer;
 }
@@ -5791,15 +5791,21 @@ table thead.sticky-header:after {
   box-shadow: none;
 }
 
-.search-hcp table thead.sticky-header {
+.search-hcp table thead.sticky-header, .modal-second #mail-view .modal-body .sticky-header {
   position: sticky;
   overflow: hidden;
   z-index: 100;
   top: -10px;
   /* background: var(--white); */
 }
-
-.modal .selected-hcp-list table thead.sticky-header th {
+.modal-second #mail-view .modal-body .sticky-header {
+  top: 0px;
+}
+.modal-second #mail-view .modal-body {
+	padding: 0;
+	margin-top: 50px;
+}
+.modal .selected-hcp-list table thead.sticky-header th, #mail-view .modal-body .sticky-header tr {
   background: #ffffff;
 }
 
