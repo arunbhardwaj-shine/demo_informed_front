@@ -27,6 +27,7 @@ const EmailList = (props) => {
   const [filterdata, setFilterData] = useState([]);
   const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] = useState(false);
   const [readerDetailsData, setReaderDetailsData] = useState([]);
+  const [detailPopupName, setDetailPopupName] = useState("");
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [submiHandle, setSubmiHandle] = useState("");
@@ -571,7 +572,7 @@ const EmailList = (props) => {
   };
 
 
-  const getReaderData = async(type = "") => {
+  const getReaderData = async(type = "",name= "") => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: viewEmailData?.[0]?.id,
@@ -579,6 +580,7 @@ const EmailList = (props) => {
       type : type
     };
     setviewEmailModal(false);
+    setDetailPopupName(name);
     loader("show");
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
@@ -1535,7 +1537,7 @@ const EmailList = (props) => {
                   <div className="mail-stats">
                     <ul>
                       <li onClick={() => {
-                        getReaderData("unique");
+                        getReaderData("unique", "Emails send");
                       }}>
                         <div className="mail_send">
                           <h6>Emails send</h6>
@@ -1583,7 +1585,7 @@ const EmailList = (props) => {
                       </li>
 
                       <li onClick={() => {
-                        getReaderData("bounce");
+                        getReaderData("bounce", "Emails bounced");
                       }}>
                         <div className="mail_view">
                           <h6>Emails bounced</h6>
@@ -1627,7 +1629,7 @@ const EmailList = (props) => {
                         </div>
                       </li>
                       <li onClick={() => {
-                        getReaderData("open");
+                        getReaderData("open","Emails opened");
                       }}>
                         <div className="mail_open">
                           <h6>Emails opened</h6>
@@ -1669,7 +1671,7 @@ const EmailList = (props) => {
                         </div>
                       </li>
                       <li onClick={() => {
-                        getReaderData("ctr");
+                        getReaderData("ctr","CTR 1");
                       }}>
                         <div className="mail_click">
                           <div className="mail_click_box">
@@ -1976,7 +1978,7 @@ const EmailList = (props) => {
         <div>
           <Modal className="modal modal-second" id="mail-view" show={readerDetailsPopupStatus}>
             <Modal.Header>
-              <h4>Opening</h4>
+              <h4>{detailPopupName != "" ? detailPopupName : null}</h4>
               <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => {setReaderDetailsPopupStatus(false);setReaderDetailsData([]);setviewEmailModal(true);}}></button>
             </Modal.Header>
             <Modal.Body>
@@ -2012,9 +2014,13 @@ const EmailList = (props) => {
                               </tr>
                           ))
                           : readerDetailsData.length == 0 ?
-                              <div className="no_found">
-                                <p>No Data Found</p>
-                              </div>
+                            <tr className="table_no_data_found">
+                              <td colspan="6">
+                                <div className="no_found">
+                                  <p>No Data Found</p>
+                                </div>
+                              </td>
+                            </tr>
                           : null
                       }
                       </tbody>
