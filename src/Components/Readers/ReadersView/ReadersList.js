@@ -116,10 +116,8 @@ const NewReaders = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(
-      ENDPOINT.READERSFILTER
-      );
-      setCountry(res?.data?.data?.country)
+      const res = await getData(ENDPOINT.READERSFILTER);
+      setCountry(res?.data?.data?.country);
       setFilterData(res?.data?.data);
     } catch (err) {
       loader("hide");
@@ -270,24 +268,23 @@ const NewReaders = () => {
     if (!apifilterObject[key]) {
       apifilterObject[key] = [];
     }
-    if(key == "region"){
-     let newCountry = []
-     if(item == "All"){
-      newCountry = country
-      filterdata.country = []
-      delete apifilterObject.country
-      delete  filterObject.country
-     }else{
-      Object.keys(filterdata?.regionCountry)?.forEach(values =>{
-        if(filterdata?.regionCountry[values] == item){
-         newCountry.push(values)
-        }
-     })
-     delete apifilterObject.country
-     delete  filterObject.country
-
-     }
-      setFilterData({...filterdata,"country":newCountry})
+    if (key == "region") {
+      let newCountry = [];
+      if (item == "All") {
+        newCountry = country;
+        filterdata.country = [];
+        delete apifilterObject.country;
+        delete filterObject.country;
+      } else {
+        Object.keys(filterdata?.regionCountry)?.forEach((values) => {
+          if (filterdata?.regionCountry[values] == item) {
+            newCountry.push(values);
+          }
+        });
+        delete apifilterObject.country;
+        delete filterObject.country;
+      }
+      setFilterData({ ...filterdata, country: newCountry });
     }
 
     if (e?.target?.checked == true) {
@@ -1442,7 +1439,7 @@ const NewReaders = () => {
                                           </h6>
                                         </li>
                                       )}
-                                      <li>
+                                      {/* <li>
                                         <h6 className="tab-content-title">
                                           Last Activity
                                         </h6>
@@ -1451,7 +1448,7 @@ const NewReaders = () => {
                                             ? data?.last_activity
                                             : "N/A"}
                                         </h6>
-                                      </li>
+                                      </li> */}
                                     </>
                                   )}
                                 </ul>
@@ -1722,6 +1719,29 @@ const NewReaders = () => {
                                                   (el) => el.userId == data?.id
                                                 )
                                               ]?.contentOpening
+                                            : "Loading"
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Last Activity
+                                    </h6>
+                                    <div className="data-progress content-opening">
+                                      <ProgressBar
+                                        variant="default"
+                                        now={19}
+                                        label={
+                                          emailStats.findIndex(
+                                            (el) => el.userId == data?.id
+                                          ) !== -1
+                                            ? emailStats[
+                                                emailStats.findIndex(
+                                                  (el) => el.userId == data?.id
+                                                )
+                                              ]?.LastActivity
                                             : "Loading"
                                         }
                                       />
