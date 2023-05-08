@@ -3821,6 +3821,7 @@ form#add_hcp_form .row:not(:first-child) {
   line-height: 16px;
   color: var(--blue);
   font-weight: 500;
+  margin:0 0 8px;
 }
 
 #mail-view .mailbox-tags ul {
@@ -3865,6 +3866,7 @@ form#add_hcp_form .row:not(:first-child) {
   border-radius: 15px;
   padding: 15px 15px;
   min-width: 130px;
+  cursor:pointer;
 }
 
 #mail-view .mail-stats ul li h6 {
