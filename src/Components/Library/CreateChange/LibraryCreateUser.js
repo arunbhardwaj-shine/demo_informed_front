@@ -166,14 +166,10 @@ const LibraryCreateUser = () => {
         country: country,
         costCenter: hadData?.data?.data?.costCenter,
         sales: hadData?.data?.data?.sale,
-        format: hadData?.data?.data?.format?.sort((a, b) =>
-          a.value > b.value ? 1 : -1
-        ),
-        category: category?.sort((a, b) => (a.value > b.value ? 1 : -1)),
+        format: hadData?.data?.data?.format,
+        category: category,
         ibu: hadData?.data?.data?.ibu,
-        product: hadData?.data?.data?.product?.sort((a, b) =>
-          a.value > b.value ? 1 : -1
-        ),
+        product: hadData?.data?.data?.product,
         reseller: hadData?.data?.data?.reseller,
         trial: [{ label: "LEXx210", value: "3972" }],
       });
