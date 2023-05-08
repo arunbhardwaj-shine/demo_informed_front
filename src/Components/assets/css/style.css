@@ -5761,6 +5761,12 @@ table thead.sticky-header:after {
   right: -11px;
   top: 0;
 }
+.selected-hcp-list tbody tr.table_no_data_found {
+	box-shadow: none;
+}
+.selected-hcp-list tbody tr.table_no_data_found .no_found {
+	min-height: 40vh;
+}
 /* table thead.sticky-header:before {
   content: "";
   position: absolute;
