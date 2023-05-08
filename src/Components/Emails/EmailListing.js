@@ -578,6 +578,7 @@ const EmailList = (props) => {
       pdf_id: viewEmailData?.[0]?.pdf_id,
       type : type
     };
+    setviewEmailModal(false);
     loader("show");
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
@@ -1581,7 +1582,9 @@ const EmailList = (props) => {
                         </div>
                       </li>
 
-                      <li>
+                      <li onClick={() => {
+                        getReaderData("bounce");
+                      }}>
                         <div className="mail_view">
                           <h6>Emails bounced</h6>
                           <div className="mail-stats-list">
@@ -1619,7 +1622,7 @@ const EmailList = (props) => {
                                 </clipPath>
                               </defs>
                             </svg>
-                            <span>0</span>
+                            <span>{viewEmailData[0]?.bounce ? viewEmailData[0].bounce : 0}</span>
                           </div>
                         </div>
                       </li>
@@ -1973,7 +1976,8 @@ const EmailList = (props) => {
         <div>
           <Modal className="modal modal-second" id="mail-view" show={readerDetailsPopupStatus}>
             <Modal.Header>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => {setReaderDetailsPopupStatus(false);setReaderDetailsData([])}}></button>
+              <h4>Opening</h4>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => {setReaderDetailsPopupStatus(false);setReaderDetailsData([]);setviewEmailModal(true);}}></button>
             </Modal.Header>
             <Modal.Body>
                 {
@@ -1991,21 +1995,28 @@ const EmailList = (props) => {
                       </thead>
                       <tbody>
                         {typeof readerDetailsData !== "undefined" &&
-                          readerDetailsData.length > 0 &&
-                          readerDetailsData.map((item, index) => (
-                            <tr
-                              key={"readers_"+index}
-                              className="hcp"
-                              id={`row-selected` + index}
-                            >
-                              <td> {item?.first_name + " " + item?.last_name} </td>
-                              <td> {item?.email ? item.email : "N/A"} </td>
-                              <td> {item?.bounce ? item.bounce : "N/A"}</td>
-                              <td> <span>{item?.country ? item.country : "N/A"}</span> </td>
-                              <td> {item?.ibu}</td>
-                              <td> {item?.contact_type} </td>
-                            </tr>
-                        ))}
+                          readerDetailsData.length > 0
+                          ?
+                            readerDetailsData.map((item, index) => (
+                              <tr
+                                key={"readers_"+index}
+                                className="hcp"
+                                id={`row-selected` + index}
+                              >
+                                <td> {item?.first_name + " " + item?.last_name} </td>
+                                <td> {item?.email ? item.email : "N/A"} </td>
+                                <td> {item?.bounce ? item.bounce : "N/A"}</td>
+                                <td> <span>{item?.country ? item.country : "N/A"}</span> </td>
+                                <td> {item?.ibu}</td>
+                                <td> {item?.contact_type} </td>
+                              </tr>
+                          ))
+                          : readerDetailsData.length == 0 ?
+                              <div className="no_found">
+                                <p>No Data Found</p>
+                              </div>
+                          : null
+                      }
                       </tbody>
                   </table>
                 </div>
