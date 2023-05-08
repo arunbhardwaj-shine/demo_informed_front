@@ -5761,7 +5761,15 @@ table thead.sticky-header:after {
   right: -11px;
   top: 0;
 }
-
+/* table thead.sticky-header:before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  background: #fbfcfd;
+  height: 35px;
+  left: -11px;
+  top: 0;
+} */
 .navbar-expand-sm .navbar-nav {
   align-items: center;
 }
