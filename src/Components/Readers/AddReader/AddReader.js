@@ -22,7 +22,6 @@ const ReaderAdd = () => {
   const [pharmaData, setPharmaData] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
-  const [province, setProvince] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1222" },
@@ -148,22 +147,35 @@ const ReaderAdd = () => {
     setUploadShow(false);
   };
 
-  const handleSubmitModelFun = (e) => {
+  const handleSubmitModelFun = async (e) => {
     if (newProduct?.value?.length) {
       const newArr = userDetail[newProduct?.label];
+      loader("show");
+      try {
+        await postData(`${ENDPOINT.READER_ADD_FEATURES}`, {
+          label: newProduct?.label,
+          value: newProduct?.value,
+        });
 
-      let checkIndex = newArr.findIndex((el) => el.value == newProduct?.value);
-      if (commonFooter == "Add") {
-        if (checkIndex == -1) {
-          newArr.unshift({
-            value: newProduct?.value,
-            label: newProduct?.value,
-          });
+        let checkIndex = newArr.findIndex(
+          (el) => el.value == newProduct?.value
+        );
+        if (commonFooter == "Add") {
+          if (checkIndex == -1) {
+            newArr.unshift({
+              value: newProduct?.value,
+              label: newProduct?.value,
+            });
 
-          setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
-        } else {
-          toast.error(newProduct?.label + " already in list.");
+            setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
+          } else {
+            toast.error(newProduct?.label + " already in list.");
+          }
         }
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log(err);
       }
     }
   };
@@ -180,7 +192,7 @@ const ReaderAdd = () => {
     });
 
     setCountryAll(country);
-    setProvince(hasData?.data?.data?.province);
+    // setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
@@ -190,6 +202,7 @@ const ReaderAdd = () => {
       ...userDetail,
       discipline: hasData?.data?.data?.discipline,
       speciality: hasData?.data?.data?.speciality,
+      province: hasData?.data?.data?.province,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
