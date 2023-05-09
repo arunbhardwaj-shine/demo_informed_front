@@ -290,7 +290,7 @@ const NewReaders = () => {
     if (e?.target?.checked == true) {
       if (
         key == "status" ||
-        key == "contactType" ||
+        key == "Contact Type" ||
         key == "userAction" ||
         key == "Business Unit" ||
         key == "webinarRegistered" ||
@@ -1086,7 +1086,7 @@ const NewReaders = () => {
                                                       type={
                                                         key == "status" ||
                                                         key == "Accounts" ||
-                                                        key == "contactType" ||
+                                                        key == "Contact Type" ||
                                                         key == "userAction" ||
                                                         key == "Blinded" ||
                                                         key == "IRT" ||
