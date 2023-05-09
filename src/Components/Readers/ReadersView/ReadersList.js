@@ -299,6 +299,7 @@ const NewReaders = () => {
         key == "region" ||
         key == "IRT" ||
         key == "Blinded" ||
+        key == "Accounts" ||
         key == "List"
       ) {
         filterObject[key] = [];
@@ -1079,6 +1080,7 @@ const NewReaders = () => {
                                                     <input
                                                       type={
                                                         key == "status" ||
+                                                        key == "Accounts" ||
                                                         key == "contactType" ||
                                                         key == "userAction" ||
                                                         key == "Blinded" ||
