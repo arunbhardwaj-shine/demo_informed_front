@@ -56,11 +56,11 @@ const NewReaders = () => {
   });
   const [filterObject, setFilterObject] = useState({
     status: ["Registered"],
-    contactType:["HCP"]
+    contactType: ["HCP"],
   });
   const [apifilterObject, setApifilterObject] = useState({
     status: ["Registered"],
-    contactType:["HCP"]
+    contactType: ["HCP"],
     // status: ["Registered"],
 
     // status:["Unregistered"]
@@ -996,7 +996,12 @@ const NewReaders = () => {
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
-                    className= {Object.keys(apifilterObject)?.length && filterApplyflag == 1 ? "btn btn-secondary dropdown filter_applied" : "btn btn-secondary dropdown"}
+                    className={
+                      Object.keys(apifilterObject)?.length &&
+                      filterApplyflag == 1
+                        ? "btn btn-secondary dropdown filter_applied"
+                        : "btn btn-secondary dropdown"
+                    }
                     type="button"
                     id="dropdownMenuButton2"
                     onClick={() => setShowFilter((showfilter) => !showfilter)}
@@ -1086,11 +1091,12 @@ const NewReaders = () => {
                                                         key == "Blinded" ||
                                                         key == "IRT" ||
                                                         key == "region" ||
-                                                         key == "RTR?" ||
-                                                         key == "Business Unit" ||
-                                                           key ==
+                                                        key == "RTR?" ||
+                                                        key ==
+                                                          "Business Unit" ||
+                                                        key ==
                                                           "webinarRegistered" ||
-                                                           key ==
+                                                        key ==
                                                           "Register For Webinar" ||
                                                         key == "List"
                                                           ? "radio"

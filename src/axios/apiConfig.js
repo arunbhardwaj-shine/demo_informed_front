@@ -76,5 +76,6 @@ export const ENDPOINT = {
   UPDATESITE: "reader/edit-trail",
   DELETESITE: "reader/delete-trail",
   UPDATE_TOPIC: "library/edit-product/",
+  READER_ADD_FEATURES: "/reader/add-features",
   SPCFILTERS: "library/spc-filter",
 };
