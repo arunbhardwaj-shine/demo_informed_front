@@ -15,7 +15,7 @@ export const createContent = (data, fileCheck, groupId = 2) => {
   }
   
   if (!data?.contentTitle) {
-    error.contentTitle = "Content Title is required!";
+    error.contentTitle = "Content title is required!";
   }
 
   if(data.hasOwnProperty('chapter')){
@@ -46,7 +46,7 @@ export const createContent = (data, fileCheck, groupId = 2) => {
 
 
   if (!data?.docintelFormat) {
-    error.docintelFormat = "Docintel Format is required!";
+    error.docintelFormat = "Docintel format is required!";
   } else if (data?.docintelFormat) {
     if (data?.docintelFormat == "pdf" && !data?.uploadFile) {
       error.uploadFile = "Please upload pdf file!";

@@ -3,50 +3,40 @@ import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const data = [
-  {
-    image: `${path_image}create-icon.png`,
-    title: "Create",
-    subtitle: "Upload Content here to create  a new Docintel Link",
-  },
-  {
-    image: `${path_image}edit-icon.png`,
-    title: "Edit",
-    subtitle: "Change or Replace an existing Docintel Link from here",
-  },
-  {
-    image: `${path_image}link-icon.png`,
-    title: "New SubLink",
-    subtitle: "SubLinks leads to Docintel Link but are tracked seperately",
-  },
-  {
-    image: `${path_image}popup-icon.png`,
-    title: "Set Pop up",
-    subtitle: "Update and add the Pop up text and design from here",
-  },
-  // {
-  //   image: `${path_image}topics.png`,
-  //   title: "Topics & Products",
-  //   subtitle: "Add new or delete an existing topic and product",
-  // },
-];
-
-if(localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g=="){
-    const newObj = {
-      image: `${path_image}topics.png`,
-      title: "Products & Topics",
-      subtitle: "Add new or delete an existing topic",
-    };
-    data.push(newObj);
-}
-
-// {
-//   image: `${path_image}topics.png`,
-//   title: "Topics",
-//   subtitle: "Add new or delete an existing topic",
-// },
-
 const LibraryCreate = () => {
+
+  let data = [
+    {
+      image: `${path_image}create-icon.png`,
+      title: "Create",
+      subtitle: "Upload Content here to create  a new Docintel Link",
+    },
+    {
+      image: `${path_image}edit-icon.png`,
+      title: "Edit",
+      subtitle: "Change or Replace an existing Docintel Link from here",
+    },
+    {
+      image: `${path_image}link-icon.png`,
+      title: "New SubLink",
+      subtitle: "SubLinks leads to Docintel Link but are tracked seperately",
+    },
+    {
+      image: `${path_image}popup-icon.png`,
+      title: "Set Pop up",
+      subtitle: "Update and add the Pop up text and design from here",
+    },
+  ];
+
+  if(localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==") {
+      const newObj = {
+        image: `${path_image}topics.png`,
+        title: "Products & Topics",
+        subtitle: "Add new or delete an existing topic",
+      };
+      data.push(newObj);
+  }
+
   const navigate = useNavigate();
   let [active, setActive] = useState();
   const handleChange = (value) => {

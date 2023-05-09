@@ -229,12 +229,16 @@ const ContentDetail = () => {
                                           : "N/A"}
                                         </>
                                       </h6>
-                                      <h6>
-                                        <strong>Author | </strong>
-                                        {data?.key_author
-                                          ? data?.key_author
-                                          : "N/A"}
-                                      </h6>
+                                      {
+                                        localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                                        <h6>
+                                          <strong>Author | </strong>
+                                          {data?.key_author
+                                            ? data?.key_author
+                                            : "N/A"}
+                                        </h6>
+                                        : null
+                                      }
 
                                       {
                                         localStorage.getItem("group_id") == "3" ?
@@ -633,12 +637,33 @@ const ContentDetail = () => {
 
                                                 {
                                                   localStorage.getItem("group_id") == "3" ?
-                                                  <tr>
-                                                    <th>Saved as draft</th>
-                                                    <td>
-                                                      {data?.draft ? "Yes" : "No"}
-                                                    </td>
-                                                  </tr>
+                                                  <>
+                                                    <tr>
+                                                      <th>Saved as draft</th>
+                                                      <td>
+                                                        {data?.draft ? "Yes" : "No"}
+                                                      </td>
+                                                    </tr>
+
+                                                    {
+                                                      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                                      <>
+                                                        <tr>
+                                                          <th>inforMedGO code</th>
+                                                          <td>
+                                                            {data?.rep_code}
+                                                          </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                          <th>Docintel code</th>
+                                                          <td>
+                                                            {data?.docintel_code}
+                                                          </td>
+                                                        </tr></>
+                                                      : null
+                                                    }
+                                                  </>
                                                   : null
                                                 }
                                                 {

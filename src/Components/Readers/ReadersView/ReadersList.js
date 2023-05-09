@@ -290,7 +290,7 @@ const NewReaders = () => {
     if (e?.target?.checked == true) {
       if (
         key == "status" ||
-        key == "contactType" ||
+        key == "contact Type" ||
         key == "userAction" ||
         key == "Business Unit" ||
         key == "webinarRegistered" ||
@@ -299,6 +299,7 @@ const NewReaders = () => {
         key == "region" ||
         key == "IRT" ||
         key == "Blinded" ||
+        key == "Accounts" ||
         key == "List"
       ) {
         filterObject[key] = [];
@@ -1084,7 +1085,8 @@ const NewReaders = () => {
                                                     <input
                                                       type={
                                                         key == "status" ||
-                                                        key == "contactType" ||
+                                                        key == "Accounts" ||
+                                                        key == "contact Type" ||
                                                         key == "userAction" ||
                                                         key == "Blinded" ||
                                                         key == "IRT" ||

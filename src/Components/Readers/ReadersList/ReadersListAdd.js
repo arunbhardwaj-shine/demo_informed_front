@@ -720,7 +720,7 @@ const ReadersListAdd = () => {
                                     <span>{data.country}</span>
                                   )}
                                 </td>
-                                <td>{data?.ibu}</td>
+                                <td>{data?.ibu ? data.ibu : "N/A"}</td>
                                 <td>
                                   {editable ? (
                                     <EditContactType
