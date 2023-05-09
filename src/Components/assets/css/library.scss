@@ -4159,6 +4159,15 @@ transform: translateY(-50%);
 .selected-products-list .products-listing:first-letter {
     text-transform: capitalize;
 }
+.library-content-box-layuot.readerlist .doc-content-main-box{
+  justify-content: flex-start;
+}
+.library-content-box-layuot.readerlist .doc-content-main-box .tabs-data {
+	height: calc(100% - 67px);
+}
+.library-content-box-layuot.readerlist .doc-content-main-box .tab-content {
+	padding-bottom:0px;
+}
 /**Analytics page End**/
 
 /***INFORMED***/
