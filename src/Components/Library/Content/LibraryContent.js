@@ -190,7 +190,6 @@ const LibraryContent = (props) => {
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
-    console.log("data", data);
     let newObj = filterObject;
     if (!newObj[key]) {
       newObj[key] = [];
