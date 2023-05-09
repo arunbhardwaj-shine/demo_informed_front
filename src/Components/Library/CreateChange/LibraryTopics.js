@@ -62,7 +62,7 @@ function LibraryTopics() {
       try {
         await postData(ENDPOINT.ADD_SPC_PRODUCT, {
           user_id: localStorage.getItem("user_id"),
-          product: newValue?.newProductValue,
+          product: newValue?.newProductValue?.trim(),
           category: newValue?.category,
           type: content?.value,
         });
@@ -76,7 +76,7 @@ function LibraryTopics() {
         loader("show");
         try {
           await postData(`${ENDPOINT.UPDATE_TOPIC}${topicId}`, {
-            product: newValue?.newProductValue,
+            product: newValue?.newProductValue?.trim(),
           });
           loader("hide");
 
