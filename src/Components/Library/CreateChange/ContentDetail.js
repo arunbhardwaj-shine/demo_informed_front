@@ -229,12 +229,16 @@ const ContentDetail = () => {
                                           : "N/A"}
                                         </>
                                       </h6>
-                                      <h6>
-                                        <strong>Author | </strong>
-                                        {data?.key_author
-                                          ? data?.key_author
-                                          : "N/A"}
-                                      </h6>
+                                      {
+                                        localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                                        <h6>
+                                          <strong>Author | </strong>
+                                          {data?.key_author
+                                            ? data?.key_author
+                                            : "N/A"}
+                                        </h6>
+                                        : null
+                                      }
 
                                       {
                                         localStorage.getItem("group_id") == "3" ?
