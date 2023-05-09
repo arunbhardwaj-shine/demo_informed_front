@@ -434,6 +434,8 @@ const ReaderAdd = () => {
   const handleFileUpload = async (e) => {
     loader("show");
     try {
+      handleClose();
+      setUpdateFlag(0);
       let formData = new FormData();
       formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("createdBy", localStorage.getItem("user_id"));
@@ -444,7 +446,7 @@ const ReaderAdd = () => {
           header: { "Content-Type": "multipart/form-data" },
         }
       );
-
+      loader("hide");
       if (response?.data?.data) {
         navigate("/readers-list", {
           state: {
@@ -453,12 +455,11 @@ const ReaderAdd = () => {
         });
       }
     } catch (err) {
+      handleClose();
+      setUpdateFlag(0);
       console.log(err);
       loader("hide");
     }
-    handleClose();
-    setUpdateFlag(0);
-
     loader("hide");
   };
 
@@ -520,6 +521,21 @@ const ReaderAdd = () => {
         loader("hide");
       }
     }
+  };
+
+  const downloadFile = () => {
+    let user_id = localStorage.getItem("user_id");
+    let link = document.createElement("a");
+    if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+      link.href = "https://informed.pro/R_D_sample.xls";
+    } else {
+      link.href = "https://informed.pro/sample.xls";
+    }
+    link.setAttribute("download", "file.xlsx");
+    document.body.appendChild(link);
+    link.download = "";
+    link.click();
+    document.body.removeChild(link);
   };
 
   const RDAccount = () => {
@@ -1487,7 +1503,7 @@ const ReaderAdd = () => {
             ></button>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+            <Form className="upload_reader_excel">
               <div className="form-group">
                 <div className="upload-file-box">
                   <div className="box">
@@ -1513,6 +1529,7 @@ const ReaderAdd = () => {
                   </div>
                 </div>
               </div>
+              <div className="sample_btn" onClick={downloadFile}><p>Download sample file from here</p></div>
             </Form>
           </Modal.Body>
           <div className="modal-footer">
