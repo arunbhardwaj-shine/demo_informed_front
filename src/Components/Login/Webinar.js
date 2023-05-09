@@ -296,7 +296,9 @@ const Webinar = () => {
                               onChange={handleChange}
                               />
                               {showError && <p style={{ color: "red" }}>{showError}</p>}
-                              <Button variant="outline-success" className="go-btn" type="submit">Go</Button>
+                              <Button variant="outline-success" type="submit">
+                                            Go
+                                        </Button>
                               <p onClick={(e) => handleShow("forgot")} className="forgot-link">Forgot password?</p>
                           </Form>
                       </NavDropdown>

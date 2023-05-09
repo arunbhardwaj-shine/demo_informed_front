@@ -1461,11 +1461,7 @@ const LibraryCreateUser = () => {
                             <div className="select-tags">
                                 <ul className="after-tag-selected">
                                   <>
-                                    <li className={hcpIrtClickedFirst.length == 3 ? "list1 all fade-down" : "list1 all fade-up"} onClick={() => {
-                                        hcpIrtClicked("All");
-                                      }}>
-                                      All
-                                    </li>
+
                                     {mandatoryRole.map((item, index) => {
                                       return (
                                         <li className="list1" onClick={() => {
@@ -1748,7 +1744,7 @@ const LibraryCreateUser = () => {
                           ) : (
                             <p>
                               Upload your cover image <br />
-                              <span><i>Allowed formats PNG,JPEG</i></span><br />
+                              <span><i>Allowed formats: PNG,JPEG</i></span><br />
                               <span>(Recommended size 88 X 124)</span>
                             </p>
                           )}

@@ -172,7 +172,7 @@ const sendContactInformation= (event) => {
                                         <Button variant="outline-success" type="submit">
                                             Go
                                         </Button>
-                                        <p onClick={(e) => handleShow("forgot")} className="go-btn">
+                                        <p onClick={(e) => handleShow("forgot")}>
                                             Forgot password?
                                         </p>
                                     </Form>
