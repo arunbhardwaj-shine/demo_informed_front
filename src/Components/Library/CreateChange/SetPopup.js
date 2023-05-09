@@ -269,7 +269,7 @@ const SetPopup = (props) => {
     );
     templateList[findTemplateIndex].source_code = templateSaving;
     setTemplateList(templateList);
-    toast.success("Popup Update successfully.");
+    toast.success("Popup updated successfully.");
   };
 
   const nextButtonClicked = async () => {

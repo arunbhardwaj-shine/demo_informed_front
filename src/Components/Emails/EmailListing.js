@@ -28,6 +28,7 @@ const EmailList = (props) => {
   const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] = useState(false);
   const [readerDetailsData, setReaderDetailsData] = useState([]);
   const [detailPopupName, setDetailPopupName] = useState("");
+  const [popupHeadingColor, setPopupHeadingColor] = useState("");
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [submiHandle, setSubmiHandle] = useState("");
@@ -572,7 +573,7 @@ const EmailList = (props) => {
   };
 
 
-  const getReaderData = async(type = "",name= "") => {
+  const getReaderData = async(type = "",name= "",color_code="") => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: viewEmailData?.[0]?.id,
@@ -581,6 +582,7 @@ const EmailList = (props) => {
     };
     setviewEmailModal(false);
     setDetailPopupName(name);
+    setPopupHeadingColor(color_code);
     loader("show");
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
@@ -1537,7 +1539,7 @@ const EmailList = (props) => {
                   <div className="mail-stats">
                     <ul>
                       <li onClick={() => {
-                        getReaderData("unique", "Emails send");
+                        getReaderData("unique", "Emails send","#8a4e9c");
                       }}>
                         <div className="mail_send">
                           <h6>Emails send</h6>
@@ -1585,7 +1587,7 @@ const EmailList = (props) => {
                       </li>
 
                       <li onClick={() => {
-                        getReaderData("bounce", "Emails bounced");
+                        getReaderData("bounce", "Emails bounced","#f58289");
                       }}>
                         <div className="mail_view">
                           <h6>Emails bounced</h6>
@@ -1629,7 +1631,7 @@ const EmailList = (props) => {
                         </div>
                       </li>
                       <li onClick={() => {
-                        getReaderData("open","Emails opened");
+                        getReaderData("open","Emails opened","#ffbe2c");
                       }}>
                         <div className="mail_open">
                           <h6>Emails opened</h6>
@@ -1671,7 +1673,7 @@ const EmailList = (props) => {
                         </div>
                       </li>
                       <li onClick={() => {
-                        getReaderData("ctr","CTR 1");
+                        getReaderData("ctr","CTR 1","#39cabc");
                       }}>
                         <div className="mail_click">
                           <div className="mail_click_box">
@@ -1978,7 +1980,7 @@ const EmailList = (props) => {
         <div>
           <Modal className="modal modal-second" id="mail-view" show={readerDetailsPopupStatus}>
             <Modal.Header>
-              <h4>{detailPopupName != "" ? detailPopupName : null}</h4>
+              <h4 style={{color:popupHeadingColor}}>{detailPopupName != "" ? detailPopupName : null}</h4>
               <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => {setReaderDetailsPopupStatus(false);setReaderDetailsData([]);setviewEmailModal(true);}}></button>
             </Modal.Header>
             <Modal.Body>

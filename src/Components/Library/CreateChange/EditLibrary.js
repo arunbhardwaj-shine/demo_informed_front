@@ -282,7 +282,9 @@ const EditLibrary = () => {
       if(dd == "All"){
         setHcpIrtClickedFirst(mandatoryRole);
       }else{
-        setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
+        const newArray = [dd];
+        setHcpIrtClickedFirst(newArray);
+        // setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
       }
     } else {
       toast.error("Role already Selected.");

@@ -633,12 +633,33 @@ const ContentDetail = () => {
 
                                                 {
                                                   localStorage.getItem("group_id") == "3" ?
-                                                  <tr>
-                                                    <th>Saved as draft</th>
-                                                    <td>
-                                                      {data?.draft ? "Yes" : "No"}
-                                                    </td>
-                                                  </tr>
+                                                  <>
+                                                    <tr>
+                                                      <th>Saved as draft</th>
+                                                      <td>
+                                                        {data?.draft ? "Yes" : "No"}
+                                                      </td>
+                                                    </tr>
+
+                                                    {
+                                                      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                                      <>
+                                                        <tr>
+                                                          <th>inforMedGO code</th>
+                                                          <td>
+                                                            {data?.rep_code}
+                                                          </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                          <th>Docintel code</th>
+                                                          <td>
+                                                            {data?.docintel_code}
+                                                          </td>
+                                                        </tr></>
+                                                      : null
+                                                    }
+                                                  </>
                                                   : null
                                                 }
                                                 {
