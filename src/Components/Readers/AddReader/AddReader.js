@@ -487,9 +487,11 @@ const ReaderAdd = () => {
       } else if (Object.keys(result)[0] == "email") {
         emailRef.current.focus();
       }
+      toast.error(result[Object.keys(result)[0]]);
       setError(result);
       return;
     } else {
+      loader("hide");
       try {
         loader("show");
         let data = {
@@ -1542,7 +1544,9 @@ const ReaderAdd = () => {
                   </div>
                 </div>
               </div>
-              <div className="sample_btn" onClick={downloadFile}><p>Download sample file from here</p></div>
+              <div className="sample_btn" onClick={downloadFile}>
+                <p>Download sample file from here</p>
+              </div>
             </Form>
           </Modal.Body>
           <div className="modal-footer">

@@ -181,13 +181,16 @@ const SpcEdit = () => {
   const publishClicked = async (event) => {
     loader("show");
     event.preventDefault();
+
     const result = SPCValidation(userInputs);
 
     if (Object.keys(result)?.length) {
+      toast.error(result[Object.keys(result)[0]]);
       setError(result);
       loader("hide");
       return;
     }
+
     const data = new FormData(event.target);
     data.append("id", state?.spcId);
     data.append("createdBy", localStorage.getItem("user_id"));

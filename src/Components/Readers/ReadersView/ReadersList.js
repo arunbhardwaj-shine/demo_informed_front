@@ -65,7 +65,7 @@ const NewReaders = () => {
 
     // status:["Unregistered"]
   });
-  const [test, setTest] = useState(false);
+  const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "0", label: "HCP" },
@@ -347,7 +347,7 @@ const NewReaders = () => {
 
     setFilterObject(newObj);
     setApifilterObject(apifilterObject);
-    setTest(!test);
+    setForceRender(!forceRender);
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -994,7 +994,7 @@ const NewReaders = () => {
                     <input
                       className="form-control me-2"
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search by email or name"
                       aria-label="Search"
                       id="email_search"
                       onChange={(e) => searchChange(e)}

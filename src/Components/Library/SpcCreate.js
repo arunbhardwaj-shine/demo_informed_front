@@ -157,6 +157,7 @@ const SpcCreate = () => {
     const result = SPCValidation(userInputs);
 
     if (Object.keys(result)?.length) {
+      toast.error(result[Object.keys(result)[0]]);
       setError(result);
       loader("hide");
       return;
