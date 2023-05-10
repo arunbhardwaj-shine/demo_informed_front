@@ -15,6 +15,11 @@ export const SPCValidation = (data) => {
   if (!data?.product) {
     err.product = "Please select product";
   }
+  if (data?.product) {
+    if (data?.product?.length == 0) {
+      err.product = "Please select product";
+    }
+  }
   if (!data?.uploadspc) {
     err.uploadspc = "Please select uploadspc";
   }

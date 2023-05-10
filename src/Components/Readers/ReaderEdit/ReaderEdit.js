@@ -458,10 +458,10 @@ const ReaderEdit = () => {
       } else if (Object.keys(result)[0] == "email") {
         emailRef.current.focus();
       }
+      toast.error(result[Object.keys(result)[0]]);
       setError(result);
       return;
     } else {
-      return;
       try {
         loader("show");
         let data = {
