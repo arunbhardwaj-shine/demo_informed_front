@@ -96,7 +96,7 @@ const LibraryContent = (props) => {
   const [modalCounter, setModalCounter] = useState(0);
   const [allTags, setAllTags] = useState({});
   const [resetDataId, setResetDataId] = useState();
-  const [test, setTest] = useState(false);
+  const [forceRender, setForceRender] = useState(false);
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -239,7 +239,7 @@ const LibraryContent = (props) => {
     }
 
     setFilterObject(newObj);
-    setTest(!test);
+    setForceRender(!forceRender);
   };
 
   const tabClicked = async (event, id) => {
@@ -768,7 +768,7 @@ const LibraryContent = (props) => {
                     <input
                       className="form-control me-2"
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search by title"
                       aria-label="Search"
                       id="email_search"
                       onChange={(e) => searchChange(e)}

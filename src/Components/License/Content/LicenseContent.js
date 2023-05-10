@@ -36,7 +36,11 @@ import moment from "moment";
 // import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
 import { connect } from "react-redux";
-import { getEmailData, getDraftData, getSelectedSmartListData } from "../../../actions";
+import {
+  getEmailData,
+  getDraftData,
+  getSelectedSmartListData,
+} from "../../../actions";
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LicenseContent = (props) => {
@@ -195,25 +199,25 @@ const LicenseContent = (props) => {
     setUserId(id);
 
     if (event == "data-tab") {
-        // setOpeningDetails(normal_data);
-        let index = opening_details.findIndex((el) => el.pdfId == id);
-        if(index === -1){
-            let normal_data = opening_details;
-          try{
-            let body = {
-              pdfId: [id],
-            };
-            const res = await postData(ENDPOINT.LIBRARYSTATS, body);
-            if(res?.data?.data?.[0]){
-              let new_data = res?.data?.data?.[0];
-              normal_data.push(new_data);
-              setOpeningDetails(normal_data);
-              setFlag(flag + 1);
-            }
-          }catch(err){
-            console.log(err);
+      // setOpeningDetails(normal_data);
+      let index = opening_details.findIndex((el) => el.pdfId == id);
+      if (index === -1) {
+        let normal_data = opening_details;
+        try {
+          let body = {
+            pdfId: [id],
+          };
+          const res = await postData(ENDPOINT.LIBRARYSTATS, body);
+          if (res?.data?.data?.[0]) {
+            let new_data = res?.data?.data?.[0];
+            normal_data.push(new_data);
+            setOpeningDetails(normal_data);
+            setFlag(flag + 1);
           }
+        } catch (err) {
+          console.log(err);
         }
+      }
     }
   };
 
@@ -505,10 +509,8 @@ const LicenseContent = (props) => {
       };
       const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
       let normal_data = opening_details;
-      const lib_data_index = normal_data.findIndex(
-        (el) => el.pdfId === pdf_id
-      );
-      if(lib_data_index != -1){
+      const lib_data_index = normal_data.findIndex((el) => el.pdfId === pdf_id);
+      if (lib_data_index != -1) {
         normal_data[lib_data_index].unique = 0;
         normal_data[lib_data_index].opening = 0;
         normal_data[lib_data_index].reader = 0;
@@ -527,7 +529,7 @@ const LicenseContent = (props) => {
           type: "success",
           redirect: "",
         });
-      }else{
+      } else {
         loader("hide");
         popup_alert({
           visible: "show",
@@ -708,16 +710,15 @@ const LicenseContent = (props) => {
     if (data) {
       // data = data.replace(/^,|,$/g, "");
       data = data.trim().slice(0, -1);
-    }else{
-      data = "N/A"
+    } else {
+      data = "N/A";
     }
 
     return data;
-  }
-
+  };
 
   const nextClicked = (id) => {
-      props.getEmailData({ PdfSelected: id });
+    props.getEmailData({ PdfSelected: id });
   };
 
   return (
@@ -735,7 +736,7 @@ const LicenseContent = (props) => {
                     <input
                       className="form-control me-2"
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search by title"
                       aria-label="Search"
                       id="email_search"
                       onChange={(e) => searchChange(e)}
@@ -764,7 +765,11 @@ const LicenseContent = (props) => {
                   }
                 >
                   <button
-                    className={Object.keys(filterObject).length > 0 ? "btn btn-secondary dropdown filter_applied" : "btn btn-secondary dropdown"}
+                    className={
+                      Object.keys(filterObject).length > 0
+                        ? "btn btn-secondary dropdown filter_applied"
+                        : "btn btn-secondary dropdown"
+                    }
                     type="button"
                     id="dropdownMenuButton2"
                     onClick={() => setShowFilter((showfilter) => !showfilter)}
@@ -1053,7 +1058,11 @@ const LicenseContent = (props) => {
                             </div>
                             <div className="doc-content">
                               <h5>{data?.title}</h5>
-                              <h6>{data?.pdf_sub_title ? data.pdf_sub_title : data?.folder_name }</h6>
+                              <h6>
+                                {data?.pdf_sub_title
+                                  ? data.pdf_sub_title
+                                  : data?.folder_name}
+                              </h6>
                               <p>{data?.key_author}</p>
                               <div className="select-tags">
                                 {data?.tags?.length
@@ -1188,7 +1197,11 @@ const LicenseContent = (props) => {
                                       <h6 className="tab-content-title">
                                         Language
                                       </h6>
-                                      <h6>{data?.popup_email_content_language?data?.popup_email_content_language:"No"}</h6>
+                                      <h6>
+                                        {data?.popup_email_content_language
+                                          ? data?.popup_email_content_language
+                                          : "No"}
+                                      </h6>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
@@ -1258,21 +1271,19 @@ const LicenseContent = (props) => {
                                       >
                                         Download QR
                                       </Button>
-                                      {
-                                        /*<Button
+                                      {/*<Button
                                           className="footer-btn"
                                           onClick={() => {
                                             navigate("/CreateEmail");
                                           }}
                                         >
                                           Send in email
-                                        </Button>*/
-                                      }
+                                        </Button>*/}
                                       <Link
                                         to="/CreateEmail"
                                         state={{ PdfSelected: data.id }}
                                         onClick={() => {
-                                          nextClicked(data.id)
+                                          nextClicked(data.id);
                                         }}
                                         className="footer-btn"
                                       >
@@ -1289,13 +1300,10 @@ const LicenseContent = (props) => {
                               >
                                 <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                                   <ul className="tab-mail-list data">
-
                                     <li>
                                       <h6 className="tab-content-title">
                                         Openings (total){" "}
-                                        <LinkWithTooltip
-                                          tooltip="Number of opening counts for specific article."
-                                        >
+                                        <LinkWithTooltip tooltip="Number of opening counts for specific article.">
                                           <img
                                             src={
                                               path_image +
@@ -1305,38 +1313,50 @@ const LicenseContent = (props) => {
                                           />
                                         </LinkWithTooltip>
                                       </h6>
-                                        <div className="data-progress limited">
-                                            <ProgressBar
-                                              variant={
-                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                                ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening > 0
+                                      <div className="data-progress limited">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ].opening > 0
                                                 ? "success"
                                                 : "default"
-                                                : "default"
-                                              }
-                                              now={
-                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                                ?
-                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening
-                                                :
-                                                "100"
-                                              }
-                                              label={
-                                                opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                                ?
-                                                opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].opening
-                                                :
-                                                "Loading"
-                                              }
-                                            />
-                                        </div>
+                                              : "default"
+                                          }
+                                          now={
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ].opening
+                                              : "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ].opening
+                                              : "Loading"
+                                          }
+                                        />
+                                      </div>
                                     </li>
                                     <li className="d-flex align-center">
                                       <h6 className="tab-content-title">
                                         Unique Reader (total)
-                                        <LinkWithTooltip
-                                          tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser)."
-                                        >
+                                        <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
                                           <img
                                             src={
                                               path_image +
@@ -1349,70 +1369,106 @@ const LicenseContent = (props) => {
                                       <div className="data-progress send">
                                         <ProgressBar
                                           variant={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique > 0
-                                            ? "warning"
-                                            : "default"
-                                            : "default"
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.unique > 0
+                                                ? "warning"
+                                                : "default"
+                                              : "default"
                                           }
                                           now={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique/
-                                						opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
-                                            :
-                                            "100"
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? (opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.unique /
+                                                  opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit) *
+                                                100
+                                              : "100"
                                           }
                                           label={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
-                                            :
-                                            "Loading"
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.unique
+                                              : "Loading"
                                           }
                                         />
                                         <span>
-                                  				Agreed Limit :&nbsp;
-                                          {
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "unlimited"
-                                            :
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
-                                            :
-                                            "unlimited"
-                                          }
-                                			  </span>
+                                          Agreed Limit :&nbsp;
+                                          {opening_details.findIndex(
+                                            (el) => el.pdfId == data?.id
+                                          ) !== -1
+                                            ? opening_details[
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                )
+                                              ]?.limit == 1000
+                                              ? "unlimited"
+                                              : opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.limit
+                                            : "unlimited"}
+                                        </span>
                                       </div>
                                       <span className="total-left">
-                                			  {
-                                          opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                          ?
-                                          opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? null
-                                          :
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit -
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.unique
-                                          :
-                                          null
-                                        }
+                                        {opening_details.findIndex(
+                                          (el) => el.pdfId == data?.id
+                                        ) !== -1
+                                          ? opening_details[
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              )
+                                            ]?.limit == 1000
+                                            ? null
+                                            : opening_details[
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                )
+                                              ]?.limit -
+                                              opening_details[
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                )
+                                              ]?.unique
+                                          : null}
 
-                                        {
-                                          opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                          ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit != 1000
-                                          ?
+                                        {opening_details.findIndex(
+                                          (el) => el.pdfId == data?.id
+                                        ) !== -1 ? (
+                                          opening_details[
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            )
+                                          ]?.limit != 1000 ? (
                                             <small>Left</small>
-                                          : null
-                                          : null
-                                        }
-                                			</span>
+                                          ) : null
+                                        ) : null}
+                                      </span>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
                                         Registered readers{" "}
-                                        <LinkWithTooltip
-                                          tooltip="Number of HCPs who have register for or activated the content."
-                                        >
+                                        <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
                                           <img
                                             src={
                                               path_image +
@@ -1425,26 +1481,46 @@ const LicenseContent = (props) => {
                                       <div className="data-progress">
                                         <ProgressBar
                                           variant={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.reader
-                                            ? "danger"
-                                            : "default"
-                                            : "default"
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.reader
+                                                ? "danger"
+                                                : "default"
+                                              : "default"
                                           }
                                           now={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.reader/
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
-                                            :
-                                            "100"
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? (opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.reader /
+                                                  opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit) *
+                                                100
+                                              : "100"
                                           }
                                           label={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].reader
-                                            :
-                                            "Loading"
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ].reader
+                                              : "Loading"
                                           }
                                         />
                                       </div>
@@ -1453,9 +1529,7 @@ const LicenseContent = (props) => {
                                     <li>
                                       <h6 className="tab-content-title">
                                         SubLinks
-                                        <LinkWithTooltip
-                                          tooltip="Number of sublinks with content."
-                                        >
+                                        <LinkWithTooltip tooltip="Number of sublinks with content.">
                                           <img
                                             src={
                                               path_image +
@@ -1468,40 +1542,56 @@ const LicenseContent = (props) => {
                                       <div className="data-progress">
                                         <ProgressBar
                                           variant={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.subLink
-                                            ? "sublink"
-                                            : "default"
-                                            : "default"
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.subLink
+                                                ? "sublink"
+                                                : "default"
+                                              : "default"
                                           }
                                           now={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.subLink/
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
-                                            :
-                                            "100"
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? (opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.subLink /
+                                                  opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit) *
+                                                100
+                                              : "100"
                                           }
                                           label={
-                                            opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                            ?
-                                            opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].subLink
-                                            :
-                                            "Loading"
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ].subLink
+                                              : "Loading"
                                           }
                                         />
                                       </div>
                                     </li>
 
-                                    {
-                                    	data?.allow_print
-                                    	?
+                                    {data?.allow_print ? (
                                       <li>
                                         <h6 className="tab-content-title">
                                           Printed
-                                          <LinkWithTooltip
-                                            tooltip="Number of HCPs who have print the content."
-                                          >
+                                          <LinkWithTooltip tooltip="Number of HCPs who have print the content.">
                                             <img
                                               src={
                                                 path_image +
@@ -1514,42 +1604,60 @@ const LicenseContent = (props) => {
                                         <div className="data-progress">
                                           <ProgressBar
                                             variant={
-                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                              ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.print
-                                              ? "print"
-                                              : "default"
-                                              : "default"
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.print
+                                                  ? "print"
+                                                  : "default"
+                                                : "default"
                                             }
                                             now={
-                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                              ?
-                                              (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.print/
-                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
-                                              :
-                                              "100"
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? (opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.print /
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit) *
+                                                  100
+                                                : "100"
                                             }
                                             label={
-                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                              ?
-                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].print
-                                              :
-                                              "Loading"
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ].print
+                                                : "Loading"
                                             }
                                           />
                                         </div>
                                       </li>
-                                    	: null
-                                    }
+                                    ) : null}
 
-                                    {
-                                    	data?.allow_download
-                                    	?
+                                    {data?.allow_download ? (
                                       <li>
                                         <h6 className="tab-content-title">
                                           Downloaded
-                                          <LinkWithTooltip
-                                            tooltip="Number of HCPs who have download the content."
-                                          >
+                                          <LinkWithTooltip tooltip="Number of HCPs who have download the content.">
                                             <img
                                               src={
                                                 path_image +
@@ -1562,37 +1670,63 @@ const LicenseContent = (props) => {
                                         <div className="data-progress">
                                           <ProgressBar
                                             variant={
-                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                              ? opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.download
-                                              ? "download"
-                                              : "default"
-                                              : "default"
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.download
+                                                  ? "download"
+                                                  : "default"
+                                                : "default"
                                             }
                                             now={
-                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                              ?
-                                              (opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.download/
-                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit) * 100
-                                              :
-                                              "100"
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? (opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.download /
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit) *
+                                                  100
+                                                : "100"
                                             }
                                             label={
-                                              opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
-                                              ?
-                                              opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)].download
-                                              :
-                                              "Loading"
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ].download
+                                                : "Loading"
                                             }
                                           />
                                         </div>
                                       </li>
-                                    	: null
-                                    }
+                                    ) : null}
                                   </ul>
                                 </div>
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
-                                    <Link className="footer-btn" to="/content-analytics" state={{ pdfId: data.id }}>
+                                    <Link
+                                      className="footer-btn"
+                                      to="/content-analytics"
+                                      state={{ pdfId: data.id }}
+                                    >
                                       Analytics
                                     </Link>
                                     <Button
@@ -1659,16 +1793,16 @@ const LicenseContent = (props) => {
                                     >
                                       Edit link
                                     </Link>
-                                    {
-                                      localStorage.getItem("group_id") == 3 ?
+                                    {localStorage.getItem("group_id") == 3 ? (
                                       <Button
                                         className="footer-btn"
-                                        onClick={(e) => tagButtonClicked(data.id)}
+                                        onClick={(e) =>
+                                          tagButtonClicked(data.id)
+                                        }
                                       >
                                         Tags
                                       </Button>
-                                      : null
-                                    }
+                                    ) : null}
                                     <Link
                                       to="/license-sublink"
                                       state={{ pdfid: data.id }}
@@ -1686,77 +1820,98 @@ const LicenseContent = (props) => {
                               >
                                 <div className="tab-panel">
                                   <ul className="tab-mail-list">
-                                  {localStorage.getItem("group_id") == 2 && (
-                                    <>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Sales person
-                                        </h6>
-                                        <h6>{data?.saleName ? data.saleName : "N/A" }</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Production person
-                                        </h6>
-                                        <h6>{data?.productName ?  data.productName : "N/A"}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Client product
-                                        </h6>
-                                        <h6>{data?.product ?  data.product : "N/A"}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Country
-                                        </h6>
-                                        <h6>{data?.country ?  data.country : "N/A"}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Cost Center
-                                        </h6>
-                                        <h6>{data?.cost_center && data?.cost_center != 0 ?  data.cost_center : "N/A"}</h6>
-                                      </li>
+                                    {localStorage.getItem("group_id") == 2 && (
+                                      <>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Sales person
+                                          </h6>
+                                          <h6>
+                                            {data?.saleName
+                                              ? data.saleName
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Production person
+                                          </h6>
+                                          <h6>
+                                            {data?.productName
+                                              ? data.productName
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Client product
+                                          </h6>
+                                          <h6>
+                                            {data?.product
+                                              ? data.product
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Country
+                                          </h6>
+                                          <h6>
+                                            {data?.country
+                                              ? data.country
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Cost Center
+                                          </h6>
+                                          <h6>
+                                            {data?.cost_center &&
+                                            data?.cost_center != 0
+                                              ? data.cost_center
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
 
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Client name
-                                        </h6>
-                                        <h6>{data?.company +" "+ data?.product + " " + data?.country}</h6>
-                                      </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Client name
+                                          </h6>
+                                          <h6>
+                                            {data?.company +
+                                              " " +
+                                              data?.product +
+                                              " " +
+                                              data?.country}
+                                          </h6>
+                                        </li>
+                                      </>
+                                    )}
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Usage limit
+                                      </h6>
+                                      <h6>
+                                        {data?.limit > 0
+                                          ? data?.limit
+                                          : "Unlimited"}
+                                      </h6>
+                                    </li>
 
-                                    </>
-                                  )}
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Usage limit
-                                    </h6>
-                                    <h6>
-                                      {
-                                        data?.limit > 0? data?.limit: "Unlimited"
-                                      }
-                                    </h6>
-                                  </li>
-
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Enabled
-                                    </h6>
-                                    <h6>
-                                      {
-                                        changeFormatForPrint(data)
-                                      }
-                                    </h6>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Link type
-                                    </h6>
-                                    <h6>{data?.linkType}</h6>
-                                  </li>
-                                  {
-                                    /*
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Enabled
+                                      </h6>
+                                      <h6>{changeFormatForPrint(data)}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Link type
+                                      </h6>
+                                      <h6>{data?.linkType}</h6>
+                                    </li>
+                                    {/*
                                     <li>
                                       <h6 className="tab-content-title">
                                         Download
@@ -1765,24 +1920,23 @@ const LicenseContent = (props) => {
                                         {data?.allow_download ? "Yes" : "No"}
                                       </h6>
                                     </li>
-                                    */
-                                  }
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Upload date
-                                    </h6>
-                                    <h6>{data?.uploadedDate}</h6>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Expiration date
-                                    </h6>
-                                    <h6>
-                                      {data?.expireDate
-                                        ? data.expireDate
-                                        : "N/A"}
-                                    </h6>
-                                  </li>
+                                    */}
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Upload date
+                                      </h6>
+                                      <h6>{data?.uploadedDate}</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Expiration date
+                                      </h6>
+                                      <h6>
+                                        {data?.expireDate
+                                          ? data.expireDate
+                                          : "N/A"}
+                                      </h6>
+                                    </li>
                                   </ul>
                                 </div>
                               </Tab>
@@ -1929,7 +2083,6 @@ const LicenseContent = (props) => {
     </>
   );
 };
-
 
 const mapStateToProps = (state) => {
   return state;
