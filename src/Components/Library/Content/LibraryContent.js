@@ -220,9 +220,7 @@ const LibraryContent = (props) => {
             newObj[key]?.push("All");
           }
         }
-        // console.log("filter object-->", filterObject[key]);
       }
-      // filterObject[key]?.push(item);
     } else {
       if (item == "All") {
         newObj[key] = [];
@@ -239,6 +237,7 @@ const LibraryContent = (props) => {
         }
       }
     }
+
     setFilterObject(newObj);
     setTest(!test);
   };
