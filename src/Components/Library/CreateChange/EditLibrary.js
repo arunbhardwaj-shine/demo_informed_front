@@ -1,4 +1,4 @@
-import React, { useState, useEffect,  useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -7,7 +7,14 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 
 import { LibraryEditValidation } from "../../Validations/LibraryValidation/LibraryEditValidation";
-import { Button, Form, Dropdown, DropdownButton, Col, Row } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  Dropdown,
+  DropdownButton,
+  Col,
+  Row,
+} from "react-bootstrap";
 import {
   postFormData,
   postData,
@@ -40,7 +47,9 @@ const EditLibrary = () => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [hcpIrtClickedFirst, setHcpIrtClickedFirst] = useState([]);
   const [mandatoryRole, setMandatoryRole] = useState([
-    "Investigator-Blinded","Site unblinded pharmacist","Blinded site user"
+    "Investigator-Blinded",
+    "Site unblinded pharmacist",
+    "Blinded site user",
   ]);
   const [updateflag, setupdateFlag] = useState(0);
   const [userInputs, setCreateLibraryInputs] = useState({
@@ -130,16 +139,16 @@ const EditLibrary = () => {
   const [hcpClickedFirst, setHcpClickedFirst] = useState([]);
   function isJsonString(str) {
     try {
-        JSON.parse(str);
+      JSON.parse(str);
     } catch (e) {
-        return false;
+      return false;
     }
     return true;
-}
+  }
 
   const initalFun = async () => {
     loader("show");
-    try{
+    try {
       const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
         user_id: id,
       });
@@ -151,12 +160,14 @@ const EditLibrary = () => {
       let country = [];
       if (hadData?.data?.data?.country?.length) {
         if (typeof hadData?.data?.data?.country == "string") {
-          JSON.parse(hadData?.data?.data?.country)?.reduce((objEntries, key) => {
-            country.push({
-              label: key,
-              value: key,
-            });
-          });
+          JSON.parse(hadData?.data?.data?.country)?.reduce(
+            (objEntries, key) => {
+              country.push({
+                label: key,
+                value: key,
+              });
+            }
+          );
         } else {
           hadData?.data?.data?.country?.reduce((objEntries, key) => {
             country.push({
@@ -203,7 +214,7 @@ const EditLibrary = () => {
       });
 
       loader("hide");
-    }catch(err){
+    } catch (err) {
       // console.log(err);
       loader("hide");
     }
@@ -215,23 +226,27 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
-      if (hadData?.data?.data?.pdfData?.tags?.length &&  isJsonString(hadData?.data?.data?.pdfData?.tags)) {
+      if (
+        hadData?.data?.data?.pdfData?.tags?.length &&
+        isJsonString(hadData?.data?.data?.pdfData?.tags)
+      ) {
         setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags));
         setFinalTags(JSON.parse(hadData?.data?.data?.pdfData?.tags));
       }
       if (hadData?.data?.data?.pdfData?.trail_user_type?.length) {
-          if(hadData?.data?.data?.pdfData?.reader_mandatory == 1){
-            setHcpIrtClickedFirst(
-              JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
-            );
-          }else{
-              setHcpClickedFirst(
-                JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
-              );
-          }
+        if (hadData?.data?.data?.pdfData?.reader_mandatory == 1) {
+          setHcpIrtClickedFirst(
+            JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
+          );
+        } else {
+          setHcpClickedFirst(
+            JSON.parse(hadData?.data?.data?.pdfData?.trail_user_type)
+          );
+        }
       }
       setReseller(
-        hadData?.data?.data?.pdfData?.multiple_publisher && isJsonString(hadData?.data?.data?.pdfData?.multiple_publisher)
+        hadData?.data?.data?.pdfData?.multiple_publisher &&
+          isJsonString(hadData?.data?.data?.pdfData?.multiple_publisher)
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
           : []
       );
@@ -255,11 +270,11 @@ const EditLibrary = () => {
   //   const hcpData = hcpClickedFirst.filter((item) => item != data);
   //   setHcpClickedFirst(hcpData);
   // };
-  const removeHcp = (data,type="") => {
-    if(type=="irt"){
+  const removeHcp = (data, type = "") => {
+    if (type == "irt") {
       const hcpData = hcpIrtClickedFirst.filter((item) => item != data);
       setHcpIrtClickedFirst(hcpData);
-    }else{
+    } else {
       const hcpData = hcpClickedFirst.filter((item) => item != data);
       setHcpClickedFirst(hcpData);
     }
@@ -267,9 +282,9 @@ const EditLibrary = () => {
 
   const hcpClicked = (dd) => {
     if (!hcpClickedFirst.includes(dd)) {
-      if(dd == "All"){
+      if (dd == "All") {
         setHcpClickedFirst(userDetail?.hcp);
-      }else{
+      } else {
         setHcpClickedFirst((oldArray) => [...oldArray, dd]);
       }
     } else {
@@ -279,9 +294,9 @@ const EditLibrary = () => {
 
   const hcpIrtClicked = (dd) => {
     if (!hcpIrtClickedFirst.includes(dd)) {
-      if(dd == "All"){
+      if (dd == "All") {
         setHcpIrtClickedFirst(mandatoryRole);
-      }else{
+      } else {
         const newArray = [dd];
         setHcpIrtClickedFirst(newArray);
         // setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
@@ -311,41 +326,41 @@ const EditLibrary = () => {
       toast.error("Please input a tag");
     } else {
       loader("show");
-      try{
-          await postData(ENDPOINT.ADD_TAGS, {
-            product: newTag,
-            type: 2,
-          });
-          loader("hide");
-          let temp_tags = tagClickedFirst.map((data) => {
-            return data.toLowerCase();
-          });
-          let alltemp_tags = [];
-          Object.entries(allTags).map((data) => {
-            return alltemp_tags.push(...data);
-          });
-          alltemp_tags = alltemp_tags.map((data) => {
-            return data.toLowerCase();
-          });
+      try {
+        await postData(ENDPOINT.ADD_TAGS, {
+          product: newTag,
+          type: 2,
+        });
+        loader("hide");
+        let temp_tags = tagClickedFirst.map((data) => {
+          return data.toLowerCase();
+        });
+        let alltemp_tags = [];
+        Object.entries(allTags).map((data) => {
+          return alltemp_tags.push(...data);
+        });
+        alltemp_tags = alltemp_tags.map((data) => {
+          return data.toLowerCase();
+        });
 
-          if (
-            !temp_tags.includes(newTag.toLowerCase()) &&
-            !alltemp_tags.includes(newTag.toLowerCase())
-          ) {
-            setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+        if (
+          !temp_tags.includes(newTag.toLowerCase()) &&
+          !alltemp_tags.includes(newTag.toLowerCase())
+        ) {
+          setTagClickedFirst((oldArray) => [...oldArray, newTag]);
 
-            const body = {
-              user_id: localStorage.getItem("user_id"),
-              tags: newTag,
-            };
-          } else {
-            toast.error("Tag already in list.");
-          }
-          setNewTag("");
-          setTagsCounter(tagsCounter + 1);
-      }catch(err){
-          loader("hide");
-          // console.log(err);
+          const body = {
+            user_id: localStorage.getItem("user_id"),
+            tags: newTag,
+          };
+        } else {
+          toast.error("Tag already in list.");
+        }
+        setNewTag("");
+        setTagsCounter(tagsCounter + 1);
+      } catch (err) {
+        loader("hide");
+        // console.log(err);
       }
     }
   };
@@ -365,6 +380,7 @@ const EditLibrary = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
+
     if (userInputs.docintelFormat == "ebook") {
       userInputs.chapter = chapter;
     }
@@ -384,11 +400,12 @@ const EditLibrary = () => {
     }
     const err = LibraryEditValidation(userInputs);
     if (Object.keys(err)?.length) {
-        if(Object.keys(err)[0] == "limit") {
-          limitFieldRef.current.focus();
-        }else if(Object.keys(err)[0] == "contentTitle"){
-          titleFieldRef.current.focus();
-        }
+      if (Object.keys(err)[0] == "limit") {
+        limitFieldRef.current.focus();
+      } else if (Object.keys(err)[0] == "contentTitle") {
+        titleFieldRef.current.focus();
+      }
+      toast.error(err[Object.keys(err)[0]]);
       setError(err);
       return;
     } else {
@@ -408,7 +425,6 @@ const EditLibrary = () => {
           "costCenter",
           userInputs?.cost_center ? userInputs?.cost_center : ""
         );
-
         formData.append("expDatetime", userInputs?.expDatetime);
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
@@ -426,21 +442,18 @@ const EditLibrary = () => {
               ? JSON.stringify(userInputs?.reader_mandatory)
               : JSON.stringify(false)
           );
-
-
-          userInputs?.reader_mandatory ?
-            formData.append(
-              "trail_user_type",
-              hcpIrtClickedFirst?.length ? JSON.stringify(hcpIrtClickedFirst) : ""
-            )
-          :
-          formData.append(
-            "trail_user_type",
-            hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
-          );
-
+          userInputs?.reader_mandatory
+            ? formData.append(
+                "trail_user_type",
+                hcpIrtClickedFirst?.length
+                  ? JSON.stringify(hcpIrtClickedFirst)
+                  : ""
+              )
+            : formData.append(
+                "trail_user_type",
+                hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
+              );
         }
-
         if (
           userDetail?.user?.[0]?.group_id == 3 &&
           userDetail?.user?.[0]?.octaLach == 1
@@ -452,23 +465,19 @@ const EditLibrary = () => {
               : JSON.stringify(false)
           );
         }
-
         formData.append(
           "multiplePublisher",
           reseller?.length ? JSON.stringify(reseller) : ""
         );
-
         formData.append(
           "allowDownload",
           JSON.stringify(userInputs?.allow_download)
         );
         formData.append("allowPrint", JSON.stringify(userInputs?.allow_print));
         formData.append("pdfId", state?.pdfid);
-
         formData.append("country", userInputs?.country);
         formData.append("company", userInputs?.company);
         formData.append("journalTitle", userInputs?.journalTitle);
-
         formData.append("fileType", userInputs?.docintelFormat);
         if (userInputs?.docintelFormat == "ebook") {
           formData.append("spcInc", spcType);
@@ -476,22 +485,17 @@ const EditLibrary = () => {
           formData.append("spcInc", 0);
         }
         formData.append("product", userInputs?.product);
-
         ebookFile?.forEach((item) => {
           formData.append("ebookData", item);
         });
-
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
         formData.append("chapter", JSON.stringify(chapter));
         formData.append("productionNotes", userInputs?.productionNotes);
-
         formData.append("specialRequirment", userInputs?.specialRequirment);
         formData.append("createdBy", id);
-
         formData.append("category", userInputs?.category);
         formData.append("format", userInputs?.format);
         formData.append("ibu", userInputs?.ibu);
-
         formData.append(
           "allowOneSource",
           JSON.stringify(userInputs?.allow_oneSource)
@@ -500,24 +504,22 @@ const EditLibrary = () => {
         formData.append("allowRequest", JSON.stringify(userInputs?.chat_box));
         formData.append("draft", JSON.stringify(userInputs?.draft));
         formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
-
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append(
           "tags",
           tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
         );
-
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
           header: {
             "Content-Type": "multipart/form-data",
           },
         });
         loader("hide");
-        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
           navigate("/preview-content", {
-                state: { pdfId:state?.pdfid, isEdit: 1 },
-            });
+            state: { pdfId: state?.pdfid, isEdit: 1 },
+          });
         } else {
           navigate("/set-popup", {
             state: {
@@ -527,7 +529,6 @@ const EditLibrary = () => {
             },
           });
         }
-
       } catch (err) {
         loader("hide");
         // console.log(err);
@@ -563,10 +564,10 @@ const EditLibrary = () => {
   const deleteRecord = async (i, id) => {
     if (id) {
       loader("show");
-      try{
+      try {
         await deleteFormData(`${ENDPOINT.DELETE_PDF_FILE}/${id}`);
         loader("hide");
-      }catch(err){
+      } catch (err) {
         // console.log(err);
         loader("hide");
       }
@@ -586,9 +587,9 @@ const EditLibrary = () => {
     setChapter(list);
   };
 
-  const removeTagFinal = (index,status="") => {
+  const removeTagFinal = (index, status = "") => {
     // console.log("RemoveFinal Tags",status);
-    if(status == ""){
+    if (status == "") {
       const tags = finalTags;
       tags.splice(index, 1);
       setFinalTags(tags);
@@ -607,14 +608,14 @@ const EditLibrary = () => {
     loader("show");
     // console.log("PHuncha");
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
-        if(typeof tagClickedFirst != "undefined" && tagClickedFirst.length > 0){
-            let prev_tags = finalTags;
-            let new_tags = prev_tags.concat(tagClickedFirst);
-            const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
-            setFinalTags(uniqueTags);
-        }else{
-          setFinalTags(tagClickedFirst);
-        }
+      if (typeof tagClickedFirst != "undefined" && tagClickedFirst.length > 0) {
+        let prev_tags = finalTags;
+        let new_tags = prev_tags.concat(tagClickedFirst);
+        const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
+        setFinalTags(uniqueTags);
+      } else {
+        setFinalTags(tagClickedFirst);
+      }
     } else {
       setFinalTags(tagClickedFirst);
     }
@@ -869,9 +870,8 @@ const EditLibrary = () => {
                   </div>
                 </div>
               ) : (
-                  <>
-                  {
-                    /*<div className="form-group">
+                <>
+                  {/*<div className="form-group">
                       <label htmlFor="">Trial*</label>
 
                       <Select
@@ -897,9 +897,8 @@ const EditLibrary = () => {
                       {error?.trial ? (
                         <div className="login-validation">{error?.trial}</div>
                       ) : null}
-                    </div>*/
-                  }
-                  </>
+                    </div>*/}
+                </>
               )}
               {userDetail?.user?.[0]?.pharmaData == 1 &&
               userDetail?.user?.[0]?.group_id == 3 ? (
@@ -919,9 +918,8 @@ const EditLibrary = () => {
                 </div>
               ) : userDetail?.user?.[0]?.flag == 1 &&
                 userDetail?.user?.[0]?.group_id == 3 ? (
-                  <>
-                  {
-                    /*<div className="form-group">
+                <>
+                  {/*<div className="form-group">
                       <label htmlFor="">Blind type*</label>
                       <Select
                         options={blindType || []}
@@ -937,11 +935,9 @@ const EditLibrary = () => {
                       {error?.blindType ? (
                         <div className="login-validation">{error?.blindType}</div>
                       ) : null}
-                    </div>*/
-                  }
-                  </>
+                    </div>*/}
+                </>
               ) : null}
-
 
               {userDetail?.user?.[0]?.flag == 0 &&
               userDetail?.user?.[0]?.pharmaData == 0 &&
@@ -977,55 +973,10 @@ const EditLibrary = () => {
                 </div>
               ) : null}
 
-              {
-                userDetail?.user?.[0]?.flag == 1 &&
-                userDetail?.user?.[0]?.group_id == 3 ? (
-                  <>
-                      <div className="form-group justify-content-start rd">
-                        <label htmlFor="">Topics</label>
-                        <div className="input-group w-100">
-                          <div className="input-group-prepend">
-                            <button
-                              className="btn btn-filled btn-primary"
-                              type="button"
-                              id="tags-add"
-                              data-bs-toggle="modal"
-                              data-bs-target="#tagsModal"
-                              onClick={(e) =>
-                                topicButtonClicked(userDetail?.user[0]?.group_id)
-                              }
-                            >
-                              Add Topic +
-                            </button>
-                          </div>
-                          <div className="tags_added">
-                            <ul>
-                              {finalTags?.map((item, index) => {
-                                return (
-                                  <li className="list1">
-                                    {item}
-                                    <img
-                                      src="componentAssets/images/filter-close.svg"
-                                      alt="Close-filter"
-                                      onClick={() => removeTagFinal(index)}
-                                    />
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                ) : null
-              }
-
-            </div>
-
-            {
-              localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
-              <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change flex-column">
-                  <div className="form-group justify-content-end">
+              {userDetail?.user?.[0]?.flag == 1 &&
+              userDetail?.user?.[0]?.group_id == 3 ? (
+                <>
+                  <div className="form-group justify-content-start rd">
                     <label htmlFor="">Topics</label>
                     <div className="input-group w-100">
                       <div className="input-group-prepend">
@@ -1060,9 +1011,49 @@ const EditLibrary = () => {
                       </div>
                     </div>
                   </div>
+                </>
+              ) : null}
+            </div>
+
+            {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ? (
+              <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change flex-column">
+                <div className="form-group justify-content-end">
+                  <label htmlFor="">Topics</label>
+                  <div className="input-group w-100">
+                    <div className="input-group-prepend">
+                      <button
+                        className="btn btn-filled btn-primary"
+                        type="button"
+                        id="tags-add"
+                        data-bs-toggle="modal"
+                        data-bs-target="#tagsModal"
+                        onClick={(e) =>
+                          topicButtonClicked(userDetail?.user[0]?.group_id)
+                        }
+                      >
+                        Add Topic +
+                      </button>
+                    </div>
+                    <div className="tags_added">
+                      <ul>
+                        {finalTags?.map((item, index) => {
+                          return (
+                            <li className="list1">
+                              {item}
+                              <img
+                                src="componentAssets/images/filter-close.svg"
+                                alt="Close-filter"
+                                onClick={() => removeTagFinal(index)}
+                              />
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-              : null
-            }
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -1143,9 +1134,11 @@ const EditLibrary = () => {
                   name="limit"
                   min="0"
                   defaultValue={Number(userInputs?.limit)}
-                  className={error?.limit ? "form-control error" : "form-control"}
+                  className={
+                    error?.limit ? "form-control error" : "form-control"
+                  }
                   ref={limitFieldRef}
-                  className="form-control"
+                  // className="form-control"
                   placeholder="“0” value means unlimited limit"
                   onChange={handleChange}
                 />
@@ -1225,8 +1218,7 @@ const EditLibrary = () => {
                 <div className="row justify-content-end align-items-center">
                   <div className="col-12 col-md-1">
                     <div className="header-btn-left">
-                      {
-                        /*<Link
+                      {/*<Link
                           className="btn btn-primary btn-bordered back-btn"
                           to="/library-content"
                         >
@@ -1242,8 +1234,7 @@ const EditLibrary = () => {
                               fill="#97B6CF"
                             />
                           </svg>
-                        </Link>*/
-                      }
+                        </Link>*/}
                     </div>
                   </div>
                   <div className="col-12 col-md-9">
@@ -1251,14 +1242,12 @@ const EditLibrary = () => {
                       <li className="active active-main">
                         <a href="">Edit Your Content</a>
                       </li>
-                      {
-                        localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
-                        ?
+                      {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <li className="">
                           <a href="">Edit Consent Option</a>
                         </li>
-                        : null
-                      }
+                      ) : null}
 
                       <li className="">
                         <a href="">Approve Your Content &amp; Save</a>
@@ -1267,12 +1256,12 @@ const EditLibrary = () => {
                   </div>
                   <div className="col-12 col-md-2">
                     <div className="header-btn">
-                        <Link
-                          className="btn btn-primary btn-bordered move-draft"
-                          to="/library-create"
-                        >
-                          Cancel
-                        </Link>
+                      <Link
+                        className="btn btn-primary btn-bordered move-draft"
+                        to="/library-create"
+                      >
+                        Cancel
+                      </Link>
 
                       <button
                         className="btn btn-primary btn-filled next"
@@ -1310,11 +1299,17 @@ const EditLibrary = () => {
                   <Row>
                     <Col md={6}>
                       <div className="form-group val">
-                        <label htmlFor="">Content title <span>*</span></label>
+                        <label htmlFor="">
+                          Content title <span>*</span>
+                        </label>
                         <input
                           type="text"
                           name="contentTitle"
-                          className={error?.contentTitle ? "form-control error" : "form-control"}
+                          className={
+                            error?.contentTitle
+                              ? "form-control error"
+                              : "form-control"
+                          }
                           ref={titleFieldRef}
                           defaultValue={userInputs?.contentTitle}
                           onChange={(e) => {
@@ -1327,37 +1322,38 @@ const EditLibrary = () => {
                           </div>
                         ) : null}
                       </div>
-                      {
-                        userDetail?.user?.[0]?.flag == 1 && userDetail?.user?.[0]?.group_id == 3
-                        ?
-                          <div className="form-group">
-                            <label htmlFor="">Comment</label>
-                            {
-                              /*<input
+                      {userDetail?.user?.[0]?.flag == 1 &&
+                      userDetail?.user?.[0]?.group_id == 3 ? (
+                        <div className="form-group">
+                          <label htmlFor="">Comment</label>
+                          {/*<input
                                 type="text"
                                 name="journalTitle"
                                 defaultValue={userInputs?.journalTitle}
                                 className="form-control"
                                 onChange={(e) => handleChange(e)}
-                              />*/
+                              />*/}
+                          <textarea
+                            className={
+                              error?.journalTitle
+                                ? "form-control error"
+                                : "form-control"
                             }
-                            <textarea
-                              className={error?.journalTitle ? "form-control error" : "form-control"}
-                              id="formControlTextarea"
-                              name="journalTitle"
-                              rows="5"
-                              defaultValue={userInputs?.journalTitle}
-                              onChange={(e) => handleChange(e)}
-                              placeholder="Please type your comments here.."
-                            ></textarea>
+                            id="formControlTextarea"
+                            name="journalTitle"
+                            rows="5"
+                            defaultValue={userInputs?.journalTitle}
+                            onChange={(e) => handleChange(e)}
+                            placeholder="Please type your comments here.."
+                          ></textarea>
 
-                            {error?.journalTitle ? (
-                              <div className="login-validation">
-                                {error?.journalTitle}
-                              </div>
-                            ) : null}
-                          </div>
-                        :
+                          {error?.journalTitle ? (
+                            <div className="login-validation">
+                              {error?.journalTitle}
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : (
                         <div className="form-group">
                           {userDetail?.user?.[0]?.flag == 0 &&
                           userDetail?.user?.[0]?.group_id == 3 ? (
@@ -1370,7 +1366,11 @@ const EditLibrary = () => {
                             type="text"
                             name="journalTitle"
                             defaultValue={userInputs?.journalTitle}
-                            className={error?.journalTitle ? "form-control error" : "form-control"}
+                            className={
+                              error?.journalTitle
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             onChange={(e) => handleChange(e)}
                           />
                           {error?.journalTitle ? (
@@ -1379,10 +1379,10 @@ const EditLibrary = () => {
                             </div>
                           ) : null}
                         </div>
-                      }
+                      )}
 
-                      {
-                        localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                      {localStorage.getItem("user_id") !=
+                      "iSnEsKu5gB/DRlycxB6G4g==" ? (
                         <div className="form-group">
                           <label htmlFor="">Author</label>
                           <input
@@ -1392,9 +1392,8 @@ const EditLibrary = () => {
                             className="form-control"
                             onChange={handleChange}
                           />
-                        </div> : null
-                      }
-
+                        </div>
+                      ) : null}
 
                       {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
@@ -1413,20 +1412,27 @@ const EditLibrary = () => {
                                         userInputs?.draft ? true : false
                                       }
                                       onChange={(e) => {
-                                        handleChange(e.target?.checked, "draft");
+                                        handleChange(
+                                          e.target?.checked,
+                                          "draft"
+                                        );
                                       }}
                                     />
                                     <span>
                                       <span
                                         className={`switch-btn ${
-                                          userInputs?.draft == 0 ? " Active" : ""
+                                          userInputs?.draft == 0
+                                            ? " Active"
+                                            : ""
                                         }`}
                                       >
                                         No
                                       </span>
                                       <span
                                         className={`switch-btn ${
-                                          userInputs?.draft == 1 ? " Active" : ""
+                                          userInputs?.draft == 1
+                                            ? " Active"
+                                            : ""
                                         }`}
                                       >
                                         Yes
@@ -1635,7 +1641,8 @@ const EditLibrary = () => {
                       ) : null}
 
                       {userDetail?.user?.[0]?.flag == 1 &&
-                      (!userInputs?.reader_mandatory || userInputs?.reader_mandatory == 0) &&
+                      (!userInputs?.reader_mandatory ||
+                        userInputs?.reader_mandatory == 0) &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">
                           <label htmlFor="">Role</label>
@@ -1644,9 +1651,16 @@ const EditLibrary = () => {
                               <div className="select-tags">
                                 <ul>
                                   <>
-                                    <li className={hcpClickedFirst.length == 5 ? "list1 all fade-down" : "list1 all fade-up"} onClick={() => {
+                                    <li
+                                      className={
+                                        hcpClickedFirst.length == 5
+                                          ? "list1 all fade-down"
+                                          : "list1 all fade-up"
+                                      }
+                                      onClick={() => {
                                         hcpClicked("All");
-                                      }}>
+                                      }}
+                                    >
                                       All
                                     </li>
                                     {userDetail?.hcp?.map((item, index) => {
@@ -1668,19 +1682,17 @@ const EditLibrary = () => {
                                     {hcpClickedFirst.map((item, index) => {
                                       return (
                                         <>
-                                        {
-                                          userDetail?.hcp?.includes(item) ?
-                                          <li className="list1">
-                                            {item}
-                                            <img
-                                              src="componentAssets/images/filter-close.svg"
-                                              alt="Close-filter"
-                                              onClick={() => removeHcp(item)}
-                                            />
-                                          </li> : null
-                                        }
+                                          {userDetail?.hcp?.includes(item) ? (
+                                            <li className="list1">
+                                              {item}
+                                              <img
+                                                src="componentAssets/images/filter-close.svg"
+                                                alt="Close-filter"
+                                                onClick={() => removeHcp(item)}
+                                              />
+                                            </li>
+                                          ) : null}
                                         </>
-
                                       );
                                     })}
                                   </ul>
@@ -1699,42 +1711,44 @@ const EditLibrary = () => {
                           <div className="input-group w-100">
                             <div className="tags_added">
                               <div className="select-tags">
-                                  <ul className="after-tag-selected">
-                                    <>
-
-                                      {mandatoryRole.map((item, index) => {
-                                        return (
-                                          <li className="list1" onClick={() => {
+                                <ul className="after-tag-selected">
+                                  <>
+                                    {mandatoryRole.map((item, index) => {
+                                      return (
+                                        <li
+                                          className="list1"
+                                          onClick={() => {
                                             hcpIrtClicked(item);
-                                          }}>
-                                            {item}
-                                          </li>
-                                        );
-                                      })}
-                                    </>
-                                  </ul>
-                                  <div className="after-selected">
-                                    <ul className="after-tag-selected">
-                                      {hcpIrtClickedFirst.map((item, index) => {
-                                        return (
-                                          <>
-                                          {
-                                            mandatoryRole.includes(item) ?
+                                          }}
+                                        >
+                                          {item}
+                                        </li>
+                                      );
+                                    })}
+                                  </>
+                                </ul>
+                                <div className="after-selected">
+                                  <ul className="after-tag-selected">
+                                    {hcpIrtClickedFirst.map((item, index) => {
+                                      return (
+                                        <>
+                                          {mandatoryRole.includes(item) ? (
                                             <li className="list1">
                                               {item}
                                               <img
                                                 src="componentAssets/images/filter-close.svg"
                                                 alt="Close-filter"
-                                                onClick={() => removeHcp(item,"irt")}
+                                                onClick={() =>
+                                                  removeHcp(item, "irt")
+                                                }
                                               />
-                                            </li> : null
-                                          }
-                                          </>
-
-                                        );
-                                      })}
-                                    </ul>
-                                  </div>
+                                            </li>
+                                          ) : null}
+                                        </>
+                                      );
+                                    })}
+                                  </ul>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1742,9 +1756,15 @@ const EditLibrary = () => {
                       ) : null}
 
                       <div className="form-group val">
-                        <label htmlFor="">Docintel format <span>*</span></label>
+                        <label htmlFor="">
+                          Docintel format <span>*</span>
+                        </label>
                         <Select
-                          className={error?.docintelFormat ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
+                          className={
+                            error?.docintelFormat
+                              ? "dropdown-basic-button split-button-dropup error"
+                              : "dropdown-basic-button split-button-dropup"
+                          }
                           options={ePrintType}
                           defaultValue={
                             userInputs?.docintelFormat == "pdf"
@@ -1775,7 +1795,11 @@ const EditLibrary = () => {
                                 type="file"
                                 name="file-6[]"
                                 id="file-6"
-                                className={error?.uploadFile ? "inputfile inputfile-6 error" : "inputfile inputfile-6"}
+                                className={
+                                  error?.uploadFile
+                                    ? "inputfile inputfile-6 error"
+                                    : "inputfile inputfile-6"
+                                }
                                 accept="application/pdf"
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
@@ -1836,12 +1860,11 @@ const EditLibrary = () => {
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
                                   <label htmlFor="">
-                                  {
-                                    localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
-                                       "Chapter "
-                                    :
-                                      "File "
-                                  } {i + 1} title
+                                    {localStorage.getItem("user_id") !=
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? "Chapter "
+                                      : "File "}{" "}
+                                    {i + 1} title
                                   </label>
                                   <input
                                     type="text"
@@ -1855,7 +1878,11 @@ const EditLibrary = () => {
                                         type="file"
                                         name={`file-${i}`}
                                         id={`file-${i}`}
-                                        className={error?.chapter?.[i] ? "inputfile inputfile-6 error" :"inputfile inputfile-6"}
+                                        className={
+                                          error?.chapter?.[i]
+                                            ? "inputfile inputfile-6 error"
+                                            : "inputfile inputfile-6"
+                                        }
                                         accept="application/pdf"
                                         onChange={(e) =>
                                           handleOnEbookChange(e, i)
@@ -1878,16 +1905,14 @@ const EditLibrary = () => {
                                   </div>
                                 </div>
                                 <div className="chapter-btn-wrapper">
-                                  {
-                                    chapter.length -1 == i ?
-                                      <Button
+                                  {chapter.length - 1 == i ? (
+                                    <Button
                                       className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
                                       onClick={addMoreChClicked}
-                                      >
+                                    >
                                       Add Ch +
-                                      </Button>
-                                    : null
-                                  }
+                                    </Button>
+                                  ) : null}
 
                                   {chapter.length > 1 ? (
                                     <Button
@@ -2030,7 +2055,10 @@ const EditLibrary = () => {
                             ) : (
                               <p>
                                 Chnage your cover image <br />
-                                <span><i>Allowed formats: PNG,JPEG</i></span><br />
+                                <span>
+                                  <i>Allowed formats: PNG,JPEG</i>
+                                </span>
+                                <br />
                                 <span>(Recommended size 88 X 124)</span>
                               </p>
                             )}
@@ -2049,9 +2077,12 @@ const EditLibrary = () => {
                       </div>
                     </Col>
 
-                    {
-                      localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg==" ?
-                      <Col className="d-flex justify-content-end align-items-start right-change" md={6}>
+                    {localStorage.getItem("user_id") !=
+                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      <Col
+                        className="d-flex justify-content-end align-items-start right-change"
+                        md={6}
+                      >
                         <div className="form-group justify-content-end">
                           <label htmlFor="">
                             Production notes to Docintel team
@@ -2068,8 +2099,7 @@ const EditLibrary = () => {
                           ></textarea>
                         </div>
                       </Col>
-                      : null
-                    }
+                    ) : null}
                   </Row>
                 </div>
               </div>
@@ -2132,7 +2162,9 @@ const EditLibrary = () => {
                 video in{" "}
               </p>
               <Form.Group className="formgroup">
-                <Form.Label>Videos <span>*</span></Form.Label>
+                <Form.Label>
+                  Videos <span>*</span>
+                </Form.Label>
                 {/* <ReactSelect
                   placeholder="Select your chapter"
                   className="dropdown-basic-button split-button-dropup"
@@ -2254,7 +2286,7 @@ const EditLibrary = () => {
                       <img
                         src={path_image + "filter-close.svg"}
                         alt="Close-filter"
-                        onClick={() => removeTagFinal(index,"remove")}
+                        onClick={() => removeTagFinal(index, "remove")}
                       />
                     </div>
                   </>
