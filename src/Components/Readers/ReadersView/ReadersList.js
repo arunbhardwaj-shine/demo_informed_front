@@ -56,15 +56,16 @@ const NewReaders = () => {
   });
   const [filterObject, setFilterObject] = useState({
     status: ["Registered"],
-    contactType: ["HCP"],
+    "contact Type": ["HCP"],
   });
   const [apifilterObject, setApifilterObject] = useState({
     status: ["Registered"],
-    contactType: ["HCP"],
+    "contact Type": ["HCP"],
     // status: ["Registered"],
 
     // status:["Unregistered"]
   });
+  const [test, setTest] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "0", label: "HCP" },
@@ -261,9 +262,10 @@ const NewReaders = () => {
     return false;
   };
 
-  const handleOnFilterChange = (e, item, index, key) => {
-    if (!filterObject[key]) {
-      filterObject[key] = [];
+  const handleOnFilterChange = (e, item, index, key, data = []) => {
+    let newObj = filterObject;
+    if (!newObj[key]) {
+      newObj[key] = [];
     }
     if (!apifilterObject[key]) {
       apifilterObject[key] = [];
@@ -302,17 +304,36 @@ const NewReaders = () => {
         key == "Accounts" ||
         key == "List"
       ) {
-        filterObject[key] = [];
+        newObj[key] = [];
         apifilterObject[key] = [];
+        newObj[key]?.push(item);
+        apifilterObject[key]?.push(e.target.value);
+      } else {
+        if (item == "All") {
+          newObj[key] = data;
+          apifilterObject[key] = data;
+        } else {
+          newObj[key]?.push(item);
+          apifilterObject[key]?.push(item);
+          if (data?.length - 1 == newObj[key]?.length) {
+            newObj[key]?.push("All");
+            apifilterObject[key]?.push("All");
+          }
+        }
       }
-      filterObject[key]?.push(item);
-      apifilterObject[key]?.push(e.target.value);
     } else {
-      const index = filterObject[key]?.indexOf(item);
+      if (item == "All") {
+        newObj[key] = [];
+      } else {
+        if (newObj[key]?.includes("All")) {
+          newObj[key] = newObj[key]?.filter((item) => item != "All");
+        }
+      }
+      const index = newObj[key]?.indexOf(item);
       if (index > -1) {
-        filterObject[key]?.splice(index, 1);
-        if (filterObject[key]?.length == 0) {
-          delete filterObject[key];
+        newObj[key]?.splice(index, 1);
+        if (newObj[key]?.length == 0) {
+          delete newObj[key];
         }
       }
       const index2 = apifilterObject[key]?.indexOf(e.target.value);
@@ -324,8 +345,9 @@ const NewReaders = () => {
       }
     }
 
-    setFilterObject(filterObject);
+    setFilterObject(newObj);
     setApifilterObject(apifilterObject);
+    setTest(!test);
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -577,7 +599,6 @@ const NewReaders = () => {
     const found2 = changeSiteNameType.some((el) => el.index === i);
     if (!found2) {
       setChangeSiteNameType((oldarray) => [...oldarray, consent1]);
-      console.log([]);
     } else {
       const updatedArray = changeSiteNameType.map((el) =>
         el.index === i ? { ...el, value: selectedName } : el
@@ -1061,6 +1082,7 @@ const NewReaders = () => {
                       aria-labelledby="dropdownMenuButton2"
                     >
                       <h4>Filter By</h4>
+
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
@@ -1109,19 +1131,33 @@ const NewReaders = () => {
                                                           : item
                                                       }
                                                       name={key}
-                                                      defaultChecked={
-                                                        key == "contactType" &&
-                                                        item == "HCP"
-                                                          ? true
-                                                          : filterObject?.hasOwnProperty(
-                                                              key
-                                                            )
+                                                      checked={
+                                                        typeof item == "object"
                                                           ? filterObject[
                                                               key
-                                                            ]?.indexOf(item) !==
-                                                            -1
+                                                            ]?.includes(item.id)
+                                                            ? true
+                                                            : false
+                                                          : filterObject[
+                                                              key
+                                                            ]?.includes(item)
+                                                          ? true
                                                           : false
                                                       }
+                                                      // defaultChecked={
+                                                      //   key == "contactType" &&
+                                                      //   item == "HCP"
+                                                      //     ? true
+                                                      //     : filterObject?.hasOwnProperty(
+                                                      //         key
+                                                      //       )
+                                                      //     ? filterObject[
+                                                      //         key
+                                                      //       ]?.indexOf(item) !==
+                                                      //       -1
+                                                      //     : false
+                                                      // }
+
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
                                                           e,
@@ -1130,7 +1166,8 @@ const NewReaders = () => {
                                                             ? item.id
                                                             : item,
                                                           index,
-                                                          key
+                                                          key,
+                                                          [...filterdata[key]]
                                                         )
                                                       }
                                                     />
