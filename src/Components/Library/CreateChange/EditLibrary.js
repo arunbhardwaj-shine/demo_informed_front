@@ -70,6 +70,8 @@ const EditLibrary = () => {
     productionNotes: "",
     specialRequirment: "",
     category: "",
+    language: "",
+    newLanguageCode: "",
     format: "",
     ibu: "",
     allow_oneSource: "",
@@ -79,6 +81,11 @@ const EditLibrary = () => {
     comDatetime: "",
     cpdValue: "",
   });
+
+  const [language, setLanguage] = useState([
+    { value: "English", label: "English" },
+    { value: "Russian", label: "Russian" },
+  ]);
 
   const [blindType, setBlindType] = useState([
     { value: "blinded", label: "blind" },
@@ -429,6 +436,12 @@ const EditLibrary = () => {
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
+
+        if(localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="){
+          formData.append("language", userInputs?.language);
+          formData.append("new_language_code", userInputs?.newLanguageCode);
+        }
+
         formData.append("allowShare", JSON.stringify(userInputs?.allow_share));
         if (
           userDetail?.user?.[0]?.group_id == 3 &&
@@ -1380,6 +1393,41 @@ const EditLibrary = () => {
                           ) : null}
                         </div>
                       )}
+
+                      {
+                        localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
+                        <>
+                        <div className="form-group">
+                          <label htmlFor="">Language</label>
+                          <Select
+                            options={language}
+                            placeholder = "Select language"
+                            defaultValue={{
+                              label: userInputs?.language,
+                              value: userInputs?.language,
+                            }}
+                            onChange={(e) => handleChange(e?.value, "language")}
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                          />
+                        </div>
+
+                        <div className="form-group val">
+                          <label htmlFor="">Request New Language Code</label>
+                          <input
+                            type="text"
+                            name="newLanguageCode"
+                            placeholder = "Enter Language name for the new language code"
+                            className="form-control"
+                            defaultValue={userInputs?.newLanguageCode}
+                            onChange={(e) => {
+                              handleChange(e);
+                            }}
+                          />
+                        </div>
+                        </>
+                        : null
+                      }
 
                       {localStorage.getItem("user_id") !=
                       "iSnEsKu5gB/DRlycxB6G4g==" ? (

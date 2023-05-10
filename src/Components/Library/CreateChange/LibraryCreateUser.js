@@ -58,6 +58,8 @@ const LibraryCreateUser = () => {
     specialRequirment: "",
     productionNotes: "",
     category: "",
+    language: "",
+    newLanguageCode: "",
     format: "",
     ibu: "",
     allowOneSource: "",
@@ -67,6 +69,11 @@ const LibraryCreateUser = () => {
     comDatetime: "",
     cpdValue: "",
   });
+
+  const [language, setLanguage] = useState([
+    { value: "English", label: "English" },
+    { value: "Russian", label: "Russian" },
+  ]);
   const [blindType, setBlindType] = useState([
     { value: "blinded", label: "blind" },
     { value: "unblinded", label: "unblind" },
@@ -259,6 +266,12 @@ const LibraryCreateUser = () => {
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
+
+        if(localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="){
+          formData.append("language", userInputs?.language);
+          formData.append("new_language_code", userInputs?.newLanguageCode);
+        }
+
         if (
           userDetail?.user?.[0]?.group_id == 3 &&
           userDetail?.user?.[0]?.flag == 1
@@ -1230,6 +1243,37 @@ const LibraryCreateUser = () => {
                         ) : null}
                       </div>
                     )}
+
+                    {
+                      localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
+                      <>
+                      <div className="form-group">
+                        <label htmlFor="">Language</label>
+                        <Select
+                          options={language}
+                          placeholder = "Select language"
+                          onChange={(e) => handleChange(e?.value, "language")}
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                        />
+                      </div>
+
+                      <div className="form-group val">
+                        <label htmlFor="">Request New Language Code</label>
+                        <input
+                          type="text"
+                          name="newLanguageCode"
+                          placeholder = "Enter Language name for the new language code"
+                          className="form-control"
+                          onChange={(e) => {
+                            handleChange(e);
+                          }}
+                        />
+                      </div>
+                      </>
+                      : null
+                    }
+
                     {localStorage.getItem("user_id") !=
                     "iSnEsKu5gB/DRlycxB6G4g==" ? (
                       <div className="form-group">
