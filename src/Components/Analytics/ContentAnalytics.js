@@ -67,6 +67,7 @@ const ContentAnalytics = () => {
       setSelectedPdf(pdfObj[0].value);
       setIsDataFound(true);
     } catch (err) {
+      loader("hide");
       setIsDataFound(false);
       console.log(err);
     }
@@ -259,7 +260,8 @@ const ContentAnalytics = () => {
                   <div className="clear-search d-flex">
                     <button
                       style={{ marginRight: "10px" }}
-                      onClick={handleParent}
+                      onClick={downloadUniqueStats}
+                      title="Download stats"
                       className="btn btn-outline-primary"
                     >
                       <svg
@@ -281,7 +283,8 @@ const ContentAnalytics = () => {
                     </button>
 
                     <button
-                      onClick={downloadUniqueStats}
+                      onClick={handleParent}
+                      title="Print article"
                       className="btn btn-outline-primary"
                     >
                       <svg
