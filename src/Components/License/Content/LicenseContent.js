@@ -1465,127 +1465,136 @@ const LicenseContent = (props) => {
                                         ) : null}
                                       </span>
                                     </li>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Registered readers{" "}
-                                        <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress">
-                                        <ProgressBar
-                                          variant={
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            ) !== -1
-                                              ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ]?.reader
-                                                ? "danger"
-                                                : "default"
-                                              : "default"
-                                          }
-                                          now={
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            ) !== -1
-                                              ? (opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ]?.reader /
-                                                  opening_details[
+                                    {data?.linkType != "Online" ? (
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Registered readers{" "}
+                                          <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
                                                     opening_details.findIndex(
                                                       (el) =>
                                                         el.pdfId == data?.id
                                                     )
-                                                  ]?.limit) *
-                                                100
-                                              : "100"
-                                          }
-                                          label={
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            ) !== -1
-                                              ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ].reader
-                                              : "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
-
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        SubLinks
-                                        <LinkWithTooltip tooltip="Number of sublinks with content.">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress">
-                                        <ProgressBar
-                                          variant={
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            ) !== -1
-                                              ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ]?.subLink
-                                                ? "sublink"
+                                                  ]?.reader
+                                                  ? "danger"
+                                                  : "default"
                                                 : "default"
-                                              : "default"
-                                          }
-                                          now={
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            ) !== -1
-                                              ? (opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ]?.subLink /
-                                                  opening_details[
+                                            }
+                                            now={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? (opening_details[
                                                     opening_details.findIndex(
                                                       (el) =>
                                                         el.pdfId == data?.id
                                                     )
-                                                  ]?.limit) *
-                                                100
-                                              : "100"
-                                          }
-                                          label={
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            ) !== -1
-                                              ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ].subLink
-                                              : "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
+                                                  ]?.reader /
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit) *
+                                                  100
+                                                : "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ].reader
+                                                : "Loading"
+                                            }
+                                          />
+                                        </div>
+                                      </li>
+                                    ) : null}
+                                    {data?.subLinkAdded ? (
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          SubLinks
+                                          <LinkWithTooltip tooltip="Number of sublinks with content.">
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.subLink
+                                                  ? "sublink"
+                                                  : "default"
+                                                : "default"
+                                            }
+                                            now={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? (opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.subLink /
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit) *
+                                                  100
+                                                : "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ].subLink
+                                                : "Loading"
+                                            }
+                                          />
+                                        </div>
+                                      </li>
+                                    ) : null}
 
                                     {data?.allow_print ? (
                                       <li>
