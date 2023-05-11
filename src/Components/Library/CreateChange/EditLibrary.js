@@ -71,7 +71,6 @@ const EditLibrary = () => {
     specialRequirment: "",
     category: "",
     language: "",
-    newLanguageCode: "",
     format: "",
     ibu: "",
     allow_oneSource: "",
@@ -439,7 +438,6 @@ const EditLibrary = () => {
 
         if(localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="){
           formData.append("language", userInputs?.language);
-          formData.append("new_language_code", userInputs?.newLanguageCode);
         }
 
         formData.append("allowShare", JSON.stringify(userInputs?.allow_share));
@@ -1409,20 +1407,6 @@ const EditLibrary = () => {
                             onChange={(e) => handleChange(e?.value, "language")}
                             className="dropdown-basic-button split-button-dropup"
                             isClearable
-                          />
-                        </div>
-
-                        <div className="form-group val">
-                          <label htmlFor="">Request New Language Code</label>
-                          <input
-                            type="text"
-                            name="newLanguageCode"
-                            placeholder = "Enter Language name for the new language code"
-                            className="form-control"
-                            defaultValue={userInputs?.newLanguageCode}
-                            onChange={(e) => {
-                              handleChange(e);
-                            }}
                           />
                         </div>
                         </>

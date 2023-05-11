@@ -116,7 +116,7 @@ div#flashMessage {
     width: 100%;
 }
 
-.DefaultLayout .informed .container {
+.informed .container {
     max-width: 1365px;
     margin: 0px auto;
     padding: 0 15px;
@@ -131,12 +131,6 @@ div#flashMessage {
 body {
     font-family: 'Roboto Condensed', sans-serif;
     font-family: 'Roboto', sans-serif;
-}
-
-
-body,
-html {
-    overflow-x: hidden;
 }
 
 @font-face {

@@ -3208,6 +3208,13 @@ section.verify_email.content_details {
 .analytic-charts .form_action {
     padding: 20px 20px 20px;
 }
+.analytic-charts .form_action {
+  padding: 20px 20px 20px;
+  position: sticky;
+  top: 84px;
+  background: $white;
+  z-index: 5;
+}
 .create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button {
     margin-bottom: 0;
 }
@@ -4023,6 +4030,7 @@ width: 50%;
     min-height: 68px;
     font-size: 15px!important;
     display: block;
+    transform: translatey(10px);
 }
 g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
     stroke: none;
@@ -4082,6 +4090,7 @@ caption.highcharts-table-caption {
 }
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger > div:nth-child(3) {
     max-width: 580px;
+    background-position: 97% center;
 }
 .delivery-trends .stats_precenage ul.ul_stats_first.informed {
   padding-right: 35%;
@@ -4285,6 +4294,10 @@ transform: translateY(-50%);
       position: relative;
       span{
         font-weight: 600;
+        font-size: 48px;
+        line-height: 54px;
+        letter-spacing: -1.2px;
+        color: #0066BE;
       }
       &:after{
         content: "";
@@ -6836,6 +6849,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger > div:nth-child(3) {
     max-width: 380px;
+    background-position: 96% center;
 }
 .header-btn svg {
     width: 20px;
