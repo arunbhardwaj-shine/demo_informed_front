@@ -133,12 +133,6 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-
-body,
-html {
-    overflow-x: hidden;
-}
-
 @font-face {
     font-family: 'muliregular';
     src: url('../fonts/muli.woff2') format('woff2'),

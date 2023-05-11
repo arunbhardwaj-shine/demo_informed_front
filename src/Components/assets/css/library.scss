@@ -4285,6 +4285,10 @@ transform: translateY(-50%);
       position: relative;
       span{
         font-weight: 600;
+        font-size: 48px;
+        line-height: 54px;
+        letter-spacing: -1.2px;
+        color: #0066BE;
       }
       &:after{
         content: "";
