@@ -201,7 +201,7 @@ const ContentAnalytics = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            {/* <div className="top-header">
               <div className="page-title d-flex">
                 {state?.pdfId ? (
                   <Link
@@ -224,7 +224,7 @@ const ContentAnalytics = () => {
                 ) : null}
                 <h2>Content Analytics</h2>
               </div>
-            </div>
+            </div> */}
             <div className="create-change-content spc-content analytic-charts">
               {isDataFound ? (
                 <div className="form_action d-flex justify-content-between align-items-center">
