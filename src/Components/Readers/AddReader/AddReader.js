@@ -22,7 +22,6 @@ const ReaderAdd = () => {
   const [pharmaData, setPharmaData] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
-  const [province, setProvince] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1222" },
@@ -148,22 +147,35 @@ const ReaderAdd = () => {
     setUploadShow(false);
   };
 
-  const handleSubmitModelFun = (e) => {
+  const handleSubmitModelFun = async (e) => {
     if (newProduct?.value?.length) {
       const newArr = userDetail[newProduct?.label];
+      loader("show");
+      try {
+        await postData(`${ENDPOINT.READER_ADD_FEATURES}`, {
+          label: newProduct?.label,
+          value: newProduct?.value,
+        });
 
-      let checkIndex = newArr.findIndex((el) => el.value == newProduct?.value);
-      if (commonFooter == "Add") {
-        if (checkIndex == -1) {
-          newArr.unshift({
-            value: newProduct?.value,
-            label: newProduct?.value,
-          });
+        let checkIndex = newArr.findIndex(
+          (el) => el.value == newProduct?.value
+        );
+        if (commonFooter == "Add") {
+          if (checkIndex == -1) {
+            newArr.unshift({
+              value: newProduct?.value,
+              label: newProduct?.value,
+            });
 
-          setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
-        } else {
-          toast.error(newProduct?.label + " already in list.");
+            setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
+          } else {
+            toast.error(newProduct?.label + " already in list.");
+          }
         }
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log(err);
       }
     }
   };
@@ -180,7 +192,7 @@ const ReaderAdd = () => {
     });
 
     setCountryAll(country);
-    setProvince(hasData?.data?.data?.province);
+    // setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
@@ -190,6 +202,7 @@ const ReaderAdd = () => {
       ...userDetail,
       discipline: hasData?.data?.data?.discipline,
       speciality: hasData?.data?.data?.speciality,
+      province: hasData?.data?.data?.province,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
@@ -434,6 +447,8 @@ const ReaderAdd = () => {
   const handleFileUpload = async (e) => {
     loader("show");
     try {
+      handleClose();
+      setUpdateFlag(0);
       let formData = new FormData();
       formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("createdBy", localStorage.getItem("user_id"));
@@ -444,7 +459,7 @@ const ReaderAdd = () => {
           header: { "Content-Type": "multipart/form-data" },
         }
       );
-
+      loader("hide");
       if (response?.data?.data) {
         navigate("/readers-list", {
           state: {
@@ -453,12 +468,11 @@ const ReaderAdd = () => {
         });
       }
     } catch (err) {
+      handleClose();
+      setUpdateFlag(0);
       console.log(err);
       loader("hide");
     }
-    handleClose();
-    setUpdateFlag(0);
-
     loader("hide");
   };
 
@@ -473,9 +487,11 @@ const ReaderAdd = () => {
       } else if (Object.keys(result)[0] == "email") {
         emailRef.current.focus();
       }
+      toast.error(result[Object.keys(result)[0]]);
       setError(result);
       return;
     } else {
+      loader("hide");
       try {
         loader("show");
         let data = {
@@ -520,6 +536,21 @@ const ReaderAdd = () => {
         loader("hide");
       }
     }
+  };
+
+  const downloadFile = () => {
+    let user_id = localStorage.getItem("user_id");
+    let link = document.createElement("a");
+    if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+      link.href = "https://informed.pro/R_D_sample.xls";
+    } else {
+      link.href = "https://informed.pro/sample.xls";
+    }
+    link.setAttribute("download", "file.xlsx");
+    document.body.appendChild(link);
+    link.download = "";
+    link.click();
+    document.body.removeChild(link);
   };
 
   const RDAccount = () => {
@@ -1487,7 +1518,7 @@ const ReaderAdd = () => {
             ></button>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+            <Form className="upload_reader_excel">
               <div className="form-group">
                 <div className="upload-file-box">
                   <div className="box">
@@ -1512,6 +1543,9 @@ const ReaderAdd = () => {
                     )}
                   </div>
                 </div>
+              </div>
+              <div className="sample_btn" onClick={downloadFile}>
+                <p>Download sample file from here</p>
               </div>
             </Form>
           </Modal.Body>

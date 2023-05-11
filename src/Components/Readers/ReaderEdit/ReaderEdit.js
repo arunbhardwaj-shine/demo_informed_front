@@ -21,7 +21,7 @@ const ReaderEdit = () => {
   const [pharmaData, setPharmaData] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
-  const [province, setProvince] = useState([]);
+  // const [province, setProvince] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1222" },
@@ -141,20 +141,33 @@ const ReaderEdit = () => {
     setNewProduct({ label: e?.target?.name, value: e?.target?.value });
   };
 
-  const handleSubmitModelFun = (e) => {
+  const handleSubmitModelFun = async (e) => {
     if (newProduct?.value?.length) {
       const newArr = userDetail[newProduct?.label];
-
-      let checkIndex = newArr.findIndex((el) => el.value == newProduct?.value);
-      if (checkIndex == -1) {
-        newArr.unshift({
+      loader("show");
+      try {
+        await postData(`${ENDPOINT.READER_ADD_FEATURES}`, {
+          label: newProduct?.label,
           value: newProduct?.value,
-          label: newProduct?.value,
         });
 
-        setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
-      } else {
-        toast.error(newProduct?.label + " already in list.");
+        let checkIndex = newArr.findIndex(
+          (el) => el.value == newProduct?.value
+        );
+        if (checkIndex == -1) {
+          newArr.unshift({
+            value: newProduct?.value,
+            label: newProduct?.value,
+          });
+
+          setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
+        } else {
+          toast.error(newProduct?.label + " already in list.");
+        }
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log(err);
       }
     }
   };
@@ -445,10 +458,10 @@ const ReaderEdit = () => {
       } else if (Object.keys(result)[0] == "email") {
         emailRef.current.focus();
       }
+      toast.error(result[Object.keys(result)[0]]);
       setError(result);
       return;
     } else {
-      return;
       try {
         loader("show");
         let data = {
@@ -665,7 +678,9 @@ const ReaderEdit = () => {
                     {userInputs ? (
                       <>
                         <Form.Group className="form-group">
-                          <Form.Label htmlFor="">First name <span>*</span></Form.Label>
+                          <Form.Label htmlFor="">
+                            First name <span>*</span>
+                          </Form.Label>
                           <input
                             type="text"
                             className={
@@ -711,7 +726,9 @@ const ReaderEdit = () => {
                           />
                         </Form.Group>
                         <Form.Group className="form-group">
-                          <Form.Label htmlFor="">Primary email <span>*</span></Form.Label>
+                          <Form.Label htmlFor="">
+                            Primary email <span>*</span>
+                          </Form.Label>
                           <input
                             type="email"
                             className={

@@ -98,7 +98,11 @@ const Webinar = () => {
           localStorage.setItem("name", res?.data?.data?.name);
           localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
           loader("hide");
-          navigate("/library-content");
+          if(res?.data?.data?.webinar_flag == 1){
+            window.location.href = "https://informed.pro/Webinar/readers_webinar?rdylr="+res?.data?.data?.userToken;
+          }else{
+            navigate("/library-content");
+          }
         }catch(err){
           console.log(err);
           setShowError(err?.response?.data?.message);
