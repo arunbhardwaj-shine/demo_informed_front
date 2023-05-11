@@ -52,12 +52,9 @@ const MapComponent = ({ data, status }) => {
         tooltip: {
           headerFormat: "",
           pointFormat:
-            "Views:<br>" +
-            "{point.pdfTitle}<br>" +
-            "Address: {point.address}<br>" +
-            "City: {point.city}<br>" +
-            "Country: {point.country}<br>" +
-            "{point.dated}",
+            '<span style="font-weight: bold">{point.pdfTitle}</span><br>' +
+            '<span style="font-weight: bold">Total Opening : {point.opening}</span><br>' +
+            '<span style="font-weight: bold">Total Reader : {point.reader}</span>',
         },
         states: {
           hover: {
@@ -139,8 +136,12 @@ const MapComponent = ({ data, status }) => {
             const viewedOnDates = item?.dated
               .map((date) => `viewed on: ${date}` + "<br> ")
               .join("");
-
+            const indexVal = data?.countryname.indexOf(item.country);
+            const open = data?.opening[indexVal];
+            const readers = data?.reader[indexVal];
             return {
+              opening: open,
+              reader: readers,
               name: item.country,
               lat: lat,
               lon: lon,
@@ -176,30 +177,24 @@ const MapComponent = ({ data, status }) => {
 
   return (
     <>
-      {
-        /*<Col className="right-sidebar">
+      {/*<Col className="right-sidebar">
           <div className="custom-container">
-            <Row>*/
-      }
+            <Row>*/}
 
-            
-              <div className="high_charts"></div>
-              <HighchartsReact
-                constructorType={"mapChart"}
-                highcharts={Highcharts}
-                options={mapOptions}
-              />
-            {/* <div className="high_charts">
+      <div className="high_charts"></div>
+      <HighchartsReact
+        constructorType={"mapChart"}
+        highcharts={Highcharts}
+        options={mapOptions}
+      />
+      {/* <div className="high_charts">
               <HighchartsReact highcharts={Highcharts} options={countryList} />
             </div> */}
-            {
-              /*
+      {/*
               </Row>
             </div>
           </Col>
-              */
-            }
-
+              */}
     </>
   );
 };
