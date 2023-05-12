@@ -1224,7 +1224,7 @@ const LibraryEditListing = () => {
 
                                               {data.spc_included == 0 &&
                                                 data.linkRelations == 0 &&
-                                                data.pdfLinks == 0 && <h6>N/A</h6>}
+                                                data.pdfLinks == 0 && <h6>No</h6>}
                                             </div>
                                           </li>
                                       </>
@@ -1357,7 +1357,7 @@ const LibraryEditListing = () => {
                                         />
                                         <span>
                                   				Agreed Limit :&nbsp;
-                                          {
+                                          <strong>{
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                             ?
                                             opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "unlimited"
@@ -1365,7 +1365,7 @@ const LibraryEditListing = () => {
                                             opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
                                             :
                                             "unlimited"
-                                          }
+                                          }</strong>
                                 			  </span>
                                       </div>
                                       <span className="total-left">

@@ -540,7 +540,7 @@ const LicenseSublink = () => {
                                                 }
 
                                                 {articleData.spc_included == 0 && articleData.linkRelations ==0 && articleData.pdfLinks ==0 && (
-                                                  <h6>N/A</h6>
+                                                  <h6>No</h6>
                                                 )}
 
                                               </div>
@@ -645,12 +645,14 @@ const LicenseSublink = () => {
                                                           />
                                                           <span>
                                                             Agreed Limit :&nbsp;
+                                                            <strong>
                                                             {details?.limit == 0
-                                                              ? "unlimited"
+                                                              ? "Unlimited"
                                                               : details?.limit == 1000
-                                                              ? "unlimited"
+                                                              ? "Unlimited"
                                                               : details?.limit
                                                             }
+                                                            </strong>
                                                           </span>
                                                         </div>
                                                         <span className="total-left">

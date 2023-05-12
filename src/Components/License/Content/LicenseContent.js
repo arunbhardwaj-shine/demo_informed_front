@@ -1242,7 +1242,7 @@ const LicenseContent = (props) => {
 
                                         {data.spc_included == 0 &&
                                           data.linkRelations == 0 &&
-                                          data.pdfLinks == 0 && <h6>N/A</h6>}
+                                          data.pdfLinks == 0 && <h6>No</h6>}
                                       </div>
                                     </li>
                                   </ul>
@@ -1413,6 +1413,7 @@ const LicenseContent = (props) => {
                                         />
                                         <span>
                                           Agreed Limit :&nbsp;
+                                          <strong>
                                           {opening_details.findIndex(
                                             (el) => el.pdfId == data?.id
                                           ) !== -1
@@ -1421,13 +1422,13 @@ const LicenseContent = (props) => {
                                                   (el) => el.pdfId == data?.id
                                                 )
                                               ]?.limit == 1000
-                                              ? "unlimited"
+                                              ? "Unlimited"
                                               : opening_details[
                                                   opening_details.findIndex(
                                                     (el) => el.pdfId == data?.id
                                                   )
                                                 ]?.limit
-                                            : "unlimited"}
+                                            : "Unlimited"}</strong>
                                         </span>
                                       </div>
                                       <span className="total-left">

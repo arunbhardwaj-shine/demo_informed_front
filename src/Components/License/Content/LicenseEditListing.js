@@ -1015,9 +1015,7 @@ const LicenseEditListing = () => {
                 </div>
               </div>
             ) : null}
-          </Row>
 
-          <Row>
             <div className="library-content-box-layuot d-flex">
               <>
                 {libraryData?.length || updateflag ? (
@@ -1211,7 +1209,7 @@ const LicenseEditListing = () => {
 
                                         {data.spc_included == 0 &&
                                           data.linkRelations == 0 &&
-                                          data.pdfLinks == 0 && <h6>N/A</h6>}
+                                          data.pdfLinks == 0 && <h6>No</h6>}
                                       </div>
                                     </li>
                                   </ul>
@@ -1343,7 +1341,7 @@ const LicenseEditListing = () => {
                                         />
                                         <span>
                                   				Agreed Limit :&nbsp;
-                                          {
+                                          <strong> {
                                             opening_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                             ?
                                             opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit == 1000 ? "unlimited"
@@ -1351,7 +1349,7 @@ const LicenseEditListing = () => {
                                             opening_details[opening_details.findIndex((el) => el.pdfId == data?.id)]?.limit
                                             :
                                             "unlimited"
-                                          }
+                                          }</strong>
                                 			  </span>
                                       </div>
                                       <span className="total-left">
