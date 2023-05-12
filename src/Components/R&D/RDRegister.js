@@ -341,7 +341,7 @@ const RDRegister = () => {
                                     ) : null}
                                 </div>
                             </Col>
-                            <Col md={6} className='d-flex justify-content-end'>
+                            <Col md={6}>
                                 <div className="form-group">
                                     <label>Email <span>*</span></label>
                                     <input type="email" placeholder="Enter your email" name="email" onChange={handleChange} />
@@ -371,7 +371,7 @@ const RDRegister = () => {
 
                             {
                               userInputs?.institution ?
-                              <Col md={6} className='d-flex justify-content-end'>
+                              <Col md={6}>
                                   <div className="form-group">
                                     <label>Country
                                       {
@@ -416,7 +416,7 @@ const RDRegister = () => {
                                         </div>
                                     </Col>
 
-                                    <Col md={6} className='d-flex justify-content-end'>
+                                    <Col md={6}>
                                         <div className="form-group">
                                             <label>Site name <span>*</span></label>
                                               <Select
@@ -471,7 +471,7 @@ const RDRegister = () => {
                 </div>
             </div>
         </Container>
-        <Modal show={show} onHide={handleClose} className='success_modal' centered>
+        <Modal show={show} onHide={handleClose} className='success_modal rd-modal' centered>
           <div className='modal-wrapper'>
             <Modal.Header closeButton>
             </Modal.Header>

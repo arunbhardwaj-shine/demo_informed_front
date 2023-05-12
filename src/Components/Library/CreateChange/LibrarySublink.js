@@ -561,7 +561,7 @@ const LibrarySublink = () => {
 
                                                       {articleData.spc_included == 0 &&
                                                         articleData.linkRelations == 0 &&
-                                                        articleData.pdfLinks == 0 && <h6>N/A</h6>}
+                                                        articleData.pdfLinks == 0 && <h6>No</h6>}
                                                     </div>
                                                   </li>
                                               </>
@@ -668,12 +668,12 @@ const LibrarySublink = () => {
                                                           />
                                                           <span>
                                                             Agreed Limit :&nbsp;
-                                                            {details?.limit == 0
+                                                            <strong>{details?.limit == 0
                                                               ? "unlimited"
                                                               : details?.limit == 1000
                                                               ? "unlimited"
                                                               : details?.limit
-                                                            }
+                                                            }</strong>
                                                           </span>
                                                         </div>
                                                         <span className="total-left">
