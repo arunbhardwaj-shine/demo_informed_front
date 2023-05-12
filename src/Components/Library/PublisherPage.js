@@ -27,11 +27,10 @@ const PublisherPage = () => {
   const [userInputs, setUserInputs] = useState({});
   const [privacyshow, setPrivacyshow] = useState(false);
   const [videoPopupshow, setVideoPopupshow] = useState(false);
-  const [name, setName] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [company, setCompany] = useState("");
+
   const [contactError, setContactError] = useState(false);
+  const [contactFormInputs, setContactFormInputs] = useState({});
+  const [forceRender, setForceRender] = useState(false);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const handleChange = (e, isSelectedName) => {
@@ -124,6 +123,16 @@ const PublisherPage = () => {
       }
     }
   };
+  const handleContactFormChange = (e, isSelectedName) => {
+    setContactFormInputs({
+      ...contactFormInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e.target?.files
+          : e
+        : e?.target?.value,
+    });
+  };
 
   // send contact infromation
   const sendContactInformation = async (event) => {
@@ -131,36 +140,33 @@ const PublisherPage = () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const phoneRegex =
       /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
-    if (name === "" && contactEmail === "" && phone === "" && company === " ") {
-      setContactError("please enter all field");
-    } else if (name === "") {
+    if (!contactFormInputs?.name) {
       setContactError("please enter name");
-    } else if (contactEmail.trim() === "") {
+    } else if (!contactFormInputs?.contactEmail) {
       setContactError("Please enter your email.");
-    } else if (!emailRegex.test(contactEmail)) {
+    } else if (!emailRegex.test(contactFormInputs?.contactEmail)) {
       setContactError("Please enter a valid email address.");
-    } else if (phone.trim() === "") {
+    } else if (!contactFormInputs?.phone) {
       setContactError("please enter phone");
-    } else if (!phoneRegex.test(phone)) {
+    } else if (!phoneRegex.test(contactFormInputs?.phone)) {
       setContactError("Please enter a valid phone number.");
-    } else if (company === "") {
+    } else if (!contactFormInputs?.company) {
       setContactError("please enter company");
     } else {
       loader("show");
       try {
         const res = await postData(ENDPOINT.INFORMED_USER_FORM, {
-          name: name,
-          email: contactEmail,
-          phone: phone,
-          company: company,
+          name: contactFormInputs?.name?.trim(),
+          email: contactFormInputs?.contactEmail?.trim(),
+          phone: contactFormInputs?.phone?.trim(),
+          company: contactFormInputs?.company?.trim(),
         });
 
+        let obj = {};
         loader("hide");
-        setName("");
-        setContactEmail("");
-        setPhone("");
-        setCompany("");
+        setContactFormInputs(obj);
         setContactError(false);
+        setForceRender(!forceRender);
       } catch (err) {
         console.log(err);
         loader("hide");
@@ -756,23 +762,29 @@ const PublisherPage = () => {
                           name="name"
                           placeholder="Your name"
                           className="form-field"
+                          autoComplete="off"
                           aria-label="Your Name"
-                          value={name}
-                          onChange={(event) =>
-                            setName(event?.target?.value?.trim())
+                          value={
+                            contactFormInputs?.name
+                              ? contactFormInputs?.name
+                              : ""
                           }
+                          onChange={handleContactFormChange}
                         />
                       </Col>
                       <Col>
                         <Form.Control
                           type="email"
-                          name="email"
+                          name="contactEmail"
                           placeholder="Email"
+                          autoComplete="off"
                           aria-label="Your Email"
-                          value={contactEmail}
-                          onChange={(event) =>
-                            setContactEmail(event?.target?.value?.trim())
+                          value={
+                            contactFormInputs?.contactEmail
+                              ? contactFormInputs?.contactEmail
+                              : ""
                           }
+                          onChange={handleContactFormChange}
                         />
                       </Col>
                       <Col>
@@ -780,11 +792,14 @@ const PublisherPage = () => {
                           type="tel"
                           name="phone"
                           placeholder="Phone"
+                          autoComplete="off"
                           aria-label="Your Phone"
-                          value={phone}
-                          onChange={(event) =>
-                            setPhone(event?.target?.value?.trim())
+                          value={
+                            contactFormInputs?.phone
+                              ? contactFormInputs?.phone
+                              : ""
                           }
+                          onChange={handleContactFormChange}
                         />
                       </Col>
                       <Col>
@@ -792,11 +807,14 @@ const PublisherPage = () => {
                           type="text"
                           name="company"
                           placeholder="Company"
+                          autoComplete="off"
                           aria-label="Your Comapny"
-                          value={company}
-                          onChange={(event) =>
-                            setCompany(event?.target?.value?.trim())
+                          value={
+                            contactFormInputs?.company
+                              ? contactFormInputs?.company
+                              : ""
                           }
+                          onChange={handleContactFormChange}
                         />
                       </Col>
                     </Row>

@@ -51,6 +51,7 @@ const Webinar = () => {
   ]);
   const [contactFormInputs, setContactFormInputs] = useState({});
   const [contactFormError, setContactFormError] = useState(false);
+  const [forceRender, setForceRender] = useState(false);
 
   const handleShow = (type) => {
     if (type == "forgot") {
@@ -272,15 +273,17 @@ const Webinar = () => {
       try {
         const res = await postData(ENDPOINT.INFORMED_USER_FORM, {
           name: contactFormInputs?.name?.trim(),
-          email: contactFormInputs?.email,
+          email: contactFormInputs?.email?.trim(),
           phone: contactFormInputs?.phone?.trim(),
           company: contactFormInputs?.comapny?.trim(),
           country: contactFormInputs?.country?.trim(),
           comment: contactFormInputs?.comment?.trim(),
         });
 
-        setContactFormInputs({});
+        let obj = {};
+        setContactFormInputs(obj);
         setContactFormError(false);
+        setForceRender(!forceRender);
         loader("hide");
       } catch (err) {
         console.log(err);
@@ -1148,6 +1151,11 @@ const Webinar = () => {
                           name="name"
                           className="contact-field"
                           placeholder="Name"
+                          value={
+                            contactFormInputs?.name
+                              ? contactFormInputs?.name
+                              : ""
+                          }
                           onChange={handleContactFormChange}
                         />
                       </div>
@@ -1158,6 +1166,11 @@ const Webinar = () => {
                           name="email"
                           className="contact-field"
                           placeholder="Email"
+                          value={
+                            contactFormInputs?.email
+                              ? contactFormInputs?.email
+                              : ""
+                          }
                           onChange={handleContactFormChange}
                         />
                       </div>
@@ -1168,6 +1181,11 @@ const Webinar = () => {
                           name="phone"
                           className="contact-field"
                           placeholder="Contact Number"
+                          value={
+                            contactFormInputs?.phone
+                              ? contactFormInputs?.phone
+                              : ""
+                          }
                           onChange={handleContactFormChange}
                         />
                       </div>
@@ -1178,6 +1196,11 @@ const Webinar = () => {
                           name="comapny"
                           className="contact-field"
                           placeholder="Company"
+                          value={
+                            contactFormInputs?.company
+                              ? contactFormInputs?.company
+                              : ""
+                          }
                           onChange={handleContactFormChange}
                         />
                       </div>
@@ -1188,6 +1211,11 @@ const Webinar = () => {
                           name="country"
                           options={country}
                           placeholder="Select country"
+                          value={
+                            contactFormInputs?.country
+                              ? contactFormInputs?.country
+                              : ""
+                          }
                           onChange={(e) =>
                             handleContactFormChange(e?.value, "country")
                           }
@@ -1202,6 +1230,11 @@ const Webinar = () => {
                           id="comment"
                           placeholder="Comments"
                           name="comment"
+                          value={
+                            contactFormInputs?.comment
+                              ? contactFormInputs?.comment
+                              : ""
+                          }
                           onChange={handleContactFormChange}
                         ></textarea>
                       </div>
