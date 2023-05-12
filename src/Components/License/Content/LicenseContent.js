@@ -102,6 +102,8 @@ const LicenseContent = (props) => {
     message2: "",
     footerButton: "",
   });
+  const [forceRender, setForceRender] = useState(false);
+  const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
@@ -174,24 +176,46 @@ const LicenseContent = (props) => {
     return false;
   };
 
-  const handleOnFilterChange = (e, item, index, key) => {
-    if (!filterObject[key]) {
-      filterObject[key] = [];
+  const handleOnFilterChange = (e, item, index, key, data = []) => {
+    let newObj = filterObject;
+    if (!newObj[key]) {
+      newObj[key] = [];
     }
 
     if (e?.target?.checked == true) {
-      filterObject[key]?.push(item);
+      if (key == "draft" || key == "Selected By Articles") {
+        newObj[key] = [];
+        newObj[key]?.push(item);
+      } else {
+        if (item == "All") {
+          newObj[key] = data;
+        } else {
+          newObj[key]?.push(item);
+
+          if (data?.length - 1 == newObj[key]?.length) {
+            newObj[key]?.push("All");
+          }
+        }
+      }
     } else {
-      const index = filterObject[key]?.indexOf(item);
+      if (item == "All") {
+        newObj[key] = [];
+      } else {
+        if (newObj[key]?.includes("All")) {
+          newObj[key] = newObj[key]?.filter((item) => item != "All");
+        }
+      }
+      const index = newObj[key]?.indexOf(item);
       if (index > -1) {
-        filterObject[key]?.splice(index, 1);
-        if (filterObject[key]?.length == 0) {
-          delete filterObject[key];
+        newObj[key]?.splice(index, 1);
+        if (newObj[key]?.length == 0) {
+          delete newObj[key];
         }
       }
     }
 
-    setFilterObject(filterObject);
+    setFilterObject(newObj);
+    setForceRender(!forceRender);
   };
 
   const tabClicked = async (event, id) => {
@@ -233,7 +257,7 @@ const LicenseContent = (props) => {
     obj = {};
     setFilterObject({});
     setLibraryData([]);
-
+    setFilterApplyflag(0);
     getLibraryData(page, {}, search);
     setSearch("");
 
@@ -243,7 +267,7 @@ const LicenseContent = (props) => {
   const applyFilter = (e) => {
     e.preventDefault();
     setLibraryData([]);
-
+    setFilterApplyflag(1);
     setFilterObject(filterObject);
     getLibraryData(page, filterObject, search);
 
@@ -434,7 +458,10 @@ const LicenseContent = (props) => {
         delete old_object[key];
       }
     }
-
+    console.log("length--->", Object.keys(old_object)?.length);
+    if (!Object.keys(old_object)?.length) {
+      setFilterApplyflag(0);
+    }
     setFilterObject(old_object);
     setLibraryData([]);
     getLibraryData(page, old_object);
@@ -851,26 +878,40 @@ const LicenseContent = (props) => {
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
-                                                      type="checkbox"
+                                                      type={
+                                                        key == "draft" ||
+                                                        key ==
+                                                          "Selected By Articles"
+                                                          ? "radio"
+                                                          : "checkbox"
+                                                      }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
-                                                      defaultChecked={
-                                                        filterObject?.hasOwnProperty(
+                                                      checked={
+                                                        filterObject[
                                                           key
-                                                        )
-                                                          ? filterObject[
-                                                              key
-                                                            ]?.indexOf(item) !==
-                                                            -1
+                                                        ]?.includes(item)
+                                                          ? true
                                                           : false
                                                       }
+                                                      // defaultChecked={
+                                                      //   filterObject?.hasOwnProperty(
+                                                      //     key
+                                                      //   )
+                                                      //     ? filterObject[
+                                                      //         key
+                                                      //       ]?.indexOf(item) !==
+                                                      //       -1
+                                                      //     : false
+                                                      // }
                                                       name="tags[]"
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
                                                           e,
                                                           item,
                                                           index,
-                                                          key
+                                                          key,
+                                                          [...filterdata[key]]
                                                         )
                                                       }
                                                     />
@@ -987,7 +1028,7 @@ const LicenseContent = (props) => {
               level={qrState?.level}
               includeMargin={true}
             />
-            {Object.keys(filterObject)?.length !== 0 ? (
+            {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
                 {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
