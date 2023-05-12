@@ -3275,11 +3275,17 @@ input:-webkit-autofill:active {
 
     .rd-main-wrapper .form-wrapper form .form-group {
         margin: 0 0 20px 0;
+        max-width: 100%;
     }
-
+    .rd-main-wrapper .form-wrapper input, .rd-main-wrapper .form-wrapper select {
+        max-width: 100%;
+    }
+    .split-button-dropup > div:nth-child(3) {
+        max-width: 100%;
+    }
     .rd-main-wrapper .form-wrapper form .submit-btn {
         margin: 0 auto;
-        text-align: left;
+        text-align: right;
     }
 
     .rd-main-wrapper .form-wrapper form .submit-btn button {
