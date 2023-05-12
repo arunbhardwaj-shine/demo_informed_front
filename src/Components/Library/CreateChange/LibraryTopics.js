@@ -169,7 +169,7 @@ function LibraryTopics() {
             </div>
           </div>
           <div className="create-change-content spc-content">
-            <div className="form_action">
+          <div className="form_action sticky-view"> 
               {productData?.flag ? (
                 <h4>Please select the business unit to show the products</h4>
               ) : null}

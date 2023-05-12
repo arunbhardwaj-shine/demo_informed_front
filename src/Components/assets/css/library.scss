@@ -3150,6 +3150,7 @@ section.verify_email.content_details {
 }
 .top-header {
     align-items: center;
+    padding-top:30px;
     padding-left: 0;
     padding-right: 0;
 }
@@ -3822,6 +3823,10 @@ width: 50%;
 #download-qr .dropdown-menu .scroll_div.delivery_popup {
     padding: 5px 8px 5px 5px;
      overflow: hidden;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-box ul.tab-mail-list li.d-flex .tab-content-title {
+	position: relative;
+	top: -8px;
 }
 .form_action.sticky-view {
 	position: sticky;
@@ -6483,12 +6488,17 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
     padding: 3px 30px 3px 10px;
 }
 }
-
+@media only screen and (max-width: 1450px) {
+.analytic-charts .form_action {
+	top: 80px;
+}
+}
 @media (max-width: $layout-breakpoint-extraLarge) {
 .timeline-time-view {
     font-size: 11px;
     line-height: 15px;
 }
+
 .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
     max-width: 122px;
 }

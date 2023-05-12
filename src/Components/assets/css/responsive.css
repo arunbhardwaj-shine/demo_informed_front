@@ -451,7 +451,9 @@
   .sidebar-menu button.toggle_btn {
     margin: 34px 15px 0px;
   }
-
+  .right-sidebar {
+    padding-top: 30px;
+  }
   .filter-block .filter-div .filter-result {
     padding: 3px 5px 3px 12px;
     margin: 0 10px 10px 0;
