@@ -5,17 +5,17 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const data = [
   {
-    image: `${path_image}spc-create-icon.png`,
+    image: `${path_image}spc-create-icon.svg`,
     title: "Create",
     subtitle: "Upload your SPC here",
   },
   {
-    image: `${path_image}edit-icon.png`,
+    image: `${path_image}edit-icon1.svg`,
     title: "View | Edit",
     subtitle: "View and Edit all your SPC here",
   },
   {
-    image: `${path_image}delete.png`,
+    image: `${path_image}delete-icon.svg`,
     title: "Delete",
     subtitle: "Delete your SPC from here",
   },

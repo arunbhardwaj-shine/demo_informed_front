@@ -5,22 +5,22 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const data = [
   {
-    image: `${path_image}create-icon.png`,
+    image: `${path_image}create-icon1.svg`,
     title: "Create",
     subtitle: "Upload Content here to create  a new Docintel Link",
   },
   {
-    image: `${path_image}edit-icon.png`,
+    image: `${path_image}edit-icon1.svg`,
     title: "Edit",
     subtitle: "Change or Replace an existing Docintel Link from here",
   },
   {
-    image: `${path_image}link-icon.png`,
+    image: `${path_image}sublink-icon1.svg`,
     title: "New SubLink",
     subtitle: "SubLinks leads to Docintel Link but are tracked seperately",
   },
   {
-    image: `${path_image}popup-icon.png`,
+    image: `${path_image}setpopup-icon1.svg`,
     title: "Set Pop up",
     subtitle: "Update and add the Pop up text and design from here",
   },
@@ -33,9 +33,9 @@ const data = [
 
 if(localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g=="){
     const newObj = {
-      image: `${path_image}topics.png`,
-      title: "Products & Topics",
-      subtitle: "Add new or delete an existing topic",
+      image: `${path_image}topics-icon.svg`,
+      title: "Topics & Products",
+      subtitle: "Add new, change, or delete an existing topic or product",
     };
     data.push(newObj);
 }
@@ -85,8 +85,9 @@ const LibraryCreate = () => {
                 <h2>Create &amp; Change</h2>
               </div>
             </div>
-            <div className="library_create d-flex">
-              {data.map((item, index) => (
+            <div className="library_create_position">
+               <div className="library_create d-flex">
+                {data.map((item, index) => (
                 <div
                   className={
                     active == index
@@ -105,6 +106,8 @@ const LibraryCreate = () => {
                   </div>
                 </div>
               ))}
+              </div>
+              
             </div>
           </Row>
         </div>

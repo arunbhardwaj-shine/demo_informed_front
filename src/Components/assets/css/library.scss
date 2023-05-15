@@ -610,6 +610,15 @@
 
 .library_create {
   @include library_create;
+  &.landing-layout{
+    max-width: 1240px;
+    min-height: 90vh;
+    align-items: center;
+    padding:0;
+    .row{
+      gap:74px 105px;
+    }
+  }
   &.spc-box {
     gap: 100px;
     min-height: 65vh;
@@ -617,27 +626,48 @@
   }
   .library_create-box {
     @include library_create-box;
+    min-height: 190px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
     &:hover {
-      box-shadow: 0px 0px 13px -3px rgba(0, 102, 190, 0.4);
-    }
-    &.spc {
-      max-width: 334px;
+      box-shadow: 0px 0px 16px -3px #0066BE;
+      .create-library-img{
+        background: $primary-color;
+        img{
+          filter: brightness(0) invert(1);
+        }
+      }
     }
     .create-library-img {
       margin: 0 auto;
       text-align: center;
-      padding-bottom: 15px;
+      padding-bottom: 0px;
+      position:absolute;
+      left:-10px;
+      top:-10px;
+      background: $white;
+      width:72px;
+      height: 72px;
+      z-index: 1;
+      box-shadow: 3px 3px 16px rgba(0, 102, 190, 0.18);
+      border-radius: 15px 5px 5px 5px;
+      align-items: center;
+      display: flex;
+      justify-content: center;
       img {
         width: auto;
         max-height: 40px;
+        max-width: 36px;
       }
     }
     .create-library-content {
       text-align: center;
       position: relative;
       h3 {
-        font-weight: 500;
+        font-weight: 600;
         color: $primary-color;
+        margin-bottom: 19px;
       }
 
       h4 {
@@ -647,6 +677,7 @@
       h5 {
         color: rgba(0, 74, 137, 0.5);
         font-weight: 400;
+        margin:0;
       }
     }
   }
@@ -6162,9 +6193,7 @@ ul.tab-mail-list.data span.total-left {
 .library-content-box-layuot.readerlist {
     gap: 0% 2%;
 }
-  .library_create .library_create-box {
-    max-width: 373px;
-  }
+
   .library_create.spc-box {
     gap: 70px;
     justify-content: center;
@@ -6196,15 +6225,30 @@ ul.tab-mail-list.data span.total-left {
     flex: 0 0 500px;
     padding-right: 35px;
   }
+  .library_create {
+    gap: 74px 120px;
+}
 }
 
 @media only screen and (max-width: 1500px) {
-  .library_create .library_create-box,
-  .library_create .library_create-box.spc {
-    max-width: 31.3%;
-  }
   .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
     max-width: 190px;
+}
+.library_create.landing-layout {
+    max-width: 1200px;
+}
+.library_create .library_create-box {
+    max-width: 315px;
+    padding: 25px;
+    min-height: 175px;
+}
+.library_create .library_create-box .create-library-img {
+    width: 62px;
+    height: 62px;
+}
+.library_create .library_create-box .create-library-img img {
+    max-height: 32px;
+    max-width: 32px;
 }
   ul.tab-mail-list.data span.total-left {
     font-size: 12px;
@@ -6290,11 +6334,10 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
     font-size: 14px;
   }
   .library_create.spc-box {
-    gap: 50px 0;
-    justify-content: space-between;
+    justify-content: center;
   }
   .library_create {
-    gap: 60px 3%;
+    gap: 64px;
     padding: 60px 0 0;
   }
   .library_create .library_create-box .create-library-content h3 {
@@ -6816,6 +6859,16 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   .sublink_right_block .loader-view {
     width: 60px;
     height: 60px;
+}
+.library_create.landing-layout {
+    max-width: 1100px;
+}
+.library_create.spc-box {
+    gap: 55px;
+    justify-content: center;
+}
+.library_create .library_create-box {
+    max-width: 285px;
 }
 .tab-mail-list.data .progress {
     max-width: 270px;
