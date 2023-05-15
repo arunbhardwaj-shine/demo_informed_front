@@ -14,6 +14,7 @@ import {
   Nav,
   NavDropdown,
 } from "react-bootstrap";
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 
 const Webinar = () => {
   const navigate = useNavigate();
@@ -254,31 +255,11 @@ const Webinar = () => {
   };
   const submitContactForm = async (event) => {
     event.preventDefault();
-    let err = {};
 
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const phoneRegex =
-      /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
-    if (!contactFormInputs?.name) {
-      err.name = "Please enter the name";
+    const err = HomeValidation(contactFormInputs);
+    if (Object.keys(err)?.length) {
       setContactFormError(err);
-    } else if (!contactFormInputs?.email) {
-      err.email = "Please enter the email";
-      setContactFormError(err);
-    } else if (!emailRegex.test(contactFormInputs?.email)) {
-      err.email = "Please enter the valid email address";
-      setContactFormError(err);
-    } else if (!contactFormInputs?.phone) {
-      err.phone = "Please enter the phone number";
-      setContactFormError(err);
-    } else if (!phoneRegex.test(contactFormInputs?.phone)) {
-      setContactFormError(err);
-    } else if (!contactFormInputs?.comapny) {
-      err.comapny = "Please enter company name";
-      setContactFormError(err);
-    } else if (!contactFormInputs?.country) {
-      err.country = "Please enter country";
-      setContactFormError(err);
+      return;
     } else {
       loader("show");
       try {
@@ -1228,7 +1209,7 @@ const Webinar = () => {
                         <input
                           type="text"
                           id="company"
-                          name="comapny"
+                          name="company"
                           className="contact-field"
                           placeholder="Company"
                           value={

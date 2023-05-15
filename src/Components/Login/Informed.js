@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 
 const Informed = () => {
   const navigate = useNavigate();
@@ -128,36 +129,16 @@ const Informed = () => {
   // send contact infromation
   const sendContactInformation = async (event) => {
     event.preventDefault();
-    let err = {};
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const phoneRegex =
-      /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
-    if (!contactFormInputs?.name) {
-      err.name = "please enter name";
+    const err = HomeValidation(contactFormInputs);
+    if (Object.keys(err)?.length) {
       setContactError(err);
-    } else if (!contactFormInputs?.contactEmail) {
-      err.contactEmail = "Please enter your email.";
-      setContactError(err);
-    } else if (!emailRegex.test(contactFormInputs?.contactEmail)) {
-      err.contactEmail = "Please enter a valid email address.";
-      setContactError(err);
-    } else if (!contactFormInputs?.phone) {
-      err.phone = "please enter phone";
-      setContactError(err);
-    } else if (!phoneRegex.test(contactFormInputs?.phone)) {
-      err.phone = "Please enter a valid phone number.";
-      setContactError(err);
-    } else if (!contactFormInputs?.company) {
-      err.company = "please enter company";
-      setContactError(err);
-    }
-    // console.log("error", conatctError);
-    else {
+      return;
+    } else {
       loader("show");
       try {
         const res = await postData(ENDPOINT.INFORMED_USER_FORM, {
           name: contactFormInputs?.name?.trim(),
-          email: contactFormInputs?.contactEmail?.trim(),
+          email: contactFormInputs?.email?.trim(),
           phone: contactFormInputs?.phone?.trim(),
           company: contactFormInputs?.company?.trim(),
         });
@@ -788,9 +769,9 @@ const Informed = () => {
                       <Col>
                         <Form.Control
                           type="email"
-                          name="contactEmail"
+                          name="email"
                           className={
-                            !conatctError?.contactEmail
+                            !conatctError?.email
                               ? "form-field"
                               : "form-field error"
                           }
@@ -798,8 +779,8 @@ const Informed = () => {
                           placeholder="Email"
                           aria-label="Your Email"
                           value={
-                            contactFormInputs?.contactEmail
-                              ? contactFormInputs?.contactEmail
+                            contactFormInputs?.email
+                              ? contactFormInputs?.email
                               : ""
                           }
                           onChange={handleContactFormChange}

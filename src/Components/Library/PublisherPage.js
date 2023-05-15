@@ -15,6 +15,7 @@ import ReactPlayer from "react-player";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 
 const PublisherPage = () => {
   const navigate = useNavigate();
@@ -137,34 +138,16 @@ const PublisherPage = () => {
   // send contact infromation
   const sendContactInformation = async (event) => {
     event.preventDefault();
-    let err = {};
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const phoneRegex =
-      /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
-    if (!contactFormInputs?.name) {
-      err.name = "please enter name";
+    const err = HomeValidation(contactFormInputs);
+    if (Object.keys(err)?.length) {
       setContactError(err);
-    } else if (!contactFormInputs?.contactEmail) {
-      err.contactEmail = "Please enter your email.";
-      setContactError(err);
-    } else if (!emailRegex.test(contactFormInputs?.contactEmail)) {
-      err.contactEmail = "Please enter a valid email address.";
-      setContactError(err);
-    } else if (!contactFormInputs?.phone) {
-      err.phone = "please enter phone";
-      setContactError(err);
-    } else if (!phoneRegex.test(contactFormInputs?.phone)) {
-      err.phone = "Please enter a valid phone number.";
-      setContactError(err);
-    } else if (!contactFormInputs?.company) {
-      err.company = "please enter company";
-      setContactError(err);
+      return;
     } else {
       loader("show");
       try {
         const res = await postData(ENDPOINT.INFORMED_USER_FORM, {
           name: contactFormInputs?.name?.trim(),
-          email: contactFormInputs?.contactEmail?.trim(),
+          email: contactFormInputs?.email?.trim(),
           phone: contactFormInputs?.phone?.trim(),
           company: contactFormInputs?.company?.trim(),
         });
@@ -786,9 +769,9 @@ const PublisherPage = () => {
                       <Col>
                         <Form.Control
                           type="email"
-                          name="contactEmail"
+                          name="email"
                           className={
-                            !contactError?.contactEmail
+                            !contactError?.email
                               ? "form-field"
                               : "form-field error"
                           }
@@ -796,8 +779,8 @@ const PublisherPage = () => {
                           autoComplete="off"
                           aria-label="Your Email"
                           value={
-                            contactFormInputs?.contactEmail
-                              ? contactFormInputs?.contactEmail
+                            contactFormInputs?.email
+                              ? contactFormInputs?.email
                               : ""
                           }
                           onChange={handleContactFormChange}
