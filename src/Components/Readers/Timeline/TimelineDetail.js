@@ -563,7 +563,7 @@ const TimelineDetail = () => {
                                                     </th>
                                                     <td className="device-name">
                                                     {
-                                                      details?.pdf_sub_title===null || details?.pdf_sub_title==="" ? "" : details?.pdf_sub_title
+                                                      details?.mailContent != "" ? JSON.parse(details?.mailContent)?.subject:""
                                                     }
                                                     </td>
                                                   </tr>

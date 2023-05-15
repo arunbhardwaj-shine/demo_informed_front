@@ -183,7 +183,7 @@ export default function ContentAnalyticsComponent({ data }) {
               value={data.uniqueReader}
               color="#f4c64b"
               limit={agreed_limit}
-              label={`Unique Reader (total)<br>Agreed Limit | ${
+              label={`Unique Reader (total) Agreed Limit | ${
                 data?.limit == 0 ? "Unlimited" : data?.limit
               }`}
             />
@@ -198,7 +198,7 @@ export default function ContentAnalyticsComponent({ data }) {
               value={data.rtr}
               color="#956ca7"
               limit={agreed_limit}
-              label="User With Rtr"
+              label="User With RTR"
             />
             <ContentAnalyticsComponentActivityGauge
               value={data.download}

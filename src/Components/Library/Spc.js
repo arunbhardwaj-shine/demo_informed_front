@@ -48,7 +48,7 @@ const Spc = () => {
         <Row>
           <div className="top-header">
             <div className="page-title">
-              <h2>SPC</h2>
+              {/* <h2>SPC</h2> */}
             </div>
           </div>
           <div className="library_create spc-box d-flex">

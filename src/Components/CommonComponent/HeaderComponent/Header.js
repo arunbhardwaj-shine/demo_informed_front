@@ -253,18 +253,20 @@ const Header = () => {
                   </li>
                 ) : null}
 
-                {/*typeof localStorage.getItem("webinar_flag") !== "undefined" && localStorage.getItem("webinar_flag") == 1 ? (
+                {typeof localStorage.getItem("webinar_flag") !== "undefined" && localStorage.getItem("webinar_flag") == 1 && localStorage.getItem("user_id") !=
+                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                   <li className="nav-item">
                     <a
                       className="nav-link"
-                      href="https://informed.pro/Webinar/readers_webinar"
+                      target="_blank"
+                      href={"https://informed.pro/Webinar/readers_webinar?rdylr="+localStorage.getItem("user_id")}
                     >
                       WEBINAR
                     </a>
                   </li>
                 ) : (
                   ""
-                )*/}
+                )}
 
                 {localStorage.getItem("user_id") ==
                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -272,7 +274,7 @@ const Header = () => {
                     <a
                       className="nav-link"
                       target="_blank"
-                      href="https://informed.pro/webinar/qa_survey?cmid=2147501188"
+                      href={"https://informed.pro/webinar/qa_survey?rdylr="+localStorage.getItem("user_id")}
                     >
                       Q&A/SURVEY
                     </a>

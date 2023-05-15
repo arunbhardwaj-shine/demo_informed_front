@@ -732,7 +732,6 @@ const FilterSegment = (props) => {
   };
 
   const handleIrt = (irt_val) => {
-    console.log(irt_val);
     setSelectedIrt(irt_val);
     setSelectedinvestigatorType([]);
     let up = updateflag + 1;
@@ -1689,59 +1688,61 @@ const FilterSegment = (props) => {
                               <>
                                 <div className="col block-smart-name">
                                   <h6>IRT</h6>
-                                  <ul>
-                                    {/* <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="irt_training"
-                                          name="irt"
-                                          value="Training"
-                                          checked={
-                                            typeof selectedIrt !== "undefined" &&
-                                            selectedIrt == "Training"
-                                          }
-                                          onChange={() => handleIrt("Training")}
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      Training
-                                    </li> */}
-                                    <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="irt_yes"
-                                          name="irt"
-                                          value="yes"
-                                          checked={
-                                            typeof selectedIrt !== "undefined" &&
-                                            selectedIrt == "yes"
-                                          }
-                                          onChange={() => handleIrt("yes")}
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      Yes
-                                    </li>
-                                    <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="irt_no"
-                                          name="irt"
-                                          value="no"
-                                          checked={
-                                            typeof selectedIrt !== "undefined" &&
-                                            selectedIrt == "no"
-                                          }
-                                          onChange={() => handleIrt("no")}
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      No
-                                    </li>
-                                  </ul>
+                                  <div className="smart-name-list">
+                                    <ul>
+                                      {/* <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id="irt_training"
+                                            name="irt"
+                                            value="Training"
+                                            checked={
+                                              typeof selectedIrt !== "undefined" &&
+                                              selectedIrt == "Training"
+                                            }
+                                            onChange={() => handleIrt("Training")}
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        Training
+                                      </li> */}
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id="irt_yes"
+                                            name="irt"
+                                            value="yes"
+                                            checked={
+                                              typeof selectedIrt !== "undefined" &&
+                                              selectedIrt == "yes"
+                                            }
+                                            onChange={() => handleIrt("yes")}
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        Yes
+                                      </li>
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id="irt_no"
+                                            name="irt"
+                                            value="no"
+                                            checked={
+                                              typeof selectedIrt !== "undefined" &&
+                                              selectedIrt == "no"
+                                            }
+                                            onChange={() => handleIrt("no")}
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        No
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
                               </>
                             )}

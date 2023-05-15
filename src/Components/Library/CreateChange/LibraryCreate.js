@@ -3,8 +3,10 @@ import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const data = [
-  {
+const LibraryCreate = () => {
+
+  let data = [
+    {
     image: `${path_image}create-icon1.svg`,
     title: "Create",
     subtitle: "Upload Content here to create  a new Docintel Link",
@@ -24,29 +26,17 @@ const data = [
     title: "Set Pop up",
     subtitle: "Update and add the Pop up text and design from here",
   },
-  // {
-  //   image: `${path_image}topics.png`,
-  //   title: "Topics & Products",
-  //   subtitle: "Add new or delete an existing topic and product",
-  // },
-];
+  ];
 
-if(localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g=="){
-    const newObj = {
+  if(localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==") {
+      const newObj = {
       image: `${path_image}topics-icon.svg`,
       title: "Topics & Products",
       subtitle: "Add new, change, or delete an existing topic or product",
-    };
-    data.push(newObj);
-}
+      };
+      data.push(newObj);
+  }
 
-// {
-//   image: `${path_image}topics.png`,
-//   title: "Topics",
-//   subtitle: "Add new or delete an existing topic",
-// },
-
-const LibraryCreate = () => {
   const navigate = useNavigate();
   let [active, setActive] = useState();
   const handleChange = (value) => {
@@ -82,7 +72,7 @@ const LibraryCreate = () => {
           <Row>
             <div className="top-header">
               <div className="page-title">
-                <h2>Create &amp; Change</h2>
+                {/* <h2>Create &amp; Change</h2> */}
               </div>
             </div>
             <div className="library_create_position">

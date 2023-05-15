@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
+import CommonModel from "../../../Model/CommonModel";
 import "react-circular-progressbar/dist/styles.css";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
@@ -8,6 +9,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
 import { Button } from "react-bootstrap";
+import QRCode from "qrcode.react";
 
 const ContentDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -15,7 +17,11 @@ const ContentDetail = () => {
   const [openProduction, setOpenProduction] = useState(false);
   const { state } = useLocation();
   const [libraryData, setLibraryData] = useState();
-
+  const [qrValue, setQrValue] = useState("QR-code");
+  const [qrState, setQr] = useState({value: ""});
+  const [qrSize, setQrSize] = useState(290);
+  const [size, setSize] = useState("Small");
+  const [show, setShow] = useState(false);
   const [enableData, setEnableData] = useState({
     enable: "",
     reseller: "",
@@ -109,6 +115,55 @@ const ContentDetail = () => {
     setReRender(reRender + 1);
   };
 
+  const commonModelFun = () => {
+    setShow(true);
+  };
+
+  const downloadQRData = [
+    {
+      label: "Select Size",
+      type: "dropdown",
+      dropdown: [
+        {
+          key: "Tiny",
+          value: "M",
+        },
+        {
+          key: "Article",
+          value: "H",
+        },
+        {
+          key: "Large Print",
+          value: "L",
+        },
+      ],
+    },
+  ];
+
+  const downloadQRCode = () => {
+    const canvas = document.getElementById("qr-gen");
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `${qrValue}.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    setShow(false);
+  };
+
+  const handleQR = (e) => {
+    if (e == "H") {
+      setQrSize(390);
+    }
+    if (e == "L") {
+      setQrSize(490);
+    }
+    setQr({ ...qrState, level: e });
+  };
+
   return (
     <>
       <div className="col right-sidebar">
@@ -174,12 +229,16 @@ const ContentDetail = () => {
                                           : "N/A"}
                                         </>
                                       </h6>
-                                      <h6>
-                                        <strong>Author | </strong>
-                                        {data?.key_author
-                                          ? data?.key_author
-                                          : "N/A"}
-                                      </h6>
+                                      {
+                                        localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                                        <h6>
+                                          <strong>Author | </strong>
+                                          {data?.key_author
+                                            ? data?.key_author
+                                            : "N/A"}
+                                        </h6>
+                                        : null
+                                      }
 
                                       {
                                         localStorage.getItem("group_id") == "3" ?
@@ -228,6 +287,27 @@ const ContentDetail = () => {
                                           />
                                         </span>
                                       </h6>
+                                      <div className="info_btn">
+                                      <Button
+                                      className="btn btn-primary btn-bordered move-draft"
+                                      onClick={() => {
+                                        commonModelFun();
+                                        setQr({
+                                          ...qrState,
+                                          value: data?.docintelLink,
+                                        });
+                                      }}
+                                      >
+                                        Download QR
+                                      </Button>
+                                      <Link
+                                        to="/library-sublink"
+                                        state={{ pdfid: data.id }}
+                                        className="btn btn-primary btn-filled next"
+                                      >
+                                        New sublink
+                                      </Link>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -408,7 +488,7 @@ const ContentDetail = () => {
                                                             <td>
                                                               {data?.limit > 0
                                                                 ? data?.limit
-                                                                : "Unlimted"}
+                                                                : "unlimited"}
                                                             </td>
                                                           </tr>
                                                           </>
@@ -557,12 +637,33 @@ const ContentDetail = () => {
 
                                                 {
                                                   localStorage.getItem("group_id") == "3" ?
-                                                  <tr>
-                                                    <th>Saved as draft</th>
-                                                    <td>
-                                                      {data?.draft ? "Yes" : "No"}
-                                                    </td>
-                                                  </tr>
+                                                  <>
+                                                    <tr>
+                                                      <th>Saved as draft</th>
+                                                      <td>
+                                                        {data?.draft ? "Yes" : "No"}
+                                                      </td>
+                                                    </tr>
+
+                                                    {
+                                                      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                                      <>
+                                                        <tr>
+                                                          <th>inforMedGO code</th>
+                                                          <td>
+                                                            {data?.rep_code}
+                                                          </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                          <th>Docintel code</th>
+                                                          <td>
+                                                            {data?.docintel_code}
+                                                          </td>
+                                                        </tr></>
+                                                      : null
+                                                    }
+                                                  </>
                                                   : null
                                                 }
                                                 {
@@ -639,6 +740,25 @@ const ContentDetail = () => {
           </div>
         </div>
       </div>
+
+      <CommonModel
+        show={show}
+        onClose={setShow}
+        heading={"Download QR"}
+        data={downloadQRData}
+        footerButton={"Save"}
+        handleSubmit={downloadQRCode}
+        handleQR={handleQR}
+      />
+
+      <QRCode
+        style={{ display: "none" }}
+        id="qr-gen"
+        value={qrState?.value}
+        size={qrSize}
+        level={qrState?.level}
+        includeMargin={true}
+      />
     </>
   );
 };

@@ -12,7 +12,7 @@ import { loader } from "../../../loader";
 
 const ReaderEdit = () => {
   const { state } = useLocation();
-  const nameRef  = useRef(null);
+  const nameRef = useRef(null);
   const emailRef = useRef(null);
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const ReaderEdit = () => {
   const [pharmaData, setPharmaData] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
-  const [province, setProvince] = useState([]);
+  // const [province, setProvince] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1222" },
@@ -73,6 +73,8 @@ const ReaderEdit = () => {
 
   const [error, setError] = useState({});
   const [commonHeader, setCommonHeader] = useState("");
+  const [commonFooter, setCommonFooter] = useState("");
+  // const [selectedCategory, setSelectedCategory] = useState([]);
   const [data, setData] = useState([]);
 
   const [newProduct, setNewProduct] = useState({
@@ -125,31 +127,47 @@ const ReaderEdit = () => {
     ],
     ibu: [
       {
-        label:"Critical Care",
-        value:"Critical Care"
-    },
-    {label:"Haematology",value:"Haematology"},{label:"Immunotherapy",value:"Immunotherapy"},
+        label: "Critical Care",
+        value: "Critical Care",
+      },
+      { label: "Haematology", value: "Haematology" },
+      { label: "Immunotherapy", value: "Immunotherapy" },
     ],
     blind_type: [],
+    province: [],
   });
 
   const handleModelFun = (e) => {
     setNewProduct({ label: e?.target?.name, value: e?.target?.value });
   };
 
-  const handleSubmitModelFun = (e) => {
+  const handleSubmitModelFun = async (e) => {
     if (newProduct?.value?.length) {
       const newArr = userDetail[newProduct?.label];
-      let checkIndex = newArr.findIndex(el => el.value == newProduct?.value);
-      if(checkIndex == -1){
+      loader("show");
+      try {
+        await postData(`${ENDPOINT.READER_ADD_FEATURES}`, {
+          label: newProduct?.label,
+          value: newProduct?.value,
+        });
+
+        let checkIndex = newArr.findIndex(
+          (el) => el.value == newProduct?.value
+        );
+        if (checkIndex == -1) {
           newArr.unshift({
             value: newProduct?.value,
             label: newProduct?.value,
           });
 
           setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
-      }else{
-        toast.error(newProduct?.label + " already in list.");
+        } else {
+          toast.error(newProduct?.label + " already in list.");
+        }
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log(err);
       }
     }
   };
@@ -165,7 +183,7 @@ const ReaderEdit = () => {
       });
     });
     setCountryAll(country);
-    setProvince(hasData?.data?.data?.province);
+    // setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
@@ -174,6 +192,7 @@ const ReaderEdit = () => {
     setUserDetail({
       ...userDetail,
       discipline: hasData?.data?.data?.discipline,
+      province: hasData?.data?.data?.province,
       speciality: hasData?.data?.data?.speciality,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
@@ -190,23 +209,83 @@ const ReaderEdit = () => {
 
   const initialReaderFun = async () => {
     loader("show");
-    try{
-      const hasData = await getData(`${ENDPOINT.READER_GET_READER_USER}/${id} `);
-      if(hasData?.data?.data?.country == "B&H"){
+    try {
+      const hasData = await getData(
+        `${ENDPOINT.READER_GET_READER_USER}/${id} `
+      );
+      if (hasData?.data?.data?.country == "B&H") {
         hasData.data.data.country = "Bosnia and Herzegovina";
       }
 
       setAddReaderInputs(hasData?.data?.data);
       loader("hide");
-    }catch(err){
+    } catch (err) {
       console.log(err);
       loader("hide");
     }
   };
 
+  // const editProductClicked = (statusMsg, e) => {
+  //   // setSelectedCategory(statusMsg);
+
+  //   // e.preventDefault();
+  //   setCommonShow(true);
+  //   setCommonFooter("Update");
+  //   setNewProduct("");
+  //   if (statusMsg == "speciality") {
+  //     setData(() => [
+  //       {
+  //         name: "speciality",
+  //         label: "Speciality",
+  //         type: "input",
+  //         placeholder: "Type your speciality",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Speciality");
+  //   }
+  //   if (statusMsg == "discipline") {
+  //     setData(() => [
+  //       {
+  //         name: "discipline",
+  //         label: "discipline",
+  //         type: "input",
+  //         placeholder: "Type your discipline",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Discipline");
+  //   }
+  //   if (statusMsg == "product") {
+  //     setData(() => [
+  //       {
+  //         name: "product",
+  //         label: "product",
+  //         type: "input",
+  //         placeholder: "Type your product",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Product");
+  //   }
+  //   if (statusMsg == "province") {
+  //     setData(() => [
+  //       {
+  //         name: "province",
+  //         label: "province",
+  //         type: "input",
+  //         placeholder: "Type your province",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Product");
+  //   }
+  // };
+
   const addNewProductClicked = (statusMsg, e) => {
     e.preventDefault();
     setCommonShow(true);
+    setCommonFooter("Add");
     if (statusMsg == "speciality") {
       setNewProduct("");
       setData(() => [
@@ -245,6 +324,18 @@ const ReaderEdit = () => {
 
       setCommonHeader("Add New Product");
     }
+    if (statusMsg == "province") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "province",
+          label: "Province",
+          type: "input",
+          placeholder: "Type your province",
+        },
+      ]);
+      setCommonHeader("Add New Province");
+    }
   };
 
   useEffect(() => {
@@ -257,70 +348,91 @@ const ReaderEdit = () => {
   }, [userDetail?.sideData]);
 
   const changeSiteData = () => {
-
-    if(typeof userDetail?.sideData !== "undefined"){
-      let newSite=[],newSiteNumber =[];
-        userDetail?.sideData?.forEach(item =>{
-              if(item?.country == userInputs?.country){
-                newSite.push({label:item?.site_name,value:item?.site_name})
-                newSiteNumber.push({label:item.site_number,value:item?.site_number})
-              }
-        })
-        setUserDetail({
-          ...userDetail,
-          siteName:newSite,
-          siteNumber: newSiteNumber,
-        });
+    if (typeof userDetail?.sideData !== "undefined") {
+      let newSite = [],
+        newSiteNumber = [];
+      userDetail?.sideData?.forEach((item) => {
+        if (item?.country == userInputs?.country) {
+          newSite.push({ label: item?.site_name, value: item?.site_name });
+          newSiteNumber.push({
+            label: item.site_number,
+            value: item?.site_number,
+          });
+        }
+      });
+      setUserDetail({
+        ...userDetail,
+        siteName: newSite,
+        siteNumber: newSiteNumber,
+      });
     }
-  }
+  };
 
   const handleChange = (e, isSelectedName) => {
+    // selectedCategory.push(isSelectedName);
     if (e?.target?.files?.length < 1) {
       return;
     }
-    if(isSelectedName == "country"){
-       let newSite=[],newSiteNumber =[]
-       userDetail?.sideData?.forEach(item =>{
-             let countryUpdated = e
-             if(countryUpdated == "Bosnia and Herzegovina"){
-                 countryUpdated="B&H";
-             }
-             if(item?.country == e){
-               newSite.push({label:item?.site_name,value:item?.site_name})
-               newSiteNumber.push({label:item.site_number,value:item?.site_number})
-             }
-       })
-       setUserDetail({
-         ...userDetail,
-         flag:1,
-         siteName:newSite,
-         siteNumber: newSiteNumber,
-       });
-     setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteNumber"]:"",["siteName"]:""})
-   }else if(isSelectedName == "siteNumber"){
-     let siteName = "";
-     userDetail?.sideData?.forEach(item =>{
-             if(item?.site_number == e){
-               siteName = item?.site_name;
-             }
-       })
-     setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteName"]:siteName})
-   }else if(isSelectedName == "siteName"){
-     let siteNum = "";
-     userDetail?.sideData?.forEach(item =>{
-             if(item?.site_name == e){
-               siteNum = item?.site_number;
-             }
-       })
-     setAddReaderInputs({...userInputs,[isSelectedName]:e,["siteNumber"]:siteNum})
-   }else{
+    if (isSelectedName == "country") {
+      let newSite = [],
+        newSiteNumber = [];
+      userDetail?.sideData?.forEach((item) => {
+        let countryUpdated = e;
+        if (countryUpdated == "Bosnia and Herzegovina") {
+          countryUpdated = "B&H";
+        }
+        if (item?.country == e) {
+          newSite.push({ label: item?.site_name, value: item?.site_name });
+          newSiteNumber.push({
+            label: item.site_number,
+            value: item?.site_number,
+          });
+        }
+      });
+      setUserDetail({
+        ...userDetail,
+        flag: 1,
+        siteName: newSite,
+        siteNumber: newSiteNumber,
+      });
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["siteNumber"]: "",
+        ["siteName"]: "",
+      });
+    } else if (isSelectedName == "siteNumber") {
+      let siteName = "";
+      userDetail?.sideData?.forEach((item) => {
+        if (item?.site_number == e) {
+          siteName = item?.site_name;
+        }
+      });
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["siteName"]: siteName,
+      });
+    } else if (isSelectedName == "siteName") {
+      let siteNum = "";
+      userDetail?.sideData?.forEach((item) => {
+        if (item?.site_name == e) {
+          siteNum = item?.site_number;
+        }
+      });
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["siteNumber"]: siteNum,
+      });
+    } else {
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-        ? e?.target?.files
-        ? e?.target?.files
-        : e
-        : e?.target?.value,
+          ? e?.target?.files
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
       });
     }
   };
@@ -341,15 +453,15 @@ const ReaderEdit = () => {
 
     const result = AddReaderValidation(userInputs, groupId);
     if (Object.keys(result)?.length) {
-        if(Object.keys(result)[0] == "firstName") {
-          nameRef.current.focus();
-        }else if(Object.keys(result)[0] == "email"){
-          emailRef.current.focus();
-        }
+      if (Object.keys(result)[0] == "firstName") {
+        nameRef.current.focus();
+      } else if (Object.keys(result)[0] == "email") {
+        emailRef.current.focus();
+      }
+      toast.error(result[Object.keys(result)[0]]);
       setError(result);
       return;
     } else {
-      return;
       try {
         loader("show");
         let data = {
@@ -409,29 +521,48 @@ const ReaderEdit = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Role </Form.Label>
 
-          {
-            userInputs?.irt && (userInputs.irt == 1 || userInputs.irt == "Yes") ?
-              <Select
-                options={userDetail?.userIrtRoles}
-                placeholder="Select role"
-                name="role"
-                value={userDetail?.userIrtRoles.findIndex((el) => el.value == userInputs?.role) == -1 ? '' : userDetail?.userIrtRoles[userDetail?.userIrtRoles.findIndex((el) => el.value == userInputs?.role)]}
-                className="dropdown-basic-button split-button-dropup"
-                isClearable
-                onChange={(e) => handleChange(e?.value, "role")}
-              />
-            :
-              <Select
-                options={userDetail?.role}
-                value={userDetail?.role.findIndex((el) => el.value == userInputs?.role) == -1 ? '' : userDetail?.role[userDetail?.role.findIndex((el) => el.value == userInputs?.role)]}
-                placeholder="Select role"
-                name="role"
-                className="dropdown-basic-button split-button-dropup"
-                isClearable
-                onChange={(e) => handleChange(e?.value, "role")}
-              />
-          }
-
+          {userInputs?.irt &&
+          (userInputs.irt == 1 || userInputs.irt == "Yes") ? (
+            <Select
+              options={userDetail?.userIrtRoles}
+              placeholder="Select role"
+              name="role"
+              value={
+                userDetail?.userIrtRoles.findIndex(
+                  (el) => el.value == userInputs?.role
+                ) == -1
+                  ? ""
+                  : userDetail?.userIrtRoles[
+                      userDetail?.userIrtRoles.findIndex(
+                        (el) => el.value == userInputs?.role
+                      )
+                    ]
+              }
+              className="dropdown-basic-button split-button-dropup"
+              isClearable
+              onChange={(e) => handleChange(e?.value, "role")}
+            />
+          ) : (
+            <Select
+              options={userDetail?.role}
+              value={
+                userDetail?.role.findIndex(
+                  (el) => el.value == userInputs?.role
+                ) == -1
+                  ? ""
+                  : userDetail?.role[
+                      userDetail?.role.findIndex(
+                        (el) => el.value == userInputs?.role
+                      )
+                    ]
+              }
+              placeholder="Select role"
+              name="role"
+              className="dropdown-basic-button split-button-dropup"
+              isClearable
+              onChange={(e) => handleChange(e?.value, "role")}
+            />
+          )}
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Sub Role </Form.Label>
@@ -547,10 +678,16 @@ const ReaderEdit = () => {
                     {userInputs ? (
                       <>
                         <Form.Group className="form-group">
-                          <Form.Label htmlFor="">First name <span>*</span></Form.Label>
+                          <Form.Label htmlFor="">
+                            First name <span>*</span>
+                          </Form.Label>
                           <input
                             type="text"
-                            className={error?.firstName ? "form-control error" : "form-control" }
+                            className={
+                              error?.firstName
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             name="firstName"
                             defaultValue={userInputs?.firstName}
                             ref={nameRef}
@@ -589,10 +726,16 @@ const ReaderEdit = () => {
                           />
                         </Form.Group>
                         <Form.Group className="form-group">
-                          <Form.Label htmlFor="">Primary email <span>*</span></Form.Label>
+                          <Form.Label htmlFor="">
+                            Primary email <span>*</span>
+                          </Form.Label>
                           <input
                             type="email"
-                            className={error?.email ? "form-control error" : "form-control"}
+                            className={
+                              error?.email
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             placeholder="example@email.com"
                             name="email"
                             ref={emailRef}
@@ -690,7 +833,9 @@ const ReaderEdit = () => {
                     {userInputs?.country ? (
                       <>
                         <Form.Group className="form-group">
-                          <Form.Label htmlFor="">Country <span>*</span></Form.Label>
+                          <Form.Label htmlFor="">
+                            Country <span>*</span>
+                          </Form.Label>
 
                           <Select
                             options={countryAll}
@@ -700,7 +845,11 @@ const ReaderEdit = () => {
                               label: userInputs?.country,
                               value: userInputs?.country,
                             }}
-                            className={error?.country ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
+                            className={
+                              error?.country
+                                ? "dropdown-basic-button split-button-dropup error"
+                                : "dropdown-basic-button split-button-dropup"
+                            }
                             isClearable
                             onChange={(e) => handleChange(e?.value, "country")}
                           />
@@ -718,43 +867,72 @@ const ReaderEdit = () => {
                     )}
 
                     {userInputs ? (
-                      <>{groupId == 3 && flag == 1 ?
-                        <>
-                          <Form.Group className="form-group">
-                            <Form.Label htmlFor="">Site Number </Form.Label>
-                            <Select
-                              options={userDetail?.siteNumber}
-                              defaultValue={{
-                                label: userInputs?.siteNumber,
-                                value: userInputs?.siteNumber,
-                              }}
-                              value={userDetail?.siteNumber.findIndex((el) => el.value == userInputs?.siteNumber) == -1 ? '' : userDetail?.siteNumber[userDetail?.siteNumber.findIndex((el) => el.value == userInputs?.siteNumber)]}
-                              placeholder="Select Site Number"
-                              name="siteNumber"
-                              className="dropdown-basic-button split-button-dropup"
-                              isClearable
-                              onChange={(e) => handleChange(e?.value, "siteNumber")}
-                            />
-                          </Form.Group>
-                          <Form.Group className="form-group">
-                            <Form.Label htmlFor="">Site Name </Form.Label>
-                            <Select
-                              options={userDetail?.siteName}
-                              defaultValue={{
-                                label: userInputs?.siteName,
-                                value: userInputs?.siteName,
-                              }}
-                              value={userDetail?.siteName.findIndex((el) => el.value == userInputs?.siteName) == -1 ? '' : userDetail?.siteName[userDetail?.siteName.findIndex((el) => el.value == userInputs?.siteName)]}
-                              placeholder="Select Site Name "
-                              name="siteName"
-                              className="dropdown-basic-button split-button-dropup"
-                              isClearable
-                              onChange={(e) => handleChange(e?.value, "siteName")}
-                            />
-                          </Form.Group>
-                        </>
-                         :
-                         ""}</>
+                      <>
+                        {groupId == 3 && flag == 1 ? (
+                          <>
+                            <Form.Group className="form-group">
+                              <Form.Label htmlFor="">Site Number </Form.Label>
+                              <Select
+                                options={userDetail?.siteNumber}
+                                defaultValue={{
+                                  label: userInputs?.siteNumber,
+                                  value: userInputs?.siteNumber,
+                                }}
+                                value={
+                                  userDetail?.siteNumber.findIndex(
+                                    (el) => el.value == userInputs?.siteNumber
+                                  ) == -1
+                                    ? ""
+                                    : userDetail?.siteNumber[
+                                        userDetail?.siteNumber.findIndex(
+                                          (el) =>
+                                            el.value == userInputs?.siteNumber
+                                        )
+                                      ]
+                                }
+                                placeholder="Select Site Number"
+                                name="siteNumber"
+                                className="dropdown-basic-button split-button-dropup"
+                                isClearable
+                                onChange={(e) =>
+                                  handleChange(e?.value, "siteNumber")
+                                }
+                              />
+                            </Form.Group>
+                            <Form.Group className="form-group">
+                              <Form.Label htmlFor="">Site Name </Form.Label>
+                              <Select
+                                options={userDetail?.siteName}
+                                defaultValue={{
+                                  label: userInputs?.siteName,
+                                  value: userInputs?.siteName,
+                                }}
+                                value={
+                                  userDetail?.siteName.findIndex(
+                                    (el) => el.value == userInputs?.siteName
+                                  ) == -1
+                                    ? ""
+                                    : userDetail?.siteName[
+                                        userDetail?.siteName.findIndex(
+                                          (el) =>
+                                            el.value == userInputs?.siteName
+                                        )
+                                      ]
+                                }
+                                placeholder="Select Site Name "
+                                name="siteName"
+                                className="dropdown-basic-button split-button-dropup"
+                                isClearable
+                                onChange={(e) =>
+                                  handleChange(e?.value, "siteName")
+                                }
+                              />
+                            </Form.Group>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </>
                     ) : (
                       ""
                     )}
@@ -766,7 +944,7 @@ const ReaderEdit = () => {
                           <Form.Group className="form-group">
                             <Form.Label htmlFor="">Province</Form.Label>
                             <Select
-                              options={province}
+                              options={userDetail?.province}
                               placeholder="Select province"
                               name="provience"
                               defaultValue={{
@@ -779,6 +957,17 @@ const ReaderEdit = () => {
                                 handleChange(e?.value, "province")
                               }
                             />
+                            <div className="add_product">
+                              <span>&nbsp;</span>
+                              <Button
+                                className="btn-bordered btn-voilet"
+                                onClick={(e) =>
+                                  addNewProductClicked("province", e)
+                                }
+                              >
+                                Add New Province +
+                              </Button>
+                            </div>
                           </Form.Group>
                         ) : (
                           ""
@@ -888,12 +1077,12 @@ const ReaderEdit = () => {
                                   // defaultValue={userInputs?.ibu}
                                   defaultValue={
                                     userDetail?.ibu?.length
-                                    ? userDetail?.ibu[
-                                      userDetail?.ibu?.findIndex(
-                                  (el) => el.value ==userInputs?.ibu
-                                   )
-                                   ]
-                                  : ""
+                                      ? userDetail?.ibu[
+                                          userDetail?.ibu?.findIndex(
+                                            (el) => el.value == userInputs?.ibu
+                                          )
+                                        ]
+                                      : ""
                                   }
                                   placeholder="Select Bussiness Unit"
                                   name="ibu"
@@ -993,8 +1182,8 @@ const ReaderEdit = () => {
 
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                       <>
-                        {
-                          localStorage.getItem('user_id') != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                        {localStorage.getItem("user_id") !=
+                        "iSnEsKu5gB/DRlycxB6G4g==" ? (
                           <Form.Group className="form-group">
                             <Form.Label htmlFor="">Select User Type</Form.Label>
                             <Select
@@ -1004,10 +1193,12 @@ const ReaderEdit = () => {
                               name="userType"
                               className="dropdown-basic-button split-button-dropup"
                               isClearable
-                              onChange={(e) => handleChange(e?.value, "UserType")}
+                              onChange={(e) =>
+                                handleChange(e?.value, "UserType")
+                              }
                             />
-                          </Form.Group> : null
-                        }
+                          </Form.Group>
+                        ) : null}
                       </>
                     ) : (
                       ""
@@ -1048,7 +1239,7 @@ const ReaderEdit = () => {
           handleChange={handleModelFun}
           handleSubmit={handleSubmitModelFun}
           data={data}
-          footerButton={"Add"}
+          footerButton={commonFooter}
         />
       </Col>
     </>

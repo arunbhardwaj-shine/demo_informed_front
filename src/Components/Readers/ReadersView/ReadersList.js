@@ -56,11 +56,16 @@ const NewReaders = () => {
   });
   const [filterObject, setFilterObject] = useState({
     status: ["Registered"],
+    "contact Type": ["HCP"],
   });
   const [apifilterObject, setApifilterObject] = useState({
     status: ["Registered"],
+    "contact Type": ["HCP"],
+    // status: ["Registered"],
+
     // status:["Unregistered"]
   });
+  const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "0", label: "HCP" },
@@ -112,10 +117,8 @@ const NewReaders = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(
-      ENDPOINT.READERSFILTER
-      );
-      setCountry(res?.data?.data?.country)
+      const res = await getData(ENDPOINT.READERSFILTER);
+      setCountry(res?.data?.data?.country);
       setFilterData(res?.data?.data);
     } catch (err) {
       loader("hide");
@@ -259,37 +262,37 @@ const NewReaders = () => {
     return false;
   };
 
-  const handleOnFilterChange = (e, item, index, key) => {
-    if (!filterObject[key]) {
-      filterObject[key] = [];
+  const handleOnFilterChange = (e, item, index, key, data = []) => {
+    let newObj = filterObject;
+    if (!newObj[key]) {
+      newObj[key] = [];
     }
     if (!apifilterObject[key]) {
       apifilterObject[key] = [];
     }
-    if(key == "region"){
-     let newCountry = []
-     if(item == "All"){
-      newCountry = country
-      filterdata.country = []
-      delete apifilterObject.country
-      delete  filterObject.country
-     }else{
-      Object.keys(filterdata?.regionCountry)?.forEach(values =>{
-        if(filterdata?.regionCountry[values] == item){
-         newCountry.push(values)
-        }
-     })
-     delete apifilterObject.country
-     delete  filterObject.country
-
-     }
-      setFilterData({...filterdata,"country":newCountry})
+    if (key == "region") {
+      let newCountry = [];
+      if (item == "All") {
+        newCountry = country;
+        filterdata.country = [];
+        delete apifilterObject.country;
+        delete filterObject.country;
+      } else {
+        Object.keys(filterdata?.regionCountry)?.forEach((values) => {
+          if (filterdata?.regionCountry[values] == item) {
+            newCountry.push(values);
+          }
+        });
+        delete apifilterObject.country;
+        delete filterObject.country;
+      }
+      setFilterData({ ...filterdata, country: newCountry });
     }
 
     if (e?.target?.checked == true) {
       if (
         key == "status" ||
-        key == "contactType" ||
+        key == "contact Type" ||
         key == "userAction" ||
         key == "Business Unit" ||
         key == "webinarRegistered" ||
@@ -298,19 +301,39 @@ const NewReaders = () => {
         key == "region" ||
         key == "IRT" ||
         key == "Blinded" ||
+        key == "Accounts" ||
         key == "List"
       ) {
-        filterObject[key] = [];
+        newObj[key] = [];
         apifilterObject[key] = [];
+        newObj[key]?.push(item);
+        apifilterObject[key]?.push(e.target.value);
+      } else {
+        if (item == "All") {
+          newObj[key] = data;
+          apifilterObject[key] = data;
+        } else {
+          newObj[key]?.push(item);
+          apifilterObject[key]?.push(item);
+          if (data?.length - 1 == newObj[key]?.length) {
+            newObj[key]?.push("All");
+            apifilterObject[key]?.push("All");
+          }
+        }
       }
-      filterObject[key]?.push(item);
-      apifilterObject[key]?.push(e.target.value);
     } else {
-      const index = filterObject[key]?.indexOf(item);
+      if (item == "All") {
+        newObj[key] = [];
+      } else {
+        if (newObj[key]?.includes("All")) {
+          newObj[key] = newObj[key]?.filter((item) => item != "All");
+        }
+      }
+      const index = newObj[key]?.indexOf(item);
       if (index > -1) {
-        filterObject[key]?.splice(index, 1);
-        if (filterObject[key]?.length == 0) {
-          delete filterObject[key];
+        newObj[key]?.splice(index, 1);
+        if (newObj[key]?.length == 0) {
+          delete newObj[key];
         }
       }
       const index2 = apifilterObject[key]?.indexOf(e.target.value);
@@ -322,8 +345,9 @@ const NewReaders = () => {
       }
     }
 
-    setFilterObject(filterObject);
+    setFilterObject(newObj);
     setApifilterObject(apifilterObject);
+    setForceRender(!forceRender);
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -575,7 +599,6 @@ const NewReaders = () => {
     const found2 = changeSiteNameType.some((el) => el.index === i);
     if (!found2) {
       setChangeSiteNameType((oldarray) => [...oldarray, consent1]);
-      console.log([]);
     } else {
       const updatedArray = changeSiteNameType.map((el) =>
         el.index === i ? { ...el, value: selectedName } : el
@@ -963,7 +986,7 @@ const NewReaders = () => {
           <Row>
             <div className="top-header reader_list sticky">
               <div className="page-title">
-                <h2>CRM</h2>
+                {/* <h2>CRM</h2> */}
               </div>
               <div className="top-right-action library_content_view">
                 <div className="search-bar">
@@ -971,7 +994,7 @@ const NewReaders = () => {
                     <input
                       className="form-control me-2"
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search by email or name"
                       aria-label="Search"
                       id="email_search"
                       onChange={(e) => searchChange(e)}
@@ -994,7 +1017,12 @@ const NewReaders = () => {
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
-                    className="btn btn-secondary dropdown"
+                    className={
+                      Object.keys(apifilterObject)?.length &&
+                      filterApplyflag == 1
+                        ? "btn btn-secondary dropdown filter_applied"
+                        : "btn btn-secondary dropdown"
+                    }
                     type="button"
                     id="dropdownMenuButton2"
                     onClick={() => setShowFilter((showfilter) => !showfilter)}
@@ -1048,13 +1076,13 @@ const NewReaders = () => {
                       </svg>
                     )}
                   </button>
-
                   {showfilter && (
                     <div
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
                       <h4>Filter By</h4>
+
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
@@ -1079,16 +1107,18 @@ const NewReaders = () => {
                                                     <input
                                                       type={
                                                         key == "status" ||
-                                                        key == "contactType" ||
+                                                        key == "Accounts" ||
+                                                        key == "contact Type" ||
                                                         key == "userAction" ||
                                                         key == "Blinded" ||
                                                         key == "IRT" ||
                                                         key == "region" ||
-                                                         key == "RTR?" ||
-                                                         key == "Business Unit" ||
-                                                           key ==
+                                                        key == "RTR?" ||
+                                                        key ==
+                                                          "Business Unit" ||
+                                                        key ==
                                                           "webinarRegistered" ||
-                                                           key ==
+                                                        key ==
                                                           "Register For Webinar" ||
                                                         key == "List"
                                                           ? "radio"
@@ -1101,19 +1131,33 @@ const NewReaders = () => {
                                                           : item
                                                       }
                                                       name={key}
-                                                      defaultChecked={
-                                                        key == "contactType" &&
-                                                        item == "HCP"
-                                                          ? true
-                                                          : filterObject?.hasOwnProperty(
-                                                              key
-                                                            )
+                                                      checked={
+                                                        typeof item == "object"
                                                           ? filterObject[
                                                               key
-                                                            ]?.indexOf(item) !==
-                                                            -1
+                                                            ]?.includes(item.id)
+                                                            ? true
+                                                            : false
+                                                          : filterObject[
+                                                              key
+                                                            ]?.includes(item)
+                                                          ? true
                                                           : false
                                                       }
+                                                      // defaultChecked={
+                                                      //   key == "contactType" &&
+                                                      //   item == "HCP"
+                                                      //     ? true
+                                                      //     : filterObject?.hasOwnProperty(
+                                                      //         key
+                                                      //       )
+                                                      //     ? filterObject[
+                                                      //         key
+                                                      //       ]?.indexOf(item) !==
+                                                      //       -1
+                                                      //     : false
+                                                      // }
+
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
                                                           e,
@@ -1122,7 +1166,8 @@ const NewReaders = () => {
                                                             ? item.id
                                                             : item,
                                                           index,
-                                                          key
+                                                          key,
+                                                          [...filterdata[key]]
                                                         )
                                                       }
                                                     />
@@ -1439,7 +1484,7 @@ const NewReaders = () => {
                                           </h6>
                                         </li>
                                       )}
-                                      <li>
+                                      {/* <li>
                                         <h6 className="tab-content-title">
                                           Last Activity
                                         </h6>
@@ -1448,7 +1493,7 @@ const NewReaders = () => {
                                             ? data?.last_activity
                                             : "N/A"}
                                         </h6>
-                                      </li>
+                                      </li> */}
                                     </>
                                   )}
                                 </ul>
@@ -1719,6 +1764,29 @@ const NewReaders = () => {
                                                   (el) => el.userId == data?.id
                                                 )
                                               ]?.contentOpening
+                                            : "Loading"
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+
+                                  <li>
+                                    <h6 className="tab-content-title">
+                                      Last Activity
+                                    </h6>
+                                    <div className="data-progress content-opening">
+                                      <ProgressBar
+                                        variant="default"
+                                        now={19}
+                                        label={
+                                          emailStats.findIndex(
+                                            (el) => el.userId == data?.id
+                                          ) !== -1
+                                            ? emailStats[
+                                                emailStats.findIndex(
+                                                  (el) => el.userId == data?.id
+                                                )
+                                              ]?.LastActivity
                                             : "Loading"
                                         }
                                       />

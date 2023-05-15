@@ -269,7 +269,7 @@ const SetPopup = (props) => {
     );
     templateList[findTemplateIndex].source_code = templateSaving;
     setTemplateList(templateList);
-    toast.success("Popup Update successfully.");
+    toast.success("Popup updated successfully.");
   };
 
   const nextButtonClicked = async () => {
@@ -433,7 +433,7 @@ const SetPopup = (props) => {
 
                 </div>
               )}
-              <div className="template_builder-option library-cosent">
+              <div className="template_builder-option library-cosent sticky-view">
                 <div className="d-flex justify-content-start align-items-center">
                   {articleId && types.length > 0 && (
                     <div className="template_language">
@@ -594,7 +594,11 @@ const SetPopup = (props) => {
                           })}
                         </AliceCarousel>
                       </>
-                    ) : null}
+                    ) : 
+                          <div className="online_default_msg">
+                            <h4>The link can be opened and read by anybody in their browser, but can not be saved into the Docintel app for offline reading.</h4>
+                          </div>
+                    }
                     <input
                       type="hidden"
                       id="mail_template"
