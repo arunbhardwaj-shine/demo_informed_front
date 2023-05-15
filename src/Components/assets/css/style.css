@@ -38,13 +38,16 @@ a {
   background: var(--light-blue);
   color: var(--white) !important;
 }
+
 .filter-by button.filter_applied {
   background: var(--light-blue);
   color: var(--white) !important;
 }
-.filter-by button.filter_applied svg{
+
+.filter-by button.filter_applied svg {
   fill-opacity: 1;
 }
+
 .container-fluid>.row {
   justify-content: flex-start;
 }
@@ -3264,6 +3267,18 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 /**Filter Dropdown**/
+.edit_content_title {
+  color: #0066BE;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.template-edit button {
+  margin-left: 10px;
+}
+
 .dropdown-menu.filter-options {
   top: 53px !important;
   width: 440px;
@@ -3821,7 +3836,7 @@ form#add_hcp_form .row:not(:first-child) {
   line-height: 16px;
   color: var(--blue);
   font-weight: 500;
-  margin:0 0 8px;
+  margin: 0 0 8px;
 }
 
 #mail-view .mailbox-tags ul {
@@ -3866,7 +3881,7 @@ form#add_hcp_form .row:not(:first-child) {
   border-radius: 15px;
   padding: 15px 15px;
   min-width: 130px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 #mail-view .mail-stats ul li h6 {
@@ -5358,11 +5373,12 @@ a.show-less-info p.show_less:after {
 }
 
 .modal-dialog[custom-atr="scroll"] .modal-header {
-	box-shadow: 0px 2px 18px rgba(0, 102, 190, 0.12);
-	z-index: 10;
-	/* position: relative; */
-	padding: 15px;
+  box-shadow: 0px 2px 18px rgba(0, 102, 190, 0.12);
+  z-index: 10;
+  /* position: relative; */
+  padding: 15px;
 }
+
 .add-new-field img {
   cursor: pointer;
 }
@@ -5761,12 +5777,15 @@ table thead.sticky-header:after {
   right: -11px;
   top: 0;
 }
+
 .selected-hcp-list tbody tr.table_no_data_found {
-	box-shadow: none;
+  box-shadow: none;
 }
+
 .selected-hcp-list tbody tr.table_no_data_found .no_found {
-	min-height: 40vh;
+  min-height: 40vh;
 }
+
 /* table thead.sticky-header:before {
   content: "";
   position: absolute;
@@ -5807,21 +5826,26 @@ table thead.sticky-header:after {
   box-shadow: none;
 }
 
-.search-hcp table thead.sticky-header, .modal-second #mail-view .modal-body .sticky-header {
+.search-hcp table thead.sticky-header,
+.modal-second #mail-view .modal-body .sticky-header {
   position: sticky;
   overflow: hidden;
   z-index: 100;
   top: -10px;
   /* background: var(--white); */
 }
+
 .modal-second #mail-view .modal-body .sticky-header {
   top: 0px;
 }
+
 .modal-second #mail-view .modal-body {
-	padding: 0;
-	/* margin-top: 50px; */
+  padding: 0;
+  /* margin-top: 50px; */
 }
-.modal .selected-hcp-list table thead.sticky-header th, #mail-view .modal-body .sticky-header tr {
+
+.modal .selected-hcp-list table thead.sticky-header th,
+#mail-view .modal-body .sticky-header tr {
   background: #ffffff;
 }
 

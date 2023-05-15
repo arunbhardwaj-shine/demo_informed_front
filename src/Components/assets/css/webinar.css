@@ -259,6 +259,93 @@ h6 {
     margin-right: 0;
 }
 
+
+#country {
+    border: 1px solid #D8D8D8;
+    border-radius: 8px;
+    background: #fff;
+    font-family: 'Roboto';
+    font-size: 18px;
+    font-weight: 400;
+    padding: 6px 30px 5px 23px;
+    appearance: none;
+    text-align: left;
+}
+
+#country>div:nth-child(3) {
+    border: 0;
+    box-shadow: none;
+}
+
+#country>div:nth-child(3) div:nth-child(2) div,
+#country div:nth-child(3)>div:nth-child(2) span {
+    display: none;
+}
+
+#country>div:nth-child(4) {
+    width: 100%;
+    border: 0.5px solid rgba(0, 102, 190, 0.06);
+    box-sizing: border-box;
+    box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+    border-radius: 15px;
+    width: 100%;
+    padding: 8px;
+    max-height: 170px;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    position: absolute;
+    overflow: hidden;
+    z-index: 99;
+    left: 0;
+}
+
+#country>div:nth-child(4)>div {
+    padding-right: 5px;
+    overflow-y: auto;
+    height: 100%;
+    max-height: 150px;
+}
+
+#country>div:nth-child(4) div div {
+    padding: 0.3rem 1rem;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 0 0 2px;
+    word-break: break-word;
+    white-space: normal;
+}
+
+
+#country>div:nth-child(3) div {
+    margin: 0;
+    padding: 0;
+    line-height: 1.1;
+}
+
+#country .dropdown-menu {
+    width: 100%;
+    border: 0.5px solid rgba(0, 102, 190, 0.06);
+    box-sizing: border-box;
+    box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+    border-radius: 15px;
+    width: 100%;
+    padding: 8px;
+    max-height: 150px;
+}
+
+#country .dropdown-menu a.dropdown-item {
+    color: #004A89;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 0 0 2px;
+    word-break: break-word;
+    white-space: normal;
+    font-size: 14px;
+    line-height: 15px;
+    padding: 3px 7px;
+}
+
+
 .content ul li:after {
     position: absolute;
     content: "";
@@ -312,6 +399,7 @@ h6 {
     position: relative;
     text-decoration: none;
 }
+
 .informed .navbar-nav button.btn.btn-outline-success {
     background-color: #0066BE;
     color: #ffffff;
@@ -324,6 +412,7 @@ h6 {
     font-weight: 500;
     border: 0;
 }
+
 #navbarsExampleDefault ul li button {
     background: transparent;
     border: 0;
@@ -382,7 +471,7 @@ h6 {
     font-style: italic;
     color: #002B53;
     margin-bottom: 1rem;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .video-sec {
@@ -1048,7 +1137,7 @@ ol.carousel-indicators.cst-tab li img {
     text-decoration: none;
     cursor: pointer;
     line-height: 20px;
-    border:0;
+    border: 0;
 }
 
 .caption-crausal-footer .watch-demo-video .watch-demo:hover {
@@ -1508,9 +1597,11 @@ ol.carousel-indicators.cst-tab li {
     margin-left: 0px;
     padding: 0px;
 }
-.left-sec .content ul{ 
+
+.left-sec .content ul {
     margin-bottom: 1rem;
 }
+
 #pp-nav ul {
     margin: 0;
     padding: 0;
@@ -2353,9 +2444,15 @@ ol.carousel-indicators.cst-tab li.active {
     border: 1px solid #fff;
     min-width: 111px;
 }
-.btn-check:active+.btn-primary:focus, .btn-check:checked+.btn-primary:focus, .btn-primary.active:focus, .btn-primary:active:focus, .show>.btn-primary.dropdown-toggle:focus {
+
+.btn-check:active+.btn-primary:focus,
+.btn-check:checked+.btn-primary:focus,
+.btn-primary.active:focus,
+.btn-primary:active:focus,
+.show>.btn-primary.dropdown-toggle:focus {
     box-shadow: none;
 }
+
 .case-exple ul li .map-button:hover {
     background: #ffffff;
     color: #0056A4;
@@ -2619,10 +2716,12 @@ a {
     height: 100%;
     width: 6px;
 }
+
 .rd-main-wrapper .form-wrapper .col-md-6:nth-child(2n) {
     justify-content: flex-end;
     display: flex;
-  }
+}
+
 .split-button-dropup>div:nth-child(3) {
     max-width: 395px;
     min-width: 60px;
@@ -3101,7 +3200,7 @@ input:-webkit-autofill:active {
     min-width: 535px;
 }
 
-.modal.rd-modal  .modal-wrapper {
+.modal.rd-modal .modal-wrapper {
     text-align: center;
     padding: 24px 24px 30px;
     background: #FFFFFF;
@@ -3111,8 +3210,8 @@ input:-webkit-autofill:active {
     border-radius: 15px;
 }
 
-.modal.rd-modal  .modal-header,
-.modal.rd-modal  .modal-footer {
+.modal.rd-modal .modal-header,
+.modal.rd-modal .modal-footer {
     border: 0;
     padding: 0;
 }
@@ -3121,7 +3220,7 @@ input:-webkit-autofill:active {
     z-index: 9999;
 }
 
-.modal.rd-modal  .modal-body {
+.modal.rd-modal .modal-body {
     padding: 10px 0;
 }
 
@@ -3130,7 +3229,7 @@ input:-webkit-autofill:active {
     opacity: 1;
 }
 
-.modal.rd-modal  .popup-title {
+.modal.rd-modal .popup-title {
     font-weight: 600;
     font-size: 24px;
     line-height: 28px;
@@ -3141,7 +3240,7 @@ input:-webkit-autofill:active {
     font-family: 'Poppins';
 }
 
-.modal.rd-modal  .popup_subtitle {
+.modal.rd-modal .popup_subtitle {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -3277,17 +3376,21 @@ input:-webkit-autofill:active {
         margin: 0 0 20px 0;
         max-width: 100%;
     }
-    .rd-main-wrapper .form-wrapper input, .rd-main-wrapper .form-wrapper select {
+
+    .rd-main-wrapper .form-wrapper input,
+    .rd-main-wrapper .form-wrapper select {
         max-width: 100%;
     }
-    .split-button-dropup > div:nth-child(3) {
+
+    .split-button-dropup>div:nth-child(3) {
         max-width: 100%;
     }
+
     .rd-main-wrapper .form-wrapper form .submit-btn {
         margin: 0 auto;
         text-align: right;
     }
-    
+
 
     .rd-main-wrapper .form-wrapper form .submit-btn button {
         padding: 8px 34px;

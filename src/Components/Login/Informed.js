@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 
 const Informed = () => {
   const navigate = useNavigate();
@@ -128,29 +129,16 @@ const Informed = () => {
   // send contact infromation
   const sendContactInformation = async (event) => {
     event.preventDefault();
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const phoneRegex =
-      /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
-    if (!contactFormInputs?.name) {
-      setContactError("please enter name");
-    } else if (!contactFormInputs?.contactEmail) {
-      setContactError("Please enter your email.");
-    } else if (!emailRegex.test(contactFormInputs?.contactEmail)) {
-      setContactError("Please enter a valid email address.");
-    } else if (!contactFormInputs?.phone) {
-      setContactError("please enter phone");
-    } else if (!phoneRegex.test(contactFormInputs?.phone)) {
-      setContactError("Please enter a valid phone number.");
-    } else if (!contactFormInputs?.company) {
-      setContactError("please enter company");
-    }
-    // console.log("error", conatctError);
-    else {
+    const err = HomeValidation(contactFormInputs);
+    if (Object.keys(err)?.length) {
+      setContactError(err);
+      return;
+    } else {
       loader("show");
       try {
         const res = await postData(ENDPOINT.INFORMED_USER_FORM, {
           name: contactFormInputs?.name?.trim(),
-          email: contactFormInputs?.contactEmail?.trim(),
+          email: contactFormInputs?.email?.trim(),
           phone: contactFormInputs?.phone?.trim(),
           company: contactFormInputs?.company?.trim(),
         });
@@ -763,7 +751,11 @@ const Informed = () => {
                           type="text"
                           name="name"
                           placeholder="Your name"
-                          className="form-field"
+                          className={
+                            !conatctError?.name
+                              ? "form-field"
+                              : "form-field error"
+                          }
                           aria-label="Your Name"
                           autoComplete="off"
                           value={
@@ -777,13 +769,18 @@ const Informed = () => {
                       <Col>
                         <Form.Control
                           type="email"
-                          name="contactEmail"
+                          name="email"
+                          className={
+                            !conatctError?.email
+                              ? "form-field"
+                              : "form-field error"
+                          }
                           autoComplete="off"
                           placeholder="Email"
                           aria-label="Your Email"
                           value={
-                            contactFormInputs?.contactEmail
-                              ? contactFormInputs?.contactEmail
+                            contactFormInputs?.email
+                              ? contactFormInputs?.email
                               : ""
                           }
                           onChange={handleContactFormChange}
@@ -793,6 +790,11 @@ const Informed = () => {
                         <Form.Control
                           type="tel"
                           name="phone"
+                          className={
+                            !conatctError?.phone
+                              ? "form-field"
+                              : "form-field error"
+                          }
                           placeholder="Phone"
                           autoComplete="off"
                           aria-label="Your Phone"
@@ -808,6 +810,11 @@ const Informed = () => {
                         <Form.Control
                           type="text"
                           name="company"
+                          className={
+                            !conatctError?.company
+                              ? "form-field"
+                              : "form-field error"
+                          }
                           placeholder="Company"
                           autoComplete="off"
                           aria-label="Your Comapny"
@@ -820,9 +827,9 @@ const Informed = () => {
                         />
                       </Col>
                     </Row>
-                    {conatctError && (
+                    {/* {conatctError && (
                       <p style={{ color: "red" }}>{conatctError}</p>
-                    )}
+                    )} */}
                     <Button variant="primary" type="submit">
                       Send
                     </Button>
