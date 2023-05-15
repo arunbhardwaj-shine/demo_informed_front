@@ -128,21 +128,28 @@ const Informed = () => {
   // send contact infromation
   const sendContactInformation = async (event) => {
     event.preventDefault();
+    let err = {};
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const phoneRegex =
       /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
     if (!contactFormInputs?.name) {
-      setContactError("please enter name");
+      err.name = "please enter name";
+      setContactError(err);
     } else if (!contactFormInputs?.contactEmail) {
-      setContactError("Please enter your email.");
+      err.contactEmail = "Please enter your email.";
+      setContactError(err);
     } else if (!emailRegex.test(contactFormInputs?.contactEmail)) {
-      setContactError("Please enter a valid email address.");
+      err.contactEmail = "Please enter a valid email address.";
+      setContactError(err);
     } else if (!contactFormInputs?.phone) {
-      setContactError("please enter phone");
+      err.phone = "please enter phone";
+      setContactError(err);
     } else if (!phoneRegex.test(contactFormInputs?.phone)) {
-      setContactError("Please enter a valid phone number.");
+      err.phone = "Please enter a valid phone number.";
+      setContactError(err);
     } else if (!contactFormInputs?.company) {
-      setContactError("please enter company");
+      err.company = "please enter company";
+      setContactError(err);
     }
     // console.log("error", conatctError);
     else {
@@ -763,7 +770,11 @@ const Informed = () => {
                           type="text"
                           name="name"
                           placeholder="Your name"
-                          className="form-field"
+                          className={
+                            !conatctError?.name
+                              ? "form-field"
+                              : "form-field error"
+                          }
                           aria-label="Your Name"
                           autoComplete="off"
                           value={
@@ -778,6 +789,11 @@ const Informed = () => {
                         <Form.Control
                           type="email"
                           name="contactEmail"
+                          className={
+                            !conatctError?.contactEmail
+                              ? "form-field"
+                              : "form-field error"
+                          }
                           autoComplete="off"
                           placeholder="Email"
                           aria-label="Your Email"
@@ -793,6 +809,11 @@ const Informed = () => {
                         <Form.Control
                           type="tel"
                           name="phone"
+                          className={
+                            !conatctError?.phone
+                              ? "form-field"
+                              : "form-field error"
+                          }
                           placeholder="Phone"
                           autoComplete="off"
                           aria-label="Your Phone"
@@ -808,6 +829,11 @@ const Informed = () => {
                         <Form.Control
                           type="text"
                           name="company"
+                          className={
+                            !conatctError?.company
+                              ? "form-field"
+                              : "form-field error"
+                          }
                           placeholder="Company"
                           autoComplete="off"
                           aria-label="Your Comapny"
@@ -820,9 +846,9 @@ const Informed = () => {
                         />
                       </Col>
                     </Row>
-                    {conatctError && (
+                    {/* {conatctError && (
                       <p style={{ color: "red" }}>{conatctError}</p>
-                    )}
+                    )} */}
                     <Button variant="primary" type="submit">
                       Send
                     </Button>

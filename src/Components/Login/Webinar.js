@@ -50,7 +50,7 @@ const Webinar = () => {
     { value: "England", label: "England" },
   ]);
   const [contactFormInputs, setContactFormInputs] = useState({});
-  const [contactFormError, setContactFormError] = useState(false);
+  const [contactFormError, setContactFormError] = useState({});
   const [forceRender, setForceRender] = useState(false);
 
   const handleShow = (type) => {
@@ -254,26 +254,31 @@ const Webinar = () => {
   };
   const submitContactForm = async (event) => {
     event.preventDefault();
+    let err = {};
 
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const phoneRegex =
       /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
     if (!contactFormInputs?.name) {
-      setContactFormError("Please enter the name");
+      err.name = "Please enter the name";
+      setContactFormError(err);
     } else if (!contactFormInputs?.email) {
-      setContactFormError("Please enter the email");
+      err.email = "Please enter the email";
+      setContactFormError(err);
     } else if (!emailRegex.test(contactFormInputs?.email)) {
-      setContactFormError("Please enter the valid email address");
+      err.email = "Please enter the valid email address";
+      setContactFormError(err);
     } else if (!contactFormInputs?.phone) {
-      setContactFormError("Please enter the phone number");
+      err.phone = "Please enter the phone number";
+      setContactFormError(err);
     } else if (!phoneRegex.test(contactFormInputs?.phone)) {
-      setContactFormError("Please enter the valid phone number");
+      setContactFormError(err);
     } else if (!contactFormInputs?.comapny) {
-      setContactFormError("Please enter the comapny");
+      err.comapny = "Please enter company name";
+      setContactFormError(err);
     } else if (!contactFormInputs?.country) {
-      setContactFormError("Please select country");
-    } else if (!contactFormInputs?.comment) {
-      setContactFormError("Please enter the comment");
+      err.country = "Please enter country";
+      setContactFormError(err);
     } else {
       loader("show");
       try {
@@ -1150,7 +1155,13 @@ const Webinar = () => {
                       Receive a walkthrough from a dedicated member of our team
                     </p>
                     <div className="form-left-fields">
-                      <div className="form-group">
+                      <div
+                        className={
+                          !contactFormError?.name
+                            ? "form-group"
+                            : "form-group error"
+                        }
+                      >
                         <input
                           type="text"
                           id="name"
@@ -1165,7 +1176,13 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         />
                       </div>
-                      <div className="form-group">
+                      <div
+                        className={
+                          !contactFormError?.email
+                            ? "form-group"
+                            : "form-group error"
+                        }
+                      >
                         <input
                           type="email"
                           id="email"
@@ -1180,7 +1197,13 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         />
                       </div>
-                      <div className="form-group">
+                      <div
+                        className={
+                          !contactFormError?.phone
+                            ? "form-group"
+                            : "form-group error"
+                        }
+                      >
                         <input
                           type="number"
                           id="phone"
@@ -1195,7 +1218,13 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         />
                       </div>
-                      <div className="form-group">
+                      <div
+                        className={
+                          !contactFormError?.comapny
+                            ? "form-group"
+                            : "form-group error"
+                        }
+                      >
                         <input
                           type="text"
                           id="company"
@@ -1210,21 +1239,23 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         />
                       </div>
-                      <div className="form-group select-option input-group">
+                      <div
+                        className={
+                          !contactFormError?.country
+                            ? "form-group select-option input-group"
+                            : "form-group select-option input-group error"
+                        }
+                      >
                         <Select
                           className="form-control contact-field"
                           id="country"
                           name="country"
                           options={country}
                           placeholder="Select country"
-                          value={
-                            contactFormInputs?.country
-                              ? contactFormInputs?.country
-                              : ""
-                          }
                           onChange={(e) =>
                             handleContactFormChange(e?.value, "country")
                           }
+                          isClearable
                         ></Select>
                       </div>
                     </div>
@@ -1244,9 +1275,9 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         ></textarea>
                       </div>
-                      {contactFormError && (
+                      {/* {contactFormError && (
                         <p style={{ color: "red" }}>{contactFormError}</p>
-                      )}
+                      )} */}
                     </div>
 
                     <img
