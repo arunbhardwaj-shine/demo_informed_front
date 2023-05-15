@@ -985,9 +985,7 @@ const NewReaders = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header reader_list sticky">
-              <div className="page-title">
-                {/* <h2>CRM</h2> */}
-              </div>
+              <div className="page-title">{/* <h2>CRM</h2> */}</div>
               <div className="top-right-action library_content_view">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1218,6 +1216,7 @@ const NewReaders = () => {
                 <div className="clear-search">
                   <button
                     className="btn print"
+                    title="Download stats"
                     onClick={() => {
                       getDownloadData(page, obj, search);
                     }}
@@ -1245,6 +1244,7 @@ const NewReaders = () => {
                   {deletestatus ? (
                     <button
                       className="btn btn-outline-primary cancel"
+                      title="Cancel delete"
                       onClick={(e) => setDeleteStatus(false)}
                     >
                       Cancel
@@ -1252,6 +1252,7 @@ const NewReaders = () => {
                   ) : (
                     <button
                       className="btn btn-outline-primary"
+                      title="Delete"
                       onClick={(e) => setDeleteStatus(true)}
                     >
                       <svg
@@ -1705,7 +1706,7 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Go openings
+                                      GO openings
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
                                         href="#"
