@@ -426,7 +426,7 @@ const SetPopup = (props) => {
 
                 </div>
               )}
-              <div className="template_builder-option library-cosent">
+              <div className="template_builder-option library-cosent sticky-view">
                 <div className="d-flex justify-content-start align-items-center">
                   {articleId && types.length > 0 && (
                     <div className="template_language">

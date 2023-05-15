@@ -1012,7 +1012,7 @@ const LibraryCreateUser = () => {
                 ) : null}
               </div>
               <div className="form-group">
-                <label htmlFor="">Enable</label>
+                <label htmlFor="">Allowed</label>
                 <fieldset id="group2">
                   <input
                     type="checkbox"

@@ -2253,7 +2253,10 @@ left:0!important
 }
 .template_builder-option {
   &.library-cosent {
-    margin-top: 40px;
+    padding-top: 20px;
+    padding-bottom:30px;
+    margin-top:20px;
+    margin-bottom:0;
     .template_language {
       margin-right: 57px;
       width: 100%;
@@ -3150,6 +3153,7 @@ section.verify_email.content_details {
 }
 .top-header {
     align-items: center;
+    // padding-top:30px;
     padding-left: 0;
     padding-right: 0;
 }
@@ -3786,7 +3790,7 @@ width: 50%;
 }
 
 .custom-change {
-    padding: 0 40px 0 45px;
+  padding-top:0px;
     .top-header{
       &.sticky {
         padding: 34px 30px 30px;
@@ -3823,13 +3827,21 @@ width: 50%;
     padding: 5px 8px 5px 5px;
      overflow: hidden;
 }
-.form_action.sticky-view {
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-box ul.tab-mail-list li.d-flex .tab-content-title {
+	position: relative;
+	top: -8px;
+}
+.form_action.sticky-view, .template_builder-option.library-cosent.sticky-view {
 	position: sticky;
 	top: 84px;
 	padding-left: 10px;
 	margin-left: -10px;
 	background: #fbfcfd;
 	z-index: 4;
+}
+.template_builder-option.library-cosent.sticky-view{
+	padding-left: 10px;
+	margin-left: auto;
 }
 /***Header-sticky-end***/
 
@@ -6483,12 +6495,17 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
     padding: 3px 30px 3px 10px;
 }
 }
-
+@media only screen and (max-width: 1450px) {
+.analytic-charts .form_action {
+	top: 80px;
+}
+}
 @media (max-width: $layout-breakpoint-extraLarge) {
 .timeline-time-view {
     font-size: 11px;
     line-height: 15px;
 }
+
 .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
     max-width: 122px;
 }
