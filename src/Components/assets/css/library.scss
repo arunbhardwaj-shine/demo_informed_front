@@ -563,7 +563,7 @@
       border-radius: 15px;
       width: 100%;
       padding: 8px;
-      max-height: 170px;
+      max-height: 310px;
       background-color: $white;
       background-clip: padding-box;
       position: absolute;
@@ -573,7 +573,7 @@
         padding-right: 5px;
         overflow-y: auto;
         height:100%;
-        max-height: 150px;
+        max-height: 290px;
         div {
           color: $dark-blue;
           font-size: 15px;
@@ -2253,7 +2253,10 @@ left:0!important
 }
 .template_builder-option {
   &.library-cosent {
-    margin-top: 40px;
+    padding-top: 20px;
+    padding-bottom:30px;
+    margin-top:20px;
+    margin-bottom:0;
     .template_language {
       margin-right: 57px;
       width: 100%;
@@ -3150,6 +3153,7 @@ section.verify_email.content_details {
 }
 .top-header {
     align-items: center;
+    // padding-top:30px;
     padding-left: 0;
     padding-right: 0;
 }
@@ -3207,6 +3211,13 @@ section.verify_email.content_details {
 /**Analytics**/
 .analytic-charts .form_action {
     padding: 20px 20px 20px;
+}
+.analytic-charts .form_action {
+  padding: 20px 20px 20px;
+  position: sticky;
+  top: 84px;
+  background: $white;
+  z-index: 5;
 }
 .create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button {
     margin-bottom: 0;
@@ -3779,7 +3790,7 @@ width: 50%;
 }
 
 .custom-change {
-    padding: 0 40px 0 45px;
+  padding-top:0px;
     .top-header{
       &.sticky {
         padding: 34px 30px 30px;
@@ -3815,6 +3826,22 @@ width: 50%;
 #download-qr .dropdown-menu .scroll_div.delivery_popup {
     padding: 5px 8px 5px 5px;
      overflow: hidden;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-box ul.tab-mail-list li.d-flex .tab-content-title {
+	position: relative;
+	top: -8px;
+}
+.form_action.sticky-view, .template_builder-option.library-cosent.sticky-view {
+	position: sticky;
+	top: 84px;
+	padding-left: 10px;
+	margin-left: -10px;
+	background: #fbfcfd;
+	z-index: 4;
+}
+.template_builder-option.library-cosent.sticky-view{
+	padding-left: 10px;
+	margin-left: auto;
 }
 /***Header-sticky-end***/
 
@@ -4023,6 +4050,7 @@ width: 50%;
     min-height: 68px;
     font-size: 15px!important;
     display: block;
+    transform: translatey(10px);
 }
 g.highcharts-label.highcharts-data-label rect.highcharts-label-box {
     stroke: none;
@@ -4082,6 +4110,7 @@ caption.highcharts-table-caption {
 }
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger > div:nth-child(3) {
     max-width: 580px;
+    background-position: 97% center;
 }
 .delivery-trends .stats_precenage ul.ul_stats_first.informed {
   padding-right: 35%;
@@ -4285,6 +4314,10 @@ transform: translateY(-50%);
       position: relative;
       span{
         font-weight: 600;
+        font-size: 48px;
+        line-height: 54px;
+        letter-spacing: -1.2px;
+        color: #0066BE;
       }
       &:after{
         content: "";
@@ -6210,6 +6243,20 @@ ul.tab-mail-list.data span.total-left {
 }
 
 @media only screen and (max-width: 1500px) {
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup {
+    max-width: calc(100% - 94px);
+    margin-right:0;
+  }
+  .library-content-box-layuot .doc-content-main-box ul.tab-mail-list.data.change .form-group {
+    flex-wrap: wrap;
+  }
+  .library-content-box-layuot .doc-content-main-box ul.tab-mail-list.data.change .form-group .btn.btn-primary {
+    margin-left: auto;
+    margin-top: 10px;
+  }
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup div:nth-child(3) > div div {
+    padding-right: 0;
+  }
   .library_create .library_create-box,
   .library_create .library_create-box.spc {
     max-width: 31.3%;
@@ -6448,12 +6495,17 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
     padding: 3px 30px 3px 10px;
 }
 }
-
+@media only screen and (max-width: 1450px) {
+.analytic-charts .form_action {
+	top: 80px;
+}
+}
 @media (max-width: $layout-breakpoint-extraLarge) {
 .timeline-time-view {
     font-size: 11px;
     line-height: 15px;
 }
+
 .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
     max-width: 122px;
 }
@@ -6836,6 +6888,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger > div:nth-child(3) {
     max-width: 380px;
+    background-position: 96% center;
 }
 .header-btn svg {
     width: 20px;

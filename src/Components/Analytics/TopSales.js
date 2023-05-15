@@ -207,11 +207,11 @@ const TopSales = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            {/* <div className="top-header">
               <div className="page-title d-flex">
                 <h2>Top Sales</h2>
               </div>
-            </div>
+            </div> */}
             <div className="create-change-content spc-content analytic-charts">
               <div className="form_action">
                 <Form className="product-unit d-flex justify-content-between align-items-center">

@@ -593,11 +593,32 @@ const LicenseSublink = () => {
                                                 ""
                                               )}
 
+                                              {articleData?.linkRelations ? (
+                                                <img
+                                                  src={
+                                                    path_image + "video-img.png"
+                                                  }
+                                                  alt=""
+                                                />
+                                              ) : (
+                                                ""
+                                              )}
+                                              {articleData?.pdfLinks ? (
+                                                <img
+                                                  src={
+                                                    path_image + "link-img.png"
+                                                  }
+                                                  alt=""
+                                                />
+                                              ) : (
+                                                ""
+                                              )}
+
                                               {articleData.spc_included == 0 &&
                                                 articleData.linkRelations ==
                                                   0 &&
                                                 articleData.pdfLinks == 0 && (
-                                                  <h6>N/A</h6>
+                                                  <h6>No</h6>
                                                 )}
                                             </div>
                                           </li>
@@ -725,12 +746,15 @@ const LicenseSublink = () => {
                                                           />
                                                           <span>
                                                             Agreed Limit :&nbsp;
-                                                            {details?.limit == 0
-                                                              ? "unlimited"
-                                                              : details?.limit ==
-                                                                1000
-                                                              ? "unlimited"
-                                                              : details?.limit}
+                                                            <strong>
+                                                              {details?.limit ==
+                                                              0
+                                                                ? "Unlimited"
+                                                                : details?.limit ==
+                                                                  1000
+                                                                ? "Unlimited"
+                                                                : details?.limit}
+                                                            </strong>
                                                           </span>
                                                         </div>
                                                         <span className="total-left">

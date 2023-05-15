@@ -116,7 +116,7 @@ div#flashMessage {
     width: 100%;
 }
 
-.DefaultLayout .informed .container {
+.informed .container {
     max-width: 1365px;
     margin: 0px auto;
     padding: 0 15px;
@@ -131,12 +131,6 @@ div#flashMessage {
 body {
     font-family: 'Roboto Condensed', sans-serif;
     font-family: 'Roboto', sans-serif;
-}
-
-
-body,
-html {
-    overflow-x: hidden;
 }
 
 @font-face {
@@ -2625,7 +2619,10 @@ a {
     height: 100%;
     width: 6px;
 }
-
+.rd-main-wrapper .form-wrapper .col-md-6:nth-child(2n) {
+    justify-content: flex-end;
+    display: flex;
+  }
 .split-button-dropup>div:nth-child(3) {
     max-width: 395px;
     min-width: 60px;
@@ -3096,15 +3093,15 @@ input:-webkit-autofill:active {
 
 
 /* Modal CSS Start  */
-/*
-.modal .modal-content {
+
+.modal.rd-modal .modal-content {
     background: #FFFFFF;
     border-radius: 15px;
     padding: 14px;
     min-width: 535px;
 }
 
-.modal .modal-wrapper {
+.modal.rd-modal  .modal-wrapper {
     text-align: center;
     padding: 24px 24px 30px;
     background: #FFFFFF;
@@ -3114,8 +3111,8 @@ input:-webkit-autofill:active {
     border-radius: 15px;
 }
 
-.modal .modal-header,
-.modal .modal-footer {
+.modal.rd-modal  .modal-header,
+.modal.rd-modal  .modal-footer {
     border: 0;
     padding: 0;
 }
@@ -3124,7 +3121,7 @@ input:-webkit-autofill:active {
     z-index: 9999;
 }
 
-.modal .modal-body {
+.modal.rd-modal  .modal-body {
     padding: 10px 0;
 }
 
@@ -3133,7 +3130,7 @@ input:-webkit-autofill:active {
     opacity: 1;
 }
 
-.modal .popup-title {
+.modal.rd-modal  .popup-title {
     font-weight: 600;
     font-size: 24px;
     line-height: 28px;
@@ -3144,7 +3141,7 @@ input:-webkit-autofill:active {
     font-family: 'Poppins';
 }
 
-.modal .popup_subtitle {
+.modal.rd-modal  .popup_subtitle {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -3154,7 +3151,7 @@ input:-webkit-autofill:active {
     font-family: 'Poppins';
 }
 
-.modal .popup-btn {
+.modal.rd-modal .popup-btn {
     background: #092CA6;
     color: #fff;
     padding: 8px 22px;
@@ -3165,7 +3162,7 @@ input:-webkit-autofill:active {
     font-size: 16px;
     line-height: 22px;
 }
-*/
+
 /* Modal CSS End  */
 
 
@@ -3278,12 +3275,19 @@ input:-webkit-autofill:active {
 
     .rd-main-wrapper .form-wrapper form .form-group {
         margin: 0 0 20px 0;
+        max-width: 100%;
     }
-
+    .rd-main-wrapper .form-wrapper input, .rd-main-wrapper .form-wrapper select {
+        max-width: 100%;
+    }
+    .split-button-dropup > div:nth-child(3) {
+        max-width: 100%;
+    }
     .rd-main-wrapper .form-wrapper form .submit-btn {
         margin: 0 auto;
-        text-align: left;
+        text-align: right;
     }
+    
 
     .rd-main-wrapper .form-wrapper form .submit-btn button {
         padding: 8px 34px;

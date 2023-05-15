@@ -250,7 +250,7 @@ header {
 
 .right-sidebar {
   transition: 0.5s linear;
-  padding-top: 34px;
+  padding-top: 36px;
   padding-right: 70px;
   padding-left: 75px;
   width: calc(100% - 210px);

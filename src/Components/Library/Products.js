@@ -169,11 +169,11 @@ function Products() {
             </div>
           </div>
           <div className="create-change-content spc-content">
-            <div className="form_action">
+            <div className="form_action sticky-view" >
               {productData?.flag ? (
                 <h4>Please select the business unit to show the products</h4>
               ) : null}
-              <Form className="product-unit d-flex justify-content-between align-items-center">
+              <Form className="product-unit d-flex justify-content-between align-items-center" >
                 {productData?.flag ? (
                   <Form.Group className="form-group full">
                     <label htmlFor="">Business Unit</label>

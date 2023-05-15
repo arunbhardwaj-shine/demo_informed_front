@@ -75,6 +75,7 @@ const LibrarySublink = () => {
         search: "",
         license: 0,
         type: "All",
+        order: "true",
         selectValue: JSON.stringify(selectedValue),
       };
 
@@ -92,8 +93,20 @@ const LibrarySublink = () => {
           label: item.code,
         });
         setallContents(arr);
-        setAllCodes(codearr);
+        // setAllCodes(codearr);
       });
+      codearr.sort((a, b) => {
+        let x = a.label.toLowerCase();
+        let y = b.label.toLowerCase();
+        if (x < y) {
+          return -1;
+        }
+        if (x > y) {
+          return 1;
+        }
+        return 0;
+      });
+      setAllCodes(codearr);
       setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
 
       if (typeof selectedArticle === "undefined") {
@@ -742,12 +755,15 @@ const LibrarySublink = () => {
                                                           />
                                                           <span>
                                                             Agreed Limit :&nbsp;
-                                                            {details?.limit == 0
-                                                              ? "unlimited"
-                                                              : details?.limit ==
-                                                                1000
-                                                              ? "unlimited"
-                                                              : details?.limit}
+                                                            <strong>
+                                                              {details?.limit ==
+                                                              0
+                                                                ? "unlimited"
+                                                                : details?.limit ==
+                                                                  1000
+                                                                ? "unlimited"
+                                                                : details?.limit}
+                                                            </strong>
                                                           </span>
                                                         </div>
                                                         <span className="total-left">
