@@ -70,6 +70,7 @@ const LicenseSublink = () => {
         search: "",
         type: "All",
         license: 1,
+        order: "true",
         selectValue: JSON.stringify(selectedValue),
       };
 
@@ -86,9 +87,24 @@ const LicenseSublink = () => {
           value: item.id,
           label: item.code,
         });
+
         setallContents(arr);
-        setAllCodes(codearr);
+        // setAllCodes(codearr);
       });
+
+      codearr.sort((a, b) => {
+        let x = a.label.toLowerCase();
+        let y = b.label.toLowerCase();
+        if (x < y) {
+          return -1;
+        }
+        if (x > y) {
+          return 1;
+        }
+        return 0;
+      });
+      setAllCodes(codearr);
+
       setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
 
       if (typeof selectedArticle === "undefined") {
