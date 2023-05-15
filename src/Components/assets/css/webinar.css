@@ -274,13 +274,77 @@ h6 {
 
 #country>div:nth-child(3) {
     border: 0;
+    box-shadow: none;
 }
+
+#country>div:nth-child(3) div:nth-child(2) div,
+#country div:nth-child(3)>div:nth-child(2) span {
+    display: none;
+}
+
+#country>div:nth-child(4) {
+    width: 100%;
+    border: 0.5px solid rgba(0, 102, 190, 0.06);
+    box-sizing: border-box;
+    box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+    border-radius: 15px;
+    width: 100%;
+    padding: 8px;
+    max-height: 170px;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    position: absolute;
+    overflow: hidden;
+    z-index: 99;
+    left: 0;
+}
+
+#country>div:nth-child(4)>div {
+    padding-right: 5px;
+    overflow-y: auto;
+    height: 100%;
+    max-height: 150px;
+}
+
+#country>div:nth-child(4) div div {
+    padding: 0.3rem 1rem;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 0 0 2px;
+    word-break: break-word;
+    white-space: normal;
+}
+
 
 #country>div:nth-child(3) div {
     margin: 0;
     padding: 0;
-    line-height: 1;
+    line-height: 1.1;
 }
+
+#country .dropdown-menu {
+    width: 100%;
+    border: 0.5px solid rgba(0, 102, 190, 0.06);
+    box-sizing: border-box;
+    box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+    border-radius: 15px;
+    width: 100%;
+    padding: 8px;
+    max-height: 150px;
+}
+
+#country .dropdown-menu a.dropdown-item {
+    color: #004A89;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 0 0 2px;
+    word-break: break-word;
+    white-space: normal;
+    font-size: 14px;
+    line-height: 15px;
+    padding: 3px 7px;
+}
+
 
 .content ul li:after {
     position: absolute;
