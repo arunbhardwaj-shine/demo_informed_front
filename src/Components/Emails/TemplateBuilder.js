@@ -615,7 +615,7 @@ const TemplateBuilder = (props) => {
     setEditClicked(true);
     e.preventDefault();
     setEdiatbleTemplate(false);
-    setNewTemplateName("");
+    // setNewTemplateName("");
   };
 
   const editTemplateClicked = (e) => {
@@ -1520,11 +1520,16 @@ const TemplateBuilder = (props) => {
                           <div className="form-group template_builder_div col-12 col-md-12">
                             {templateName != "" && (
                               <>
-                                <input
-                                  type="text"
-                                  value={newTemplateName}
-                                  onChange={(e) => templateNameChange(e)}
-                                ></input>
+                                {
+                                  editableTemplate ?
+                                    <input
+                                      type="text"
+                                      value={newTemplateName}
+                                      onChange={(e) => templateNameChange(e)}
+                                    />
+                                  :
+                                    <h4 className="edit_content_title">{newTemplateName}</h4>
+                                }
 
                                 {editClicked == true ? (
                                   <div className="template-edit">
@@ -1551,7 +1556,10 @@ const TemplateBuilder = (props) => {
                                 </button>
                                 <button
                                   className="btn btn-primary btn-bordered"
-                                  onClick={(e) => closeTemplateEdit(e)}
+                                  onClick={(e) => {
+                                      closeTemplateEdit(e)
+                                      setNewTemplateName(templateName);
+                                  }}
                                 >
                                   Cancel
                                 </button>

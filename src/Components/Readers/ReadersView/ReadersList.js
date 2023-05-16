@@ -986,7 +986,7 @@ const NewReaders = () => {
           <Row>
             <div className="top-header reader_list sticky">
               <div className="page-title">
-                <h2>CRM</h2>
+                {/* <h2>CRM</h2> */}
               </div>
               <div className="top-right-action library_content_view">
                 <div className="search-bar">

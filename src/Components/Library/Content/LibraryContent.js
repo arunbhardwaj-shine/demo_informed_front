@@ -730,7 +730,7 @@ const LibraryContent = (props) => {
   const changeFormatForPrint = (value) => {
     let data = "";
     if (value?.allow_print) {
-      data += "Print | ";
+      data += "Print , ";
     }
     if (value?.allow_download) {
       data += "Download | ";
@@ -762,7 +762,7 @@ const LibraryContent = (props) => {
           <Row>
             <div className="top-header sticky">
               <div className="page-title">
-                <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2>
+                <h2>{location?.state?.data == "edit" ? "Edit" : ""}</h2>
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
@@ -2025,7 +2025,7 @@ const LibraryContent = (props) => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Enabled
+                                            Allowed
                                           </h6>
                                           <h6>{changeFormatForPrint(data)}</h6>
                                         </li>
