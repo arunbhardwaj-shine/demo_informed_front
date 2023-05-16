@@ -720,9 +720,7 @@ const AutoEmail = () => {
         <div className="custom-container">
           <div className="row">
             <div className="top-header">
-              <div className="page-title">
-                <h2>Auto Email</h2>
-              </div>
+              <div className="page-title">{/* <h2>Auto Email</h2> */}</div>
               <div className="top-right-action">
                 {templateClicked ? (
                   <div className="header-btn">
