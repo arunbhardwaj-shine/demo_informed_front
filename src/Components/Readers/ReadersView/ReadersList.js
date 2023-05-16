@@ -37,6 +37,11 @@ const NewReaders = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const [totalCount, setCount] = useState(0);
+  const [appliedFilter, setAppliedFilter] = useState({
+    status: ["Registered"],
+    "contact Type": ["HCP"],
+  });
+
 
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [pageAll, setPageAll] = useState(false);
@@ -95,6 +100,7 @@ const NewReaders = () => {
   const [apiCallStatus, setApiCallStatus] = useState(false);
   const [deletestatus, setDeleteStatus] = useState(false);
   const [resetDataId, setResetDataId] = useState();
+
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
@@ -108,11 +114,6 @@ const NewReaders = () => {
     getReaderListData(page, filterObject, search);
   }, []);
 
-  // useEffect(() => {
-  //   if (page == 2) {
-  //     getReaderListData(page, filterObject, search);
-  //   }
-  // }, [page]);
 
   const getFilters = async () => {
     try {
@@ -263,7 +264,8 @@ const NewReaders = () => {
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
-    let newObj = filterObject;
+    let newObj = JSON.parse(JSON.stringify(appliedFilter))
+
     if (!newObj[key]) {
       newObj[key] = [];
     }
@@ -296,7 +298,7 @@ const NewReaders = () => {
         key == "userAction" ||
         key == "Business Unit" ||
         key == "webinarRegistered" ||
-        key == "Register For Webinar" ||
+        key == "Registered For Webinar" ||
         key == "RTR?" ||
         key == "region" ||
         key == "IRT" ||
@@ -345,7 +347,8 @@ const NewReaders = () => {
       }
     }
 
-    setFilterObject(newObj);
+    // setFilterObject(newObj);
+    setAppliedFilter(newObj)
     setApifilterObject(apifilterObject);
     setForceRender(!forceRender);
   };
@@ -399,7 +402,6 @@ const NewReaders = () => {
         );
         setChangeSiteNameType(updatedArray);
       }
-      // console.log(selectedSiteNumber);
       setSelectedSiteNumber((prev) => {
         const newSelectedSiteNumber = [...prev];
         newSelectedSiteNumber[index] = true;
@@ -847,13 +849,20 @@ const NewReaders = () => {
     obj = {};
 
     if (filterApplyflag > 0) {
-      setApifilterObject({});
+      // setApifilterObject({});
       let obj = {
         status: ["Registered"],
+        "contact Type": ["HCP"],
+
       };
 
       setFilterObject(obj);
       setReaderDataList([]);
+      // setAppliedFilter({
+      //   status: ["Registered"],
+      //   "contact Type": ["HCP"],
+
+      // })
 
       getReaderListData(page, obj, search);
       setSearch("");
@@ -865,33 +874,37 @@ const NewReaders = () => {
     e.preventDefault();
     setFilterApplyflag(1);
     setReaderDataList([]);
-    setFilterObject(filterObject);
-    getReaderListData(page, filterObject, search);
+    setFilterObject(appliedFilter);
+    getReaderListData(page, appliedFilter, search);
     setShowFilter(false);
   };
 
   const removeindividualfilter = (key, index) => {
     let old_object = filterObject;
-    let old_object2 = apifilterObject;
 
-    old_object[key]?.splice(index, 1);
-    if (old_object[key]?.length == 0) {
-      delete old_object[key];
-    }
+      old_object[key]?.splice(index, 1);
+      if (old_object[key].includes("All")) {
+        const allIndex = old_object[key]?.indexOf("All")
+          old_object[key]?.splice(allIndex, 1);
+        }
+      if (old_object[key]?.length == 0) {
+        delete old_object[key];
+      }
 
-    old_object2[key]?.splice(index, 1);
-    if (old_object2[key]?.length == 0) {
-      delete old_object2[key];
-    }
+    // old_object2[key]?.splice(index, 1);
+    // if (old_object2[key]?.length == 0) {
+    //   delete old_object2[key];
+    // }
     if (Object.keys(old_object)?.length !== 0) {
       setFilterObject(old_object);
-      setApifilterObject(old_object2);
+      // setApifilterObject(old_object2);
       setReaderDataList([]);
       getReaderListData(page, old_object);
     } else {
-      let obj = { status: ["Registered"] };
-      setFilterObject(obj);
-      setApifilterObject(old_object2);
+    //   let obj = { status: ["Registered"]
+    // };
+      setFilterObject({});
+      // setApifilterObject(old_object2);
       setReaderDataList([]);
       getReaderListData(page, obj);
     }
@@ -1119,7 +1132,7 @@ const NewReaders = () => {
                                                         key ==
                                                           "webinarRegistered" ||
                                                         key ==
-                                                          "Register For Webinar" ||
+                                                          "Registered For Webinar" ||
                                                         key == "List"
                                                           ? "radio"
                                                           : "checkbox"
@@ -1133,12 +1146,12 @@ const NewReaders = () => {
                                                       name={key}
                                                       checked={
                                                         typeof item == "object"
-                                                          ? filterObject[
+                                                          ? appliedFilter[
                                                               key
                                                             ]?.includes(item.id)
                                                             ? true
                                                             : false
-                                                          : filterObject[
+                                                          : appliedFilter[
                                                               key
                                                             ]?.includes(item)
                                                           ? true
@@ -1291,23 +1304,22 @@ const NewReaders = () => {
                 </div>
               </div>
             </div>
-            {/* &&
-            filterApplyflag */}
-            {Object.keys(apifilterObject)?.length && filterApplyflag == 1 ? (
+
+            {Object.keys(filterObject)?.length && filterApplyflag == 1 ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">
                   <div className="filter-block-left full">
-                    {Object.keys(apifilterObject)?.map((key, index) => {
+                    {Object.keys(filterObject)?.map((key, index) => {
                       return (
                         <>
-                          {apifilterObject[key]?.length > 0 ? (
+                          {filterObject[key]?.length ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
                                 <span>{key} |</span>
                               </div>
                               <div className="filter-div-list">
-                                {apifilterObject[key]?.map((item, index) => (
+                                {filterObject[key]?.map((item, index) => (
                                   <div
                                     className="filter-result"
                                     id={item}
@@ -1320,7 +1332,7 @@ const NewReaders = () => {
                                       ? "live"
                                       : key == "draft" && item == "1"
                                       ? "draft"
-                                      : item}
+                                      : key == "Registered For Title"?filterdata?.["Registered For Title"]?.find(element =>element.id == item)?.title :item}
                                     <img
                                       src={path_image + "filter-close.svg"}
                                       alt="Close-filter"

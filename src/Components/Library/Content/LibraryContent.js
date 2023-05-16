@@ -213,10 +213,8 @@ const LibraryContent = (props) => {
         newObj[key]?.push(item);
       } else {
         if (item == "All") {
-          // console.log("--dfdfdfd11",item)
           newObj[key] = data;
         } else {
-          // console.log("--dfdfdfd else",item)
           newObj[key]?.push(item);
 
           if (data?.length - 1 == newObj[key]?.length) {
@@ -240,11 +238,6 @@ const LibraryContent = (props) => {
         }
       }
     }
-
-   
-    console.log("--=-=-=-=-=-->>>",appliedFilter)
-    console.log("--=-=-=-=11-=-->>>",newObj)
-
     setAppliedFilter(newObj)
     // setFilterObject(newObj);
     setForceRender(!forceRender);
@@ -469,12 +462,16 @@ const LibraryContent = (props) => {
 
     const index = old_object[key]?.indexOf(item);
     if (index > -1) {
+      if (old_object[key].includes("All")) {
+      const allIndex = old_object[key]?.indexOf("All")
+        old_object[key]?.splice(allIndex, 1);
+      }
       old_object[key]?.splice(index, 1);
       if (old_object[key]?.length == 0) {
         delete old_object[key];
       }
     }
-
+    setAppliedFilter(old_object)
     setFilterObject(old_object);
     setLibraryData([]);
     getLibraryData(page, old_object);
@@ -613,6 +610,7 @@ const LibraryContent = (props) => {
   };
 
   const removeTagFinal = (index) => {
+     
     const tags = finalTags;
     const tagsClickedFirst = tagClickedFirst;
     tags.splice(index, 1);
