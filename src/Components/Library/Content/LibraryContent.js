@@ -191,7 +191,7 @@ const LibraryContent = (props) => {
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
-    let newObj = JSON.parse(JSON.stringify(appliedFilter))
+    let newObj = JSON.parse(JSON.stringify(appliedFilter));
     if (!newObj[key]) {
       newObj[key] = [];
     }
@@ -241,11 +241,10 @@ const LibraryContent = (props) => {
       }
     }
 
-   
-    console.log("--=-=-=-=-=-->>>",appliedFilter)
-    console.log("--=-=-=-=11-=-->>>",newObj)
+    console.log("--=-=-=-=-=-->>>", appliedFilter);
+    console.log("--=-=-=-=11-=-->>>", newObj);
 
-    setAppliedFilter(newObj)
+    setAppliedFilter(newObj);
     // setFilterObject(newObj);
     setForceRender(!forceRender);
   };
@@ -290,7 +289,7 @@ const LibraryContent = (props) => {
     if (filterApplyflag > 0) {
       setFilterObject({});
       setLibraryData([]);
-      setAppliedFilter({})
+      setAppliedFilter({});
       getLibraryData(page, {}, search);
       setSearch("");
     }
@@ -977,6 +976,7 @@ const LibraryContent = (props) => {
                     {deletestatus ? (
                       <button
                         className="btn btn-outline-primary cancel"
+                        title="Cancel delete"
                         onClick={(e) => showDeleteButtons()}
                       >
                         Cancel
@@ -984,6 +984,7 @@ const LibraryContent = (props) => {
                     ) : (
                       <button
                         className="btn btn-outline-primary"
+                        title="Delete "
                         onClick={(e) => showDeleteButtons()}
                       >
                         <svg
