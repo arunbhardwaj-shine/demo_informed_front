@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Select from "react-select";
 import { loader } from "../../loader";
 import ReactPlayer from "react-player";
@@ -14,7 +14,11 @@ import {
   Nav,
   NavDropdown,
 } from "react-bootstrap";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4maps from "@amcharts/amcharts4/maps";
+import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const Webinar = () => {
   const navigate = useNavigate();
@@ -45,14 +49,785 @@ const Webinar = () => {
     { value: "4", label: "4" },
   ]);
   const [country, setCountry] = useState([
-    { value: "India", label: "india" },
+    { value: "Afghanistan", label: "Afghanistan" },
+    { value: "Albania", label: "Albania" },
+    { value: "Algeria", label: "Algeria" },
+    { value: "American Samoa", label: "American Samoa" },
+    { value: "Andorra", label: "Andorra" },
+    { value: "Angola", label: "Angola" },
+    { value: "Anguilla", label: "Anguilla" },
+    { value: "Antarctica", label: "Antarctica" },
+    { value: "Antigua and Barbuda", label: "Antigua and Barbuda" },
+    { value: "Argentina", label: "Argentina" },
+    { value: "Armenia", label: "Armenia" },
+    { value: "Aruba", label: "Aruba" },
     { value: "Australia", label: "Australia" },
+    { value: "Austria", label: "Austria" },
+    { value: "Azerbaijan", label: "Azerbaijan" },
+    { value: "Bahamas", label: "Bahamas" },
+    { value: "Bahrain", label: "Bahrain" },
+    { value: "Bangladesh", label: "Bangladesh" },
+    { value: "Barbados", label: "Barbados" },
+    { value: "Belarus", label: "Belarus" },
+    { value: "Belgium", label: "Belgium" },
+    { value: "Belize", label: "Belize" },
+    { value: "Benin", label: "Benin" },
+    { value: "Bermuda", label: "Bermuda" },
+    { value: "Bhutan", label: "Bhutan" },
+    { value: "Bolivia", label: "Bolivia" },
+    { value: "B&H", label: "Bosnia and Herzegovina" },
+    { value: "Botswana", label: "Botswana" },
+    { value: "Bouvet Island", label: "Bouvet Island" },
+    { value: "Brazil", label: "Brazil" },
+    {
+      value: "British Indian Ocean Territory",
+      label: "British Indian Ocean Territory",
+    },
+    { value: "Brunei Darussalam", label: "Brunei Darussalam" },
+    { value: "Bulgaria", label: "Bulgaria" },
+    { value: "Burkina Faso", label: "Burkina Faso" },
+    { value: "Burundi", label: "Burundi" },
+    { value: "Cambodia", label: "Cambodia" },
+    { value: "Cameroon", label: "Cameroon" },
+    { value: "Canada", label: "Canada" },
+    { value: "Cape Verde", label: "Cape Verde" },
+    { value: "Cayman Islands", label: "Cayman Islands" },
+    { value: "Central African Republic", label: "Central African Republic" },
+    { value: "Chad", label: "Chad" },
+    { value: "Chile", label: "Chile" },
+    { value: "China", label: "China" },
+    { value: "Christmas Island", label: "Christmas Island" },
+    { value: "Cocos (Keeling) Islands", label: "Cocos (Keeling) Islands" },
+    { value: "Colombia", label: "Colombia" },
+    { value: "Comoros", label: "Comoros" },
+    { value: "Congo", label: "Congo" },
+    {
+      value: "Congo, The Democratic Republic of The",
+      label: "Congo, The Democratic Republic of The",
+    },
+    { value: "Cook Islands", label: "Cook Islands" },
+    { value: "Costa Rica", label: "Costa Rica" },
+    { value: "Cote D'ivoire", label: "Cote D'ivoire" },
+    { value: "Croatia", label: "Croatia" },
+    { value: "Cuba", label: "Cuba" },
+    { value: "Cyprus", label: "Cyprus" },
+    { value: "Czech Republic", label: "Czech Republic" },
+    { value: "Denmark", label: "Denmark" },
+    { value: "Djibouti", label: "Djibouti" },
+    { value: "Dominica", label: "Dominica" },
+    { value: "Dominican Republic", label: "Dominican Republic" },
+    { value: "Ecuador", label: "Ecuador" },
+    { value: "Egypt", label: "Egypt" },
+    { value: "El Salvador", label: "El Salvador" },
+    { value: "Equatorial Guinea", label: "Equatorial Guinea" },
+    { value: "Eritrea", label: "Eritrea" },
+    { value: "Estonia", label: "Estonia" },
+    { value: "Ethiopia", label: "Ethiopia" },
+    {
+      value: "Falkland Islands (Malvinas)",
+      label: "Falkland Islands (Malvinas)",
+    },
+    { value: "Faroe Islands", label: "Faroe Islands" },
+    { value: "Fiji", label: "Fiji" },
+    { value: "Finland", label: "Finland" },
+    { value: "France", label: "France" },
+    { value: "French Guiana", label: "French Guiana" },
+    { value: "French Polynesia", label: "French Polynesia" },
+    {
+      value: "French Southern Territories",
+      label: "French Southern Territories",
+    },
+    { value: "Gabon", label: "Gabon" },
+    { value: "Gambia", label: "Gambia" },
+    { value: "Georgia", label: "Georgia" },
+    { value: "Germany", label: "Germany" },
+    { value: "Ghana", label: "Ghana" },
+    { value: "Gibraltar", label: "Gibraltar" },
+    { value: "Greece", label: "Greece" },
+    { value: "Greenland", label: "Greenland" },
+    { value: "Grenada", label: "Grenada" },
+    { value: "Guadeloupe", label: "Guadeloupe" },
+    { value: "Guam", label: "Guam" },
+    { value: "Guatemala", label: "Guatemala" },
+    { value: "Guinea", label: "Guinea" },
+    { value: "Guinea-bissau", label: "Guinea-bissau" },
+    { value: "Guyana", label: "Guyana" },
+    { value: "Haiti", label: "Haiti" },
+    {
+      value: "Heard Island and Mcdonald Islands",
+      label: "Heard Island and Mcdonald Islands",
+    },
+    {
+      value: "Holy See (Vatican City State)",
+      label: "Holy See (Vatican City State)",
+    },
+    { value: "Honduras", label: "Honduras" },
+    { value: "Hong Kong", label: "Hong Kong" },
+    { value: "Hungary", label: "Hungary" },
+    { value: "Iceland", label: "Iceland" },
+    { value: "India", label: "India" },
+    { value: "Indonesia", label: "Indonesia" },
+    { value: "Iran, Islamic Republic of", label: "Iran, Islamic Republic of" },
+    { value: "Iraq", label: "Iraq" },
+    { value: "Ireland", label: "Ireland" },
+    { value: "Israel", label: "Israel" },
+    { value: "Italy", label: "Italy" },
+    { value: "Jamaica", label: "Jamaica" },
+    { value: "Japan", label: "Japan" },
+    { value: "Jordan", label: "Jordan" },
+    { value: "Kazakhstan", label: "Kazakhstan" },
+    { value: "Kenya", label: "Kenya" },
+    { value: "Kiribati", label: "Kiribati" },
+    {
+      value: "Korea, Democratic People's Republic of",
+      label: "Korea, Democratic People's Republic of",
+    },
+    { value: "Korea, Republic of", label: "Korea, Republic of" },
+    { value: "Kosovo", label: "Kosovo" },
+    { value: "Kuwait", label: "Kuwait" },
+    { value: "Kyrgyzstan", label: "Kyrgyzstan" },
+    {
+      value: "Lao People's Democratic Republic",
+      label: "Lao People's Democratic Republic",
+    },
+    { value: "Latvia", label: "Latvia" },
+    { value: "Lebanon", label: "Lebanon" },
+    { value: "Lesotho", label: "Lesotho" },
+    { value: "Liberia", label: "Liberia" },
+    { value: "Libyan Arab Jamahiriya", label: "Libyan Arab Jamahiriya" },
+    { value: "Liechtenstein", label: "Liechtenstein" },
+    { value: "Lithuania", label: "Lithuania" },
+    { value: "Luxembourg", label: "Luxembourg" },
+    { value: "Macao", label: "Macao" },
+    { value: "North Macedonia", label: "North Macedonia" },
+    { value: "Madagascar", label: "Madagascar" },
+    { value: "Malawi", label: "Malawi" },
+    { value: "Malaysia", label: "Malaysia" },
+    { value: "Maldives", label: "Maldives" },
+    { value: "Mali", label: "Mali" },
+    { value: "Malta", label: "Malta" },
+    { value: "Marshall Islands", label: "Marshall Islands" },
+    { value: "Martinique", label: "Martinique" },
+    { value: "Mauritania", label: "Mauritania" },
+    { value: "Mauritius", label: "Mauritius" },
+    { value: "Mayotte", label: "Mayotte" },
+    { value: "Mexico", label: "Mexico" },
+    {
+      value: "Micronesia, Federated States of",
+      label: "Micronesia, Federated States of",
+    },
+    { value: "Moldova, Republic of", label: "Moldova, Republic of" },
+    { value: "Monaco", label: "Monaco" },
+    { value: "Mongolia", label: "Mongolia" },
+    { value: "Montserrat", label: "Montserrat" },
+    { value: "Morocco", label: "Morocco" },
+    { value: "Mozambique", label: "Mozambique" },
+    { value: "Myanmar", label: "Myanmar" },
+    { value: "Namibia", label: "Namibia" },
+    { value: "Nauru", label: "Nauru" },
+    { value: "Nepal", label: "Nepal" },
+    { value: "Netherlands", label: "Netherlands" },
+    { value: "Netherlands Antilles", label: "Netherlands Antilles" },
+    { value: "New Caledonia", label: "New Caledonia" },
+    { value: "New Zealand", label: "New Zealand" },
+    { value: "Nicaragua", label: "Nicaragua" },
+    { value: "Niger", label: "Niger" },
+    { value: "Nigeria", label: "Nigeria" },
+    { value: "Niue", label: "Niue" },
+    { value: "Norfolk Island", label: "Norfolk Island" },
+    { value: "Northern Mariana Islands", label: "Northern Mariana Islands" },
+    { value: "Norway", label: "Norway" },
+    { value: "Oman", label: "Oman" },
+    { value: "Pakistan", label: "Pakistan" },
+    { value: "Palau", label: "Palau" },
+    {
+      value: "Palestinian Territory, Occupied",
+      label: "Palestinian Territory, Occupied",
+    },
+    { value: "Panama", label: "Panama" },
+    { value: "Papua New Guinea", label: "Papua New Guinea" },
+    { value: "Paraguay", label: "Paraguay" },
+    { value: "Peru", label: "Peru" },
+    { value: "Philippines", label: "Philippines" },
+    { value: "Pitcairn", label: "Pitcairn" },
+    { value: "Poland", label: "Poland" },
+    { value: "Portugal", label: "Portugal" },
+    { value: "Puerto Rico", label: "Puerto Rico" },
+    { value: "Qatar", label: "Qatar" },
+    { value: "Reunion", label: "Reunion" },
+    { value: "Romania", label: "Romania" },
+    { value: "Russian Federation", label: "Russian Federation" },
+    { value: "Rwanda", label: "Rwanda" },
+    { value: "Saint Helena", label: "Saint Helena" },
+    { value: "Saint Kitts and Nevis", label: "Saint Kitts and Nevis" },
+    { value: "Saint Lucia", label: "Saint Lucia" },
+    { value: "Saint Pierre and Miquelon", label: "Saint Pierre and Miquelon" },
+    {
+      value: "Saint Vincent and The Grenadines",
+      label: "Saint Vincent and The Grenadines",
+    },
+    { value: "Samoa", label: "Samoa" },
+    { value: "San Marino", label: "San Marino" },
+    { value: "Sao Tome and Principe", label: "Sao Tome and Principe" },
+    { value: "Saudi Arabia", label: "Saudi Arabia" },
+    { value: "Senegal", label: "Senegal" },
+    { value: "Serbia", label: "Serbia" },
+    { value: "Montenegro", label: "Montenegro" },
+    { value: "Seychelles", label: "Seychelles" },
+    { value: "Sierra Leone", label: "Sierra Leone" },
+    { value: "Singapore", label: "Singapore" },
+    { value: "Slovakia", label: "Slovakia" },
+    { value: "Slovenia", label: "Slovenia" },
+    { value: "Solomon Islands", label: "Solomon Islands" },
+    { value: "Somalia", label: "Somalia" },
+    { value: "South Africa", label: "South Africa" },
+    {
+      value: "South Georgia and The South Sandwich Islands",
+      label: "South Georgia and The South Sandwich Islands",
+    },
+    { value: "Spain", label: "Spain" },
     { value: "Sri Lanka", label: "Sri Lanka" },
-    { value: "England", label: "England" },
+    { value: "Sudan", label: "Sudan" },
+    { value: "Suriname", label: "Suriname" },
+    { value: "Svalbard and Jan Mayen", label: "Svalbard and Jan Mayen" },
+    { value: "Swaziland", label: "Swaziland" },
+    { value: "Sweden", label: "Sweden" },
+    { value: "Switzerland", label: "Switzerland" },
+    { value: "Syrian Arab Republic", label: "Syrian Arab Republic" },
+    { value: "Taiwan, Province of China", label: "Taiwan, Province of China" },
+    { value: "Tajikistan", label: "Tajikistan" },
+    {
+      value: "Tanzania, United Republic of",
+      label: "Tanzania, United Republic of",
+    },
+    { value: "Thailand", label: "Thailand" },
+    { value: "Timor-leste", label: "Timor-leste" },
+    { value: "Togo", label: "Togo" },
+    { value: "Tokelau", label: "Tokelau" },
+    { value: "Tonga", label: "Tonga" },
+    { value: "Trinidad and Tobago", label: "Trinidad and Tobago" },
+    { value: "Tunisia", label: "Tunisia" },
+    { value: "Turkey", label: "Turkey" },
+    { value: "Turkmenistan", label: "Turkmenistan" },
+    { value: "Turks and Caicos Islands", label: "Turks and Caicos Islands" },
+    { value: "Tuvalu", label: "Tuvalu" },
+    { value: "Uganda", label: "Uganda" },
+    { value: "Ukraine", label: "Ukraine" },
+    { value: "United Arab Emirates", label: "United Arab Emirates" },
+    { value: "United Kingdom", label: "United Kingdom" },
+    { value: "United States", label: "United States" },
+    {
+      value: "United States Minor Outlying Islands",
+      label: "United States Minor Outlying Islands",
+    },
+    { value: "Uruguay", label: "Uruguay" },
+    { value: "Uzbekistan", label: "Uzbekistan" },
+    { value: "Vanuatu", label: "Vanuatu" },
+    { value: "Venezuela", label: "Venezuela" },
+    { value: "Viet Nam", label: "Viet Nam" },
+    { value: "Virgin Islands, British", label: "Virgin Islands, British" },
+    { value: "Virgin Islands, U.S.", label: "Virgin Islands, U.S." },
+    { value: "Wallis and Futuna", label: "Wallis and Futuna" },
+    { value: "Western Sahara", label: "Western Sahara" },
+    { value: "Yemen", label: "Yemen" },
+    { value: "Zambia", label: "Zambia" },
+    { value: "Zimbabwe", label: "Zimbabwe" },
   ]);
-  const [contactFormInputs, setContactFormInputs] = useState({});
+  const [contactFormInputs, setContactFormInputs] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    country: "",
+  });
   const [contactFormError, setContactFormError] = useState({});
   const [forceRender, setForceRender] = useState(false);
+  const chartRef = useRef(null);
+  let mapData = [
+    {
+      latitude: 55.7558,
+      longitude: 37.6173,
+      title: "Moscow",
+      webinar_title: "Workshop",
+      webinar_title_country: "Russian",
+      country: "Moscow",
+      purpose:
+        "An interactive workshop with a top KOL presenting several of her own illustrative cases. Participants got talking about their current cases, doubts, opinions and best practices with live video calls translated by an interpreter. Everything was unscripted and free-form.",
+      auto_mail: "AutoMails",
+      ssi_link: "SSi",
+      live_participation: "Live Participation",
+      live_translation: "Live Translation",
+      follow_up: "Segmented auto follow up",
+    },
+    {
+      latitude: 43.814632,
+      longitude: 16.978783,
+      title: "Zagreb",
+      webinar_title: "Workshop",
+      webinar_title_country: "English",
+      country: "Zagreb",
+      purpose:
+        "The client hosted an interactive workshop with a top KOL presenting several of her own illustrative cases. Participants got talking about their current cases, doubts, opinions and best practices with live video calls. Everything was unscripted and free-form.",
+      auto_mail: "AutoMails",
+      ssi_link: "SSi",
+      live_participation: "Live Participation",
+      live_poll_answer: "Live Poll & answers",
+      approval: "Pre-approve written questions",
+      follow_up: "Segmented auto follow up",
+    },
+    {
+      latitude: 25.432608,
+      longitude: -104.133209,
+      title: "Mexico",
+      webinar_title: "Trial recruitment",
+      webinar_title_country: "Spanish",
+      country: "Mexico",
+      purpose:
+        "A series of webinars aimed at recruting HCPs for an upcoming trial. It was important to verify the HCPs and control access, and to give them options to interact with either live video or chat & written answer.",
+      auto_mail: "AutoMails",
+      ssi_link: "SSi",
+      pre_record_presentation: "Pre-recorded presentation",
+      approval: "Pre-approve written questions",
+      contact_info: "Contact for more info",
+      online_repeat: "Online repeat in portal 1 week",
+      follow_up: "Segmented auto follow up",
+    },
+    {
+      latitude: 49.520008,
+      longitude: 9.404954,
+      title: "Germany",
+      webinar_title: "Trial Recruitment",
+      webinar_title_country: "Europe",
+      country: "Germany",
+      purpose:
+        "A series of webinars aimed at recruiting HCPs for an upcoming trial. It was important to verify the HCPs and control access, and give them options to interact with either live video call in or chat.",
+      auto_mail: "AutoMails",
+      ssi_link: "SSi",
+      pre_record_presentation: "Pre-recorded presentation",
+      approval: "Pre-approve written questions",
+      contact_info: "Contact for more info",
+      online_repeat: "Online repeat in portal 1 week",
+      follow_up: "Segmented auto follow up",
+    },
+    {
+      latitude: 41.0,
+      longitude: -75.5,
+      title: "New York",
+      webinar_title: "Trial Recruitment",
+      webinar_title_country: "USA",
+      country: "New York",
+      purpose:
+        "A series of webinars aimed at recruting HCPs for an upcoming trial. It was important to verify the HCPs and control access, and to give them options to interact with either live video or chat & written answer.",
+      auto_mail: "AutoMails",
+      ssi_link: "SSi",
+      pre_record_presentation: "Pre-recorded presentation",
+      approval: "Pre-approve written questions",
+      contact_info: "Contact for more info",
+      online_repeat: "Online repeat in portal 1 week",
+      follow_up: "Segmented auto follow up",
+    },
+    {
+      latitude: -32.195246,
+      longitude: 24.034088,
+      title: "Johannesburg",
+      webinar_title: "Pre-market awareness",
+      country: "Johannesburg",
+      purpose:
+        "This was the clients first local webinar and it featured a globally respected KOL in the field. Primary purpose was to start building pre-marketing awareness about a type of treatment and so CPD-accreditation was secured.",
+      auto_mail: "AutoMails",
+      ssi_link: "SSi",
+      approval: "Pre-approve written questions",
+      cpd_certificate: "CPD certificate",
+      offline_video: "Docintel offline video",
+      follow_up: "Segmented auto follow up",
+    },
+    {
+      latitude: -33.883333,
+      longitude: 30.049999,
+      title: "Durban",
+      webinar_title: "Patient awarness",
+      country: "Durban",
+      purpose:
+        "This was a masterclass in practical management of patient care. It was open to both HCPs and patient groups and so email invites was segmented accordingly. Records of attendees are tagged in the client's inforMed.pro account and the automatic follow up was segmented accordingly.",
+      auto_mail: "AutoMails",
+      ssi_link: "SSi",
+      approval: "Pre-approve written questions",
+      cpd_certificate: "CPD certificate",
+      offline_video: "Docintel offline video",
+      follow_up: "Segmented auto follow up",
+    },
+    {
+      latitude: 0.19027,
+      longitude: 102.851959,
+      title: "Singapore",
+      webinar_title: "SEA",
+      country: "Singapore",
+      purpose:
+        "Aimed at HCPs in 6 countries centred around Singapore. Primary target was to start building digital relationships with HCPs. The drive for attendees was through local societies, affiliate sellers, and own reps, all traffic tracked and measured.",
+      auto_mail: "AutoMails",
+      ssi_link: "SSi",
+      live_poll_answer: "Live Poll & answers",
+      approval: "Pre-approve written questions",
+      offline_video: "Docintel offline video",
+      post_survey: "Post Survey",
+      follow_up: "Segmented auto follow up",
+    },
+    {
+      latitude: 47.210033,
+      longitude: 15.363449,
+      title: "Vienna",
+      webinar_title: "Investigator meeting",
+      country: "Vienna",
+      purpose:
+        "Instead of flying investigators from around the world in for a physical meeting the client brought investigators from global sites into a 2 day interactive meeting. The investigators interacted with the speakers and each other through a custom branded platform. We helped to prep the many speakers, ran multiple emails to drive HCPs to register and helped them turn up for the 2 days.",
+      auto_mail: "AutoMails",
+      ssi_link: "SSi",
+      live_participation: "Live Participation",
+      live_poll_answer: "Live Poll & answers",
+      approval: "Pre-approve written questions",
+      cpd_certificate: "CPD certificate",
+      offline_video: "Docintel offline video",
+      post_survey: "Post Survey",
+      follow_up: "Segmented auto follow up",
+    },
+  ];
+  let coulums = {
+    webinar_title: "",
+    webinar_title_country: "",
+    country: "",
+    purpose: "",
+    auto_mail: "AutoMails",
+    ssi_link: "Single Sign in links (SSi)",
+    pre_record_presentation: "Pre-recorded presentation",
+    live_participation: "Live Participation",
+    live_poll_answer: "Live Poll & answers",
+    approval: "Approval of written questions",
+    live_translation: "Live Translation",
+    contact_info: "Contact for more info",
+    cpd_certificate: "CPD certificate",
+    online_repeat: "Online repeat in portal 1 week",
+    offline_video: "Docintel offline video",
+    post_survey: "Post Survey",
+    follow_up: "Segmented auto follow up",
+  };
+
+  useEffect(() => {
+    let chart = null;
+
+    // Create the map chart
+    if (!chart) {
+      chart = am4core.create(chartRef.current, am4maps.MapChart);
+
+      chart.seriesContainer.events.on("hit", function (ev) {
+        let mapButtons = document.querySelectorAll(".map-button");
+        let button = document.getElementById("mapButton");
+
+        mapButtons.forEach((element) => {
+          element.classList.remove("active");
+        });
+        button.classList.add("active");
+        let element = document.getElementById("chartdiv");
+        element.classList.remove("compare-data");
+
+        if (ev.event == undefined || ev.event.target.tagName != "image") {
+          chart.closeAllPopups();
+        }
+      });
+
+      document
+        .getElementById("compareButton")
+        .addEventListener("click", (event) => {
+          chart.closeAllPopups();
+          var html = '<table width="90%">';
+
+          for (var key in coulums) {
+            let itemsForSkip = [
+              "webinar_title",
+              "webinar_title_country",
+              "country",
+              "purpose",
+            ];
+
+            html += `<tr><td >${coulums[key]}</td>`;
+            mapData.forEach((v) => {
+              var element =
+                v[key] != undefined
+                  ? '<img width="15"  src="https://informed.pro/webinar/assets/img/circle__blue.png"'
+                  : "";
+              if (itemsForSkip.includes(key)) {
+                element = v[key] != undefined ? v[key] : "";
+              }
+              html += `<td class=${key}>${element}</td>`;
+            });
+            html += `</tr>`;
+          }
+
+          html += `</table>`;
+
+          chart.openPopup(`${html}`);
+
+          let mapButtons = document.querySelectorAll(".map-button");
+
+          mapButtons.forEach((element) => {
+            element.classList.remove("active");
+          });
+
+          let element = document.getElementById("chartdiv");
+          element.classList.add("compare-data");
+          event.target.classList.add("active");
+        });
+
+      document
+        .getElementById("mapButton")
+        .addEventListener("click", (event) => {
+          chart.closeAllPopups();
+
+          let mapButtons = document.querySelectorAll(".map-button");
+
+          mapButtons.forEach((element) => {
+            element.classList.remove("active");
+          });
+          let element = document.getElementById("chartdiv");
+          element.classList.remove("compare-data");
+          event.target.classList.add("active");
+        });
+
+      chart.geodata = am4geodata_worldLow;
+
+      let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        chart.maxZoomLevel = 5;
+      } else {
+        chart.maxZoomLevel = 1;
+      }
+      // chart.projection = new am4maps.projections.Miller();
+      chart.chartContainer.wheelable = false;
+      const polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+      polygonSeries.useGeodata = true;
+
+      // Configure series data
+      const polygonTemplate = polygonSeries.mapPolygons.template;
+      polygonTemplate.tooltipText = "";
+      polygonTemplate.fill = am4core.color("#ffffff");
+      polygonTemplate.stroke = am4core.color("#f8f9fc");
+      // Add points to the map based on latitude and longitude
+      const imageSeries = chart.series.push(new am4maps.MapImageSeries());
+      const imageSeriesTemplate = imageSeries.mapImages.template;
+      let marker = imageSeriesTemplate.createChild(am4core.Image);
+      marker.href = `https://informed.pro/img/webinar/slider-over-img.png`;
+      marker.width = 20;
+      marker.height = 20;
+      marker.nonScaling = true;
+      marker.tooltipText = "{title}";
+      marker.horizontalCenter = "middle";
+      marker.verticalCenter = "bottom";
+
+      imageSeriesTemplate.propertyFields.latitude = "latitude";
+      imageSeriesTemplate.propertyFields.longitude = "longitude";
+      imageSeries.data = mapData;
+      // Zoom and center the map on the highlighted points
+      chart.homeZoomLevel = 0.5;
+
+      chart.homeGeoPoint = {
+        latitude: mapData[0].latitude,
+        longitude: mapData[0].longitude,
+      };
+      imageSeriesTemplate.events.on("over", function (ev) {
+        //console.log(ev.target.dataItem.dataContext.title)
+
+        let arr = ["Mexico", "New York", "Germany"];
+        if (!arr.includes(ev.target.dataItem.dataContext.title)) {
+          return;
+        }
+
+        var lineSeries = chart.series.push(new am4maps.MapArcSeries());
+        lineSeries.mapLines.template.strokeWidth = 1;
+        lineSeries.mapLines.template.stroke = am4core.color("#c5c9cd");
+        lineSeries.data = [
+          {
+            multiGeoLine: [
+              [
+                { latitude: 49.520008, longitude: 9.404954 },
+                { latitude: 42.5, longitude: -76.0 },
+                { latitude: 25.432608, longitude: -104.133209 },
+                { latitude: 49.520008, longitude: 9.404954 },
+              ],
+            ],
+          },
+        ];
+
+        lineSeries.mapLines.template.line.controlPointDistance = 0;
+        lineSeries.mapLines.template.line.controlPointPosition = 0;
+        lineSeries.tooltip.background.fill = am4core.color("#67b7dc");
+      });
+
+      imageSeriesTemplate.events.on("out", function (ev) {
+        let arr = ["Mexico", "New York", "Germany"];
+        if (!arr.includes(ev.target.dataItem.dataContext.title)) {
+          return;
+        }
+
+        var lineSeries = chart.series.pop(new am4maps.MapArcSeries());
+      });
+
+      imageSeriesTemplate.events.on("hit", function (ev) {
+        chart.closeAllPopups();
+
+        let webinar_title = `<p class="webinar_title">${ev.target.dataItem.dataContext.webinar_title}</p>`;
+        let webinar_title_country = `<p class="webinar_title_country">${ev.target.dataItem.dataContext.webinar_title_country}</p>`;
+
+        let country = `<p class="country_name">${ev.target.dataItem.dataContext.country}</p>`;
+        let purpose = `<p class="purpose">${ev.target.dataItem.dataContext.purpose}</p>`;
+        let auto_mail = `<li><span></span>${ev.target.dataItem.dataContext.auto_mail}</li>`;
+        let ssi_link = `<li><span></span>${ev.target.dataItem.dataContext.ssi_link}</li>`;
+        let pre_record_presentation = `<li><span></span>${ev.target.dataItem.dataContext.pre_record_presentation}</li>`;
+        let live_participation = `<li><span></span>${ev.target.dataItem.dataContext.live_participation}</li>`;
+        let live_poll_answer = `<li><span></span>${ev.target.dataItem.dataContext.live_poll_answer}</li>`;
+        let approval = `<li><span></span>${ev.target.dataItem.dataContext.approval}</li>`;
+        let live_translation = `<li><span></span>${ev.target.dataItem.dataContext.live_translation}</li>`;
+        let contact_info = `<li><span></span>${ev.target.dataItem.dataContext.contact_info}</li>`;
+        let cpd_certificate = `<li><span></span>${ev.target.dataItem.dataContext.cpd_certificate}</li>`;
+        let online_repeat = `<li><span></span>${ev.target.dataItem.dataContext.online_repeat}</li>`;
+        let offline_video = `<li><span></span>${ev.target.dataItem.dataContext.offline_video}</li>`;
+        let post_survey = `<li><span></span>${ev.target.dataItem.dataContext.post_survey}</li>`;
+        let follow_up = `<li><span></span>${ev.target.dataItem.dataContext.follow_up}</li>`;
+
+        let popup = chart.openPopup(`${
+          ev.target.dataItem.dataContext.webinar_title ? webinar_title : ""
+        }
+                  ${
+                    ev.target.dataItem.dataContext.webinar_title_country
+                      ? webinar_title_country
+                      : ""
+                  }
+                   ${ev.target.dataItem.dataContext.country ? country : ""}
+                   ${ev.target.dataItem.dataContext.purpose ? purpose : ""}
+                   ${ev.target.dataItem.dataContext.ssi_link ? ssi_link : ""}
+                   ${ev.target.dataItem.dataContext.auto_mail ? auto_mail : ""}
+                   ${
+                     ev.target.dataItem.dataContext.pre_record_presentation
+                       ? pre_record_presentation
+                       : ""
+                   }
+                   ${
+                     ev.target.dataItem.dataContext.live_participation
+                       ? live_participation
+                       : ""
+                   }
+                   ${
+                     ev.target.dataItem.dataContext.live_poll_answer
+                       ? live_poll_answer
+                       : ""
+                   }
+                   ${ev.target.dataItem.dataContext.approval ? approval : ""}
+                   ${
+                     ev.target.dataItem.dataContext.live_translation
+                       ? live_translation
+                       : ""
+                   }
+                   ${
+                     ev.target.dataItem.dataContext.contact_info
+                       ? contact_info
+                       : ""
+                   }
+                   ${
+                     ev.target.dataItem.dataContext.cpd_certificate
+                       ? cpd_certificate
+                       : ""
+                   }
+                   ${
+                     ev.target.dataItem.dataContext.online_repeat
+                       ? online_repeat
+                       : ""
+                   }
+                   ${
+                     ev.target.dataItem.dataContext.offline_video
+                       ? offline_video
+                       : ""
+                   }
+                   ${
+                     ev.target.dataItem.dataContext.post_survey
+                       ? post_survey
+                       : ""
+                   }
+                   ${ev.target.dataItem.dataContext.follow_up ? follow_up : ""}
+                   `);
+        chart.modal.container = document.body;
+
+        popup.left = ev.svgPoint.x + 0;
+        popup.top = ev.svgPoint.y + 1;
+        //popup.showCurtain = true;
+      });
+    }
+    const handlePrevClick = () => {
+      // event.preventDefault();
+      const ampopupInside = document.querySelector(".ampopup-inside");
+      const scrollLeftValue = ampopupInside.scrollLeft;
+
+      const totalWidth = document.querySelector(
+        ".ampopup-inside table"
+      ).offsetWidth;
+      const popupWidth = ampopupInside.offsetWidth;
+      const movableWidth = totalWidth - popupWidth;
+      const rightOffset = movableWidth - scrollLeftValue;
+
+      if (rightOffset > 0) {
+        document.querySelector(".horizon-next").classList.add("show-next");
+      }
+
+      console.log(scrollLeftValue);
+      if (scrollLeftValue <= 350) {
+        document.querySelector(".horizon-prev").classList.remove("show-prev");
+      }
+
+      ampopupInside.scrollBy({
+        left: -350,
+        behavior: "smooth",
+      });
+    };
+    const handleNextClick = () => {
+      // event.preventDefault();
+      const ampopupInside = document.querySelector(".ampopup-inside");
+      const scrollLeftValue = ampopupInside.scrollLeft;
+      const scrollTarget = scrollLeftValue + 350;
+
+      const totalWidth = document.querySelector(
+        ".ampopup-inside table"
+      ).offsetWidth;
+      const popupWidth = ampopupInside.offsetWidth;
+      const movableWidth = totalWidth - popupWidth;
+      const rigthOffset = movableWidth - scrollLeftValue;
+
+      console.log(rigthOffset);
+
+      if (rigthOffset <= 350) {
+        document.querySelector(".horizon-next").classList.remove("show-next");
+      }
+
+      if (scrollLeftValue > 0) {
+        document.querySelector(".horizon-prev").classList.add("show-prev");
+      }
+
+      ampopupInside.scrollTo({
+        left: scrollTarget,
+        behavior: "smooth",
+      });
+    };
+    document
+      .querySelector(".horizon-prev")
+      .addEventListener("click", handlePrevClick);
+    document
+      .querySelector(".horizon-next")
+      .addEventListener("click", handleNextClick);
+
+    return () => {
+      // Clean up chart when component unmounts
+      if (chart) {
+        chart.dispose();
+        chart = null;
+      }
+    };
+  }, []);
 
   const handleShow = (type) => {
     if (type == "forgot") {
@@ -267,7 +1042,7 @@ const Webinar = () => {
           name: contactFormInputs?.name?.trim(),
           email: contactFormInputs?.email?.trim(),
           phone: contactFormInputs?.phone?.trim(),
-          company: contactFormInputs?.comapny?.trim(),
+          company: contactFormInputs?.company?.trim(),
           country: contactFormInputs?.country?.trim(),
           comment: contactFormInputs?.comment?.trim(),
         });
@@ -1101,13 +1876,21 @@ const Webinar = () => {
         <section className="map-outer">
           <div className="custom-container">
             <div className="row">
-              <div id="chartdiv"></div>
+              <div ref={chartRef} id="chartdiv">
+                {" "}
+              </div>
               <div className="horizon-arrows">
                 <div className="horizon horizon-prev">
-                  <img src="<?php echo INFORMEDPROURL ?>img/webinar/left-arrow-line-symbol.png" />
+                  <img
+                    src={` https://informed.pro/img/webinar/left-arrow-line-symbol.png`}
+                    alt=""
+                  />
                 </div>
                 <div className="horizon horizon-next show-next">
-                  <img src="<?php echo INFORMEDPROURL ?>img/webinar/right-arrow-angle.png" />
+                  <img
+                    src={`https://informed.pro/img/webinar/right-arrow-angle.png`}
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
