@@ -905,7 +905,7 @@ const Webinar = () => {
             "https://informed.pro/Webinar/readers_webinar?rdylr=" +
             res?.data?.data?.userToken;
         } else {
-          navigate("/library-content");
+          navigate("/home");
         }
       } catch (err) {
         console.log(err);
