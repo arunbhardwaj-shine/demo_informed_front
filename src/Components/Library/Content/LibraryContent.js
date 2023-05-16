@@ -55,6 +55,8 @@ const LibraryContent = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [totalCount, setCount] = useState(0);
   const [update, setUpdate] = useState(0);
+  const [appliedFilter,setAppliedFilter] = useState({});
+
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
@@ -190,7 +192,7 @@ const LibraryContent = (props) => {
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
-    let newObj = filterObject;
+    let newObj = JSON.parse(JSON.stringify(filterObject))    ;
     if (!newObj[key]) {
       newObj[key] = [];
     }
@@ -215,7 +217,6 @@ const LibraryContent = (props) => {
           newObj[key] = data;
         } else {
           newObj[key]?.push(item);
-
           if (data?.length - 1 == newObj[key]?.length) {
             newObj[key]?.push("All");
           }
@@ -238,7 +239,8 @@ const LibraryContent = (props) => {
       }
     }
 
-    setFilterObject(newObj);
+    setAppliedFilter(newObj)
+    // setFilterObject(newObj);
     setForceRender(!forceRender);
   };
 
@@ -293,8 +295,8 @@ const LibraryContent = (props) => {
     e.preventDefault();
     setFilterApplyflag(1);
     setLibraryData([]);
-    setFilterObject(filterObject);
-    getLibraryData(page, filterObject, search);
+    setFilterObject(appliedFilter);
+    getLibraryData(page, appliedFilter, search);
     setShowFilter(false);
   };
   const handleQR = (e) => {
@@ -905,7 +907,7 @@ const LibraryContent = (props) => {
                                                         // filterObject?.hasOwnProperty(
                                                         //   key
                                                         // )
-                                                        filterObject[
+                                                        appliedFilter[
                                                           key
                                                         ]?.includes(item)
                                                           ? true
@@ -1044,7 +1046,7 @@ const LibraryContent = (props) => {
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
                         <>
-                          {filterObject[key]?.length > 0 ? (
+                          {filterObject[key]?.length? (
                             <div className="filter-div">
                               <div className="filter-div-title">
                                 <span>{key} |</span>
