@@ -760,7 +760,7 @@ const LibraryContent = (props) => {
           <Row>
             <div className="top-header sticky">
               <div className="page-title">
-                <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2>
+                <h2>{location?.state?.data == "edit" ? "Edit" : ""}</h2>
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
