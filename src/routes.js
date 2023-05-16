@@ -186,7 +186,7 @@ const Routing = () => {
          <Route path="rd-register" element={<RDRegister />} />
 
           //LoginLayout for pages after login
-          <Route path="/default"
+          <Route path="/home"
             element={<SetLayout component={SetLayout} /> }
           />
           <Route path="/library-content"
