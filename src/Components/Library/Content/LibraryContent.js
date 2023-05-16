@@ -166,9 +166,9 @@ const LibraryContent = (props) => {
         setAllTags(res?.data?.data?.tags);
         getLibraryData(page, obj, search);
       }
-      // loader("hide");
+      loader("hide");
     } catch (err) {
-      // loader("hide");
+      loader("hide");
       console.log("err");
     }
   };
@@ -1297,9 +1297,7 @@ const LibraryContent = (props) => {
 
                                             {data.spc_included == 0 &&
                                               data.linkRelations == 0 &&
-                                              data.pdfLinks == 0 && (
-                                                <h6>No</h6>
-                                              )}
+                                              data.pdfLinks == 0 && <h6>No</h6>}
                                           </div>
                                         </li>
                                       </>
@@ -1475,21 +1473,23 @@ const LibraryContent = (props) => {
                                         <span>
                                           Agreed Limit :&nbsp;
                                           <strong>
-                                          {opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          ) !== -1
-                                            ? opening_details[
-                                                opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                )
-                                              ]?.limit == 1000
-                                              ? "Unlimited"
-                                              : opening_details[
+                                            {opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
                                                   opening_details.findIndex(
                                                     (el) => el.pdfId == data?.id
                                                   )
-                                                ]?.limit
-                                            : "Unlimited"}</strong>
+                                                ]?.limit == 1000
+                                                ? "Unlimited"
+                                                : opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit
+                                              : "Unlimited"}
+                                          </strong>
                                         </span>
                                       </div>
                                       <span className="total-left">
