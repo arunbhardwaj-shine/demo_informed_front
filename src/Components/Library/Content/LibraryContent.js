@@ -55,8 +55,6 @@ const LibraryContent = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [totalCount, setCount] = useState(0);
   const [update, setUpdate] = useState(0);
-  const [appliedFilter,setAppliedFilter] = useState({});
-
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
@@ -68,6 +66,7 @@ const LibraryContent = (props) => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
   const [pdftagsid, setpdftagsid] = useState();
+  const [appliedFilter, setAppliedFilter] = useState({});
 
   const navigate = useNavigate();
   let obj = {};
@@ -192,7 +191,7 @@ const LibraryContent = (props) => {
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
-    let newObj = JSON.parse(JSON.stringify(filterObject))    ;
+    let newObj = JSON.parse(JSON.stringify(appliedFilter))
     if (!newObj[key]) {
       newObj[key] = [];
     }
@@ -214,9 +213,12 @@ const LibraryContent = (props) => {
         newObj[key]?.push(item);
       } else {
         if (item == "All") {
+          // console.log("--dfdfdfd11",item)
           newObj[key] = data;
         } else {
+          // console.log("--dfdfdfd else",item)
           newObj[key]?.push(item);
+
           if (data?.length - 1 == newObj[key]?.length) {
             newObj[key]?.push("All");
           }
@@ -238,6 +240,10 @@ const LibraryContent = (props) => {
         }
       }
     }
+
+   
+    console.log("--=-=-=-=-=-->>>",appliedFilter)
+    console.log("--=-=-=-=11-=-->>>",newObj)
 
     setAppliedFilter(newObj)
     // setFilterObject(newObj);
@@ -284,7 +290,7 @@ const LibraryContent = (props) => {
     if (filterApplyflag > 0) {
       setFilterObject({});
       setLibraryData([]);
-
+      setAppliedFilter({})
       getLibraryData(page, {}, search);
       setSearch("");
     }
@@ -730,7 +736,7 @@ const LibraryContent = (props) => {
   const changeFormatForPrint = (value) => {
     let data = "";
     if (value?.allow_print) {
-      data += "Print , ";
+      data += "Print | ";
     }
     if (value?.allow_download) {
       data += "Download | ";
@@ -1046,7 +1052,7 @@ const LibraryContent = (props) => {
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
                         <>
-                          {filterObject[key]?.length? (
+                          {filterObject[key]?.length > 0 ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
                                 <span>{key} |</span>
@@ -2025,7 +2031,7 @@ const LibraryContent = (props) => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Allowed
+                                            Enabled
                                           </h6>
                                           <h6>{changeFormatForPrint(data)}</h6>
                                         </li>

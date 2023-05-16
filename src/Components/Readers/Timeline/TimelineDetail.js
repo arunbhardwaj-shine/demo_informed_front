@@ -12,8 +12,8 @@ const TimelineDetail = () => {
   const { state } = useLocation();
   const [isActive, setIsActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [readerId, setReaderId] = useState('2147491145');
-  // const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '');
+  // const [readerId, setReaderId] = useState('');
+  const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '');
   const [ebookData,setEbookData] = useState([]);
 
   const handleClick = async(index,pdf_id,cdate) => {
