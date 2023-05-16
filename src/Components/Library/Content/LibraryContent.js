@@ -66,6 +66,7 @@ const LibraryContent = (props) => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
   const [pdftagsid, setpdftagsid] = useState();
+  const [appliedFilter, setAppliedFilter] = useState({});
 
   const navigate = useNavigate();
   let obj = {};
@@ -190,7 +191,7 @@ const LibraryContent = (props) => {
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
-    let newObj = filterObject;
+    let newObj = JSON.parse(JSON.stringify(appliedFilter))
     if (!newObj[key]) {
       newObj[key] = [];
     }
@@ -212,8 +213,10 @@ const LibraryContent = (props) => {
         newObj[key]?.push(item);
       } else {
         if (item == "All") {
+          // console.log("--dfdfdfd11",item)
           newObj[key] = data;
         } else {
+          // console.log("--dfdfdfd else",item)
           newObj[key]?.push(item);
 
           if (data?.length - 1 == newObj[key]?.length) {
@@ -238,7 +241,12 @@ const LibraryContent = (props) => {
       }
     }
 
-    setFilterObject(newObj);
+   
+    console.log("--=-=-=-=-=-->>>",appliedFilter)
+    console.log("--=-=-=-=11-=-->>>",newObj)
+
+    setAppliedFilter(newObj)
+    // setFilterObject(newObj);
     setForceRender(!forceRender);
   };
 
@@ -282,7 +290,7 @@ const LibraryContent = (props) => {
     if (filterApplyflag > 0) {
       setFilterObject({});
       setLibraryData([]);
-
+      setAppliedFilter({})
       getLibraryData(page, {}, search);
       setSearch("");
     }
@@ -293,8 +301,8 @@ const LibraryContent = (props) => {
     e.preventDefault();
     setFilterApplyflag(1);
     setLibraryData([]);
-    setFilterObject(filterObject);
-    getLibraryData(page, filterObject, search);
+    setFilterObject(appliedFilter);
+    getLibraryData(page, appliedFilter, search);
     setShowFilter(false);
   };
   const handleQR = (e) => {
@@ -728,7 +736,7 @@ const LibraryContent = (props) => {
   const changeFormatForPrint = (value) => {
     let data = "";
     if (value?.allow_print) {
-      data += "Print , ";
+      data += "Print | ";
     }
     if (value?.allow_download) {
       data += "Download | ";
@@ -905,7 +913,7 @@ const LibraryContent = (props) => {
                                                         // filterObject?.hasOwnProperty(
                                                         //   key
                                                         // )
-                                                        filterObject[
+                                                        appliedFilter[
                                                           key
                                                         ]?.includes(item)
                                                           ? true
@@ -2023,7 +2031,7 @@ const LibraryContent = (props) => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Allowed
+                                            Enabled
                                           </h6>
                                           <h6>{changeFormatForPrint(data)}</h6>
                                         </li>
