@@ -83,6 +83,7 @@
 		"sass": "^1.57.1",
 		"sass-math": "^1.0.0",
 		"simple-react-validator": "^1.6.1",
+		"source-map-loader": "^4.0.1",
 		"tinymce": "^6.1.0",
 		"utils": "^0.2.2",
 		"video-react": "^0.15.0",
