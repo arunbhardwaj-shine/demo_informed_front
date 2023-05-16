@@ -36,10 +36,7 @@ export default function ContentAnalyticsComponentActivityGauge({
       },
     },
     title: {
-      text: label,
-      style: {
-        fontSize: "10px",
-      },
+      enabled: false,
     },
     pane: {
       startAngle: 0,
@@ -89,6 +86,7 @@ export default function ContentAnalyticsComponentActivityGauge({
 
   return (
     <Col>
+    <div className="highchart-lable">{label}</div>
       <HighchartsReact highcharts={Highcharts} options={options} />
     </Col>
   );

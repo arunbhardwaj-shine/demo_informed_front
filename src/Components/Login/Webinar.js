@@ -17,7 +17,10 @@ import {
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+
 const Webinar = () => {
   const navigate = useNavigate();
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -53,7 +56,7 @@ const Webinar = () => {
     { value: "England", label: "England" },
   ]);
   const [contactFormInputs, setContactFormInputs] = useState({});
-  const [contactFormError, setContactFormError] = useState(false);
+  const [contactFormError, setContactFormError] = useState({});
   const [forceRender, setForceRender] = useState(false);
   const chartRef = useRef(null);
   let mapData = [
@@ -744,25 +747,10 @@ const Webinar = () => {
   const submitContactForm = async (event) => {
     event.preventDefault();
 
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const phoneRegex =
-      /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
-    if (!contactFormInputs?.name) {
-      setContactFormError("Please enter the name");
-    } else if (!contactFormInputs?.email) {
-      setContactFormError("Please enter the email");
-    } else if (!emailRegex.test(contactFormInputs?.email)) {
-      setContactFormError("Please enter the valid email address");
-    } else if (!contactFormInputs?.phone) {
-      setContactFormError("Please enter the phone number");
-    } else if (!phoneRegex.test(contactFormInputs?.phone)) {
-      setContactFormError("Please enter the valid phone number");
-    } else if (!contactFormInputs?.comapny) {
-      setContactFormError("Please enter the comapny");
-    } else if (!contactFormInputs?.country) {
-      setContactFormError("Please select country");
-    } else if (!contactFormInputs?.comment) {
-      setContactFormError("Please enter the comment");
+    const err = HomeValidation(contactFormInputs);
+    if (Object.keys(err)?.length) {
+      setContactFormError(err);
+      return;
     } else {
       loader("show");
       try {
@@ -1647,7 +1635,13 @@ const Webinar = () => {
                       Receive a walkthrough from a dedicated member of our team
                     </p>
                     <div className="form-left-fields">
-                      <div className="form-group">
+                      <div
+                        className={
+                          !contactFormError?.name
+                            ? "form-group"
+                            : "form-group error"
+                        }
+                      >
                         <input
                           type="text"
                           id="name"
@@ -1662,7 +1656,13 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         />
                       </div>
-                      <div className="form-group">
+                      <div
+                        className={
+                          !contactFormError?.email
+                            ? "form-group"
+                            : "form-group error"
+                        }
+                      >
                         <input
                           type="email"
                           id="email"
@@ -1677,7 +1677,13 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         />
                       </div>
-                      <div className="form-group">
+                      <div
+                        className={
+                          !contactFormError?.phone
+                            ? "form-group"
+                            : "form-group error"
+                        }
+                      >
                         <input
                           type="number"
                           id="phone"
@@ -1692,11 +1698,17 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         />
                       </div>
-                      <div className="form-group">
+                      <div
+                        className={
+                          !contactFormError?.company
+                            ? "form-group"
+                            : "form-group error"
+                        }
+                      >
                         <input
                           type="text"
                           id="company"
-                          name="comapny"
+                          name="company"
                           className="contact-field"
                           placeholder="Company"
                           value={
@@ -1707,21 +1719,23 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         />
                       </div>
-                      <div className="form-group select-option input-group">
+                      <div
+                        className={
+                          !contactFormError?.country
+                            ? "form-group select-option input-group"
+                            : "form-group select-option input-group error"
+                        }
+                      >
                         <Select
                           className="form-control contact-field"
                           id="country"
                           name="country"
                           options={country}
                           placeholder="Select country"
-                          value={
-                            contactFormInputs?.country
-                              ? contactFormInputs?.country
-                              : ""
-                          }
                           onChange={(e) =>
                             handleContactFormChange(e?.value, "country")
                           }
+                          isClearable
                         ></Select>
                       </div>
                     </div>
@@ -1741,9 +1755,9 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         ></textarea>
                       </div>
-                      {contactFormError && (
+                      {/* {contactFormError && (
                         <p style={{ color: "red" }}>{contactFormError}</p>
-                      )}
+                      )} */}
                     </div>
 
                     <img

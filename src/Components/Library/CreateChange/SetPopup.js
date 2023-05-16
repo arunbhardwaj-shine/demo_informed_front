@@ -594,7 +594,11 @@ const SetPopup = (props) => {
                           })}
                         </AliceCarousel>
                       </>
-                    ) : null}
+                    ) : 
+                          <div className="online_default_msg">
+                            <h4>The link can be opened and read by anybody in their browser, but can not be saved into the Docintel app for offline reading.</h4>
+                          </div>
+                    }
                     <input
                       type="hidden"
                       id="mail_template"

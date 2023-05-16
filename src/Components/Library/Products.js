@@ -165,7 +165,7 @@ function Products() {
                   </Link>
                   */}
 
-              <h2>Products & Topics</h2>
+              {/* <h2>Products & Topics</h2> */}
             </div>
           </div>
           <div className="create-change-content spc-content">
