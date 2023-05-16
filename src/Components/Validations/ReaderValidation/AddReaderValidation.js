@@ -19,7 +19,7 @@ export const AddReaderValidation = (data, groupId, flag) => {
   //   }
   // }
   if (!data?.country) {
-    error.country = "Please Select country";
+    error.country = "Please select country";
   }
   return error;
 };
