@@ -67,7 +67,8 @@ const SetLayout = () => {
             isAuthenticated ?
             <>
                  <Header />
-                <div className='landing-layout library_create d-flex'>
+                 <div className="default-layout">
+                  <div className='landing-layout library_create d-flex'>
                     <Row>
                     {data.map((item, index) => (
                     <div
@@ -90,6 +91,8 @@ const SetLayout = () => {
                     ))}
                     </Row>
                 </div>
+                 </div>
+                
             </>
             : <Navigate to="/informed" />
         }
