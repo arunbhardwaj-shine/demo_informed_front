@@ -1770,7 +1770,7 @@ const NewReaders = () => {
                                     </div>
                                   </li>
 
-                                  <li>
+                                  <li className="last-activity">
                                     <h6 className="tab-content-title">
                                       Last Activity
                                     </h6>

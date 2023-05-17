@@ -1289,7 +1289,7 @@ const TemplateBuilder = (props) => {
           <div className="row">
             <div className="top-header">
               <div className="page-title">
-                <h2>Template Builder</h2>
+                {/* <h2>Template Builder</h2> */}
               </div>
               <div className="top-right-action">
                 {templateClickedd ? (
