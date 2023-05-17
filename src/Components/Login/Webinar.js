@@ -268,7 +268,7 @@ const Webinar = () => {
             mapData.forEach((v) => {
               var element =
                 v[key] != undefined
-                  ? '<img width="15"  src="https://informed.pro/webinar/assets/img/circle__blue.png"'
+                  ? '<img width="15"  src="https://informed.pro/img/webinar/slider-over-img.png"'
                   : "";
               if (itemsForSkip.includes(key)) {
                 element = v[key] != undefined ? v[key] : "";
