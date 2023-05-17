@@ -88,7 +88,11 @@ const Header = () => {
       <header>
         <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
-            <Link className="navbar-brand" to={"/library-content"}>
+            <Link
+              className="navbar-brand"
+              // to={"/library-content"}
+              to={"/home"}
+            >
               <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
             </Link>
             <button
