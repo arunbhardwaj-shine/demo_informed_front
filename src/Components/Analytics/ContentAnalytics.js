@@ -384,7 +384,15 @@ const ContentAnalytics = () => {
                                 </div>
                               ) : null}
                               {isReaderAccordionOpen ? (
-                                <ReadersPerPageLayout data={readerData} />
+                                readerData?.length ? (
+                                  <ReadersPerPageLayout data={readerData} />
+                                ) : (
+                                  <>
+                                    <div className="no_found">
+                                      <p align="center">No Data Available</p>
+                                    </div>
+                                  </>
+                                )
                               ) : null}
                             </Accordion.Body>
                           </Accordion.Item>

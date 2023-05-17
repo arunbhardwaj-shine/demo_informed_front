@@ -82,11 +82,11 @@ function Products() {
       }
     } else {
       if (newValue?.newProductValue) {
-        console.log("Edit Product", newValue?.newProductValue);
         loader("show");
         try {
           await postData(`${ENDPOINT.UPDATE_TOPIC}${topicId}`, {
             product: newValue?.newProductValue?.trim(),
+            type: content?.value,
           });
           loader("hide");
 

@@ -1289,7 +1289,7 @@ const TemplateBuilder = (props) => {
           <div className="row">
             <div className="top-header">
               <div className="page-title">
-                <h2>Template Builder</h2>
+                {/* <h2>Template Builder</h2> */}
               </div>
               <div className="top-right-action">
                 {templateClickedd ? (
@@ -1520,16 +1520,17 @@ const TemplateBuilder = (props) => {
                           <div className="form-group template_builder_div col-12 col-md-12">
                             {templateName != "" && (
                               <>
-                                {
-                                  editableTemplate ?
-                                    <input
-                                      type="text"
-                                      value={newTemplateName}
-                                      onChange={(e) => templateNameChange(e)}
-                                    />
-                                  :
-                                    <h4 className="edit_content_title">{newTemplateName}</h4>
-                                }
+                                {editableTemplate ? (
+                                  <input
+                                    type="text"
+                                    value={newTemplateName}
+                                    onChange={(e) => templateNameChange(e)}
+                                  />
+                                ) : (
+                                  <h4 className="edit_content_title">
+                                    {newTemplateName}
+                                  </h4>
+                                )}
 
                                 {editClicked == true ? (
                                   <div className="template-edit">
@@ -1557,8 +1558,8 @@ const TemplateBuilder = (props) => {
                                 <button
                                   className="btn btn-primary btn-bordered"
                                   onClick={(e) => {
-                                      closeTemplateEdit(e)
-                                      setNewTemplateName(templateName);
+                                    closeTemplateEdit(e);
+                                    setNewTemplateName(templateName);
                                   }}
                                 >
                                   Cancel
