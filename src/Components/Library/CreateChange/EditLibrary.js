@@ -2128,7 +2128,7 @@ const EditLibrary = () => {
                             onChange={(e) =>
                               handleChange(e?.target.value, "productionNotes")
                             }
-                            placeholder="Please type your notes here.."
+                            placeholder="Please type your notes here..."
                           ></textarea>
                         </div>
                       </Col>
