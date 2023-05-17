@@ -167,7 +167,7 @@ const LibraryContent = (props) => {
         setAllTags(res?.data?.data?.tags);
         getLibraryData(page, obj, search);
       }
-      loader("hide");
+      // loader("hide");
     } catch (err) {
       loader("hide");
       console.log("err");
@@ -318,9 +318,10 @@ const LibraryContent = (props) => {
 
   const getLibraryData = async (page, obj, search, load = 0) => {
     try {
+      loader("show");
       setIsLoaded(false);
       if (load == 0) {
-        loader("show");
+        // loader("show");
       } else {
         setPageAll(true);
       }
