@@ -79,7 +79,7 @@ const Informed = () => {
         localStorage.setItem("name", res?.data?.data?.name);
         localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
         loader("hide");
-        navigate("/library-content");
+        navigate("/home");
       } catch (err) {
         console.log(err);
         setShowError(err?.response?.data?.message);
