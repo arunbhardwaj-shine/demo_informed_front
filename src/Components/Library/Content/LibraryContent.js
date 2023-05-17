@@ -1096,7 +1096,6 @@ const LibraryContent = (props) => {
                 </div>
               </div>
             ) : null}
-            {console.log("-dfdf",libraryData.length)}
             <div className="library-content-box-layuot d-flex">
               <>
                 {libraryData?.length || updateflag ? (
