@@ -212,12 +212,16 @@ const SpcCreate = () => {
                   <div className="row">
                     <div className="col-12">
                       <div className="form-group">
-                        <label htmlFor="">Title of SPC</label>
+                        <label htmlFor="">
+                          Title of SPC <span>*</span>
+                        </label>
 
                         <input
                           type="text"
                           onChange={(e) => handleChange(e)}
-                          className="form-control"
+                          className={
+                            error?.title ? "form-control error" : "form-control"
+                          }
                           name="title"
                         />
 
@@ -238,7 +242,9 @@ const SpcCreate = () => {
                       </div>
 
                       <div className="form-group">
-                        <label htmlFor="">Country</label>
+                        <label htmlFor="">
+                          Country <span>*</span>
+                        </label>
                         <Select
                           options={countryAll}
                           placeholder="Select country"
@@ -246,7 +252,11 @@ const SpcCreate = () => {
                           onChange={(event) =>
                             handleChange(event?.value, "country")
                           }
-                          className="dropdown-basic-button split-button-dropup"
+                          className={
+                            error?.country
+                              ? "dropdown-basic-button split-button-dropup error"
+                              : "dropdown-basic-button split-button-dropup"
+                          }
                           isClearable
                         />
                         {error?.country ? (
@@ -258,7 +268,9 @@ const SpcCreate = () => {
                         )}
                       </div>
                       <div className="form-group">
-                        <label htmlFor="">Language</label>
+                        <label htmlFor="">
+                          Language <span>*</span>
+                        </label>
                         <Select
                           options={language}
                           placeholder="Select SPC language"
@@ -266,7 +278,11 @@ const SpcCreate = () => {
                           onChange={(event) =>
                             handleChange(event?.value, "language")
                           }
-                          className="dropdown-basic-button split-button-dropup"
+                          className={
+                            error?.language
+                              ? "dropdown-basic-button split-button-dropup error"
+                              : "dropdown-basic-button split-button-dropup"
+                          }
                           isClearable
                         />
                         {error?.language ? (
@@ -278,7 +294,9 @@ const SpcCreate = () => {
                         )}
                       </div>
                       <div className="form-group">
-                        <label htmlFor="">Business Unit</label>
+                        <label htmlFor="">
+                          Business Unit <span>*</span>
+                        </label>
                         <Select
                           options={ibu}
                           name="ibu"
@@ -286,7 +304,11 @@ const SpcCreate = () => {
                           onChange={(event) =>
                             handleChange(event?.value, "businessunit")
                           }
-                          className="dropdown-basic-button split-button-dropup"
+                          className={
+                            error?.businessunit
+                              ? "dropdown-basic-button split-button-dropup error"
+                              : "dropdown-basic-button split-button-dropup"
+                          }
                           isClearable
                         />
                         {error?.businessunit ? (
@@ -298,13 +320,19 @@ const SpcCreate = () => {
                         )}
                       </div>
                       <div className="form-group">
-                        <label htmlFor="">Product</label>
+                        <label htmlFor="">
+                          Product <span>*</span>
+                        </label>
                         <Select
                           options={productArr}
                           name="product"
                           placeholder="Select product"
                           onChange={(event) => handleChange(event, "product")}
-                          className="dropdown-basic-button split-button-dropup extra_multiselect"
+                          className={
+                            error?.product
+                              ? "dropdown-basic-button split-button-dropup extra_multiselect error"
+                              : "dropdown-basic-button split-button-dropup extra_multiselect"
+                          }
                           isClearable
                           isMulti="true"
                         />
@@ -326,8 +354,16 @@ const SpcCreate = () => {
                         )}
                       </div>
                       <div className="form-group val">
-                        <label htmlFor="">Upload SPC</label>
-                        <div className="upload-file-box">
+                        <label htmlFor="">
+                          Upload SPC <span>*</span>
+                        </label>
+                        <div
+                          className={
+                            error?.uploadspc
+                              ? "upload-file-box error"
+                              : "upload-file-box"
+                          }
+                        >
                           <div className="box">
                             <input
                               type="file"

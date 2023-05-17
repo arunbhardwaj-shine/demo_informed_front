@@ -27,7 +27,7 @@ const SpcView = () => {
     country: ["Algeria", "USA", "Albania"],
     language: ["English", "Russian", "Spainish", "italian"],
 
-    IBU: ["Haematology","Critical Care","Immunotherapy"],
+    IBU: ["Haematology", "Critical Care", "Immunotherapy"],
     product: ["Octapharma", "IBUE", "Haematology"],
   });
   const [filterObject, setFilterObject] = useState({});
@@ -280,7 +280,7 @@ const SpcView = () => {
                     <input
                       className="form-control me-2"
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search by title"
                       aria-label="Search"
                       onChange={(e) => searchChange(e)}
                     />
@@ -308,7 +308,11 @@ const SpcView = () => {
                   }
                 >
                   <button
-                    className={Object.keys(filterObject).length > 0 ? "btn btn-secondary dropdown filter_applied" : "btn btn-secondary dropdown"}
+                    className={
+                      Object.keys(filterObject).length > 0
+                        ? "btn btn-secondary dropdown filter_applied"
+                        : "btn btn-secondary dropdown"
+                    }
                     type="button"
                     id="dropdownMenuButton2"
                     onClick={() => setShowFilter((showfilter) => !showfilter)}
