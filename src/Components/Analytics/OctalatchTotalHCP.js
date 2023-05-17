@@ -274,7 +274,7 @@ const OctalatchTotalHCP = () => {
             <Row>
               <div className="top-header">
                 <div className="page-title d-flex">
-                  <h2>Total HCP</h2>
+                  {/* <h2>Total HCP</h2> */}
                 </div>
               </div>
               <div className="distribute-page-reader">
