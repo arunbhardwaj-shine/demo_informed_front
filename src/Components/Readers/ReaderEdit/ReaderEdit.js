@@ -152,7 +152,7 @@ const ReaderEdit = () => {
         });
 
         let checkIndex = newArr.findIndex(
-          (el) => el.value == newProduct?.value
+          (el) => el.value?.trim() == newProduct?.value?.trim()
         );
         if (checkIndex == -1) {
           newArr.unshift({
