@@ -284,7 +284,8 @@ const LibraryContent = (props) => {
       setFilterObject({});
       setLibraryData([]);
       setAppliedFilter({});
-      getLibraryData(page, {}, search);
+      getLibraryData(1, {}, search);
+      setPage(1)
       setSearch("");
     }
     setShowFilter(false);
@@ -295,7 +296,8 @@ const LibraryContent = (props) => {
     setFilterApplyflag(1);
     setLibraryData([]);
     setFilterObject(appliedFilter);
-    getLibraryData(page, appliedFilter, search);
+    setPage(1)
+    getLibraryData(1, appliedFilter, search);
     setShowFilter(false);
   };
   const handleQR = (e) => {
@@ -1093,6 +1095,7 @@ const LibraryContent = (props) => {
                 </div>
               </div>
             ) : null}
+            {console.log("-dfdf",libraryData.length)}
             <div className="library-content-box-layuot d-flex">
               <>
                 {libraryData?.length || updateflag ? (
