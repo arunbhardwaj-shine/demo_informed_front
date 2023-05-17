@@ -96,28 +96,30 @@ const SetLayout = () => {
       {isAuthenticated ? (
         <>
           <Header />
-          <div className="landing-layout library_create d-flex">
-            <Row>
-              {data.map((item, index) => (
-                <div
-                  className={
-                    active == index
-                      ? "col library_create-box active"
-                      : "col library_create-box"
-                  }
-                  key={index}
-                  onClick={() => handleChange(index)}
-                >
-                  <div className="create-library-img">
-                    <img src={item.image} alt="Content msg Library" />
+           <div className="default-layout">
+            <div className="landing-layout library_create d-flex">
+              <Row>
+                {data.map((item, index) => (
+                  <div
+                    className={
+                      active == index
+                        ? "col library_create-box active"
+                        : "col library_create-box"
+                    }
+                    key={index}
+                    onClick={() => handleChange(index)}
+                  >
+                    <div className="create-library-img">
+                      <img src={item.image} alt="Content msg Library" />
+                    </div>
+                    <div className="create-library-content">
+                      <h3>{item.title}</h3>
+                      <h5>{item.subtitle}</h5>
+                    </div>
                   </div>
-                  <div className="create-library-content">
-                    <h3>{item.title}</h3>
-                    <h5>{item.subtitle}</h5>
-                  </div>
-                </div>
-              ))}
-            </Row>
+                ))}
+              </Row>
+            </div>
           </div>
         </>
       ) : (

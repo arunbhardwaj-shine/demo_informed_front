@@ -614,7 +614,7 @@
   @include library_create;
   &.landing-layout{
     max-width: 1240px;
-    min-height: 90vh;
+    min-height: 91vh;
     align-items: center;
     padding:0;
     .row{
@@ -680,6 +680,7 @@
         color: rgba(0, 74, 137, 0.5);
         font-weight: 400;
         margin:0;
+        min-height: 48px;
       }
     }
   }
@@ -3884,6 +3885,15 @@ width: 50%;
 /***Header-sticky-end***/
 
 /**Analytics page**/
+.library_create_position {
+    height: 100%;
+    min-height: 86vh;
+    align-items: center;
+    display: flex;
+}
+.library_create_position .library_create {
+    padding-top: 0;
+}
 .content_analytics .detail-box {
     padding: 12px;
     border: 1px solid #EEEFEF;
@@ -3952,7 +3962,6 @@ width: 50%;
     font-size: 15px;
     font-weight: 600;
     color: #484848;
-    /* font-family: 'Roboto'; */
 }
 
 .content_analytics .detail-box p span {
@@ -5365,6 +5374,12 @@ color: rgba(0, 102, 190, 0.247368);
 opacity:1;
 font-weight: 400;
 }
+.default-layout {
+    background: #FBFCFD url(../../../../public/componentAssets/images/informed-bigger.svg);
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 225px;
+}
 /***Informed End***/
 
 /**Publisher page**/
@@ -6311,13 +6326,19 @@ ul.tab-mail-list.data span.total-left {
     padding-right: 35px;
   }
   .library_create {
-    gap: 74px 120px;
+    gap: 74px 100px;
 }
 }
 
 @media only screen and (max-width: 1500px) {
   .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
     max-width: 190px;
+}
+.library_create.landing-layout .row {
+    gap: 74px 138px;
+}
+.default-layout {
+    background-size: 175px;
 }
 .library_create.landing-layout {
     max-width: 1200px;
@@ -6578,7 +6599,9 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
     font-size: 11px;
     line-height: 15px;
 }
-
+.library_create {
+    gap: 62px;
+}
 .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
     max-width: 122px;
 }
@@ -6956,6 +6979,9 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
     width: 60px;
     height: 60px;
 }
+.library_create.landing-layout .row {
+    gap: 74px 133px;
+}
 .analytic-charts .form_action {
     top: 60px;
 }
@@ -7046,6 +7072,9 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
     width: auto;
     flex: 0 0 50%;
   }
+  nav #collapsibleNavbar li.nav-item a {
+    padding: 0 20px;
+}
   .create-change-content.analytic-charts .product-unit .form-group {
     flex: 0 0 640px;
 }
