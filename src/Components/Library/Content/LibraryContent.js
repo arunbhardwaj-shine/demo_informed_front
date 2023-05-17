@@ -167,7 +167,7 @@ const LibraryContent = (props) => {
         setAllTags(res?.data?.data?.tags);
         getLibraryData(page, obj, search);
       }
-      loader("hide");
+      // loader("hide");
     } catch (err) {
       loader("hide");
       console.log("err");
@@ -284,7 +284,8 @@ const LibraryContent = (props) => {
       setFilterObject({});
       setLibraryData([]);
       setAppliedFilter({});
-      getLibraryData(page, {}, search);
+      getLibraryData(1, {}, search);
+      setPage(1)
       setSearch("");
     }
     setShowFilter(false);
@@ -295,7 +296,8 @@ const LibraryContent = (props) => {
     setFilterApplyflag(1);
     setLibraryData([]);
     setFilterObject(appliedFilter);
-    getLibraryData(page, appliedFilter, search);
+    setPage(1)
+    getLibraryData(1, appliedFilter, search);
     setShowFilter(false);
   };
   const handleQR = (e) => {
@@ -318,9 +320,10 @@ const LibraryContent = (props) => {
 
   const getLibraryData = async (page, obj, search, load = 0) => {
     try {
+      loader("show");
       setIsLoaded(false);
       if (load == 0) {
-        loader("show");
+        // loader("show");
       } else {
         setPageAll(true);
       }

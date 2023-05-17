@@ -552,7 +552,7 @@ const Webinar = () => {
             mapData.forEach((v) => {
               var element =
                 v[key] != undefined
-                  ? '<img width="15"  src="https://informed.pro/webinar/assets/img/circle__blue.png"'
+                  ? '<img width="15"  src="https://informed.pro/img/webinar/slider-over-img.png"'
                   : "";
               if (itemsForSkip.includes(key)) {
                 element = v[key] != undefined ? v[key] : "";
@@ -1423,12 +1423,12 @@ const Webinar = () => {
                           className="slide-radio"
                           name="slide-radio"
                           id="s3"
-                          checked
                           value="3"
+                          checked
                           onClick={(e) => changeSlider(e)}
                         />
                         {/* <input type="radio" className="slide-radio" name="slide-radio" id="s4" checked value="4"> */}
-                        <label htmlFor="s1" id="slide1">
+                        <label htmlFor="s1" id="slide1" >
                           <img
                             src={path_image + "post-webinar.png"}
                             className="img-fluid"
