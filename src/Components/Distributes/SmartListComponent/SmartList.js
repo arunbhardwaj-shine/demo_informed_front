@@ -260,9 +260,7 @@ const SmartList = (props) => {
         <div className="custom-container">
           <Row>
             <div className="top-header sticky">
-              <div className="page-title">
-                {/* <h2>Smart List</h2> */}
-              </div>
+              <div className="page-title">{/* <h2>Smart List</h2> */}</div>
               <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>

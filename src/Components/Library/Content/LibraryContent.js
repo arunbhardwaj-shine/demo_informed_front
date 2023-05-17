@@ -66,6 +66,7 @@ const LibraryContent = (props) => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
   const [pdftagsid, setpdftagsid] = useState();
+  const [appliedFilter, setAppliedFilter] = useState({});
 
   const navigate = useNavigate();
   let obj = {};
@@ -166,9 +167,9 @@ const LibraryContent = (props) => {
         setAllTags(res?.data?.data?.tags);
         getLibraryData(page, obj, search);
       }
-      // loader("hide");
+      loader("hide");
     } catch (err) {
-      // loader("hide");
+      loader("hide");
       console.log("err");
     }
   };
@@ -190,7 +191,7 @@ const LibraryContent = (props) => {
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
-    let newObj = filterObject;
+    let newObj = JSON.parse(JSON.stringify(appliedFilter));
     if (!newObj[key]) {
       newObj[key] = [];
     }
@@ -237,8 +238,8 @@ const LibraryContent = (props) => {
         }
       }
     }
-
-    setFilterObject(newObj);
+    setAppliedFilter(newObj);
+    // setFilterObject(newObj);
     setForceRender(!forceRender);
   };
 
@@ -282,7 +283,7 @@ const LibraryContent = (props) => {
     if (filterApplyflag > 0) {
       setFilterObject({});
       setLibraryData([]);
-
+      setAppliedFilter({});
       getLibraryData(page, {}, search);
       setSearch("");
     }
@@ -293,8 +294,8 @@ const LibraryContent = (props) => {
     e.preventDefault();
     setFilterApplyflag(1);
     setLibraryData([]);
-    setFilterObject(filterObject);
-    getLibraryData(page, filterObject, search);
+    setFilterObject(appliedFilter);
+    getLibraryData(page, appliedFilter, search);
     setShowFilter(false);
   };
   const handleQR = (e) => {
@@ -461,12 +462,16 @@ const LibraryContent = (props) => {
 
     const index = old_object[key]?.indexOf(item);
     if (index > -1) {
+      if (old_object[key].includes("All")) {
+        const allIndex = old_object[key]?.indexOf("All");
+        old_object[key]?.splice(allIndex, 1);
+      }
       old_object[key]?.splice(index, 1);
       if (old_object[key]?.length == 0) {
         delete old_object[key];
       }
     }
-
+    setAppliedFilter(old_object);
     setFilterObject(old_object);
     setLibraryData([]);
     getLibraryData(page, old_object);
@@ -728,7 +733,7 @@ const LibraryContent = (props) => {
   const changeFormatForPrint = (value) => {
     let data = "";
     if (value?.allow_print) {
-      data += "Print , ";
+      data += "Print | ";
     }
     if (value?.allow_download) {
       data += "Download | ";
@@ -905,7 +910,7 @@ const LibraryContent = (props) => {
                                                         // filterObject?.hasOwnProperty(
                                                         //   key
                                                         // )
-                                                        filterObject[
+                                                        appliedFilter[
                                                           key
                                                         ]?.includes(item)
                                                           ? true
@@ -969,6 +974,7 @@ const LibraryContent = (props) => {
                     {deletestatus ? (
                       <button
                         className="btn btn-outline-primary cancel"
+                        title="Cancel delete"
                         onClick={(e) => showDeleteButtons()}
                       >
                         Cancel
@@ -976,6 +982,7 @@ const LibraryContent = (props) => {
                     ) : (
                       <button
                         className="btn btn-outline-primary"
+                        title="Delete "
                         onClick={(e) => showDeleteButtons()}
                       >
                         <svg
@@ -1297,9 +1304,7 @@ const LibraryContent = (props) => {
 
                                             {data.spc_included == 0 &&
                                               data.linkRelations == 0 &&
-                                              data.pdfLinks == 0 && (
-                                                <h6>No</h6>
-                                              )}
+                                              data.pdfLinks == 0 && <h6>No</h6>}
                                           </div>
                                         </li>
                                       </>
@@ -1475,21 +1480,23 @@ const LibraryContent = (props) => {
                                         <span>
                                           Agreed Limit :&nbsp;
                                           <strong>
-                                          {opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          ) !== -1
-                                            ? opening_details[
-                                                opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                )
-                                              ]?.limit == 1000
-                                              ? "Unlimited"
-                                              : opening_details[
+                                            {opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
                                                   opening_details.findIndex(
                                                     (el) => el.pdfId == data?.id
                                                   )
-                                                ]?.limit
-                                            : "Unlimited"}</strong>
+                                                ]?.limit == 1000
+                                                ? "Unlimited"
+                                                : opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit
+                                              : "Unlimited"}
+                                          </strong>
                                         </span>
                                       </div>
                                       <span className="total-left">

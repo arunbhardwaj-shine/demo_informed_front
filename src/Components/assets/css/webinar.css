@@ -1,84 +1,83 @@
 @font-face {
-    font-family: 'Poppins';
-    src: url('../fonts/Poppins-Black.woff2') format('woff2'),
-        url('../fonts/Poppins-Black.woff') format('woff');
+    font-family: "Poppins";
+    src: url("../fonts/Poppins-Black.woff2") format("woff2"),
+        url("../fonts/Poppins-Black.woff") format("woff");
     font-weight: 900;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url('../fonts/Poppins-Bold.woff2') format('woff2'),
-        url('../fonts/Poppins-Bold.woff') format('woff');
+    font-family: "Poppins";
+    src: url("../fonts/Poppins-Bold.woff2") format("woff2"),
+        url("../fonts/Poppins-Bold.woff") format("woff");
     font-weight: bold;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url('../fonts/Poppins-ExtraBold.woff2') format('woff2'),
-        url('../fonts/Poppins-ExtraBold.woff') format('woff');
+    font-family: "Poppins";
+    src: url("../fonts/Poppins-ExtraBold.woff2") format("woff2"),
+        url("../fonts/Poppins-ExtraBold.woff") format("woff");
     font-weight: bold;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url('../fonts/Poppins-ExtraLight.woff2') format('woff2'),
-        url('../fonts/Poppins-ExtraLight.woff') format('woff');
+    font-family: "Poppins";
+    src: url("../fonts/Poppins-ExtraLight.woff2") format("woff2"),
+        url("../fonts/Poppins-ExtraLight.woff") format("woff");
     font-weight: 200;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url('../fonts/Poppins-Light.woff2') format('woff2'),
-        url('../fonts/Poppins-Light.woff') format('woff');
+    font-family: "Poppins";
+    src: url("../fonts/Poppins-Light.woff2") format("woff2"),
+        url("../fonts/Poppins-Light.woff") format("woff");
     font-weight: 300;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url('../fonts/Poppins-Medium.woff2') format('woff2'),
-        url('../fonts/Poppins-Medium.woff') format('woff');
+    font-family: "Poppins";
+    src: url("../fonts/Poppins-Medium.woff2") format("woff2"),
+        url("../fonts/Poppins-Medium.woff") format("woff");
     font-weight: 500;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url('../fonts/Poppins-SemiBold.woff2') format('woff2'),
-        url('../fonts/Poppins-SemiBold.woff') format('woff');
+    font-family: "Poppins";
+    src: url("../fonts/Poppins-SemiBold.woff2") format("woff2"),
+        url("../fonts/Poppins-SemiBold.woff") format("woff");
     font-weight: 600;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url('../fonts/Poppins-Regular.woff2') format('woff2'),
-        url('../fonts/Poppins-Regular.woff') format('woff');
+    font-family: "Poppins";
+    src: url("../fonts/Poppins-Regular.woff2") format("woff2"),
+        url("../fonts/Poppins-Regular.woff") format("woff");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url('../fonts/Poppins-Thin.woff2') format('woff2'),
-        url('../fonts/Poppins-Thin.woff') format('woff');
+    font-family: "Poppins";
+    src: url("../fonts/Poppins-Thin.woff2") format("woff2"),
+        url("../fonts/Poppins-Thin.woff") format("woff");
     font-weight: 100;
     font-style: normal;
     font-display: swap;
 }
-
 
 div#flashMessage {
     color: red;
@@ -104,7 +103,7 @@ div#flashMessage {
 .informed h1 {
     font-size: 48px;
     color: #fff;
-    font-family: 'mulibold';
+    font-family: "mulibold";
     line-height: 64px;
 }
 
@@ -129,38 +128,38 @@ div#flashMessage {
 }
 
 body {
-    font-family: 'Roboto Condensed', sans-serif;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 @font-face {
-    font-family: 'muliregular';
-    src: url('../fonts/muli.woff2') format('woff2'),
-        url('../fonts/muli.woff') format('woff');
+    font-family: "muliregular";
+    src: url("../fonts/muli.woff2") format("woff2"),
+        url("../fonts/muli.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'mulisemibold';
-    src: url('../fonts/muli-semibold.woff2') format('woff2'),
-        url('../fonts/muli-semibold.woff') format('woff');
+    font-family: "mulisemibold";
+    src: url("../fonts/muli-semibold.woff2") format("woff2"),
+        url("../fonts/muli-semibold.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'mulibold';
-    src: url('../fonts/muli-bold.woff2') format('woff2'),
-        url('../fonts/muli-bold.woff') format('woff');
+    font-family: "mulibold";
+    src: url("../fonts/muli-bold.woff2") format("woff2"),
+        url("../fonts/muli-bold.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'muliextrabold';
-    src: url('../fonts/muli-extrabold.woff2') format('woff2'),
-        url('../fonts/muli-extrabold.woff') format('woff');
+    font-family: "muliextrabold";
+    src: url("../fonts/muli-extrabold.woff2") format("woff2"),
+        url("../fonts/muli-extrabold.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
@@ -182,13 +181,13 @@ h6 {
 .informed h1 {
     font-size: 48px;
     color: #fff;
-    font-family: 'mulibold';
+    font-family: "mulibold";
     line-height: 64px;
 }
 
 .informed h2 {
     font-size: 30px;
-    font-family: 'mulibold';
+    font-family: "mulibold";
     line-height: 38px;
 }
 
@@ -228,7 +227,7 @@ h6 {
 .informed-header .navbar-dark .navbar-nav .nav-link,
 .informed-header a.sign {
     color: #fff !important;
-    font-family: 'muliregular';
+    font-family: "muliregular";
     font-size: 18px;
 }
 
@@ -259,12 +258,11 @@ h6 {
     margin-right: 0;
 }
 
-
 #country {
-    border: 1px solid #D8D8D8;
+    border: 1px solid #d8d8d8;
     border-radius: 8px;
     background: #fff;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-size: 18px;
     font-weight: 400;
     padding: 6px 30px 5px 23px;
@@ -315,7 +313,6 @@ h6 {
     white-space: normal;
 }
 
-
 #country>div:nth-child(3) div {
     margin: 0;
     padding: 0;
@@ -334,7 +331,7 @@ h6 {
 }
 
 #country .dropdown-menu a.dropdown-item {
-    color: #004A89;
+    color: #004a89;
     border-radius: 15px;
     cursor: pointer;
     margin: 0 0 2px;
@@ -345,11 +342,10 @@ h6 {
     padding: 3px 7px;
 }
 
-
 .content ul li:after {
     position: absolute;
     content: "";
-    background: #00D4C0;
+    background: #00d4c0;
     width: 2px;
     height: 22px;
     right: -18px;
@@ -362,11 +358,11 @@ h6 {
 
 .content ul li {
     font-size: 22px;
-    color: #00D4C0;
+    color: #00d4c0;
     display: inline-block;
     margin-right: 34px;
     position: relative;
-    font-family: 'muliregular';
+    font-family: "muliregular";
 }
 
 .content ul li:nth-child(2):after {
@@ -390,10 +386,10 @@ h6 {
 }
 
 .want-more a {
-    color: #002B53;
+    color: #002b53;
     font-size: 22px;
     background: #fff;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
     padding: 20px 46px 14px;
     border-radius: 15px 15px 0 0px;
     position: relative;
@@ -401,7 +397,7 @@ h6 {
 }
 
 .informed .navbar-nav button.btn.btn-outline-success {
-    background-color: #0066BE;
+    background-color: #0066be;
     color: #ffffff;
     width: 100%;
     text-align: center;
@@ -417,7 +413,7 @@ h6 {
     background: transparent;
     border: 0;
     color: #fff;
-    font-family: 'muliregular';
+    font-family: "muliregular";
     font-size: 18px;
     padding: 0;
     line-height: 36px;
@@ -430,7 +426,7 @@ h6 {
 .want-more a::after {
     position: absolute;
     content: "";
-    border-bottom: 2px solid #00D4C0;
+    border-bottom: 2px solid #00d4c0;
     width: calc(100% - 71px);
     top: 48px;
     left: 0;
@@ -464,14 +460,16 @@ h6 {
 
 .building-section h2 {
     color: #414141;
-    font-family: 'mulibold';
+    font-family: "mulibold";
 }
 
 .building-section .content p {
     font-style: italic;
-    color: #002B53;
+    color: #002b53;
     margin-bottom: 1rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .video-sec {
@@ -510,10 +508,10 @@ h6 {
     z-index: 2;
     display: inline-block;
     color: #fff;
-    font: normal 400 20px/1 'Josefin Sans', sans-serif;
-    letter-spacing: .1em;
+    font: normal 400 20px/1 "Josefin Sans", sans-serif;
+    letter-spacing: 0.1em;
     text-decoration: none;
-    transition: opacity .3s;
+    transition: opacity 0.3s;
 }
 
 .demo-video-form .form-left-fields .error input,
@@ -527,18 +525,18 @@ h6 {
 }
 
 .demo a:hover {
-    opacity: .5;
+    opacity: 0.5;
 }
 
 #webinar-login .navbar-nav .nav-link {
     color: #fff;
-    font-family: 'muliregular';
+    font-family: "muliregular";
     font-size: 18px;
     margin-right: 35px;
 }
 
 #webinar-login .navbar-nav .nav-link:hover {
-    color: #00D4C0;
+    color: #00d4c0;
 }
 
 #webinar-login .navbar-nav {
@@ -560,18 +558,18 @@ h6 {
 }
 
 #webinar-login .navbar-nav .nav-item.dropdown .dropdown-toggle:hover {
-    color: #00D4C0;
+    color: #00d4c0;
 }
 
 #webinar-login .navbar-nav .nav-item.dropdown .dropdown-toggle:hover::after {
-    background-color: #00D4C0;
+    background-color: #00d4c0;
 }
 
 #webinar-login .navbar-nav .nav-item.dropdown .dropdown-toggle:after {
     content: "";
     position: absolute;
     right: 0;
-    background: #ffffff url(../../../../public/componentAssets/images/signin-icon.svg)no-repeat;
+    background: #ffffff url(../../../../public/componentAssets/images/signin-icon.svg) no-repeat;
     border: 0;
     width: 36px;
     height: 36px;
@@ -632,7 +630,7 @@ h6 {
     font-size: 17px;
     font-weight: 500;
     text-align: center;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     outline: none;
     margin-bottom: 5px;
 }
@@ -646,7 +644,7 @@ h6 {
     color: #0066be;
     font-weight: 500;
     text-align: center;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     outline: none;
     margin-bottom: 5px;
     display: block;
@@ -655,7 +653,7 @@ h6 {
 
 .navbar li img {
     margin-left: 15px;
-    width: 36px
+    width: 36px;
 }
 
 #section07 a span {
@@ -684,14 +682,14 @@ h6 {
 
 #section07 a span:nth-of-type(2) {
     top: 10px;
-    -webkit-animation-delay: .15s;
-    animation-delay: .15s;
+    -webkit-animation-delay: 0.15s;
+    animation-delay: 0.15s;
 }
 
 #section07 a span:nth-of-type(3) {
     top: 20px;
-    -webkit-animation-delay: .3s;
-    animation-delay: .3s;
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
 }
 
 @-webkit-keyframes sdb07 {
@@ -723,9 +721,9 @@ h6 {
 }
 
 .building-section span {
-    color: #00D4C0;
+    color: #00d4c0;
     display: block;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .sr-only {
@@ -747,7 +745,7 @@ ul.timeline {
 }
 
 ul.timeline:before {
-    content: ' ';
+    content: " ";
     background: #d4d9df;
     display: inline-block;
     position: absolute;
@@ -771,7 +769,7 @@ ul.timeline>li {
 }
 
 ul.timeline>li:before {
-    content: ' ';
+    content: " ";
     background: white;
     display: inline-block;
     position: absolute;
@@ -838,7 +836,7 @@ ol.carousel-indicators.cst-tab {
 }
 
 .tech-section.why-choose-section.system-section {
-    background: #0066BE;
+    background: #0066be;
     padding: 63px 0 83px;
     position: relative;
 }
@@ -862,12 +860,12 @@ ol.carousel-indicators.cst-tab li {
     text-indent: inherit !important;
     padding: 15px 15px 15px 28px;
     margin-bottom: 15px;
-    opacity: .5;
+    opacity: 0.5;
     cursor: pointer;
 }
 
 ol.carousel-indicators.cst-tab li.active {
-    color: #0066BE;
+    color: #0066be;
     background-color: rgb(255 255 255 / 90%);
     box-shadow: 0px 3px 6px #00000029;
     border-radius: 10px 0px 0px 10px;
@@ -899,7 +897,7 @@ ol.carousel-indicators.cst-tab li.active .shp2 {
 
 .tech-section.why-choose-section.system-section h2 {
     color: #fff;
-    font-family: 'mulibold';
+    font-family: "mulibold";
 }
 
 .carousel-indicators li {
@@ -908,7 +906,7 @@ ol.carousel-indicators.cst-tab li.active .shp2 {
 }
 
 ol.carousel-indicators.cst-tab li span {
-    color: #9C9C9C;
+    color: #9c9c9c;
     opacity: 0;
 }
 
@@ -929,7 +927,7 @@ ol.carousel-indicators.cst-tab li img {
 .tech-section.why-choose-section.system-section a.btnn,
 .effective-section a.btnn {
     color: #fff;
-    background: #00D4C0;
+    background: #00d4c0;
     padding: 9px 16px;
     font-size: 20px;
     line-height: normal;
@@ -978,7 +976,7 @@ ol.carousel-indicators.cst-tab li img {
 
 .effective-section h2 {
     text-transform: uppercase;
-    font-family: 'mulibold';
+    font-family: "mulibold";
 }
 
 /* .effective-section::before {position: absolute;content: "";background: url(../img/webinar-bgg.jpeg) no-repeat right / cover;
@@ -989,8 +987,8 @@ ol.carousel-indicators.cst-tab li img {
 }
 
 .team-outer h3 {
-    color: #0056A4;
-    font-family: 'mulibold';
+    color: #0056a4;
+    font-family: "mulibold";
     margin-bottom: 28px;
     position: relative;
     font-size: 24px;
@@ -1013,7 +1011,7 @@ ol.carousel-indicators.cst-tab li img {
     color: #707070;
     line-height: 19px;
     margin-bottom: 1px;
-    font-family: 'Roboto'
+    font-family: "Roboto";
 }
 
 .teamm {
@@ -1035,7 +1033,7 @@ ol.carousel-indicators.cst-tab li img {
 }
 
 .tech-section.why-choose-section.system-section a.btnn:hover {
-    background: #06B5A4;
+    background: #06b5a4;
     -moz-transition: 0.3s;
     -webkit-transition: 0.3s;
     transition: 0.3s;
@@ -1045,7 +1043,7 @@ ol.carousel-indicators.cst-tab li img {
 .informed-header .navbar-dark .navbar-nav .nav-link:active,
 .informed-header a.sign:hover,
 .informed-header a.sign:active {
-    color: #00D4C0 !important;
+    color: #00d4c0 !important;
 }
 
 .caption-crausal p {
@@ -1054,7 +1052,7 @@ ol.carousel-indicators.cst-tab li img {
     margin-top: 0;
     line-height: 26px;
     margin-bottom: 9px;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     padding-left: 35px;
     position: relative;
 }
@@ -1068,7 +1066,7 @@ ol.carousel-indicators.cst-tab li img {
 
 .caption-crausal-inside ul li {
     font-size: 16px;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     color: #212121;
     position: relative;
     padding-left: 26px;
@@ -1079,7 +1077,7 @@ ol.carousel-indicators.cst-tab li img {
     position: absolute;
     width: 11px;
     height: 11px;
-    background: #FFBE2C;
+    background: #ffbe2c;
     border-radius: 50%;
     left: 0;
     top: 7px;
@@ -1114,7 +1112,7 @@ ol.carousel-indicators.cst-tab li img {
 }
 
 .caption-crausal-footer {
-    background: #0056A454;
+    background: #0056a454;
     padding: 19px 25px 18px 35px;
     display: flex;
     align-content: center;
@@ -1123,7 +1121,7 @@ ol.carousel-indicators.cst-tab li img {
 }
 
 .navbar-nav .nav-item a.activeMenu {
-    color: #00D4C0 !important;
+    color: #00d4c0 !important;
 }
 
 .caption-crausal-footer .drop-arrow {
@@ -1132,13 +1130,13 @@ ol.carousel-indicators.cst-tab li img {
 }
 
 .caption-crausal-footer .watch-demo-video .watch-demo {
-    background: #00D4C0;
+    background: #00d4c0;
     color: #fff;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-size: 20px;
     border-radius: 0 15px;
     padding: 9px 15px;
-    box-shadow: 0px 3px 6px #0000001C;
+    box-shadow: 0px 3px 6px #0000001c;
     border-radius: 0px 12px;
     text-decoration: none;
     cursor: pointer;
@@ -1244,14 +1242,14 @@ ol.carousel-indicators.cst-tab li img {
 }
 
 .copyright ul li a:hover {
-    color: #00D4C0;
+    color: #00d4c0;
     text-decoration: none;
 }
 
 .case-exple h3 {
     line-height: normal;
     color: #fff;
-    font-family: 'mulibold';
+    font-family: "mulibold";
     font-size: 30px;
 }
 
@@ -1279,7 +1277,7 @@ section.blank-space {
 }
 
 #request_demo {
-    background-color: #0066BE;
+    background-color: #0066be;
     position: relative;
 }
 
@@ -1298,7 +1296,7 @@ section.blank-space {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 15px 15px 0;
     padding: 50px 40px 48px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .16);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
     position: relative;
     z-index: 999;
 }
@@ -1344,15 +1342,15 @@ section.blank-space .blank-background {
 .demo-video-form h2 {
     font-size: 28px;
     font-weight: 700;
-    color: #3E3E3E;
+    color: #3e3e3e;
     margin-bottom: 12px;
-    font-family: 'mulibold';
+    font-family: "mulibold";
 }
 
 .demo-video-form p {
     font-size: 18px;
-    color: #3E3E3E;
-    font-family: 'Roboto';
+    color: #3e3e3e;
+    font-family: "Roboto";
     font-weight: 400;
     margin-bottom: 35px;
 }
@@ -1379,10 +1377,10 @@ ol.carousel-indicators.cst-tab li {
 .demo-video-form .form-left-fields select,
 .demo-video-form .form-right-fields textarea {
     width: 100%;
-    border: 1px solid #D8D8D8;
+    border: 1px solid #d8d8d8;
     border-radius: 8px;
     background: #fff;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-size: 18px;
     font-weight: 400;
     padding: 11px 30px 11px 23px;
@@ -1413,9 +1411,9 @@ ol.carousel-indicators.cst-tab li {
 }
 
 .demo-video-form .requst-demo {
-    background: #00D4C0;
+    background: #00d4c0;
     color: #fff;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-size: 20px;
     border-radius: 0 15px;
     padding: 5px 15px;
@@ -1497,7 +1495,7 @@ ol.carousel-indicators.cst-tab li {
 .copyright ul li a {
     display: inline-block;
     font-size: 16px;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     color: #fff;
 }
 
@@ -1568,22 +1566,22 @@ ol.carousel-indicators.cst-tab li {
 
 .caption-crausal-inside-top p {
     letter-spacing: 0px;
-    color: #00003C;
+    color: #00003c;
     font-size: 16px;
     line-height: 19px;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     display: inline-block;
     padding-left: 12px;
 }
 
 .caption-crausal-inside-top span {
-    background: #FFBE2C 0% 0% no-repeat padding-box;
+    background: #ffbe2c 0% 0% no-repeat padding-box;
     border-radius: 7px 7px 0px 7px;
     opacity: 0.8;
     color: #fff;
     font-size: 18px;
     line-height: 22px;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     padding: 4px 8px;
     display: inline-block;
 }
@@ -1679,7 +1677,7 @@ ol.carousel-indicators.cst-tab li {
 
 #pp-nav li .activeMenu span,
 #pp-nav li a:hover span {
-    background: #00D4C0;
+    background: #00d4c0;
     width: 5px;
     margin-left: 0;
     margin-right: 5px;
@@ -1722,7 +1720,7 @@ ol.carousel-indicators.cst-tab li {
 
 #video1 .modal-dialog .modal-content .modal-body h3 {
     font-size: 26px;
-    color: rgba(255, 255, 255, .75);
+    color: rgba(255, 255, 255, 0.75);
     position: absolute;
     left: 20px;
     top: 13px;
@@ -1743,7 +1741,7 @@ ol.carousel-indicators.cst-tab li {
 }
 
 ol.carousel-indicators.cst-tab li.active span:before {
-    border-left: 2px solid #9C9C9C;
+    border-left: 2px solid #9c9c9c;
     position: absolute;
     content: "";
     left: -4px;
@@ -1777,18 +1775,18 @@ ol.carousel-indicators.cst-tab li.active span:before {
 
 nav li.nav-item.dropdown a#navbarDropdown {
     color: #fff;
-    font-family: 'muliregular';
+    font-family: "muliregular";
     font-size: 18px;
     padding: 0;
     line-height: 36px;
 }
 
 nav li.nav-item.dropdown a#navbarDropdown:hover {
-    color: #00D4C0;
+    color: #00d4c0;
 }
 
 nav li.nav-item.dropdown a#navbarDropdown:hover span {
-    background: #00D4C0;
+    background: #00d4c0;
 }
 
 nav li.nav-item.dropdown a.login-btn::after {
@@ -1825,7 +1823,7 @@ nav li.nav-item.dropdown a.login-btn span {
     font-size: 17px;
     font-weight: 500;
     text-align: center;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     outline: none;
     margin-bottom: 5px;
 }
@@ -1840,7 +1838,7 @@ nav li.nav-item.dropdown a.login-btn span {
     color: #0066be;
     font-weight: 500;
     text-align: center;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     outline: none;
     margin-bottom: 5px;
     padding-bottom: 0;
@@ -1864,7 +1862,7 @@ nav li.nav-item.dropdown a.login-btn span {
     width: 100%;
     font-size: 18px;
     color: rgba(0, 0, 60, 0.25);
-    font-family: 'Muli', sans-serif;
+    font-family: "Muli", sans-serif;
     font-weight: 600;
     outline: none;
     margin-bottom: 5px;
@@ -1885,12 +1883,12 @@ nav li.nav-item.dropdown a.login-btn span {
 }
 
 .login-btn+.dropdown-menu .forgot-link:hover {
-    color: #00D4C0;
+    color: #00d4c0;
     background: transparent;
 }
 
 .login-btn+.dropdown-menu .go-btn:hover {
-    background-color: #00D4C0;
+    background-color: #00d4c0;
 }
 
 .add_border_curve {
@@ -1962,7 +1960,7 @@ section#slider label.active .div-left-text {
 }
 
 .modal-footer .btn.make_cstm_btn:hover {
-    background: #00D4C0;
+    background: #00d4c0;
 }
 
 #myModalf .modal-body input:focus,
@@ -2010,10 +2008,10 @@ section#slider label.active .div-left-text {
     cursor: text;
     font-size: 75%;
     opacity: 1;
-    -webkit-transition: all .2s;
-    transition: all .2s;
-    top: -.5em;
-    left: .75rem;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    top: -0.5em;
+    left: 0.75rem;
     z-index: 3;
     line-height: 1;
     padding: 0 1px;
@@ -2021,8 +2019,8 @@ section#slider label.active .div-left-text {
 
 .has-float-label .form-control:placeholder-shown:not(:focus)+* {
     font-size: 150%;
-    opacity: .5;
-    top: .3em;
+    opacity: 0.5;
+    top: 0.3em;
 }
 
 .has-float-label .form-control {
@@ -2030,8 +2028,8 @@ section#slider label.active .div-left-text {
 }
 
 .has-float-label .form-control:focus+* {
-    top: -.5em;
-    left: .75rem;
+    top: -0.5em;
+    left: 0.75rem;
     z-index: 3;
     position: absolute;
     cursor: text;
@@ -2062,7 +2060,7 @@ ul.timeline>li:hover::before {
     filter: saturate(100) grayscale(0%) contrast(100%) invert(21%);
 }
 
-#slider [type=radio] {
+#slider [type="radio"] {
     opacity: 0;
 }
 
@@ -2131,17 +2129,17 @@ ul.timeline>li:hover::before {
 @keyframes fadein {
     0% {
         opacity: 0.9;
-        transform: translate3d(-130px, 0px, -150px)
+        transform: translate3d(-130px, 0px, -150px);
     }
 
     33% {
         opacity: 0.95;
-        transform: translate3d(-130px, 110px, -150px)
+        transform: translate3d(-130px, 110px, -150px);
     }
 
     75% {
         opacity: 0.95;
-        transform: translate3d(0px, 0px, 0px)
+        transform: translate3d(0px, 0px, 0px);
     }
 
     100% {
@@ -2162,17 +2160,14 @@ ol.carousel-indicators.cst-tab li.active {
 @keyframes slide {
     0% {
         opacity: 1;
-        transform: translateY(-10px)
+        transform: translateY(-10px);
     }
 
     100% {
         opacity: 1;
-        transform: translateY(0)
+        transform: translateY(0);
     }
 }
-
-
-
 
 .effective-section a.btnn {
     border: 0 solid;
@@ -2189,12 +2184,12 @@ ol.carousel-indicators.cst-tab li.active {
 
 .effective-section a.btnn:hover {
     border: 1px solid;
-    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+        0 0 20px rgba(255, 255, 255, 0.2);
     outline-offset: 15px;
     outline-color: rgba(255, 255, 255, 0);
     text-shadow: 1px 1px 2px #427388;
 }
-
 
 #chartdiv.compare-data .ampopup-content {
     width: 90% !important;
@@ -2230,7 +2225,7 @@ ol.carousel-indicators.cst-tab li.active {
 }
 
 #chartdiv.compare-data .ampopup-content table td.country {
-    color: #0056A4;
+    color: #0056a4;
     font-size: 16px;
     line-height: 18px;
     padding: 11px 0 6px;
@@ -2252,7 +2247,7 @@ ol.carousel-indicators.cst-tab li.active {
 #chartdiv.compare-data .ampopup-content table td.webinar_title_country {
     font-size: 22px;
     line-height: 28px;
-    font-family: 'Mulish';
+    font-family: "Mulish";
     font-weight: 600;
     color: #434343;
 }
@@ -2280,7 +2275,6 @@ ol.carousel-indicators.cst-tab li.active {
 
 #chartdiv.compare-data .ampopup-content {
     padding-left: 240px;
-
 }
 
 #chartdiv.compare-data .ampopup-content .ampopup-inside {
@@ -2307,7 +2301,7 @@ ol.carousel-indicators.cst-tab li.active {
     width: 350px !important;
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 0px 2px 4px #00000029;
-    border: 1px solid #7070704D;
+    border: 1px solid #7070704d;
     border-radius: 0px 15px 0px 15px;
     height: auto !important;
 }
@@ -2315,7 +2309,7 @@ ol.carousel-indicators.cst-tab li.active {
 #chartdiv .ampopup-content .ampopup-inside p.webinar_title {
     font-size: 18px;
     color: #434343;
-    font-family: 'Mulish', sans-serif;
+    font-family: "Mulish", sans-serif;
     font-weight: 600;
     margin-bottom: 0px;
 }
@@ -2324,15 +2318,15 @@ ol.carousel-indicators.cst-tab li.active {
     margin-bottom: 0;
     font-size: 20px;
     color: #434343;
-    font-family: 'Mulish', sans-serif;
+    font-family: "Mulish", sans-serif;
     font-weight: 300;
     font-style: italic;
 }
 
 .ampopup-inside p.country_name {
     font-size: 14px;
-    color: #0056A4;
-    font-family: 'Roboto';
+    color: #0056a4;
+    font-family: "Roboto";
     margin-bottom: 14px;
     font-style: italic;
 }
@@ -2359,7 +2353,7 @@ ol.carousel-indicators.cst-tab li.active {
 
 .ampopup-inside li span::after {
     content: "";
-    background: #0056A4;
+    background: #0056a4;
     border: 1px solid #fff;
     width: 9px;
     height: 9px;
@@ -2381,7 +2375,7 @@ ol.carousel-indicators.cst-tab li.active {
     width: 11px;
     height: 11px;
     display: inline-block;
-    background: #0056A4;
+    background: #0056a4;
     border-radius: 20px 20px 0 20px;
     position: relative;
     left: 0px;
@@ -2402,9 +2396,9 @@ ol.carousel-indicators.cst-tab li.active {
     position: absolute;
     bottom: 94px;
     font-size: 14px;
-    color: #0056A4;
+    color: #0056a4;
     left: 75px;
-    font-family: 'Mulish', sans-serif;
+    font-family: "Mulish", sans-serif;
 }
 
 #chartdiv::before {
@@ -2428,7 +2422,7 @@ ol.carousel-indicators.cst-tab li.active {
 
 .case-exple ul {
     margin: 0;
-    border: 1px solid #0056A4;
+    border: 1px solid #0056a4;
     border-radius: 40px;
     display: inline-block;
     background: #ffffff;
@@ -2437,15 +2431,15 @@ ol.carousel-indicators.cst-tab li.active {
 .case-exple ul li .map-button.active,
 .case-exple ul li .map-button.active:hover {
     color: #fff;
-    background: #0056A4;
-    border: 1px solid #0056A4;
+    background: #0056a4;
+    border: 1px solid #0056a4;
 }
 
 .case-exple ul li .map-button {
-    color: #0056A4;
+    color: #0056a4;
     font-size: 18px;
     font-weight: 600;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     text-transform: uppercase;
     padding: 4px 9px;
     display: inline-block;
@@ -2466,7 +2460,7 @@ ol.carousel-indicators.cst-tab li.active {
 
 .case-exple ul li .map-button:hover {
     background: #ffffff;
-    color: #0056A4;
+    color: #0056a4;
     border: 1px solid #fff;
 }
 
@@ -2593,7 +2587,7 @@ button:focus {
 }
 
 .header-forgot input.form-field {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border: 0.5px solid rgba(0, 102, 190, 0.06);
     box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.32);
     border-radius: 30px;
@@ -2605,7 +2599,6 @@ button:focus {
     display: flex;
     margin: 20px auto 5px;
 }
-
 
 /***R&D***/
 .rd-main-wrapper .container {
@@ -2621,7 +2614,6 @@ button:focus {
     width: 100%;
     padding: 0;
 }
-
 
 p {
     margin: 0;
@@ -2642,21 +2634,20 @@ a {
 
 #style-1::-webkit-scrollbar {
     width: 6px;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
 }
 
 #style-1::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 15px;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
 }
 
 #style-1::-webkit-scrollbar-thumb {
     border-radius: 15px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: #97B6CF;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #97b6cf;
 }
-
 
 /* R&D Tools CSS Start  */
 
@@ -2664,25 +2655,25 @@ a {
     display: flex;
     align-items: center;
     padding: 20px;
-    background: linear-gradient(90deg, #092CA6 0%, #EE801C 100%);
+    background: linear-gradient(90deg, #092ca6 0%, #ee801c 100%);
     box-shadow: 0px 1px 11px rgba(0, 102, 190, 0.19);
     border-radius: 8px;
     flex-wrap: wrap;
 }
 
 .rd-main-wrapper .header-sec h1 {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 600;
     font-size: 34px;
     line-height: 50px;
     text-transform: capitalize;
-    color: #FFFFFF;
+    color: #ffffff;
     margin: 0;
 }
 
 .rd-main-wrapper .header-sec h1 span {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-weight: 400;
     font-size: 36px;
     line-height: 52px;
@@ -2692,7 +2683,7 @@ a {
     font-weight: 300;
     font-size: 24px;
     line-height: 32px;
-    font-family: 'Poppins';
+    font-family: "Poppins";
     color: #fff;
 }
 
@@ -2702,13 +2693,13 @@ a {
 }
 
 .rd-main-wrapper .header-sec .header-right p {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
     font-size: 28px;
     line-height: 39px;
     letter-spacing: 0.01em;
-    color: #FFFFFF;
+    color: #ffffff;
     margin: auto 20px auto 40px;
 }
 
@@ -2719,9 +2710,9 @@ a {
 
 .rd-main-wrapper .header-sec .header-right::after {
     border-radius: 20px;
-    content: '';
+    content: "";
     position: absolute;
-    background: #EE801C;
+    background: #ee801c;
     top: 0;
     left: 0;
     height: 100%;
@@ -2744,7 +2735,7 @@ a {
     border: 0.5px solid rgba(0, 102, 190, 0.06);
     box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.32);
     border-radius: 30px;
-    color: #97B4CD;
+    color: #97b4cd;
     font-weight: 300;
     text-align: left;
     height: auto;
@@ -2781,7 +2772,7 @@ a {
     font-size: 14px;
     line-height: 19px;
     padding: 3px 7px;
-    color: #092CA6;
+    color: #092ca6;
     border-radius: 15px;
     cursor: pointer;
     margin: 0 0 2px;
@@ -2797,20 +2788,20 @@ a {
 }
 
 .informed ::-webkit-scrollbar-track {
-    background: #D2D4DF;
+    background: #d2d4df;
     border-radius: 20px;
     padding: 0 5px;
 }
 
 .informed ::-webkit-scrollbar-thumb {
     width: 6px;
-    background: #092CA6;
+    background: #092ca6;
     border-radius: 15px;
 }
 
 .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"] {
     font-size: 14px;
-    color: #97B4CD;
+    color: #97b4cd;
     font-weight: 400;
 }
 
@@ -2850,7 +2841,7 @@ a {
 }
 
 .rd-main-wrapper .form-wrapper {
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: 0px 1px 11px rgba(0, 102, 190, 0.19);
     border-radius: 8px;
     padding: 24px 32px;
@@ -2858,13 +2849,13 @@ a {
 }
 
 .rd-main-wrapper .form-wrapper .form-head-sec h3 {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
     letter-spacing: 0.01em;
-    color: #092CA6;
+    color: #092ca6;
     margin: 0 auto 0 15px;
 }
 
@@ -2874,15 +2865,14 @@ a {
 
 .rd-main-wrapper .form-wrapper .form-head-sec::after {
     border-radius: 20px;
-    content: '';
+    content: "";
     position: absolute;
-    background: #EE801C;
+    background: #ee801c;
     top: 0;
     left: 0;
     height: 100%;
     width: 6px;
 }
-
 
 .rd-main-wrapper .form-wrapper form {
     margin: 24px auto 0;
@@ -2890,28 +2880,28 @@ a {
 
 .rd-main-wrapper .form-wrapper label {
     display: block;
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 21px;
     letter-spacing: 0.01em;
-    color: #092CA6;
+    color: #092ca6;
     margin: 0 0 8px 0;
 }
 
 .rd-main-wrapper .form-wrapper span {
-    color: #E94362;
+    color: #e94362;
 }
 
 .rd-main-wrapper .form-wrapper input,
 .rd-main-wrapper .form-wrapper select {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border: 0.5px solid rgba(0, 102, 190, 0.06);
     box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.32);
     border-radius: 30px;
     padding: 10px 20px;
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -2947,7 +2937,7 @@ input:-webkit-autofill:active {
 }
 
 .rd-main-wrapper .form-wrapper .form-group .login-validation {
-    color: #E94362;
+    color: #e94362;
     font-size: 14px;
     margin: 3px 0 0;
 }
@@ -2957,7 +2947,7 @@ input:-webkit-autofill:active {
 }
 
 .rd-main-wrapper .form-wrapper input::placeholder {
-    color: #97B4CD;
+    color: #97b4cd;
 }
 
 .rd-main-wrapper .form-wrapper .form-group {
@@ -2975,26 +2965,26 @@ input:-webkit-autofill:active {
 
 .rd-main-wrapper .form-wrapper .select {
     width: 100%;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 20px;
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-weight: 400;
     font-size: 12px;
     line-height: 14px;
     letter-spacing: 0.03em;
-    color: #97B4CD;
+    color: #97b4cd;
     position: relative;
 }
 
 .rd-main-wrapper .form-wrapper .select .selectBtn {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     padding: 12px 20px;
     box-sizing: border-box;
     width: 100%;
     cursor: pointer;
     position: relative;
     border-radius: 20px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
     font-size: 14px;
     line-height: 16px;
@@ -3013,8 +3003,8 @@ input:-webkit-autofill:active {
     height: 10px;
     -webkit-transform: translateY(-50%) rotate(45deg);
     transform: translateY(-50%) rotate(45deg);
-    border-right: 2px solid #97B6CF;
-    border-bottom: 2px solid #97B6CF;
+    border-right: 2px solid #97b6cf;
+    border-bottom: 2px solid #97b6cf;
     transition: 0.2s ease;
 }
 
@@ -3044,7 +3034,7 @@ input:-webkit-autofill:active {
 .rd-main-wrapper .form-wrapper form .select .selectDropdown.toggle {
     visibility: visible;
     display: block;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 20px;
     margin-top: 6px;
     border: 0;
@@ -3069,18 +3059,18 @@ input:-webkit-autofill:active {
 }
 
 .rd-main-wrapper .form-wrapper form .submit-btn button {
-    background: #092CA6;
+    background: #092ca6;
     box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
     border-radius: 30px;
     display: inline-block;
     margin: 0 0 0 auto;
     padding: 8px 46px;
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
-    color: #FFFFFF;
+    color: #ffffff;
     border: 0;
 }
 
@@ -3093,13 +3083,13 @@ input:-webkit-autofill:active {
 }
 
 .footer-content p {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
     line-height: 20px;
     letter-spacing: 0.01em;
-    color: #97B6CF;
+    color: #97b6cf;
     padding: 0;
     margin: 0;
 }
@@ -3201,11 +3191,10 @@ input:-webkit-autofill:active {
 
 /* R&D Tools CSS End  */
 
-
 /* Modal CSS Start  */
 
 .modal.rd-modal .modal-content {
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 15px;
     padding: 14px;
     min-width: 535px;
@@ -3214,7 +3203,7 @@ input:-webkit-autofill:active {
 .modal.rd-modal .modal-wrapper {
     text-align: center;
     padding: 24px 24px 30px;
-    background: #FFFFFF;
+    background: #ffffff;
     border: 0.5px solid rgba(0, 102, 190, 0.06);
     box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.32);
     backdrop-filter: blur(0.5px);
@@ -3246,9 +3235,9 @@ input:-webkit-autofill:active {
     line-height: 28px;
     text-align: center;
     text-transform: capitalize;
-    color: #092CA6;
+    color: #092ca6;
     margin: 20px 10px 32px;
-    font-family: 'Poppins';
+    font-family: "Poppins";
 }
 
 .modal.rd-modal .popup_subtitle {
@@ -3258,11 +3247,11 @@ input:-webkit-autofill:active {
     line-height: 20px;
     letter-spacing: 0.01em;
     color: #ee801c;
-    font-family: 'Poppins';
+    font-family: "Poppins";
 }
 
 .modal.rd-modal .popup-btn {
-    background: #092CA6;
+    background: #092ca6;
     color: #fff;
     padding: 8px 22px;
     border-radius: 30px;
@@ -3275,10 +3264,9 @@ input:-webkit-autofill:active {
 
 /* Modal CSS End  */
 
-
 /* Media-query Start  */
 
-@media(max-width:991px) {
+@media (max-width: 991px) {
     .rd-main-wrapper .header-sec .header-left {
         max-width: 38%;
         flex: 0 0 38%;
@@ -3305,13 +3293,12 @@ input:-webkit-autofill:active {
     .rd-main-wrapper .header-sec h1 {
         font-size: 34px;
         line-height: 38px;
-        font-family: 'mulibold';
+        font-family: "mulibold";
     }
 
     .rd-main-wrapper .footer-content p {
         flex: 0 0 70%;
         max-width: 70%;
-
     }
 
     .rd-main-wrapper .header-sec .header-right .text-img {
@@ -3320,7 +3307,7 @@ input:-webkit-autofill:active {
     }
 }
 
-@media (max-width:767px) {
+@media (max-width: 767px) {
     .rd-main-wrapper .header-sec {
         padding: 18px;
     }
@@ -3354,7 +3341,7 @@ input:-webkit-autofill:active {
     .rd-main-wrapper .header-sec h1 {
         font-size: 32px;
         line-height: 36px;
-        font-family: 'mulibold';
+        font-family: "mulibold";
     }
 
     .rd-main-wrapper .header-sec h1 span {
@@ -3402,7 +3389,6 @@ input:-webkit-autofill:active {
         text-align: right;
     }
 
-
     .rd-main-wrapper .form-wrapper form .submit-btn button {
         padding: 8px 34px;
     }
@@ -3437,10 +3423,9 @@ input:-webkit-autofill:active {
         margin: 0 10px;
         width: 100%;
     }
-
 }
 
-@media(max-width:480px) {
+@media (max-width: 480px) {
     .rd-main-wrapper .container {
         padding: 15px;
     }
@@ -3457,7 +3442,7 @@ input:-webkit-autofill:active {
     .rd-main-wrapper .header-sec h1 {
         font-size: 27px;
         line-height: 30px;
-        font-family: 'mulibold';
+        font-family: "mulibold";
     }
 
     .rd-main-wrapper .header-sec h1 span {
@@ -3525,7 +3510,6 @@ input:-webkit-autofill:active {
         font-size: 14px;
         line-height: 20px;
     }
-
 }
 
 /***R&D End***/

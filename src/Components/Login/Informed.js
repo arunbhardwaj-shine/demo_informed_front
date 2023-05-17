@@ -15,6 +15,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
 import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+import reCAPTCHA from "react-google-recaptcha";
 
 const Informed = () => {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ const Informed = () => {
         localStorage.setItem("name", res?.data?.data?.name);
         localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
         loader("hide");
-        navigate("/library-content");
+        navigate("/home");
       } catch (err) {
         console.log(err);
         setShowError(err?.response?.data?.message);
