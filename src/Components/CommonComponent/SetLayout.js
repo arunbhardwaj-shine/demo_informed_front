@@ -45,7 +45,15 @@ const SetLayout = () => {
     } else if (value == 2) {
       navigate("/EmailList");
     } else if (value == 3) {
-      navigate("/content-analytics");
+        localStorage.getItem("group_id") == 2
+          ?  navigate("/content-analytics")
+          : localStorage.getItem("user_id") ==
+            "B7SHpAc XDXSH NXkN0rdQ=="
+          ?  navigate("/totalhcp")   
+          : localStorage.getItem("user_id") ==
+            "iSnEsKu5gB/DRlycxB6G4g=="
+          ? navigate("/octalatch-totalhcp") 
+          :   navigate("/content-analytics");
     } else if (value == 4) {
       navigate("/");
     }
