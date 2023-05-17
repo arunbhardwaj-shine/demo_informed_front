@@ -2030,7 +2030,7 @@ const LibraryContent = (props) => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Enabled
+                                            Allowed
                                           </h6>
                                           <h6>{changeFormatForPrint(data)}</h6>
                                         </li>

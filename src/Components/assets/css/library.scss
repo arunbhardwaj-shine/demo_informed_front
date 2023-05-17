@@ -7,7 +7,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap');
 
 .library-content-box-layuot {
-  margin-top: 30px;
+  margin-top: 20px;
   gap: 0% 5%;
   flex-wrap: wrap;
   &.readerlist {
@@ -996,6 +996,13 @@ ul.tab-mail-list.data span.total-left small {
 }
 .readerlist .tab-mail-list.data .content-opening .progress {
   background: #00003c;
+}
+.readerlist .tab-mail-list.data .last-activity .content-opening .progress {
+    background: transparent;
+}
+.readerlist .tab-mail-list.data .last-activity .content-opening .progress .progress-bar {
+padding-left:0;
+color:$dark-blue;
 }
 .tab-mail-list.data .progress .progress-bar,
 .tab-mail-list.data .data-progress.success span,

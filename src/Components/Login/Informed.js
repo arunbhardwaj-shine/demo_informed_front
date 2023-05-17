@@ -15,6 +15,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
 import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+import reCAPTCHA from "react-google-recaptcha";
 
 const Informed = () => {
   const navigate = useNavigate();
