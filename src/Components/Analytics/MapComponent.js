@@ -8,7 +8,7 @@ import HighchartsReact from "highcharts-react-official";
 import highchartsMap from "highcharts/modules/map";
 import MapModule from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
-
+import proj4 from "proj4";
 MapModule(Highcharts);
 
 const MapComponent = ({ data, status }) => {
@@ -17,6 +17,7 @@ const MapComponent = ({ data, status }) => {
   const mapOptions = {
     chart: {
       map: "worldMap",
+      proj4,
     },
     title: {
       text: "",
@@ -45,19 +46,16 @@ const MapComponent = ({ data, status }) => {
     series: [
       {
         name: "",
-        data: newData?.filter((country) => country.lat && country.lon),
+        data: newData,
         mapData: worldMap,
         joinBy: ["name"],
         keys: ["code", "value"],
         tooltip: {
           headerFormat: "",
           pointFormat:
-            "Views:<br>" +
-            "{point.pdfTitle}<br>" +
-            "Address: {point.address}<br>" +
-            "City: {point.city}<br>" +
-            "Country: {point.country}<br>" +
-            "{point.dated}",
+            '<span style="font-weight: bold">Country: {point.name}</span><br>'+
+            '<span style="font-weight: bold">Total Opening : {point.opening}</span><br>' +
+            '<span style="font-weight: bold">Total Reader : {point.reader}</span>',
         },
         states: {
           hover: {
@@ -132,16 +130,26 @@ const MapComponent = ({ data, status }) => {
     const getDataFromApi = async () => {
       try {
         if (!status) {
-          const countryData = data?.data?.map((item) => {
+          const countryData = data?.data?.map((item, index) => {
             const latlongParts = item?.latlong.split("~");
             const lat = parseFloat(latlongParts[0]) || 0;
             const lon = parseFloat(latlongParts[1]) || 0;
             const viewedOnDates = item?.dated
               .map((date) => `viewed on: ${date}` + "<br> ")
               .join("");
-
+            const indexVal = data?.countryname.indexOf(item.country);
+            const open = data?.opening[indexVal];
+            const readers = data?.reader[indexVal];
+            let matchedCountry = data?.countryname?.filter((name) => name === item.country)[0];
+            
+            if (matchedCountry === "United States") {
+              matchedCountry = "United States of America";
+            }
+            
             return {
-              name: item.country,
+              opening: open,
+              reader: readers,
+              name: matchedCountry,
               lat: lat,
               lon: lon,
               city: item.city,
@@ -151,19 +159,20 @@ const MapComponent = ({ data, status }) => {
               dated: viewedOnDates,
             };
           });
-
-          setNewData(countryData);
+console.log("----->hnvjh",countryData);
+ setNewData(countryData);
         } else {
           const countryData = data?.response?.data.map((coordObject, index) => {
             const [lat, lon] = coordObject.coordinates.split("~");
-
+            
             return {
               name: coordObject.region_name,
               lat: parseFloat(lat),
               lon: parseFloat(lon),
+              
             };
           });
-
+         
           setNewData(countryData);
         }
       } catch (error) {
