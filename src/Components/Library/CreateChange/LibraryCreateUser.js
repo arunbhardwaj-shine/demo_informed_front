@@ -1059,7 +1059,7 @@ const LibraryCreateUser = () => {
                     handleChange(e?.target.value, "specialRequirment")
                   }
                   rows="5"
-                  placeholder="Please type your notes here.."
+                  placeholder="Please type your notes here..."
                 ></textarea>
               </div>
             </div>
@@ -1208,7 +1208,7 @@ const LibraryCreateUser = () => {
                           rows="5"
                           name="journalTitle"
                           onChange={(e) => handleChange(e)}
-                          placeholder="Please type your comments here.."
+                          placeholder="Please type your comments here..."
                         ></textarea>
 
                         {error?.journalTitle ? (
