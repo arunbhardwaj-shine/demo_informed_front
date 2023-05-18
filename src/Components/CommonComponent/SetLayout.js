@@ -46,9 +46,9 @@ const SetLayout = () => {
     }
     if (localStorage.getItem("group_id") == 2) {
       newdata.push({
-        image: `${path_image}webinar-icon.svg`,
+        image: `${path_image}license-icon.svg`,
         title: "Licensed",
-        subtitle: "See Licensed Event users",
+        subtitle: "All your licensed content in one place",
       });
     }
     setData(newdata);
