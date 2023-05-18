@@ -1078,7 +1078,7 @@ const EditLicense = () => {
                     handleChange(e?.target?.value, "specialRequirment")
                   }
                   rows="5"
-                  placeholder="Please type your notes here.."
+                  placeholder="Please type your notes here..."
                 ></textarea>
               </div>
             </div>
@@ -1648,7 +1648,7 @@ const EditLicense = () => {
                           onChange={(e) =>
                             handleChange(e?.target.value, "productionNotes")
                           }
-                          placeholder="Please type your notes here.."
+                          placeholder="Please type your notes here..."
                         ></textarea>
                       </div>
                     </div>
