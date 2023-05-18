@@ -1027,7 +1027,7 @@ const EditLicense = () => {
                 ) : null}
               </div>
               <div className="form-group">
-                <label htmlFor="">Enable</label>
+                <label htmlFor="">Allow</label>
                 <fieldset id="group2">
                   <input
                     type="checkbox"

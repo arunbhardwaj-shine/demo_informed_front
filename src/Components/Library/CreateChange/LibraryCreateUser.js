@@ -961,7 +961,7 @@ const LibraryCreateUser = () => {
           <h4>Limits agreed</h4>
           <div className="row">
             <div className="col-12 col-md-6">
-              {userDetail?.costCenter ? (
+              {/* {userDetail?.costCenter ? (
                 <div className="form-group">
                   <label htmlFor="">Cost centre</label>
                   <Select
@@ -972,8 +972,8 @@ const LibraryCreateUser = () => {
                     onChange={(e) => handleChange(e?.value, "costCenter")}
                   />
                 </div>
-              ) : null}
-              <div className="form-group">
+              ) : null} */}
+              {/* <div className="form-group">
                 <label htmlFor="">Expiration date</label>
                 <DatePicker
                   selected={
@@ -1010,9 +1010,9 @@ const LibraryCreateUser = () => {
                 {error?.limit ? (
                   <div className="login-validation">{error?.limit}</div>
                 ) : null}
-              </div>
+              </div> */}
               <div className="form-group">
-                <label htmlFor="">Allowed</label>
+                <label htmlFor="">Allow</label>
                 <fieldset id="group2">
                   <input
                     type="checkbox"

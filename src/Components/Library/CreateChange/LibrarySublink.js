@@ -1211,7 +1211,7 @@ const LibrarySublink = () => {
                                               </li>
                                               <li>
                                                 <h6 className="tab-content-title">
-                                                  Enabled
+                                                  Allow
                                                 </h6>
                                                 <h6>
                                                   {changeFormatForPrint(

@@ -879,7 +879,7 @@ const NewReaders = () => {
 
   const applyFilter = (e) => {
     e.preventDefault();
-    setCount(0);
+
     setFilterApplyflag(1);
     setReaderDataList([]);
     setFilterObject(appliedFilter);
