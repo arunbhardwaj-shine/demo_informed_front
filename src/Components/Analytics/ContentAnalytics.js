@@ -157,11 +157,10 @@ const ContentAnalytics = () => {
   const handleParent = async () => {
     try {
       loader("show");
-
       const element = document.getElementById("parent");
       // add padding to the element
 
-      const dataUrl = await domtoimage.toPng(element);
+      const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
 
       const link = document.createElement("a");
       link.download = `${Math.random()}.png`;
