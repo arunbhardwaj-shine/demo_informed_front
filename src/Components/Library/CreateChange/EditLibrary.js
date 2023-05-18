@@ -1209,7 +1209,7 @@ const EditLibrary = () => {
                     handleChange(e?.target?.value, "specialRequirment")
                   }
                   rows="5"
-                  placeholder="Please type your notes here.."
+                  placeholder="Please type your notes here..."
                 ></textarea>
               </div>
             </div>
@@ -1355,7 +1355,7 @@ const EditLibrary = () => {
                             rows="5"
                             defaultValue={userInputs?.journalTitle}
                             onChange={(e) => handleChange(e)}
-                            placeholder="Please type your comments here.."
+                            placeholder="Please type your comments here..."
                           ></textarea>
 
                           {error?.journalTitle ? (
@@ -2128,7 +2128,7 @@ const EditLibrary = () => {
                             onChange={(e) =>
                               handleChange(e?.target.value, "productionNotes")
                             }
-                            placeholder="Please type your notes here.."
+                            placeholder="Please type your notes here..."
                           ></textarea>
                         </div>
                       </Col>

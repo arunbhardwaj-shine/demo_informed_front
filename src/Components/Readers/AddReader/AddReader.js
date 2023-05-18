@@ -523,7 +523,7 @@ const ReaderAdd = () => {
           sub_role: userInputs?.sub_role,
           ibu: userInputs?.ibu,
         };
-        await postData(ENDPOINT.READER_CREATE, data);
+        // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
 
         navigate("/reader-review", {

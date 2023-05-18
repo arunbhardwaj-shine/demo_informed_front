@@ -13,8 +13,8 @@ import { toast } from "react-toastify";
 
 const SpcCreate = () => {
   const [ibu, setIbu] = useState([
-    { value: "Haematology", label: "Haematology" },
     { value: "Critical Care", label: "Critical Care" },
+    { value: "Haematology", label: "Haematology" },
     { value: "Immunotherapy", label: "Immunotherapy" },
   ]);
   const [countryAll, setCountryAll] = useState([]);
