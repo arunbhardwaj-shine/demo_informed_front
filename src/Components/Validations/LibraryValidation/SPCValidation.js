@@ -10,7 +10,7 @@ export const SPCValidation = (data) => {
     err.language = "Please select language";
   }
   if (!data?.businessunit) {
-    err.businessunit = "Please select businessunit";
+    err.businessunit = "Please select business unit";
   }
   if (!data?.product) {
     err.product = "Please select product";
@@ -21,7 +21,7 @@ export const SPCValidation = (data) => {
     }
   }
   if (!data?.uploadspc) {
-    err.uploadspc = "Please select uploadspc";
+    err.uploadspc = "Please select upload spc";
   }
   return err;
 };
