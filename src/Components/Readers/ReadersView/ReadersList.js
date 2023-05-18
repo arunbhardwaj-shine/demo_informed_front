@@ -306,15 +306,25 @@ const NewReaders = () => {
         key == "Accounts" ||
         key == "List"
       ) {
-        newObj[key] = [];
-        apifilterObject[key] = [];
-        newObj[key]?.push(item);
-        apifilterObject[key]?.push(e.target.value);
+        if(key == "region"){
+          newObj["country"]= []
+          newObj[key] = [];
+          apifilterObject[key] = [];
+          newObj[key]?.push(item);
+          apifilterObject[key]?.push(e.target.value);
+        }else{
+          newObj[key] = [];
+          apifilterObject[key] = [];
+          newObj[key]?.push(item);
+          apifilterObject[key]?.push(e.target.value);
+        }
+       
       } else {
         if (item == "All") {
           newObj[key] = data;
           apifilterObject[key] = data;
         } else {
+        
           newObj[key]?.push(item);
           apifilterObject[key]?.push(item);
           if (data?.length - 1 == newObj[key]?.length) {
@@ -856,6 +866,7 @@ const NewReaders = () => {
 
       };
 
+      setAppliedFilter(obj)
       setFilterObject(obj);
       setReaderDataList([]);
       // setAppliedFilter({
@@ -1308,7 +1319,7 @@ const NewReaders = () => {
 
             {Object.keys(filterObject)?.length && filterApplyflag == 1 ? (
               <div className="apply-filter">
-                <h6>Applied filters</h6>
+                {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {

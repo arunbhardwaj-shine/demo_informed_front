@@ -436,7 +436,7 @@ const EditLibrary = () => {
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
 
-        if(localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="){
+        if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
           formData.append("language", userInputs?.language);
         }
 
@@ -1158,7 +1158,7 @@ const EditLibrary = () => {
                 ) : null}
               </div>
               <div className="form-group">
-                <label htmlFor="">Enable</label>
+                <label htmlFor="">Allowed</label>
                 <fieldset id="group2">
                   <input
                     type="checkbox"
@@ -1392,26 +1392,27 @@ const EditLibrary = () => {
                         </div>
                       )}
 
-                      {
-                        localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
+                      {localStorage.getItem("user_id") ==
+                      "B7SHpAc XDXSH NXkN0rdQ==" ? (
                         <>
-                        <div className="form-group">
-                          <label htmlFor="">Language</label>
-                          <Select
-                            options={language}
-                            placeholder = "Select language"
-                            defaultValue={{
-                              label: userInputs?.language,
-                              value: userInputs?.language,
-                            }}
-                            onChange={(e) => handleChange(e?.value, "language")}
-                            className="dropdown-basic-button split-button-dropup"
-                            isClearable
-                          />
-                        </div>
+                          <div className="form-group">
+                            <label htmlFor="">Language</label>
+                            <Select
+                              options={language}
+                              placeholder="Select language"
+                              defaultValue={{
+                                label: userInputs?.language,
+                                value: userInputs?.language,
+                              }}
+                              onChange={(e) =>
+                                handleChange(e?.value, "language")
+                              }
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                            />
+                          </div>
                         </>
-                        : null
-                      }
+                      ) : null}
 
                       {localStorage.getItem("user_id") !=
                       "iSnEsKu5gB/DRlycxB6G4g==" ? (
@@ -1483,7 +1484,7 @@ const EditLibrary = () => {
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <>
                           <div className="form-group">
-                            <label htmlFor="">Enable</label>
+                            <label htmlFor="">Allowed</label>
                             <fieldset id="group2">
                               <input
                                 type="checkbox"
