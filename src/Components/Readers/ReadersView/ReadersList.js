@@ -1586,72 +1586,83 @@ const NewReaders = () => {
                             >
                               <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                                 <ul className="tab-mail-list data">
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Emails sent
-                                      <LinkWithTooltip
-                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress send">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={100}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.emailSent
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Emails opened
-                                      <LinkWithTooltip
-                                        tooltip="Number of opening counts for specific article."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress open">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={15}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.emailOpen
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
+                                  {!data?.ipFlag ? (
+                                    <>
+                                      {" "}
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Emails sent
+                                          <LinkWithTooltip
+                                            tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                            href="#"
+                                          >
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress send">
+                                          <ProgressBar
+                                            variant="default"
+                                            now={100}
+                                            label={
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              ) !== -1
+                                                ? emailStats[
+                                                    emailStats.findIndex(
+                                                      (el) =>
+                                                        el.userId == data?.id
+                                                    )
+                                                  ]?.emailSent
+                                                : "Loading"
+                                            }
+                                          />
+                                        </div>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Emails opened
+                                          <LinkWithTooltip
+                                            tooltip="Number of opening counts for specific article."
+                                            href="#"
+                                          >
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress open">
+                                          <ProgressBar
+                                            variant="default"
+                                            now={15}
+                                            label={
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              ) !== -1
+                                                ? emailStats[
+                                                    emailStats.findIndex(
+                                                      (el) =>
+                                                        el.userId == data?.id
+                                                    )
+                                                  ]?.emailOpen
+                                                : "Loading"
+                                            }
+                                          />
+                                        </div>
+                                      </li>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
                                   <li>
                                     <h6 className="tab-content-title">
                                       Content delivered
@@ -1817,29 +1828,33 @@ const NewReaders = () => {
                                       />
                                     </div>
                                   </li>
-
-                                  <li className="last-activity">
-                                    <h6 className="tab-content-title">
-                                      Last Activity
-                                    </h6>
-                                    <div className="data-progress content-opening">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={19}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.LastActivity
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
+                                  {!data?.ipFlag ? (
+                                    <li className="last-activity">
+                                      <h6 className="tab-content-title">
+                                        Last Activity
+                                      </h6>
+                                      <div className="data-progress content-opening">
+                                        <ProgressBar
+                                          variant="default"
+                                          now={19}
+                                          label={
+                                            emailStats.findIndex(
+                                              (el) => el.userId == data?.id
+                                            ) !== -1
+                                              ? emailStats[
+                                                  emailStats.findIndex(
+                                                    (el) =>
+                                                      el.userId == data?.id
+                                                  )
+                                                ]?.LastActivity
+                                              : "Loading"
+                                          }
+                                        />
+                                      </div>
+                                    </li>
+                                  ) : (
+                                    ""
+                                  )}
                                 </ul>
                               </div>
                               <div className="data-main-footer-sec">
