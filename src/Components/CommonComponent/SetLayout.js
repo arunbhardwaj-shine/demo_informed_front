@@ -31,8 +31,14 @@ const SetLayout = () => {
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
-    let newdata = [];
-    newdata = [...dummyData];
+    let  newdata = [...dummyData];
+    if (localStorage.getItem("group_id") == 2) {
+      newdata.push({
+        image: `${path_image}license-icon.svg`,
+        title: "Licensed",
+        subtitle: "All your licensed content in one place",
+      });
+    }
     if (
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
       localStorage.getItem("webinar_flag") == 1 &&
@@ -44,13 +50,7 @@ const SetLayout = () => {
         subtitle: "See Webinar Event users",
       });
     }
-    if (localStorage.getItem("group_id") == 2) {
-      newdata.push({
-        image: `${path_image}webinar-icon.svg`,
-        title: "Licensed",
-        subtitle: "See Licensed Event users",
-      });
-    }
+    
     setData(newdata);
   }, []);
 

@@ -26,7 +26,7 @@ const CountryRegistration = () => {
 
   let startMonth = new Date("March 2022");
   let endMonth = new Date();
-  let months = [{ value: 'All', label: 'All' }];
+  let months = [{ value: "All", label: "All" }];
 
   while (startMonth <= endMonth) {
     let monthName = startMonth.toLocaleString("default", { month: "long" });
@@ -133,7 +133,7 @@ const CountryRegistration = () => {
         enabled: true,
       },
     },
-    
+
     legend: {
       align: "center",
       verticalAlign: "bottom",
@@ -197,8 +197,6 @@ const CountryRegistration = () => {
     series: [],
     tableCountry: [],
   });
-
-
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const optionMonth = useRef(
@@ -269,23 +267,31 @@ const CountryRegistration = () => {
       SetCountryList(newCountryList);
       setIsDataFound(true);
 
-
-      //create table 
+      //create table
       const tableCountry = apiData?.data.country;
       const criticalCare = apiData?.data.critical_care || [];
       const haematology = apiData?.data.haematology || [];
       const immunotherapy = apiData?.data.immunotherapy || [];
       const tableDatas = [
         {
-          name: `Critical Care (${criticalCare.reduce((acc, val) => acc + val, 0)})`,
+          name: `Critical Care (${criticalCare.reduce(
+            (acc, val) => acc + val,
+            0
+          )})`,
           data: criticalCare,
         },
         {
-          name: `Haematology (${haematology.reduce((acc, val) => acc + val, 0)})`,
+          name: `Haematology (${haematology.reduce(
+            (acc, val) => acc + val,
+            0
+          )})`,
           data: haematology,
         },
         {
-          name: `Immunotherapy (${immunotherapy.reduce((acc, val) => acc + val, 0)})`,
+          name: `Immunotherapy (${immunotherapy.reduce(
+            (acc, val) => acc + val,
+            0
+          )})`,
           data: immunotherapy,
         },
       ];
@@ -294,10 +300,9 @@ const CountryRegistration = () => {
         ...tableData,
         xAxis: {
           categories: tableDatas,
-
         },
         series: tableDatas,
-        tableCountry: tableCountry
+        tableCountry: tableCountry,
       };
       setTableData(newTable);
 
@@ -307,15 +312,12 @@ const CountryRegistration = () => {
       console.log(error);
       loader("hide");
     }
-
-
   };
 
-// for total column
+  // for total column
   const total = tableData.series.reduce((acc, serie) => {
     return acc + serie.data.reduce((a, b) => a + b, 0);
   }, 0);
-
 
   const selectMonthYear = useCallback(
     (selectedOption) => {
@@ -336,7 +338,7 @@ const CountryRegistration = () => {
           <Row>
             <div className="top-header">
               <div className="page-title d-flex">
-                <h2>Country Registration</h2>
+                {/* <h2>Country Registration</h2> */}
               </div>
             </div>
             <div className="distribute-page-reader">
@@ -387,7 +389,7 @@ const CountryRegistration = () => {
                 ) : null}
               </div>
               {countryList.series.some((series) => series.data.length > 0) &&
-                newData.length > 0 ? (
+              newData.length > 0 ? (
                 <div>
                   <div className="high_charts">
                     <HighchartsReact
@@ -404,9 +406,11 @@ const CountryRegistration = () => {
                         <thead>
                           <tr>
                             <th>Category</th>
-                            {tableData.xAxis.categories.map((category, index) => (
-                              <th key={index}>{category.name}</th>
-                            ))}
+                            {tableData.xAxis.categories.map(
+                              (category, index) => (
+                                <th key={index}>{category.name}</th>
+                              )
+                            )}
                             <th>Total ({total})</th>
                           </tr>
                         </thead>
@@ -415,25 +419,21 @@ const CountryRegistration = () => {
                             <tr key={index}>
                               <td>{category}</td>
                               {tableData?.series?.map((serie, serieIndex) => (
-                              <td key={serieIndex}>{serie?.data[index]}</td>
-                            ))}
-                            <td>
-                              {tableData?.series?.reduce(
-                                (total, serie) => total + serie?.data[index],
-                                0
-                              )}
+                                <td key={serieIndex}>{serie?.data[index]}</td>
+                              ))}
+                              <td>
+                                {tableData?.series?.reduce(
+                                  (total, serie) => total + serie?.data[index],
+                                  0
+                                )}
                               </td>
                             </tr>
                           ))}
                         </tbody>
-
-
-
                       </table>
                     </div>
                   </div>
                 </div>
-
               ) : isLoaded && newData.length > 0 ? (
                 <div className="no_found">
                   <p>No Data Found</p>
