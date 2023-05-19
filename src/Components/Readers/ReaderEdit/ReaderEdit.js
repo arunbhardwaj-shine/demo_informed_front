@@ -472,14 +472,18 @@ const ReaderEdit = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
+          primary_phone: `${
+            userInputs?.countryCode?.label
+              ? userInputs?.countryCode?.label
+              : userInputs?.countryCode
+          }-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
-          province: userInputs?.province,
+          province: userInputs?.province?.trim(),
           hospital: userInputs?.hospital,
           title: userInputs?.title,
           speciality: userInputs?.speciality,
-          Discipline: userInputs?.discipline,
+          discipline: userInputs?.discipline,
           product: userInputs?.product,
           interestArea: userInputs?.interestArea,
           repContact: userInputs?.repContact,
@@ -777,10 +781,18 @@ const ReaderEdit = () => {
                             options={countryCode}
                             className="dropdown-basic-button split-button-dropup"
                             isClearable
-                            placeholder=""
+                            placeholder="code"
                             defaultValue={{
                               label: userInputs?.countryCode,
                             }}
+                            // defaultValue={{
+                            //   label: userInputs?.countryCode,
+                            //   value: countryCode?.filter((item) => {
+                            //     if (item?.label == userInputs?.countryCode) {
+                            //       return item?.value;
+                            //     }
+                            //   }),
+                            // }}
                             onChange={(e) => handleChange(e, "countryCode")}
                           />
                           {error?.countryCode ? (
