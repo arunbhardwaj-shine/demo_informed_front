@@ -400,9 +400,9 @@ const DeliveryTrends = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header">
-              <div className="page-title d-flex">
-                {/* <h2>Delivery Trends</h2> */}
-              </div>
+              {/* <div className="page-title d-flex">
+                <h2>Delivery Trends</h2>
+              </div> */}
             </div>
             <div className="create-change-content spc-content analytic-charts small-space">
               <div className="delivery-trends">

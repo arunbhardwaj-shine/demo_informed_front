@@ -8,15 +8,19 @@ import HighchartsReact from "highcharts-react-official";
 import highchartsMap from "highcharts/modules/map";
 import MapModule from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+import proj4 from "proj4";
 
 MapModule(Highcharts);
 
+
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const MapComponent = ({ data, status }) => {
   const [newData, setNewData] = useState();
   // for map
   const mapOptions = {
     chart: {
       map: "worldMap",
+      proj4,
     },
     title: {
       text: "",
@@ -44,17 +48,39 @@ const MapComponent = ({ data, status }) => {
     },
     series: [
       {
+        name: "Basemap",
+        borderColor: "#A0A0A0",
+        nullColor: "rgba(200, 200, 200, 0.3)",
+        showInLegend: false,
+        mapData: worldMap,
+      },
+      {
+        name: "Separators",
+        type: "mapline",
+        nullColor: "#707070",
+        showInLegend: false,
+        enableMouseTracking: false,
+      },
+      {
         name: "",
-        data: newData?.filter((country) => country.lat && country.lon),
+        type: "mappoint",
+        data: newData,
         mapData: worldMap,
         joinBy: ["name"],
         keys: ["code", "value"],
         tooltip: {
           headerFormat: "",
           pointFormat:
-            '<span style="font-weight: bold">{point.pdfTitle}</span><br>' +
+            '<span style="font-weight: bold">Country: {point.name}</span><br>' +
             '<span style="font-weight: bold">Total Opening : {point.opening}</span><br>' +
             '<span style="font-weight: bold">Total Reader : {point.reader}</span>',
+        },
+        showInLegend: false,
+        marker: {
+          symbol: `url(${path_image}/marker.png)`,
+          width: 17,
+          height: 24,
+          offsetY: -15, // adjust the position of the marker icon
         },
         states: {
           hover: {
@@ -129,30 +155,57 @@ const MapComponent = ({ data, status }) => {
     const getDataFromApi = async () => {
       try {
         if (!status) {
-          const countryData = data?.data?.map((item) => {
-            const latlongParts = item?.latlong.split("~");
-            const lat = parseFloat(latlongParts[0]) || 0;
-            const lon = parseFloat(latlongParts[1]) || 0;
-            const viewedOnDates = item?.dated
-              .map((date) => `viewed on: ${date}` + "<br> ")
-              .join("");
-            const indexVal = data?.countryname.indexOf(item.country);
-            const open = data?.opening[indexVal];
-            const readers = data?.reader[indexVal];
-            return {
-              opening: open,
-              reader: readers,
-              name: item.country,
-              lat: lat,
-              lon: lon,
-              city: item.city,
-              country: item.country,
-              address: item.address,
-              pdfTitle: item.pdftitle,
-              dated: viewedOnDates,
-            };
-          });
+          // const countryData = data?.data?.map((item, index) => {
+          //   const latlongParts = item?.latlong.split("~");
+          //   const lat = parseFloat(latlongParts[0]) || 0;
+          //   const lon = parseFloat(latlongParts[1]) || 0;
+          //   const viewedOnDates = item?.dated
+          //     .map((date) => `viewed on: ${date}` + "<br> ")
+          //     .join("");
+          //   const indexVal = data?.countryname.indexOf(item.country);
+          //   const open = data?.opening[indexVal];
+          //   const readers = data?.reader[indexVal];
+          //   let matchedCountry = data?.countryname?.filter((name) => name === item.country)[0];
+            
+          //   if (matchedCountry === "United States") {
+          //     matchedCountry = "United States of America";
+          //   }
 
+
+          
+          //   return {
+          //     opening: open,
+          //     reader: readers,
+          //     name: matchedCountry,
+          //     lat: lat,
+          //     lon: lon,
+          //     city: item.city,
+          //     country: item.country,
+          //     address: item.address,
+          //     pdfTitle: item.pdftitle,
+          //     dated: viewedOnDates,
+          //   };
+          // });
+
+
+
+          const coordinate = data?.coordinations;
+          const countryNames = data?.countryname;
+          const countryData = countryNames.map((countryName,index) => {
+            const coordString = coordinate[countryName];
+            if (coordString) {
+              const [lat, long] = coordString.split("#");
+              return {
+                opening: data?.opening[index],
+               reader: data?.reader[index],
+                name: countryName,
+                lat: parseFloat(lat),
+                lon: parseFloat(long),
+              };
+            }
+       
+          })
+         
           setNewData(countryData);
         } else {
           const countryData = data?.response?.data.map((coordObject, index) => {
@@ -162,6 +215,7 @@ const MapComponent = ({ data, status }) => {
               name: coordObject.region_name,
               lat: parseFloat(lat),
               lon: parseFloat(lon),
+
             };
           });
 
