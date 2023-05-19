@@ -5,6 +5,8 @@ import ReactPlayer from "react-player";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { Link, useNavigate } from "react-router-dom";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import {
   Form,
   Modal,
@@ -21,6 +23,9 @@ import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const Webinar = () => {
+  useEffect(() => {
+        AOS.init();
+  }, [])
   const navigate = useNavigate();
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [userInputs, setUserInputs] = useState({});
@@ -1210,7 +1215,7 @@ const Webinar = () => {
         >
           <div className="container">
             <div className="row">
-              <div className="col-md-6 left-sec">
+              <div className="col-md-6 left-sec" data-aos="fade-right" data-aos-duration="1000">
                 <div className="content">
                   <ul>
                     <li>Docintel</li>
@@ -1221,7 +1226,7 @@ const Webinar = () => {
               </div>
               <div className="col-md-6 right-sec">
                 <div className="right-banner">
-                  <img src={path_image + "banner-main.png"} alt="" />
+                  <img data-aos="fade-up" data-aos-duration="1300" src={path_image + "banner-main.png"} alt="" />
                 </div>
               </div>
             </div>
@@ -1265,9 +1270,9 @@ const Webinar = () => {
           data-anchor="building-section"
         >
           <div className="container">
-            <h2>Building Relationships</h2>
+            <h2 data-aos="fade-right" data-aos-duration="1000">Building Relationships</h2>
             <div className="row">
-              <div className="col-md-5 left-sec">
+              <div className="col-md-5 left-sec" data-aos="fade-right" data-aos-duration="1300">
                 <div className="content">
                   <div className="video-sec">
                     <img src={path_image + "jdflindtWebinar.png"} alt="video" />
@@ -1292,7 +1297,7 @@ const Webinar = () => {
                 </div>
                 {/* <!-- <div className="want-more"><a href="#">Want to know how?</a></div> --> */}
               </div>
-              <div className="col-md-7 right-sec">
+              <div className="col-md-7 right-sec" data-aos="fade-left" data-aos-duration="1300">
                 <div className="mt-5 mb-5">
                   <div className="row">
                     <div className="col-md-12 space-left">
@@ -1374,7 +1379,6 @@ const Webinar = () => {
               <div className="col-md-12 d-flex justify-content-between">
                 <h2
                   data-aos="fade-up"
-                  data-aos-easing="linear"
                   data-aos-duration="1000"
                 >
                   Platform Features
@@ -1382,7 +1386,6 @@ const Webinar = () => {
                 <a
                   href="https://docintel.app/Webinar/Docintel/login.php"
                   data-aos="fade-up"
-                  data-aos-easing="linear"
                   data-aos-duration="1000"
                   className="btnn"
                 >
@@ -1400,7 +1403,8 @@ const Webinar = () => {
                     className="carousel slide row "
                     data-ride="carousel"
                   >
-                    <div className="col-md-8 col-sm-8 col-8 cst-cs-item pl-0">
+                    <div className="col-md-8 col-sm-8 col-8 cst-cs-item pl-0" data-aos="fade-up"
+                  data-aos-duration="1000">
                       <div id="slider">
                         <input
                           type="radio"
@@ -1673,7 +1677,8 @@ const Webinar = () => {
                         </label>
                       </div>
                     </div>
-                    <div className="col-md-4 col-sm-4 col-4 left-sdd">
+                    <div className="col-md-4 col-sm-4 col-4 left-sdd" data-aos="fade-down"
+                  data-aos-duration="1000">
                       <ol className="carousel-indicators cst-tab">
                         <li
                           data-target="#blogCarousel"
@@ -1773,29 +1778,34 @@ const Webinar = () => {
           <div className="container">
             <div className="row">
               <div className="col-md-12">
-                <h2>effective webinars</h2>
+                <h2 data-aos="fade-right"
+                  data-aos-duration="1500">effective webinars</h2>
               </div>
               <div className="col-md-8">
                 <ul className="efft-list">
-                  <li>
+                  <li data-aos="fade-right"
+                  data-aos-duration="1000">
                     <span>
                       <img src={path_image + "effect1.png"} alt="" />
                     </span>
                     <p>Gathering HCP's together</p>
                   </li>
-                  <li>
+                  <li data-aos="fade-left"
+                  data-aos-duration="1000">
                     <span>
                       <img src={path_image + "effect3.png"} alt="" />
                     </span>
                     <p>Sharing new information and the latest learnings</p>
                   </li>
-                  <li>
+                  <li data-aos="fade-right"
+                  data-aos-duration="1000">
                     <span>
                       <img src={path_image + "effect2.png"} alt="" />
                     </span>
                     <p>Seeking feedback from HCP's</p>
                   </li>
-                  <li>
+                  <li data-aos="fade-left"
+                  data-aos-duration="1000">
                     <span>
                       <img src={path_image + "effect4.png"} alt="" />
                     </span>
@@ -1805,14 +1815,15 @@ const Webinar = () => {
               </div>
               <div className="col-md-4"></div>
               <div className="col-md-12">
-                <a href="#" className="btnn">
+                <a data-aos="zoom-out-down"
+                  data-aos-duration="1000" href="#" className="btnn">
                   find out more
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="teamm">
+          <div className="teamm" data-aos="fade-left" data-aos-duration="1000">
             <div className="container">
               <div className="row">
                 <div className="col-md-8">
@@ -1842,7 +1853,7 @@ const Webinar = () => {
           <div className="custom-container">
             <div className="row">
               <div className="col-md-12 blue-br">
-                <h3>Case Examples</h3>
+                <h3 data-aos="fade-right" data-aos-easing="linear" data-aos-duration="1500">Case Examples</h3>
                 <div className="map_buttons">
                   <ul>
                     <li>
@@ -1911,7 +1922,7 @@ const Webinar = () => {
             <div className="container">
               <div className="row">
                 <div className="demo-video-form">
-                  <form className="form-horizontal">
+                  <form className="form-horizontal"  data-aos="fade-up" data-aos-duration="1100">
                     <h2>Get a FREE walkthrough</h2>
                     <p>
                       Need further information?

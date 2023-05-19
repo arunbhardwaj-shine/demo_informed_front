@@ -1702,7 +1702,7 @@ const LibraryEditListing = () => {
                                           ?
                                             typeof data?.trail_user_type == "string" && data?.trail_user_type != ""
                                             ?
-                                            JSON.parse(data?.trail_user_type).join()
+                                            JSON.parse(data?.trail_user_type).join(', ')
                                             : "N/A"
                                           : "N/A"
                                         }
