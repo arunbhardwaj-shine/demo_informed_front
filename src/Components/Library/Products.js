@@ -230,7 +230,7 @@ function Products() {
                               }}
                             >
                               <img
-                                src={path_image + "delete.svg"}
+                                title="Delete" src={path_image + "delete-icon.svg"}
                                 alt="Delete Row"
                               />
                             </button>
@@ -246,7 +246,7 @@ function Products() {
                               }}
                             >
                               <img
-                                src={path_image + "edit-white.svg"}
+                                title="Edit" src={path_image + "edit-purple.svg"}
                                 alt="Delete Row"
                               />
                             </button>

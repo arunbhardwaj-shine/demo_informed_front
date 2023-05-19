@@ -1902,7 +1902,7 @@ const LibraryEditListing = () => {
                                                 data?.trail_user_type != ""
                                                 ? JSON.parse(
                                                     data?.trail_user_type
-                                                  ).join()
+                                                  ).join(', ')
                                                 : "N/A"
                                               : "N/A"}
                                           </h6>

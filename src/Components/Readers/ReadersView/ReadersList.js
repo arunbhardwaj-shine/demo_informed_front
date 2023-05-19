@@ -33,6 +33,8 @@ const NewReaders = () => {
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [country, setCountry] = useState([]);
+  const [isFlag, setFlag] = useState(0);
+
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
@@ -140,12 +142,13 @@ const NewReaders = () => {
         userType: 5,
         search: search,
         type: "",
+        flag:isFlag,
         page: page,
         limit: limit,
       };
 
       let payload = { ...data, ...obj };
-
+   
       const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       if (spcFlag == 0) {
         let body = {
@@ -200,6 +203,12 @@ const NewReaders = () => {
         setIsLoaded(false);
       }
 
+       if(res?.data?.data?.flag == 1){
+        setFlag(1)
+       }else{
+        console.log("- imhererere",res?.data?.data?.flag)
+        setFlag(res?.data?.data?.flag?res?.data?.data?.flag:0)
+       }
       setPageAll(false);
       setApiCallStatus(true);
       loader("hide");
@@ -236,15 +245,20 @@ const NewReaders = () => {
   };
 
   const loadMoreClicked = () => {
+    console.log("-er",isFlag)
     // setPageAllClicked(true);
     let sp = page + 1;
     getReaderListData(sp, filterObject, search, 1);
-    setPage(page + 1);
-    // setType("rest");
+      if(isFlag == 1){
+        setPage(2)
+      }else{
+        setPage(sp);
+      }
   };
 
   const searchChange = (e) => {
     setSearch(e?.target?.value);
+      setFlag(0)
     if (e?.target?.value === "") {
       setReaderDataList([]);
       // setPageAllClicked(false);
@@ -879,7 +893,8 @@ const NewReaders = () => {
 
   const applyFilter = (e) => {
     e.preventDefault();
-
+    setCount(0);
+    setFlag(0)
     setFilterApplyflag(1);
     setReaderDataList([]);
     setFilterObject(appliedFilter);

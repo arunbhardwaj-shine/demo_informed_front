@@ -2498,7 +2498,7 @@ ol.carousel-indicators.cst-tab li.active {
     bottom: 0;
     background: rgba(0 0 0 / 27%);
     box-shadow: -4px 0px 8px 0px #0000005c;
-    height: calc(100% - 144px);
+    height: calc(100% - 114px);
     width: 90px;
     margin-left: 5%;
     display: flex;
@@ -2513,7 +2513,7 @@ ol.carousel-indicators.cst-tab li.active {
     left: auto;
     box-shadow: -4px 0px 8px 0px #0000005c;
     margin-left: 0;
-    margin-right: 5%;
+    margin-right: 6%;
     display: flex;
 }
 
@@ -2542,6 +2542,37 @@ button:focus {
 #slider label img {
     border-radius: 11px;
     border: 1px solid #bdbdbd3b;
+}
+
+#open_video_popup .modal-content .modal-header {
+    border: none;
+    padding: 0;
+}
+
+#open_video_popup .react-player__preview {
+    min-height: 450px;
+}
+
+#open_video_popup .modal-content {
+    border: 0;
+}
+
+#open_video_popup.modal-dialog {
+    max-width: 930px;
+    min-height: calc(100% - 3.5rem);
+}
+
+#open_video_popup .modal-content .modal-header button {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    right: 27px;
+    z-index: 9;
+    top: 17px;
+}
+
+#open_video_popup .modal-content .modal-body {
+    padding: 0;
 }
 
 #pp-nav li a.activeMenu:hover p,

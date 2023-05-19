@@ -939,7 +939,7 @@ const ReaderAdd = () => {
                     )}
                     {groupId == 2 ||
                     (groupId == 3 && flag == 0 && pharmaData == 0) ? (
-                      <Form.Group className="form-group">
+                      <Form.Group className="form-group margin-added">
                         <Form.Label htmlFor="">Province</Form.Label>
                         <Select
                           options={userDetail?.province}

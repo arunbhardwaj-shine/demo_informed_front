@@ -214,7 +214,7 @@ const OpeningByCountry = () => {
                       defaultValue={
                         selectFilter?.current ? selectFilter?.current : "null"
                       }
-                      className="dropdown-basic-button split-button-dropup"
+                      className="dropdown-basic-button split-button-dropup btn-bigger"
                       isClearable
                     />
                   </div>
