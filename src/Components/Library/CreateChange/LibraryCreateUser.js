@@ -42,7 +42,7 @@ const LibraryCreateUser = () => {
     expDatetime: new Date(
       moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
     ),
-    limit: "",
+    // limit: "",
     uploadFile: "",
     contentTitle: "",
     keyAuthor: "",
@@ -237,9 +237,10 @@ const LibraryCreateUser = () => {
     );
 
     if (Object.keys(err)?.length) {
-      if (Object.keys(err)[0] == "limit") {
-        limitFieldRef.current.focus();
-      } else if (Object.keys(err)[0] == "contentTitle") {
+      // if (Object.keys(err)[0] == "limit") {
+      //   limitFieldRef.current.focus();
+      // }
+      if (Object.keys(err)[0] == "contentTitle") {
         titleFieldRef.current.focus();
       }
 

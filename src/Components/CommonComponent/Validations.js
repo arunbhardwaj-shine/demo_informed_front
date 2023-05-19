@@ -6,30 +6,35 @@ export const createContent = (data, fileCheck, groupId = 2) => {
   // if (!data?.limitOfUsage) {
   //   error.limitOfUsage = "Limit of usage is required!";
   // }
-  if (groupId == 2 && !data?.limit) {
-    error.limit = "Limit is required";
-  } else if (groupId == 2 && data?.limit) {
-    if (data?.limit < 0) {
-      error.limit = "Limit must be greater than or equal to 0";
+  if (data.hasOwnProperty("limit")) {
+    if (groupId == 2 && !data?.limit) {
+      error.limit = "Limit is required";
+    } else if (groupId == 2 && data?.limit) {
+      if (data?.limit < 0) {
+        error.limit = "Limit must be greater than or equal to 0";
+      }
     }
   }
-  
+
   if (!data?.contentTitle) {
     error.contentTitle = "Content title is required!";
   }
 
-  if(data.hasOwnProperty('chapter')){
-    data.chapter?.forEach((item,index) =>{
-      if(!item.uploadFile){
-        if(!error?.chapter?.[index]){
-          if(localStorage.getItem('user_id') != "56Ek4feL/1A8mZgIKQWEqg=="){
-            error.chapter = {...error.chapter,[index]:"Chapter is required"};
-          }else{
-            error.chapter = {...error.chapter,[index]:"File is required"};
+  if (data.hasOwnProperty("chapter")) {
+    data.chapter?.forEach((item, index) => {
+      if (!item.uploadFile) {
+        if (!error?.chapter?.[index]) {
+          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+            error.chapter = {
+              ...error.chapter,
+              [index]: "Chapter is required",
+            };
+          } else {
+            error.chapter = { ...error.chapter, [index]: "File is required" };
           }
         }
       }
-    })
+    });
   }
 
   // if (data.hasOwnProperty('trial')) {
@@ -42,8 +47,6 @@ export const createContent = (data, fileCheck, groupId = 2) => {
   //     error.blindType  = "Blind Type is required";
   //   }
   // }
-
-
 
   if (!data?.docintelFormat) {
     error.docintelFormat = "Docintel format is required!";

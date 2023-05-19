@@ -143,9 +143,9 @@ const TrendingTopics = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header">
-              <div className="page-title d-flex">
-                {/* <h2>Trending Topics</h2> */}
-              </div>
+              {/* <div className="page-title d-flex">
+                <h2>Trending Topics</h2>
+              </div> */}
             </div>
             <div className="distribute-page-reader">
               <svg
