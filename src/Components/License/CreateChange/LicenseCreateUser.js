@@ -6,7 +6,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { createContent } from "../../CommonComponent/Validations";
-import { Button, Form, Dropdown, DropdownButton, Col, Row } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  Dropdown,
+  DropdownButton,
+  Col,
+  Row,
+} from "react-bootstrap";
 import { postFormData, postData } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
@@ -175,33 +182,33 @@ const LicenseCreateUser = () => {
       userInputs.chapter = chapter;
     }
 
-    if(userDetail?.user?.[0]?.flag == 1 &&
-      userDetail?.user?.[0]?.group_id == 3){
-        userInputs.chapter = chapter
-        if(!userInputs?.trial){
-          userInputs.trial = ""
-        }
-        if(!userInputs?.blindType){
-          userInputs.blindType = ""
-        }
-      }else{
-
+    if (
+      userDetail?.user?.[0]?.flag == 1 &&
+      userDetail?.user?.[0]?.group_id == 3
+    ) {
+      userInputs.chapter = chapter;
+      if (!userInputs?.trial) {
+        userInputs.trial = "";
       }
+      if (!userInputs?.blindType) {
+        userInputs.blindType = "";
+      }
+    } else {
+    }
 
     const err = createContent(
       userInputs,
       ebookFile,
       userDetail?.user?.[0]?.group_id
     );
-    // console.log("-err",err)
-
 
     if (Object.keys(err)?.length) {
-        if(Object.keys(err)[0] == "limit") {
-          limitFieldRef.current.focus();
-        }else if(Object.keys(err)[0] == "contentTitle"){
-          titleFieldRef.current.focus();
-        }
+      if (Object.keys(err)[0] == "limit") {
+        limitFieldRef.current.focus();
+      } else if (Object.keys(err)[0] == "contentTitle") {
+        titleFieldRef.current.focus();
+      }
+      toast.error(err[Object.keys(err)[0]]);
       setError(err);
       return;
     } else {
@@ -213,9 +220,15 @@ const LicenseCreateUser = () => {
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
-        formData.append("production", userInputs?.production?userInputs?.production:0);
-        formData.append("sales", userInputs?.sales?userInputs?.sales:0);
-        formData.append("costCenter", userInputs?.costCenter?userInputs?.costCenter:"");
+        formData.append(
+          "production",
+          userInputs?.production ? userInputs?.production : 0
+        );
+        formData.append("sales", userInputs?.sales ? userInputs?.sales : 0);
+        formData.append(
+          "costCenter",
+          userInputs?.costCenter ? userInputs?.costCenter : ""
+        );
 
         if (userDetail?.user?.[0]?.group_id == 3) {
           formData.append(
@@ -420,7 +433,6 @@ const LicenseCreateUser = () => {
         //   user_id: localStorage.getItem("user_id"),
         //   tags: newTag,
         // };
-
       } else {
         toast.error("Tag already in list.");
       }
@@ -524,14 +536,14 @@ const LicenseCreateUser = () => {
                             <input
                               className="form-check-input"
                               value=""
-                              id={"flexCheckDefault_"+index}
+                              id={"flexCheckDefault_" + index}
                               type="checkbox"
                               defaultValue={reseller.includes(item?.id)}
                               onClick={(e) => handleReseller(e, item)}
                             />
                             <label
                               className="form-check-label"
-                              htmlFor={"flexCheckDefault_"+index}
+                              htmlFor={"flexCheckDefault_" + index}
                             >
                               {item?.value}
                             </label>
@@ -864,13 +876,17 @@ const LicenseCreateUser = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="">Set limit of usage *</label>
+                <label htmlFor="">
+                  Set limit of usage <span>*</span>
+                </label>
                 <input
                   type="number"
                   name="limit"
                   min="0"
                   ref={limitFieldRef}
-                  className={error?.limit ? "form-control error" : "form-control"}
+                  className={
+                    error?.limit ? "form-control error" : "form-control"
+                  }
                   placeholder="“0” value means unlimited limit"
                   onChange={handleChange}
                 />
@@ -879,7 +895,7 @@ const LicenseCreateUser = () => {
                 ) : null}
               </div>
               <div className="form-group">
-                <label htmlFor="">Enable</label>
+                <label htmlFor="">Allow</label>
                 <fieldset id="group2">
                   <input
                     type="checkbox"
@@ -901,8 +917,7 @@ const LicenseCreateUser = () => {
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
-                  {
-                    /*
+                  {/*
                     <input
                       type="checkbox"
                       value="value3"
@@ -913,9 +928,7 @@ const LicenseCreateUser = () => {
                       id="limitagreed3"
                     />
                     <label htmlFor="limitagreed3">Share</label>
-                    */
-                  }
-
+                    */}
                 </fieldset>
               </div>
             </div>
@@ -929,7 +942,7 @@ const LicenseCreateUser = () => {
                     handleChange(e?.target.value, "specialRequirment")
                   }
                   rows="5"
-                  placeholder="Please type your notes here.."
+                  placeholder="Please type your notes here..."
                 ></textarea>
               </div>
             </div>
@@ -1031,11 +1044,17 @@ const LicenseCreateUser = () => {
                 <div className="row">
                   <div className="col-12 col-md-6">
                     <div className="form-group val">
-                      <label htmlFor="">Content title *</label>
+                      <label htmlFor="">
+                        Content title <span>*</span>
+                      </label>
                       <input
                         type="text"
                         name="contentTitle"
-                        className={error?.contentTitle ? "form-control error" : "form-control"}
+                        className={
+                          error?.contentTitle
+                            ? "form-control error"
+                            : "form-control"
+                        }
                         ref={titleFieldRef}
                         onChange={(e) => {
                           handleChange(e);
@@ -1058,7 +1077,11 @@ const LicenseCreateUser = () => {
                       <input
                         type="text"
                         name="journalTitle"
-                        className={error?.journalTitle ? "form-control error" : "form-control"}
+                        className={
+                          error?.journalTitle
+                            ? "form-control error"
+                            : "form-control"
+                        }
                         onChange={(e) => handleChange(e)}
                       />
                       {error?.journalTitle ? (
@@ -1153,9 +1176,15 @@ const LicenseCreateUser = () => {
                     ) : null}
 
                     <div className="form-group val">
-                      <label htmlFor="">Docintel format *</label>
+                      <label htmlFor="">
+                        Docintel format <span>*</span>
+                      </label>
                       <Select
-                        className={error?.docintelFormat ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
+                        className={
+                          error?.docintelFormat
+                            ? "dropdown-basic-button split-button-dropup error"
+                            : "dropdown-basic-button split-button-dropup"
+                        }
                         options={ePrintType}
                         isClearable
                         placeholder="Select type of Docintel format "
@@ -1179,7 +1208,11 @@ const LicenseCreateUser = () => {
                               type="file"
                               name="file-6[]"
                               id="file-6"
-                              className={error?.uploadFile ? "inputfile inputfile-6 error" : "inputfile inputfile-6"}
+                              className={
+                                error?.uploadFile
+                                  ? "inputfile inputfile-6 error"
+                                  : "inputfile inputfile-6"
+                              }
                               accept="application/pdf"
                               onChange={(e) => handleChange(e, "uploadFile")}
                             />
@@ -1248,7 +1281,11 @@ const LicenseCreateUser = () => {
                                       type="file"
                                       name={`file-${i}`}
                                       id={`file-${i}`}
-                                      className={error?.chapter?.[i] ? "inputfile inputfile-6 error" :"inputfile inputfile-6"}
+                                      className={
+                                        error?.chapter?.[i]
+                                          ? "inputfile inputfile-6 error"
+                                          : "inputfile inputfile-6"
+                                      }
                                       accept="application/pdf"
                                       onChange={(e) =>
                                         handleOnEbookChange(e, i)
@@ -1267,16 +1304,14 @@ const LicenseCreateUser = () => {
                                 </div>
                               </div>
                               <div className="chapter-btn-wrapper">
-                                {
-                                  chapter.length -1 == i ?
-                                    <Button
-                                      className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
-                                      onClick={addMoreChClicked}
-                                    >
-                                      Add Ch +
-                                    </Button>
-                                    : null
-                              }
+                                {chapter.length - 1 == i ? (
+                                  <Button
+                                    className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
+                                    onClick={addMoreChClicked}
+                                  >
+                                    Add Ch +
+                                  </Button>
+                                ) : null}
 
                                 {chapter.length > 1 ? (
                                   <Button
@@ -1373,7 +1408,10 @@ const LicenseCreateUser = () => {
                           ) : (
                             <p>
                               Upload your cover image <br />
-                              <span><i>Allowed formats PNG,JPEG</i></span><br />
+                              <span>
+                                <i>Allowed formats: PNG,JPEG</i>
+                              </span>
+                              <br />
                               <span>(Recommended size 88 X 124)</span>
                             </p>
                           )}
@@ -1393,7 +1431,7 @@ const LicenseCreateUser = () => {
                         onChange={(e) =>
                           handleChange(e?.target.value, "productionNotes")
                         }
-                        placeholder="Please type your notes here.."
+                        placeholder="Please type your notes here..."
                       ></textarea>
                     </div>
                   </div>
@@ -1458,7 +1496,9 @@ const LicenseCreateUser = () => {
                 video in{" "}
               </p>
               <Form.Group className="formgroup">
-                <Form.Label>Videos *</Form.Label>
+                <Form.Label>
+                  Videos <span>*</span>
+                </Form.Label>
                 <DropdownButton
                   className="dropdown-basic-button split-button-dropup "
                   title={videoSelect != "" ? videoSelect : "Select your video"}

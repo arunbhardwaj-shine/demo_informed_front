@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Modal, Row, Table, Form, Accordion } from "react-bootstrap";
+import { Modal, Row, Table, Form, Accordion, Col } from "react-bootstrap";
 import { popup_alert } from "../../popup_alert";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { postData, deleteData } from "../../axios/apiHelper";
+import { postData, deleteData, getData } from "../../axios/apiHelper";
 import CommonConfirmModel from "../../Model/CommonConfirmModel";
 import { loader } from "../../loader";
 import { Button } from "react-bootstrap";
@@ -27,7 +27,7 @@ const SpcView = () => {
     country: ["Algeria", "USA", "Albania"],
     language: ["English", "Russian", "Spainish", "italian"],
 
-    IBU: ["Haematology", "Immunotherapy", "KSU"],
+    IBU: ["Haematology", "Critical Care", "Immunotherapy"],
     product: ["Octapharma", "IBUE", "Haematology"],
   });
   const [filterObject, setFilterObject] = useState({});
@@ -36,6 +36,7 @@ const SpcView = () => {
 
   useEffect(() => {
     getSpcData("");
+    getFilters();
   }, []);
 
   const getSpcData = async (searchVal) => {
@@ -55,6 +56,17 @@ const SpcView = () => {
       loader("hide");
     }
     setApiCallStatus(true);
+  };
+
+  const getFilters = async () => {
+    try {
+      const res = await getData(ENDPOINT.SPCFILTERS);
+      if (res?.data?.data) {
+        setFilterData(res?.data?.data);
+      }
+    } catch (err) {
+      console.log("err");
+    }
   };
 
   const searchChange = (e) => {
@@ -107,13 +119,10 @@ const SpcView = () => {
 
     if (e?.target?.checked == true) {
       if (
-        key == "draft" ||
-        key == "ibu" ||
-        key == "Selected By Articles" ||
-        key == "SPC Included" ||
-        key == "Blinded" ||
-        key == "Mandatory" ||
-        key == "List"
+        key == "product" ||
+        key == "IBU" ||
+        key == "language" ||
+        key == "country"
       ) {
         filterObject[key] = [];
       }
@@ -194,10 +203,10 @@ const SpcView = () => {
   };
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header sticky">
               <div className="page-title d-flex">
                 <Link
                   className="btn btn-primary btn-bordered back-btn"
@@ -271,7 +280,7 @@ const SpcView = () => {
                     <input
                       className="form-control me-2"
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search by title"
                       aria-label="Search"
                       onChange={(e) => searchChange(e)}
                     />
@@ -299,7 +308,11 @@ const SpcView = () => {
                   }
                 >
                   <button
-                    className="btn btn-secondary dropdown"
+                    className={
+                      Object.keys(filterObject).length > 0
+                        ? "btn btn-secondary dropdown filter_applied"
+                        : "btn btn-secondary dropdown"
+                    }
                     type="button"
                     id="dropdownMenuButton2"
                     onClick={() => setShowFilter((showfilter) => !showfilter)}
@@ -383,14 +396,10 @@ const SpcView = () => {
                                                   <label className="select-multiple-option">
                                                     <input
                                                       type={
-                                                        key == "draft" ||
-                                                        key == "ibu" ||
-                                                        key ==
-                                                          "Selected By Articles" ||
-                                                        key == "SPC Included" ||
-                                                        key == "Blinded" ||
-                                                        key == "Mandatory" ||
-                                                        key == "List"
+                                                        key == "product" ||
+                                                        key == "IBU" ||
+                                                        key == "language" ||
+                                                        key == "country"
                                                           ? "radio"
                                                           : "checkbox"
                                                       }
@@ -636,7 +645,7 @@ const SpcView = () => {
             </div>
           </Row>
         </div>
-      </div>
+      </Col>
 
       <div className="delete">
         <CommonConfirmModel

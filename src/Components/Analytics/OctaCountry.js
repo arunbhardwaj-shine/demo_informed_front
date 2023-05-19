@@ -91,8 +91,8 @@ const OctaCountry = () => {
     series: []
   });
 
-  const selectRegionValue = useRef("EU");
-  const selectCountryValue = useRef("Austria");
+  const selectRegionValue = useRef("CEE/CIS");
+  const selectCountryValue = useRef("Belarus");
   const getCountry = useRef(null);
 
 

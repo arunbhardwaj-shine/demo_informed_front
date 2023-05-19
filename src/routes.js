@@ -127,6 +127,7 @@ import OctalatchDeliveryRegistration from "./Components/Analytics/OctalatchDeliv
 import Webinar from "./Components/Login/Webinar";
 import BouncedEmail from "./Components/Distributes/BouncedEmail";
 import RDRegister from "./Components/R&D/RDRegister";
+import SetLayout from "./Components/CommonComponent/SetLayout";
 
 let platform = 0;
 let show = 0;
@@ -152,7 +153,6 @@ else if(window.location.pathname == "/webinar" || window.location.pathname == "/
   show = 0;
 }
 else {
-  // require("./Components/NewWebinar/assets/css/webinar.css");
   require("./Components/assets/css/style.css");
   require("./Components/assets/css/responsive.css");
   require("./Components/assets/css/custom.css");
@@ -186,6 +186,9 @@ const Routing = () => {
          <Route path="rd-register" element={<RDRegister />} />
 
           //LoginLayout for pages after login
+          <Route path="/home"
+            element={<SetLayout component={SetLayout} /> }
+          />
           <Route path="/library-content"
             element={<LoginLayout component={LibraryContent} /> }
           />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Form, Row, Accordion, ProgressBar } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
@@ -67,6 +67,7 @@ const ContentAnalytics = () => {
       setSelectedPdf(pdfObj[0].value);
       setIsDataFound(true);
     } catch (err) {
+      loader("hide");
       setIsDataFound(false);
       console.log(err);
     }
@@ -74,7 +75,7 @@ const ContentAnalytics = () => {
 
   async function filterPdfData(pdfId) {
     setIsLoaded(false);
-
+    setReaderData([]);
     setIsAccordionOpen(false);
     setIsReaderAccordionOpen(false);
 
@@ -156,11 +157,10 @@ const ContentAnalytics = () => {
   const handleParent = async () => {
     try {
       loader("show");
-
       const element = document.getElementById("parent");
       // add padding to the element
 
-      const dataUrl = await domtoimage.toPng(element);
+      const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
 
       const link = document.createElement("a");
       link.download = `${Math.random()}.png`;
@@ -200,11 +200,35 @@ const ContentAnalytics = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
-              <div className="page-title d-flex">
-                <h2>Content Analytics</h2>
+            {localStorage.getItem("group_id") == 2 ? (
+              ""
+            ) : (
+              <div className="top-header">
+                <div className="page-title d-flex">
+                  {state?.pdfId ? (
+                    <Link
+                      className="btn btn-primary btn-bordered back-btn"
+                      to="/library-content"
+                    >
+                      <svg
+                        width="14"
+                        height="24"
+                        viewBox="0 0 14 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                          fill="#97B6CF"
+                        />
+                      </svg>
+                    </Link>
+                  ) : null}
+                  <h2>Content Analytics</h2>
+                </div>
               </div>
-            </div>
+            )}
+
             <div className="create-change-content spc-content analytic-charts">
               {isDataFound ? (
                 <div className="form_action d-flex justify-content-between align-items-center">
@@ -240,7 +264,8 @@ const ContentAnalytics = () => {
                   <div className="clear-search d-flex">
                     <button
                       style={{ marginRight: "10px" }}
-                      onClick={handleParent}
+                      onClick={downloadUniqueStats}
+                      title="Download stats"
                       className="btn btn-outline-primary"
                     >
                       <svg
@@ -262,7 +287,8 @@ const ContentAnalytics = () => {
                     </button>
 
                     <button
-                      onClick={downloadUniqueStats}
+                      onClick={handleParent}
+                      title="Print article"
                       className="btn btn-outline-primary"
                     >
                       <svg
@@ -362,7 +388,15 @@ const ContentAnalytics = () => {
                                 </div>
                               ) : null}
                               {isReaderAccordionOpen ? (
-                                <ReadersPerPageLayout data={readerData} />
+                                readerData?.length ? (
+                                  <ReadersPerPageLayout data={readerData} />
+                                ) : (
+                                  <>
+                                    <div className="no_found">
+                                      <p align="center">No Data Available</p>
+                                    </div>
+                                  </>
+                                )
                               ) : null}
                             </Accordion.Body>
                           </Accordion.Item>

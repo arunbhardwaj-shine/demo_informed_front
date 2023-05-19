@@ -627,6 +627,11 @@ const [tableDataIbu, setTableDataIbu] = useState({
     //  setNewData(hadData);
 
       const { cis, ibu } = hadData;
+//       console.log("data----------->", hadData.cis);
+   hadData.cis.sort((a, b) => a.ibu.localeCompare(b.ibu));
+   hadData.ibu.sort((a, b) => a.ibu.localeCompare(b.ibu));
+// console.log("Sorted data:", sortedData);
+
       const monthsString = cis[0].Months;
       const months = monthsString
         const reversedMonths = [...months].reverse();
@@ -637,11 +642,13 @@ const [tableDataIbu, setTableDataIbu] = useState({
             newData += value;
             newAr.push(newData);
           });
+          const name = item.ibu;
+          
           const totalSum = item.total;
           const totalReaders = item.total.reduce((acc, val) => acc + val, 0);
 
           return {
-            name: item.ibu,
+            name: name,
             totalReaders,
             data: newAr,
             color: Highcharts.getOptions().colors[index],

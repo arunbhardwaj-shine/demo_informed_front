@@ -27,7 +27,7 @@ const Header = () => {
   const logout = () => {
     localStorage.clear();
     navigate("/informed");
-  }
+  };
 
   useEffect(() => {
     // if (queryParams?.id && queryParams?.id != "") {
@@ -90,7 +90,8 @@ const Header = () => {
           <div className="container-fluid">
             <Link
               className="navbar-brand"
-              to={"/library-content"}
+              // to={"/library-content"}
+              to={"/home"}
             >
               <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
             </Link>
@@ -160,36 +161,46 @@ const Header = () => {
                     CRM
                   </Link>
                 </li>
-                <li className={
-                  window.location.pathname == "/registration-type" ||
-                  window.location.pathname == "/top-sales" ||
-                  window.location.pathname == "/top-reseller" ||
-                  window.location.pathname == "/top-clients" ||
-                  window.location.pathname == "/sales-by-country" ||
-                  window.location.pathname == "/openings-by-country" ||
-                  window.location.pathname == "/totalhcp" ||
-                  window.location.pathname == "/country-registration" ||
-                  window.location.pathname == "/delivery-stats" ||
-                  window.location.pathname == "/trending-topics" ||
-                  window.location.pathname == "/campaign-stats" ||
-                  window.location.pathname == "/trending-content" ||
-                  window.location.pathname == "/octa-trending-content" ||
-                  window.location.pathname == "/content-type" ||
-                  window.location.pathname == "/octalatch-totalhcp" ||
-                  window.location.pathname == "/octa-country" ||
-                  window.location.pathname == "/octalatch-deliveryregistration" ||
-                  window.location.pathname == "/content-analytics"
-                  ? "nav-item active active-main"
-                  : "nav-item"
-                } >
-                  <Link className="nav-link" to={
-                    localStorage.getItem("group_id") == 2 ? "/content-analytics" :
-                    localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
-                     "/totalhcp"
-                     : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ?
-                     "/octalatch-totalhcp"
-                     : "/content-analytics"
-                  }>
+                <li
+                  className={
+                    window.location.pathname == "/registration-type" ||
+                    window.location.pathname == "/octa-country-registration" ||
+                    window.location.pathname == "/top-sales" ||
+                    window.location.pathname == "/top-reseller" ||
+                    window.location.pathname == "/top-clients" ||
+                    window.location.pathname == "/sales-by-country" ||
+                    window.location.pathname == "/openings-by-country" ||
+                    window.location.pathname == "/totalhcp" ||
+                    window.location.pathname == "/country-registration" ||
+                    window.location.pathname == "/delivery-stats" ||
+                    window.location.pathname == "/trending-topics" ||
+                    window.location.pathname == "/campaign-stats" ||
+                    window.location.pathname == "/trending-content" ||
+                    window.location.pathname == "/octa-trending-content" ||
+                    window.location.pathname == "/content-type" ||
+                    window.location.pathname == "/octalatch-totalhcp" ||
+                    window.location.pathname == "/octa-country" ||
+                    window.location.pathname ==
+                      "/octalatch-deliveryregistration" ||
+                    window.location.pathname == "/content-analytics"
+                      ? "nav-item active active-main"
+                      : "nav-item"
+                  }
+                >
+                  <Link
+                    className="nav-link"
+                    to={
+                      localStorage.getItem("group_id") == 2
+                        ? "/content-analytics"
+                        : localStorage.getItem("user_id") ==
+                          "B7SHpAc XDXSH NXkN0rdQ=="
+                        ? "/totalhcp"
+                        : localStorage.getItem("user_id") ==
+                          "iSnEsKu5gB/DRlycxB6G4g=="
+                        ? "/octalatch-totalhcp"
+                        : "/content-analytics"
+                    }
+                  >
                     ANALYTICS
                   </Link>
                 </li>
@@ -218,10 +229,7 @@ const Header = () => {
                       : "nav-item"
                   }
                 >
-                  <Link
-                    className="nav-link"
-                    to={"/EmailList"}
-                  >
+                  <Link className="nav-link" to={"/EmailList"}>
                     EMAIL
                   </Link>
                 </li>
@@ -253,18 +261,25 @@ const Header = () => {
                   </li>
                 ) : null}
 
-                {/*typeof localStorage.getItem("webinar_flag") !== "undefined" && localStorage.getItem("webinar_flag") == 1 ? (
+                {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
+                localStorage.getItem("webinar_flag") == 1 &&
+                localStorage.getItem("user_id") !=
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
                   <li className="nav-item">
                     <a
                       className="nav-link"
-                      href="https://informed.pro/Webinar/readers_webinar"
+                      target="_blank"
+                      href={
+                        "https://informed.pro/Webinar/readers_webinar?rdylr=" +
+                        localStorage.getItem("user_id")
+                      }
                     >
                       WEBINAR
                     </a>
                   </li>
                 ) : (
                   ""
-                )*/}
+                )}
 
                 {localStorage.getItem("user_id") ==
                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -272,7 +287,10 @@ const Header = () => {
                     <a
                       className="nav-link"
                       target="_blank"
-                      href="https://informed.pro/webinar/qa_survey?cmid=2147501188"
+                      href={
+                        "https://informed.pro/webinar/qa_survey?rdylr=" +
+                        localStorage.getItem("user_id")
+                      }
                     >
                       Q&A/SURVEY
                     </a>

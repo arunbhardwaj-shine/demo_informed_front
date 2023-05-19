@@ -123,7 +123,7 @@ const EditLicense = () => {
     });
 
     let country = [];
-    if( hadData?.data?.data?.category?.length){
+    if (hadData?.data?.data?.category?.length) {
       hadData?.data?.data?.country.reduce((objEntries, key) => {
         country.push({
           label: key,
@@ -132,9 +132,8 @@ const EditLicense = () => {
       });
     }
 
-
     let category = [];
-    if( hadData?.data?.data?.category?.length){
+    if (hadData?.data?.data?.category?.length) {
       hadData?.data?.data?.category.reduce((objEntries, key) => {
         category.push({
           label: key,
@@ -144,13 +143,13 @@ const EditLicense = () => {
     }
 
     let tags = [];
-    if( hadData?.data?.data?.tags?.length){
+    if (hadData?.data?.data?.tags?.length) {
       hadData?.data?.data?.tags?.reduce((objEntries, key) => {
         tags.push(key?.value);
       });
     }
 
-    setAllTags(tags)
+    setAllTags(tags);
 
     setUserDetail({
       ...userDetail,
@@ -174,8 +173,8 @@ const EditLicense = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
-      if(hadData?.data?.data?.pdfData?.tags){
-        setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags))
+      if (hadData?.data?.data?.pdfData?.tags) {
+        setTagClickedFirst(JSON.parse(hadData?.data?.data?.pdfData?.tags));
       }
       setReseller(
         hadData?.data?.data?.pdfData?.multiple_publisher
@@ -197,7 +196,6 @@ const EditLicense = () => {
     initalFun();
   }, []);
 
-
   const newTagChanged = (e) => {
     setNewTag(e.target.value);
     e.target.value = "";
@@ -217,13 +215,12 @@ const EditLicense = () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       toast.error("Please input a tag");
     } else {
-
-        loader("show");
-        await postData(ENDPOINT.ADD_TAGS, {
-          product: newTag,
-          type:2
-        });
-        loader("hide")
+      loader("show");
+      await postData(ENDPOINT.ADD_TAGS, {
+        product: newTag,
+        type: 2,
+      });
+      loader("hide");
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
@@ -268,30 +265,33 @@ const EditLicense = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
-    if(userInputs.docintelFormat == "ebook"){
-      userInputs.chapter = chapter
+    if (userInputs.docintelFormat == "ebook") {
+      userInputs.chapter = chapter;
     }
-    if(userDetail?.user?.[0]?.flag == 1 &&
-      userDetail?.user?.[0]?.group_id == 3){
-        userInputs.chapter = chapter
-        if(!userInputs?.trial){
-          userInputs.trial = ""
-        }
-        if(!userInputs?.blindType){
-          userInputs.blindType = ""
-        }
-      }else{
-        delete userInputs.blindType
-        delete userInputs.trial
+    if (
+      userDetail?.user?.[0]?.flag == 1 &&
+      userDetail?.user?.[0]?.group_id == 3
+    ) {
+      userInputs.chapter = chapter;
+      if (!userInputs?.trial) {
+        userInputs.trial = "";
       }
+      if (!userInputs?.blindType) {
+        userInputs.blindType = "";
+      }
+    } else {
+      delete userInputs.blindType;
+      delete userInputs.trial;
+    }
     const err = LibraryEditValidation(userInputs);
 
     if (Object.keys(err)?.length) {
-        if(Object.keys(err)?.[0] == "limit") {
-          limitFieldRef.current.focus();
-        }else if(Object.keys(err)?.[0] == "contentTitle"){
-          titleFieldRef.current.focus();
-        }
+      if (Object.keys(err)?.[0] == "limit") {
+        limitFieldRef.current.focus();
+      } else if (Object.keys(err)?.[0] == "contentTitle") {
+        titleFieldRef.current.focus();
+      }
+      toast.error(err[Object.keys(err)[0]]);
       setError(err);
       return;
     } else {
@@ -300,14 +300,18 @@ const EditLicense = () => {
         let formData = new FormData();
 
         formData.append("keyAuthor", userInputs?.keyAuthor);
-        formData.append("production", userInputs?.production_id?userInputs?.production_id:0);
-        formData.append("sales", userInputs?.sales_id?userInputs?.sales_id:0);
-        formData.append("costCenter", userInputs?.cost_center?userInputs?.cost_center:"");
-
-
-
-
-
+        formData.append(
+          "production",
+          userInputs?.production_id ? userInputs?.production_id : 0
+        );
+        formData.append(
+          "sales",
+          userInputs?.sales_id ? userInputs?.sales_id : 0
+        );
+        formData.append(
+          "costCenter",
+          userInputs?.cost_center ? userInputs?.cost_center : ""
+        );
 
         formData.append("expDatetime", userInputs?.expDatetime);
         formData.append("limit", userInputs?.limit);
@@ -356,10 +360,7 @@ const EditLicense = () => {
           "allowLibrary",
           JSON.stringify(userInputs?.allow_library)
         );
-        formData.append(
-          "allowRequest",
-          JSON.stringify(userInputs?.chat_box)
-        );
+        formData.append("allowRequest", JSON.stringify(userInputs?.chat_box));
         formData.append("draft", JSON.stringify(userInputs?.draft));
         formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
 
@@ -367,9 +368,11 @@ const EditLicense = () => {
         formData.append("blindType", userInputs?.blindType);
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
-        formData.append("tags", tagClickedFirst?.length?JSON.stringify(tagClickedFirst):"");
+        formData.append(
+          "tags",
+          tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
+        );
         formData.append("licensed", 1);
-
 
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
           header: {
@@ -449,7 +452,6 @@ const EditLicense = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
-
 
   const saveButtonClicked = async () => {
     loader("show");
@@ -558,7 +560,11 @@ const EditLicense = () => {
                 <Select
                   options={userDetail?.production}
                   defaultValue={
-                    userDetail?.production?.[userDetail?.production.findIndex(el => el.id == userInputs?.production_id)]
+                    userDetail?.production?.[
+                      userDetail?.production.findIndex(
+                        (el) => el.id == userInputs?.production_id
+                      )
+                    ]
                   }
                   onChange={(e) => handleChange(e?.id, "production_id")}
                   placeholder="Select own production person"
@@ -572,7 +578,11 @@ const EditLicense = () => {
                   options={userDetail?.sales}
                   placeholder="Who made the sale?"
                   defaultValue={
-                    userDetail?.sales?.[userDetail?.sales.findIndex(el => el.id == userInputs?.sales_id)]
+                    userDetail?.sales?.[
+                      userDetail?.sales.findIndex(
+                        (el) => el.id == userInputs?.sales_id
+                      )
+                    ]
                   }
                   onChange={(e) => handleChange(e?.id, "sales_id")}
                   className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
@@ -592,7 +602,7 @@ const EditLicense = () => {
                             <input
                               className="form-check-input"
                               value=""
-                              id={"flexCheckDefault_"+item?.id}
+                              id={"flexCheckDefault_" + item?.id}
                               type="checkbox"
                               // userInputs
                               defaultChecked={reseller.includes(item?.id)}
@@ -600,7 +610,7 @@ const EditLicense = () => {
                             />
                             <label
                               className="form-check-label"
-                              htmlFor={"flexCheckDefault_"+item?.id}
+                              htmlFor={"flexCheckDefault_" + item?.id}
                             >
                               {item?.value}
                             </label>
@@ -817,21 +827,18 @@ const EditLicense = () => {
                   </div>
                   <div className="tags_added">
                     <ul>
-
-                    {
-                        tagClickedFirst?.map((item,index) =>{
-                          return (
-                            <li className="list1">
+                      {tagClickedFirst?.map((item, index) => {
+                        return (
+                          <li className="list1">
                             {item}
                             <img
                               src="componentAssets/images/filter-close.svg"
                               alt="Close-filter"
                               onClick={() => removeTagFinal(index)}
                             />
-                           </li>
-                          )
-                        })
-                      }
+                          </li>
+                        );
+                      })}
                       {/* <li className="list1">
                         Excessive bleedings{" "}
                         <img
@@ -965,7 +972,10 @@ const EditLicense = () => {
                   <label htmlFor="">Cost centre</label>
                   <Select
                     options={userDetail?.costCenter}
-                    defaultValue={{label:userInputs?.cost_center,value:userInputs?.cost_center}}
+                    defaultValue={{
+                      label: userInputs?.cost_center,
+                      value: userInputs?.cost_center,
+                    }}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                     placeholder="Select cost center"
@@ -982,9 +992,11 @@ const EditLicense = () => {
                   selected={
                     userInputs?.expDatetime
                       ? new Date(userInputs?.expDatetime)
-                      : new Date(moment(new Date(), "MM/DD/YYYY")
-                        .add("years", 1)
-                        .format("MM/DD/YYYY"))
+                      : new Date(
+                          moment(new Date(), "MM/DD/YYYY")
+                            .add("years", 1)
+                            .format("MM/DD/YYYY")
+                        )
                   }
                   name="expDatetime"
                   onChange={(e) => handleChange(e, "expDatetime")}
@@ -995,14 +1007,18 @@ const EditLicense = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="">Set limit of usage *</label>
+                <label htmlFor="">
+                  Set limit of usage <span>*</span>
+                </label>
                 <input
                   type="number"
                   name="limit"
                   min="0"
                   ref={limitFieldRef}
                   defaultValue={Number(userInputs?.limit)}
-                  className={error?.limit ? "form-control error" : "form-control"}
+                  className={
+                    error?.limit ? "form-control error" : "form-control"
+                  }
                   placeholder="“0” value means unlimited limit"
                   onChange={handleChange}
                 />
@@ -1011,7 +1027,7 @@ const EditLicense = () => {
                 ) : null}
               </div>
               <div className="form-group">
-                <label htmlFor="">Enable</label>
+                <label htmlFor="">Allow</label>
                 <fieldset id="group2">
                   <input
                     type="checkbox"
@@ -1035,8 +1051,7 @@ const EditLicense = () => {
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
-                  {
-                    /*
+                  {/*
                     <input
                       type="checkbox"
                       value="value3"
@@ -1048,9 +1063,7 @@ const EditLicense = () => {
                       id="limitagreed3"
                     />
                     <label htmlFor="limitagreed3">Share</label>
-                    */
-                  }
-
+                    */}
                 </fieldset>
               </div>
             </div>
@@ -1065,7 +1078,7 @@ const EditLicense = () => {
                     handleChange(e?.target?.value, "specialRequirment")
                   }
                   rows="5"
-                  placeholder="Please type your notes here.."
+                  placeholder="Please type your notes here..."
                 ></textarea>
               </div>
             </div>
@@ -1085,8 +1098,7 @@ const EditLicense = () => {
                 <div className="row justify-content-end align-items-center">
                   <div className="col-12 col-md-1">
                     <div className="header-btn-left">
-                      {
-                        /*<Link
+                      {/*<Link
                           className="btn btn-primary btn-bordered back-btn"
                           to="/license-content"
                         >
@@ -1102,8 +1114,7 @@ const EditLicense = () => {
                               fill="#97B6CF"
                             />
                           </svg>
-                        </Link>*/
-                      }
+                        </Link>*/}
                     </div>
                   </div>
                   <div className="col-12 col-md-9">
@@ -1164,11 +1175,17 @@ const EditLicense = () => {
                   <div className="row">
                     <div className="col-12 col-md-6">
                       <div className="form-group val">
-                        <label htmlFor="">Content title *</label>
+                        <label htmlFor="">
+                          Content title <span>*</span>
+                        </label>
                         <input
                           type="text"
                           name="contentTitle"
-                          className={error?.contentTitle ? "form-control error" : "form-control"}
+                          className={
+                            error?.contentTitle
+                              ? "form-control error"
+                              : "form-control"
+                          }
                           defaultValue={userInputs?.contentTitle}
                           ref={titleFieldRef}
                           onChange={(e) => {
@@ -1193,7 +1210,11 @@ const EditLicense = () => {
                           type="text"
                           name="journalTitle"
                           defaultValue={userInputs?.journalTitle}
-                          className={error?.journalTitle ? "form-control error" : "form-control"}
+                          className={
+                            error?.journalTitle
+                              ? "form-control error"
+                              : "form-control"
+                          }
                           onChange={(e) => handleChange(e)}
                         />
                         {error?.journalTitle ? (
@@ -1263,10 +1284,7 @@ const EditLicense = () => {
                                 name="group2"
                                 defaultChecked={userInputs?.chat_box}
                                 onClick={(e) =>
-                                  handleChange(
-                                    e.target?.checked,
-                                    "chat_box"
-                                  )
+                                  handleChange(e.target?.checked, "chat_box")
                                 }
                                 id="limitagreed4"
                               />
@@ -1282,19 +1300,28 @@ const EditLicense = () => {
                                     type="checkbox"
                                     name="group2"
                                     id="setasdraft1"
-                                    defaultChecked={userInputs?.draft?true:false}
+                                    defaultChecked={
+                                      userInputs?.draft ? true : false
+                                    }
                                     onChange={(e) => {
-                                      handleChange(
-                                        !e.target?.checked,
-                                        "draft"
-                                      );
+                                      handleChange(!e.target?.checked, "draft");
                                     }}
                                   />
                                   <span>
-                                    <span className={`switch-btn ${userInputs?.draft == 0?" Active":""}`}>
+                                    <span
+                                      className={`switch-btn ${
+                                        userInputs?.draft == 0 ? " Active" : ""
+                                      }`}
+                                    >
                                       No
                                     </span>
-                                    <span className={`switch-btn ${userInputs?.draft == 1?" Active":""}`}>Yes</span>
+                                    <span
+                                      className={`switch-btn ${
+                                        userInputs?.draft == 1 ? " Active" : ""
+                                      }`}
+                                    >
+                                      Yes
+                                    </span>
                                   </span>
                                   <a className="btn"></a>
                                 </label>
@@ -1305,9 +1332,15 @@ const EditLicense = () => {
                       ) : null}
 
                       <div className="form-group val">
-                        <label htmlFor="">Docintel format *</label>
+                        <label htmlFor="">
+                          Docintel format <span>*</span>
+                        </label>
                         <Select
-                          className={error?.docintelFormat ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
+                          className={
+                            error?.docintelFormat
+                              ? "dropdown-basic-button split-button-dropup error"
+                              : "dropdown-basic-button split-button-dropup"
+                          }
                           options={ePrintType}
                           defaultValue={
                             userInputs?.docintelFormat === "pdf"
@@ -1338,7 +1371,11 @@ const EditLicense = () => {
                                 type="file"
                                 name="file-6[]"
                                 id="file-6"
-                                className={error?.uploadFile ? "inputfile inputfile-6 error" : "inputfile inputfile-6"}
+                                className={
+                                  error?.uploadFile
+                                    ? "inputfile inputfile-6 error"
+                                    : "inputfile inputfile-6"
+                                }
                                 accept="application/pdf"
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
@@ -1409,7 +1446,11 @@ const EditLicense = () => {
                                         type="file"
                                         name={`file-${i}`}
                                         id={`file-${i}`}
-                                        className={error?.chapter?.[i] ? "inputfile inputfile-6 error" :"inputfile inputfile-6"}
+                                        className={
+                                          error?.chapter?.[i]
+                                            ? "inputfile inputfile-6 error"
+                                            : "inputfile inputfile-6"
+                                        }
                                         accept="application/pdf"
                                         onChange={(e) =>
                                           handleOnEbookChange(e, i)
@@ -1428,16 +1469,14 @@ const EditLicense = () => {
                                   </div>
                                 </div>
                                 <div className="chapter-btn-wrapper">
-                                  {
-                                    chapter.length -1 == i ?
-                                      <Button
+                                  {chapter.length - 1 == i ? (
+                                    <Button
                                       className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
                                       onClick={addMoreChClicked}
-                                      >
+                                    >
                                       Add Ch +
-                                      </Button>
-                                     : null
-                                  }
+                                    </Button>
+                                  ) : null}
 
                                   {chapter.length > 1 ? (
                                     <Button
@@ -1451,13 +1490,11 @@ const EditLicense = () => {
                                     </Button>
                                   ) : null}
                                 </div>
-                                {
-                                error?.chapter?.[i] ?(
+                                {error?.chapter?.[i] ? (
                                   <div className="login-validation-upload">
-                                  {error?.chapter?.[i]}
-                                </div>
-                                ):null
-                              }
+                                    {error?.chapter?.[i]}
+                                  </div>
+                                ) : null}
                               </div>
                             </>
                           );
@@ -1577,7 +1614,10 @@ const EditLicense = () => {
                             ) : (
                               <p>
                                 Chnage your cover image <br />
-                                <span><i>Allowed formats PNG,JPEG</i></span><br />
+                                <span>
+                                  <i>Allowed formats: PNG,JPEG</i>
+                                </span>
+                                <br />
                                 <span>(Recommended size 88 X 124)</span>
                               </p>
                             )}
@@ -1608,7 +1648,7 @@ const EditLicense = () => {
                           onChange={(e) =>
                             handleChange(e?.target.value, "productionNotes")
                           }
-                          placeholder="Please type your notes here.."
+                          placeholder="Please type your notes here..."
                         ></textarea>
                       </div>
                     </div>
@@ -1674,7 +1714,9 @@ const EditLicense = () => {
                 video in{" "}
               </p>
               <Form.Group className="formgroup">
-                <Form.Label>Videos *</Form.Label>
+                <Form.Label>
+                  Videos <span>*</span>
+                </Form.Label>
                 {/* <ReactSelect
                   placeholder="Select your chapter"
                   className="dropdown-basic-button split-button-dropup"

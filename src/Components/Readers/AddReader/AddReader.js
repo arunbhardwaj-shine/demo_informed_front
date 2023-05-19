@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const ReaderAdd = () => {
-  const nameRef  = useRef(null);
+  const nameRef = useRef(null);
   const emailRef = useRef(null);
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
@@ -22,7 +22,6 @@ const ReaderAdd = () => {
   const [pharmaData, setPharmaData] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
-  const [province, setProvince] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1222" },
@@ -81,6 +80,8 @@ const ReaderAdd = () => {
 
   const [error, setError] = useState({});
   const [commonHeader, setCommonHeader] = useState("");
+  const [commonFooter, setCommonFooter] = useState("");
+  // const [selectedCategory, setSelectedCategory] = useState([]);
   const [data, setData] = useState([]);
 
   const [newProduct, setNewProduct] = useState({
@@ -146,19 +147,35 @@ const ReaderAdd = () => {
     setUploadShow(false);
   };
 
-  const handleSubmitModelFun = (e) => {
+  const handleSubmitModelFun = async (e) => {
     if (newProduct?.value?.length) {
       const newArr = userDetail[newProduct?.label];
-      let checkIndex = newArr.findIndex((el) => el.value == newProduct?.value);
-      if (checkIndex == -1) {
-        newArr.unshift({
+      loader("show");
+      try {
+        await postData(`${ENDPOINT.READER_ADD_FEATURES}`, {
+          label: newProduct?.label,
           value: newProduct?.value,
-          label: newProduct?.value,
         });
 
-        setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
-      } else {
-        toast.error(newProduct?.label + " already in list.");
+        let checkIndex = newArr.findIndex(
+          (el) => el.value == newProduct?.value
+        );
+        if (commonFooter == "Add") {
+          if (checkIndex == -1) {
+            newArr.unshift({
+              value: newProduct?.value,
+              label: newProduct?.value,
+            });
+
+            setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
+          } else {
+            toast.error(newProduct?.label + " already in list.");
+          }
+        }
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log(err);
       }
     }
   };
@@ -175,7 +192,7 @@ const ReaderAdd = () => {
     });
 
     setCountryAll(country);
-    setProvince(hasData?.data?.data?.province);
+    // setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
@@ -185,6 +202,7 @@ const ReaderAdd = () => {
       ...userDetail,
       discipline: hasData?.data?.data?.discipline,
       speciality: hasData?.data?.data?.speciality,
+      province: hasData?.data?.data?.province,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
@@ -198,9 +216,67 @@ const ReaderAdd = () => {
     loader("hide");
   };
 
+  // const editProductClicked = (statusMsg, e) => {
+  //   // setSelectedCategory(statusMsg);
+
+  //   // e.preventDefault();
+  //   setCommonShow(true);
+  //   setCommonFooter("Update");
+  //   setNewProduct("");
+  //   if (statusMsg == "speciality") {
+  //     setData(() => [
+  //       {
+  //         name: "speciality",
+  //         label: "Speciality",
+  //         type: "input",
+  //         placeholder: "Type your speciality",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Speciality");
+  //   }
+  //   if (statusMsg == "discipline") {
+  //     setData(() => [
+  //       {
+  //         name: "discipline",
+  //         label: "discipline",
+  //         type: "input",
+  //         placeholder: "Type your discipline",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Discipline");
+  //   }
+  //   if (statusMsg == "product") {
+  //     setData(() => [
+  //       {
+  //         name: "product",
+  //         label: "product",
+  //         type: "input",
+  //         placeholder: "Type your product",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Product");
+  //   }
+  //   if (statusMsg == "province") {
+  //     setData(() => [
+  //       {
+  //         name: "province",
+  //         label: "province",
+  //         type: "input",
+  //         placeholder: "Type your province",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Product");
+  //   }
+  // };
+
   const addNewProductClicked = (statusMsg, e) => {
     e.preventDefault();
     setCommonShow(true);
+
     if (statusMsg == "speciality") {
       setNewProduct("");
       setData(() => [
@@ -239,6 +315,20 @@ const ReaderAdd = () => {
 
       setCommonHeader("Add New Product");
     }
+    if (statusMsg == "province") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "province",
+          label: "Province",
+          type: "input",
+          placeholder: "Type your province ",
+        },
+      ]);
+
+      setCommonHeader("Add New Province");
+    }
+    setCommonFooter("Add");
   };
 
   useEffect(() => {
@@ -279,6 +369,7 @@ const ReaderAdd = () => {
   // };
 
   const handleChange = (e, isSelectedName) => {
+    // selectedCategory.push(isSelectedName);
     setUpdateFlag(1);
     if (e?.target?.files?.length < 1) {
       return;
@@ -356,6 +447,8 @@ const ReaderAdd = () => {
   const handleFileUpload = async (e) => {
     loader("show");
     try {
+      handleClose();
+      setUpdateFlag(0);
       let formData = new FormData();
       formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("createdBy", localStorage.getItem("user_id"));
@@ -366,7 +459,7 @@ const ReaderAdd = () => {
           header: { "Content-Type": "multipart/form-data" },
         }
       );
-
+      loader("hide");
       if (response?.data?.data) {
         navigate("/readers-list", {
           state: {
@@ -375,12 +468,11 @@ const ReaderAdd = () => {
         });
       }
     } catch (err) {
+      handleClose();
+      setUpdateFlag(0);
       console.log(err);
       loader("hide");
     }
-    handleClose();
-    setUpdateFlag(0);
-
     loader("hide");
   };
 
@@ -390,14 +482,16 @@ const ReaderAdd = () => {
     const result = AddReaderValidation(userInputs, groupId, flag);
 
     if (Object.keys(result)?.length) {
-        if(Object.keys(result)[0] == "firstName") {
-          nameRef.current.focus();
-        }else if(Object.keys(result)[0] == "email"){
-          emailRef.current.focus();
-        }
+      if (Object.keys(result)[0] == "firstName") {
+        nameRef.current.focus();
+      } else if (Object.keys(result)[0] == "email") {
+        emailRef.current.focus();
+      }
+      toast.error(result[Object.keys(result)[0]]);
       setError(result);
       return;
     } else {
+      loader("hide");
       try {
         loader("show");
         let data = {
@@ -429,7 +523,7 @@ const ReaderAdd = () => {
           sub_role: userInputs?.sub_role,
           ibu: userInputs?.ibu,
         };
-        await postData(ENDPOINT.READER_CREATE, data);
+        // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
 
         navigate("/reader-review", {
@@ -442,6 +536,21 @@ const ReaderAdd = () => {
         loader("hide");
       }
     }
+  };
+
+  const downloadFile = () => {
+    let user_id = localStorage.getItem("user_id");
+    let link = document.createElement("a");
+    if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+      link.href = "https://informed.pro/R_D_sample.xls";
+    } else {
+      link.href = "https://informed.pro/sample.xls";
+    }
+    link.setAttribute("download", "file.xlsx");
+    document.body.appendChild(link);
+    link.download = "";
+    link.click();
+    document.body.removeChild(link);
   };
 
   const RDAccount = () => {
@@ -527,7 +636,9 @@ const ReaderAdd = () => {
         </Form.Group>
 
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Country <span>*</span></Form.Label>
+          <Form.Label htmlFor="">
+            Country <span>*</span>
+          </Form.Label>
           <Select
             options={countryAll}
             // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
@@ -678,11 +789,17 @@ const ReaderAdd = () => {
                 <div className="row">
                   <Col md="7">
                     <Form.Group className="form-group">
-                      <Form.Label htmlFor="">First name <span>*</span></Form.Label>
+                      <Form.Label htmlFor="">
+                        First name <span>*</span>
+                      </Form.Label>
                       <input
                         type="text"
                         placeholder="First name"
-                        className={error?.firstName ? "form-control error" : "form-control" }
+                        className={
+                          error?.firstName
+                            ? "form-control error"
+                            : "form-control"
+                        }
                         ref={nameRef}
                         name="firstName"
                         onInput={(e) => handleChange(e)}
@@ -717,10 +834,14 @@ const ReaderAdd = () => {
                       />
                     </Form.Group>
                     <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Primary email <span>*</span></Form.Label>
+                      <Form.Label htmlFor="">
+                        Primary email <span>*</span>
+                      </Form.Label>
                       <input
                         type="email"
-                        className={error?.email ? "form-control error" : "form-control"}
+                        className={
+                          error?.email ? "form-control error" : "form-control"
+                        }
                         placeholder="example@email.com"
                         ref={emailRef}
                         name="email"
@@ -792,12 +913,18 @@ const ReaderAdd = () => {
                       ""
                     ) : (
                       <Form.Group className="form-group">
-                        <Form.Label htmlFor="">Country <span>*</span></Form.Label>
+                        <Form.Label htmlFor="">
+                          Country <span>*</span>
+                        </Form.Label>
                         <Select
                           options={countryAll}
                           placeholder="Select country"
                           name="country"
-                          className={error?.country ? "dropdown-basic-button split-button-dropup error" : "dropdown-basic-button split-button-dropup"}
+                          className={
+                            error?.country
+                              ? "dropdown-basic-button split-button-dropup error"
+                              : "dropdown-basic-button split-button-dropup"
+                          }
                           isClearable
                           onChange={(e) => handleChange(e?.value, "country")}
                         />
@@ -822,6 +949,33 @@ const ReaderAdd = () => {
                           isClearable
                           onChange={(e) => handleChange(e?.value, "province")}
                         />
+                        <div className="add_product">
+                          <span>&nbsp;</span>
+                          <Button
+                            className="btn-bordered btn-voilet"
+                            onClick={(e) => addNewProductClicked("province", e)}
+                          >
+                            Add new Province +
+                          </Button>
+                        </div>
+
+                        {/* {selectedCategory.includes("province") ? (
+                          <span>
+                            <div className="add_product">
+                              <span>&nbsp;</span>
+                              <Button
+                                className="btn-bordered btn-voilet"
+                                onClick={(e) =>
+                                  editProductClicked("province", e?.value)
+                                }
+                              >
+                                Edit Province
+                              </Button>
+                            </div>
+                          </span>
+                        ) : (
+                          ""
+                        )} */}
                       </Form.Group>
                     ) : (
                       ""
@@ -873,6 +1027,23 @@ const ReaderAdd = () => {
                               Add new Speciality +
                             </Button>
                           </div>
+                          {/* {selectedCategory.includes("speciality") ? (
+                            <span>
+                              <div className="add_product">
+                                <span>&nbsp;</span>
+                                <Button
+                                  className="btn-bordered btn-voilet"
+                                  onClick={(e) =>
+                                    editProductClicked("speciality", e?.value)
+                                  }
+                                >
+                                  Edit Speciality
+                                </Button>
+                              </div>
+                            </span>
+                          ) : (
+                            ""
+                          )} */}
                         </Form.Group>
 
                         {groupId == 2 ||
@@ -901,6 +1072,26 @@ const ReaderAdd = () => {
                                   Add new Discipline +
                                 </Button>
                               </div>
+                              {/* {selectedCategory.includes("discipline") ? (
+                                <span>
+                                  <div className="add_product">
+                                    <span>&nbsp;</span>
+                                    <Button
+                                      className="btn-bordered btn-voilet"
+                                      onClick={(e) =>
+                                        editProductClicked(
+                                          "discipline",
+                                          e?.value
+                                        )
+                                      }
+                                    >
+                                      Edit Discipline
+                                    </Button>
+                                  </div>
+                                </span>
+                              ) : (
+                                ""
+                              )} */}
                             </Form.Group>
                           </>
                         ) : (
@@ -943,6 +1134,24 @@ const ReaderAdd = () => {
                               Add new Product +
                             </Button>
                           </div>
+
+                          {/* {selectedCategory.includes("product") ? (
+                            <span>
+                              <div className="add_product">
+                                <span>&nbsp;</span>
+                                <Button
+                                  className="btn-bordered btn-voilet"
+                                  onClick={(e) =>
+                                    editProductClicked("product", e?.value)
+                                  }
+                                >
+                                  Edit Product
+                                </Button>
+                              </div>
+                            </span>
+                          ) : (
+                            ""
+                          )} */}
                         </Form.Group>
 
                         <Form.Group className="form-group">
@@ -975,20 +1184,22 @@ const ReaderAdd = () => {
 
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                       <>
-                        {
-                            localStorage.getItem('user_id') != "iSnEsKu5gB/DRlycxB6G4g==" ?
-                            <Form.Group className="form-group">
-                              <Form.Label htmlFor="">Select User Type</Form.Label>
-                              <Select
-                                options={userDetail?.userType}
-                                placeholder="Select province"
-                                name="userType"
-                                className="dropdown-basic-button split-button-dropup"
-                                isClearable
-                                onChange={(e) => handleChange(e?.value, "UserType")}
-                              />
-                            </Form.Group> : null
-                        }
+                        {localStorage.getItem("user_id") !=
+                        "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                          <Form.Group className="form-group">
+                            <Form.Label htmlFor="">Select User Type</Form.Label>
+                            <Select
+                              options={userDetail?.userType}
+                              placeholder="Select province"
+                              name="userType"
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                              onChange={(e) =>
+                                handleChange(e?.value, "UserType")
+                              }
+                            />
+                          </Form.Group>
+                        ) : null}
                       </>
                     ) : (
                       ""
@@ -1230,7 +1441,8 @@ const ReaderAdd = () => {
           handleChange={handleModelFun}
           handleSubmit={handleSubmitModelFun}
           data={data}
-          footerButton={"Add"}
+          // footerButton={"Add"}
+          footerButton={commonFooter}
         />
         {/* <Modal
           show={show}
@@ -1306,7 +1518,7 @@ const ReaderAdd = () => {
             ></button>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+            <Form className="upload_reader_excel">
               <div className="form-group">
                 <div className="upload-file-box">
                   <div className="box">
@@ -1331,6 +1543,9 @@ const ReaderAdd = () => {
                     )}
                   </div>
                 </div>
+              </div>
+              <div className="sample_btn" onClick={downloadFile}>
+                <p>Download sample file from here</p>
               </div>
             </Form>
           </Modal.Body>

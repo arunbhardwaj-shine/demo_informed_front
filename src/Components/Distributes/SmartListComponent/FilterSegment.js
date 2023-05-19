@@ -733,6 +733,7 @@ const FilterSegment = (props) => {
 
   const handleIrt = (irt_val) => {
     setSelectedIrt(irt_val);
+    setSelectedinvestigatorType([]);
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
@@ -1578,6 +1579,303 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
+                          {"blind_type" in filters &&
+                            Object.keys(filters.blind_type).length > 0 && (
+                              <>
+                                <div className="col block-smart-name">
+                                  <h6>Blind Type</h6>
+                                  <div className="smart-name-list">
+                                    {/*
+                                    <ul>
+                                      {Object.entries(filters.blind_type).map(
+                                        ([index, item]) => (
+                                          <li>
+                                            <div className="select-multiple-option">
+                                              <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-blind_type-${index}`}
+                                                name="blind_type[]"
+                                                value={item}
+                                                checked={
+                                                  typeof selectedBlindType !==
+                                                    "undefined" &&
+                                                  selectedBlindType.indexOf(
+                                                    item
+                                                  ) !== -1
+                                                }
+                                                onChange={() =>
+                                                  handleOnBlindTypeChange(item)
+                                                }
+                                              />
+                                              <span className="checkmark"></span>
+                                            </div>
+                                            {item}
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                    */}
+
+                                    <ul>
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id="blind_all"
+                                            name="blindTye"
+                                            value="all"
+                                            checked={
+                                              typeof selectedBlindType !==
+                                                "undefined" &&
+                                              selectedBlindType == "all"
+                                            }
+                                            onChange={() =>
+                                              handleOnBlindTypeChange("all")
+                                            }
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        All
+                                      </li>
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id="blind_yes"
+                                            name="blindTye"
+                                            value="blinded"
+                                            checked={
+                                              typeof selectedBlindType !==
+                                                "undefined" &&
+                                              selectedBlindType == "blinded"
+                                            }
+                                            onChange={() =>
+                                              handleOnBlindTypeChange("blinded")
+                                            }
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        Blinded
+                                      </li>
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id="blind_no"
+                                            name="blindTye"
+                                            value="unblinded"
+                                            checked={
+                                              typeof selectedBlindType !==
+                                                "undefined" &&
+                                              selectedBlindType == "unblinded"
+                                            }
+                                            onChange={() =>
+                                              handleOnBlindTypeChange("unblinded")
+                                            }
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        Unblinded
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
+                            {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg==" && (
+                              <>
+                                <div className="col block-smart-name">
+                                  <h6>IRT</h6>
+                                  <div className="smart-name-list">
+                                    <ul>
+                                      {/* <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id="irt_training"
+                                            name="irt"
+                                            value="Training"
+                                            checked={
+                                              typeof selectedIrt !== "undefined" &&
+                                              selectedIrt == "Training"
+                                            }
+                                            onChange={() => handleIrt("Training")}
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        Training
+                                      </li> */}
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id="irt_yes"
+                                            name="irt"
+                                            value="yes"
+                                            checked={
+                                              typeof selectedIrt !== "undefined" &&
+                                              selectedIrt == "yes"
+                                            }
+                                            onChange={() => handleIrt("yes")}
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        Yes
+                                      </li>
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id="irt_no"
+                                            name="irt"
+                                            value="no"
+                                            checked={
+                                              typeof selectedIrt !== "undefined" &&
+                                              selectedIrt == "no"
+                                            }
+                                            onChange={() => handleIrt("no")}
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        No
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
+                            {"investigator_type" in filters &&
+                              Object.keys(filters.investigator_type).length > 0 && (selectedIrt == "no" || selectedIrt == "") && (
+                                <>
+                                  <div className="col block-smart-name">
+                                    <h6>Role</h6>
+                                    <div className="smart-name-list">
+                                      <ul>
+                                        {(() => {
+                                          let entries = Object.entries(
+                                            filters.investigator_type
+                                          );
+                                          entries.unshift(["All", "All"]);
+                                          return entries.map(([index, item]) => (
+                                            <li>
+                                              <div className="select-multiple-option">
+                                                <input
+                                                  type="checkbox"
+                                                  id={`custom-checkbox-investigator_type-${index}`}
+                                                  name="investigator_type[]"
+                                                  value={item}
+                                                  checked={
+                                                    typeof selectedinvestigatorType !==
+                                                      "undefined" &&
+                                                    selectedinvestigatorType.indexOf(
+                                                      item
+                                                    ) !== -1
+                                                  }
+                                                  onChange={() =>
+                                                    handleOnInvestigatorChange(item)
+                                                  }
+                                                />
+                                                <span className="checkmark"></span>
+                                              </div>
+                                              {item}
+                                            </li>
+                                          ));
+                                        })()}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+
+                              {"irt_inverstigator_type" in filters &&
+                                Object.keys(filters.irt_inverstigator_type).length > 0 && selectedIrt == "yes" && (
+                                  <>
+                                    <div className="col block-smart-name">
+                                      <h6>Role</h6>
+                                      <div className="smart-name-list">
+                                        <ul>
+                                          {(() => {
+                                            let entries = Object.entries(
+                                              filters.irt_inverstigator_type
+                                            );
+                                            entries.unshift(["All", "All"]);
+                                            return entries.map(([index, item]) => (
+                                              <li>
+                                                <div className="select-multiple-option">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-investigator_irt_type-${index}`}
+                                                    name="investigator_irt_type[]"
+                                                    value={item}
+                                                    checked={
+                                                      typeof selectedinvestigatorType !==
+                                                        "undefined" &&
+                                                      selectedinvestigatorType.indexOf(
+                                                        item
+                                                      ) !== -1
+                                                    }
+                                                    onChange={() =>
+                                                      handleOnInvestigatorChange(item)
+                                                    }
+                                                  />
+                                                  <span className="checkmark"></span>
+                                                </div>
+                                                {item}
+                                              </li>
+                                            ));
+                                          })()}
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </>
+                                )}
+
+                              {"sub_role" in filters &&
+                                Object.keys(filters.sub_role).length > 0 && (
+                                  <>
+                                    <div className="col block-smart-name">
+                                      <h6>Sub Roles</h6>
+                                      <div className="smart-name-list">
+                                        <ul>
+                                          {(() => {
+                                            let entries = Object.entries(
+                                              filters.sub_role
+                                            );
+                                            entries.unshift(["All", "All"]);
+                                            return entries.map(([index, item]) => (
+                                              <li key={item}>
+                                                <div className="select-multiple-option">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-investigator_type-${index}`}
+                                                    name="investigator_type[]"
+                                                    value={item}
+                                                    checked={
+                                                      typeof selectedSubRole !==
+                                                        "undefined" &&
+                                                      selectedSubRole.indexOf(
+                                                        item
+                                                      ) !== -1
+                                                    }
+                                                    onChange={() =>
+                                                      handleOnSubRoleChange(item)
+                                                    }
+                                                  />
+                                                  <span className="checkmark"></span>
+                                                </div>
+                                                {item}
+                                              </li>
+                                            ));
+                                          })()}
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </>
+                                )}
+
                         {"country" in filters &&
                           Object.keys(filters.country).length > 0 && (
                             <>
@@ -1776,195 +2074,6 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                        {"investigator_type" in filters &&
-                          Object.keys(filters.investigator_type).length > 0 && (
-                            <>
-                              <div className="col block-smart-name">
-                                <h6>Role</h6>
-                                <div className="smart-name-list">
-                                  <ul>
-                                    {(() => {
-                                      let entries = Object.entries(
-                                        filters.investigator_type
-                                      );
-                                      entries.unshift(["All", "All"]);
-                                      return entries.map(([index, item]) => (
-                                        <li>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-investigator_type-${index}`}
-                                              name="investigator_type[]"
-                                              value={item}
-                                              checked={
-                                                typeof selectedinvestigatorType !==
-                                                  "undefined" &&
-                                                selectedinvestigatorType.indexOf(
-                                                  item
-                                                ) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnInvestigatorChange(item)
-                                              }
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      ));
-                                    })()}
-                                  </ul>
-                                </div>
-                              </div>
-                            </>
-                          )}
-
-                        {"sub_role" in filters &&
-                          Object.keys(filters.sub_role).length > 0 && (
-                            <>
-                              <div className="col block-smart-name">
-                                <h6>Sub Roles</h6>
-                                <div className="smart-name-list">
-                                  <ul>
-                                    {(() => {
-                                      let entries = Object.entries(
-                                        filters.sub_role
-                                      );
-                                      entries.unshift(["All", "All"]);
-                                      return entries.map(([index, item]) => (
-                                        <li key={item}>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-investigator_type-${index}`}
-                                              name="investigator_type[]"
-                                              value={item}
-                                              checked={
-                                                typeof selectedSubRole !==
-                                                  "undefined" &&
-                                                selectedSubRole.indexOf(
-                                                  item
-                                                ) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnSubRoleChange(item)
-                                              }
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      ));
-                                    })()}
-                                  </ul>
-                                </div>
-                              </div>
-                            </>
-                          )}
-
-                        {"blind_type" in filters &&
-                          Object.keys(filters.blind_type).length > 0 && (
-                            <>
-                              <div className="col block-smart-name">
-                                <h6>Blind Type</h6>
-                                <div className="smart-name-list">
-                                  {/*
-                                  <ul>
-                                    {Object.entries(filters.blind_type).map(
-                                      ([index, item]) => (
-                                        <li>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-blind_type-${index}`}
-                                              name="blind_type[]"
-                                              value={item}
-                                              checked={
-                                                typeof selectedBlindType !==
-                                                  "undefined" &&
-                                                selectedBlindType.indexOf(
-                                                  item
-                                                ) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnBlindTypeChange(item)
-                                              }
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
-                                  */}
-
-                                  <ul>
-                                    <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="blind_all"
-                                          name="blindTye"
-                                          value="all"
-                                          checked={
-                                            typeof selectedBlindType !==
-                                              "undefined" &&
-                                            selectedBlindType == "all"
-                                          }
-                                          onChange={() =>
-                                            handleOnBlindTypeChange("all")
-                                          }
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      All
-                                    </li>
-                                    <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="blind_yes"
-                                          name="blindTye"
-                                          value="blinded"
-                                          checked={
-                                            typeof selectedBlindType !==
-                                              "undefined" &&
-                                            selectedBlindType == "blinded"
-                                          }
-                                          onChange={() =>
-                                            handleOnBlindTypeChange("blinded")
-                                          }
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      Blinded
-                                    </li>
-                                    <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="blind_no"
-                                          name="blindTye"
-                                          value="unblinded"
-                                          checked={
-                                            typeof selectedBlindType !==
-                                              "undefined" &&
-                                            selectedBlindType == "unblinded"
-                                          }
-                                          onChange={() =>
-                                            handleOnBlindTypeChange("unblinded")
-                                          }
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      Unblinded
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </>
-                          )}
 
                         {"site_number" in filters &&
                           Object.keys(filters.site_number).length > 0 && (
@@ -2424,67 +2533,6 @@ const FilterSegment = (props) => {
                           </div>
                         ) : null}
 
-                        {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" && (
-                          <>
-                            <div className="col block-smart-name">
-                              <h6>IRT</h6>
-                              <ul>
-                                {/* <li>
-                                  <div className="select-multiple-option">
-                                    <input
-                                      type="radio"
-                                      id="irt_training"
-                                      name="irt"
-                                      value="Training"
-                                      checked={
-                                        typeof selectedIrt !== "undefined" &&
-                                        selectedIrt == "Training"
-                                      }
-                                      onChange={() => handleIrt("Training")}
-                                    />
-                                    <span className="checkmark"></span>
-                                  </div>
-                                  Training
-                                </li> */}
-                                <li>
-                                  <div className="select-multiple-option">
-                                    <input
-                                      type="radio"
-                                      id="irt_yes"
-                                      name="irt"
-                                      value="yes"
-                                      checked={
-                                        typeof selectedIrt !== "undefined" &&
-                                        selectedIrt == "yes"
-                                      }
-                                      onChange={() => handleIrt("yes")}
-                                    />
-                                    <span className="checkmark"></span>
-                                  </div>
-                                  Yes
-                                </li>
-                                <li>
-                                  <div className="select-multiple-option">
-                                    <input
-                                      type="radio"
-                                      id="irt_no"
-                                      name="irt"
-                                      value="no"
-                                      checked={
-                                        typeof selectedIrt !== "undefined" &&
-                                        selectedIrt == "no"
-                                      }
-                                      onChange={() => handleIrt("no")}
-                                    />
-                                    <span className="checkmark"></span>
-                                  </div>
-                                  No
-                                </li>
-                              </ul>
-                            </div>
-                          </>
-                        )}
 
                         {localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" && (

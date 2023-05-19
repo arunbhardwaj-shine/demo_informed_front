@@ -14,6 +14,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import queryString from "query-string";
 import { getSelectedSmartListData } from "../../actions";
+import { Col, Row } from "react-bootstrap";
 const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -24,6 +25,11 @@ const EmailList = (props) => {
   const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [filterdata, setFilterData] = useState([]);
+  const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] =
+    useState(false);
+  const [readerDetailsData, setReaderDetailsData] = useState([]);
+  const [detailPopupName, setDetailPopupName] = useState("");
+  const [popupHeadingColor, setPopupHeadingColor] = useState("");
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [submiHandle, setSubmiHandle] = useState("");
@@ -83,7 +89,9 @@ const EmailList = (props) => {
       {
         name: "Email campaign",
         data: [
-          {y: 2, color: '#8a4e9c'}, {y:3,color: '#ffbe2c'}, {y:0,color: '#39cabc'}
+          { y: 2, color: "#8a4e9c" },
+          { y: 3, color: "#ffbe2c" },
+          { y: 0, color: "#39cabc" },
         ],
       },
     ],
@@ -101,9 +109,9 @@ const EmailList = (props) => {
       let getSpecificKeyData = SendListData.filter((p) => p.id == id);
       let valueupdate = options_ch;
       valueupdate.series[0].data = [
-        {y: getSpecificKeyData[0].total_Sent, color: '#8a4e9c'},
-        {y: getSpecificKeyData[0].total_Opened, color: '#ffbe2c'},
-        {y: getSpecificKeyData[0].total_Click, color: '#39cabc'}
+        { y: getSpecificKeyData[0].total_Sent, color: "#8a4e9c" },
+        { y: getSpecificKeyData[0].total_Opened, color: "#ffbe2c" },
+        { y: getSpecificKeyData[0].total_Click, color: "#39cabc" },
       ];
       setOptions_ch(valueupdate);
       setviewEmailData(getSpecificKeyData);
@@ -127,7 +135,7 @@ const EmailList = (props) => {
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getData = (stage,page=1) => {
+  const getData = (stage, page = 1) => {
     loader("show");
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -143,7 +151,6 @@ const EmailList = (props) => {
             setOriginalSendListData(res.data.response.data.emails);
 
             setFilterData(res.data.response.data.filter);
-
           }
           setUserData(res.data.response.data.user);
         } else if (res.data.status_code == 201) {
@@ -560,24 +567,53 @@ const EmailList = (props) => {
         loader("hide");
         toast.error("Something went wrong");
       });
-  }
+  };
 
   const load_more = () => {
-    getData('initial', 2);
+    getData("initial", 2);
     setloadmore(1);
   };
 
-
+  const getReaderData = async (type = "", name = "", color_code = "") => {
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      campaign_id: viewEmailData?.[0]?.id,
+      pdf_id: viewEmailData?.[0]?.pdf_id,
+      type: type,
+    };
+    setviewEmailModal(false);
+    setDetailPopupName(name);
+    setPopupHeadingColor(color_code);
+    loader("show");
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    await axios
+      .post(`emailapi/get_article_readers`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          loader("hide");
+          if (res?.data?.response?.data) {
+            setReaderDetailsData(res?.data?.response?.data);
+          }
+          setReaderDetailsPopupStatus(true);
+        } else {
+          loader("hide");
+          setReaderDetailsData([]);
+          toast.warning(res.data.message);
+        }
+      })
+      .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong");
+      });
+  };
 
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
-          <div className="row">
-            <div className="top-header">
-              <div className="page-title">
-                <h2>Email</h2>
-              </div>
+          <Row>
+            <div className="top-header sticky">
+              <div className="page-title">{/* <h2>Email</h2> */}</div>
               <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1354,7 +1390,7 @@ const EmailList = (props) => {
                 )}
               </div>
             </div>
-          </div>
+          </Row>
         </div>
         {typeof SendListData !== "undefined" &&
           SendListData.length == 32 &&
@@ -1368,7 +1404,7 @@ const EmailList = (props) => {
               </button>
             </div>
           )}
-      </div>
+      </Col>
 
       <div>
         <Modal className="modal send-confirm" id="resend-confirm" show={isOpen}>
@@ -1499,7 +1535,11 @@ const EmailList = (props) => {
                   </div>
                   <div className="mail-stats">
                     <ul>
-                      <li>
+                      <li
+                        onClick={() => {
+                          getReaderData("unique", "Emails send", "#8a4e9c");
+                        }}
+                      >
                         <div className="mail_send">
                           <h6>Emails send</h6>
                           <div className="mail-stats-list">
@@ -1545,7 +1585,11 @@ const EmailList = (props) => {
                         </div>
                       </li>
 
-                      <li>
+                      <li
+                        onClick={() => {
+                          getReaderData("bounce", "Emails bounced", "#f58289");
+                        }}
+                      >
                         <div className="mail_view">
                           <h6>Emails bounced</h6>
                           <div className="mail-stats-list">
@@ -1583,11 +1627,19 @@ const EmailList = (props) => {
                                 </clipPath>
                               </defs>
                             </svg>
-                            <span>0</span>
+                            <span>
+                              {viewEmailData[0]?.bounce
+                                ? viewEmailData[0].bounce
+                                : 0}
+                            </span>
                           </div>
                         </div>
                       </li>
-                      <li>
+                      <li
+                        onClick={() => {
+                          getReaderData("open", "Emails opened", "#ffbe2c");
+                        }}
+                      >
                         <div className="mail_open">
                           <h6>Emails opened</h6>
                           <div className="mail-stats-list">
@@ -1627,7 +1679,11 @@ const EmailList = (props) => {
                           </div>
                         </div>
                       </li>
-                      <li>
+                      <li
+                        onClick={() => {
+                          getReaderData("ctr", "CTR 1", "#39cabc");
+                        }}
+                      >
                         <div className="mail_click">
                           <div className="mail_click_box">
                             <h6>CTR 1</h6>
@@ -1927,6 +1983,86 @@ const EmailList = (props) => {
         </Modal>
       </div>
       {/*Modal end for send Draft Email*/}
+
+      {
+        /*Modal for Reader Listing*/
+        <div>
+          <Modal
+            className="modal modal-second"
+            id="mail-view"
+            show={readerDetailsPopupStatus}
+          >
+            <Modal.Header>
+              <h4 style={{ color: popupHeadingColor }}>
+                {detailPopupName != "" ? detailPopupName : null}
+              </h4>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                onClick={(e) => {
+                  setReaderDetailsPopupStatus(false);
+                  setReaderDetailsData([]);
+                  setviewEmailModal(true);
+                }}
+              ></button>
+            </Modal.Header>
+            <Modal.Body>
+              {
+                <div className="selected-hcp-list">
+                  <table className="table" id="table-to-xls">
+                    <thead className="sticky-header">
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Bounced</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Business Unit</th>
+                        <th scope="col">Contact Type</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {typeof readerDetailsData !== "undefined" &&
+                      readerDetailsData.length > 0 ? (
+                        readerDetailsData.map((item, index) => (
+                          <tr
+                            key={"readers_" + index}
+                            className="hcp"
+                            id={`row-selected` + index}
+                          >
+                            <td>
+                              {" "}
+                              {item?.first_name + " " + item?.last_name}{" "}
+                            </td>
+                            <td> {item?.email ? item.email : "N/A"} </td>
+                            <td> {item?.bounce ? item.bounce : "N/A"}</td>
+                            <td>
+                              {" "}
+                              <span>
+                                {item?.country ? item.country : "N/A"}
+                              </span>{" "}
+                            </td>
+                            <td> {item?.ibu}</td>
+                            <td> {item?.contact_type} </td>
+                          </tr>
+                        ))
+                      ) : readerDetailsData.length == 0 ? (
+                        <tr className="table_no_data_found">
+                          <td colspan="6">
+                            <div className="no_found">
+                              <p>No Data Found</p>
+                            </div>
+                          </td>
+                        </tr>
+                      ) : null}
+                    </tbody>
+                  </table>
+                </div>
+              }
+            </Modal.Body>
+          </Modal>
+        </div>
+      }
     </>
   );
 };
