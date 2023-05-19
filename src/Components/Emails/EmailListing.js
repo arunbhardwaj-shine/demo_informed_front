@@ -72,7 +72,7 @@ const EmailList = (props) => {
       },
     },
     xAxis: {
-      categories: ["Email sent", "Email opened", "Link clicked"],
+      categories: ["Emails sent", "Emails opened", "Link clicked (CTR 1)"],
       labels: {
         skew3d: true,
         style: {
@@ -1537,11 +1537,11 @@ const EmailList = (props) => {
                     <ul>
                       <li
                         onClick={() => {
-                          getReaderData("unique", "Emails send", "#8a4e9c");
+                          getReaderData("unique", "Emails sent", "#8a4e9c");
                         }}
                       >
                         <div className="mail_send">
-                          <h6>Emails send</h6>
+                          <h6>Emails sent</h6>
                           <div className="mail-stats-list">
                             <svg
                               width="40"

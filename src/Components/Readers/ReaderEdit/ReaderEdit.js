@@ -665,7 +665,7 @@ const ReaderEdit = () => {
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
-                  {!(groupId == 3 && flag == 0 && pharmaData == 1) ? (
+                  {/* {!(groupId == 3 && flag == 0 && pharmaData == 1) ? (
                     <Button
                       className="btn-bordered"
                       type="file"
@@ -675,7 +675,7 @@ const ReaderEdit = () => {
                     </Button>
                   ) : (
                     ""
-                  )}
+                  )} */}
                 </div>
                 <Row>
                   <Col md="7">

@@ -27,14 +27,17 @@ const LibraryCreate = () => {
     },
   ];
 
-  // if(localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==") {
-  //     const newObj = {
-  //     image: `${path_image}topics-icon.svg`,
-  //     title: "Topics & Products",
-  //     subtitle: "Add new, change, or delete an existing topic or product",
-  //     };
-  //     data.push(newObj);
-  // }
+  if (
+    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
+    localStorage.getItem("group_id") == "3"
+  ) {
+    const newObj = {
+      image: `${path_image}topics-icon.svg`,
+      title: "Topics",
+      subtitle: "Add new, change, or delete an existing topic ",
+    };
+    data.push(newObj);
+  }
 
   const navigate = useNavigate();
   let [active, setActive] = useState();
