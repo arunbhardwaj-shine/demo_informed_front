@@ -15,7 +15,7 @@ import Select, { createFilter } from "react-select";
 import { postData, postFormData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
-import CommonConfirmModel from "../../../Model/CommonConfirmModel"
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import MessageModel from "../../../Model/MessageModel";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
@@ -54,7 +54,7 @@ const ReadersListAdd = () => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [commanShow, setCommanShow] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+  const [modalMessage, setModalMessage] = useState("");
 
   const [hpc, setHpc] = useState([
     {
@@ -81,7 +81,7 @@ const ReadersListAdd = () => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
-  }
+  };
 
   const editButtonClicked = () => {
     if (editable == 1) {
@@ -92,7 +92,7 @@ const ReadersListAdd = () => {
     let temp_val = 1 - editable;
     setEditable(temp_val);
     setUpdate(update + 1);
-  }
+  };
 
   const sortSelectedUsers = () => {
     let normalArr = [];
@@ -117,7 +117,7 @@ const ReadersListAdd = () => {
     setReadersData(normalArr);
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
-  }
+  };
 
   const saveEditClicked = async () => {
     setEditable(0);
@@ -163,19 +163,18 @@ const ReadersListAdd = () => {
           }
           setNewReaders(getNewReaders);
         }
-
       });
       setSaveOpen(false);
       setEditableData([]);
-    }else {
+    } else {
       setSaveOpen(false);
     }
-  }
+  };
 
   const createUser = async () => {
     loader("show");
     try {
-      const new_obj = [...readersData,...getNewReaders];
+      const new_obj = [...readersData, ...getNewReaders];
       // console.log(new_obj);
       await postData(ENDPOINT.INSERTBULKREADERS, readersData);
       loader("hide");
@@ -187,29 +186,31 @@ const ReadersListAdd = () => {
   };
 
   const deleteReaderRecord = (index) => {
-      loader("show");
-      let deleteIndex = readersData.findIndex(el => el.profileIndex == index);
-      if(deleteIndex != "-1"){
-        readersData.splice(deleteIndex, 1);
-        setReadersData(readersData);
-      }
+    loader("show");
+    let deleteIndex = readersData.findIndex((el) => el.profileIndex == index);
+    if (deleteIndex != "-1") {
+      readersData.splice(deleteIndex, 1);
+      setReadersData(readersData);
+    }
 
-      let deleteNewAddedIndex = getNewReaders.findIndex(el => el.profileIndex == index);
-      if(deleteNewAddedIndex != "-1"){
-        getNewReaders.splice(deleteNewAddedIndex, 1);
-        setNewReaders(getNewReaders);
-      }
+    let deleteNewAddedIndex = getNewReaders.findIndex(
+      (el) => el.profileIndex == index
+    );
+    if (deleteNewAddedIndex != "-1") {
+      getNewReaders.splice(deleteNewAddedIndex, 1);
+      setNewReaders(getNewReaders);
+    }
 
-      setConfirmationPopup(false)
-      setClickData(0)
-      loader("hide");
-  }
+    setConfirmationPopup(false);
+    setClickData(0);
+    loader("hide");
+  };
 
   const deleteModalDisplay = (pindex) => {
-    if(readersData.length > 1){
-      setConfirmationPopup(true)
+    if (readersData.length > 1) {
+      setConfirmationPopup(true);
       setClickData(pindex);
-    }else{
+    } else {
       popup_alert({
         visible: "show",
         message: "Please keep atleast one reader or delete the smart list",
@@ -219,13 +220,14 @@ const ReadersListAdd = () => {
       // setModalMessage("Please keep atleast one reader in list");
       // setCommanShow(true);
     }
-  }
+  };
 
   const deleteNewlyAdded = (profileIndex) => {
-    let temp_len = parseInt(readersData.length) + parseInt(getNewReaders.length);
+    let temp_len =
+      parseInt(readersData.length) + parseInt(getNewReaders.length);
     if (temp_len > 1) {
-        setConfirmationPopup(true)
-        setClickData(profileIndex);
+      setConfirmationPopup(true);
+      setClickData(profileIndex);
     } else {
       popup_alert({
         visible: "show",
@@ -237,8 +239,8 @@ const ReadersListAdd = () => {
   };
 
   const modalClose = (value) => {
-      setCommanShow(false);
-  }
+    setCommanShow(false);
+  };
 
   const closeClicked = async () => {
     setSaveOpen(false);
@@ -249,15 +251,9 @@ const ReadersListAdd = () => {
       setReadersData(vr);
       setUpdateCounter(updateCounter + 1);
     }, 50);
-  }
+  };
 
-  const editing = (
-    profileIndex,
-    email,
-    country,
-    names,
-    contact_type
-  ) => {
+  const editing = (profileIndex, email, country, names, contact_type) => {
     if (editable != 0) {
       const name_edit = document.getElementById(
         "field_name" + profileIndex
@@ -278,9 +274,7 @@ const ReadersListAdd = () => {
         contact_type: contact_type_edit,
       });
 
-      let prev_obj = editableData.find(
-        (x) => x.profileIndex === profileIndex
-      );
+      let prev_obj = editableData.find((x) => x.profileIndex === profileIndex);
       if (typeof prev_obj != "undefined") {
         //update existing
         editableData.map(
@@ -291,7 +285,7 @@ const ReadersListAdd = () => {
         setEditableData((oldArray) => [...oldArray, ...arr]);
       }
     }
-  }
+  };
 
   const onFirstNameChange = (e, i) => {
     const { value } = e.target;
@@ -378,7 +372,6 @@ const ReadersListAdd = () => {
     }
   };
 
-
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc.map((data, index) => {
@@ -417,22 +410,22 @@ const ReadersListAdd = () => {
       });
 
       if (status.every((element) => element == "true")) {
-        console.log("All True",body_data);
-              let old_data = readersData;
-              let new_data = body_data;
-              if (typeof getNewReaders != "undefined") {
-                let added_prev_readers_array = getNewReaders;
-                let combine_new_readers_array = [
-                  ...new_data,
-                  ...added_prev_readers_array,
-                ];
-                setNewReaders(combine_new_readers_array);
-              }
-              combine_data_manual = [...new_data, ...old_data];
-              setReadersData(old_data);
-              setUpdatedData(old_data);
-              // setIsOpen(false);
-              setIsOpenAdd(false);
+        console.log("All True", body_data);
+        let old_data = readersData;
+        let new_data = body_data;
+        if (typeof getNewReaders != "undefined") {
+          let added_prev_readers_array = getNewReaders;
+          let combine_new_readers_array = [
+            ...new_data,
+            ...added_prev_readers_array,
+          ];
+          setNewReaders(combine_new_readers_array);
+        }
+        combine_data_manual = [...new_data, ...old_data];
+        setReadersData(old_data);
+        setUpdatedData(old_data);
+        // setIsOpen(false);
+        setIsOpenAdd(false);
       } else {
         status.sort();
         toast.warning(status[0]);
@@ -440,58 +433,60 @@ const ReadersListAdd = () => {
     }
   };
 
-
   return (
     <>
-    <Col className="col right-sidebar">
-      <div className="custom-container">
-        <Row>
-          <div className="page-top-nav">
-            <div className="row justify-content-end align-items-center">
-              <Col md="1">
-                <div className="header-btn-left">
-                  <Link
-                    className="btn btn-primary btn-bordered back-btn"
-                    to="/reader-add"
-                  >
-                    <svg
-                      width="14"
-                      height="24"
-                      viewBox="0 0 14 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+      <Col className="col right-sidebar">
+        <div className="custom-container">
+          <Row>
+            <div className="page-top-nav">
+              <div className="row justify-content-end align-items-center">
+                <Col md="1">
+                  <div className="header-btn-left">
+                    <Link
+                      className="btn btn-primary btn-bordered back-btn"
+                      to="/reader-add"
                     >
-                      <path
-                        d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                        fill="#97B6CF"
-                      />
-                    </svg>
-                  </Link>
-                </div>
-              </Col>
+                      <svg
+                        width="14"
+                        height="24"
+                        viewBox="0 0 14 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                          fill="#97B6CF"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
+                </Col>
 
-              <Col md="9">
-                <ul className="tabnav-link">
-                  <li className="">
-                    <a href="">Create CRM</a>
-                  </li>
-                  <li className="active active-main">
-                    <a href="">Review &amp; approve</a>
-                  </li>
-                </ul>
-              </Col>
+                <Col md="9">
+                  <ul className="tabnav-link">
+                    <li className="">
+                      <a href="">Create CRM</a>
+                    </li>
+                    <li className="active active-main">
+                      <a href="">Review &amp; approve</a>
+                    </li>
+                  </ul>
+                </Col>
 
-              <Col md="2">
-                <div className="header-btn">
-                  <button
-                    className={saveOpen ? "btn btn-primary btn-filled btn-disabled" : "btn btn-primary btn-filled create"}
-                    onClick={createUser}
-                  >
-                    Create
-                  </button>
-                </div>
-              </Col>
-
+                <Col md="2">
+                  <div className="header-btn">
+                    <button
+                      className={
+                        saveOpen
+                          ? "btn btn-primary btn-filled btn-disabled"
+                          : "btn btn-primary btn-filled create"
+                      }
+                      onClick={createUser}
+                    >
+                      Create
+                    </button>
+                  </div>
+                </Col>
               </div>
             </div>
 
@@ -513,23 +508,33 @@ const ReadersListAdd = () => {
                           filename="tablexls"
                           sheet="tablexls"
                           buttonText="Download "
+                          buttonTitle="Download reader list"
+                          title="jhfgjhfjhf"
                         />
 
                         <div className="hcp-new-user">
                           <button
+                            title="Add new reader"
                             className="btn btn-outline-primary"
                             onClick={handleShow}
                           >
-                            <img src={path_image + "new-user.svg"} alt="New User" />
+                            <img
+                              src={path_image + "new-user.svg"}
+                              alt="New User"
+                            />
                           </button>
                         </div>
 
                         <div className="hcp-added">
                           <button
+                            title="Edit reader list"
                             className="btn btn-outline-primary"
                             onClick={editButtonClicked}
                           >
-                            <img src={path_image + "edit-button.svg"} alt="Edit" />
+                            <img
+                              src={path_image + "edit-button.svg"}
+                              alt="Edit"
+                            />
                           </button>
                         </div>
                         <div className="hcp-sort">
@@ -540,7 +545,10 @@ const ReadersListAdd = () => {
                                 onClick={sortSelectedUsers}
                               >
                                 Sort By{" "}
-                                <img src={path_image + "sort.svg"} alt="Shorting" />
+                                <img
+                                  src={path_image + "sort.svg"}
+                                  alt="Shorting"
+                                />
                               </button>
                             </>
                           ) : sorting == 0 ? (
@@ -594,91 +602,97 @@ const ReadersListAdd = () => {
                 </div>
 
                 <div className="smart-list-view">
-                <div className="selected-hcp-list">
-                  <table className="table" id="table-to-xls">
-                    <thead className="sticky-header">
-                      <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Country</th>
-                        <th scope="col">Business Unit</th>
-                        <th scope="col">Contact Type</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-
-                    {typeof getNewReaders !== "undefined" &&
-                      getNewReaders.length > 0 &&
-                      getNewReaders.map((item, index) => (
-                        <tr
-                          key={item}
-                          className="hcps-added"
-                          id={`row-selected` + index}
-                          onClick={(e) =>
-                            editing(
-                              item?.profileIndex,
-                              item?.email,
-                              item?.country,
-                              item?.first_name + " " + item?.last_name,
-                              item?.contact_type
-                            )
-                          }
-                        >
-                          <td
-                            contenteditable={editable === 0 ? "false" : "true"}
-                            suppressContentEditableWarning={true}
-                            id={`field_name` + item?.profileIndex}
-                          >
-                            <span>{item?.first_name + " " + item?.last_name}</span>
-                          </td>
-                          <td>
-                            <span>{item?.email}</span>
-                          </td>
-                          <input
-                            type="hidden"
-                            id={`field_index` + item?.profileIndex}
-                            value={index}
-                          />
-                          <td>
-                            {editable ? (
-                              <EditCountry
-                                selected_country={item?.country}
-                                profile_user={item?.profileIndex}
-                              ></EditCountry>
-                            ) : (
-                              <span>{item?.country ? item.country: "N/A"}</span>
-                            )}
-                          </td>
-                          <td> {item?.ibu ? item.ibu : "N/A"}</td>
-                          <td>
-                            {editable ? (
-                              <EditContactType
-                                selected_ibu={item?.contact_type}
-                                profile_user={item?.profileIndex}
-                              ></EditContactType>
-                            ) : (
-                              <span>{item?.contact_type}</span>
-                            )}
-                          </td>
-                          <td className="delete_row" colspan="12">
-                            <img
-                              src={path_image + "delete.svg"}
-                              alt="Delete Row"
-                              onClick={() => deleteNewlyAdded(item?.profileIndex)}
-                            />
-                          </td>
+                  <div className="selected-hcp-list">
+                    <table className="table" id="table-to-xls">
+                      <thead className="sticky-header">
+                        <tr>
+                          <th scope="col">Name</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Country</th>
+                          <th scope="col">Business Unit</th>
+                          <th scope="col">Contact Type</th>
                         </tr>
-                      ))}
+                      </thead>
+                      <tbody>
+                        {typeof getNewReaders !== "undefined" &&
+                          getNewReaders.length > 0 &&
+                          getNewReaders.map((item, index) => (
+                            <tr
+                              key={item}
+                              className="hcps-added"
+                              id={`row-selected` + index}
+                              onClick={(e) =>
+                                editing(
+                                  item?.profileIndex,
+                                  item?.email,
+                                  item?.country,
+                                  item?.first_name + " " + item?.last_name,
+                                  item?.contact_type
+                                )
+                              }
+                            >
+                              <td
+                                contenteditable={
+                                  editable === 0 ? "false" : "true"
+                                }
+                                suppressContentEditableWarning={true}
+                                id={`field_name` + item?.profileIndex}
+                              >
+                                <span>
+                                  {item?.first_name + " " + item?.last_name}
+                                </span>
+                              </td>
+                              <td>
+                                <span>{item?.email}</span>
+                              </td>
+                              <input
+                                type="hidden"
+                                id={`field_index` + item?.profileIndex}
+                                value={index}
+                              />
+                              <td>
+                                {editable ? (
+                                  <EditCountry
+                                    selected_country={item?.country}
+                                    profile_user={item?.profileIndex}
+                                  ></EditCountry>
+                                ) : (
+                                  <span>
+                                    {item?.country ? item.country : "N/A"}
+                                  </span>
+                                )}
+                              </td>
+                              <td> {item?.ibu ? item.ibu : "N/A"}</td>
+                              <td>
+                                {editable ? (
+                                  <EditContactType
+                                    selected_ibu={item?.contact_type}
+                                    profile_user={item?.profileIndex}
+                                  ></EditContactType>
+                                ) : (
+                                  <span>{item?.contact_type}</span>
+                                )}
+                              </td>
+                              <td className="delete_row" colspan="12">
+                                <img
+                                  src={path_image + "delete.svg"}
+                                  alt="Delete Row"
+                                  onClick={() =>
+                                    deleteNewlyAdded(item?.profileIndex)
+                                  }
+                                />
+                              </td>
+                            </tr>
+                          ))}
 
-                      {typeof getNewReaders !== "undefined" &&
-                        getNewReaders.length > 0 && (
-                        <tr className="seprator-add">
-                          <td colspan="13"></td>
-                        </tr>
-                      )}
+                        {typeof getNewReaders !== "undefined" &&
+                          getNewReaders.length > 0 && (
+                            <tr className="seprator-add">
+                              <td colspan="13"></td>
+                            </tr>
+                          )}
 
-                      {
-                        readersData.length > 0 ? (
+                        {readersData.length > 0 ? (
                           readersData.map(function (data, index) {
                             return (
                               <tr
@@ -693,13 +707,17 @@ const ReadersListAdd = () => {
                                     data?.contact_type
                                   )
                                 }
-                                >
+                              >
                                 <td
-                                id={`field_name` + data.profileIndex}
-                                contentEditable={editable === 0 ? "false" : "true"}
-                                suppressContentEditableWarning={true}
+                                  id={`field_name` + data.profileIndex}
+                                  contentEditable={
+                                    editable === 0 ? "false" : "true"
+                                  }
+                                  suppressContentEditableWarning={true}
                                 >
-                                  <span>{data?.firtName + " " + data?.lastName}</span>
+                                  <span>
+                                    {data?.firtName + " " + data?.lastName}
+                                  </span>
                                 </td>
 
                                 <td>
@@ -733,279 +751,276 @@ const ReadersListAdd = () => {
                                 </td>
                                 <td className="delete_row" colSpan="12">
                                   <img
-                                  src={path_image + "delete.svg"}
-                                  alt="Delete Row"
-                                  id={"delete"+data.profileIndex}
-                                  onClick={() => {
-                                    deleteModalDisplay(data.profileIndex)
-                                  }}
+                                    src={path_image + "delete.svg"}
+                                    title="Delete reader"
+                                    alt="Delete Row"
+                                    id={"delete" + data.profileIndex}
+                                    onClick={() => {
+                                      deleteModalDisplay(data.profileIndex);
+                                    }}
                                   />
                                 </td>
                               </tr>
-                            )
+                            );
                           })
-                        ):
+                        ) : (
                           <tr className="no_found">
                             <td>No Data Found</td>
                           </tr>
-                      }
-                    </tbody>
-                  </table>
-                </div>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
+          </Row>
+        </div>
+      </Col>
 
-            </Row>
-          </div>
-        </Col>
-
-        {/* add new hcps */}
-        <Modal
-          id="add_hcp"
-          show={isOpenAdd}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
+      {/* add new hcps */}
+      <Modal
+        id="add_hcp"
+        show={isOpenAdd}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <div
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-hidden="true"
         >
-          <div
-            data-bs-backdrop="static"
-            data-bs-keyboard="false"
-            tabindex="-1"
-            aria-hidden="true"
-          >
-            <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel">
-                Add New HCP
-              </h5>
-              <button
-                onClick={() => {
-                  setIsOpenAdd(false);
-                  setHpc([
-                    {
-                      firstname: "",
-                      lastname: "",
-                      email: "",
-                      contact_type: "",
-                      country: "",
-                      countryIndex: "",
-                    },
-                  ]);
-                  setActiveManual("active");
-                  // document.querySelector("#file-4").value = "";
-                  setActiveExcel("");
-                }}
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <div className="hcp-add-box">
-                <div className="hcp-add-form tab-content">
-                  <form id="add_hcp_form" className={"tab-pane" + activeManual}>
-                    {hpc.map((val, i) => {
-                      const fieldName = `hpc[${i}]`;
-                      return (
-                        <>
-                          <div className="add_hcp_boxes">
-                            <div className="form_action">
-                              <div className="row">
-                                <div className="col-12 col-md-6">
-                                  <div className="form-group">
-                                    <label htmlFor="">First Name</label>
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                      onChange={(event) =>
-                                        onFirstNameChange(event, i)
-                                      }
-                                      value={val.firstname}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="col-12 col-md-6">
-                                  <div className="form-group">
-                                    <label htmlFor="">Last Name</label>
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                      onChange={(event) =>
-                                        onLastNameChange(event, i)
-                                      }
-                                      value={val.lastname}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="col-12 col-md-6">
-                                  <div className="form-group">
-                                    <label htmlFor="">Email <span>*</span></label>
-                                    <input
-                                      type="email"
-                                      className="form-control"
-                                      id="email-desc"
-                                      name={`${fieldName}.email`}
-                                      onChange={(event) =>
-                                        onEmailChange(event, i)
-                                      }
-                                      value={val.email}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="col-12 col-md-6">
-                                  <div className="form-group">
-                                    <label htmlFor="">Contact Type</label>
-                                    <DropdownButton
-                                      className="dropdown-basic-button split-button-dropup"
-                                      title={
-                                        hpc[i].contact_type != "" &&
-                                        hpc[i].contact_type != "undefined"
-                                          ? hpc[i].contact_type
-                                          : "Select Type"
-                                      }
-                                      onSelect={(event) =>
-                                        onContactTypeChange(event, i)
-                                      }
-                                    >
-                                      <Dropdown.Item
-                                        eventKey="HCP"
-                                        className={
-                                          hpc[i].contact_type == "HCP"
-                                            ? "active"
-                                            : ""
-                                        }
-                                      >
-                                        HCP
-                                      </Dropdown.Item>
-                                      <Dropdown.Item
-                                        eventKey="Staff"
-                                        className={
-                                          hpc[i].contact_type == "Staff"
-                                            ? "active"
-                                            : ""
-                                        }
-                                      >
-                                        Staff
-                                      </Dropdown.Item>
-                                      <Dropdown.Item
-                                        eventKey="Test Users"
-                                        className={
-                                          hpc[i].contact_type == "Test Users"
-                                            ? "active"
-                                            : ""
-                                        }
-                                      >
-                                        Test Users
-                                      </Dropdown.Item>
-                                    </DropdownButton>
-                                  </div>
-                                </div>
-                                <div className="col-12 col-md-6">
-                                  <div className="form-group">
-                                    <label htmlFor="">Country</label>
-                                    <Select
-                                      options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                      onChange={(event) =>
-                                        onCountryChange(event, i)
-                                      }
-                                      defaultValue={
-                                        countryall[hpc[i].countryIndex]
-                                      }
-                                      placeholder={
-                                        typeof countryall[hpc[i].countryIndex] ===
-                                        "undefined"
-                                          ? "Select Country"
-                                          : countryall[hpc[i].countryIndex]
-                                      }
-                                      filterOption={createFilter(filterConfig)}
-                                      isClearable
-                                    />
-                                  </div>
+          <div className="modal-header">
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add New HCP
+            </h5>
+            <button
+              onClick={() => {
+                setIsOpenAdd(false);
+                setHpc([
+                  {
+                    firstname: "",
+                    lastname: "",
+                    email: "",
+                    contact_type: "",
+                    country: "",
+                    countryIndex: "",
+                  },
+                ]);
+                setActiveManual("active");
+                // document.querySelector("#file-4").value = "";
+                setActiveExcel("");
+              }}
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <div className="hcp-add-box">
+              <div className="hcp-add-form tab-content">
+                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+                  {hpc.map((val, i) => {
+                    const fieldName = `hpc[${i}]`;
+                    return (
+                      <>
+                        <div className="add_hcp_boxes">
+                          <div className="form_action">
+                            <div className="row">
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">First Name</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) =>
+                                      onFirstNameChange(event, i)
+                                    }
+                                    value={val.firstname}
+                                  />
                                 </div>
                               </div>
-                            </div>
-
-                            <div className="hcp-modal-action">
-                              <div className="hcp-action-block">
-                                {activeManual == "active" ? (
-                                  <>
-                                    {hpc.length > 1 && (
-                                      <div className="hcp-remove">
-                                        <button
-                                          type="button"
-                                          className="btn btn-filled"
-                                          onClick={() => deleteRecord(i)}
-                                        >
-                                          <img
-                                            src={path_image + "delete.svg"}
-                                            alt="Add More"
-                                          />
-                                        </button>
-                                      </div>
-                                    )}
-                                  </>
-                                ) : null}
-
-                                <ul className="nav nav-tabs" role="tablist">
-                                  <li className="nav-item add_hcp">
-                                    <a
-                                      onClick={addMoreHcp}
-                                      className="nav-link active btn-bordered"
-                                      data-bs-toggle="tab"
-                                      href="javascript:;"
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">Last Name</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) =>
+                                      onLastNameChange(event, i)
+                                    }
+                                    value={val.lastname}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">Email *</label>
+                                  <input
+                                    type="email"
+                                    className="form-control"
+                                    id="email-desc"
+                                    name={`${fieldName}.email`}
+                                    onChange={(event) =>
+                                      onEmailChange(event, i)
+                                    }
+                                    value={val.email}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">Contact Type</label>
+                                  <DropdownButton
+                                    className="dropdown-basic-button split-button-dropup"
+                                    title={
+                                      hpc[i].contact_type != "" &&
+                                      hpc[i].contact_type != "undefined"
+                                        ? hpc[i].contact_type
+                                        : "Select Type"
+                                    }
+                                    onSelect={(event) =>
+                                      onContactTypeChange(event, i)
+                                    }
+                                  >
+                                    <Dropdown.Item
+                                      eventKey="HCP"
+                                      className={
+                                        hpc[i].contact_type == "HCP"
+                                          ? "active"
+                                          : ""
+                                      }
                                     >
-                                      Add HCP +
-                                    </a>
-                                  </li>
-                                </ul>
+                                      HCP
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Staff"
+                                      className={
+                                        hpc[i].contact_type == "Staff"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Staff
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Test Users"
+                                      className={
+                                        hpc[i].contact_type == "Test Users"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Test Users
+                                    </Dropdown.Item>
+                                  </DropdownButton>
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">Country</label>
+                                  <Select
+                                    options={countryall}
+                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                    onChange={(event) =>
+                                      onCountryChange(event, i)
+                                    }
+                                    defaultValue={
+                                      countryall[hpc[i].countryIndex]
+                                    }
+                                    placeholder={
+                                      typeof countryall[hpc[i].countryIndex] ===
+                                      "undefined"
+                                        ? "Select Country"
+                                        : countryall[hpc[i].countryIndex]
+                                    }
+                                    filterOption={createFilter(filterConfig)}
+                                    isClearable
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </>
-                      );
-                    })}
-                  </form>
-                </div>
+
+                          <div className="hcp-modal-action">
+                            <div className="hcp-action-block">
+                              {activeManual == "active" ? (
+                                <>
+                                  {hpc.length > 1 && (
+                                    <div className="hcp-remove">
+                                      <button
+                                        type="button"
+                                        className="btn btn-filled"
+                                        onClick={() => deleteRecord(i)}
+                                      >
+                                        <img
+                                          src={path_image + "delete.svg"}
+                                          alt="Add More"
+                                        />
+                                      </button>
+                                    </div>
+                                  )}
+                                </>
+                              ) : null}
+
+                              <ul className="nav nav-tabs" role="tablist">
+                                <li className="nav-item add_hcp">
+                                  <a
+                                    onClick={addMoreHcp}
+                                    className="nav-link active btn-bordered"
+                                    data-bs-toggle="tab"
+                                    href="javascript:;"
+                                  >
+                                    Add HCP +
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+                </form>
               </div>
             </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-primary save btn-filled"
-                onClick={saveClicked}
-              >
-                Save
-              </button>
-            </div>
           </div>
-        </Modal>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-primary save btn-filled"
+              onClick={saveClicked}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </Modal>
 
-
-        <CommonConfirmModel
+      <CommonConfirmModel
         show={confirmationpopup}
         onClose={setConfirmationPopup}
         fun={deleteReaderRecord}
         resetDataId={clickData}
-        popupMessage={
-         {
-           "message1":"The HCP will be deleted from the list.",
-           "message2":" Are you sure you want to delete it?",
-           "footerButton":" Yes Please!"
-         }
-        }
+        popupMessage={{
+          message1: "The HCP will be deleted from the list.",
+          message2: " Are you sure you want to delete it?",
+          footerButton: " Yes please!",
+        }}
         path_image={path_image}
-       />
+      />
 
-       <MessageModel
-         show={commanShow}
-         onClose={modalClose}
-         heading={""}
-         data={modalMessage}
-         footerButton={"Close"}
-         handleSubmit={modalClose}
-       />
+      <MessageModel
+        show={commanShow}
+        onClose={modalClose}
+        heading={""}
+        data={modalMessage}
+        footerButton={"Close"}
+        handleSubmit={modalClose}
+      />
     </>
   );
 };

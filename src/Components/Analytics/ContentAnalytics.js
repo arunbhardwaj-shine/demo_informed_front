@@ -200,7 +200,9 @@ const ContentAnalytics = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            {localStorage.getItem("group_id") == 2 ? (
+            {localStorage.getItem("group_id") == 2 ||
+            (localStorage.getItem("group_id") == 3 &&
+              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") ? (
               ""
             ) : (
               <div className="top-header">
