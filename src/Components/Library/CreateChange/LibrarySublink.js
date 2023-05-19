@@ -46,7 +46,9 @@ const LibrarySublink = () => {
     delivery: "",
   });
 
-  const [types, setTypes] = useState([{ value: "Online", label: "Online" }]);
+  const [types, setTypes] = useState([
+    { value: "Online ", label: "Online Offer" },
+  ]);
   const [activeTab, setActiveTab] = useState("docintel-link");
 
   useEffect(() => {
