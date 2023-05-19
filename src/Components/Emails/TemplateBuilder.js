@@ -1368,7 +1368,7 @@ const TemplateBuilder = (props) => {
 
             <div className="top-header">
               <div className="custom-container">
-                <div className="row justify-content-between align-items-center">
+                <div className="d-flex justify-content-between align-items-center">
                   <div className="page-title">
                     <h5>Select Template</h5>
                   </div>
