@@ -192,46 +192,68 @@ const TimelineDetail = () => {
                 <>
                   <div className="vertical-timeline d-flex align-items-start">
                     <div className="timeline-left-user">
-                      <div className="timeline-left-user-detail">
-                        <h5>
-                          Username{" "}
-                          {timeLineData?.user?.name
-                            ? timeLineData?.user?.name
-                            : "N/A"}
-                        </h5>
-                        <Table>
-                          <tbody>
-                            <tr>
-                              <th>Email</th>
-                              <td>{timeLineData?.user?.email}</td>
-                            </tr>
-                            <tr>
-                              <th>Country</th>
-                              <td>
-                                {timeLineData?.user?.country
-                                  ? timeLineData?.user?.country
-                                  : "N/A"}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>IBU</th>
-                              <td>
-                                {timeLineData?.user?.ibu != 0
-                                  ? timeLineData?.user?.ibu
-                                  : "N/A"}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Consent</th>
-                              <td>
-                                {timeLineData?.user?.other_option
-                                  ? timeLineData?.user?.other_option
-                                  : "N/A"}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </div>
+                      {
+                        !timeLineData?.flag?(
+                          <div className="timeline-left-user-detail">
+                          <h5>
+                            Username{" "}
+                            {timeLineData?.user?.name
+                              ? timeLineData?.user?.name
+                              : "N/A"}
+                          </h5>
+                          <Table>
+                            <tbody>
+                              <tr>
+                                <th>Email</th>
+                                <td>{timeLineData?.user?.email}</td>
+                              </tr>
+                              <tr>
+                                <th>Country</th>
+                                <td>
+                                  {timeLineData?.user?.country
+                                    ? timeLineData?.user?.country
+                                    : "N/A"}
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>IBU</th>
+                                <td>
+                                  {timeLineData?.user?.ibu != 0
+                                    ? timeLineData?.user?.ibu
+                                    : "N/A"}
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Consent</th>
+                                <td>
+                                  {timeLineData?.user?.other_option
+                                    ? timeLineData?.user?.other_option
+                                    : "N/A"}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </Table>
+                        </div>
+                        ):(
+                          <div className="timeline-left-user-detail">
+                          <h5>
+                            Ip Address{" "}
+                            {timeLineData?.user?.ipAddress
+                              ? timeLineData?.user?.ipAddress
+                              : "N/A"}
+                          </h5>
+                          {/* <Table>
+                            <tbody>
+                              <tr>
+                                <th>Email</th>
+                                <td>{timeLineData?.user?.email}</td>
+                              </tr>
+                            </tbody>
+                          </Table> */}
+                        </div>
+                        )
+                      }
+                     
                     </div>
                     <div className="timeline-right-list">
                       <div className="timeline-right-list-view">
@@ -920,6 +942,41 @@ const TimelineDetail = () => {
                                     </div>
                                   </div>
                                 )}
+                                  {details?.action == "ipData" && (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody>
+                                          <tr>
+                                            <th className="device-title">
+                                              Title
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.pdfTitle === null ||
+                                              details?.pdfTitle === ""
+                                                ? "New mail received"
+                                                : details?.pdfTitle}
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <th className="device-title">
+                                              Device
+                                            </th>
+                                            <td className="device-name">
+                                              Web Browser
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                                
                             </>
                           );
                         })}

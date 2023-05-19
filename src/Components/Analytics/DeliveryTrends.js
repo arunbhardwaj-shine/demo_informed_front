@@ -67,7 +67,7 @@ const DeliveryTrends = () => {
       const g3_2 = Math.round((g3.total_ctr * 100) / g3.total_opened_2nd);
       const g3_3 = Math.round((g3.total_rtr * 100) / g3.total_opened_2nd);
 
-      console.log("-------->>>df3",g2.total_opened_2nd)
+      console.log("-------->>>df3", g2.total_opened_2nd);
       // console.log("-------->>>df3",g2)
 
       const g4_1 = g4.total_shared_2nd < 100 ? 100 : g4.total_shared_2nd;
@@ -77,13 +77,12 @@ const DeliveryTrends = () => {
       const g4_3 = Math.round((g4.total_ctr * 100) / g4.total_shared_2nd);
       const g4_4 = Math.round((g4.total_rtr * 100) / g4.total_shared_2nd);
 
-
       const updatedData = {
         tab: {
           g0: [
             {
               name: "Email Send",
-              
+
               data: [
                 {
                   color: Highcharts.getOptions().colors[0],
@@ -91,7 +90,7 @@ const DeliveryTrends = () => {
                   innerRadius: "88%",
                   y: g0_1,
                   z: g0.outer_radius,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -104,7 +103,7 @@ const DeliveryTrends = () => {
                   innerRadius: "63%",
                   y: g0_2,
                   z: g0.total_opened_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -117,7 +116,7 @@ const DeliveryTrends = () => {
                   innerRadius: "38%",
                   y: g0_3,
                   z: g0.total_ctr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -130,7 +129,7 @@ const DeliveryTrends = () => {
                   innerRadius: "18%",
                   y: g0_4,
                   z: g0.total_rtr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -145,7 +144,7 @@ const DeliveryTrends = () => {
                   innerRadius: "88%",
                   y: g1_1,
                   z: g1.outer_radius,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -158,7 +157,7 @@ const DeliveryTrends = () => {
                   innerRadius: "63%",
                   y: g1_2,
                   z: g1.total_opened_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -171,7 +170,7 @@ const DeliveryTrends = () => {
                   innerRadius: "38%",
                   y: g1_3,
                   z: g1.total_ctr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -184,7 +183,7 @@ const DeliveryTrends = () => {
                   innerRadius: "18%",
                   y: g1_4,
                   z: g1.total_rtr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -201,7 +200,7 @@ const DeliveryTrends = () => {
                   // y: g2_1,
                   y: 100,
                   z: g2.total_opened_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -214,7 +213,7 @@ const DeliveryTrends = () => {
                   innerRadius: "38%",
                   y: g2_2,
                   z: g2.total_ctr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -227,7 +226,7 @@ const DeliveryTrends = () => {
                   innerRadius: "18%",
                   y: g2_3,
                   z: g2.total_rtr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -243,7 +242,7 @@ const DeliveryTrends = () => {
                   innerRadius: "63%",
                   y: 100,
                   z: g3.total_opened_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -256,7 +255,7 @@ const DeliveryTrends = () => {
                   innerRadius: "38%",
                   y: g3_2,
                   z: g3.total_ctr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -269,7 +268,7 @@ const DeliveryTrends = () => {
                   innerRadius: "18%",
                   y: g3_3,
                   z: g3.total_rtr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -284,7 +283,7 @@ const DeliveryTrends = () => {
                   innerRadius: "88%",
                   y: 100,
                   z: g4.total_shared_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -297,7 +296,7 @@ const DeliveryTrends = () => {
                   innerRadius: "63%",
                   y: g4_2,
                   z: g4.total_shared_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -310,7 +309,7 @@ const DeliveryTrends = () => {
                   innerRadius: "38%",
                   y: g4_3,
                   z: g4.total_ctr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -323,15 +322,13 @@ const DeliveryTrends = () => {
                   innerRadius: "18%",
                   y: g4_4,
                   z: g4.total_rtr,
-                  p:99  
+                  p: 99,
                 },
               ],
             },
           ],
         },
       };
-     
-
 
       const updatedListData = {
         tab: {
@@ -404,7 +401,7 @@ const DeliveryTrends = () => {
           <Row>
             <div className="top-header">
               <div className="page-title d-flex">
-                <h2>Delivery Trends</h2>
+                {/* <h2>Delivery Trends</h2> */}
               </div>
             </div>
             <div className="create-change-content spc-content analytic-charts small-space">
