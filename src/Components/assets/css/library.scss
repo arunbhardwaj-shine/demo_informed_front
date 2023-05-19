@@ -4284,6 +4284,9 @@ transform: translateY(-50%);
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content {
 	padding-bottom:0px;
 }
+.filter-by.nav-item.dropdown>button:focus svg rect{
+fill:$white;
+}
 /**Analytics page End**/
 
 /***INFORMED***/
@@ -5395,6 +5398,12 @@ font-weight: 400;
 }
 .modal-body .form-group label span{
   color:#d61975;
+}
+.form-group.primary_phone .dropdown-basic-button.split-button-dropup div:nth-child(3) > div div {
+    padding-right: 0;
+}
+.create-reader .split-button-dropup > div:nth-child(3) , .create-reader .split-button-dropup div:nth-child(3) > div div[class*=-placeholder]{
+    font-size: 16px;
 }
 /***Informed End***/
 
@@ -6606,7 +6615,9 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .analytic-charts .form_action, .tabs_content_load ul.nav-tabs {
 	top: 80px;
 }
-
+nav #collapsibleNavbar li.nav-item a {
+    padding: 0 37px;
+}
 .content_analytics .circle_graph .col:after {
     left: 3px;
 }
