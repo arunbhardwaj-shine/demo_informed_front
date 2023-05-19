@@ -152,7 +152,6 @@ const TrendingTopics = () => {
                   <p>Every content is tagged for what it is about. These show which tags got views by HCPs.</p>
               </div>
             <div className="create-change-content spc-content analytic-charts">
-              <Row>
                 <div className="delivery-trends">
                   <div className="tabs_content_load">
                     <Tabs
@@ -179,12 +178,12 @@ const TrendingTopics = () => {
                     ) : (
                       ""
                     )}
+                   <div className="high_charts trending-topics">
+                    <HighchartsReact highcharts={Highcharts} options={options} />
+                  </div>
                   </div>
                 </div>
-              </Row>
-              <div className="high_charts trending-topics">
-                <HighchartsReact highcharts={Highcharts} options={options} />
-              </div>
+             
             </div>
           </Row>
         </div>
