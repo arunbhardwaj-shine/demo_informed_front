@@ -739,26 +739,26 @@
     button.dlt_btn {
       bottom: -10px;
       border: 0;
-      background: $primary-color;
-      width: 35px;
-      height: 35px;
+      background: transparent;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      right: -20px;
+      right: -13px;
       img{
-        width:19px;
+        width:20px;
       }
     }
     button.btn-edit {
-      top: -10px;
+      top: -13px;
       border: 0;
-      background: $voilet;
-      width: 35px;
-      height: 35px;
+      background: transparent;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      right: -20px;
+      right: -15px;
       position: absolute;
       img{
-        width:17px;
+        width:19px;
       }
     }
   }
@@ -3370,7 +3370,7 @@ input.viewer-toolbar-current-page-input {
 .delivery-trends {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 10px 10px;
+    padding: 0px 10px 10px;
     background: $white;
     position:relative;
     // border-radius: 0 0 20px 20px;
@@ -3778,7 +3778,16 @@ padding: 0 10px;
 .tabs_content_load {
     position: relative;
 }
-
+.tabs_content_load ul.nav-tabs {
+    position: sticky;
+    top: 84px;
+    z-index: 4;
+    background: $white;
+    padding-top: 10px;
+}
+.delivery-trends.space-added {
+    padding-top: 0!important;
+}
 .create-change-content.add-site .form-group {
 width: 50%;
   }
@@ -3868,7 +3877,10 @@ width: 50%;
 }
 .library-content-box-layuot .doc-content-main-box .tab-content .data-main-box ul.tab-mail-list li.d-flex .tab-content-title {
 	position: relative;
-	top: -8px;
+	top: -6px;
+}
+.btn.btn-primary {
+    flex: 0 0 auto;
 }
 .form_action.sticky-view, .template_builder-option.library-cosent.sticky-view {
 	position: sticky;
@@ -4272,6 +4284,9 @@ transform: translateY(-50%);
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content {
 	padding-bottom:0px;
 }
+.filter-by.nav-item.dropdown>button:focus svg rect{
+fill:$white;
+}
 /**Analytics page End**/
 
 /***INFORMED***/
@@ -4323,6 +4338,7 @@ transform: translateY(-50%);
                   font-size: 16px;
                   padding-top: 5px;
                   color:$primary-color;
+                  cursor: pointer;
                   margin:0;
                   &.go-btn{
                     cursor: pointer;
@@ -4432,7 +4448,7 @@ transform: translateY(-50%);
     padding: 0px 0 45px;
     position: relative;
     .container{
-      width:1012px;
+      width:1020px;
     }
     .dotted-line{
       padding: 0px 38px;
@@ -4469,7 +4485,7 @@ transform: translateY(-50%);
           img {
             width: 59%;
             height: auto;
-            margin-left: 30px;
+            margin-left: 22px;
         }
       }
       }
@@ -5379,6 +5395,15 @@ font-weight: 400;
     background-repeat: no-repeat;
     background-position: left bottom;
     background-size: 225px;
+}
+.modal-body .form-group label span{
+  color:#d61975;
+}
+.form-group.primary_phone .dropdown-basic-button.split-button-dropup div:nth-child(3) > div div {
+    padding-right: 0;
+}
+.create-reader .split-button-dropup > div:nth-child(3) , .create-reader .split-button-dropup div:nth-child(3) > div div[class*=-placeholder]{
+    font-size: 16px;
 }
 /***Informed End***/
 
@@ -6587,8 +6612,11 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 }
 @media only screen and (max-width: 1450px) {
-.analytic-charts .form_action {
+.analytic-charts .form_action, .tabs_content_load ul.nav-tabs {
 	top: 80px;
+}
+nav #collapsibleNavbar li.nav-item a {
+    padding: 0 37px;
 }
 .content_analytics .circle_graph .col:after {
     left: 3px;
@@ -6982,7 +7010,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .library_create.landing-layout .row {
     gap: 74px 133px;
 }
-.analytic-charts .form_action {
+.analytic-charts .form_action, .tabs_content_load ul.nav-tabs {
     top: 60px;
 }
 .library_create.landing-layout {

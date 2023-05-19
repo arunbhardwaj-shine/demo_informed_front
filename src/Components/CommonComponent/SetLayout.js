@@ -98,6 +98,7 @@ const SetLayout = () => {
       {isAuthenticated ? (
         <>
           <Header />
+          <div className="default-layout">
           <div className="landing-layout library_create d-flex">
             <Row>
               {data.map((item, index) => (
@@ -120,6 +121,7 @@ const SetLayout = () => {
                 </div>
               ))}
             </Row>
+          </div>
           </div>
         </>
       ) : (

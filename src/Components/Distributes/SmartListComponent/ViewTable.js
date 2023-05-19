@@ -1999,7 +1999,7 @@ const ViewTable = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email *</label>
+                                  <label htmlFor="">Email <span>*</span></label>
                                   <input
                                     type="email"
                                     className="form-control"
