@@ -1172,7 +1172,7 @@ const ReaderAdd = () => {
                           <input
                             type="text"
                             name="repContact"
-                            placeholder="Who is Internal contact?"
+                            placeholder="Who is internal contact?"
                             className="form-control"
                             onChange={(e) => handleChange(e)}
                           />
