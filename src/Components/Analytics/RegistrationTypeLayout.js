@@ -12,8 +12,7 @@ import { Spinner } from "react-activity";
 exporting(Highcharts);
 exportData(Highcharts);
 
-export default function 
-RegistrationTypeLayout({ data }) {
+export default function RegistrationTypeLayout({ data }) {
   Highcharts.setOptions({
     colors: [
       "#F58289",
@@ -36,7 +35,7 @@ RegistrationTypeLayout({ data }) {
     // loader("show")
     setPageAll(true);
     setTimeout(function () {
-     // setAllItemsToShow(data?.slice(numItemsToShow, data.length));
+      // setAllItemsToShow(data?.slice(numItemsToShow, data.length));
       setNumItemsToShow(numItemsToShow + data.length);
       setPageAll(false);
     }, 300);
@@ -44,7 +43,6 @@ RegistrationTypeLayout({ data }) {
   const displayData = data?.slice(0, numItemsToShow);
   return (
     <>
-   
       {allItemsToShow?.length ? (
         <RenderLayout data={allItemsToShow} />
       ) : (
@@ -87,8 +85,8 @@ const RenderLayout = ({ data }) => {
       // add padding to the element
       element.style.backgroundColor = "white";
 
-      const dataUrl = await domtoimage.toPng(element);
-           
+      const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
+
       const link = document.createElement("a");
       link.download = `${Math.random()}.png`;
       link.href = dataUrl;
@@ -132,7 +130,9 @@ const RenderLayout = ({ data }) => {
                       <h3 className="remove_bg">
                         <i>{element.pdf_title.toUpperCase()}</i>
                       </h3>
-                      <h5 className="sub_title">{element.pdf_sub_title.toUpperCase()}</h5>
+                      <h5 className="sub_title">
+                        {element.pdf_sub_title.toUpperCase()}
+                      </h5>
                       <div className="content-listed-content-inside">
                         <h5 className="created">
                           <strong>Created:</strong> {element.created}

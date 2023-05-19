@@ -955,7 +955,7 @@ const ReaderAdd = () => {
                             className="btn-bordered btn-voilet"
                             onClick={(e) => addNewProductClicked("province", e)}
                           >
-                            Add new Province +
+                            Add New Province +
                           </Button>
                         </div>
 
@@ -1024,7 +1024,7 @@ const ReaderAdd = () => {
                                 addNewProductClicked("speciality", e)
                               }
                             >
-                              Add new Speciality +
+                              Add New Speciality +
                             </Button>
                           </div>
                           {/* {selectedCategory.includes("speciality") ? (
@@ -1069,7 +1069,7 @@ const ReaderAdd = () => {
                                   }
                                   className="btn-bordered btn-voilet"
                                 >
-                                  Add new Discipline +
+                                  Add New Discipline +
                                 </Button>
                               </div>
                               {/* {selectedCategory.includes("discipline") ? (
@@ -1131,7 +1131,7 @@ const ReaderAdd = () => {
                                 addNewProductClicked("product", e)
                               }
                             >
-                              Add new Product +
+                              Add New Product +
                             </Button>
                           </div>
 
