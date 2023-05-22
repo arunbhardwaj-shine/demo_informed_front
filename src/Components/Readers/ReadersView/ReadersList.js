@@ -58,7 +58,7 @@ const NewReaders = () => {
   const [totalCountFlag, setTotalCountFlag] = useState(true);
 
   const [filterdata, setFilterData] = useState({
-    Status: ["Registered", "Unregistered"],
+    // Status: ["Registered", "Unregistered"],
   });
   const [filterObject, setFilterObject] = useState({
     // status: ["Registered"],
