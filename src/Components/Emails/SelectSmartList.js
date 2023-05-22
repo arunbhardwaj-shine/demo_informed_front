@@ -389,11 +389,11 @@ const SelectSmartList = (props) => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <div className="col right-sidebar custom-change">
         <div className="custom-container">
           <div className="row">
-            <div className="page-top-nav">
-              <div className="row justify-content-end align-items-center">
+            <div className="page-top-nav sticky">
+              <div className="d-flex justify-content-end align-items-center header-links">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
                     <button

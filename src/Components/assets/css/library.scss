@@ -3258,6 +3258,11 @@ section.verify_email.content_details {
   top: 84px;
   background: $white;
   z-index: 5;
+  transition: 0.3s linear;
+}
+header.-top-24 ~ div .analytic-charts .form_action {
+    top: 0;
+    transition: 0.3s linear;
 }
 .create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button {
     margin-bottom: 0;
@@ -3271,7 +3276,7 @@ section.verify_email.content_details {
 .create-change-content.analytic-charts {
     box-shadow: -0px 0px 15px rgba(0, 102, 190, 0.1);
     padding: 0;
-    margin: 36px auto 70px;
+    margin: 0px auto 70px;
     background: $white;
     position: relative;
     min-height: 770px;
@@ -3831,32 +3836,38 @@ width: 50%;
 
 /***header-sticky***/
 .top-header.sticky {
-    padding: 34px 30px 30px;
+    padding: 20px 8px 15px;
     position: sticky;
     top: 84px;
-    z-index: 4;
+    z-index: 6;
     background: #fbfcfd;
+     transition: 0.3s linear;
+     transition-delay: 0.1s;
 }
 
 .custom-change {
   padding-top:0px;
     .top-header{
       &.sticky {
-        padding: 34px 30px 30px;
+        padding: 20px 8px 15px;
         position: sticky;
         top: 84px;
         z-index: 6;
         background: #fbfcfd;
+         transition: 0.3s linear;
+         transition-delay: 0.1s;
       }
     }
     .page-top-nav{
       &.sticky {
-        padding: 34px 30px 30px;
+        padding: 20px 8px 15px;
         position: sticky;
         top: 84px;
         z-index: 6;
         background: #fbfcfd;
-        margin:0;
+        margin:0 0 15px;
+         transition: 0.3s linear;
+         transition-delay: 0.1s;
       }
     }
     .library-content-box-layuot {
@@ -3867,7 +3878,13 @@ width: 50%;
       margin: 0 auto 40px;
 }
 }
-
+header.-top-24 ~ div .custom-change .top-header.sticky, header.-top-24 ~ div .custom-change .page-top-nav.sticky {
+    top: 0px;
+    transition: 0.3s linear;
+}
+.page-title h4 span {
+    font-weight: 300;
+}
 .dropdown.split-button-dropup .dropdown-menu .scroll_div .scroll_div_inset {
     overflow-y: auto;
     max-height: 120px;
@@ -4239,9 +4256,11 @@ transform: translateY(-50%);
     display: flex;
     align-items: center;
     padding: 16px;
-    margin: 12px 0 0;
+    margin: 0px 0 25px;
 }
-
+.right-sidebar {
+    padding-top: 29px;
+}
 .distribute-page-reader svg {
     width: 24px;
     max-height: 24px;
@@ -4251,12 +4270,11 @@ transform: translateY(-50%);
     margin: 0;
     font-size: 16px;
     line-height: 19px;
-    text-transform: capitalize;
-    color: #004A89;
+    color: $primary-color;
     padding-left: 15px;
 }
 .distribute-page-reader + .create-change-content.analytic-charts {
-    margin-top: 25px;
+    margin-top: 0px;
 }
 .distribute-page-reader p strong {
     font-size: 18px;
@@ -6294,8 +6312,7 @@ ul.tab-mail-list.data span.total-left {
     max-width: calc(100% - 10px);
 }
 .custom-change .top-header.sticky,.custom-change .page-top-nav.sticky{
-    padding: 30px 10px 30px;
-    top: 82px;
+    top: 79px;
 }
 .apply-filter {
     padding-left: 10px;
@@ -6360,6 +6377,19 @@ ul.tab-mail-list.data span.total-left {
   .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
     max-width: 190px;
 }
+ .verify-email-detail .btn.approved-btn {
+    padding: 8px 8px;
+    min-width: 105px;
+  }
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup > div:nth-child(3) {
+    padding-right: 28px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup > div:nth-child(3) div {
+    padding-left: 0;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup div:nth-child(3) > div div {
+    padding-right:0;
+}
 .library_create.landing-layout .row {
     gap: 74px 138px;
 }
@@ -6421,10 +6451,6 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 .custom-change .library-content-box-layuot {
     margin-top: 15px;
-}
-.custom-change .top-header.sticky, .custom-change .page-top-nav.sticky {
-    padding: 24px 10px 24px;
-    top: 80px;
 }
   .crm-detail .crm-detail-content .crm-review .crm-review-detail ul li h6 {
     font-size: 14px;
@@ -7007,6 +7033,9 @@ nav #collapsibleNavbar li.nav-item a {
   .sublink_right_block .loader-view {
     width: 60px;
     height: 60px;
+}
+nav #collapsibleNavbar li.nav-item a {
+    padding: 0 28px;
 }
 .library_create.landing-layout .row {
     gap: 74px 133px;
