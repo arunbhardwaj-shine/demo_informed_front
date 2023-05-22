@@ -42,7 +42,7 @@ const LibraryCreateUser = () => {
     expDatetime: new Date(
       moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
     ),
-    limit: "",
+    // limit: "",
     uploadFile: "",
     contentTitle: "",
     keyAuthor: "",
@@ -237,9 +237,10 @@ const LibraryCreateUser = () => {
     );
 
     if (Object.keys(err)?.length) {
-      if (Object.keys(err)[0] == "limit") {
-        limitFieldRef.current.focus();
-      } else if (Object.keys(err)[0] == "contentTitle") {
+      // if (Object.keys(err)[0] == "limit") {
+      //   limitFieldRef.current.focus();
+      // }
+      if (Object.keys(err)[0] == "contentTitle") {
         titleFieldRef.current.focus();
       }
 
@@ -961,7 +962,7 @@ const LibraryCreateUser = () => {
           <h4>Limits agreed</h4>
           <div className="row">
             <div className="col-12 col-md-6">
-              {userDetail?.costCenter ? (
+              {/* {userDetail?.costCenter ? (
                 <div className="form-group">
                   <label htmlFor="">Cost centre</label>
                   <Select
@@ -972,8 +973,8 @@ const LibraryCreateUser = () => {
                     onChange={(e) => handleChange(e?.value, "costCenter")}
                   />
                 </div>
-              ) : null}
-              <div className="form-group">
+              ) : null} */}
+              {/* <div className="form-group">
                 <label htmlFor="">Expiration date</label>
                 <DatePicker
                   selected={
@@ -1010,9 +1011,9 @@ const LibraryCreateUser = () => {
                 {error?.limit ? (
                   <div className="login-validation">{error?.limit}</div>
                 ) : null}
-              </div>
+              </div> */}
               <div className="form-group">
-                <label htmlFor="">Allowed</label>
+                <label htmlFor="">Allow</label>
                 <fieldset id="group2">
                   <input
                     type="checkbox"
@@ -1059,7 +1060,7 @@ const LibraryCreateUser = () => {
                     handleChange(e?.target.value, "specialRequirment")
                   }
                   rows="5"
-                  placeholder="Please type your notes here.."
+                  placeholder="Please type your notes here..."
                 ></textarea>
               </div>
             </div>
@@ -1208,7 +1209,7 @@ const LibraryCreateUser = () => {
                           rows="5"
                           name="journalTitle"
                           onChange={(e) => handleChange(e)}
-                          placeholder="Please type your comments here.."
+                          placeholder="Please type your comments here..."
                         ></textarea>
 
                         {error?.journalTitle ? (

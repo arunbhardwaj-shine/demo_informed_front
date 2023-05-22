@@ -1099,7 +1099,7 @@ const EditLibrary = () => {
           <h4>Limits agreed</h4>
           <div className="row">
             <div className="col-12 col-md-6">
-              {userDetail?.costCenter ? (
+              {/* {userDetail?.costCenter ? (
                 <div className="form-group">
                   <label htmlFor="">Cost centre</label>
                   <Select
@@ -1116,9 +1116,9 @@ const EditLibrary = () => {
                 </div>
               ) : (
                 ""
-              )}
+              )} */}
 
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="">Expiration date</label>
                 <DatePicker
                   selected={
@@ -1136,9 +1136,9 @@ const EditLibrary = () => {
                   className="form-control"
                   minDate={currentDate}
                 />
-              </div>
+              </div> */}
 
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="">Set limit of usage</label>
                 <input
                   type="number"
@@ -1156,9 +1156,9 @@ const EditLibrary = () => {
                 {error?.limit ? (
                   <div className="login-validation">{error?.limit}</div>
                 ) : null}
-              </div>
+              </div> */}
               <div className="form-group">
-                <label htmlFor="">Allowed</label>
+                <label htmlFor="">Allow</label>
                 <fieldset id="group2">
                   <input
                     type="checkbox"
@@ -1209,7 +1209,7 @@ const EditLibrary = () => {
                     handleChange(e?.target?.value, "specialRequirment")
                   }
                   rows="5"
-                  placeholder="Please type your notes here.."
+                  placeholder="Please type your notes here..."
                 ></textarea>
               </div>
             </div>
@@ -1355,7 +1355,7 @@ const EditLibrary = () => {
                             rows="5"
                             defaultValue={userInputs?.journalTitle}
                             onChange={(e) => handleChange(e)}
-                            placeholder="Please type your comments here.."
+                            placeholder="Please type your comments here..."
                           ></textarea>
 
                           {error?.journalTitle ? (
@@ -2128,7 +2128,7 @@ const EditLibrary = () => {
                             onChange={(e) =>
                               handleChange(e?.target.value, "productionNotes")
                             }
-                            placeholder="Please type your notes here.."
+                            placeholder="Please type your notes here..."
                           ></textarea>
                         </div>
                       </Col>

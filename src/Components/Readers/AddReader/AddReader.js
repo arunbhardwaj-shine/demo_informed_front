@@ -523,7 +523,7 @@ const ReaderAdd = () => {
           sub_role: userInputs?.sub_role,
           ibu: userInputs?.ibu,
         };
-        await postData(ENDPOINT.READER_CREATE, data);
+        // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
 
         navigate("/reader-review", {
@@ -939,7 +939,7 @@ const ReaderAdd = () => {
                     )}
                     {groupId == 2 ||
                     (groupId == 3 && flag == 0 && pharmaData == 0) ? (
-                      <Form.Group className="form-group">
+                      <Form.Group className="form-group margin-added">
                         <Form.Label htmlFor="">Province</Form.Label>
                         <Select
                           options={userDetail?.province}
@@ -955,7 +955,7 @@ const ReaderAdd = () => {
                             className="btn-bordered btn-voilet"
                             onClick={(e) => addNewProductClicked("province", e)}
                           >
-                            Add new Province +
+                            Add New Province +
                           </Button>
                         </div>
 
@@ -1024,7 +1024,7 @@ const ReaderAdd = () => {
                                 addNewProductClicked("speciality", e)
                               }
                             >
-                              Add new Speciality +
+                              Add New Speciality +
                             </Button>
                           </div>
                           {/* {selectedCategory.includes("speciality") ? (
@@ -1069,7 +1069,7 @@ const ReaderAdd = () => {
                                   }
                                   className="btn-bordered btn-voilet"
                                 >
-                                  Add new Discipline +
+                                  Add New Discipline +
                                 </Button>
                               </div>
                               {/* {selectedCategory.includes("discipline") ? (
@@ -1131,7 +1131,7 @@ const ReaderAdd = () => {
                                 addNewProductClicked("product", e)
                               }
                             >
-                              Add new Product +
+                              Add New Product +
                             </Button>
                           </div>
 
@@ -1172,7 +1172,7 @@ const ReaderAdd = () => {
                           <input
                             type="text"
                             name="repContact"
-                            placeholder="Who is Internal contact?"
+                            placeholder="Who is internal contact?"
                             className="form-control"
                             onChange={(e) => handleChange(e)}
                           />

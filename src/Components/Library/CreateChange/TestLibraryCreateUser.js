@@ -472,7 +472,7 @@ const LibraryCreateUser = () => {
                         className="form-control"
                         id="formControlTextarea"
                         rows="5"
-                        placeholder="Please type your notes here.."
+                        placeholder="Please type your notes here..."
                       ></textarea>
                     </div>
                   </div>
@@ -743,7 +743,7 @@ const LibraryCreateUser = () => {
                         className="form-control"
                         id="formControlTextarea"
                         rows="5"
-                        placeholder="Please type your notes here.."
+                        placeholder="Please type your notes here..."
                       ></textarea>
                     </div>
                   </div>

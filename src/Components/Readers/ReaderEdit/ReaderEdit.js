@@ -152,7 +152,7 @@ const ReaderEdit = () => {
         });
 
         let checkIndex = newArr.findIndex(
-          (el) => el.value == newProduct?.value
+          (el) => el.value?.trim() == newProduct?.value?.trim()
         );
         if (checkIndex == -1) {
           newArr.unshift({
@@ -472,14 +472,18 @@ const ReaderEdit = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
+          primary_phone: `${
+            userInputs?.countryCode?.label
+              ? userInputs?.countryCode?.label
+              : userInputs?.countryCode
+          }-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
-          province: userInputs?.province,
+          province: userInputs?.province?.trim(),
           hospital: userInputs?.hospital,
           title: userInputs?.title,
           speciality: userInputs?.speciality,
-          Discipline: userInputs?.discipline,
+          discipline: userInputs?.discipline,
           product: userInputs?.product,
           interestArea: userInputs?.interestArea,
           repContact: userInputs?.repContact,
@@ -661,7 +665,7 @@ const ReaderEdit = () => {
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
-                  {!(groupId == 3 && flag == 0 && pharmaData == 1) ? (
+                  {/* {!(groupId == 3 && flag == 0 && pharmaData == 1) ? (
                     <Button
                       className="btn-bordered"
                       type="file"
@@ -671,7 +675,7 @@ const ReaderEdit = () => {
                     </Button>
                   ) : (
                     ""
-                  )}
+                  )} */}
                 </div>
                 <Row>
                   <Col md="7">
@@ -777,10 +781,18 @@ const ReaderEdit = () => {
                             options={countryCode}
                             className="dropdown-basic-button split-button-dropup"
                             isClearable
-                            placeholder=""
+                            placeholder="code"
                             defaultValue={{
                               label: userInputs?.countryCode,
                             }}
+                            // defaultValue={{
+                            //   label: userInputs?.countryCode,
+                            //   value: countryCode?.filter((item) => {
+                            //     if (item?.label == userInputs?.countryCode) {
+                            //       return item?.value;
+                            //     }
+                            //   }),
+                            // }}
                             onChange={(e) => handleChange(e, "countryCode")}
                           />
                           {error?.countryCode ? (
@@ -1166,7 +1178,7 @@ const ReaderEdit = () => {
                                 type="text"
                                 defaultValue={userInputs?.repContact}
                                 name="repContact"
-                                placeholder="Who is Internal contact?"
+                                placeholder="Who is internal contact?"
                                 className="form-control"
                                 onChange={(e) => handleChange(e)}
                               />

@@ -285,7 +285,7 @@ const LibraryContent = (props) => {
       setLibraryData([]);
       setAppliedFilter({});
       getLibraryData(1, {}, search);
-      setPage(1)
+      setPage(1);
       setSearch("");
     }
     setShowFilter(false);
@@ -296,7 +296,7 @@ const LibraryContent = (props) => {
     setFilterApplyflag(1);
     setLibraryData([]);
     setFilterObject(appliedFilter);
-    setPage(1)
+    setPage(1);
     getLibraryData(1, appliedFilter, search);
     setShowFilter(false);
   };
@@ -393,7 +393,7 @@ const LibraryContent = (props) => {
         message1:
           "You are about to remove this content from any reader and every device forever.",
         message2: "Are you sure you want to do this?",
-        footerButton: "Yes Please!",
+        footerButton: "Yes please!",
       });
       if (confirmationpopup) {
         setConfirmationPopup(false);
@@ -2010,7 +2010,7 @@ const LibraryContent = (props) => {
                                                 data?.trail_user_type != ""
                                                 ? JSON.parse(
                                                     data?.trail_user_type
-                                                  ).join()
+                                                  ).join(", ")
                                                 : "N/A"
                                               : "N/A"}
                                           </h6>

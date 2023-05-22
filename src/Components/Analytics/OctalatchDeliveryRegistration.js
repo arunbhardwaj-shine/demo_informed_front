@@ -69,9 +69,9 @@ const OctalatchDeliveryRegistration = () => {
           <div className="custom-container">
             <Row>
               <div className="top-header">
-                <div className="page-title d-flex">
+                {/* <div className="page-title d-flex">
                   <h2>Delivery leading to registration </h2>
-                </div>
+                </div> */}
               </div>
               <div className="create-change-content spc-content analytic-charts">
                 <div className="high_charts">
