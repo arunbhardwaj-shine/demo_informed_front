@@ -283,6 +283,10 @@ const RDRegister = () => {
               document.getElementById("myForm").reset();
               setError({});
               setShow(true);
+              setTimeout(() => {
+                window.location.href='https://albert.docintel.app/redirect?user-id='+response?.data?.id+'&encf=1';
+              }, 2000);
+             
             }else{
               let obj = {"Api": response?.data?.message};
               setError(obj);

@@ -659,6 +659,7 @@ const ReaderAdd = () => {
           <Select
             options={userDetail?.siteNumber}
             placeholder="Select Site Number"
+            noOptionsMessage={() => userInputs?.country == "" ? 'Please select country first' : 'No options'}
             name="siteNumber"
             value={
               userDetail?.siteNumber.findIndex(
@@ -681,6 +682,7 @@ const ReaderAdd = () => {
           <Select
             options={userDetail?.siteName}
             placeholder="Select Site Name "
+            noOptionsMessage={() => userInputs?.country == "" ? 'Please select country first' : 'No options'}
             name="siteName"
             value={
               userDetail?.siteName.findIndex(
