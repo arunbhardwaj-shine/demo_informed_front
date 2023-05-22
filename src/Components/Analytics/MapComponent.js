@@ -191,13 +191,13 @@ const MapComponent = ({ data, status }) => {
 
           const coordinate = data?.coordinations;
           const countryNames = data?.countryname;
-          const countryData = countryNames.map((countryName,index) => {
+          const countryData = countryNames?.map((countryName,index) => {
             const coordString = coordinate[countryName];
             if (coordString) {
               const [lat, long] = coordString.split("#");
               return {
                 opening: data?.opening[index],
-               reader: data?.reader[index],
+                reader: data?.reader[index],
                 name: countryName,
                 lat: parseFloat(lat),
                 lon: parseFloat(long),
