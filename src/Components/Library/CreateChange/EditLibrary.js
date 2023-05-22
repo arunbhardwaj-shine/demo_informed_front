@@ -2088,7 +2088,7 @@ const EditLibrary = () => {
                               </p>
                             ) : (
                               <p>
-                                Update an alternative cover <br />
+                                Uplode an alternative cover <br />
                                 <span>
                                   <i>Allowed formats: PNG,JPEG</i>
                                 </span>
