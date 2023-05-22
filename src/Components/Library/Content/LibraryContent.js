@@ -68,6 +68,9 @@ const LibraryContent = (props) => {
   const [pdftagsid, setpdftagsid] = useState();
   const [appliedFilter, setAppliedFilter] = useState({});
 
+  const [otherFilter, setOtherFilter] = useState({});
+
+
   const navigate = useNavigate();
   let obj = {};
   const [userId, setUserId] = useState();
@@ -189,11 +192,15 @@ const LibraryContent = (props) => {
     event.preventDefault();
     return false;
   };
-
+  // const [otherFilter, setOtherFilter] = useState({});
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
+    let otherObj =   JSON.parse(JSON.stringify(otherFilter))
+
+  
     if (!newObj[key]) {
       newObj[key] = [];
+      otherObj[key] = []
     }
 
     if (e?.target?.checked == true) {
@@ -214,31 +221,48 @@ const LibraryContent = (props) => {
         newObj[key]?.push(item);
       } else {
         if (item == "All") {
-          newObj[key] = data;
+          newObj[key] = ["All"];
+          otherObj[key] = data
         } else {
           newObj[key]?.push(item);
+          otherObj[key]?.push(item)
+
 
           if (data?.length - 1 == newObj[key]?.length) {
             newObj[key]?.push("All");
+            otherObj[key]?.push(item)
           }
         }
       }
     } else {
       if (item == "All") {
         newObj[key] = [];
+        otherObj[key] = [];
       } else {
         if (newObj[key].includes("All")) {
           newObj[key] = newObj[key].filter((item) => item != "All");
+          otherObj[key] =  otherObj[key].filter((item) => item != "All");
         }
         const index = newObj[key]?.indexOf(item);
         if (index > -1) {
           newObj[key]?.splice(index, 1);
           if (newObj[key]?.length == 0) {
-            delete newObj[key];
+            delete otherObj[key] 
+             delete newObj[key];
           }
         }
       }
+      const otherIndex = otherObj[key]?.indexOf(item);
+      if (otherIndex > -1) {
+        otherObj[key]?.splice(index, 1);
+        if (otherObj[key]?.length == 0) {
+          delete otherObj[key] 
+
+        }
+        newObj[key] = otherObj[key]
+      }
     }
+    setOtherFilter(otherObj)
     setAppliedFilter(newObj);
     // setFilterObject(newObj);
     setForceRender(!forceRender);
@@ -282,6 +306,7 @@ const LibraryContent = (props) => {
 
     obj = {};
     if (filterApplyflag > 0) {
+      setOtherFilter({});
       setFilterObject({});
       setLibraryData([]);
       setAppliedFilter({});
@@ -298,7 +323,7 @@ const LibraryContent = (props) => {
     setLibraryData([]);
     setFilterObject(appliedFilter);
     setPage(1);
-    getLibraryData(1, appliedFilter, search);
+    getLibraryData(1, otherFilter, search);
     setShowFilter(false);
   };
   const handleQR = (e) => {
@@ -463,19 +488,28 @@ const LibraryContent = (props) => {
 
   const removeindividualfilter = (key, item) => {
     let old_object = filterObject;
+    let otherFilterObj = otherFilter;
+
 
     const index = old_object[key]?.indexOf(item);
+
     if (index > -1) {
       if (old_object[key].includes("All")) {
         const allIndex = old_object[key]?.indexOf("All");
         old_object[key]?.splice(allIndex, 1);
+        delete otherFilterObj[key]
       }
       old_object[key]?.splice(index, 1);
+      otherFilterObj[key]?.splice(index,1)
+
       if (old_object[key]?.length == 0) {
+        // delete [key]?.splice(index,1)
+
         delete old_object[key];
       }
     }
     setAppliedFilter(old_object);
+    setOtherFilter(otherFilterObj);
     setFilterObject(old_object);
     setLibraryData([]);
     getLibraryData(page, old_object);
@@ -874,7 +908,7 @@ const LibraryContent = (props) => {
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
                             <>
-                              {filterdata[key]?.length > 0 ? (
+                              {filterdata[key]?.length ? (
                                 <Accordion.Item
                                   className="card"
                                   eventKey={index}
@@ -916,7 +950,7 @@ const LibraryContent = (props) => {
                                                         // filterObject?.hasOwnProperty(
                                                         //   key
                                                         // )
-                                                        appliedFilter[
+                                                        otherFilter[
                                                           key
                                                         ]?.includes(item)
                                                           ? true
@@ -1048,7 +1082,6 @@ const LibraryContent = (props) => {
               level={qrState?.level}
               includeMargin={true}
             />
-            {/* !== 0 && filterApplyflag > 0 */}
             {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
                 {/* <h6>Applied filters</h6> */}
@@ -1057,11 +1090,12 @@ const LibraryContent = (props) => {
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
                         <>
-                          {filterObject[key]?.length > 0 ? (
+                          {filterObject[key]?.length ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
                                 <span>{key} |</span>
                               </div>
+                              {console.log("-=-=-=-=-=-=->>",filterObject[key])}
                               <div className="filter-div-list">
                                 {filterObject[key]?.map((item, index) => (
                                   <div
