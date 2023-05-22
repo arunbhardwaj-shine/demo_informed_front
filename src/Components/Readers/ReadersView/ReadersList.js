@@ -109,10 +109,29 @@ const NewReaders = () => {
     footerButton: "",
   });
   const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
 
   useEffect(() => {
     getFilters();
     getReaderListData(page, filterObject, search);
+ 
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
   }, []);
 
   const getFilters = async () => {
@@ -1050,6 +1069,7 @@ const NewReaders = () => {
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
+                   ref={buttonRef}
                     className={
                       Object.keys(apifilterObject)?.length &&
                       filterApplyflag == 1
@@ -1111,6 +1131,7 @@ const NewReaders = () => {
                   </button>
                   {showfilter && (
                     <div
+                     ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
