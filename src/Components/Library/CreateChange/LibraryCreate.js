@@ -10,11 +10,13 @@ const LibraryCreate = () => {
       image: `${path_image}create-icon1.svg`,
       title: "Create",
       subtitle: "Upload Content here to create  a new Docintel Link",
+      link:0
     },
     {
       image: `${path_image}edit-icon1.svg`,
       title: "Edit",
       subtitle: "Change or Replace an existing Docintel Link from here",
+      link:1
     },
   ];
 
@@ -24,11 +26,13 @@ const LibraryCreate = () => {
           image: `${path_image}sublink-icon1.svg`,
           title: "New SubLink",
           subtitle: "SubLinks leads to Docintel Link but are tracked seperately",
+          link:2
         },
         {
           image: `${path_image}setpopup-icon1.svg`,
           title: "Set Pop up",
           subtitle: "Update and add the Pop up text and design from here",
+          link:3
         },
       ];
       data = data.concat(newObj);
@@ -43,6 +47,7 @@ const LibraryCreate = () => {
       image: `${path_image}topics-icon.svg`,
       title: "Topics",
       subtitle: "Add new, change, or delete an existing topic ",
+      link:4
     };
     data.push(newObj);
   }
@@ -96,7 +101,7 @@ const LibraryCreate = () => {
                         : "col library_create-box"
                     }
                     key={index}
-                    onClick={() => handleChange(index)}
+                    onClick={() => handleChange(item?.link)}
                   >
                     <div className="create-library-img">
                       <img src={item.image} alt="Content msg Library" />

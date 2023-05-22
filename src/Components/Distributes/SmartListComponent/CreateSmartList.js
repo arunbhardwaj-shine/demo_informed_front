@@ -262,10 +262,10 @@ const CreateSmartList = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <div className="col right-sidebar custom-change">
         <div className="custom-container">
           <div className="row">
-            <div className="page-top-nav smart_list_names">
+            <div className="page-top-nav smart_list_names sticky">
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-11">
                   <ul className="tabnav-link">

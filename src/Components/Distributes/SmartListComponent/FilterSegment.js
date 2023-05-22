@@ -1269,7 +1269,7 @@ const FilterSegment = (props) => {
   return (
     <>
       {typeof props.action !== "undefined" && props.action == "edit" && (
-        <div className="page-top-nav smart_list_names">
+        <div className="page-top-nav smart_list_names sticky">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-6">
               <div className="page-title">
@@ -1307,7 +1307,7 @@ const FilterSegment = (props) => {
       )}
 
       {typeof props.action !== "undefined" && props.action == "create" && (
-        <div className="page-top-nav smart_list_names create_filter_list">
+        <div className="page-top-nav smart_list_names create_filter_list sticky">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">

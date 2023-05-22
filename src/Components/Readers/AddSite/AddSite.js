@@ -165,7 +165,7 @@ const AddSite = (props) => {
 
                                 <div className="form-row">
                                     <Col sm={6} className="form-group">
-                                        <label htmlFor="">Site Number</label>
+                                        <label htmlFor="">Site Number <span>*</span></label>
                                         <div className="create_site_form">
                                             <input
                                                 type="text"
@@ -184,7 +184,7 @@ const AddSite = (props) => {
                                         </div>
                                     </Col>
                                     <Col sm={6} className="form-group justify-content-end">
-                                        <label htmlFor="">Site Name</label>
+                                        <label htmlFor="">Site Name <span>*</span></label>
                                         <div className="create_site_form">
                                             <input
                                                 type="text"
@@ -254,7 +254,7 @@ const AddSite = (props) => {
                                         </div>
                                     </Col>
                                     <Col sm={6} className="form-group justify-content-end">
-                                        <label htmlFor="sitecategory">Site Country</label>
+                                        <label htmlFor="sitecategory">Site Country <span>*</span></label>
                                         <div className="create_site_form">
                                             <Select
                                                 className="dropdown-basic-button split-button-dropup"
