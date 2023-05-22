@@ -191,6 +191,7 @@ const TimelineDetail = () => {
               Object.keys(timeLineData).length > 0 ? (
                 <>
                   <div className="vertical-timeline d-flex align-items-start">
+                    {console.log("- im herere re re re ",!timeLineData?.flag)}
                     <div className="timeline-left-user">
                       {
                         !timeLineData?.flag?(
@@ -260,7 +261,8 @@ const TimelineDetail = () => {
                         {timeLineData?.timeline.map((details, index) => {
                           return (
                             <>
-                              {details?.action == "Article browsed" && (
+                          
+                              {(details?.action == "Article browsed" ||details.action == "Article opened") && (
                                 <div className="timeline-box">
                                   <div className="timeline_date">
                                     {details?.date}
@@ -866,7 +868,6 @@ const TimelineDetail = () => {
                                     </div>
                                   </div>
                                 )}
-
                               {details?.action &&
                                 details.action.includes("Saved") && (
                                   <div className="timeline-box">
