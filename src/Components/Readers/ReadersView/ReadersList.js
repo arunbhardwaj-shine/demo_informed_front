@@ -872,8 +872,8 @@ const NewReaders = () => {
     if (filterApplyflag > 0) {
       // setApifilterObject({});
       let obj = {
-        status: ["Registered"],
-        "contact Type": ["HCP"],
+        // status: ["Registered"],
+        // "contact Type": ["HCP"],
       };
 
       setAppliedFilter(obj);

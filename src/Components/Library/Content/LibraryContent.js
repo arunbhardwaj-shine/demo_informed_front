@@ -205,6 +205,7 @@ const LibraryContent = (props) => {
         key == "Blinded" ||
         key == "Mandatory" ||
         key == "List" ||
+        key == "Account Owners" ||
         key == "language" ||
         key == "Business Unit" ||
         key == "Platform"
@@ -902,9 +903,11 @@ const LibraryContent = (props) => {
                                                         key == "language" ||
                                                         key ==
                                                           "Business Unit" ||
+                                                        key == "Account Owners" ||
                                                         key == "Platform"
                                                           ? "radio"
                                                           : "checkbox"
+                                                         
                                                       }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
