@@ -1892,13 +1892,19 @@ const LibraryContent = (props) => {
                                         Tags
                                       </Button>
                                     ) : null}
-                                    <Link
-                                      to="/library-sublink"
-                                      state={{ pdfid: data.id }}
-                                      className="footer-btn"
-                                    >
-                                      New sublink
-                                    </Link>
+
+                                    {
+                                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                        <Link
+                                          to="/library-sublink"
+                                          state={{ pdfid: data.id }}
+                                          className="footer-btn"
+                                        >
+                                          New sublink
+                                        </Link>
+                                      )
+                                    }
+
                                   </div>
                                 </div>
                               </Tab>
