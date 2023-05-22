@@ -39,8 +39,8 @@ const NewReaders = () => {
   const [page, setPage] = useState(1);
   const [totalCount, setCount] = useState(0);
   const [appliedFilter, setAppliedFilter] = useState({
-    status: ["Registered"],
-    "contact Type": ["HCP"],
+    // status: ["Registered"],
+    // "contact Type": ["HCP"],
   });
 
   const [filterApplyflag, setFilterApplyflag] = useState(0);
@@ -61,12 +61,12 @@ const NewReaders = () => {
     Status: ["Registered", "Unregistered"],
   });
   const [filterObject, setFilterObject] = useState({
-    status: ["Registered"],
-    "contact Type": ["HCP"],
+    // status: ["Registered"],
+    // "contact Type": ["HCP"],
   });
   const [apifilterObject, setApifilterObject] = useState({
-    status: ["Registered"],
-    "contact Type": ["HCP"],
+   status: ["Registered"],
+    // "contact Type": ["HCP"], 
     // status: ["Registered"],
 
     // status:["Unregistered"]
@@ -109,10 +109,29 @@ const NewReaders = () => {
     footerButton: "",
   });
   const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
 
   useEffect(() => {
     getFilters();
     getReaderListData(page, filterObject, search);
+ 
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
   }, []);
 
   const getFilters = async () => {
@@ -871,8 +890,8 @@ const NewReaders = () => {
     if (filterApplyflag > 0) {
       // setApifilterObject({});
       let obj = {
-        status: ["Registered"],
-        "contact Type": ["HCP"],
+        // status: ["Registered"],
+        // "contact Type": ["HCP"],
       };
 
       setAppliedFilter(obj);
@@ -1050,6 +1069,7 @@ const NewReaders = () => {
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
+                   ref={buttonRef}
                     className={
                       Object.keys(apifilterObject)?.length &&
                       filterApplyflag == 1
@@ -1111,6 +1131,7 @@ const NewReaders = () => {
                   </button>
                   {showfilter && (
                     <div
+                     ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
