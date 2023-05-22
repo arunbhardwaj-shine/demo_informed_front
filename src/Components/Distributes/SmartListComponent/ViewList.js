@@ -72,7 +72,7 @@ const EditList = () => {
   if (api_flag > 0) {
     return (
       <>
-        <div className="col right-sidebar">
+        <div className="col right-sidebar custom-change">
         <div className="custom-container">
           <div className="row">
           <ViewTable

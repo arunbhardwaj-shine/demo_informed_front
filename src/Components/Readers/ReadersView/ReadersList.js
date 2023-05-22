@@ -1021,7 +1021,7 @@ const NewReaders = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header reader_list sticky">
-              <div className="page-title">{/* <h2>CRM</h2> */}</div>
+              <div className="page-title"><h4>Total HCP | <span>{totalCount}</span></h4></div>
               <div className="top-right-action library_content_view">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1388,9 +1388,9 @@ const NewReaders = () => {
             ) : null}
 
             <div className="library-content-box-layuot readerlist d-flex">
-              <h4>
+              {/* <h4>
                 <span>Total HCP</span> | {totalCount}
-              </h4>
+              </h4> */}
               {readerDataList?.length || updateflag ? (
                 readerDataList.map((data, index) => {
                   return (

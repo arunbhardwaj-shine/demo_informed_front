@@ -168,8 +168,8 @@ const SiteListing = () => {
 
 
     return (
-        <div className="right-sidebar">
-            <div className="page-top-nav smart_list_names">
+        <div className="right-sidebar custom-change">
+            <div className="page-top-nav smart_list_names sticky">
                 <div className="row justify-content-end align-items-center">
                     <div className="col-12 col-md-11"></div>
                 </div>
