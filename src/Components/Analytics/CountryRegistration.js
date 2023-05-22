@@ -11,10 +11,11 @@ import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import Select from "react-select";
 import { useMemo } from "react";
 import { loader } from "../../loader";
+import proj4 from "proj4";
 
 highchartsMap(Highcharts);
 MapModule(Highcharts);
-
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const CountryRegistration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [newData, setNewData] = useState([]);
@@ -55,6 +56,7 @@ const CountryRegistration = () => {
     return {
       chart: {
         type: "map",
+        proj4,
         height: "60%",
         events: {
           load: function () {
@@ -80,6 +82,21 @@ const CountryRegistration = () => {
 
       series: [
         {
+          name: "Basemap",
+          borderColor: "#A0A0A0",
+          nullColor: "rgba(200, 200, 200, 0.3)",
+          showInLegend: false,
+          mapData: worldMap,
+        },
+        {
+          name: "Separators",
+          type: "mapline",
+          nullColor: "#707070",
+          showInLegend: false,
+          enableMouseTracking: false,
+        },
+        {
+          type: "mappoint",
           name: "Country Registration",
           data: newData?.filter((country) => country.lat && country.lon),
           mapData: worldMap,
@@ -89,6 +106,13 @@ const CountryRegistration = () => {
           tooltip: {
             headerFormat: "",
             pointFormat: "Total Registration: {point.totalIndex}",
+          },
+          showInLegend: false,
+          marker: {
+            symbol: `url(${path_image}/marker.png)`,
+            width: 17,
+            height: 24,
+            offsetY: -15, // adjust the position of the marker icon
           },
           states: {
             hover: {
@@ -214,6 +238,7 @@ const CountryRegistration = () => {
         month,
       });
       const apiData = response.data;
+      console.log("ssssssssssssssss",apiData);
       const countryData = apiData.data.coordination.map(
         (coordObject, index) => {
           const [lat, lon] = Object.values(coordObject)[0].split("~");
@@ -222,6 +247,10 @@ const CountryRegistration = () => {
             apiData.data.haematology[index] +
             apiData.data.immunotherapy[index];
           const totalIndex = isNaN(formattedIndex) ? 0 : formattedIndex;
+           // Skip countries with totalIndex equal to zero
+        if (totalIndex === 0) {
+          return null;
+        }
           return {
             name: Object.keys(coordObject)[0],
             lat: parseFloat(lat),
@@ -234,7 +263,8 @@ const CountryRegistration = () => {
             countryLon: apiData.data.long,
           };
         }
-      );
+      ).filter(Boolean);
+      console.log(countryData);
       setNewData(countryData);
 
       const newSeries = [

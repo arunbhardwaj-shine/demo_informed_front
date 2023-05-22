@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { popup_alert } from "../../../popup_alert";
@@ -134,12 +134,32 @@ const LicenseContent = (props) => {
     // },
   ];
 
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
+
   useEffect(() => {
     applyFilters();
     getLibraryData(page, filterObject, search);
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
   }, []);
 
   const applyFilters = async () => {
@@ -792,6 +812,7 @@ const LicenseContent = (props) => {
                   }
                 >
                   <button
+                   ref={buttonRef}
                     className={
                       Object.keys(filterObject).length > 0
                         ? "btn btn-secondary dropdown filter_applied"
@@ -852,6 +873,7 @@ const LicenseContent = (props) => {
                   </button>
                   {showfilter && (
                     <div
+                    ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >

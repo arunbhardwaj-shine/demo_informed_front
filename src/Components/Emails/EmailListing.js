@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import { Link } from "react-router-dom";
@@ -96,11 +96,30 @@ const EmailList = (props) => {
       },
     ],
   });
-
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
   useEffect(() => {
     props.getEmailData(null);
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+
   }, []);
 
   const showViewEmailModal = (data) => {
@@ -649,6 +668,7 @@ const EmailList = (props) => {
                   }
                 >
                   <button
+                  ref={buttonRef}
                     className="btn btn-secondary dropdown"
                     type="button"
                     id="dropdownMenuButton2"
@@ -706,6 +726,7 @@ const EmailList = (props) => {
                   {/*Code for show filters*/}
                   {showfilter && (
                     <div
+                    ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
