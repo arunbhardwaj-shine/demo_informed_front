@@ -1213,7 +1213,7 @@ const LibrarySublink = () => {
                                               </li>
                                               <li>
                                                 <h6 className="tab-content-title">
-                                                  Allow
+                                                  Allowed
                                                 </h6>
                                                 <h6>
                                                   {changeFormatForPrint(
