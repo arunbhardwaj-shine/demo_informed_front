@@ -104,6 +104,7 @@
     .doc-content {
       h5 {
         @include h5;
+        margin:0 0 5px;
         color: $primary-color;
       }
       h6 {

@@ -46,8 +46,8 @@ const LicenseSublink = () => {
   });
 
   const [types, setTypes] = useState([
-    { value: "Online", label: "Online" },
-    { value: "Offline", label: "Offline" },
+    { value: "Online", label: "Online Offer" },
+    { value: "Offline", label: "Offline Offer" },
     { value: "Sunshine", label: "Sunshine" },
   ]);
   const [activeTab, setActiveTab] = useState("docintel-link");
@@ -1183,7 +1183,7 @@ const LicenseSublink = () => {
 
                                           <li>
                                             <h6 className="tab-content-title">
-                                              Allow
+                                              Allowed
                                             </h6>
                                             <h6>
                                               {changeFormatForPrint(

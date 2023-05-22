@@ -1455,21 +1455,23 @@ const LicenseContent = (props) => {
                                         <span>
                                           Agreed Limit :&nbsp;
                                           <strong>
-                                          {opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          ) !== -1
-                                            ? opening_details[
-                                                opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                )
-                                              ]?.limit == 1000
-                                              ? "Unlimited"
-                                              : opening_details[
+                                            {opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
                                                   opening_details.findIndex(
                                                     (el) => el.pdfId == data?.id
                                                   )
-                                                ]?.limit
-                                            : "Unlimited"}</strong>
+                                                ]?.limit == 1000
+                                                ? "Unlimited"
+                                                : opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit
+                                              : "Unlimited"}
+                                          </strong>
                                         </span>
                                       </div>
                                       <span className="total-left">
@@ -1952,7 +1954,7 @@ const LicenseContent = (props) => {
 
                                     <li>
                                       <h6 className="tab-content-title">
-                                        Enabled
+                                        Allowed
                                       </h6>
                                       <h6>{changeFormatForPrint(data)}</h6>
                                     </li>
