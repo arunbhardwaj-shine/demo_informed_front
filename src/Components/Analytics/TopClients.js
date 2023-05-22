@@ -148,7 +148,7 @@ const TopClients = () => {
       const response = await postData(ENDPOINT.TOPCLIENTS, data);
 
       const hadData = response?.data?.data;
-      console.log("had data", hadData);
+
       if (hadData?.name?.length <= 0) {
         setIsDataFound(false);
       } else {
