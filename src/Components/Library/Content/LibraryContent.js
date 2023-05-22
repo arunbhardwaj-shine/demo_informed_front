@@ -207,7 +207,7 @@ const LibraryContent = (props) => {
       if (
         key == "draft" ||
         key == "ibu" ||
-        key == "Selected By Articles" ||
+        key == "Selected By   " ||
         key == "SPC Included" ||
         key == "Blinded" ||
         key == "Mandatory" ||
