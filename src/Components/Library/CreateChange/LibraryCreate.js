@@ -1,31 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryCreate = () => {
+
   let data = [
     {
       image: `${path_image}create-icon1.svg`,
       title: "Create",
       subtitle: "Upload Content here to create  a new Docintel Link",
+      link:0
     },
     {
       image: `${path_image}edit-icon1.svg`,
       title: "Edit",
       subtitle: "Change or Replace an existing Docintel Link from here",
-    },
-    {
-      image: `${path_image}sublink-icon1.svg`,
-      title: "New SubLink",
-      subtitle: "SubLinks leads to Docintel Link but are tracked seperately",
-    },
-    {
-      image: `${path_image}setpopup-icon1.svg`,
-      title: "Set Pop up",
-      subtitle: "Update and add the Pop up text and design from here",
+      link:1
     },
   ];
+
+  if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
+      const newObj = [
+        {
+          image: `${path_image}sublink-icon1.svg`,
+          title: "New SubLink",
+          subtitle: "SubLinks leads to Docintel Link but are tracked seperately",
+          link:2
+        },
+        {
+          image: `${path_image}setpopup-icon1.svg`,
+          title: "Set Pop up",
+          subtitle: "Update and add the Pop up text and design from here",
+          link:3
+        },
+      ];
+      data = data.concat(newObj);
+      // console.log(data.concat(newObj),"concat");
+  }
 
   if (
     localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
@@ -35,9 +47,11 @@ const LibraryCreate = () => {
       image: `${path_image}topics-icon.svg`,
       title: "Topics",
       subtitle: "Add new, change, or delete an existing topic ",
+      link:4
     };
     data.push(newObj);
   }
+
 
   const navigate = useNavigate();
   let [active, setActive] = useState();
@@ -87,7 +101,7 @@ const LibraryCreate = () => {
                         : "col library_create-box"
                     }
                     key={index}
-                    onClick={() => handleChange(index)}
+                    onClick={() => handleChange(item?.link)}
                   >
                     <div className="create-library-img">
                       <img src={item.image} alt="Content msg Library" />

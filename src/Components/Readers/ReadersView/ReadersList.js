@@ -35,13 +35,12 @@ const NewReaders = () => {
   const [country, setCountry] = useState([]);
   const [isFlag, setFlag] = useState(0);
 
-
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const [totalCount, setCount] = useState(0);
   const [appliedFilter, setAppliedFilter] = useState({
-    status: ["Registered"],
-    "contact Type": ["HCP"],
+    // status: ["Registered"],
+    // "contact Type": ["HCP"],
   });
 
   const [filterApplyflag, setFilterApplyflag] = useState(0);
@@ -56,17 +55,18 @@ const NewReaders = () => {
   const [selectedSiteName, setSelectedSiteName] = useState([]);
   const [selectedSiteNumber, setSelectedSiteNumber] = useState([]);
   const [selectedRole, setSelectedRole] = useState([]);
+  const [totalCountFlag, setTotalCountFlag] = useState(true);
 
   const [filterdata, setFilterData] = useState({
     Status: ["Registered", "Unregistered"],
   });
   const [filterObject, setFilterObject] = useState({
-    status: ["Registered"],
-    "contact Type": ["HCP"],
+    // status: ["Registered"],
+    // "contact Type": ["HCP"],
   });
   const [apifilterObject, setApifilterObject] = useState({
-    status: ["Registered"],
-    "contact Type": ["HCP"],
+   status: ["Registered"],
+    // "contact Type": ["HCP"], 
     // status: ["Registered"],
 
     // status:["Unregistered"]
@@ -109,10 +109,29 @@ const NewReaders = () => {
     footerButton: "",
   });
   const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
 
   useEffect(() => {
     getFilters();
     getReaderListData(page, filterObject, search);
+ 
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
   }, []);
 
   const getFilters = async () => {
@@ -142,13 +161,13 @@ const NewReaders = () => {
         userType: 5,
         search: search,
         type: "",
-        flag:isFlag,
+        flag: isFlag,
         page: page,
         limit: limit,
       };
 
       let payload = { ...data, ...obj };
-   
+
       const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       if (spcFlag == 0) {
         let body = {
@@ -203,14 +222,14 @@ const NewReaders = () => {
         setIsLoaded(false);
       }
 
-       if(res?.data?.data?.flag == 1){
-        setFlag(1)
-       }else{
-        console.log("- imhererere",res?.data?.data?.flag)
-        setFlag(res?.data?.data?.flag?res?.data?.data?.flag:0)
-       }
+      if (res?.data?.data?.flag == 1) {
+        setFlag(1);
+      } else {
+        setFlag(res?.data?.data?.flag ? res?.data?.data?.flag : 0);
+      }
       setPageAll(false);
       setApiCallStatus(true);
+      setTotalCountFlag(true);
       loader("hide");
     } catch (err) {
       console.log(err);
@@ -245,20 +264,19 @@ const NewReaders = () => {
   };
 
   const loadMoreClicked = () => {
-    console.log("-er",isFlag)
     // setPageAllClicked(true);
     let sp = page + 1;
     getReaderListData(sp, filterObject, search, 1);
-      if(isFlag == 1){
-        setPage(2)
-      }else{
-        setPage(sp);
-      }
+    if (isFlag == 1) {
+      setPage(2);
+    } else {
+      setPage(sp);
+    }
   };
 
   const searchChange = (e) => {
     setSearch(e?.target?.value);
-      setFlag(0)
+    setFlag(0);
     if (e?.target?.value === "") {
       setReaderDataList([]);
       // setPageAllClicked(false);
@@ -270,7 +288,7 @@ const NewReaders = () => {
   const submitHandler = (event) => {
     setReaderDataList([]);
     setCount(0);
-    // console.log("0 im herererererer",filterObject)
+
     getReaderListData(page, filterObject, search);
     event.preventDefault();
     return false;
@@ -872,8 +890,8 @@ const NewReaders = () => {
     if (filterApplyflag > 0) {
       // setApifilterObject({});
       let obj = {
-        status: ["Registered"],
-        "contact Type": ["HCP"],
+        // status: ["Registered"],
+        // "contact Type": ["HCP"],
       };
 
       setAppliedFilter(obj);
@@ -893,8 +911,8 @@ const NewReaders = () => {
 
   const applyFilter = (e) => {
     e.preventDefault();
-    setCount(0);
-    setFlag(0)
+    setTotalCountFlag(false);
+    setFlag(0);
     setFilterApplyflag(1);
     setReaderDataList([]);
     setFilterObject(appliedFilter);
@@ -1051,6 +1069,7 @@ const NewReaders = () => {
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
+                   ref={buttonRef}
                     className={
                       Object.keys(apifilterObject)?.length &&
                       filterApplyflag == 1
@@ -1112,6 +1131,7 @@ const NewReaders = () => {
                   </button>
                   {showfilter && (
                     <div
+                     ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -1388,9 +1408,9 @@ const NewReaders = () => {
             ) : null}
 
             <div className="library-content-box-layuot readerlist d-flex">
-              {/* <h4>
-                <span>Total HCP</span> | {totalCount}
-              </h4> */}
+              <h4>
+                <span>Total HCP</span> | {totalCountFlag ? totalCount : 0}
+              </h4>
               {readerDataList?.length || updateflag ? (
                 readerDataList.map((data, index) => {
                   return (

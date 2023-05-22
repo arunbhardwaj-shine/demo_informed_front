@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Modal, Row, Table, Form, Accordion, Col } from "react-bootstrap";
 import { popup_alert } from "../../popup_alert";
@@ -33,10 +33,29 @@ const SpcView = () => {
   const [filterObject, setFilterObject] = useState({});
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
 
   useEffect(() => {
     getSpcData("");
     getFilters();
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
   }, []);
 
   const getSpcData = async (searchVal) => {
@@ -308,6 +327,7 @@ const SpcView = () => {
                   }
                 >
                   <button
+                   ref={buttonRef}
                     className={
                       Object.keys(filterObject).length > 0
                         ? "btn btn-secondary dropdown filter_applied"
@@ -368,6 +388,7 @@ const SpcView = () => {
                   </button>
                   {showfilter && (
                     <div
+                     ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >

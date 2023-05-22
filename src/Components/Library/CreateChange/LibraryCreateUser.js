@@ -1275,7 +1275,8 @@ const LibraryCreateUser = () => {
                     ) : null}
 
                     {localStorage.getItem("user_id") !=
-                    "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                    "iSnEsKu5gB/DRlycxB6G4g==" && localStorage.getItem("user_id") !=
+                    "56Ek4feL/1A8mZgIKQWEqg=="  ? (
                       <div className="form-group">
                         <label htmlFor="">Author</label>
                         <input
@@ -1819,7 +1820,7 @@ const LibraryCreateUser = () => {
                             </p>
                           ) : (
                             <p>
-                              Upload your cover image <br />
+                              Uplode an alternative cover <br />
                               <span>
                                 <i>Allowed formats: PNG,JPEG</i>
                               </span>

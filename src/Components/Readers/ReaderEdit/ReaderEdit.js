@@ -886,6 +886,7 @@ const ReaderEdit = () => {
                               <Form.Label htmlFor="">Site Number </Form.Label>
                               <Select
                                 options={userDetail?.siteNumber}
+                                noOptionsMessage={() => userInputs?.country == "" ? 'Please select country first' : 'No options'}
                                 defaultValue={{
                                   label: userInputs?.siteNumber,
                                   value: userInputs?.siteNumber,
@@ -915,6 +916,7 @@ const ReaderEdit = () => {
                               <Form.Label htmlFor="">Site Name </Form.Label>
                               <Select
                                 options={userDetail?.siteName}
+                                noOptionsMessage={() => userInputs?.country == "" ? 'Please select country first' : 'No options'}
                                 defaultValue={{
                                   label: userInputs?.siteName,
                                   value: userInputs?.siteName,
@@ -1178,7 +1180,7 @@ const ReaderEdit = () => {
                                 type="text"
                                 defaultValue={userInputs?.repContact}
                                 name="repContact"
-                                placeholder="Who is Internal contact?"
+                                placeholder="Who is internal contact?"
                                 className="form-control"
                                 onChange={(e) => handleChange(e)}
                               />

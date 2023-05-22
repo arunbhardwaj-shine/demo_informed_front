@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { popup_alert } from "../../../popup_alert";
@@ -127,7 +127,8 @@ const LibraryContent = (props) => {
       ],
     },
   ];
-
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
   useEffect(() => {
     if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
       let linktype = types;
@@ -141,6 +142,23 @@ const LibraryContent = (props) => {
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
   }, []);
 
   const applyFilters = async () => {
@@ -205,6 +223,7 @@ const LibraryContent = (props) => {
         key == "Blinded" ||
         key == "Mandatory" ||
         key == "List" ||
+        key == "Account Owners" ||
         key == "language" ||
         key == "Business Unit" ||
         key == "Platform"
@@ -805,6 +824,7 @@ const LibraryContent = (props) => {
                   }
                 >
                   <button
+                   ref={buttonRef}
                     className={
                       Object.keys(filterObject).length > 0
                         ? "btn btn-secondary dropdown filter_applied"
@@ -865,6 +885,7 @@ const LibraryContent = (props) => {
                   </button>
                   {showfilter && (
                     <div
+                    ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -902,9 +923,11 @@ const LibraryContent = (props) => {
                                                         key == "language" ||
                                                         key ==
                                                           "Business Unit" ||
+                                                        key == "Account Owners" ||
                                                         key == "Platform"
                                                           ? "radio"
                                                           : "checkbox"
+                                                         
                                                       }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
@@ -1889,13 +1912,19 @@ const LibraryContent = (props) => {
                                         Tags
                                       </Button>
                                     ) : null}
-                                    <Link
-                                      to="/library-sublink"
-                                      state={{ pdfid: data.id }}
-                                      className="footer-btn"
-                                    >
-                                      New sublink
-                                    </Link>
+
+                                    {
+                                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                        <Link
+                                          to="/library-sublink"
+                                          state={{ pdfid: data.id }}
+                                          className="footer-btn"
+                                        >
+                                          New sublink
+                                        </Link>
+                                      )
+                                    }
+
                                   </div>
                                 </div>
                               </Tab>
@@ -2010,7 +2039,7 @@ const LibraryContent = (props) => {
                                                 data?.trail_user_type != ""
                                                 ? JSON.parse(
                                                     data?.trail_user_type
-                                                  ).join(', ')
+                                                  ).join(", ")
                                                 : "N/A"
                                               : "N/A"}
                                           </h6>
@@ -2033,7 +2062,7 @@ const LibraryContent = (props) => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Allow
+                                            Allowed
                                           </h6>
                                           <h6>{changeFormatForPrint(data)}</h6>
                                         </li>
