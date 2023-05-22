@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryCreate = () => {
+
   let data = [
     {
       image: `${path_image}create-icon1.svg`,
@@ -15,17 +16,24 @@ const LibraryCreate = () => {
       title: "Edit",
       subtitle: "Change or Replace an existing Docintel Link from here",
     },
-    {
-      image: `${path_image}sublink-icon1.svg`,
-      title: "New SubLink",
-      subtitle: "SubLinks leads to Docintel Link but are tracked seperately",
-    },
-    {
-      image: `${path_image}setpopup-icon1.svg`,
-      title: "Set Pop up",
-      subtitle: "Update and add the Pop up text and design from here",
-    },
   ];
+
+  if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
+      const newObj = [
+        {
+          image: `${path_image}sublink-icon1.svg`,
+          title: "New SubLink",
+          subtitle: "SubLinks leads to Docintel Link but are tracked seperately",
+        },
+        {
+          image: `${path_image}setpopup-icon1.svg`,
+          title: "Set Pop up",
+          subtitle: "Update and add the Pop up text and design from here",
+        },
+      ];
+      data = data.concat(newObj);
+      // console.log(data.concat(newObj),"concat");
+  }
 
   if (
     localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
@@ -38,6 +46,7 @@ const LibraryCreate = () => {
     };
     data.push(newObj);
   }
+
 
   const navigate = useNavigate();
   let [active, setActive] = useState();
