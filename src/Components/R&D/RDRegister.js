@@ -284,7 +284,7 @@ const RDRegister = () => {
               setError({});
               setShow(true);
               setTimeout(() => {
-                window.location.href('https://albert.docintel.app/redirect?user-id='+response?.data?.id+'&encf=1');
+                window.location.href='https://albert.docintel.app/redirect?user-id='+response?.data?.id+'&encf=1';
               }, 2000);
              
             }else{
