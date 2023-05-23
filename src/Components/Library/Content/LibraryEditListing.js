@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { popup_alert } from "../../../popup_alert";
@@ -126,6 +126,10 @@ const LibraryEditListing = () => {
     // },
   ];
 
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
+
+
   useEffect(() => {
     if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
       let linktype = types;
@@ -137,6 +141,24 @@ const LibraryEditListing = () => {
     }
     applyFilters();
     getLibraryData(page, filterObject, search);
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+
   }, []);
 
   const applyFilters = async () => {
@@ -776,6 +798,7 @@ const LibraryEditListing = () => {
                   }
                 >
                   <button
+                  ref={buttonRef}
                     className={
                       Object.keys(filterObject).length > 0
                         ? "btn btn-secondary dropdown filter_applied"
@@ -836,6 +859,7 @@ const LibraryEditListing = () => {
                   </button>
                   {showfilter && (
                     <div
+                     ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -1982,17 +2006,17 @@ const LibraryEditListing = () => {
                 ) : null}
               </>
             </div>
-            {isLoaded == true ? (
               <div className="load_more">
+              {isLoaded == true ? (
                 <Button
                   className="btn btn-primary btn-filled"
                   onClick={loadMoreClicked}
                 >
                   Load More
                 </Button>
+                ) : null}
               </div>
-            ) : null}
-
+          
             {pageAll == true ? (
               <div
                 className="load_more"
