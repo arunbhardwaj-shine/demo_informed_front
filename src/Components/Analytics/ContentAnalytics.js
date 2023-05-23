@@ -205,7 +205,7 @@ const ContentAnalytics = () => {
               localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") ? (
               ""
             ) : (
-              <div className="top-header">
+              <div className="top-header content_analytic">
                 <div className="page-title d-flex">
                   {state?.pdfId ? (
                     <Link

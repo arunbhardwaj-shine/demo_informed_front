@@ -36,6 +36,22 @@ export const createContent = (data, fileCheck, groupId = 2) => {
       }
     });
   }
+  if (data.hasOwnProperty("pdfChapter")) {
+    data.pdfChapter?.forEach((item, index) => {
+      if (!item.uploadFile) {
+        if (!error?.pdfChapter?.[index]) {
+          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+            error.pdfChapter = {
+              ...error.pdfChapter,
+              [index]: "Chapter is required",
+            };
+          } else {
+            error.pdfChapter = { ...error.chapter, [index]: "File is required" };
+          }
+        }
+      }
+    });
+  }
 
   // if (data.hasOwnProperty('trial')) {
   //   if(!data?.trial){
@@ -56,6 +72,8 @@ export const createContent = (data, fileCheck, groupId = 2) => {
     } else if (data?.docintelFormat == "video" && !data?.uploadFile) {
       error.uploadVideo = "Please upload video !";
     } else if (data?.docintelFormat == "ebook" && !fileCheck.length) {
+      error.ebookErr = "Please upload pdf file !";
+    }else if (data?.docintelFormat == "pdfspc" && !fileCheck.length) {
       error.ebookErr = "Please upload pdf file !";
     }
   }
