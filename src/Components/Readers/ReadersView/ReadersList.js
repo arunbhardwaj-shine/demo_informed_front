@@ -2397,17 +2397,17 @@ const NewReaders = () => {
                 </div>
               ) : null}
             </div>
-            {isLoaded == true ? (
               <div className="load_more">
+              {isLoaded == true ? (
                 <Button
                   className="btn btn-primary btn-filled"
                   onClick={loadMoreClicked}
                 >
                   Load More
                 </Button>
+                ) : null}
               </div>
-            ) : null}
-
+         
             {pageAll == true ? (
               <div
                 className="load_more"
