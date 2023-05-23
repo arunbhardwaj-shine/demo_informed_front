@@ -51,7 +51,7 @@ const FilterSegment = (props) => {
   const [confirmationPopupStatus, setConfirmationPopupStatus] = useState(false);
   const [getfilterapplied, setfilterapplied] = useState(0);
   const [getStorageState, setStorageState] = useState(false);
-  const [forceRender, setForceRender] = useState(false);
+
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
@@ -311,7 +311,8 @@ const FilterSegment = (props) => {
         setSiteNumber(site_number_value);
       }
     }
-    setForceRender(!forceRender);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
   };
 
   const handleOnMarketingContatctTypeChange = (marketing_contact_type) => {
