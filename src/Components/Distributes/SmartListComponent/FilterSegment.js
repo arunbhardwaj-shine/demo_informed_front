@@ -3171,10 +3171,10 @@ const FilterSegment = (props) => {
                   </div>
                 ) : null
               ) : null}
-            </div>
+              {/* </div> */}
 
-            {/*Right Block*/}
-            <div className="filter-block-right">
+              {/*Right Block*/}
+              {/* <div className="filter-block-right"> */}
               {updateflag > 0 ? (
                 selectedibu ? (
                   <div className="filter-div">

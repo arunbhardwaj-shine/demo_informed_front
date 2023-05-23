@@ -100,6 +100,13 @@ const EditLibrary = () => {
       fileValue: "",
     },
   ]);
+  const [pdfSpcChapter, setPdfSpcChapter] = useState([
+    {
+      chapterTitle: "",
+      uploadFile: "",
+      fileValue: "",
+    },
+  ]);
   const [reseller, setReseller] = useState([]);
   const [userDetail, setUserDetail] = useState({
     user: {},
@@ -134,6 +141,13 @@ const EditLibrary = () => {
     { value: "pdf", label: "PDF" },
     { value: "video", label: "video" },
     { value: "ebook", label: "eBook" },
+  ]);
+  const [pdfSpcData, setpdfSpcData] = useState([
+    {
+      chapterTitle: "",
+      uploadFile: "",
+      fileValue: "",
+    },
   ]);
 
   const [tagsCounter, setTagsCounter] = useState(0);
@@ -256,7 +270,9 @@ const EditLibrary = () => {
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
           : []
       );
-      if (hadData?.data?.data?.ebookData?.length) {
+      if(hadData?.data?.data?.pdfData?.docintelFormat == "pdfSpc"){
+        setpdfSpcData(hadData?.data?.data?.ebookData)
+      }else if(hadData?.data?.data?.ebookData?.length) {
         setChapter(hadData?.data?.data?.ebookData);
       }
       setShowFlag(true);
@@ -272,10 +288,6 @@ const EditLibrary = () => {
     initalFun();
   }, []);
 
-  // const removeHcp = (data) => {
-  //   const hcpData = hcpClickedFirst.filter((item) => item != data);
-  //   setHcpClickedFirst(hcpData);
-  // };
   const removeHcp = (data, type = "") => {
     if (type == "irt") {
       const hcpData = hcpIrtClickedFirst.filter((item) => item != data);
@@ -327,6 +339,24 @@ const EditLibrary = () => {
     }
   };
 
+  
+  const onPdfTitleChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...pdfSpcData];
+    list[i].chapterTitle = value;
+    setpdfSpcData(list);
+  };
+
+  const handleOnEbookPdfChange = (e, i) => {
+    const value = e.target.files[0]?.name;
+    const list = [...pdfSpcData];
+    list[i].uploadFile = value;
+    ebookFile[i] = e.target.files[0];
+    setEbookFile(ebookFile);
+    setpdfSpcData(list);
+  };
+
+
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       toast.error("Please input a tag");
@@ -374,14 +404,43 @@ const EditLibrary = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-    setCreateLibraryInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+    if(isSelectedName ==  "docintelFormat"){
+      
+      if(e == "ebook"){
+        setEbookFile([])
+          setpdfSpcData([{
+            chapterTitle: "",
+            uploadFile: "",
+            fileValue: "",
+          }])
+
+      }else if(e == "pdfSpc"){
+        setEbookFile([])
+        setChapter([
+          {
+            chapterTitle: "",
+            uploadFile: "",
+            fileValue: "",
+          }
+        ])
+      }
+      setCreateLibraryInputs({...userInputs,uploadFile:"", [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+      ? e?.target?.files
         ? e?.target?.files
+        : e
+      : e?.target?.value,})
+    }
+    else{
+      setCreateLibraryInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e?.target?.files
-          : e
-        : e?.target?.value,
-    });
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    }
+    
   };
 
   const nextButtonClicked = async (e) => {
@@ -389,6 +448,8 @@ const EditLibrary = () => {
 
     if (userInputs.docintelFormat == "ebook") {
       userInputs.chapter = chapter;
+    }else if(userInputs.docintelFormat == "pdfSpc"){
+      userInputs.pdfChapter = pdfSpcData;
     }
     if (
       userDetail?.user?.[0]?.flag == 1 &&
@@ -489,8 +550,8 @@ const EditLibrary = () => {
         formData.append("country", userInputs?.country);
         formData.append("company", userInputs?.company);
         formData.append("journalTitle", userInputs?.journalTitle);
-        formData.append("fileType", userInputs?.docintelFormat);
-        if (userInputs?.docintelFormat == "ebook") {
+        formData.append("fileType", userInputs?.docintelFormat == "pdfSpc"?"ebook":userInputs?.docintelFormat);
+        if (userInputs?.docintelFormat == "pdfSpc") {
           formData.append("spcInc", spcType);
         } else {
           formData.append("spcInc", 0);
@@ -500,7 +561,7 @@ const EditLibrary = () => {
           formData.append("ebookData", item);
         });
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
-        formData.append("chapter", JSON.stringify(chapter));
+        formData.append("chapter",userInputs?.docintelFormat == "pdfSpc"?JSON.stringify(pdfSpcData):JSON.stringify(chapter));
         formData.append("productionNotes", userInputs?.productionNotes);
         formData.append("specialRequirment", userInputs?.specialRequirment);
         formData.append("createdBy", id);
@@ -1800,12 +1861,8 @@ const EditLibrary = () => {
                               : "dropdown-basic-button split-button-dropup"
                           }
                           options={ePrintType}
-                          defaultValue={
-                            userInputs?.docintelFormat == "pdf"
-                              ? ePrintType[0]
-                              : userInputs?.docintelFormat == "ebook"
-                              ? ePrintType[2]
-                              : ePrintType[1]
+                          value = {
+                            ePrintType.find(item =>item.value == userInputs?.docintelFormat )
                           }
                           isClearable
                           placeholder="Select type of Docintel format "
@@ -1969,7 +2026,72 @@ const EditLibrary = () => {
                             </>
                           );
                         })
-                      ) : // <div className="form-group val">
+                      ) :
+                      userInputs.docintelFormat == "pdfSpc"?(
+                        pdfSpcData.map((val, i) => {
+                          return (
+                            <>
+                              <div className="form-group val chapter-title">
+                                <div className="ebook-format">
+                                  <label htmlFor="">
+                                    {localStorage.getItem("user_id") !=
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? "Chapter "
+                                      : "File "}{" "}
+                                      title
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) => onPdfTitleChange(e, i)}
+                                    value={val.chapterTitle}
+                                  />
+                                  <div className="upload-file-box">
+                                    <div className="box">
+                                      <input
+                                        type="file"
+                                        name={`file-${i}`}
+                                        id={`file-${i}`}
+                                        className={
+                                          error?.chapter?.[i]
+                                            ? "inputfile inputfile-6 error"
+                                            : "inputfile inputfile-6"
+                                        }
+                                        accept="application/pdf"
+                                        onChange={(e) =>
+                                          handleOnEbookPdfChange(e, i)
+                                        }
+                                      />
+                                      <label htmlFor={`file-${i}`}>
+                                        <span>Change Your File</span>
+                                      </label>
+
+                                      <p>
+                                        {val.uploadFile == "" ? (
+                                          "Upload your PDF file"
+                                        ) : (
+                                          <p className="uploaded-file">
+                                            {val.uploadFile}
+                                          </p>
+                                        )}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                {error?.pdfChapter?.[i] ? (
+                                  <div className="login-validation-upload">
+                                    {error?.pdfChapter?.[i]}
+                                  </div>
+                                ) : null}
+                              </div>
+                            </>
+                          );
+                        })
+                  ):
+                      
+                      
+                      
+                      // <div className="form-group val">
                       //   <label htmlFor="">Upload Ebook</label>
                       //   <div className="upload-file-box">
                       //     <div className="box">
@@ -2119,7 +2241,7 @@ const EditLibrary = () => {
                       >
                         <div className="form-group justify-content-end">
                           <label htmlFor="">
-                            Production notes to Docintel team
+                            Production notes for Docintel team
                           </label>
                           <textarea
                             className="form-control"

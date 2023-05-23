@@ -662,6 +662,43 @@ const EmailArticleSelect = (props) => {
                 </div>
               </div>
             </div>
+
+            {
+              localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
+                <div className="col-12 col-md-4">
+                  <div className="mail-content-select-box">
+                    <div className="mail-content-select-top">
+                      <div className="mail-preview-img">
+                        <img src={path_image + "dummy-img.png"} alt="Preview" />
+                      </div>
+                      <div className="mail-box-content">
+                        <h5>Site user</h5>
+                        <p>Empty Content</p>
+                        <div className="mailbox-text">
+                          <p>Select this when you want to send content to Site user</p>
+                        </div>
+                      </div>
+                      <div
+                        className="select-mail-option"
+                        onClick={handleSelect}
+                      >
+                        <input
+                          type="radio"
+                          name="radio"
+                          value={14}
+                          checked={
+                            typeof PdfSelected !== "undefined" &&
+                            PdfSelected == 14
+                          }
+                        />
+                        <span className="checkmark"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+
           </div>
           {/*Default section end*/}
           <div className="row">
