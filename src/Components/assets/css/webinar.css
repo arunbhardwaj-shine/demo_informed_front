@@ -1973,7 +1973,7 @@ section#slider label.active .div-left-text {
     z-index: 9999;
 }
 
-.modal {
+#myModalf .modal {
     z-index: 99999;
 }
 

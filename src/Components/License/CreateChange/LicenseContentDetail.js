@@ -528,8 +528,7 @@ const LicenseContentDetail = () => {
                                                 }
                                                 <tr>
                                                   <th>
-                                                    Production notes to Docintel
-                                                    team
+                                                    Production notes for Docintel team
                                                   </th>
                                                   <td>
                                                     {data?.production_notes

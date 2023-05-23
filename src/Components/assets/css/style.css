@@ -4539,6 +4539,7 @@ h2 {
   padding: 12px 11px;
   max-height: 125px;
   object-fit: contain;
+  min-height: 125px;
 }
 
 .select-mail-template .alice-carousel .item p {

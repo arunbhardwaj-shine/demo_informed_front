@@ -465,7 +465,7 @@
   margin: 0 0 40px;
   &.spc-content {
     background: transparent;
-    padding: 36px 0px;
+    padding: 7px 0px;
   }
   &.create-reader {
     background: transparent;
@@ -2527,6 +2527,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .library-content-box-layuot > h4 span {
   font-weight: 500;
 }
+
 .create-change-content ul.tab-mail-list.data.change .form-group {
   margin: 0;
 }
@@ -3198,6 +3199,9 @@ section.verify_email.content_details {
     padding-left: 0;
     padding-right: 0;
 }
+.top-header.content_analytic {
+    margin-bottom: 24px;
+}
 .select-mail-template.library-cosent .alice-carousel > div {
     display: block;
 }
@@ -3261,7 +3265,7 @@ section.verify_email.content_details {
   z-index: 5;
   transition: 0.3s linear;
 }
-header.-top-24 ~ div .analytic-charts .form_action {
+header.-top-24 ~ div .analytic-charts .form_action, header.-top-24 ~ div .tabs_content_load ul.nav-tabs {
     top: 0;
     transition: 0.3s linear;
 }
@@ -3791,6 +3795,7 @@ padding: 0 10px;
     z-index: 4;
     background: $white;
     padding-top: 10px;
+    transition: 0.3s linear;
 }
 .delivery-trends.space-added {
     padding-top: 0!important;
@@ -4256,11 +4261,14 @@ transform: translateY(-50%);
     border-radius: 0px 15px 15px 15px;
     display: flex;
     align-items: center;
-    padding: 16px;
+    padding: 11px 16px;
     margin: 0px 0 25px;
 }
 .right-sidebar {
-    padding-top: 29px;
+    padding-top: 20px;
+}
+.split-button-dropup div:nth-child(3) > div div div[role="button"] {
+    padding: 0;
 }
 .distribute-page-reader svg {
     width: 24px;
