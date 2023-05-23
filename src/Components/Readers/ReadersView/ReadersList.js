@@ -61,8 +61,8 @@ const NewReaders = () => {
     // Status: ["Registered", "Unregistered"],
   });
   const [filterObject, setFilterObject] = useState({
-    // status: ["Registered"],
-    // "contact Type": ["HCP"],
+    status: ["Registered"],
+    "contact Type": ["HCP"],
   });
   const [apifilterObject, setApifilterObject] = useState({
     //  status: ["Registered"],
@@ -1461,7 +1461,7 @@ const NewReaders = () => {
                       <div className="doc-content-main-box col" key={index}>
                         <div className="doc-content-header">
                           <div className="doc-content">
-                            <h4>{data?.name}</h4>
+                            <h4>{data?.first_name?data?.first_name:data?.name}</h4>
                           </div>
                         </div>
                         <div className="tabs-data">
