@@ -201,6 +201,7 @@ const LibraryContent = (props) => {
     // setPageAllClicked(true);
     // setPage(2);
     // setType("rest");
+   loader("hide");
   };
 
   const submitHandler = (event) => {
@@ -209,6 +210,7 @@ const LibraryContent = (props) => {
     event.preventDefault();
     return false;
   };
+  // const [otherFilter, setOtherFilter] = useState({});
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
     let otherObj = JSON.parse(JSON.stringify(otherFilter));
@@ -268,7 +270,7 @@ const LibraryContent = (props) => {
       }
       const otherIndex = otherObj[key]?.indexOf(item);
       if (otherIndex > -1) {
-        otherObj[key]?.splice(otherIndex, 1);
+        otherObj[key]?.splice(index, 1);
         if (otherObj[key]?.length == 0) {
           delete otherObj[key];
         }
@@ -2144,16 +2146,18 @@ const LibraryContent = (props) => {
                     <p>No Data Found</p>
                   </div>
                 ) : null}
-                {isLoaded == true ? (
+                
                   <div className="load_more">
+                  {isLoaded == true ? (
                     <Button
                       className="btn btn-primary btn-filled"
                       onClick={loadMoreClicked}
                     >
                       Load More
                     </Button>
+                    ) : null}
                   </div>
-                ) : null}
+             
 
                 {pageAll == true ? (
                   <div
