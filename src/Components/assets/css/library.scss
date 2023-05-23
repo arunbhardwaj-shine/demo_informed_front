@@ -2438,7 +2438,9 @@ left:0!important
   max-width: 543px;
   width: 100%;
 }
-
+.form-group.pdf-spc {
+    max-width: 600px;
+}
 .chapter-btn-wrapper {
   display: flex;
   align-items: center;
@@ -3913,6 +3915,15 @@ header.-top-24 ~ div .custom-change .top-header.sticky, header.-top-24 ~ div .cu
 	margin-left: -10px;
 	background: #fbfcfd;
 	z-index: 4;
+  transition: 0.3s linear;
+}
+header.-top-24 ~ div .form_action.sticky-view, header.-top-24 ~ div .template_builder-option.library-cosent.sticky-view {
+    top: 0px;
+    transition: 0.3s linear;
+}
+header.top-0 ~ div .form_action.sticky-view, header.top-0 ~ div .template_builder-option.library-cosent.sticky-view {
+    top: 84px;
+    transition: 0.3s linear;
 }
 .template_builder-option.library-cosent.sticky-view{
 	padding-left: 10px;
@@ -6304,6 +6315,9 @@ ul.tab-mail-list.data span.total-left {
 .form-group.primary_phone .dropdown-basic-button.split-button-dropup > div:nth-child(3), .create-change-content .split-button-dropup > div:nth-child(3) {
     height: 43.5px;
 }
+.form-group.pdf-spc {
+    max-width: 583px;
+}
 .online_default_msg {
     margin-top: 30px;
 }
@@ -6385,6 +6399,9 @@ ul.tab-mail-list.data span.total-left {
 @media only screen and (max-width: 1500px) {
   .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
     max-width: 190px;
+}
+.form-group.pdf-spc.chapter-title {
+    max-width: 490px;
 }
  .verify-email-detail .btn.approved-btn {
     padding: 8px 8px;
@@ -6662,6 +6679,9 @@ nav #collapsibleNavbar li.nav-item a {
 .timeline-time-view {
     font-size: 11px;
     line-height: 15px;
+}
+.form-group.pdf-spc.chapter-title {
+    max-width: 480px;
 }
 .library_create {
     gap: 62px;

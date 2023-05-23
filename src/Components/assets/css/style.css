@@ -4671,6 +4671,15 @@ h2 {
   min-width: 60px;
 }
 
+.filter-block .filter-block-left.w-100::after {
+  display: none
+}
+
+.filter-block .filter-block-left.w-100 {
+  width: 100%;
+  flex: 0 0 100%;
+}
+
 .filter-block .filter-div .filter-result {
   font-size: 14px;
   line-height: 16px;
@@ -5870,7 +5879,10 @@ table thead.sticky-header:after {
   top: 0px;
 }
 
-header.top-0~div .custom-change .search-hcp table thead.sticky-header {
+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+  top: 74px;
+}
+header.top-0~div .custom-change .search-hcp table thead.sticky-header, header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
   top: 158px;
   transition: 0.3s linear;
 }
@@ -6537,6 +6549,9 @@ header.top-0~div .custom-change .search-hcp table thead.sticky-header {
 
 .template_builder-option {
   margin: 70px 0 30px;
+}
+.top-header > .template_builder-option {
+    margin: 0;
 }
 
 .top-header .page-title h5 {

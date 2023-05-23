@@ -8,7 +8,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { popup_alert } from "../../popup_alert";
-
+import Select from "react-select";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -36,7 +36,7 @@ const AutoEmail = () => {
   const [emailSubject, setEmailSubject] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
   const [isOpen_send, setIsOpensend] = useState(false);
-
+  const [language, setLanguage] = useState('0');
   const [reRender, setReRender] = useState(0);
   const [getSmartListId, setSmartListId] = useState(0);
   const [addListOpen, setAddListOpen] = useState(false);
@@ -52,7 +52,10 @@ const AutoEmail = () => {
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
-
+  const [getTemplateLanguage, setTemplateLanguage] = useState([
+    { value: "0", label: "English" },
+    { value: "4", label: "Russian" },
+  ]);
   const [readers, setReaders] = useState([]);
 
   const [getReaderDetails, setReaderDetails] = useState({});
@@ -76,14 +79,14 @@ const AutoEmail = () => {
 
   useEffect(() => {
     getTemplateListData();
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     loader("show");
     const getalCountry = async () => {
       const body = {
         user_id: localStorage.getItem("user_id"),
-        language: "",
+        language: '',
         ibu: "",
       };
 
@@ -104,7 +107,7 @@ const AutoEmail = () => {
   const getTemplateListData = async () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
-      language: "",
+      language: language,
       ibu: "",
     };
 
@@ -112,7 +115,6 @@ const AutoEmail = () => {
     await axios
       .post(`emailapi/get_own_template_list`, body)
       .then((res) => {
-        console.log(res);
         setTemplates(res.data.response.data);
         loader("hide");
       })
@@ -122,7 +124,7 @@ const AutoEmail = () => {
   };
 
   const viewButtonClicked = (template, index) => {
-    console.log(template);
+    // console.log(template);
     setEmailSubject("");
     setEmailDescription("");
     setApproveClicked(false);
@@ -714,13 +716,37 @@ const AutoEmail = () => {
         toast.error("Somwthing went wrong");
       });
   };
+
+  const changeLanguage = (e) => {
+    setLanguage(e.value);
+    setTemplateClicked(false);
+    setIndexClicked();
+  };
+
   return (
     <>
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
             <div className="top-header">
-              <div className="page-title">{/* <h2>Auto Email</h2> */}</div>
+              <div className="template_builder-option">
+              {/* <h2>Auto Email</h2> */}
+              {
+                localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" && (
+                  <div className="template_language">
+                    <span>Language</span>
+                    <div className="form-group">
+                      <Select
+                        options={getTemplateLanguage}
+                        defaultValue={getTemplateLanguage[0]}
+                        onChange={(e) => changeLanguage(e)}
+                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                      />
+                    </div>
+                  </div>
+                )
+              }
+              </div>
               <div className="top-right-action">
                 {templateClicked ? (
                   <div className="header-btn">
