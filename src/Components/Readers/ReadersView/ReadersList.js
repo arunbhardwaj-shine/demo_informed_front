@@ -144,9 +144,10 @@ const NewReaders = () => {
 
   const getReaderListData = async (page, obj, search, load = 0) => {
     try {
-      setTotalCountFlag(false);
+      // setTotalCountFlag(false);
       setIsLoaded(false);
       if (load == 0) {
+        setTotalCountFlag(false);
         loader("show");
         setPage(1);
         page = 1;
@@ -1459,7 +1460,9 @@ const NewReaders = () => {
                       <div className="doc-content-main-box col" key={index}>
                         <div className="doc-content-header">
                           <div className="doc-content">
-                            <h4>{data?.first_name?data?.first_name:data?.name}</h4>
+                            <h4>
+                              {data?.first_name ? data?.first_name : data?.name}
+                            </h4>
                           </div>
                         </div>
                         <div className="tabs-data">
@@ -2395,7 +2398,7 @@ const NewReaders = () => {
                 </div>
               ) : null}
             </div>
-              <div className="load_more">
+            <div className="load_more">
               {isLoaded == true ? (
                 <Button
                   className="btn btn-primary btn-filled"
@@ -2403,9 +2406,9 @@ const NewReaders = () => {
                 >
                   Load More
                 </Button>
-                ) : null}
-              </div>
-         
+              ) : null}
+            </div>
+
             {pageAll == true ? (
               <div
                 className="load_more"
