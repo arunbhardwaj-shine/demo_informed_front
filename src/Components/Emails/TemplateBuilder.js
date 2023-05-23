@@ -2356,14 +2356,15 @@ const TemplateBuilder = (props) => {
               </button>
             </div>
           </Modal.Header>
-
           <Modal.Body>
             <div className="modal-body-view">
               <div
                 className="thumbnail_email_view"
                 ref={ref}
                 dangerouslySetInnerHTML={{
-                  __html: templateSaving != "" ? templateSaving : template,
+                  __html: templateSaving != "" ?
+                    templateSaving.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', '')
+                  : template.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', ''),
                 }}
               ></div>
             </div>
