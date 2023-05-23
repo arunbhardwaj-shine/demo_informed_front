@@ -39,11 +39,11 @@ const NewReaders = () => {
   const [page, setPage] = useState(1);
   const [totalCount, setCount] = useState(0);
   const [appliedFilter, setAppliedFilter] = useState({
-    // status: ["Registered"],
-    // "contact Type": ["HCP"],
+    status: ["Registered"],
+    "contact Type": ["HCP"],
   });
 
-  const [filterApplyflag, setFilterApplyflag] = useState(0);
+  const [filterApplyflag, setFilterApplyflag] = useState(1);
   const [pageAll, setPageAll] = useState(false);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [siteNumber, setSiteNumber] = useState([]);
@@ -65,10 +65,8 @@ const NewReaders = () => {
     "contact Type": ["HCP"],
   });
   const [apifilterObject, setApifilterObject] = useState({
-    //  status: ["Registered"],
-    // "contact Type": ["HCP"],
-    // status: ["Registered"],
-    // status:["Unregistered"]
+    status: ["Registered"],
+    "contact Type": ["HCP"],
   });
   const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
