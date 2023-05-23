@@ -27,7 +27,7 @@ function Products() {
 
   const [newValue, setNewValue] = useState({
     newProductValue: "",
-    category: 0,
+    category: 3,
   });
   const [show, setShow] = useState(false);
   const [flag, setFlag] = useState(0);
@@ -180,6 +180,7 @@ function Products() {
                     <Select
                       options={BusinessUnitAll}
                       placeholder="Select business unit"
+                      defaultValue={BusinessUnitAll?.[0]}
                       onChange={(e) =>
                         setNewValue({ ...newValue, category: e?.value })
                       }
