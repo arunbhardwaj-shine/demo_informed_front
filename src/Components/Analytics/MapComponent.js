@@ -191,20 +191,35 @@ const MapComponent = ({ data, status }) => {
 
           const coordinate = data?.coordinations;
           const countryNames = data?.countryname;
-          const countryData = countryNames?.map((countryName,index) => {
-            const coordString = coordinate[countryName];
-            if (coordString) {
-              const [lat, long] = coordString.split("#");
+          let countryData = []; 
+          
+          if (Array.isArray(countryNames)) {
+            countryData = countryNames.map((countryName, index) => {
+              let lat, lon;
+          
+              if (countryName === 'Others') {
+                lat = 53.079178; 
+                lon = -31.368209; 
+              } else {
+                const coordString = coordinate?.[countryName];
+                if (coordString) {
+                  const [parsedLat, parsedLon] = coordString.split("#");
+                  lat = parseFloat(parsedLat);
+                  lon = parseFloat(parsedLon);
+                }
+              }
+          
               return {
-                opening: data?.opening[index],
-                reader: data?.reader[index],
+                opening: data?.opening?.[index],
+                reader: data?.reader?.[index],
                 name: countryName,
-                lat: parseFloat(lat),
-                lon: parseFloat(long),
+                lat,
+                lon,
               };
-            }
-       
-          })
+            });
+          }
+          
+
          
           setNewData(countryData);
         } else {

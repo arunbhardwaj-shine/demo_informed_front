@@ -1184,7 +1184,7 @@ ol.carousel-indicators.cst-tab li img {
     background-size: 610px;
 }
 
-/*.teamm::before { 
+/*.teamm::before {
     position: absolute;
     content: "";
     background: url(https://informed.pro/img/webinar/webinar-bgg-new2.png) no-repeat right / cover;
@@ -1969,11 +1969,11 @@ section#slider label.active .div-left-text {
     box-shadow: none;
 }
 
-.modal-backdrop.show {
+#myModalf .modal-backdrop.show {
     z-index: 9999;
 }
 
-.modal {
+#myModalf .modal {
     z-index: 99999;
 }
 

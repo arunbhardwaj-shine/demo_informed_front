@@ -58,17 +58,16 @@ const NewReaders = () => {
   const [totalCountFlag, setTotalCountFlag] = useState(true);
 
   const [filterdata, setFilterData] = useState({
-    Status: ["Registered", "Unregistered"],
+    // Status: ["Registered", "Unregistered"],
   });
   const [filterObject, setFilterObject] = useState({
     // status: ["Registered"],
     // "contact Type": ["HCP"],
   });
   const [apifilterObject, setApifilterObject] = useState({
-   status: ["Registered"],
-    // "contact Type": ["HCP"], 
+    //  status: ["Registered"],
+    // "contact Type": ["HCP"],
     // status: ["Registered"],
-
     // status:["Unregistered"]
   });
   const [forceRender, setForceRender] = useState(false);
@@ -115,7 +114,7 @@ const NewReaders = () => {
   useEffect(() => {
     getFilters();
     getReaderListData(page, filterObject, search);
- 
+
     function handleOutsideClick(event) {
       if (
         buttonRef.current &&
@@ -127,10 +126,10 @@ const NewReaders = () => {
       }
     }
 
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
@@ -895,6 +894,7 @@ const NewReaders = () => {
       };
 
       setAppliedFilter(obj);
+      setApifilterObject(obj);
       setFilterObject(obj);
       setReaderDataList([]);
       // setAppliedFilter({
@@ -945,7 +945,7 @@ const NewReaders = () => {
       //   let obj = { status: ["Registered"]
       // };
       setFilterObject({});
-      // setApifilterObject(old_object2);
+      setApifilterObject({});
       setReaderDataList([]);
       getReaderListData(page, obj);
     }
@@ -1039,7 +1039,7 @@ const NewReaders = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header reader_list sticky">
-              <div className="page-title">{/* <h2>CRM</h2> */}</div>
+              <div className="page-title"><h4>Total HCP | <span>{totalCountFlag ? totalCount : 0}</span></h4></div>
               <div className="top-right-action library_content_view">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1069,7 +1069,7 @@ const NewReaders = () => {
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
-                   ref={buttonRef}
+                    ref={buttonRef}
                     className={
                       Object.keys(apifilterObject)?.length &&
                       filterApplyflag == 1
@@ -1131,7 +1131,7 @@ const NewReaders = () => {
                   </button>
                   {showfilter && (
                     <div
-                     ref={filterRef}
+                      ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -1408,9 +1408,9 @@ const NewReaders = () => {
             ) : null}
 
             <div className="library-content-box-layuot readerlist d-flex">
-              <h4>
+              {/* <h4>
                 <span>Total HCP</span> | {totalCountFlag ? totalCount : 0}
-              </h4>
+              </h4> */}
               {readerDataList?.length || updateflag ? (
                 readerDataList.map((data, index) => {
                   return (

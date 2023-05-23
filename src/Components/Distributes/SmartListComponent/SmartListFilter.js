@@ -34,19 +34,19 @@ const SmartListFilter = () => {
   return (
     <>
       <div className="col right-sidebar">
-      <div className="custom-container">
-          <div className="row">
-        {"country" in filterList &&
-          Object.keys(filterList.country).length > 0 && (
-            <FilterSegment
-              filters={filterList}
-              listname={smartListName}
-              creator={creatorName}
-              action="create"
-            />
-          )}
-      </div>
-      </div>
+        <div className="custom-container">
+            <div className="row">
+              {"country" in filterList &&
+                Object.keys(filterList.country).length > 0 && (
+                  <FilterSegment
+                    filters={filterList}
+                    listname={smartListName}
+                    creator={creatorName}
+                    action="create"
+                  />
+                )}
+            </div>
+        </div>
       </div>
     </>
   );

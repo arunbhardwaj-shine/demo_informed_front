@@ -257,11 +257,18 @@ const CreateEmail = (props) => {
     if (pdf_id == 16) {
       content_included = 0;
     }
+
+    let siteContent = 0;
+    if(pdf_id == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="){
+      siteContent = 1;
+      content_included = 0;
+    }
     const body = {
       user_id: localStorage.getItem("user_id"),
       language: "",
       ibu: "",
       content_included: content_included,
+      siteContent: siteContent,
     };
 
     loader("show");
@@ -1381,10 +1388,10 @@ const CreateEmail = (props) => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <div className="col right-sidebar custom-change">
         <div className="custom-container">
           <div className="row">
-            <div className="page-top-nav">
+            <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
