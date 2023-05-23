@@ -229,6 +229,7 @@
 
   .smart-list-name .apply-filter {
     margin-bottom: 30px;
+    margin-top: 10px;
   }
 
   #accordion-smart .card-body .col.block-smart-name::after {

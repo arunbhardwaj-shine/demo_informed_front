@@ -1969,7 +1969,7 @@ section#slider label.active .div-left-text {
     box-shadow: none;
 }
 
-.modal-backdrop.show {
+#myModalf .modal-backdrop.show {
     z-index: 9999;
 }
 
