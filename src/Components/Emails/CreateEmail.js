@@ -257,11 +257,18 @@ const CreateEmail = (props) => {
     if (pdf_id == 16) {
       content_included = 0;
     }
+
+    let siteContent = 0;
+    if(pdf_id == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="){
+      siteContent = 1;
+      content_included = 0;
+    }
     const body = {
       user_id: localStorage.getItem("user_id"),
       language: "",
       ibu: "",
       content_included: content_included,
+      siteContent: siteContent,
     };
 
     loader("show");

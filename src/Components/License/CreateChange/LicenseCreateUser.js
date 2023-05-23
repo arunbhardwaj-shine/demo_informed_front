@@ -1422,7 +1422,7 @@ const LicenseCreateUser = () => {
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
                     <div className="form-group justify-content-end">
                       <label htmlFor="">
-                        Production notes to Docintel team
+                        Production notes for Docintel team
                       </label>
                       <textarea
                         className="form-control"

@@ -70,7 +70,6 @@ const LibraryContent = (props) => {
 
   const [otherFilter, setOtherFilter] = useState({});
 
-
   const navigate = useNavigate();
   let obj = {};
   const [userId, setUserId] = useState();
@@ -157,10 +156,10 @@ const LibraryContent = (props) => {
       }
     }
 
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
@@ -212,12 +211,11 @@ const LibraryContent = (props) => {
   };
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    let otherObj =   JSON.parse(JSON.stringify(otherFilter))
+    let otherObj = JSON.parse(JSON.stringify(otherFilter));
 
-  
     if (!newObj[key]) {
       newObj[key] = [];
-      otherObj[key] = []
+      otherObj[key] = [];
     }
 
     if (e?.target?.checked == true) {
@@ -239,15 +237,14 @@ const LibraryContent = (props) => {
       } else {
         if (item == "All") {
           newObj[key] = ["All"];
-          otherObj[key] = data
+          otherObj[key] = data;
         } else {
           newObj[key]?.push(item);
-          otherObj[key]?.push(item)
-
+          otherObj[key]?.push(item);
 
           if (data?.length - 1 == newObj[key]?.length) {
             newObj[key]?.push("All");
-            otherObj[key]?.push(item)
+            otherObj[key]?.push(item);
           }
         }
       }
@@ -258,14 +255,14 @@ const LibraryContent = (props) => {
       } else {
         if (newObj[key].includes("All")) {
           newObj[key] = newObj[key].filter((item) => item != "All");
-          otherObj[key] =  otherObj[key].filter((item) => item != "All");
+          otherObj[key] = otherObj[key].filter((item) => item != "All");
         }
         const index = newObj[key]?.indexOf(item);
         if (index > -1) {
           newObj[key]?.splice(index, 1);
           if (newObj[key]?.length == 0) {
-            delete otherObj[key] 
-             delete newObj[key];
+            delete otherObj[key];
+            delete newObj[key];
           }
         }
       }
@@ -273,13 +270,12 @@ const LibraryContent = (props) => {
       if (otherIndex > -1) {
         otherObj[key]?.splice(otherIndex, 1);
         if (otherObj[key]?.length == 0) {
-          delete otherObj[key] 
-
+          delete otherObj[key];
         }
-        newObj[key] = otherObj[key]
+        newObj[key] = otherObj[key];
       }
     }
-    setOtherFilter(otherObj)
+    setOtherFilter(otherObj);
     setAppliedFilter(newObj);
     // setFilterObject(newObj);
     setForceRender(!forceRender);
@@ -507,17 +503,16 @@ const LibraryContent = (props) => {
     let old_object = filterObject;
     let otherFilterObj = otherFilter;
 
-
     const index = old_object[key]?.indexOf(item);
 
     if (index > -1) {
       if (old_object[key].includes("All")) {
         const allIndex = old_object[key]?.indexOf("All");
         old_object[key]?.splice(allIndex, 1);
-        delete otherFilterObj[key]
+        delete otherFilterObj[key];
       }
       old_object[key]?.splice(index, 1);
-      otherFilterObj[key]?.splice(index,1)
+      otherFilterObj[key]?.splice(index, 1);
 
       if (old_object[key]?.length == 0) {
         // delete [key]?.splice(index,1)
@@ -857,7 +852,7 @@ const LibraryContent = (props) => {
                   }
                 >
                   <button
-                   ref={buttonRef}
+                    ref={buttonRef}
                     className={
                       Object.keys(filterObject).length > 0
                         ? "btn btn-secondary dropdown filter_applied"
@@ -918,7 +913,7 @@ const LibraryContent = (props) => {
                   </button>
                   {showfilter && (
                     <div
-                    ref={filterRef}
+                      ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -956,11 +951,11 @@ const LibraryContent = (props) => {
                                                         key == "language" ||
                                                         key ==
                                                           "Business Unit" ||
-                                                        key == "Account Owners" ||
+                                                        key ==
+                                                          "Account Owners" ||
                                                         key == "Platform"
                                                           ? "radio"
                                                           : "checkbox"
-                                                         
                                                       }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
@@ -1114,7 +1109,7 @@ const LibraryContent = (props) => {
                               <div className="filter-div-title">
                                 <span>{key} |</span>
                               </div>
-                              {console.log("-=-=-=-=-=-=->>",filterObject[key])}
+
                               <div className="filter-div-list">
                                 {filterObject[key]?.map((item, index) => (
                                   <div
@@ -1946,18 +1941,16 @@ const LibraryContent = (props) => {
                                       </Button>
                                     ) : null}
 
-                                    {
-                                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                        <Link
-                                          to="/library-sublink"
-                                          state={{ pdfid: data.id }}
-                                          className="footer-btn"
-                                        >
-                                          New sublink
-                                        </Link>
-                                      )
-                                    }
-
+                                    {localStorage.getItem("user_id") !=
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                      <Link
+                                        to="/library-sublink"
+                                        state={{ pdfid: data.id }}
+                                        className="footer-btn"
+                                      >
+                                        New sublink
+                                      </Link>
+                                    )}
                                   </div>
                                 </div>
                               </Tab>

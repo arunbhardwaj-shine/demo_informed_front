@@ -65,10 +65,9 @@ const NewReaders = () => {
     // "contact Type": ["HCP"],
   });
   const [apifilterObject, setApifilterObject] = useState({
-   status: ["Registered"],
-    // "contact Type": ["HCP"], 
+    //  status: ["Registered"],
+    // "contact Type": ["HCP"],
     // status: ["Registered"],
-
     // status:["Unregistered"]
   });
   const [forceRender, setForceRender] = useState(false);
@@ -115,7 +114,7 @@ const NewReaders = () => {
   useEffect(() => {
     getFilters();
     getReaderListData(page, filterObject, search);
- 
+
     function handleOutsideClick(event) {
       if (
         buttonRef.current &&
@@ -127,10 +126,10 @@ const NewReaders = () => {
       }
     }
 
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
@@ -147,6 +146,7 @@ const NewReaders = () => {
 
   const getReaderListData = async (page, obj, search, load = 0) => {
     try {
+      setTotalCountFlag(false);
       setIsLoaded(false);
       if (load == 0) {
         loader("show");
@@ -895,6 +895,7 @@ const NewReaders = () => {
       };
 
       setAppliedFilter(obj);
+      setApifilterObject(obj);
       setFilterObject(obj);
       setReaderDataList([]);
       // setAppliedFilter({
@@ -920,32 +921,39 @@ const NewReaders = () => {
     setShowFilter(false);
   };
 
-  const removeindividualfilter = (key, index) => {
+  const removeindividualfilter = (key, item) => {
     let old_object = filterObject;
 
-    old_object[key]?.splice(index, 1);
-    if (old_object[key].includes("All")) {
-      const allIndex = old_object[key]?.indexOf("All");
-      old_object[key]?.splice(allIndex, 1);
-    }
-    if (old_object[key]?.length == 0) {
+    if (item == "All") {
+      old_object[key]?.includes(item);
       delete old_object[key];
+      if (key == "region") {
+        delete old_object.country;
+      }
+    } else {
+      const index = old_object[key]?.indexOf(item);
+      if (index > -1) {
+        if (old_object[key].includes("All")) {
+          const allIndex = old_object[key]?.indexOf("All");
+          old_object[key]?.splice(allIndex, 1);
+        }
+        old_object[key]?.splice(index, 1);
+        if (old_object[key]?.length == 0) {
+          delete old_object[key];
+        }
+      }
     }
 
-    // old_object2[key]?.splice(index, 1);
-    // if (old_object2[key]?.length == 0) {
-    //   delete old_object2[key];
-    // }
     if (Object.keys(old_object)?.length !== 0) {
       setFilterObject(old_object);
       // setApifilterObject(old_object2);
       setReaderDataList([]);
       getReaderListData(page, old_object);
     } else {
-      //   let obj = { status: ["Registered"]
-      // };
+      let obj = {};
       setFilterObject({});
-      // setApifilterObject(old_object2);
+      setAppliedFilter({});
+      setApifilterObject({});
       setReaderDataList([]);
       getReaderListData(page, obj);
     }
@@ -997,7 +1005,7 @@ const NewReaders = () => {
       setPopupMessage({
         message1: "You are about to remove this reader.",
         message2: "Are you sure you want to do this?",
-        footerButton: "Yes Please!",
+        footerButton: "Yes please!",
       });
       if (confirmationpopup) {
         setConfirmationPopup(false);
@@ -1039,7 +1047,11 @@ const NewReaders = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header reader_list sticky">
-              <div className="page-title"><h4>Total HCP | <span>{totalCountFlag ? totalCount : 0}</span></h4></div>
+              <div className="page-title">
+                <h4>
+                  Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
+                </h4>
+              </div>
               <div className="top-right-action library_content_view">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1069,7 +1081,7 @@ const NewReaders = () => {
                 </div>
                 <div className="filter-by nav-item dropdown">
                   <button
-                   ref={buttonRef}
+                    ref={buttonRef}
                     className={
                       Object.keys(apifilterObject)?.length &&
                       filterApplyflag == 1
@@ -1131,7 +1143,7 @@ const NewReaders = () => {
                   </button>
                   {showfilter && (
                     <div
-                     ref={filterRef}
+                      ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -1363,16 +1375,17 @@ const NewReaders = () => {
                                 <span>{key} |</span>
                               </div>
                               <div className="filter-div-list">
-                                {filterObject[key]?.map((item, index) => (
+                                {filterObject[key]?.includes("All") ? (
                                   <div
                                     className="filter-result"
-                                    id={item}
-                                    rt={index}
+                                    // id={item}
+                                    // rt={index}
                                     onClick={(event) => {
-                                      removeindividualfilter(key, index);
+                                      removeindividualfilter(key, "All");
                                     }}
                                   >
-                                    {key == "draft" && item == "0"
+                                    {"All"}
+                                    {/* {key == "draft" && item == "0"
                                       ? "live"
                                       : key == "draft" && item == "1"
                                       ? "draft"
@@ -1381,13 +1394,43 @@ const NewReaders = () => {
                                           "Registered For Title"
                                         ]?.find((element) => element.id == item)
                                           ?.title
-                                      : item}
+                                      : item} */}
                                     <img
                                       src={path_image + "filter-close.svg"}
                                       alt="Close-filter"
                                     />
                                   </div>
-                                ))}
+                                ) : (
+                                  <>
+                                    {" "}
+                                    {filterObject[key]?.map((item, index) => (
+                                      <div
+                                        className="filter-result"
+                                        id={item}
+                                        rt={index}
+                                        onClick={(event) => {
+                                          removeindividualfilter(key, item);
+                                        }}
+                                      >
+                                        {key == "draft" && item == "0"
+                                          ? "live"
+                                          : key == "draft" && item == "1"
+                                          ? "draft"
+                                          : key == "Registered For Title"
+                                          ? filterdata?.[
+                                              "Registered For Title"
+                                            ]?.find(
+                                              (element) => element.id == item
+                                            )?.title
+                                          : item}
+                                        <img
+                                          src={path_image + "filter-close.svg"}
+                                          alt="Close-filter"
+                                        />
+                                      </div>
+                                    ))}
+                                  </>
+                                )}
                               </div>
                             </div>
                           ) : null}

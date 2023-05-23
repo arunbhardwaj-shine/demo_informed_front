@@ -1932,7 +1932,7 @@ const LibraryCreateUser = () => {
                     >
                       <div className="form-group justify-content-end">
                         <label htmlFor="">
-                          Production notes to Docintel team
+                          Production notes for Docintel team
                         </label>
                         <textarea
                           className="form-control"
