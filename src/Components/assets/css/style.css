@@ -6538,6 +6538,9 @@ header.top-0~div .custom-change .search-hcp table thead.sticky-header {
 .template_builder-option {
   margin: 70px 0 30px;
 }
+.top-header > .template_builder-option {
+    margin: 0;
+}
 
 .top-header .page-title h5 {
   font-size: 18px;
