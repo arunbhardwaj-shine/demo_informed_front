@@ -26,6 +26,22 @@ export const LibraryEditValidation = (data) => {
       }
     })
   }
+  if (data.hasOwnProperty("pdfChapter")) {
+    data.pdfChapter?.forEach((item, index) => {
+      if (!item.uploadFile) {
+        if (!error?.pdfChapter?.[index]) {
+          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+            error.pdfChapter = {
+              ...error.pdfChapter,
+              [index]: "Chapter is required",
+            };
+          } else {
+            error.pdfChapter = { ...error.chapter, [index]: "File is required" };
+          }
+        }
+      }
+    });
+  }
   // if (data.hasOwnProperty('trial')) {
   //   if(!data?.trial){
   //     error.trial  = "trial is required";

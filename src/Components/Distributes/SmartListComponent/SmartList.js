@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -30,6 +30,9 @@ const SmartList = (props) => {
   const [getloadmore, setloadmore] = useState(0);
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
 
   const body = {
     user_id: localStorage.getItem("user_id"),
@@ -63,6 +66,25 @@ const SmartList = (props) => {
 
   useEffect(() => {
     getSmartListData(0);
+
+   
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+
   }, []);
 
   const linkClicked = (data) => {
@@ -290,6 +312,7 @@ const SmartList = (props) => {
 
                 <div className="filter-by nav-item dropdown">
                   <button
+                   ref={buttonRef}
                     className="btn btn-secondary dropdown"
                     type="button"
                     id="dropdownMenuButton2"
@@ -347,6 +370,7 @@ const SmartList = (props) => {
 
                   {showfilter && (
                     <div
+                    ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
