@@ -228,8 +228,7 @@ const TimelineDetail = () => {
                                 <th>Consent</th>
                                 <td>
                                   {timeLineData?.user?.other_option
-                                    ? timeLineData?.user?.other_option
-                                    : "N/A"}
+                                    ? (timeLineData?.user?.other_option == 'checkbox1') ? 'Full Consent' :  (timeLineData?.user?.other_option =='checkbox3~checkbox4~checkbox5') ? 'Full Consent' : "Limited Consnet" :"N/A" }
                                 </td>
                               </tr>
                             </tbody>
