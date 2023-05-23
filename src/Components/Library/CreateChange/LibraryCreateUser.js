@@ -91,6 +91,13 @@ const LibraryCreateUser = () => {
       fileValue: "",
     },
   ]);
+  const [pdfSpcData, setpdfSpcData] = useState([
+    {
+      chapterTitle: "",
+      uploadFile: "",
+      fileValue: "",
+    },
+  ]);
   const [userDetail, setUserDetail] = useState({
     user: {},
     production: [],
@@ -205,19 +212,50 @@ const LibraryCreateUser = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-    setCreateLibraryInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+    if(isSelectedName ==  "docintelFormat"){
+      
+      if(e == "ebook"){
+        setEbookFile([])
+          setpdfSpcData([{
+            chapterTitle: "",
+            uploadFile: "",
+            fileValue: "",
+          }])
+
+      }else if(e == "pdfSpc"){
+        setEbookFile([])
+        setChapter([
+          {
+            chapterTitle: "",
+            uploadFile: "",
+            fileValue: "",
+          }
+        ])
+      }
+      setCreateLibraryInputs({...userInputs,uploadFile:"", [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+      ? e?.target?.files
         ? e?.target?.files
+        : e
+      : e?.target?.value,})
+    }else{
+
+      setCreateLibraryInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e?.target?.files
-          : e
-        : e?.target?.value,
-    });
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    }
+  
   };
 
   const nextButtonClicked = async (e) => {
-    if (userInputs.docintelFormat == "ebook") {
+    if (userInputs.docintelFormat == "ebook" ) {
       userInputs.chapter = chapter;
+    }else if(userInputs?.docintelFormat == "pdfSpc"){
+      userInputs.pdfChapter = pdfSpcData;
     }
     if (
       userDetail?.user?.[0]?.flag == 1 &&
@@ -334,12 +372,12 @@ const LibraryCreateUser = () => {
         ebookFile?.forEach((item) => {
           formData.append("ebookData", item);
         });
-        formData.append("fileType", userInputs?.docintelFormat);
-        if (userInputs?.docintelFormat == "ebook") {
+        formData.append("fileType", userInputs?.docintelFormat == "pdfSpc"?"ebook":userInputs?.docintelFormat);
+        if (userInputs?.docintelFormat == "pdfSpc") {
           formData.append("spcInc", spcType);
         }
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
-        formData.append("chapter", JSON.stringify(chapter));
+        formData.append("chapter",userInputs?.docintelFormat == "pdfSpc"?JSON.stringify(pdfSpcData):JSON.stringify(chapter));
         formData.append("specialRequirment", userInputs?.specialRequirment);
         formData.append("createdBy", id);
 
@@ -430,6 +468,25 @@ const LibraryCreateUser = () => {
     setEbookFile(ebookFile);
     setChapter(list);
   };
+
+
+  const onPdfTitleChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...pdfSpcData];
+    list[i].chapterTitle = value;
+    setpdfSpcData(list);
+  };
+
+  const handleOnEbookPdfChange = (e, i) => {
+    const value = e.target.files[0]?.name;
+    const list = [...pdfSpcData];
+    list[i].uploadFile = value;
+    ebookFile[i] = e.target.files[0];
+    setEbookFile(ebookFile);
+    setpdfSpcData(list);
+  };
+
+
 
   const onChapterSelect = (event) => {
     setChapterSelect(event);
@@ -1743,34 +1800,68 @@ const LibraryCreateUser = () => {
                           </>
                         );
                       })
-                    ) : // <div className="form-group val">
-                    //   <label htmlFor="">Upload Ebook</label>
-                    //   <div className="upload-file-box">
-                    //     <div className="box">
-                    //       <input
-                    //         type="file"
-                    //         name="file-6[]"
-                    //         id="file-6"
-                    //         className="inputfile inputfile-6"
-                    //         accept="application/pdf"
-                    //         onChange={(e) => handleEbookChange(e)}
-                    //       />
-                    //       <label htmlFor="file-6">
-                    //         <span>Choose Your File</span>
-                    //       </label>
-                    //       <p>
-                    //         {selectedEbookName == ""
-                    //           ? "Upload your Ebook file"
-                    //           : selectedEbookName}{" "}
-                    //       </p>
-                    //     </div>
-                    //   </div>
-                    //   {error?.pdfFile ? (
-                    //     <div className="login-validation-upload">
-                    //       {error?.pdfFile}
-                    //     </div>
-                    //   ) : null}
-                    // </div>
+                    ) :
+                    userInputs.docintelFormat == "pdfSpc"?(
+                      pdfSpcData.map((val, i) => {
+                        return (
+                          <>
+                            <div className="form-group val chapter-title">
+                              <div className="ebook-format">
+                                <label htmlFor="">
+                                  {localStorage.getItem("user_id") !=
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? "Chapter "
+                                    : "File "}{" "}
+                                    title
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  onChange={(e) => onPdfTitleChange(e, i)}
+                                  value={val.chapterTitle}
+                                />
+                                <div className="upload-file-box">
+                                  <div className="box">
+                                    <input
+                                      type="file"
+                                      name={`file-${i}`}
+                                      id={`file-${i}`}
+                                      className={
+                                        error?.chapter?.[i]
+                                          ? "inputfile inputfile-6 error"
+                                          : "inputfile inputfile-6"
+                                      }
+                                      accept="application/pdf"
+                                      onChange={(e) =>
+                                        handleOnEbookPdfChange(e, i)
+                                      }
+                                    />
+                                    <label htmlFor={`file-${i}`}>
+                                      <span>Change Your File</span>
+                                    </label>
+
+                                    <p>
+                                      {val.uploadFile == "" ? (
+                                        "Upload your PDF file"
+                                      ) : (
+                                        <p className="uploaded-file">
+                                          {val.uploadFile}
+                                        </p>
+                                      )}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              {error?.pdfChapter?.[i] ? (
+                                <div className="login-validation-upload">
+                                  {error?.pdfChapter?.[i]}
+                                </div>
+                              ) : null}
+                            </div>
+                          </>
+                        );
+                      })
+                    ):
                     null}
 
                     {userDetail?.user?.[0]?.flag == 0 &&
