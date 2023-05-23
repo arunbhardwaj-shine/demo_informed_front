@@ -4539,6 +4539,7 @@ h2 {
   padding: 12px 11px;
   max-height: 125px;
   object-fit: contain;
+  min-height: 125px;
 }
 
 .select-mail-template .alice-carousel .item p {
@@ -4663,8 +4664,8 @@ h2 {
   font-weight: 500;
 }
 
-.filter-block .filter-block-left .filter-div .filter-div-title,
-.filter-block .filter-block-right .filter-div .filter-div-title {
+.search-hcp .filter-block .filter-block-left .filter-div .filter-div-title,
+.search-hcp .filter-block .filter-block-right .filter-div .filter-div-title {
   margin-right: 6px;
   padding-top: 2px;
   min-width: 60px;
@@ -5863,6 +5864,10 @@ table thead.sticky-header:after {
   z-index: 100;
   top: 74px;
   transition: 0.3s linear;
+}
+
+.search-hcp.smart-list-view table thead.sticky-header {
+  top: 0px;
 }
 
 header.top-0~div .custom-change .search-hcp table thead.sticky-header {

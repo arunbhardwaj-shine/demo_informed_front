@@ -39,11 +39,11 @@ const NewReaders = () => {
   const [page, setPage] = useState(1);
   const [totalCount, setCount] = useState(0);
   const [appliedFilter, setAppliedFilter] = useState({
-    // status: ["Registered"],
-    // "contact Type": ["HCP"],
+    status: ["Registered"],
+    "contact Type": ["HCP"],
   });
 
-  const [filterApplyflag, setFilterApplyflag] = useState(0);
+  const [filterApplyflag, setFilterApplyflag] = useState(1);
   const [pageAll, setPageAll] = useState(false);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [siteNumber, setSiteNumber] = useState([]);
@@ -61,14 +61,12 @@ const NewReaders = () => {
     // Status: ["Registered", "Unregistered"],
   });
   const [filterObject, setFilterObject] = useState({
-    // status: ["Registered"],
-    // "contact Type": ["HCP"],
+    status: ["Registered"],
+    "contact Type": ["HCP"],
   });
   const [apifilterObject, setApifilterObject] = useState({
-    //  status: ["Registered"],
-    // "contact Type": ["HCP"],
-    // status: ["Registered"],
-    // status:["Unregistered"]
+    status: ["Registered"],
+    "contact Type": ["HCP"],
   });
   const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
@@ -1461,7 +1459,7 @@ const NewReaders = () => {
                       <div className="doc-content-main-box col" key={index}>
                         <div className="doc-content-header">
                           <div className="doc-content">
-                            <h4>{data?.name}</h4>
+                            <h4>{data?.first_name?data?.first_name:data?.name}</h4>
                           </div>
                         </div>
                         <div className="tabs-data">
@@ -2397,17 +2395,17 @@ const NewReaders = () => {
                 </div>
               ) : null}
             </div>
-            {isLoaded == true ? (
               <div className="load_more">
+              {isLoaded == true ? (
                 <Button
                   className="btn btn-primary btn-filled"
                   onClick={loadMoreClicked}
                 >
                   Load More
                 </Button>
+                ) : null}
               </div>
-            ) : null}
-
+         
             {pageAll == true ? (
               <div
                 className="load_more"

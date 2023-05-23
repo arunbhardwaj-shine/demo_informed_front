@@ -234,15 +234,7 @@ const EmailStats = (props) => {
               <h4>
                 Total Result <span>| {totalCount}</span>
               </h4>
-            </div>
-            <div
-              className="selected-hcp-list search_view"
-              id="analytics-hcp-table"
-            >
-              <div className="table_xls search_view">
-                <div className="smart-list-btns">
-                  <div className="top-right-action">
-                    <div className="search-bar">
+              <div className="search-bar">
                       <form
                         className="d-flex"
                         onSubmit={(e) => submitHandler(e)}
@@ -275,6 +267,15 @@ const EmailStats = (props) => {
                         ) : null}
                       </form>
                     </div>
+            </div>
+            <div
+              className="selected-hcp-list search_view"
+              id="analytics-hcp-table"
+            >
+              <div className="table_xls search_view">
+                <div className="smart-list-btns">
+                  <div className="top-right-action">
+                    
                   </div>
                 </div>
               </div>
