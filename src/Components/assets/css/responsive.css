@@ -208,7 +208,9 @@
     /* overflow-x: auto; */
   }
 
-  header.top-0~div .custom-change .search-hcp table thead.sticky-header {
+  header.top-0~div .custom-change .search-hcp table thead.sticky-header,
+  header.top-0~div .custom-change .search-hcp table thead.sticky-header,
+  header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
     top: 153px;
   }
 
@@ -1588,8 +1590,15 @@
   }
 
   .search-hcp table thead.sticky-header,
-  .modal-second #mail-view .modal-body .sticky-header {
+  .modal-second #mail-view .modal-body .sticky-header,
+  .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
     top: 67px;
+  }
+
+  header.top-0~div .custom-change .search-hcp table thead.sticky-header,
+  header.top-0~div .custom-change .search-hcp table thead.sticky-header,
+  header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
+    top: 130px;
   }
 
   header.top-0~div .custom-change .search-hcp table thead.sticky-header {

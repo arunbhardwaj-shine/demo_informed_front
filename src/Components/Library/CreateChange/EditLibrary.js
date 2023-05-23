@@ -2031,7 +2031,7 @@ const EditLibrary = () => {
                         pdfSpcData.map((val, i) => {
                           return (
                             <>
-                              <div className="form-group val chapter-title">
+                              <div className="form-group val chapter-title pdf-spc">
                                 <div className="ebook-format">
                                   <label htmlFor="">
                                     {localStorage.getItem("user_id") !=
