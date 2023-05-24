@@ -286,7 +286,8 @@ const TabComponent = ({ data }) => {
                   <Barcomponent
                     countries={region.countries}
                     countriesData={region.countries_data}
-                    title={region.region_name}
+                  //  title={region.region_name}
+                  title="HCP"
                   />
                 </Col>
               </Row>
@@ -333,7 +334,7 @@ const Barcomponent = ({ countries, countriesData, title }) => {
               },
             },
             title: {
-              text: " ",
+              text: "Country List",
             },
             xAxis: {
               categories: sortedCountries,
@@ -346,14 +347,14 @@ const Barcomponent = ({ countries, countriesData, title }) => {
               showTable: true,
               tableCaption: "",
             },
-            legend: {
-              reversed: true,
-              align: "center",
-              verticalAlign: "top",
-              floating: true,
-              x: 0,
-              y: 50,
-            },
+            // legend: {
+            //   reversed: true,
+            //   align: "center",
+            //   verticalAlign: "top",
+            //   floating: true,
+            //   x: 0,
+            //   y: 50,
+            // },
             yAxis: {
               min: 0,
               title: {
