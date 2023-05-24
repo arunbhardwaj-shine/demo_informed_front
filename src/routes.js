@@ -128,6 +128,8 @@ import Webinar from "./Components/Login/Webinar";
 import BouncedEmail from "./Components/Distributes/BouncedEmail";
 import RDRegister from "./Components/R&D/RDRegister";
 import SetLayout from "./Components/CommonComponent/SetLayout";
+import PreviewArticle from "./Components/Library/PreviewArticle";
+
 
 let platform = 0;
 let show = 0;
@@ -296,6 +298,9 @@ const Routing = () => {
                 <Route path ="/site" element={<LoginLayout component={TrialSite} /> } />
                 <Route path ="/add-site" element={<LoginLayout component={AddSite} /> } />
                 <Route path ="/edit-site" element={<LoginLayout component={EditSite} /> } />
+
+                <Route path ="/article_preview" element={<PreviewArticle /> } />
+
 
 
                 <Route path ="/site-listing" element={<LoginLayout component={SiteListing} /> } />

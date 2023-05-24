@@ -622,6 +622,11 @@ const NewReaders = () => {
       );
     }
   };
+  const handleTimeLine = (data)=>{
+    let newWindow
+     newWindow = window.open('/timeline-detail');
+     newWindow.data = data
+  }
 
   const onSiteNumberChange = (e, i, index) => {
     const selectedSiteNumber = e.value;
@@ -1975,13 +1980,19 @@ const NewReaders = () => {
                               <div className="data-main-footer-sec">
                                 <div className="data-main-footer-sec-inner">
                                   <div className="footer-btn d-flex justify-content-end">
-                                    <Link
+                                    <button 
+                                     className="btn btn-primary btn-bordered"
+                                    onClick={()=>handleTimeLine(data?.id )}>
+
+                                    See time line
+                                    </button>
+                                    {/* <Link
                                       className="btn btn-primary btn-bordered"
                                       to="/timeline-detail"
                                       state={{ readerId: data?.id }}
                                     >
                                       See time line
-                                    </Link>
+                                    </Link> */}
                                   </div>
                                 </div>
                               </div>
@@ -2324,11 +2335,7 @@ const NewReaders = () => {
                                             User status
                                           </h6>
                                           <div className="select-dropdown-wrapper">
-                                            {/*console.log(
-                                            types.findIndex(
-                                              (el) =>
-                                              el.label.toLowerCase() == data?.user_status.toLowerCase()
-                                            ))*/}
+                                            
                                             <div className="select">
                                               <Select
                                                 options={types}
