@@ -44,6 +44,22 @@ const OctalatchDeliveryRegistration = () => {
             return;
           }
 
+          console.log("hadData",hadData);
+// Sort the data object by the ibu property in alphabetical order for each key
+Object.keys(hadData).forEach((key) => {
+  const sortedData = {};
+  Object.keys(hadData[key])
+    .sort((a, b) => hadData[key][a].ibu.localeCompare(hadData[key][b].ibu))
+    .forEach((ibuKey) => {
+      sortedData[ibuKey] = hadData[key][ibuKey];
+    });
+    hadData[key] = sortedData;
+});
+
+console.log(hadData);
+     
+
+
           const ibu = hadData?.Ibu;
 
           const data = hadData;
