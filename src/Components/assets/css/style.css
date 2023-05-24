@@ -2082,6 +2082,7 @@ form .input-group {
   padding: 24px 10px;
   border: 0;
   background: var(--white);
+  word-break: break-word;
 }
 
 .search-hcp-table tbody tr,
@@ -5882,7 +5883,9 @@ table thead.sticky-header:after {
 .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
   top: 74px;
 }
-header.top-0~div .custom-change .search-hcp table thead.sticky-header, header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
+
+header.top-0~div .custom-change .search-hcp table thead.sticky-header,
+header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
   top: 158px;
   transition: 0.3s linear;
 }
