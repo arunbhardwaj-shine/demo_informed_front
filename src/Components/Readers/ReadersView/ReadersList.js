@@ -932,19 +932,16 @@ const NewReaders = () => {
         // "contact Type": ["HCP"],
       };
 
+      setFilterApplyflag(0);
       setAppliedFilter(obj);
       setApifilterObject(obj);
       setFilterObject(obj);
       setReaderDataList([]);
-      // setAppliedFilter({
-      //   status: ["Registered"],
-      //   "contact Type": ["HCP"],
-
-      // })
 
       getReaderListData(page, obj, search);
       setSearch("");
     }
+
     setShowFilter(false);
   };
 
