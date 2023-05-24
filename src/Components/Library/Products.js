@@ -27,7 +27,7 @@ function Products() {
 
   const [newValue, setNewValue] = useState({
     newProductValue: "",
-    category: 3,
+    category: 0,
   });
   const [show, setShow] = useState(false);
   const [flag, setFlag] = useState(0);
@@ -41,6 +41,7 @@ function Products() {
     { value: 2, label: "Tags" },
   ]);
   const [BusinessUnitAll, setBusinessUnitAll] = useState([
+    { value: 0, label: "All Units" },
     { value: 3, label: "Critical Care" },
     { value: 1, label: "Haematology" },
     { value: 2, label: "Immunotherapy" },
@@ -179,8 +180,9 @@ function Products() {
                     <label htmlFor="">Business Unit</label>
                     <Select
                       options={BusinessUnitAll}
-                      placeholder="Select business unit"
                       defaultValue={BusinessUnitAll?.[0]}
+                      placeholder="Select business unit"
+                      
                       onChange={(e) =>
                         setNewValue({ ...newValue, category: e?.value })
                       }
