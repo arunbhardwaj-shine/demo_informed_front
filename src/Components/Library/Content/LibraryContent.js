@@ -163,6 +163,12 @@ const LibraryContent = (props) => {
     };
   }, []);
 
+  const handleSpcFun = (data) =>{
+
+    navigate('/article_preview', { state: { data:data } });
+
+  }
+
   const applyFilters = async () => {
     try {
       loader("show");
@@ -171,18 +177,6 @@ const LibraryContent = (props) => {
       });
 
       if (res?.data?.data) {
-        // let obj = {};
-        // if(res.data.data.hasOwnProperty("draft")){
-        //   obj["draft"] = ["1"]
-        // }
-        // if(res.data.data.hasOwnProperty("status")){
-        //   obj["status"] = ["Registered"]
-        // }
-        // if(res.data.data.hasOwnProperty("Selected By Articles")){
-        //   obj["Selected By Articles"] = ["All"]
-        // }
-
-        // setFilterObject(obj);
         setFilterData(res?.data?.data);
         setAllTags(res?.data?.data?.tags);
         getLibraryData(page, obj, search);
@@ -236,6 +230,8 @@ const LibraryContent = (props) => {
       ) {
         newObj[key] = [];
         newObj[key]?.push(item);
+        otherObj[key] = []
+        otherObj[key]?.push(item);
       } else {
         if (item == "All") {
           newObj[key] = ["All"];
@@ -270,7 +266,7 @@ const LibraryContent = (props) => {
       }
       const otherIndex = otherObj[key]?.indexOf(item);
       if (otherIndex > -1) {
-        otherObj[key]?.splice(index, 1);
+        otherObj[key]?.splice(otherIndex, 1);
         if (otherObj[key]?.length == 0) {
           delete otherObj[key];
         }
@@ -1372,13 +1368,22 @@ const LibraryContent = (props) => {
                                 deletestatus == false ? (
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn-wrapper">
-                                      <a
+                                      {
+                                        data?.spc_included? (
+                                          <>
+                                          <button  className="footer-btn" onClick={()=>handleSpcFun(data?.spcFile)}>
+                                          Preview content
+                                          </button>
+                                          </>
+                                        ): <a
                                         className="footer-btn"
                                         href={data?.previewArticle}
                                         target="_blank"
                                       >
                                         Preview content
                                       </a>
+                                      }
+                                     
                                       <Button
                                         onClick={() => {
                                           commonModelFun();

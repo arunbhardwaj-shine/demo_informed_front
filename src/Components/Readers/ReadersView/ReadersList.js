@@ -25,6 +25,8 @@ import { toast } from "react-toastify";
 import { Spinner } from "react-activity";
 import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+import { Time } from "highcharts";
+import TimelineDetail from "../Timeline/TimelineDetail";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const NewReaders = () => {
@@ -60,6 +62,7 @@ const NewReaders = () => {
   const [filterdata, setFilterData] = useState({
     // Status: ["Registered", "Unregistered"],
   });
+  const [originalFilterData, setOriginalFilterData] = useState({});
   const [filterObject, setFilterObject] = useState({
     status: ["Registered"],
     "contact Type": ["HCP"],
@@ -137,6 +140,7 @@ const NewReaders = () => {
       const res = await getData(ENDPOINT.READERSFILTER);
       setCountry(res?.data?.data?.country);
       setFilterData(res?.data?.data);
+      setOriginalFilterData(res?.data?.data);
     } catch (err) {
       loader("hide");
     }
@@ -144,9 +148,10 @@ const NewReaders = () => {
 
   const getReaderListData = async (page, obj, search, load = 0) => {
     try {
-      setTotalCountFlag(false);
+      // setTotalCountFlag(false);
       setIsLoaded(false);
       if (load == 0) {
+        setTotalCountFlag(false);
         loader("show");
         setPage(1);
         page = 1;
@@ -294,6 +299,41 @@ const NewReaders = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
+
+    if (key == "status") {
+      let newData = [];
+
+      if (item == "Unregistered") {
+        delete apifilterObject?.tags;
+        delete apifilterObject?.["RTR?"];
+        delete apifilterObject?.["Registered For Webinar"];
+        delete apifilterObject?.["Registered For Title"];
+        delete apifilterObject?.topic;
+
+        delete filterObject.tags;
+        delete filterObject?.["RTR?"];
+        delete filterObject?.["Registered For Webinar"];
+        delete filterObject?.["Registered For Title"];
+        delete filterObject?.topic;
+
+        delete newObj.tags;
+        delete newObj?.["RTR?"];
+        delete newObj?.["Registered For Webinar"];
+        delete newObj?.["Registered For Title"];
+        delete newObj?.topic;
+
+        setFilterData({
+          ...filterdata,
+          tags: newData,
+          "RTR?": newData,
+          "Registered For Webinar": newData,
+          "Registered For Title": newData,
+          topic: newData,
+        });
+      } else {
+        setFilterData(originalFilterData);
+      }
+    }
 
     if (!newObj[key]) {
       newObj[key] = [];
@@ -582,6 +622,11 @@ const NewReaders = () => {
       );
     }
   };
+  const handleTimeLine = (data)=>{
+    let newWindow
+     newWindow = window.open('/timeline-detail');
+     newWindow.data = data
+  }
 
   const onSiteNumberChange = (e, i, index) => {
     const selectedSiteNumber = e.value;
@@ -892,19 +937,16 @@ const NewReaders = () => {
         // "contact Type": ["HCP"],
       };
 
+      setFilterApplyflag(0);
       setAppliedFilter(obj);
       setApifilterObject(obj);
       setFilterObject(obj);
       setReaderDataList([]);
-      // setAppliedFilter({
-      //   status: ["Registered"],
-      //   "contact Type": ["HCP"],
-
-      // })
 
       getReaderListData(page, obj, search);
       setSearch("");
     }
+
     setShowFilter(false);
   };
 
@@ -1459,7 +1501,9 @@ const NewReaders = () => {
                       <div className="doc-content-main-box col" key={index}>
                         <div className="doc-content-header">
                           <div className="doc-content">
-                            <h4>{data?.first_name?data?.first_name:data?.name}</h4>
+                            <h4>
+                              {data?.first_name ? data?.first_name : data?.name}
+                            </h4>
                           </div>
                         </div>
                         <div className="tabs-data">
@@ -1936,13 +1980,19 @@ const NewReaders = () => {
                               <div className="data-main-footer-sec">
                                 <div className="data-main-footer-sec-inner">
                                   <div className="footer-btn d-flex justify-content-end">
-                                    <Link
+                                    <button 
+                                     className="btn btn-primary btn-bordered"
+                                    onClick={()=>handleTimeLine(data?.id )}>
+
+                                    See time line
+                                    </button>
+                                    {/* <Link
                                       className="btn btn-primary btn-bordered"
                                       to="/timeline-detail"
                                       state={{ readerId: data?.id }}
                                     >
                                       See time line
-                                    </Link>
+                                    </Link> */}
                                   </div>
                                 </div>
                               </div>
@@ -2285,11 +2335,7 @@ const NewReaders = () => {
                                             User status
                                           </h6>
                                           <div className="select-dropdown-wrapper">
-                                            {/*console.log(
-                                            types.findIndex(
-                                              (el) =>
-                                              el.label.toLowerCase() == data?.user_status.toLowerCase()
-                                            ))*/}
+                                            
                                             <div className="select">
                                               <Select
                                                 options={types}
@@ -2395,7 +2441,7 @@ const NewReaders = () => {
                 </div>
               ) : null}
             </div>
-              <div className="load_more">
+            <div className="load_more">
               {isLoaded == true ? (
                 <Button
                   className="btn btn-primary btn-filled"
@@ -2403,9 +2449,9 @@ const NewReaders = () => {
                 >
                   Load More
                 </Button>
-                ) : null}
-              </div>
-         
+              ) : null}
+            </div>
+
             {pageAll == true ? (
               <div
                 className="load_more"
