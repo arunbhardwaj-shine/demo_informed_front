@@ -25,6 +25,8 @@ import { toast } from "react-toastify";
 import { Spinner } from "react-activity";
 import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+import { Time } from "highcharts";
+import TimelineDetail from "../Timeline/TimelineDetail";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const NewReaders = () => {
@@ -60,6 +62,7 @@ const NewReaders = () => {
   const [filterdata, setFilterData] = useState({
     // Status: ["Registered", "Unregistered"],
   });
+  const [originalFilterData, setOriginalFilterData] = useState({});
   const [filterObject, setFilterObject] = useState({
     status: ["Registered"],
     "contact Type": ["HCP"],
@@ -137,6 +140,7 @@ const NewReaders = () => {
       const res = await getData(ENDPOINT.READERSFILTER);
       setCountry(res?.data?.data?.country);
       setFilterData(res?.data?.data);
+      setOriginalFilterData(res?.data?.data);
     } catch (err) {
       loader("hide");
     }
@@ -295,6 +299,41 @@ const NewReaders = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
+
+    if (key == "status") {
+      let newData = [];
+
+      if (item == "Unregistered") {
+        delete apifilterObject?.tags;
+        delete apifilterObject?.["RTR?"];
+        delete apifilterObject?.["Registered For Webinar"];
+        delete apifilterObject?.["Registered For Title"];
+        delete apifilterObject?.topic;
+
+        delete filterObject.tags;
+        delete filterObject?.["RTR?"];
+        delete filterObject?.["Registered For Webinar"];
+        delete filterObject?.["Registered For Title"];
+        delete filterObject?.topic;
+
+        delete newObj.tags;
+        delete newObj?.["RTR?"];
+        delete newObj?.["Registered For Webinar"];
+        delete newObj?.["Registered For Title"];
+        delete newObj?.topic;
+
+        setFilterData({
+          ...filterdata,
+          tags: newData,
+          "RTR?": newData,
+          "Registered For Webinar": newData,
+          "Registered For Title": newData,
+          topic: newData,
+        });
+      } else {
+        setFilterData(originalFilterData);
+      }
+    }
 
     if (!newObj[key]) {
       newObj[key] = [];
