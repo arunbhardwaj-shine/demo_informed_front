@@ -6,17 +6,17 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import moment from "moment";
 import { loader } from "../../../loader";
 
-const TimelineDetail = () => {
+const TimelineDetail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const { state } = useLocation();
   const [isActive, setIsActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  // const [readerId, setReaderId] = useState('');
   const [readerId, setReaderId] = useState(
-    typeof state?.readerId !== "undefined" ? state?.readerId : ""
+    typeof window.data !== "undefined" ? window.data : ""
   );
+
   const [ebookData, setEbookData] = useState([]);
 
   const handleClick = async (index, pdf_id, cdate) => {

@@ -280,6 +280,8 @@ const CampaignStats = () => {
     try {
       loader("show");
       const result = await postData(ENDPOINT.CAMPAINGSTAT);
+
+
       let newValue = [
         {
           name: "Article Registration based on delivery",
@@ -625,10 +627,10 @@ const [tableDataIbu, setTableDataIbu] = useState({
     //  setNewData(hadData);
 
       const { cis, ibu } = hadData;
-//       console.log("data----------->", hadData.cis);
+
    hadData.cis.sort((a, b) => a.ibu.localeCompare(b.ibu));
    hadData.ibu.sort((a, b) => a.ibu.localeCompare(b.ibu));
-// console.log("Sorted data:", sortedData);
+
 
       const monthsString = cis[0].Months;
       const months = monthsString

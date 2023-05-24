@@ -46,7 +46,7 @@ const OctalatchTotalHCP = () => {
       layout: "horizontal",
       x: 0,
       y: 0,
-      reversed: true,
+     // reversed: true,
     },
     plotOptions: {
       series: {
@@ -162,6 +162,10 @@ const OctalatchTotalHCP = () => {
       await axios.get(ENDPOINT.OCTALATCH_TOTAL_HCP).then((response) => {
         const data = response?.data?.response?.data;
         const seriesMonth = response?.data?.response?.months;
+        const seriesMonthReverse = seriesMonth.reverse();
+      
+        const desiredMonths = seriesMonth.slice(1); 
+
         const lineMonth = response?.data?.response?.months_reverse;
         setTotalReaders(response?.data?.response?.total_readers);
         if (data.length <= 0) {
@@ -177,6 +181,7 @@ const OctalatchTotalHCP = () => {
             color: "",
           },
         ];
+       
         const newLineData = [
           {
             name: "",
@@ -186,22 +191,26 @@ const OctalatchTotalHCP = () => {
         ];
 
         data.map((item, index) => {
+            const graph1Reverse = item?.graph1.reverse().slice(1);
           newSeriesData?.push({
             name: item?.name + " (" + JSON.parse(item?.total) + ")",
-            data: item?.graph1,
+            data: graph1Reverse.reverse(),
             color: Highcharts?.getOptions()?.colors[index],
           });
+          newSeriesData.sort((a, b) => a.name.localeCompare(b.name));
+        
           newLineData.push({
             name: item.name + " (" + JSON.parse(item?.total) + ")",
             data: item?.graph2,
             color: Highcharts?.getOptions()?.colors[index],
           });
+          newLineData.sort((a, b) => a.name.localeCompare(b.name));
         });
 
         // Set options for HCP chart
 
         // const categories = JSON.parse(data[0]?.Months);
-        const seriesCategories = seriesMonth;
+        const seriesCategories = desiredMonths.reverse();;
 
         const newHcpOptions = {
           ...hcpOptions,
@@ -229,18 +238,32 @@ const OctalatchTotalHCP = () => {
         // Create table data
 
         const newTableSeries = data?.map((item) => ({
-          data: item?.graph1,
+          data: item?.graph1.reverse(),
         }));
+
+        
+
+        const tableDatas = data.map((item, index) => ({
+          name: item.name + " (" + JSON.parse(item?.total) + ")",
+          order: index, // Add an 'order' property to preserve the original order
+        }));
+        tableDatas.sort((a, b) => a.name.localeCompare(b.name));
+      
+        const sortedNewTableSeries = tableDatas.map((tableData) => {
+          const index = tableData.order;
+          return {
+            data: newTableSeries[index].data,
+          };
+        });
+
 
         const newTable = {
           ...tableData,
           xAxis: {
-            categories: newSeriesData?.slice(1).map((item) => {
-              return item?.name;
-            }),
+            categories: tableDatas,
           },
-          series: newTableSeries,
-          months: seriesCategories,
+          series: sortedNewTableSeries,
+          months: seriesMonth.reverse(),
         };
         setTableData(newTable);
       });
@@ -320,11 +343,9 @@ const OctalatchTotalHCP = () => {
                         <tr>
                           <th>Category</th>
 
-                          {tableData?.xAxis?.categories?.map(
-                            (category, index) => (
-                              <th key={index}>{category}</th>
-                            )
-                          )}
+                          {tableData.xAxis.categories.map((category, index) => (
+                            <th key={index}>{category.name}</th>
+                          ))}
                           <th>Total ({total})</th>
                         </tr>
                       </thead>
