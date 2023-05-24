@@ -623,9 +623,12 @@ const NewReaders = () => {
     }
   };
   const handleTimeLine = (data)=>{
-    let newWindow
-     newWindow = window.open('/timeline-detail');
-     newWindow.data = data
+    
+    window.open("/timeline-detail")
+    localStorage.setItem("myData",data)
+    // const windowProps = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=1200, height=800`;
+    //  newWindow = window.open("/timeline-detail", " ", "");
+    //  newWindow.opener.postMessage({readerId:data}," ")
   }
 
   const onSiteNumberChange = (e, i, index) => {
