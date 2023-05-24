@@ -236,6 +236,8 @@ const LibraryContent = (props) => {
       ) {
         newObj[key] = [];
         newObj[key]?.push(item);
+        otherObj[key] = []
+        otherObj[key]?.push(item);
       } else {
         if (item == "All") {
           newObj[key] = ["All"];
@@ -270,7 +272,7 @@ const LibraryContent = (props) => {
       }
       const otherIndex = otherObj[key]?.indexOf(item);
       if (otherIndex > -1) {
-        otherObj[key]?.splice(index, 1);
+        otherObj[key]?.splice(otherIndex, 1);
         if (otherObj[key]?.length == 0) {
           delete otherObj[key];
         }
