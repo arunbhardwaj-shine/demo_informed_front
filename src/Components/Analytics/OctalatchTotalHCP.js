@@ -46,7 +46,7 @@ const OctalatchTotalHCP = () => {
       layout: "horizontal",
       x: 0,
       y: 0,
-      reversed: true,
+     // reversed: true,
     },
     plotOptions: {
       series: {
@@ -177,6 +177,7 @@ const OctalatchTotalHCP = () => {
             color: "",
           },
         ];
+       
         const newLineData = [
           {
             name: "",
@@ -191,11 +192,14 @@ const OctalatchTotalHCP = () => {
             data: item?.graph1,
             color: Highcharts?.getOptions()?.colors[index],
           });
+          newSeriesData.sort((a, b) => a.name.localeCompare(b.name));
+          console.log("newSeriesData--->",newSeriesData);
           newLineData.push({
             name: item.name + " (" + JSON.parse(item?.total) + ")",
             data: item?.graph2,
             color: Highcharts?.getOptions()?.colors[index],
           });
+          newLineData.sort((a, b) => a.name.localeCompare(b.name));
         });
 
         // Set options for HCP chart
@@ -232,14 +236,28 @@ const OctalatchTotalHCP = () => {
           data: item?.graph1,
         }));
 
+        
+
+        const tableDatas = data.map((item, index) => ({
+          name: item.name + " (" + JSON.parse(item?.total) + ")",
+          order: index, // Add an 'order' property to preserve the original order
+        }));
+        tableDatas.sort((a, b) => a.name.localeCompare(b.name));
+      
+        const sortedNewTableSeries = tableDatas.map((tableData) => {
+          const index = tableData.order;
+          return {
+            data: newTableSeries[index].data,
+          };
+        });
+
+
         const newTable = {
           ...tableData,
           xAxis: {
-            categories: newSeriesData?.slice(1).map((item) => {
-              return item?.name;
-            }),
+            categories: tableDatas,
           },
-          series: newTableSeries,
+          series: sortedNewTableSeries,
           months: seriesCategories,
         };
         setTableData(newTable);
@@ -320,11 +338,9 @@ const OctalatchTotalHCP = () => {
                         <tr>
                           <th>Category</th>
 
-                          {tableData?.xAxis?.categories?.map(
-                            (category, index) => (
-                              <th key={index}>{category}</th>
-                            )
-                          )}
+                          {tableData.xAxis.categories.map((category, index) => (
+                            <th key={index}>{category.name}</th>
+                          ))}
                           <th>Total ({total})</th>
                         </tr>
                       </thead>
