@@ -1658,6 +1658,7 @@ const TemplateBuilder = (props) => {
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       initialValue={template}
+                       relative_urls = {true}
                       init={{
                         height: "100vh",
                         menubar:
@@ -1681,6 +1682,7 @@ const TemplateBuilder = (props) => {
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       initialValue={newTemplateNamee}
+                      relative_urls = {true}
                       init={{
                         height: "100vh",
                         menubar:
