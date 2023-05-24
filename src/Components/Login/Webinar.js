@@ -2291,7 +2291,7 @@ const Webinar = () => {
         <Modal
           show={show}
           onHide={(e) => handleClose("forgot")}
-          className="header-forgot"
+          className="header-forgot" centered
         >
           <Modal.Header closeButton>
             <Modal.Title>Reset Your Password</Modal.Title>
