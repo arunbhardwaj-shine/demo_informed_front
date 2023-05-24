@@ -1600,7 +1600,8 @@ ul.tabnav-link li {
 
 .form-inline .form-group label>span,
 #add_hcp_form .form-group label>span,
-.create-smart-step .form-group label>span {
+.create-smart-step .form-group label>span,
+.form-group label .astrick {
   color: #d61975;
 }
 
