@@ -56,8 +56,6 @@ Object.keys(hadData).forEach((key) => {
     hadData[key] = sortedData;
 });
 
-console.log(hadData);
-     
 
 
           const ibu = hadData?.Ibu;
