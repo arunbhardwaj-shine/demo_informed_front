@@ -2665,7 +2665,7 @@ const FilterSegment = (props) => {
             </span>
           </h6>
           <div className="filter-block">
-            <div className="filter-block-left">
+            <div className="filter-block-left w-100">
               {updateflag > 0 ? (
                 typeof selectedmarketingcontacttype === "object" &&
                 selectedmarketingcontacttype.length > 0 ? (
@@ -3171,10 +3171,10 @@ const FilterSegment = (props) => {
                   </div>
                 ) : null
               ) : null}
-            </div>
+              {/* </div> */}
 
-            {/*Right Block*/}
-            <div className="filter-block-right">
+              {/*Right Block*/}
+              {/* <div className="filter-block-right"> */}
               {updateflag > 0 ? (
                 selectedibu ? (
                   <div className="filter-div">

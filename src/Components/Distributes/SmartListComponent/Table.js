@@ -1087,6 +1087,7 @@ const Table = (props, ref) => {
                   <div className="hcp-new-user">
                     <button
                       className="btn btn-outline-primary"
+                      title="Add new user"
                       onClick={handleShow}
                     >
                       <img src={path + "new-user.svg"} alt="New User" />
@@ -1095,6 +1096,7 @@ const Table = (props, ref) => {
                   <div className="hcp-added">
                     <button
                       className="btn btn-outline-primary"
+                      title="Edit user"
                       onClick={editButtonClicked}
                     >
                       <img src={path + "edit-button.svg"} alt="Edit" />
