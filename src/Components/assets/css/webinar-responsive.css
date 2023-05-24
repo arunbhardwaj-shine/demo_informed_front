@@ -48,7 +48,7 @@
 }
 
 @media only screen and (max-width:1659px) {
-    .informed-header  {
+    .informed-header {
         padding: 25px 20px 0;
     }
 
@@ -267,10 +267,11 @@
         top: -10px;
         left: 0;
     } */
-    .informed h1{
+    .informed h1 {
         font-size: 40px;
-    line-height: 50px;
+        line-height: 50px;
     }
+
     #slider {
         height: 415px;
     }
@@ -401,13 +402,15 @@
 }
 
 @media only screen and (max-width:1199px) {
-    .informed-header  ul.navbar-nav.mr-auto li a {
+    .informed-header ul.navbar-nav.mr-auto li a {
         margin-right: 15px;
     }
-    .informed h1{
+
+    .informed h1 {
         font-size: 34px;
-    line-height: 42px;
+        line-height: 42px;
     }
+
     .video-sec img {
         height: 190px;
     }
@@ -835,7 +838,69 @@
     }
 
     .DefaultLayout .informed .container {
-        max-width: 720px;
+        max-width: 85%;
+    }
+
+    .navbar button.navbar-toggler {
+        background: #fff;
+        padding: 5px;
+        border: none;
+        width: 45px;
+        height: 40px;
+        border-radius: 0;
+    }
+
+    #webinar-login {
+        position: absolute;
+        left: 0;
+        right: 0;
+        background: #0066be;
+        top: 80px;
+        padding-bottom: 8px;
+    }
+
+    #webinar-login ul {
+        margin: 0;
+        padding: 7px 0px;
+    }
+
+    #webinar-login ul li a {
+        padding: 8px 15px;
+        margin-bottom: 2px;
+        font-size: 15px;
+        margin-right: 5px;
+    }
+
+    #navbarsExampleDefault ul.navbar-nav+ul {
+        padding-top: 2px;
+    }
+
+    .informed-header .webinar-nav.navbar {
+        position: static;
+    }
+
+    #webinar-login .navbar-nav .nav-item.dropdown .dropdown-toggle {
+        padding-right: 0px;
+        text-align: left;
+        padding-left: 44px;
+    }
+
+    #webinar-login .navbar-nav .nav-item.dropdown {
+        margin-left: 0;
+    }
+
+    #webinar-login .navbar-nav .nav-item.dropdown .dropdown-toggle:after {
+        right: auto;
+        left: 0;
+        margin: 0;
+    }
+
+    .informed-header {
+        padding: 15px 5px 0;
+    }
+
+    .informed .custom-container {
+        position: static;
     }
 
     .informed-header ul.navbar-nav.mr-auto {
@@ -846,10 +911,6 @@
     .informed-header a.sign {
         font-size: 15px;
         margin-right: 5px;
-    }
-
-    .informed-header {
-        padding: 15px 20px 0;
     }
 
     .navbar li img {

@@ -226,6 +226,7 @@ const ContentGraph = () => {
       },
     },
     legend: {
+      reversed: true,
       align: "center",
       verticalAlign: "bottom",
       layout: "horizontal",
