@@ -33,7 +33,7 @@ const SmartListFilter = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <div className="col right-sidebar custom-change">
         <div className="custom-container">
             <div className="row">
               {"country" in filterList &&
