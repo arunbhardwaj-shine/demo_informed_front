@@ -114,12 +114,11 @@ const EmailList = (props) => {
       }
     }
 
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
-
   }, []);
 
   const showViewEmailModal = (data) => {
@@ -668,7 +667,7 @@ const EmailList = (props) => {
                   }
                 >
                   <button
-                  ref={buttonRef}
+                    ref={buttonRef}
                     className="btn btn-secondary dropdown"
                     type="button"
                     id="dropdownMenuButton2"
@@ -726,7 +725,7 @@ const EmailList = (props) => {
                   {/*Code for show filters*/}
                   {showfilter && (
                     <div
-                    ref={filterRef}
+                      ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -2036,10 +2035,12 @@ const EmailList = (props) => {
                       <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Bounced</th>
+                        {/* <th scope="col">Bounced</th> */}
                         <th scope="col">Country</th>
                         <th scope="col">Business Unit</th>
-                        <th scope="col">Contact Type</th>
+                        {/* <th scope="col">Contact Type</th> */}
+                        <th scope="col">Opened</th>
+                        <th scope="col">CTR Clicked</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -2056,7 +2057,7 @@ const EmailList = (props) => {
                               {item?.first_name + " " + item?.last_name}{" "}
                             </td>
                             <td> {item?.email ? item.email : "N/A"} </td>
-                            <td> {item?.bounce ? item.bounce : "N/A"}</td>
+                            {/* <td> {item?.bounce ? item.bounce : "N/A"}</td> */}
                             <td>
                               {" "}
                               <span>
@@ -2064,7 +2065,9 @@ const EmailList = (props) => {
                               </span>{" "}
                             </td>
                             <td> {item?.ibu}</td>
-                            <td> {item?.contact_type} </td>
+                            {/* <td> {item?.contact_type} </td> */}
+                            <td>{item?.opened ? item?.opened : "N/A"}</td>
+                            <td>{item?.ctr ? item?.ctr : "N/A"}</td>
                           </tr>
                         ))
                       ) : readerDetailsData.length == 0 ? (
