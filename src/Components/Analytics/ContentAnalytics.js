@@ -47,7 +47,7 @@ const ContentAnalytics = () => {
 
       const pdfObj = hadData
         .map((item) => ({
-          label: item.title,
+          label: item.title.trim(),
           value: item.id,
         }))
         .sort((a, b) =>
