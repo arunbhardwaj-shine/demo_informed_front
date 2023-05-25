@@ -197,9 +197,9 @@ const CreateEmail = (props) => {
     axios
       .post(`distributes/get_smart_list`, body)
       .then((res) => {
-        setSmartListData(res.data.response.data);
+        setSmartListData(res.data.response?.data);
         if (flag == 0) {
-          setPrevSmartListData(res.data.response.data);
+          setPrevSmartListData(res.data.response?.data);
         } else {
           loader("hide");
         }
@@ -259,7 +259,10 @@ const CreateEmail = (props) => {
     }
 
     let siteContent = 0;
-    if(pdf_id == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="){
+    if (
+      pdf_id == 14 &&
+      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+    ) {
       siteContent = 1;
       content_included = 0;
     }
@@ -667,7 +670,7 @@ const CreateEmail = (props) => {
 
       let up_temp = template;
       if (editorRef.current) {
-         up_temp = editorRef.current.getContent();
+        up_temp = editorRef.current.getContent();
       }
 
       const body = {
@@ -769,6 +772,7 @@ const CreateEmail = (props) => {
       validator.showMessages();
       setRenderAfterValidation(renderAfterValidation + 1);
     }
+    console.log("valid", validator.errorMessages);
   };
 
   const approvedClicked = async (e) => {
@@ -1498,12 +1502,16 @@ const CreateEmail = (props) => {
                       <div className="form-inline row justify-content-between align-items-center">
                         <div className="form-group col-12 col-md-7">
                           <label htmlFor="exampleInputEmail1">
-                            Email Description{" "}
+                            Email Description <span>*</span>
                           </label>
                           <input
                             onChange={(e) => emailDescriptionChange(e)}
                             type="text"
-                            className="form-control"
+                            className={
+                              validator?.errorMessages?.emailDesc
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             id="email-desc"
                             value={emailDescription}
                           />
@@ -1515,12 +1523,16 @@ const CreateEmail = (props) => {
                         </div>
                         <div className="form-group right-side col-12 col-md-5">
                           <label htmlFor="exampleInputEmail1">
-                            Email Creator
+                            Email Creator<span>*</span>
                           </label>
                           <input
                             onChange={(e) => emailCreatorChange(e)}
                             type="text"
-                            className="form-control"
+                            className={
+                              validator?.errorMessages?.creator
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             id="email-address"
                             value={emailCreator}
                           />
@@ -1534,11 +1546,15 @@ const CreateEmail = (props) => {
                       <div className="form-inline row justify-content-between align-items-center">
                         <div className="form-group">
                           <label htmlFor="exampleInputEmail1">
-                            Email Campaign
+                            Email Campaign<span>*</span>
                           </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              validator?.errorMessages?.emailCampaign
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             id="email-campaign"
                             value={emailCampaign}
                             onChange={changeEmailCampaign}
@@ -1585,11 +1601,15 @@ const CreateEmail = (props) => {
                       <div className="form-inline row justify-content-end align-items-center">
                         <div className="form-group col-12 col-md-7">
                           <label htmlFor="exampleInputEmail1">
-                            Email Subject
+                            Email Subject<span>*</span>
                           </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              validator?.errorMessages?.emailSubject
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             id="email-subject"
                             onChange={(e) => emailSubjectChanged(e)}
                             value={emailSubject}
