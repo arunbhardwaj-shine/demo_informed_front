@@ -165,7 +165,9 @@ const LibraryContent = (props) => {
 
   const handleSpcFun = (data) =>{
 
-    navigate('/article_preview', { state: { data:data } });
+    let newWindow = ""
+    newWindow = window.open("/article_preview")
+    newWindow.data = data
 
   }
 

@@ -740,10 +740,10 @@ const ReadersListAdd = () => {
 
   return (
     <>
-      <Col className="col right-sidebar">
+      <Col className="col right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="page-top-nav">
+            <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
                 <Col md="1">
                   <div className="header-btn-left">
@@ -1163,7 +1163,7 @@ const ReadersListAdd = () => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email *</label>
+                                  <label htmlFor="">Email <span>*</span></label>
                                   <input
                                     type="email"
                                     className="form-control"

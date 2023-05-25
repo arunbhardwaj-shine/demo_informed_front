@@ -171,7 +171,7 @@ const PublisherPage = () => {
           <span className="loader-view"> </span>
         </div>
       </div>
-      <div className="informed">
+      <div className="informed publisher">
         <Navbar expand="lg" className="informed-nav">
           <Container>
             <Navbar.Brand href="#home">

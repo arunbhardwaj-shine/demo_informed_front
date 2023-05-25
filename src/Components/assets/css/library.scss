@@ -1679,6 +1679,7 @@ form.product-unit button {
 }
 .create-change-content .right-change .form-group {
   align-items: flex-start;
+  justify-content: flex-start !important;
 }
 
 .create-change-content .right-change .form-group > label {
@@ -2517,8 +2518,8 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .filter-block .filter-div .filter-result {
   font-size: 11px;
   line-height: 13px;
-  padding: 3px 5px 3px 21px;
-  margin: 0px 16px 10px 0;
+  padding: 3px 5px 3px 11px;
+  margin: 0px 16px 10px 3px;
 }
 .library-content-box-layuot > h4 {
   flex: 0 0 100%;
@@ -3251,6 +3252,9 @@ section.verify_email.content_details {
   bottom: -27px;
   left: 0;
   right: auto;
+}
+.modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) div[class*="-IndicatorsContainer"] {
+    display: none;
 }
 /**Reader Style End**/
 
@@ -4326,6 +4330,9 @@ transform: translateY(-50%);
 .filter-by.nav-item.dropdown>button:focus svg rect{
 fill:$white;
 }
+#add_hcp .modal-body .hcp-add-form form#add_hcp_form .form-group label {
+    margin: 0;
+}
 /**Analytics page End**/
 
 /***INFORMED***/
@@ -4434,6 +4441,9 @@ fill:$white;
       padding: 120px 0px 0 40px;
       h1{
         color: $voilet;
+        span{
+          color: $voilet;
+        }
         &::after{
           border-color: #ffbe2c;;
         }
@@ -6572,9 +6582,9 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .form-check-group-inset .form-check:last-child {
     margin-bottom: 0;
 }
-.create-change-content .right-change .form-group:last-child {
-    margin: 0 0 0;
-}
+// .create-change-content .right-change .form-group:last-child {
+//     margin: 0 0 0;
+// }
   .split-button-dropup div:nth-child(3) > div div {
     font-size: 13px;
   }
@@ -6679,6 +6689,24 @@ nav #collapsibleNavbar li.nav-item a {
 .timeline-time-view {
     font-size: 11px;
     line-height: 15px;
+}
+.timeline-article-details-overall .data-main-box .timeline-article-details-boxes .media .media-right ul li h6 {
+    font-size: 12px;
+    line-height: 16px;
+    min-width: 57px;
+}
+.timeline-article-details-overall .data-main-box .timeline-article-details-boxes .media {
+    padding: 10px;
+}
+.timeline-article-details-overall .data-main-box .timeline-article-details-boxes .media .media-left {
+    margin-right: 10px;
+}
+.timeline-article-details-overall .data-main-box .timeline-article-details-boxes .media .media-right p {
+    font-size: 12px;
+}
+.timeline-article-details-overall .data-main-box .timeline-article-details-boxes .media .media-left p {
+    font-size: 12px;
+    line-height: 14px;
 }
 .form-group.pdf-spc.chapter-title {
     max-width: 480px;
@@ -6797,9 +6825,9 @@ nav #collapsibleNavbar li.nav-item a {
   .create-change-content .right-change .form-group > label {
     padding-top: 10px;
   }
-  .create-change-content .right-change .form-group {
-    margin: 0px 0 20px;
-  }
+  // .create-change-content .right-change .form-group {
+  //   margin: 0px 0 20px;
+  // }
   .split-button-dropup > div:nth-child(3) {
     padding: 2px 45px 2px 15px;
   }
@@ -6965,7 +6993,7 @@ nav #collapsibleNavbar li.nav-item a {
     .form-group
     .split-button-dropup {
     width: 240px;
-    margin-right: 0;
+    margin-right: 10px;
   }
 .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup > div:nth-child(3) {
     background-size: 13px;
@@ -7118,9 +7146,7 @@ nav #collapsibleNavbar li.nav-item a {
     border-radius: 10px 0 0 0;
     padding: 16px 10px 16px;
 }
-   .create-change-content .col-md-6, .create-change-content .col-md-7, .create-change-content .col-md-5 {
-    width: 100%;
-  }
+  
   .create-change-content.analytic-charts .col-md-6, .create-change-content.analytic-charts .col-md-7, .create-change-content.analytic-charts .col-md-5 {
     width: auto;
     flex: 1 1;
@@ -7152,13 +7178,68 @@ nav #collapsibleNavbar li.nav-item a {
 .total-selected .tag-cross img {
     margin-left: 12px;
 }
-
+.form-check-group {
+	padding: 9px 16px;
+}
 }
 @media (max-width: $layout-breakpoint-large) {
   form.product-unit .form-group {
     width: auto;
     flex: 0 0 50%;
   }
+  .timeline-article-details-overall .data-main-box .timeline-article-details-boxes .media {
+    flex: 0 0 100%;
+}
+  .form-inline .form-group input#email-address {
+    max-width: 100%;
+    min-width: 100%;
+}
+  .mailbox-buttons button.btn {
+    padding: 6px 6px;
+}
+.mailbox-tags ul li {
+    margin: 0 5px 1px 0;
+}
+  .reparkive-box.second {
+    flex: 0 0 105px;
+}
+.content_analytics .detail-box p {
+    font-size: 12px;
+}
+.content_analytics .detail-box p span {
+    font-size: 12px;
+}
+.content_analytics .highchart-lable {
+    font-size: 13px;
+    padding: 0 0 0 1px;
+}
+   .create-change-content .col-md-6, .create-change-content .col-md-7, .create-change-content .col-md-5 {
+    width: 100%;
+  }
+  .library_create.landing-layout {
+    max-width: 90%;
+}
+.library_create.landing-layout .row, .library_create, .library_create.spc-box {
+    gap: 50px 5%;
+}
+.library_create .library_create-box .create-library-img {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+}
+.library_create .library_create-box {
+    min-height: 140px;
+}
+.library_create .library_create-box .create-library-content h3 {
+    margin-bottom: 12px;
+}
+.library_create .library_create-box .create-library-img img {
+    max-height: 26px;
+    max-width: 26px;
+}
+.library_create .library_create-box {
+    max-width: 30%;
+}
   nav #collapsibleNavbar li.nav-item a {
     padding: 0 20px;
 }
@@ -7306,6 +7387,12 @@ nav #collapsibleNavbar li.nav-item a {
   .crm-detail .crm-detail-content .crm-review .crm-review-detail:first-child {
     flex: 0 0 260px;
 }
+.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup > div:nth-child(3) {
+    max-width: 200px;
+}
+nav #collapsibleNavbar li.nav-item a {
+    padding: 0 16px;
+}
   .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
     font-size: 11px;
     padding: 7px 6px;
@@ -7350,6 +7437,11 @@ nav #collapsibleNavbar li.nav-item a {
 
 
 /**Informed and Publisher page responsive**/
+@media only screen and (max-width:1365px){
+  .infomed-sec.team-section .content-sec .infomed-sec-innner .pub-list {
+    margin: 2px 0 0;
+}
+}
 @media only screen and (max-width: 1279px) {
   .informed .banner .banner-content h1 {
     font-size: 36px;
@@ -7482,22 +7574,33 @@ nav #collapsibleNavbar li.nav-item a {
 @media only screen and (max-width: 1199px) {
   .informed .banner .banner-content h1 {
     margin: 0px 0px 30px;
-    font-size: 27px;
+    font-size: 32px;
     line-height: 1.3;
   }
+  .DefaultLayout .informed.publisher .container {
+    max-width: 90%;
+}
+.path-features.p-f2 {
+    margin-left:-5px;
+}
+// .DefaultLayout .informed .path-section .container {
+//     max-width: 85%;
+// }
 .path-section .no-padding {
     padding-right: 15px !important;
 }
   .informed .library-section .dotted-line {
     padding: 0px;
-    left: -17px;
+    left: -4px;
   }
 
-  .informed .library-section .content-sec ul.library-list li img {
+.informed .library-section .content-sec ul.library-list li img {
     width: 130px;
-    margin-left: 0px;
-  }
-
+    margin-left: 10px;
+}
+.informed .library-section .content-sec .content-part {
+    padding: 83px 0px;
+}
   .informed .library-section .content-sec .content-part .feature-list li img {
     height: 54px;
   }
@@ -7609,11 +7712,10 @@ nav #collapsibleNavbar li.nav-item a {
     padding: 0px 13px;
   }
 
-  .informed .team-section .content-sec .team-section-map-listing .date-list {
-    margin-top: -22px;
+ .informed .team-section .content-sec .team-section-map-listing .date-list {
+    margin-top: 25px;
     padding-left: 30px;
-  }
-
+}
   .informed .team-section .content-sec .team-section-map-listing .date-list li div p {
     font-size: 16px;
   }
@@ -7632,10 +7734,12 @@ nav #collapsibleNavbar li.nav-item a {
     margin: 0 auto;
   }
 
-  .informed .team-section .content-sec .start-building-gdpr {
-    padding-top: 12px;
-  }
-
+.informed .team-section .content-sec .start-building-gdpr {
+    padding-top: 53px;
+}
+.informed .banner .banner-content h1 span {
+    font-size: 40px;
+}
   .informed .contact-section .contact-left h3 {
     font-size: 25px;
     line-height: 30px;
@@ -7687,9 +7791,11 @@ nav #collapsibleNavbar li.nav-item a {
   }
 
   .informed .banner .banner-infographic .infographic.text-right .dt-line {
-    right: -62px;
-  }
-
+    right: -16px;
+}
+.informed .banner .banner-infographic .bnr-img {
+    right: -34px;
+}
   .informed .banner .banner-content {
     margin: 0px;
     padding: 170px 0px 0 60px;
@@ -7768,19 +7874,40 @@ nav #collapsibleNavbar li.nav-item a {
 }
 .informed .banner .banner-infographic .infographic.text-right .line-shape {
     max-width: 525px;
+    margin-left: -97px;
 }
 .informed .banner .banner-infographic .bnr-img {
-    top: 34px;
-    right: -44px;
+    top: 84px;
+    right: -40px;
+    left: -80px;
+}
+.informed .banner .banner-content h1 span {
+    font-size: 35px;
 }
 .informed .banner .banner-content {
-    padding: 150px 0px 0 0px;
+    padding: 150px 0px 0 20px;
+}
+.informed .library-section .content-sec ul.library-list {
+    margin: 60px 0 0;
+}
+.informed .library-section .content-sec .content-part .feature-list-next-content p a img {
+    width: 85px;
+}
+.informed .download-sec .padding_righttt .d-content .d-content-inr .d-btn {
+    padding: 13px 19px;
+}
+.informed .download-sec .padding_righttt .d-content .d-content-inr h5 {
+    font-size: 15px;
+}
+.DefaultLayout .informed .rtr-section .container, .DefaultLayout .informed .team-section .container,
+.DefaultLayout .informed .contact-section .container, .DefaultLayout .informed .news-section .container {
+    max-width: 870px;
 }
 .informed .container {
     max-width: 100%;
 }
 .informed .banner .banner-infographic .infographic.text-right .dt-line {
-    right: 0px;
+    right: -34px;
 }
 .informed .library-section .content-sec .content-part .feature-list li {
     padding: 0px 17px;
@@ -7798,7 +7925,7 @@ nav #collapsibleNavbar li.nav-item a {
     padding-right: 20px;
 }
 .informed .team-section .content-sec .team-section-map-listing .date-list {
-    margin-top: 8px;
+    margin-top: -10px;
     padding-left: 10px;
 }
 .informed .team-section .content-sec .start-building-gdpr {
@@ -7847,7 +7974,7 @@ nav #collapsibleNavbar li.nav-item a {
     right: -10px;
 }
 .path-features.p-f2 {
-    margin: 39px 0 45px -20px;
+    margin: 39px 0 45px 15px;
 }
 .path-features .path-fet-cont {
     padding-top: 0px;
@@ -7908,3 +8035,41 @@ nav #collapsibleNavbar li.nav-item a {
     color: #8a4e9c;
     cursor: pointer;
 }
+
+
+
+
+
+
+/***Print css***/
+ @media print {
+    .timeline-left-user h5 {
+    font-size: 18px;
+    line-height: 20px;
+    margin: 0 0 18px;
+}
+.timeline-left-user table tr th {
+    min-width: 50px;
+    padding: 0 0 14px;
+}
+.timeline-left-user table tr td {
+    padding: 0 0 14px;
+}
+.right-sidebar {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.timeline-box {
+        padding-left: 90px;
+    margin: 0 0 20px 20px;
+}
+.timeline-left-user {
+    width: 350px;
+}
+.timeline-article-details-overall .data-main-box .timeline-article-details-boxes .media {
+    flex: 0 0 48%;
+}
+  }
+
+/***Print css end***/
+
