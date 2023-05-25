@@ -298,7 +298,7 @@ const CreateSmartList = () => {
                       <div className="row justify-content-between align-items-center">
                         <div className="form-group col">
                           <label htmlFor="smart-list-name">
-                            Enter smart list name
+                            Enter smart list name <span>*</span>
                           </label>
                           <input
                             type="text"
@@ -309,7 +309,7 @@ const CreateSmartList = () => {
                         </div>
 
                         <div className="form-group col">
-                          <label htmlFor="creator-name">Creator’s Name</label>
+                          <label htmlFor="creator-name">Creator’s Name <span>*</span></label>
                           <input
                             type="text"
                             className="form-control"

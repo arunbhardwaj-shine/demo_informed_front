@@ -380,10 +380,20 @@ const ReadersListAdd = () => {
   };
 
   const sortSelectedUsers = () => {
-    let normalArr = [];
-    normalArr = readersData;
+    let getReaderArr = [];
+    let readerDataArr = [];
+
+    getReaderArr = getNewReaders;
+    readerDataArr = readersData;
     if (sorting === 0) {
-      normalArr.sort((a, b) =>
+      getReaderArr.sort((a, b) =>
+        a.firtName.toLowerCase() > b.firtName.toLowerCase()
+          ? 1
+          : b.firtName.toLowerCase() > a.firtName.toLowerCase()
+          ? -1
+          : 0
+      );
+      readerDataArr.sort((a, b) =>
         a.firtName.toLowerCase() > b.firtName.toLowerCase()
           ? 1
           : b.firtName.toLowerCase() > a.firtName.toLowerCase()
@@ -391,7 +401,14 @@ const ReadersListAdd = () => {
           : 0
       );
     } else {
-      normalArr.sort((a, b) =>
+      getReaderArr.sort((a, b) =>
+        a.firtName.toLowerCase() < b.firtName.toLowerCase()
+          ? 1
+          : b.firtName.toLowerCase() < a.firtName.toLowerCase()
+          ? -1
+          : 0
+      );
+      readerDataArr.sort((a, b) =>
         a.firtName.toLowerCase() < b.firtName.toLowerCase()
           ? 1
           : b.firtName.toLowerCase() < a.firtName.toLowerCase()
@@ -399,7 +416,7 @@ const ReadersListAdd = () => {
           : 0
       );
     }
-    setReadersData(normalArr);
+    setReadersData(readerDataArr);
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
   };
@@ -663,8 +680,8 @@ const ReadersListAdd = () => {
         const random = Math.floor(Math.random() * 9000 + 1000);
         return {
           profileIndex: random,
-          first_name: data.firstname,
-          last_name: data.lastname,
+          firtName: data.firstname,
+          lastName: data.lastname,
           email: data.email,
           country: data.country,
           contact_type: data.contact_type,
@@ -706,6 +723,10 @@ const ReadersListAdd = () => {
           setNewReaders(combine_new_readers_array);
         }
         combine_data_manual = [...new_data, ...old_data];
+        console.log("body data", body_data);
+        console.log("reader data", readersData);
+        let mydata = [...readersData, ...getNewReaders, ...body_data];
+        console.log("my data", mydata);
         setReadersData(old_data);
         setUpdatedData(old_data);
         // setIsOpen(false);
@@ -910,7 +931,7 @@ const ReadersListAdd = () => {
                                   item?.profileIndex,
                                   item?.email,
                                   item?.country,
-                                  item?.first_name + " " + item?.last_name,
+                                  item?.firtName + " " + item?.lastName,
                                   item?.contact_type
                                 )
                               }
@@ -923,7 +944,7 @@ const ReadersListAdd = () => {
                                 id={`field_name` + item?.profileIndex}
                               >
                                 <span>
-                                  {item?.first_name + " " + item?.last_name}
+                                  {item?.firtName + " " + item?.lastName}
                                 </span>
                               </td>
                               <td>

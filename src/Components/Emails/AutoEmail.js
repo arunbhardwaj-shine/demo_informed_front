@@ -890,7 +890,7 @@ const AutoEmail = () => {
                         <div className="form-inline row justify-content-between align-items-center">
                           <div className="form-group col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
-                              Email Subject Line
+                              Email Subject Line <span classname="astrick">*</span>
                             </label>
                             <input
                               type="text"
@@ -902,7 +902,7 @@ const AutoEmail = () => {
                           </div>
                           <div className="form-group right-side col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
-                              Email description{" "}
+                              Email description <span classname="astrick">*</span>{" "}
                             </label>
                             <input
                               type="text"
@@ -1264,7 +1264,7 @@ const AutoEmail = () => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email *</label>
+                                  <label htmlFor="">Email <span>*</span></label>
                                   <input
                                     type="email"
                                     className="form-control"
