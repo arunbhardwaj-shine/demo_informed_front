@@ -32,6 +32,7 @@ const RenderPdf = ({
   hidePopup,
   trigger,
   updatePublish,
+  previewArticle,
   editStatus
 }) => {
   const [page, setPage]   = useState(1);
@@ -239,7 +240,7 @@ const optimizeSinglePagePdf = () => {
                     }
 
                         <div style={{ height: '750px' }} id="pdf_view_box">
-                          <div onScroll={scrollEve} className="scroll_pdf">
+                          <div onScroll={scrollEve} className={previewArticle?"previewArticle":"scroll_pdf"}>
                           <Viewer
                             onPageChange={handlePageChange}
                             onDocumentLoad={handleDocumentLoad}
