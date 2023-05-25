@@ -772,7 +772,7 @@ const CreateEmail = (props) => {
       validator.showMessages();
       setRenderAfterValidation(renderAfterValidation + 1);
     }
-    console.log("valid", validator.errorMessages);
+    console.log("valid", validator.showMessages());
   };
 
   const approvedClicked = async (e) => {
@@ -1504,11 +1504,16 @@ const CreateEmail = (props) => {
                           <label htmlFor="exampleInputEmail1">
                             Email Description <span>*</span>{" "}
                           </label>
+
                           <input
                             onChange={(e) => emailDescriptionChange(e)}
                             type="text"
                             className={
-                              validator?.errorMessages?.emailDesc
+                              validator?.message(
+                                "emailDesc",
+                                emailDescription,
+                                "required"
+                              )
                                 ? "form-control error"
                                 : "form-control"
                             }
@@ -1525,11 +1530,16 @@ const CreateEmail = (props) => {
                           <label htmlFor="exampleInputEmail1">
                             Email Creator <span>*</span>
                           </label>
+
                           <input
                             onChange={(e) => emailCreatorChange(e)}
                             type="text"
                             className={
-                              validator?.errorMessages?.creator
+                              validator.message(
+                                "creator",
+                                emailCreator,
+                                "required"
+                              )
                                 ? "form-control error"
                                 : "form-control"
                             }
@@ -1548,10 +1558,15 @@ const CreateEmail = (props) => {
                           <label htmlFor="exampleInputEmail1">
                             Email Campaign <span>*</span>
                           </label>
+
                           <input
                             type="text"
                             className={
-                              validator?.errorMessages?.emailCampaign
+                              validator.message(
+                                "emailCampaign",
+                                emailCampaign,
+                                "required"
+                              )
                                 ? "form-control error"
                                 : "form-control"
                             }
@@ -1603,10 +1618,15 @@ const CreateEmail = (props) => {
                           <label htmlFor="exampleInputEmail1">
                             Email Subject <span>*</span>
                           </label>
+
                           <input
                             type="text"
                             className={
-                              validator?.errorMessages?.emailSubject
+                              validator.message(
+                                "emailSubject",
+                                emailSubject,
+                                "required"
+                              )
                                 ? "form-control error"
                                 : "form-control"
                             }
