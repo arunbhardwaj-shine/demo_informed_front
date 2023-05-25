@@ -26,6 +26,7 @@ const RegistrationType = () => {
 
   const activeTab = useRef(1);
   useEffect(() => {
+    window.scrollTo(0, 0);
     getDataFromApi();
   }, []);
 

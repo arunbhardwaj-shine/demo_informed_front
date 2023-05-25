@@ -138,7 +138,7 @@ function LicenseTopics() {
                   </div>
                 ) : null}
                 <div className="form-group ">
-                  <label htmlFor="">Select type</label>
+                  <label htmlFor="">Select Type</label>
                   <Select
                     options={SelectType}
                     placeholder="Select type"
