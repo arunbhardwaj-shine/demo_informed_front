@@ -13,6 +13,7 @@ const PreviewArticle = () =>{
                     url= {window.data}
                     handleNext ={handleNext}
                     hidePopup = "1"
+                    previewArticle={true}
                   />
     )
  }
