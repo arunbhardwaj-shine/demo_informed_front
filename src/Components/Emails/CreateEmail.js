@@ -391,7 +391,6 @@ const CreateEmail = (props) => {
         return "true";
       }
     });
-
     if (status.every((element) => element == "true")) {
       setHpc([
         ...hpc,
@@ -2324,7 +2323,9 @@ const CreateEmail = (props) => {
                     countryIndex: "",
                   },
                 ]);
-                document.querySelector("#file-4").value = "";
+                if (document.querySelector("#file-4")) {
+                  document.querySelector("#file-4").value = "";
+                }
                 setActiveManual("active");
                 setActiveExcel("");
               }}
