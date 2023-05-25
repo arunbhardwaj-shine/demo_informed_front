@@ -32,6 +32,7 @@ const ContentAnalytics = () => {
   const [isReaderAccordionOpen, setIsReaderAccordionOpen] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getDataFromApi();
   }, []);
 
