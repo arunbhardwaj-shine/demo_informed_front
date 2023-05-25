@@ -1502,7 +1502,7 @@ const CreateEmail = (props) => {
                       <div className="form-inline row justify-content-between align-items-center">
                         <div className="form-group col-12 col-md-7">
                           <label htmlFor="exampleInputEmail1">
-                            Email Description <span>*</span>
+                            Email Description <span>*</span>{" "}
                           </label>
                           <input
                             onChange={(e) => emailDescriptionChange(e)}
@@ -1523,7 +1523,7 @@ const CreateEmail = (props) => {
                         </div>
                         <div className="form-group right-side col-12 col-md-5">
                           <label htmlFor="exampleInputEmail1">
-                            Email Creator<span>*</span>
+                            Email Creator <span>*</span>
                           </label>
                           <input
                             onChange={(e) => emailCreatorChange(e)}
@@ -1546,7 +1546,7 @@ const CreateEmail = (props) => {
                       <div className="form-inline row justify-content-between align-items-center">
                         <div className="form-group">
                           <label htmlFor="exampleInputEmail1">
-                            Email Campaign<span>*</span>
+                            Email Campaign <span>*</span>
                           </label>
                           <input
                             type="text"
@@ -1601,7 +1601,7 @@ const CreateEmail = (props) => {
                       <div className="form-inline row justify-content-end align-items-center">
                         <div className="form-group col-12 col-md-7">
                           <label htmlFor="exampleInputEmail1">
-                            Email Subject<span>*</span>
+                            Email Subject <span>*</span>
                           </label>
                           <input
                             type="text"
@@ -2353,7 +2353,9 @@ const CreateEmail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email *</label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
                                     className="form-control"

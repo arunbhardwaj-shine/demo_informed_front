@@ -14,7 +14,7 @@ const TimelineDetail = (props) => {
   const [isActive, setIsActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [readerId, setReaderId] = useState(
-    typeof window.data !== "undefined" ? window.data : ""
+    localStorage.getItem("myData")
   );
 
   const [ebookData, setEbookData] = useState([]);
@@ -46,6 +46,9 @@ const TimelineDetail = (props) => {
       }
     }
   };
+  // window.addEventListener('message', function(event) {
+  //   console.log("Message received from the parent: ", event.data); // Message received from parent
+  // });
 
   const [timeLineData, setTimeLineData] = useState([]);
   const [apiFlag, setApiFlag] = useState(0);

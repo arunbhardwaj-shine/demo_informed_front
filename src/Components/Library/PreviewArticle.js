@@ -6,18 +6,14 @@ const handleNext = () =>{
     
 }
 const PreviewArticle = () =>{
-    const {state} = useLocation();
     return (
-       <>
-        <RenderPdf
+      
+             <RenderPdf
                     next = "0"
-                    url= {state?.data}
+                    url= {window.data}
                     handleNext ={handleNext}
                     hidePopup = "1"
                   />
-                  : null
-       </>
-
     )
  }
  export default PreviewArticle
