@@ -143,7 +143,11 @@ const Totalhcp = () => {
       loader("show");
       const response = await getData(ENDPOINT.ANALYTICS);
       const data = response.data.data;
+    //  const seriesMonth = data[0].Months;
       const seriesMonth = data[0].Months;
+
+const desiredMonths = seriesMonth.slice(1); 
+
       if (data.length <= 0) {
         setIsDataNotFound(true);
       }
@@ -153,12 +157,13 @@ const Totalhcp = () => {
       const newSeries = data.map((item) => {
         return {
           name: `${item.ibu} (${item.total})`,
-          data: item.total_readers.slice().reverse(),
+          data: item.total_readers.slice(1).reverse(),
           colors: colorObj[item?.ibu],
         };
       });
 
-      const seriesCategories = [...data[0].Months].reverse();
+    //  const seriesCategories = [...data[0].Months].reverse();
+      const seriesCategories = desiredMonths.reverse();
       const newHcpOptions = {
         ...hcpOptions,
         xAxis: {
@@ -222,7 +227,7 @@ const Totalhcp = () => {
           categories: tableDatas,
         },
         series: sortedNewTableSeries,
-        months: seriesCategories,
+        months: seriesMonth.reverse(),
       };
       setTableData(newTable);
       loader("hide");

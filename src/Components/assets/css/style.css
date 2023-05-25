@@ -1594,8 +1594,15 @@ ul.tabnav-link li {
   line-height: 21px;
   text-transform: capitalize;
   color: var(--blue);
-  width: 145px;
-  flex: 0 0 145px;
+  width: 155px;
+  flex: 0 0 155px;
+}
+
+.form-inline .form-group label>span,
+#add_hcp_form .form-group label>span,
+.create-smart-step .form-group label>span,
+.form-group label .astrick {
+  color: #d61975;
 }
 
 .form-inline .form-group input,
@@ -1618,17 +1625,19 @@ ul.tabnav-link li {
   color: var(--blue);
 }
 
+.srv-validation-message {
+  color: #d61975;
+  font-size: 14px;
+  flex: 0 0 100%;
+  margin: 2px 0 0;
+}
+
 .form-inline .form-group {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
 }
 
-.srv-validation-message {
-  flex: 0 0 100%;
-  font-size: 14px;
-  color: var(--red);
-}
 
 .email-form {
   padding: 0;
@@ -4783,6 +4792,12 @@ h2 {
   font-weight: 500;
   cursor: pointer;
   filter: none;
+}
+
+.create-smart-list .upload-btn:hover,
+.create-smart-list .btn-bordered:hover,
+.download-sample .upload-btn:hover {
+  border-color: var(--violet);
 }
 
 .download-sample .upload-btn {
