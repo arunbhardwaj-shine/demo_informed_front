@@ -162,6 +162,10 @@ const OctalatchTotalHCP = () => {
       await axios.get(ENDPOINT.OCTALATCH_TOTAL_HCP).then((response) => {
         const data = response?.data?.response?.data;
         const seriesMonth = response?.data?.response?.months;
+        const seriesMonthReverse = seriesMonth.reverse();
+      
+        const desiredMonths = seriesMonth.slice(1); 
+
         const lineMonth = response?.data?.response?.months_reverse;
         setTotalReaders(response?.data?.response?.total_readers);
         if (data.length <= 0) {
@@ -187,13 +191,14 @@ const OctalatchTotalHCP = () => {
         ];
 
         data.map((item, index) => {
+            const graph1Reverse = item?.graph1.reverse().slice(1);
           newSeriesData?.push({
             name: item?.name + " (" + JSON.parse(item?.total) + ")",
-            data: item?.graph1,
+            data: graph1Reverse.reverse(),
             color: Highcharts?.getOptions()?.colors[index],
           });
           newSeriesData.sort((a, b) => a.name.localeCompare(b.name));
-          console.log("newSeriesData--->",newSeriesData);
+        
           newLineData.push({
             name: item.name + " (" + JSON.parse(item?.total) + ")",
             data: item?.graph2,
@@ -205,7 +210,7 @@ const OctalatchTotalHCP = () => {
         // Set options for HCP chart
 
         // const categories = JSON.parse(data[0]?.Months);
-        const seriesCategories = seriesMonth;
+        const seriesCategories = desiredMonths.reverse();;
 
         const newHcpOptions = {
           ...hcpOptions,
@@ -233,7 +238,7 @@ const OctalatchTotalHCP = () => {
         // Create table data
 
         const newTableSeries = data?.map((item) => ({
-          data: item?.graph1,
+          data: item?.graph1.reverse(),
         }));
 
         
@@ -258,7 +263,7 @@ const OctalatchTotalHCP = () => {
             categories: tableDatas,
           },
           series: sortedNewTableSeries,
-          months: seriesCategories,
+          months: seriesMonth.reverse(),
         };
         setTableData(newTable);
       });
