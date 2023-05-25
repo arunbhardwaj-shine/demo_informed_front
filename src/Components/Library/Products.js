@@ -62,6 +62,7 @@ function Products() {
     }
   };
   useEffect(() => {
+    window.scrollTo(0, 0);
     initFun();
   }, [newValue?.category, content]);
 
@@ -192,7 +193,7 @@ function Products() {
                   </Form.Group>
                 ) : null}
                 <Form.Group className="form-group">
-                  <label htmlFor="">Select type</label>
+                  <label htmlFor="">Select Type</label>
                   <Select
                     options={SelectType}
                     placeholder="Select type"
