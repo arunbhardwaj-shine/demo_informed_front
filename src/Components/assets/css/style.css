@@ -7064,7 +7064,18 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 .auto_mail_trigger_right form .form-inline {
-  margin-bottom: 40px;
+  margin-bottom: 25px;
+}
+
+.auto_mail_trigger_right form .form-inline .form-group {
+  padding-bottom: 15px;
+  position: relative;
+}
+
+.auto_mail_trigger_right form .form-inline .form-group .login-validation {
+  top: auto;
+  bottom: -9px;
+  right: 11px;
 }
 
 .auto_mail_trigger_right .form-buttons .btn.btn-large {

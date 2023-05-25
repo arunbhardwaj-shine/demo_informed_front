@@ -35,6 +35,7 @@ const OctaCountryRegestration = () => {
   const mapData = useRef([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getDataFromApi();
   }, []);
 
@@ -130,7 +131,8 @@ const MapComponent = ({ data }) => {
         data: newData,
 
         tooltip: {
-          pointFormat: "{point.totalIndex}",
+          headerFormat: "",
+          pointFormat: '<span style="font-weight: bold">Total Registration : {point.totalIndex}</span>',
         },
         showInLegend: false,
         marker: {
