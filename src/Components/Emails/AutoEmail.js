@@ -36,7 +36,7 @@ const AutoEmail = () => {
   const [emailSubject, setEmailSubject] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
   const [isOpen_send, setIsOpensend] = useState(false);
-  const [language, setLanguage] = useState('0');
+  const [language, setLanguage] = useState("0");
   const [reRender, setReRender] = useState(0);
   const [getSmartListId, setSmartListId] = useState(0);
   const [addListOpen, setAddListOpen] = useState(false);
@@ -61,6 +61,7 @@ const AutoEmail = () => {
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
+  const [validationError, setValidationError] = useState({});
 
   const editorRef = useRef(null);
   const ref = useRef(null);
@@ -86,7 +87,7 @@ const AutoEmail = () => {
     const getalCountry = async () => {
       const body = {
         user_id: localStorage.getItem("user_id"),
-        language: '',
+        language: "",
         ibu: "",
       };
 
@@ -171,19 +172,25 @@ const AutoEmail = () => {
 
   const sendSample = (event) => {
     event.preventDefault();
+    let error = {};
     if (emailSubject == "") {
-      toast.warning("Please enter the email subject line ");
-      return;
-    } else if (emailDescription == "") {
-      toast.warning("Please enter the email description");
+      error.emailSubject = "Please enter the email subject line";
+    }
+    if (emailDescription == "") {
+      error.emailDescription = "Please enter the email description";
+    }
+    if (templateId == "" || templateId == 0) {
+      console.log(templateId);
+      error.templateId = "Please select email template first";
+    }
+
+    if (Object.keys(error)?.length) {
+      toast.error(error[Object.keys(error)[0]]);
+      setValidationError(error);
+      console.log("error", error);
       return;
     } else {
-      if (templateId == "" || templateId == 0) {
-        console.log(templateId);
-        toast.warning("Please select email template first");
-      } else {
-        setIsOpensend(true);
-      }
+      setIsOpensend(true);
     }
   };
 
@@ -730,9 +737,9 @@ const AutoEmail = () => {
           <div className="row">
             <div className="top-header">
               <div className="template_builder-option">
-              {/* <h2>Auto Email</h2> */}
-              {
-                localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" && (
+                {/* <h2>Auto Email</h2> */}
+                {localStorage.getItem("user_id") ==
+                  "B7SHpAc XDXSH NXkN0rdQ==" && (
                   <div className="template_language">
                     <span>Language</span>
                     <div className="form-group">
@@ -744,8 +751,7 @@ const AutoEmail = () => {
                       />
                     </div>
                   </div>
-                )
-              }
+                )}
               </div>
               <div className="top-right-action">
                 {templateClicked ? (
@@ -890,27 +896,47 @@ const AutoEmail = () => {
                         <div className="form-inline row justify-content-between align-items-center">
                           <div className="form-group col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
-                              Email Subject Line <span classname="astrick">*</span>
+                              Email Subject Line{" "}
+                              <span classname="astrick">*</span>
                             </label>
                             <input
                               type="text"
-                              className="form-control"
+                              className={
+                                validationError?.emailSubject
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
                               id="email-desc"
                               onChange={(e) => emailSubjectChanged(e)}
                               value={emailSubject}
                             />
+                            {validationError?.emailSubject ? (
+                              <div className="login-validation">
+                                {validationError?.emailSubject}
+                              </div>
+                            ) : null}
                           </div>
                           <div className="form-group right-side col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
-                              Email description <span classname="astrick">*</span>{" "}
+                              Email description{" "}
+                              <span classname="astrick">*</span>{" "}
                             </label>
                             <input
                               type="text"
-                              className="form-control"
+                              className={
+                                validationError?.emailDescription
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
                               id="email-address"
                               onChange={(e) => emailDescriptionChanged(e)}
                               value={emailDescription}
                             />
+                            {validationError?.emailDescription ? (
+                              <div className="login-validation">
+                                {validationError?.emailDescription}
+                              </div>
+                            ) : null}
                           </div>
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
@@ -1264,7 +1290,9 @@ const AutoEmail = () => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email <span>*</span></label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
                                     className="form-control"

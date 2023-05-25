@@ -478,7 +478,7 @@ const ReadersListAdd = () => {
     try {
       const new_obj = [...readersData, ...getNewReaders];
       // console.log(new_obj);
-      await postData(ENDPOINT.INSERTBULKREADERS, readersData);
+      await postData(ENDPOINT.INSERTBULKREADERS, new_obj);
       loader("hide");
       navigate("/readers-view");
     } catch (err) {
@@ -1163,7 +1163,9 @@ const ReadersListAdd = () => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email <span>*</span></label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
                                     className="form-control"

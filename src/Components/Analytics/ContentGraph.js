@@ -98,6 +98,7 @@ const ContentGraph = () => {
 
   useEffect(() => {
     getDataFromApi();
+     window.scrollTo(0, 0);
   }, []);
 
   const getDataFromApi = async (type = "all") => {
