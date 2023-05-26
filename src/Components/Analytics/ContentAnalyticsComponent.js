@@ -60,6 +60,8 @@ export default function ContentAnalyticsComponent({ data }) {
     data: Object.values(values),
   }));
 
+  console.log("series_data-->",series_data);
+
   // Get the categories from the first series data
   let categories = Object.keys(data[Object.keys(data)[0]]);
   return (
@@ -183,9 +185,8 @@ export default function ContentAnalyticsComponent({ data }) {
               value={data.uniqueReader}
               color="#f4c64b"
               limit={agreed_limit}
-              label={`Unique Reader (total) Agreed Limit | ${
-                data?.limit == 0 ? "Unlimited" : data?.limit
-              }`}
+              label={`Unique Reader (total) Agreed Limit | ${data?.limit == 0 ? "Unlimited" : data?.limit
+                }`}
             />
 
             <ContentAnalyticsComponentActivityGauge
@@ -286,6 +287,14 @@ export default function ContentAnalyticsComponent({ data }) {
                   title: {
                     text: "",
                   },
+                  legend: {
+                    reversed: true,
+                    align: "center",
+                    verticalAlign: "bottom",
+                    layout: "horizontal",
+                    x: 0,
+                    y: 0,
+                  },
                   plotOptions: {
                     series: {
                       dataLabels: {
@@ -306,6 +315,7 @@ export default function ContentAnalyticsComponent({ data }) {
                           fontWeight: "normal",
                           textShadow: "none",
                         },
+                          y: -10,
                         formatter: function () {
                           return (
                             "<div className=" +
@@ -318,6 +328,7 @@ export default function ContentAnalyticsComponent({ data }) {
                             Highcharts.numberFormat(this.y, 0) +
                             "</strong></div>"
                           );
+                          
                         },
                       },
                     },

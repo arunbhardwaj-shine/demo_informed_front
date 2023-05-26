@@ -609,6 +609,7 @@ const [tableDataIbu, setTableDataIbu] = useState({
   });
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     initiFun();
     getDataFromApi();
   }, []);
