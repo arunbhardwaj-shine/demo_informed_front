@@ -240,6 +240,7 @@ const desiredMonths = seriesMonth.slice(1);
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getDataFromApi();
   }, []);
 
