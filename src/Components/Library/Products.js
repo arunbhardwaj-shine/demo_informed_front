@@ -38,7 +38,13 @@ function Products() {
   });
   const [SelectType, setSelectType] = useState([
     { value: 1, label: "Products" },
-    { value: 2, label: "Tags" },
+    {
+      value: 2,
+      label:
+        localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ=="
+          ? "Topics"
+          : "Tags",
+    },
   ]);
   const [BusinessUnitAll, setBusinessUnitAll] = useState([
     { value: 0, label: "All Units" },
@@ -183,7 +189,6 @@ function Products() {
                       options={BusinessUnitAll}
                       defaultValue={BusinessUnitAll?.[0]}
                       placeholder="Select business unit"
-                      
                       onChange={(e) =>
                         setNewValue({ ...newValue, category: e?.value })
                       }
@@ -234,7 +239,8 @@ function Products() {
                               }}
                             >
                               <img
-                                title="Delete" src={path_image + "delete-icon.svg"}
+                                title="Delete"
+                                src={path_image + "delete-icon.svg"}
                                 alt="Delete Row"
                               />
                             </button>
@@ -250,7 +256,8 @@ function Products() {
                               }}
                             >
                               <img
-                                title="Edit" src={path_image + "edit-purple.svg"}
+                                title="Edit"
+                                src={path_image + "edit-purple.svg"}
                                 alt="Delete Row"
                               />
                             </button>
