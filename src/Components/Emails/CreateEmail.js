@@ -130,6 +130,7 @@ const CreateEmail = (props) => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
   const [validator] = React.useState(new SimpleReactValidator());
+  const [validationError, setValidationError] = useState({});
 
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
@@ -980,15 +981,34 @@ const CreateEmail = (props) => {
 
   const searchHcp = async (e) => {
     e.preventDefault();
-    if (name == "" && email == "") {
-      toast.warning("Please enter name or email first");
+
+    // if (name == "" && email == "") {
+    //   toast.warning("Please enter name or email first");
+    // }
+    // else {
+    //   const body = {
+    //     user_id: localStorage.getItem("user_id"),
+    //     name: name,
+    //     email: email,
+    //   };
+    let error = {};
+    if (name == "") {
+      error.name = "Please enter name";
+    }
+    if (email == "") {
+      error.email = "Please enter email";
+    }
+    if (Object.keys(error)?.length) {
+      toast.error(error[Object.keys(error)[0]]);
+      setValidationError(error);
+      console.log("--->", error);
+      return;
     } else {
       const body = {
         user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
       };
-
       //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
@@ -1877,22 +1897,44 @@ const CreateEmail = (props) => {
                     <div className="col-12 col-md-8">
                       <div className="row justify-content-between align-items-center">
                         <div className="form-group col-sm-5">
-                          <label htmlFor="hcp-name">Name</label>
+                          <label htmlFor="hcp-name">
+                            Name<span>*</span>
+                          </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              validationError?.name
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             onChange={(e) => nameChanged(e)}
                             id=""
                           />
+                          {validationError?.name ? (
+                            <div className="login-validation">
+                              {validationError?.name}
+                            </div>
+                          ) : null}
                         </div>
                         <div className="form-group col-sm-5">
-                          <label htmlFor="hcp-email">Email </label>
+                          <label htmlFor="hcp-email">
+                            Email<span>*</span>{" "}
+                          </label>
                           <input
                             type="mail"
                             onChange={(e) => emailChanged(e)}
-                            className="form-control"
+                            className={
+                              validationError?.email
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             id=""
                           />
+                          {validationError?.email ? (
+                            <div className="login-validation">
+                              {validationError?.email}
+                            </div>
+                          ) : null}
                         </div>
                         <div className="form-group col-sm-2">
                           <button
