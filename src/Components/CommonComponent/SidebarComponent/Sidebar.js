@@ -610,7 +610,7 @@ const Sidebar = () => {
                         fillOpacity="0.6"
                       />
                     </svg>
-                    {localStorage.getItem("group_id") == 3 &&
+                    {/* {localStorage.getItem("group_id") == 3 &&
                     localStorage.getItem("user_id") !=
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                       <p>Products & Tags</p>
@@ -621,7 +621,18 @@ const Sidebar = () => {
                           <p>Topics</p>
                         ) : null}
                       </>
-                    )}
+                    )} */}
+                    {localStorage.getItem("group_id") == 3 ? (
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <p>Topics</p>
+                      ) : localStorage.getItem("user_id") ==
+                        "B7SHpAc XDXSH NXkN0rdQ==" ? (
+                        <p>Products & Topics</p>
+                      ) : (
+                        <p>Products & Tags</p>
+                      )
+                    ) : null}
                   </Link>
                 </li>
               )}
