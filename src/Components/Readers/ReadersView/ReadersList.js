@@ -1418,25 +1418,12 @@ const NewReaders = () => {
                                 <span>{key} |</span>
                               </div>
                               <div className="filter-div-list">
-                                {filterObject[key]?.includes("All") ? (
-                                  <div
+                                 {filterObject[key]?.includes("All") ? (
+                                   <div
                                     className="filter-result"
-                                    // id={item}
-                                    // rt={index}
-                                    
-                                  >
-                                    {"All"}
-                                    {/* {key == "draft" && item == "0"
-                                      ? "live"
-                                      : key == "draft" && item == "1"
-                                      ? "draft"
-                                      : key == "Registered For Title"
-                                      ? filterdata?.[
-                                          "Registered For Title"
-                                        ]?.find((element) => element.id == item)
-                                          ?.title
-                                      : item} */}
-                                    <img
+                                   >
+                                      {"All"}
+                                      <img
                                       src={path_image + "filter-close.svg"}
                                       onClick={(event) => {
                                         removeindividualfilter(key, "All");
@@ -1452,8 +1439,7 @@ const NewReaders = () => {
                                         className="filter-result"
                                         id={item}
                                         rt={index}
-                                     
-                                      >
+ b                                      >
                                         {key == "draft" && item == "0"
                                           ? "live"
                                           : key == "draft" && item == "1"

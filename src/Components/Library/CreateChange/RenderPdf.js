@@ -218,6 +218,7 @@ const optimizeSinglePagePdf = () => {
               {
                 typeof url !== "undefined" && (
                   <>
+                  
                     <MessageModel
                       show={commanShow}
                       onClose={modalClose}
@@ -232,15 +233,10 @@ const optimizeSinglePagePdf = () => {
                     }
 
                         <div style={{ height: '750px' }} id="pdf_view_box">
-                          <div onScroll={scrollEve} className={previewArticle?"previewArticle":"scroll_pdf"}>
+                          <div onScroll={scrollEve} className={previewArticle?"scroll_pdf":"scroll_pdf"}>
                           <Viewer
                             onPageChange={handlePageChange}
                             onDocumentLoad={handleDocumentLoad}
-                            renderLoader={(percentages) => (
-                              <div style={{ width: '240px' }}>
-                                  <ProgressBar progress={Math.round(percentages)} />
-                              </div>
-                          )}
                             renderMode = "canvas"
                             fileUrl={url}
                           />
