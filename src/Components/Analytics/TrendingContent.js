@@ -30,8 +30,8 @@ const TrendingContent = () => {
   const activeTab = useRef(1);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getDataFromApi();
-     window.scrollTo(0, 0);
   }, []);
 
   const getDataFromApi = async (type = "all") => {

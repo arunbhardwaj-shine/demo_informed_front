@@ -622,14 +622,13 @@ const NewReaders = () => {
       );
     }
   };
-  const handleTimeLine = (data)=>{
-    
-    window.open("/timeline-detail")
-    localStorage.setItem("myData",data)
+  const handleTimeLine = (data) => {
+    window.open("/timeline-detail");
+    localStorage.setItem("myData", data);
     // const windowProps = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=1200, height=800`;
     //  newWindow = window.open("/timeline-detail", " ", "");
     //  newWindow.opener.postMessage({readerId:data}," ")
-  }
+  };
 
   const onSiteNumberChange = (e, i, index) => {
     const selectedSiteNumber = e.value;
@@ -989,8 +988,9 @@ const NewReaders = () => {
 
     if (Object.keys(old_object)?.length !== 0) {
       setFilterObject(old_object);
-      // setApifilterObject(old_object2);
+
       setReaderDataList([]);
+      setAppliedFilter(old_object);
       getReaderListData(page, old_object);
     } else {
       let obj = {};
@@ -1983,11 +1983,11 @@ const NewReaders = () => {
                               <div className="data-main-footer-sec">
                                 <div className="data-main-footer-sec-inner">
                                   <div className="footer-btn d-flex justify-content-end">
-                                    <button 
-                                     className="btn btn-primary btn-bordered"
-                                    onClick={()=>handleTimeLine(data?.id )}>
-
-                                    See time line
+                                    <button
+                                      className="btn btn-primary btn-bordered"
+                                      onClick={() => handleTimeLine(data?.id)}
+                                    >
+                                      See time line
                                     </button>
                                     {/* <Link
                                       className="btn btn-primary btn-bordered"
@@ -2338,7 +2338,6 @@ const NewReaders = () => {
                                             User status
                                           </h6>
                                           <div className="select-dropdown-wrapper">
-                                            
                                             <div className="select">
                                               <Select
                                                 options={types}
