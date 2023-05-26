@@ -180,7 +180,6 @@ const AutoEmail = () => {
       error.emailDescription = "Please enter the email description";
     }
     if (templateId == "" || templateId == 0) {
-      // console.log(templateId);
       error.templateId = "Please select email template first";
     }
 

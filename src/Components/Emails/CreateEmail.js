@@ -651,7 +651,6 @@ const CreateEmail = (props) => {
   };
 
   const closeModal = () => {
-    //console.log("closed");
     setIsOpen(false);
   };
 
@@ -767,12 +766,9 @@ const CreateEmail = (props) => {
 
       navigate("/SelectHCP");
     } else {
-      //console.log("show error messages");
-      //console.log(validator.errorMessages);
       validator.showMessages();
       setRenderAfterValidation(renderAfterValidation + 1);
     }
-    console.log("valid", validator.showMessages());
   };
 
   const approvedClicked = async (e) => {
@@ -925,10 +921,18 @@ const CreateEmail = (props) => {
     //  console.log(selectedHcp);
 
     event.preventDefault();
+    let error = {};
+
     if (templateId == "" || templateId == 0) {
-      toast.warning("Please select email template first");
-    } else if (emailSubject == "" || emailSubject == 0) {
-      toast.warning("Please select email subject first");
+      error.templateId = "Please select email template first";
+    }
+    if (emailSubject == "" || emailSubject == 0) {
+      error.emailSubject = "Please select email subject first";
+    }
+    if (Object.keys(error)?.length) {
+      setValidationError(error);
+      toast.error(error[Object.keys(error)[0]]);
+      return;
     } else {
       setIsOpensend(true);
     }
@@ -1001,7 +1005,6 @@ const CreateEmail = (props) => {
     if (Object.keys(error)?.length) {
       toast.error(error[Object.keys(error)[0]]);
       setValidationError(error);
-      console.log("--->", error);
       return;
     } else {
       const body = {
@@ -1155,7 +1158,7 @@ const CreateEmail = (props) => {
       const status = body.data.map((data) => {
         if (data.email == "") {
           setValidationError({ newHcpEmail: "Please enter the email atleast" });
-          // return "Please enter the email atleast";
+
           return;
         } else if (data.email != "") {
           let email = data.email;
@@ -1167,14 +1170,14 @@ const CreateEmail = (props) => {
               setValidationError({
                 newHcpEmail: "User with same email already added in list.",
               });
-              // return "User with same email already added in list.";
+
               return;
             } else {
               return "true";
             }
           } else {
             setValidationError({ newHcpEmail: "Email format is not valid" });
-            // return "Email format is not valid";
+
             return;
           }
         } else {
@@ -1524,6 +1527,7 @@ const CreateEmail = (props) => {
 
                   <input type="hidden" id="mail_template" value={templateId} />
                   {validator.message("Templates", templateId, "required")}
+
                   <div className="email-form">
                     <form>
                       <div className="form-inline row justify-content-between align-items-center">
@@ -1653,7 +1657,7 @@ const CreateEmail = (props) => {
                                 "emailSubject",
                                 emailSubject,
                                 "required"
-                              )
+                              ) || validationError?.emailSubject
                                 ? "form-control error"
                                 : "form-control"
                             }
@@ -1661,6 +1665,11 @@ const CreateEmail = (props) => {
                             onChange={(e) => emailSubjectChanged(e)}
                             value={emailSubject}
                           />
+                          {validationError?.emailSubject ? (
+                            <div className="login-validation">
+                              {validationError?.emailSubject}
+                            </div>
+                          ) : null}
                           {validator.message(
                             "emailSubject",
                             emailSubject,
