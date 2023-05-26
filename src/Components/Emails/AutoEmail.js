@@ -180,14 +180,14 @@ const AutoEmail = () => {
       error.emailDescription = "Please enter the email description";
     }
     if (templateId == "" || templateId == 0) {
-      console.log(templateId);
+      // console.log(templateId);
       error.templateId = "Please select email template first";
     }
 
     if (Object.keys(error)?.length) {
       toast.error(error[Object.keys(error)[0]]);
       setValidationError(error);
-      console.log("error", error);
+
       return;
     } else {
       setIsOpensend(true);
