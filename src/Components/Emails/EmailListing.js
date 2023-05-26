@@ -2039,8 +2039,8 @@ const EmailList = (props) => {
                         <th scope="col">Country</th>
                         <th scope="col">Business Unit</th>
                         {/* <th scope="col">Contact Type</th> */}
-                        <th scope="col">Opened</th>
-                        <th scope="col">CTR Clicked</th>
+                        {/* <th scope="col">Opened</th> */}
+                        {/* <th scope="col">CTR Clicked</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -2066,8 +2066,8 @@ const EmailList = (props) => {
                             </td>
                             <td> {item?.ibu}</td>
                             {/* <td> {item?.contact_type} </td> */}
-                            <td>{item?.opened ? item?.opened : "N/A"}</td>
-                            <td>{item?.ctr ? item?.ctr : "N/A"}</td>
+                            {/* <td>{item?.opened ? item?.opened : "N/A"}</td> */}
+                            {/* <td>{item?.ctr ? item?.ctr : "N/A"}</td> */}
                           </tr>
                         ))
                       ) : readerDetailsData.length == 0 ? (
