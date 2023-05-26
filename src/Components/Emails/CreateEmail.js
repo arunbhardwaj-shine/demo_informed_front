@@ -1645,7 +1645,7 @@ const CreateEmail = (props) => {
                         </div>
                       </div>
                       <div className="form-inline row justify-content-end align-items-center">
-                        <div className="form-group col-12 col-md-7">
+                        <div className="form-group col-12 col-md-5">
                           <label htmlFor="exampleInputEmail1">
                             Email Subject <span>*</span>
                           </label>
@@ -1676,7 +1676,7 @@ const CreateEmail = (props) => {
                             "required"
                           )}
                         </div>
-                        <div className="form-buttons right-side col-12 col-md-5">
+                        <div className="form-buttons right-side col-12 col-md-7">
                           <button
                             className="btn btn-primary btn-filled"
                             onClick={(e) => updateTemplate(e)}

@@ -1636,8 +1636,21 @@ ul.tabnav-link li {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  position: relative;
 }
 
+.create-smart-step-box .form-group {
+  position: relative;
+}
+
+.create-smart-step-box .form-group .login-validation {
+  position: static;
+}
+
+.email-form form .form-inline .login-validation {
+  top: 70px;
+  left: 30px;
+}
 
 .email-form {
   padding: 0;
