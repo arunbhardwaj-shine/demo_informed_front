@@ -220,7 +220,7 @@ const LibraryContent = (props) => {
       if (
         key == "draft" ||
         key == "ibu" ||
-        key == "Selected By   " ||
+        key == "Selected By Articles" ||
         key == "SPC Included" ||
         key == "Blinded" ||
         key == "Mandatory" ||
@@ -1114,9 +1114,7 @@ const LibraryContent = (props) => {
                                 {filterObject[key]?.map((item, index) => (
                                   <div
                                     className="filter-result"
-                                    onClick={() =>
-                                      removeindividualfilter(key, item)
-                                    }
+                                  
                                   >
                                     {key == "draft" && item == "0"
                                       ? "live"
@@ -1125,6 +1123,9 @@ const LibraryContent = (props) => {
                                       : item}
                                     <img
                                       src={path_image + "filter-close.svg"}
+                                      onClick={() =>
+                                        removeindividualfilter(key, item)
+                                      }
                                       alt="Close-filter"
                                     />
                                   </div>
