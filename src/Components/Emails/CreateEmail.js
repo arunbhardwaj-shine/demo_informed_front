@@ -932,6 +932,7 @@ const CreateEmail = (props) => {
     if (Object.keys(error)?.length) {
       setValidationError(error);
       toast.error(error[Object.keys(error)[0]]);
+      return;
     } else {
       setIsOpensend(true);
     }
@@ -1004,7 +1005,6 @@ const CreateEmail = (props) => {
     if (Object.keys(error)?.length) {
       toast.error(error[Object.keys(error)[0]]);
       setValidationError(error);
-      console.log("--->", error);
       return;
     } else {
       const body = {
@@ -1158,7 +1158,7 @@ const CreateEmail = (props) => {
       const status = body.data.map((data) => {
         if (data.email == "") {
           setValidationError({ newHcpEmail: "Please enter the email atleast" });
-          // return "Please enter the email atleast";
+
           return;
         } else if (data.email != "") {
           let email = data.email;
@@ -1170,14 +1170,14 @@ const CreateEmail = (props) => {
               setValidationError({
                 newHcpEmail: "User with same email already added in list.",
               });
-              // return "User with same email already added in list.";
+
               return;
             } else {
               return "true";
             }
           } else {
             setValidationError({ newHcpEmail: "Email format is not valid" });
-            // return "Email format is not valid";
+
             return;
           }
         } else {
