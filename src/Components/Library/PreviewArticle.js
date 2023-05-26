@@ -1,20 +1,21 @@
 
 import RenderPdf from "./CreateChange/RenderPdf";
-import { useLocation, Link } from "react-router-dom";
-
 const handleNext = () =>{
     
 }
 const PreviewArticle = () =>{
     return (
-      
-             <RenderPdf
+      <div className="test">
+    <RenderPdf
                     next = "0"
                     url= {window.data}
                     handleNext ={handleNext}
                     hidePopup = "1"
                     previewArticle={true}
                   />
+      </div>
+      
+         
     )
  }
  export default PreviewArticle

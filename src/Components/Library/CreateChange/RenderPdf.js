@@ -7,7 +7,7 @@ import {
   DropdownButton,
   Form,
   Row,
-  ProgressBar,
+  // ProgressBar,
   Tab,
   Tabs,
 } from "react-bootstrap";
@@ -23,7 +23,7 @@ import packageJson from '../../../../package.json';
 // import  Viewer, { Worker } from '@phuocng/react-pdf-viewer';
 import  Viewer from '@phuocng/react-pdf-viewer';
 import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
-import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps  } from '@react-pdf-viewer/core';
+import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps,ProgressBar} from '@react-pdf-viewer/core';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const RenderPdf = ({
   next,
@@ -77,9 +77,7 @@ const RenderPdf = ({
         };
 
         wordData.push(wordsInfo);
-        console.log(wordData);
         // setWordData(...wordData,wordsInfo);
-        // console.log(words);
   		}
   	}, 300);
     // console.log(e.currentPage);
@@ -166,7 +164,6 @@ const dataURLtoBlob = (dataURL) => {
 }
 
 const modalClose = (value) => {
-    // console.log("Hello am done");
     setCommanShow(false);
     updatePublish();
 }
@@ -175,13 +172,10 @@ const scrollEve = (event) => {
   const target = event.target;
   if(target.scrollHeight - target.scrollTop === target.clientHeight)
    {
-     // console.log(numPages);
-     // console.log(typeof numPages);
      if(numPages == 1){
        optimizeSinglePagePdf();
      }
    }
-  // console.log("HEIRE");
 }
 
 const optimizeSinglePagePdf = () => {
@@ -199,9 +193,7 @@ const optimizeSinglePagePdf = () => {
             "page" : 1,
             "total" : words,
           };
-
           wordData.push(wordsInfo);
-          console.log(wordData);
         }
       }, 300);
 
@@ -244,6 +236,11 @@ const optimizeSinglePagePdf = () => {
                           <Viewer
                             onPageChange={handlePageChange}
                             onDocumentLoad={handleDocumentLoad}
+                            renderLoader={(percentages) => (
+                              <div style={{ width: '240px' }}>
+                                  <ProgressBar progress={Math.round(percentages)} />
+                              </div>
+                          )}
                             renderMode = "canvas"
                             fileUrl={url}
                           />

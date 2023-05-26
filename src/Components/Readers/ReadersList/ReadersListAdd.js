@@ -723,13 +723,8 @@ const ReadersListAdd = () => {
           setNewReaders(combine_new_readers_array);
         }
         combine_data_manual = [...new_data, ...old_data];
-        console.log("body data", body_data);
-        console.log("reader data", readersData);
-        let mydata = [...readersData, ...getNewReaders, ...body_data];
-        console.log("my data", mydata);
         setReadersData(old_data);
         setUpdatedData(old_data);
-        // setIsOpen(false);
         setIsOpenAdd(false);
       } else {
         status.sort();
