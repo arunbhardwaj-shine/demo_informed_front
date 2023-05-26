@@ -1154,7 +1154,9 @@ const CreateEmail = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "Please enter the email atleast";
+          setValidationError({ newHcpEmail: "Please enter the email atleast" });
+          // return "Please enter the email atleast";
+          return;
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -1162,12 +1164,18 @@ const CreateEmail = (props) => {
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = selectedHcp.find((x) => x.email === useremail);
             if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+              });
+              // return "User with same email already added in list.";
+              return;
             } else {
               return "true";
             }
           } else {
-            return "Email format is not valid";
+            setValidationError({ newHcpEmail: "Email format is not valid" });
+            // return "Email format is not valid";
+            return;
           }
         } else {
           return "true";
@@ -1881,6 +1889,7 @@ const CreateEmail = (props) => {
                 setIsOpensend(false);
                 setSelectedHcp([]);
                 setSearchedUsers([]);
+                setValidationError({});
               }}
             ></button>
           </Modal.Header>
@@ -2355,6 +2364,7 @@ const CreateEmail = (props) => {
               onClick={() => {
                 setIsOpenAdd(false);
                 setIsOpensend(true);
+                setValidationError({});
                 setHpc([
                   {
                     firstname: "",
@@ -2421,7 +2431,11 @@ const CreateEmail = (props) => {
                                   </label>
                                   <input
                                     type="email"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpEmail
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     id="email-desc"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
@@ -2429,6 +2443,11 @@ const CreateEmail = (props) => {
                                     }
                                     value={val.email}
                                   />
+                                  {validationError?.newHcpEmail ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpEmail}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
