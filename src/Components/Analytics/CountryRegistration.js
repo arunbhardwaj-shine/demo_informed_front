@@ -105,7 +105,7 @@ const CountryRegistration = () => {
           keys: ["code", "value"],
           tooltip: {
             headerFormat: "",
-            pointFormat: "Total Registration: {point.totalIndex}",
+            pointFormat: '<span style="font-weight: bold">Total Registration : {point.totalIndex}</span>',
           },
           showInLegend: false,
           marker: {
