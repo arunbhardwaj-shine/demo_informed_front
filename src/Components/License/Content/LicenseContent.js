@@ -72,6 +72,7 @@ const LicenseContent = (props) => {
   let obj = {};
   const [userId, setUserId] = useState();
   const [filterObject, setFilterObject] = useState({});
+  const [appliedFilter, setAppliedFilter] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
   const [filterdata, setFilterData] = useState({
@@ -155,10 +156,10 @@ const LicenseContent = (props) => {
       }
     }
 
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
@@ -197,7 +198,7 @@ const LicenseContent = (props) => {
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
-    let newObj = filterObject;
+    let newObj = JSON.parse(JSON.stringify(appliedFilter));
     if (!newObj[key]) {
       newObj[key] = [];
     }
@@ -234,7 +235,8 @@ const LicenseContent = (props) => {
       }
     }
 
-    setFilterObject(newObj);
+    // setFilterObject(newObj);
+    setAppliedFilter(newObj);
     setForceRender(!forceRender);
   };
 
@@ -288,8 +290,8 @@ const LicenseContent = (props) => {
     e.preventDefault();
     setLibraryData([]);
     setFilterApplyflag(1);
-    setFilterObject(filterObject);
-    getLibraryData(page, filterObject, search);
+    setFilterObject(appliedFilter);
+    getLibraryData(page, appliedFilter, search);
 
     setShowFilter(false);
   };
@@ -470,6 +472,10 @@ const LicenseContent = (props) => {
 
   const removeindividualfilter = (key, item) => {
     let old_object = filterObject;
+    if (item == "All") {
+      old_object[key]?.includes(item);
+      delete old_object[key];
+    }
 
     const index = old_object[key]?.indexOf(item);
     if (index > -1) {
@@ -478,11 +484,12 @@ const LicenseContent = (props) => {
         delete old_object[key];
       }
     }
-    console.log("length--->", Object.keys(old_object)?.length);
+
     if (!Object.keys(old_object)?.length) {
       setFilterApplyflag(0);
     }
     setFilterObject(old_object);
+    setAppliedFilter(old_object);
     setLibraryData([]);
     getLibraryData(page, old_object);
   };
@@ -812,7 +819,7 @@ const LicenseContent = (props) => {
                   }
                 >
                   <button
-                   ref={buttonRef}
+                    ref={buttonRef}
                     className={
                       Object.keys(filterObject).length > 0
                         ? "btn btn-secondary dropdown filter_applied"
@@ -873,7 +880,7 @@ const LicenseContent = (props) => {
                   </button>
                   {showfilter && (
                     <div
-                    ref={filterRef}
+                      ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -910,7 +917,7 @@ const LicenseContent = (props) => {
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
                                                       checked={
-                                                        filterObject[
+                                                        appliedFilter[
                                                           key
                                                         ]?.includes(item)
                                                           ? true
@@ -1064,24 +1071,49 @@ const LicenseContent = (props) => {
                                 <span>{key} |</span>
                               </div>
                               <div className="filter-div-list">
-                                {filterObject[key]?.map((item, index) => (
-                                  <div
-                                    className="filter-result"
-                                    onClick={(event) =>
-                                      removeindividualfilter(key, item)
-                                    }
-                                  >
-                                    {key == "draft" && item == "0"
-                                      ? "live"
-                                      : key == "draft" && item == "1"
-                                      ? "draft"
-                                      : item}
-                                    <img
-                                      src={path_image + "filter-close.svg"}
-                                      alt="Close-filter"
-                                    />
-                                  </div>
-                                ))}
+                                {filterObject[key]?.includes("All") ? (
+                                  <>
+                                    <div
+                                      className="filter-result"
+                                      onClick={(event) =>
+                                        removeindividualfilter(key, "All")
+                                      }
+                                    >
+                                      {"All"}
+                                      {/* {key == "draft" && item == "0"
+                                        ? "live"
+                                        : key == "draft" && item == "1"
+                                        ? "draft"
+                                        : item} */}
+                                      <img
+                                        src={path_image + "filter-close.svg"}
+                                        alt="Close-filter"
+                                      />
+                                    </div>
+                                  </>
+                                ) : (
+                                  <>
+                                    {" "}
+                                    {filterObject[key]?.map((item, index) => (
+                                      <div
+                                        className="filter-result"
+                                        onClick={(event) =>
+                                          removeindividualfilter(key, item)
+                                        }
+                                      >
+                                        {key == "draft" && item == "0"
+                                          ? "live"
+                                          : key == "draft" && item == "1"
+                                          ? "draft"
+                                          : item}
+                                        <img
+                                          src={path_image + "filter-close.svg"}
+                                          alt="Close-filter"
+                                        />
+                                      </div>
+                                    ))}
+                                  </>
+                                )}
                               </div>
                             </div>
                           ) : null}
@@ -2028,8 +2060,8 @@ const LicenseContent = (props) => {
                 ) : null}
               </>
             </div>
-          
-              <div className="load_more">
+
+            <div className="load_more">
               {isLoaded == true ? (
                 <Button
                   className="btn btn-primary btn-filled"
@@ -2037,8 +2069,8 @@ const LicenseContent = (props) => {
                 >
                   Load More
                 </Button>
-            ) : null}
-              </div>
+              ) : null}
+            </div>
 
             {pageAll == true ? (
               <div
