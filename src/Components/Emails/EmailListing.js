@@ -2040,7 +2040,7 @@ const EmailList = (props) => {
                         <th scope="col">Business Unit</th>
                         {/* <th scope="col">Contact Type</th> */}
                         {/* <th scope="col">Opened</th> */}
-                        {/* <th scope="col">CTR Clicked</th> */}
+                        {/* <th scope="col"> Clicked</th> */}
                       </tr>
                     </thead>
                     <tbody>

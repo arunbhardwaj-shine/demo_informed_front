@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Button, Col, Image, Row } from "react-bootstrap";
-import Highcharts from "highcharts";
+import Highcharts, { color } from "highcharts";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import { loader } from "../../loader";
@@ -148,7 +148,17 @@ const RenderLayout = ({ data }) => {
                           <strong>Company:</strong> {element.company}
                         </h5>
                         <h5 className="status">
-                          <strong>Status:</strong> <span>{status}</span>
+                          {/* <strong>Status:</strong> <span>{status}</span> */}
+                          <strong>Status:</strong>{" "}
+                          <span
+                            style={
+                              status == "active"
+                                ? { color: "green" }
+                                : { color: "red" }
+                            }
+                          >
+                            {status}
+                          </span>
                         </h5>
                         <h5 className="author_by">
                           <strong>Url code:</strong> {element.code}

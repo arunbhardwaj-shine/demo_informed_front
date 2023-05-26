@@ -38,6 +38,7 @@ const CreateSmartList = () => {
   const [dataRetrieved, setDataRetrieved] = useState(false);
   const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [validator] = React.useState(new SimpleReactValidator());
+  const [validationError, setValidationError] = useState({});
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -47,10 +48,18 @@ const CreateSmartList = () => {
   };
   const handleShow = () => {
     setShowAlertPopup(false);
+    let error = {};
     if (!smartListName.trim()) {
-      toast.warning("Please enter the smart list name first");
-    } else if (!creatorName.trim()) {
-      toast.warning("Please enter the creator name");
+      error.smartListName = "Please enter the smart list name first";
+    }
+    if (!creatorName.trim()) {
+      error.creatorName = "Please enter the creator name";
+    }
+
+    if (Object.keys(error)?.length) {
+      setValidationError(error);
+      toast.error(error[Object.keys(error)[0]]);
+      return;
     } else {
       setShow(true);
       var element = document.querySelector(".upload-opt");
@@ -112,11 +121,19 @@ const CreateSmartList = () => {
     var element = document.querySelector("." + elm);
     var element2 = document.querySelector(".upload-opt");
     element2.classList.remove("active");
-
+    let error = {};
     if (!smartListName.trim()) {
-      toast.warning("Please enter the smart list name first.");
-    } else if (!creatorName.trim()) {
-      toast.warning("Please enter the creator name");
+      error.smartListName = "Please enter the smart list name first";
+      // toast.warning("Please enter the smart list name first.");
+    }
+    if (!creatorName.trim()) {
+      error.creatorName = "Please enter the creator name";
+      // toast.warning("Please enter the creator name");
+    }
+    if (Object.keys(error)?.length) {
+      setValidationError(error);
+      toast.error(error[Object.keys(error)[0]]);
+      return;
     } else {
       if (element.classList.contains("active")) {
         element.classList.remove("active");
@@ -302,20 +319,40 @@ const CreateSmartList = () => {
                           </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              validationError?.smartListName
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             value={smartListName}
                             onChange={(event) => handleSmartListName(event)}
                           />
+                          {validationError?.smartListName ? (
+                            <div className="login-validation">
+                              {validationError?.smartListName}
+                            </div>
+                          ) : null}
                         </div>
 
                         <div className="form-group col">
-                          <label htmlFor="creator-name">Creator’s Name <span>*</span></label>
+                          <label htmlFor="creator-name">
+                            Creator’s Name <span>*</span>
+                          </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              validationError?.creatorName
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             value={creatorName}
                             onChange={(event) => handleCreatorName(event)}
                           />
+                          {validationError?.creatorName ? (
+                            <div className="login-validation">
+                              {validationError?.creatorName}
+                            </div>
+                          ) : null}
                         </div>
 
                         <div className="form-group col-sm-12">
