@@ -8,8 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 import queryString from "query-string";
 
-
-  function useScrollDirection() {
+function useScrollDirection() {
   const [scrollDirection, setScrollDirection] = React.useState(null);
 
   React.useEffect(() => {
@@ -18,7 +17,10 @@ import queryString from "query-string";
     const updateScrollDirection = () => {
       const scrollY = window.pageYOffset;
       const direction = scrollY > lastScrollY ? "down" : "up";
-      if (direction !== scrollDirection && (scrollY - lastScrollY > 5 || scrollY - lastScrollY < -5)) {
+      if (
+        direction !== scrollDirection &&
+        (scrollY - lastScrollY > 5 || scrollY - lastScrollY < -5)
+      ) {
         setScrollDirection(direction);
       }
       lastScrollY = scrollY > 0 ? scrollY : 0;
@@ -26,16 +28,15 @@ import queryString from "query-string";
     window.addEventListener("scroll", updateScrollDirection); // add event listener
     return () => {
       window.removeEventListener("scroll", updateScrollDirection); // clean up
-    }
+    };
   }, [scrollDirection]);
 
   return scrollDirection;
-};
-
+}
 
 const Header = () => {
   const queryParams = queryString.parse(window.location.search);
-    const scrollDirection = useScrollDirection();
+  const scrollDirection = useScrollDirection();
   const [getUserName, setUserName] = useState("");
   const navigate = useNavigate();
 
@@ -49,7 +50,6 @@ const Header = () => {
       navigate(redirect_info);
     }
   };
-
 
   const logout = () => {
     localStorage.clear();
@@ -112,7 +112,11 @@ const Header = () => {
           <span className="loader-view"> </span>
         </div>
       </div>
-      <header className={`sticky ${ scrollDirection === "down" ? "-top-24" : "top-0"} h-24 bg-blue-200 transition-all duration-500`} >
+      <header
+        className={`sticky ${
+          scrollDirection === "down" ? "-top-24" : "top-0"
+        } h-24 bg-blue-200 transition-all duration-500`}
+      >
         <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
             <Link
@@ -220,7 +224,15 @@ const Header = () => {
                       localStorage.getItem("group_id") == 2
                         ? "/content-analytics"
                         : localStorage.getItem("user_id") ==
-                          "B7SHpAc XDXSH NXkN0rdQ=="
+                            "B7SHpAc XDXSH NXkN0rdQ==" ||
+                          localStorage.getItem("user_id") ==
+                            "UbCJcnLM9fe HsRMgX8c1A==" ||
+                          localStorage.getItem("user_id") ==
+                            "wW0geGtDPvig5gF 6KbJrg==" ||
+                          localStorage.getItem("user_id") ==
+                            "z2TunmZQf3QwCsICFTLGGQ==" ||
+                          localStorage.getItem("user_id") ==
+                            "qDgwPdToP05Kgzc g2VjIQ=="
                         ? "/totalhcp"
                         : localStorage.getItem("user_id") ==
                           "iSnEsKu5gB/DRlycxB6G4g=="
