@@ -842,8 +842,6 @@ const ReaderEdit = () => {
                     ) : (
                       ""
                     )}
-                    {userInputs?.country ? (
-                      <>
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">
                             Country <span>*</span>
@@ -873,11 +871,6 @@ const ReaderEdit = () => {
                             ""
                           )}
                         </Form.Group>
-                      </>
-                    ) : (
-                      ""
-                    )}
-
                     {userInputs ? (
                       <>
                         {groupId == 3 && flag == 1 ? (

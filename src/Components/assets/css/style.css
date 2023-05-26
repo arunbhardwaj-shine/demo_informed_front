@@ -1636,8 +1636,21 @@ ul.tabnav-link li {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  position: relative;
 }
 
+.create-smart-step-box .form-group {
+  position: relative;
+}
+
+.create-smart-step-box .form-group .login-validation {
+  position: static;
+}
+
+.email-form form .form-inline .login-validation {
+  top: 70px;
+  left: 30px;
+}
 
 .email-form {
   padding: 0;
@@ -2210,6 +2223,14 @@ form .input-group {
 .form-search-hcp .form-inline .form-group .login-validation {
   top: 45px;
   right: 15px;
+}
+
+#add_hcp .modal-body .hcp-add-form form .form-group {
+  position: relative;
+}
+
+#add_hcp .modal-body .hcp-add-form form .form-group .login-validation {
+  top: 47px;
 }
 
 .form-search-hcp .form-inline .form-group label {

@@ -1423,9 +1423,7 @@ const NewReaders = () => {
                                     className="filter-result"
                                     // id={item}
                                     // rt={index}
-                                    onClick={(event) => {
-                                      removeindividualfilter(key, "All");
-                                    }}
+                                    
                                   >
                                     {"All"}
                                     {/* {key == "draft" && item == "0"
@@ -1440,6 +1438,9 @@ const NewReaders = () => {
                                       : item} */}
                                     <img
                                       src={path_image + "filter-close.svg"}
+                                      onClick={(event) => {
+                                        removeindividualfilter(key, "All");
+                                      }}
                                       alt="Close-filter"
                                     />
                                   </div>
@@ -1451,9 +1452,7 @@ const NewReaders = () => {
                                         className="filter-result"
                                         id={item}
                                         rt={index}
-                                        onClick={(event) => {
-                                          removeindividualfilter(key, item);
-                                        }}
+                                     
                                       >
                                         {key == "draft" && item == "0"
                                           ? "live"
@@ -1468,6 +1467,9 @@ const NewReaders = () => {
                                           : item}
                                         <img
                                           src={path_image + "filter-close.svg"}
+                                          onClick={(event) => {
+                                            removeindividualfilter(key, item);
+                                          }}
                                           alt="Close-filter"
                                         />
                                       </div>
