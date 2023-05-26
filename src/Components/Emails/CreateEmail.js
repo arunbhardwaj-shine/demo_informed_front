@@ -130,6 +130,7 @@ const CreateEmail = (props) => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
   const [validator] = React.useState(new SimpleReactValidator());
+  const [validationError, setValidationError] = useState({});
 
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
@@ -980,15 +981,34 @@ const CreateEmail = (props) => {
 
   const searchHcp = async (e) => {
     e.preventDefault();
-    if (name == "" && email == "") {
-      toast.warning("Please enter name or email first");
+
+    // if (name == "" && email == "") {
+    //   toast.warning("Please enter name or email first");
+    // }
+    // else {
+    //   const body = {
+    //     user_id: localStorage.getItem("user_id"),
+    //     name: name,
+    //     email: email,
+    //   };
+    let error = {};
+    if (name == "") {
+      error.name = "Please enter name";
+    }
+    if (email == "") {
+      error.email = "Please enter email";
+    }
+    if (Object.keys(error)?.length) {
+      toast.error(error[Object.keys(error)[0]]);
+      setValidationError(error);
+      console.log("--->", error);
+      return;
     } else {
       const body = {
         user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
       };
-
       //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
@@ -1134,7 +1154,9 @@ const CreateEmail = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "Please enter the email atleast";
+          setValidationError({ newHcpEmail: "Please enter the email atleast" });
+          // return "Please enter the email atleast";
+          return;
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -1142,12 +1164,18 @@ const CreateEmail = (props) => {
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = selectedHcp.find((x) => x.email === useremail);
             if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+              });
+              // return "User with same email already added in list.";
+              return;
             } else {
               return "true";
             }
           } else {
-            return "Email format is not valid";
+            setValidationError({ newHcpEmail: "Email format is not valid" });
+            // return "Email format is not valid";
+            return;
           }
         } else {
           return "true";
@@ -1861,6 +1889,7 @@ const CreateEmail = (props) => {
                 setIsOpensend(false);
                 setSelectedHcp([]);
                 setSearchedUsers([]);
+                setValidationError({});
               }}
             ></button>
           </Modal.Header>
@@ -1877,22 +1906,44 @@ const CreateEmail = (props) => {
                     <div className="col-12 col-md-8">
                       <div className="row justify-content-between align-items-center">
                         <div className="form-group col-sm-5">
-                          <label htmlFor="hcp-name">Name</label>
+                          <label htmlFor="hcp-name">
+                            Name<span>*</span>
+                          </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              validationError?.name
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             onChange={(e) => nameChanged(e)}
                             id=""
                           />
+                          {validationError?.name ? (
+                            <div className="login-validation">
+                              {validationError?.name}
+                            </div>
+                          ) : null}
                         </div>
                         <div className="form-group col-sm-5">
-                          <label htmlFor="hcp-email">Email </label>
+                          <label htmlFor="hcp-email">
+                            Email<span>*</span>{" "}
+                          </label>
                           <input
                             type="mail"
                             onChange={(e) => emailChanged(e)}
-                            className="form-control"
+                            className={
+                              validationError?.email
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             id=""
                           />
+                          {validationError?.email ? (
+                            <div className="login-validation">
+                              {validationError?.email}
+                            </div>
+                          ) : null}
                         </div>
                         <div className="form-group col-sm-2">
                           <button
@@ -2313,6 +2364,7 @@ const CreateEmail = (props) => {
               onClick={() => {
                 setIsOpenAdd(false);
                 setIsOpensend(true);
+                setValidationError({});
                 setHpc([
                   {
                     firstname: "",
@@ -2379,7 +2431,11 @@ const CreateEmail = (props) => {
                                   </label>
                                   <input
                                     type="email"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpEmail
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     id="email-desc"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
@@ -2387,6 +2443,11 @@ const CreateEmail = (props) => {
                                     }
                                     value={val.email}
                                   />
+                                  {validationError?.newHcpEmail ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpEmail}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
