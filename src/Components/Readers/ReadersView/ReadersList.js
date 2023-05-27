@@ -373,7 +373,7 @@ const NewReaders = () => {
         key == "region" ||
         key == "IRT" ||
         key == "Blinded" ||
-        key == "Accounts" ||
+        key == "Content Owners" ||
         key == "List"
       ) {
         if (key == "region") {
@@ -1220,7 +1220,7 @@ const NewReaders = () => {
                                                     <input
                                                       type={
                                                         key == "status" ||
-                                                        key == "Accounts" ||
+                                                        key == "Content Owners" ||
                                                         key == "contact Type" ||
                                                         key == "userAction" ||
                                                         key == "Blinded" ||

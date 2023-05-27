@@ -225,7 +225,7 @@ const LibraryContent = (props) => {
         key == "Blinded" ||
         key == "Mandatory" ||
         key == "List" ||
-        key == "Account Owners" ||
+        key == "Content Owners" ||
         key == "language" ||
         key == "Business Unit" ||
         key == "Platform"
@@ -952,7 +952,7 @@ const LibraryContent = (props) => {
                                                         key ==
                                                           "Business Unit" ||
                                                         key ==
-                                                          "Account Owners" ||
+                                                          "Content Owners" ||
                                                         key == "Platform"
                                                           ? "radio"
                                                           : "checkbox"
