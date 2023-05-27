@@ -37,8 +37,13 @@ import EditLicense from "./Components/License/CreateChange/EditLicense";
 import AnalyticsHeader from "./Components/Analytics/Layout/Header";
 import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
 import TrendingContent from "./Components/Analytics/TrendingContent";
+import CanadaTrendingContent  from "./Components/Analytics/CanadaTrendingContent"
 import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 import CisStats from "./Components/Analytics/CisStats";
+import CanadaDeliveryRegistration from "./Components/Analytics/CanadaDeliveryRegistration"
+
+import CanadaDeliveryTrends from "./Components/Analytics/CanadaDeliveryTrends"
+import CanadaTrendingTopic from  "./Components/Analytics/CanadaTrendingTopics" 
 import TopClients from "./Components/Analytics/TopClients";
 import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
@@ -107,6 +112,7 @@ import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar"
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
 import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintelLink";
 import SpcView from "./Components/Library/SpcView";
+import CanadaContentType from "./Components/Analytics/CanadaContentType"
 import SpcRender from "./Components/Library/SpcRender";
 import SpcEdit from "./Components/Library/SpcEdit";
 import SetPopup from "./Components/Library/CreateChange/SetPopup";
@@ -221,13 +227,38 @@ const Routing = () => {
 
           <Route path="/trending-content"  element={<LoginLayout component={TrendingContent} /> }/>
 
-          <Route
+         
+           <Route
               path="/octa-trending-content"
               element={<LoginLayout component={TrendingContentOcta} /> }
             />
 
           <Route path="/top-clients"
            element={<LoginLayout component={TopClients} /> } />
+
+
+          <Route
+            path="/canada-content-type"
+            element={<LoginLayout component={CanadaContentType} /> }
+          />
+          <Route
+            path="/canada-delivery-trends"
+            element={<LoginLayout component={CanadaDeliveryTrends} /> }
+          />
+
+        <Route
+            path="/canada-delivery-registration"
+            element={<LoginLayout component={CanadaDeliveryRegistration} /> }
+          />
+           <Route
+              path="/canada-trending-topic"
+              element={<LoginLayout component={CanadaTrendingTopic} /> }
+            />
+
+          <Route
+            path="/canada-trending-content"
+            element={<LoginLayout component={CanadaTrendingContent} /> }
+          />
 
           <Route
             path="/octa-country-registration"
