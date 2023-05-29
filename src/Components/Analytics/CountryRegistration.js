@@ -283,7 +283,7 @@ const CountryRegistration = () => {
           };
         }
       ).filter(Boolean);
-  console.log("countryData",countryData);
+
 
       setNewData(countryData);
 
@@ -368,7 +368,6 @@ const CountryRegistration = () => {
         ];
       }
 
-      console.log("tableDatas",tableDatas);
       
       const newTable = {
         ...tableData,
