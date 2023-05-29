@@ -1240,7 +1240,7 @@ const AutoEmail = () => {
                     country: "",
                   },
                 ]);
-                document.querySelector("#file-4").value = "";
+                // document.querySelector("#file-4").value = "";
                 setActiveManual("active");
                 setActiveExcel("");
               }}
@@ -1576,13 +1576,15 @@ const AutoEmail = () => {
                               />
                               {data.readers_count}
                             </div>
-                            <div className="smartlist-buttons">
-                              <button className="btn btn-primary btn-bordered view">
-                                <a onClick={() => openSmartListPopup(data.id)}>
-                                  View
-                                </a>
-                              </button>
-                            </div>
+                            {
+                              /*<div className="smartlist-buttons">
+                                <button className="btn btn-primary btn-bordered view">
+                                  <a onClick={() => openSmartListPopup(data.id)}>
+                                    View
+                                  </a>
+                                </button>
+                              </div>*/
+                            }
                           </div>
                         </div>
                       </div>
