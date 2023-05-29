@@ -132,6 +132,7 @@ const Sidebar = () => {
           window.location.pathname == "/SelectHCP" ||
           window.location.pathname == "/VerifyHCP" ||
           window.location.pathname == "/VerifyMAIL" ||
+          window.location.pathname == "/verifyMAIL" ||
           window.location.pathname == "/VerifyHcpMAIL" ||
           window.location.pathname == "/SelectSmartListUsers" ||
           window.location.pathname == "/VerifySmartList" ||
