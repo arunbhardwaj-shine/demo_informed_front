@@ -1110,15 +1110,15 @@ const TemplateBuilder = (props) => {
   };
 
   const handleScroll = (ev) => {
-    if (ev.target.scrollTop > 20) {
+    // if (ev.target.scrollTop > 20) {
       // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
-      document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
-    } else {
+    //   document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
+    // } else {
       // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
-      document
-        .querySelector("#mail-view")
-        .setAttribute("custom-atr", "non-scroll");
-    }
+    //   document
+    //     .querySelector("#mail-view")
+    //     .setAttribute("custom-atr", "non-scroll");
+    // }
   };
 
   const closeCreateNewTemplateClicked = (event) => {
@@ -1969,7 +1969,6 @@ const TemplateBuilder = (props) => {
                     country: "",
                   },
                 ]);
-                document.querySelector("#file-4").value = "";
                 setActiveManual("active");
                 setActiveExcel("");
               }}
