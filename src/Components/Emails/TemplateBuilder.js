@@ -1281,6 +1281,22 @@ const TemplateBuilder = (props) => {
     console.log(e);
   };
 
+
+  const replaceDangerHtml = (dynamicTempHtml) => {
+    const modifiedContent = dynamicTempHtml?.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', '');
+    var pattern = /<img[^>]+src="([^"]*)"[^>]*>/g;
+
+    // Replace the matching img tags with a new string
+    var modifiedString = modifiedContent?.replace(pattern, function(match, src) {
+      if (src === '###coverpath###') {
+        return '';
+      } else {
+        return match; // Keep the original img tag if the src doesn't match
+      }
+    });
+    return modifiedString;
+  }
+
   return (
     <>
       <div className="col right-sidebar">
@@ -2367,9 +2383,7 @@ const TemplateBuilder = (props) => {
                 className="thumbnail_email_view"
                 ref={ref}
                 dangerouslySetInnerHTML={{
-                  __html: templateSaving != "" ?
-                    templateSaving?.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', '')
-                  : template?.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', ''),
+                  __html: templateSaving != "" ? replaceDangerHtml(templateSaving) : replaceDangerHtml(template)
                 }}
               ></div>
             </div>
