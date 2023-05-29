@@ -163,13 +163,11 @@ const LibraryContent = (props) => {
     };
   }, []);
 
-  const handleSpcFun = (data) =>{
-
-    let newWindow = ""
-    newWindow = window.open("/article_preview")
-    newWindow.data = data
-
-  }
+  const handleSpcFun = (data) => {
+    let newWindow = "";
+    newWindow = window.open("/article_preview");
+    newWindow.data = data;
+  };
 
   const applyFilters = async () => {
     try {
@@ -197,7 +195,7 @@ const LibraryContent = (props) => {
     // setPageAllClicked(true);
     // setPage(2);
     // setType("rest");
-   loader("hide");
+    loader("hide");
   };
 
   const submitHandler = (event) => {
@@ -232,7 +230,7 @@ const LibraryContent = (props) => {
       ) {
         newObj[key] = [];
         newObj[key]?.push(item);
-        otherObj[key] = []
+        otherObj[key] = [];
         otherObj[key]?.push(item);
       } else {
         if (item == "All") {
@@ -1112,10 +1110,7 @@ const LibraryContent = (props) => {
 
                               <div className="filter-div-list">
                                 {filterObject[key]?.map((item, index) => (
-                                  <div
-                                    className="filter-result"
-                                  
-                                  >
+                                  <div className="filter-result">
                                     {key == "draft" && item == "0"
                                       ? "live"
                                       : key == "draft" && item == "1"
@@ -1371,22 +1366,27 @@ const LibraryContent = (props) => {
                                 deletestatus == false ? (
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn-wrapper">
-                                      {
-                                        data?.spc_included? (
-                                          <>
-                                          <button  className="footer-btn" onClick={()=>handleSpcFun(data?.spcFile)}>
-                                          Preview content
+                                      {data?.spc_included ? (
+                                        <>
+                                          <button
+                                            className="footer-btn"
+                                            onClick={() =>
+                                              handleSpcFun(data?.spcFile)
+                                            }
+                                          >
+                                            Preview content
                                           </button>
-                                          </>
-                                        ): <a
-                                        className="footer-btn"
-                                        href={data?.previewArticle}
-                                        target="_blank"
-                                      >
-                                        Preview content
-                                      </a>
-                                      }
-                                     
+                                        </>
+                                      ) : (
+                                        <a
+                                          className="footer-btn"
+                                          href={data?.previewArticle}
+                                          target="_blank"
+                                        >
+                                          Preview content
+                                        </a>
+                                      )}
+
                                       <Button
                                         onClick={() => {
                                           commonModelFun();
@@ -2154,8 +2154,8 @@ const LibraryContent = (props) => {
                     <p>No Data Found</p>
                   </div>
                 ) : null}
-                
-                  <div className="load_more">
+
+                <div className="load_more">
                   {isLoaded == true ? (
                     <Button
                       className="btn btn-primary btn-filled"
@@ -2163,9 +2163,8 @@ const LibraryContent = (props) => {
                     >
                       Load More
                     </Button>
-                    ) : null}
-                  </div>
-             
+                  ) : null}
+                </div>
 
                 {pageAll == true ? (
                   <div
