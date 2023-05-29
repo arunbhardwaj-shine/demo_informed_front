@@ -4129,6 +4129,11 @@ form#add_hcp_form .row:not(:first-child) {
   font-size: 14px;
 }
 
+.create_smart_list .create-smart-step .create-smart-step-box form .form-control.error,
+.modal .add_hcp_boxes .form-group input.error {
+  box-shadow: 0px 1px 6px rgb(214 25 117 / 60%);
+}
+
 .create-smart-step-box .form-group.col {
   max-width: 456px;
 }
