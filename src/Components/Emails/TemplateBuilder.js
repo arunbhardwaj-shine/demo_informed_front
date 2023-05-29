@@ -1120,15 +1120,15 @@ const TemplateBuilder = (props) => {
   };
 
   const handleScroll = (ev) => {
-    if (ev.target.scrollTop > 20) {
-      // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
-      document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
-    } else {
-      // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
-      document
-        .querySelector("#mail-view")
-        .setAttribute("custom-atr", "non-scroll");
-    }
+    // if (ev.target.scrollTop > 20) {
+    // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
+    //   document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
+    // } else {
+    // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
+    //   document
+    //     .querySelector("#mail-view")
+    //     .setAttribute("custom-atr", "non-scroll");
+    // }
   };
 
   const closeCreateNewTemplateClicked = (event) => {
@@ -1289,6 +1289,27 @@ const TemplateBuilder = (props) => {
   const onTemplateTypeChange = (e) => {
     setTemplateType(e);
     console.log(e);
+  };
+
+  const replaceDangerHtml = (dynamicTempHtml) => {
+    const modifiedContent = dynamicTempHtml?.replace(
+      '<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
+    var pattern = /<img[^>]+src="([^"]*)"[^>]*>/g;
+
+    // Replace the matching img tags with a new string
+    var modifiedString = modifiedContent?.replace(
+      pattern,
+      function (match, src) {
+        if (src === "###coverpath###") {
+          return "";
+        } else {
+          return match; // Keep the original img tag if the src doesn't match
+        }
+      }
+    );
+    return modifiedString;
   };
 
   return (
@@ -1979,7 +2000,6 @@ const TemplateBuilder = (props) => {
                     country: "",
                   },
                 ]);
-                document.querySelector("#file-4").value = "";
                 setActiveManual("active");
                 setActiveExcel("");
               }}
@@ -2391,14 +2411,8 @@ const TemplateBuilder = (props) => {
                 dangerouslySetInnerHTML={{
                   __html:
                     templateSaving != ""
-                      ? templateSaving.replace(
-                          '<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
-                          ""
-                        )
-                      : template.replace(
-                          '<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
-                          ""
-                        ),
+                      ? replaceDangerHtml(templateSaving)
+                      : replaceDangerHtml(template),
                 }}
               ></div>
             </div>

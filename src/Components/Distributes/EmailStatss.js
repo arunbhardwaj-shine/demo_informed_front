@@ -96,8 +96,7 @@ const EmailStats = (props) => {
       .post(`distributes/resend_campaign_with_all_pending_readers`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
-          console.log(res.data.response.data.campaign_id);
-          draftNavigate(res.data.response.data.campaign_id);
+          draftNavigate(res.data.response.data.campaign_id, res?.data?.response?.data?.user_data);
         } else {
           toast.warning(res.data.message);
           loader("hide");
@@ -109,7 +108,7 @@ const EmailStats = (props) => {
       });
   };
 
-  const draftNavigate = async (campaign_id) => {
+  const draftNavigate = async (campaign_id,readerData) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: campaign_id,
@@ -121,6 +120,7 @@ const EmailStats = (props) => {
       .then((res) => {
         if (res.data.status_code == 200) {
           let campaign_data = res.data.response.data;
+          campaign_data.campaign_data.selectedHcp =  readerData;
           let route = res.data.response.data.route_location;
           props.getDraftData(campaign_data);
           if (campaign_data?.smart_list_data) {
@@ -275,7 +275,7 @@ const EmailStats = (props) => {
               <div className="table_xls search_view">
                 <div className="smart-list-btns">
                   <div className="top-right-action">
-                    
+
                   </div>
                 </div>
               </div>
