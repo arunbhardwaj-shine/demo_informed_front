@@ -22,7 +22,7 @@ const Totalhcp = () => {
   const [hcpOptions, setHcpOptions] = useState({
     chart: {
       type: "bar",
-      height: 1000,
+      height: 800,
     },
     title: {
       text: "Total HCPs",
@@ -292,6 +292,23 @@ const Totalhcp = () => {
                   "B7SHpAc XDXSH NXkN0rdQ==" ? (
                   <p>
                     These are based on registrations from the whole CIS/CEE
+                    region.
+                  </p>
+                ) : localStorage.getItem("user_id") ==
+                  "wW0geGtDPvig5gF 6KbJrg==" ? (
+                  <p>
+                    These are based on registrations from the whole LATAM
+                    region.
+                  </p>
+                ) : localStorage.getItem("user_id") ==
+                  "z2TunmZQf3QwCsICFTLGGQ==" ? (
+                  <p>
+                    These are based on registrations from the whole MENA region.
+                  </p>
+                ) : localStorage.getItem("user_id") ==
+                  "qDgwPdToP05Kgzc g2VjIQ==" ? (
+                  <p>
+                    These are based on registrations from the whole MAXICO
                     region.
                   </p>
                 ) : null}
