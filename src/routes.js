@@ -238,7 +238,7 @@ const Routing = () => {
           element={<LoginLayout component={CanadaDeliveryRegistration} />}
         />
         <Route
-          path="/analytic-trending-topic"
+          path="/analytic-trending-topics"
           element={<LoginLayout component={CanadaTrendingTopic} />}
         />
         <Route
