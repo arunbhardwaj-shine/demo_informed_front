@@ -63,6 +63,7 @@ const ViewTable = (props) => {
   const [reRenders, setReRenders] = useState(0);
 
   const [validator3Counter, setValidator3Counter] = useState(0);
+  const [validationError, setValidationError] = useState({});
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
@@ -1139,7 +1140,7 @@ const ViewTable = (props) => {
     } else {
       if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
         let consetValue = e.value;
-        if(e.value == "B&H"){
+        if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
         }
 
@@ -1300,7 +1301,8 @@ const ViewTable = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "Please enter the email atleast";
+          setValidationError({ newHcpEmail: "Please enter the email atleast" });
+          return;
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -1310,12 +1312,16 @@ const ViewTable = (props) => {
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = editList.find((x) => x.email === useremail);
             if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+              });
+              return;
             } else {
               return "true";
             }
           } else {
-            return "Email format is not valid";
+            setValidationError({ newHcpEmail: "Email format is not valid" });
+            return;
           }
         } else {
           return "true";
@@ -1999,10 +2005,16 @@ const ViewTable = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email <span>*</span></label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpEmail
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     id="email-desc"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
@@ -2010,6 +2022,11 @@ const ViewTable = (props) => {
                                     }
                                     value={val.email}
                                   />
+                                  {validationError?.newHcpEmail ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpEmail}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
 

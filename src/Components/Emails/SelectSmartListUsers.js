@@ -56,6 +56,7 @@ const SelectSmartListUsers = (props) => {
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [validationError, setValidationError] = useState({});
 
   // const smartListSelected = location.state
   //   ? location.state.smartListSelected
@@ -656,7 +657,8 @@ const SelectSmartListUsers = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "Please enter the email atleast";
+          setValidationError({ newHcpEmail: "Please enter the email atleast" });
+          return;
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -664,13 +666,17 @@ const SelectSmartListUsers = (props) => {
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = readers.find((x) => x.email === useremail);
             if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+              });
+              return;
             } else {
               return "true";
             }
             return "true";
           } else {
-            return "Email format is not valid";
+            setValidationError({ newHcpEmail: "Email format is not valid" });
+            return;
           }
         } else {
           return "true";
@@ -1319,10 +1325,16 @@ const SelectSmartListUsers = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email <span>*</span></label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpEmail
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     id="email-desc"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
@@ -1330,6 +1342,11 @@ const SelectSmartListUsers = (props) => {
                                     }
                                     value={val.email}
                                   />
+                                  {validationError?.newHcpEmail ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpEmail}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
