@@ -122,6 +122,7 @@ const TrendingTopics = () => {
   }, []);
 
   const handleTabChange = (event) => {
+    window.scrollTo(0, 0);
     setIsDataFound(false);
     activeTab.current = event;
     setSectionLoader(true);

@@ -1110,15 +1110,15 @@ const TemplateBuilder = (props) => {
   };
 
   const handleScroll = (ev) => {
-    if (ev.target.scrollTop > 20) {
+    // if (ev.target.scrollTop > 20) {
       // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
-      document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
-    } else {
+    //   document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
+    // } else {
       // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
-      document
-        .querySelector("#mail-view")
-        .setAttribute("custom-atr", "non-scroll");
-    }
+    //   document
+    //     .querySelector("#mail-view")
+    //     .setAttribute("custom-atr", "non-scroll");
+    // }
   };
 
   const closeCreateNewTemplateClicked = (event) => {
@@ -1969,7 +1969,6 @@ const TemplateBuilder = (props) => {
                     country: "",
                   },
                 ]);
-                document.querySelector("#file-4").value = "";
                 setActiveManual("active");
                 setActiveExcel("");
               }}
@@ -2369,8 +2368,8 @@ const TemplateBuilder = (props) => {
                 ref={ref}
                 dangerouslySetInnerHTML={{
                   __html: templateSaving != "" ?
-                    templateSaving.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', '')
-                  : template.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', ''),
+                    templateSaving?.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', '')
+                  : template?.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', ''),
                 }}
               ></div>
             </div>
