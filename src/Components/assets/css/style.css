@@ -5593,6 +5593,8 @@ button.btn.btn-primary.btn.btn-primary.disabled {
   border-radius: 30px;
   border: 0;
   height: 48px;
+  width: 100%;
+  max-width: 100%;
 }
 
 #save_new_template_action_modal form {
