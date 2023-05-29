@@ -1201,6 +1201,11 @@ const Sidebar = () => {
               window.location.pathname == "/trending-content" ||
               window.location.pathname == "/content-type" ||
               window.location.pathname == "/content-analytics" ||
+              window.location.pathname == "/analytic-trending-topics" ||
+              window.location.pathname == "/analytic-delivery-registration" ||
+              window.location.pathname == "/analytic-delivery-trends" ||
+              window.location.pathname == "/analytic-trending-content" ||
+              window.location.pathname == "/analytic-content-type" ||
               window.location.pathname == "/campaign-stats" ? (
                 <ul>
                   <li
@@ -1264,12 +1269,12 @@ const Sidebar = () => {
                   </li>
                   <li
                     className={
-                      location.pathname == "/campaign-stats"
+                      location.pathname == "/campaign-stats" ||   location.pathname ==  "/analytic-delivery-registration"
                         ? "active"
                         : "side_li"
                     }
                   >
-                    <Link to={"/campaign-stats"}>
+                    <Link to={localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? "/campaign-stats" : "/analytic-delivery-registration"}>
                       <svg
                         version="1.0"
                         xmlns="http://www.w3.org/2000/svg"
@@ -1296,12 +1301,12 @@ const Sidebar = () => {
                   </li>
                   <li
                     className={
-                      location.pathname == "/delivery-stats"
+                      location.pathname == "/delivery-stats" || location.pathname ==  "/analytic-delivery-trends"
                         ? "active"
                         : "side_li"
                     }
                   >
-                    <Link to={"/delivery-stats"}>
+                    <Link to={localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? "/delivery-stats" : "/analytic-delivery-trends" }>
                       <svg
                         version="1.0"
                         xmlns="http://www.w3.org/2000/svg"
@@ -1328,12 +1333,12 @@ const Sidebar = () => {
                   </li>
                   <li
                     className={
-                      location.pathname == "/trending-topics"
+                      location.pathname ==  "/trending-topics" || location.pathname == "/analytic-trending-topics"
                         ? "active"
                         : "side_li"
                     }
                   >
-                    <Link to={"/trending-topics"}>
+                    <Link to={localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?  "/trending-topics" : "/analytic-trending-topics"}>
                       <svg
                         version="1.0"
                         xmlns="http://www.w3.org/2000/svg"
@@ -1360,12 +1365,12 @@ const Sidebar = () => {
                   </li>
                   <li
                     className={
-                      location.pathname == "/trending-content"
+                      location.pathname == "/trending-content" || location.pathname == "/analytic-trending-content"
                         ? "active"
                         : "side_li"
                     }
                   >
-                    <Link to={"/trending-content"}>
+                    <Link to={localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? "/trending-content" : "/analytic-trending-content"}>
                       <svg
                         version="1.0"
                         xmlns="http://www.w3.org/2000/svg"
@@ -1392,12 +1397,12 @@ const Sidebar = () => {
                   </li>
                   <li
                     className={
-                      location.pathname == "/content-type"
+                      location.pathname == "/content-type" || location.pathname == "/analytic-content-type"
                         ? "active"
                         : "side_li"
                     }
                   >
-                    <Link to={"/content-type"}>
+                    <Link to={localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? "/content-type" : "/analytic-content-type"}>
                       <svg
                         width="24"
                         height="24"

@@ -210,6 +210,11 @@ const Header = () => {
                     window.location.pathname == "/octa-trending-content" ||
                     window.location.pathname == "/content-type" ||
                     window.location.pathname == "/octalatch-totalhcp" ||
+                    window.location.pathname == "/analytic-trending-topics" ||
+        					  window.location.pathname == "/analytic-delivery-registration" ||
+        					  window.location.pathname == "/analytic-delivery-trends" ||
+        					  window.location.pathname == "/analytic-trending-content" ||
+        					  window.location.pathname == "/analytic-content-type" ||
                     window.location.pathname == "/octa-country" ||
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
