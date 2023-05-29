@@ -22,6 +22,7 @@ const CountryRegistration = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getDataFromApi();
   }, []);
 
@@ -137,6 +138,7 @@ const CountryRegistration = () => {
     };
   }, [newData]);
 
+
   // country list
   const [countryList, SetCountryList] = useState({
     chart: {
@@ -238,7 +240,6 @@ const CountryRegistration = () => {
         month,
       });
       const apiData = response.data;
-      console.log("ssssssssssssssss",apiData);
       const countryData = apiData.data.coordination.map(
         (coordObject, index) => {
           const [lat, lon] = Object.values(coordObject)[0].split("~");
@@ -264,7 +265,7 @@ const CountryRegistration = () => {
           };
         }
       ).filter(Boolean);
-      console.log(countryData);
+  
       setNewData(countryData);
 
       const newSeries = [
@@ -414,7 +415,7 @@ const CountryRegistration = () => {
                 </Form>
               </div>
               <div className="high_charts">
-                {newData.length ? (
+                {newData.length || newData.length === 0 ? (
                   <MemoizedMap data={newData} options={mapOptions} />
                 ) : null}
               </div>
@@ -464,7 +465,7 @@ const CountryRegistration = () => {
                     </div>
                   </div>
                 </div>
-              ) : isLoaded && newData.length > 0 ? (
+              ) : isLoaded && newData.length >= 0 ? (
                 <div className="no_found">
                   <p>No Data Found</p>
                 </div>
