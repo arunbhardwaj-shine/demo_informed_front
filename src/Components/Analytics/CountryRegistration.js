@@ -54,6 +54,16 @@ const CountryRegistration = () => {
 
   // for map
   const mapOptions = useMemo(() => {
+
+    let zoomCoordinates;
+
+    const userId = localStorage.getItem("user_id");
+    if (userId === "qDgwPdToP05Kgzc g2VjIQ==" ||  userId === "wW0geGtDPvig5gF 6KbJrg==" || userId === "UbCJcnLM9fe HsRMgX8c1A==") {
+      zoomCoordinates = { lat: 19.41944, lon: -99.14556 };
+    } else {
+      zoomCoordinates = { lat: 7000, lon:41.1533 };
+    }
+
     return {
       chart: {
         type: "map",
@@ -61,8 +71,16 @@ const CountryRegistration = () => {
         height: "60%",
         events: {
           load: function () {
-            this.mapZoom(0.5, 7000, 41.1533);
-          },
+          const lat = zoomCoordinates.lat;
+          const lon = zoomCoordinates.lon; 
+          const zoom = 0.5;
+          const map = this;
+          const center = map.fromLatLonToPoint({
+            lat: lat,
+            lon: lon,
+          });
+          map.mapZoom(zoom, center.x, center.y);
+        },
         },
       },
       title: {
@@ -153,7 +171,7 @@ const CountryRegistration = () => {
     },
     yAxis: {
       title: {
-        text: "Number of Cases",
+        text: "Country",
       },
       stackLabels: {
         enabled: true,
@@ -265,10 +283,11 @@ const CountryRegistration = () => {
           };
         }
       ).filter(Boolean);
-  
+  console.log("countryData",countryData);
+
       setNewData(countryData);
 
-      const newSeries = [
+      let newSeries = [
         {
           name: `Critical_care`,
           data: apiData.data?.critical_care,
@@ -285,6 +304,18 @@ const CountryRegistration = () => {
           color: Highcharts?.getOptions()?.colors[0],
         },
       ];
+
+      const userIdLine = localStorage.getItem("user_id");
+      if (userIdLine === "UbCJcnLM9fe HsRMgX8c1A==" || userIdLine === "wW0geGtDPvig5gF 6KbJrg==" || userIdLine === "z2TunmZQf3QwCsICFTLGGQ==" || userIdLine === "qDgwPdToP05Kgzc g2VjIQ==") {
+        newSeries = [
+          {
+            name: `Haematology`,
+            data: apiData.data?.haematology,
+            color: Highcharts?.getOptions()?.colors[1],
+          },
+        ];
+      }
+
       const categories = apiData.data?.country;
 
       const newCountryList = {
@@ -303,7 +334,7 @@ const CountryRegistration = () => {
       const criticalCare = apiData?.data.critical_care || [];
       const haematology = apiData?.data.haematology || [];
       const immunotherapy = apiData?.data.immunotherapy || [];
-      const tableDatas = [
+      let tableDatas = [
         {
           name: `Critical Care (${criticalCare.reduce(
             (acc, val) => acc + val,
@@ -327,6 +358,18 @@ const CountryRegistration = () => {
         },
       ];
 
+      const userIdTble = localStorage.getItem("user_id");
+      if (userIdTble === "UbCJcnLM9fe HsRMgX8c1A==" || userIdTble === "wW0geGtDPvig5gF 6KbJrg==" || userIdTble === "z2TunmZQf3QwCsICFTLGGQ==" || userIdTble === "qDgwPdToP05Kgzc g2VjIQ==") {
+        tableDatas = [
+          {
+            name: `Haematology (${haematology.reduce((acc, val) => acc + val, 0)})`,
+            data: haematology,
+          },
+        ];
+      }
+
+      console.log("tableDatas",tableDatas);
+      
       const newTable = {
         ...tableData,
         xAxis: {

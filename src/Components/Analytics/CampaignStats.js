@@ -52,8 +52,7 @@ const CampaignStats = () => {
         point: {
           events: {
             drilldown: function (e) {
-              // Handle drilldown event
-              console.log("Drilldown event:", e);
+        
             },
           },
         },
@@ -72,7 +71,6 @@ const CampaignStats = () => {
     },
   });
 
-console.log("campaignStatsPieOptions",campaignStatsPieOptions);
 
   const chart = useRef(null);
   Highcharts.setOptions({
@@ -246,7 +244,7 @@ console.log("campaignStatsPieOptions",campaignStatsPieOptions);
       ];
 
     
-      console.log("drillDownValue", drillDownValue);
+
       setCampaignStatsPieOptions((prevOptions) => {
         const updatedDrilldown = drillDownValue?.[0].series.map((seriesItem) => {
           const { name, id, data } = seriesItem;
@@ -258,7 +256,6 @@ console.log("campaignStatsPieOptions",campaignStatsPieOptions);
           };
         });
       
-        console.log("updatedDrilldown", updatedDrilldown);
       
         return {
           ...prevOptions,
@@ -272,8 +269,6 @@ console.log("campaignStatsPieOptions",campaignStatsPieOptions);
       
       
       
-      
-
  
       // let newValue = [
       //   {
