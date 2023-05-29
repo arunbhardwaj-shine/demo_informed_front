@@ -67,7 +67,7 @@ const CanadaDeliveryTrends = () => {
       const g3_2 = Math.round((g3.total_ctr * 100) / g3.total_opened_2nd);
       const g3_3 = Math.round((g3.total_rtr * 100) / g3.total_opened_2nd);
 
-    //   console.log("-------->>>df3",g2.total_opened_2nd)
+      //   console.log("-------->>>df3",g2.total_opened_2nd)
       // console.log("-------->>>df3",g2)
 
       const g4_1 = g4.total_shared_2nd < 100 ? 100 : g4.total_shared_2nd;
@@ -77,13 +77,12 @@ const CanadaDeliveryTrends = () => {
       const g4_3 = Math.round((g4.total_ctr * 100) / g4.total_shared_2nd);
       const g4_4 = Math.round((g4.total_rtr * 100) / g4.total_shared_2nd);
 
-
       const updatedData = {
         tab: {
           g0: [
             {
               name: "Email Send",
-              
+
               data: [
                 {
                   color: Highcharts.getOptions().colors[0],
@@ -91,7 +90,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "88%",
                   y: g0_1,
                   z: g0.outer_radius,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -104,7 +103,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "63%",
                   y: g0_2,
                   z: g0.total_opened_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -117,7 +116,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "38%",
                   y: g0_3,
                   z: g0.total_ctr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -130,7 +129,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "18%",
                   y: g0_4,
                   z: g0.total_rtr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -145,7 +144,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "88%",
                   y: g1_1,
                   z: g1.outer_radius,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -158,7 +157,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "63%",
                   y: g1_2,
                   z: g1.total_opened_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -171,7 +170,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "38%",
                   y: g1_3,
                   z: g1.total_ctr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -184,7 +183,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "18%",
                   y: g1_4,
                   z: g1.total_rtr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -201,7 +200,7 @@ const CanadaDeliveryTrends = () => {
                   // y: g2_1,
                   y: 100,
                   z: g2.total_opened_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -214,7 +213,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "38%",
                   y: g2_2,
                   z: g2.total_ctr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -227,7 +226,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "18%",
                   y: g2_3,
                   z: g2.total_rtr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -243,7 +242,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "63%",
                   y: 100,
                   z: g3.total_opened_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -256,7 +255,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "38%",
                   y: g3_2,
                   z: g3.total_ctr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -269,7 +268,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "18%",
                   y: g3_3,
                   z: g3.total_rtr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -284,7 +283,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "88%",
                   y: 100,
                   z: g4.total_shared_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -297,7 +296,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "63%",
                   y: g4_2,
                   z: g4.total_shared_2nd,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -310,7 +309,7 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "38%",
                   y: g4_3,
                   z: g4.total_ctr,
-                  p:99
+                  p: 99,
                 },
               ],
             },
@@ -323,48 +322,107 @@ const CanadaDeliveryTrends = () => {
                   innerRadius: "18%",
                   y: g4_4,
                   z: g4.total_rtr,
-                  p:99  
+                  p: 99,
                 },
               ],
             },
           ],
         },
       };
-     
 
+      // const updatedListData = {
+      //   tab: {
+      //     g0: [
+      //       { "Email Sent": `${g0_1}% (${g0.outer_radius})` },
+      //       { "Email Opened": `${g0_2}% (${g0.total_opened_2nd})` },
+      //       { "Content opened": `${g0_3}% (${g0.total_ctr})` },
+      //       { RTR: `${g0_4}% (${g0.total_rtr})` },
+      //     ],
+      //     g1: [
+      //       { "": `${g1_1}% (${g1.outer_radius})` },
+      //       { "": `${g1_2}% (${g1.total_opened_2nd})` },
+      //       { "": `${g1_3}% (${g1.total_ctr})` },
+      //       { "": `${g1_4}% (${g1.total_rtr})` },
+      //     ],
 
+      //     g2: [
+      //       { Activated: `${g2.total_opened_2nd} ` },
+      //       { Opened: `${g2_2}% (${g2.total_ctr})` },
+      //       { RTR: `${g2_3}% (${g2.total_rtr})` },
+      //     ],
+
+      //     g3: [
+      //       { Scanned: `${g3.total_opened_2nd} ` },
+      //       { Registered: `${g3_2}% (${g3.total_ctr})` },
+      //       { RTR: `${g3_3}% (${g3.total_rtr})` },
+      //     ],
+
+      //     g4: [
+      //       { Shared: `${g4.total_shared_2nd} ` },
+      //       { "Content Clicked": `${g4_2}% (${g4.total_opened_2nd})` },
+      //       { Registered: `${g4_3}% (${g4.total_ctr})` },
+      //       { RTR: `${g4_4}% (${g4.total_rtr})` },
+      //     ],
+      //   },
+      // };
       const updatedListData = {
         tab: {
           g0: [
-            { "Email Sent": `${g0_1}% (${g0.outer_radius})` },
-            { "Email Opened": `${g0_2}% (${g0.total_opened_2nd})` },
-            { "Content opened": `${g0_3}% (${g0.total_ctr})` },
-            { RTR: `${g0_4}% (${g0.total_rtr})` },
+            {
+              "Email Sent": `${isNaN(g0_1) ? 0 : g0_1}% (${g0.outer_radius})`,
+            },
+
+            {
+              "Email Opened": `${isNaN(g0_2) ? 0 : g0_2}% (${
+                g0.total_opened_2nd
+              })`,
+            },
+
+            {
+              "Content opened": `${isNaN(g0_3) ? 0 : g0_3}% (${g0.total_ctr})`,
+            },
+
+            { RTR: `${isNaN(g0_4) ? 0 : g0_4}% (${g0.total_rtr})` },
           ],
+
           g1: [
-            { "": `${g1_1}% (${g1.outer_radius})` },
-            { "": `${g1_2}% (${g1.total_opened_2nd})` },
-            { "": `${g1_3}% (${g1.total_ctr})` },
-            { "": `${g1_4}% (${g1.total_rtr})` },
+            { "": `${isNaN(g1_1) ? 0 : g1_1}% (${g1.outer_radius})` },
+
+            { "": `${isNaN(g1_2) ? 0 : g1_2}% (${g1.total_opened_2nd})` },
+
+            { "": `${isNaN(g1_3) ? 0 : g1_3}% (${g1.total_ctr})` },
+
+            { "": `${isNaN(g1_4) ? 0 : g1_4}% (${g1.total_rtr})` },
           ],
 
           g2: [
             { Activated: `${g2.total_opened_2nd} ` },
-            { Opened: `${g2_2}% (${g2.total_ctr})` },
-            { RTR: `${g2_3}% (${g2.total_rtr})` },
+
+            { Opened: `${isNaN(g2_2) ? 0 : g2_2}% (${g2.total_ctr})` },
+
+            { RTR: `${isNaN(g2_3) ? 0 : g2_3}% (${g2.total_rtr})` },
           ],
 
           g3: [
             { Scanned: `${g3.total_opened_2nd} ` },
-            { Registered: `${g3_2}% (${g3.total_ctr})` },
-            { RTR: `${g3_3}% (${g3.total_rtr})` },
+
+            { Registered: `${isNaN(g3_2) ? 0 : g3_2}% (${g3.total_ctr})` },
+
+            { RTR: `${isNaN(g3_3) ? 0 : g3_3}% (${g3.total_rtr})` },
           ],
 
           g4: [
             { Shared: `${g4.total_shared_2nd} ` },
-            { "Content Clicked": `${g4_2}% (${g4.total_opened_2nd})` },
-            { Registered: `${g4_3}% (${g4.total_ctr})` },
-            { RTR: `${g4_4}% (${g4.total_rtr})` },
+
+            {
+              "Content Clicked": `${isNaN(g4_2) ? 0 : g4_2}% (${
+                g4.total_opened_2nd
+              })`,
+            },
+
+            { Registered: `${isNaN(g4_3) ? 0 : g4_3}% (${g4.total_ctr})` },
+
+            { RTR: `${isNaN(g4_4) ? 0 : g4_4}% (${g4.total_rtr})` },
           ],
         },
       };
@@ -388,8 +446,7 @@ const CanadaDeliveryTrends = () => {
     setSectionLoader(true);
     if (event == 1) {
       getDataFromApi("haematology");
-    } 
-   
+    }
   };
 
   return (
@@ -418,7 +475,6 @@ const CanadaDeliveryTrends = () => {
                         </div>
                       ) : null}
                     </Tab>
-                
                   </Tabs>
 
                   {/* {sectionLoader ? ( */}
