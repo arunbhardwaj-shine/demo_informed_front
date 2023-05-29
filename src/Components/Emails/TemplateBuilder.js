@@ -2369,8 +2369,8 @@ const TemplateBuilder = (props) => {
                 ref={ref}
                 dangerouslySetInnerHTML={{
                   __html: templateSaving != "" ?
-                    templateSaving.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', '')
-                  : template.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', ''),
+                    templateSaving?.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', '')
+                  : template?.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', ''),
                 }}
               ></div>
             </div>
