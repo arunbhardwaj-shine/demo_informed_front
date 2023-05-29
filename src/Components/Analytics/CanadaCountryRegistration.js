@@ -106,7 +106,8 @@ const CanadaCountryRegistration = () => {
           keys: ["code", "value"],
           tooltip: {
             headerFormat: "",
-            pointFormat: '<span style="font-weight: bold">Total Registration : {point.totalIndex}</span>',
+            pointFormat:
+              '<span style="font-weight: bold">Total Registration : {point.totalIndex}</span>',
           },
           showInLegend: false,
           marker: {
@@ -239,18 +240,18 @@ const CanadaCountryRegistration = () => {
         month,
       });
       const apiData = response.data;
-      const countryData = apiData.data.coordination.map(
-        (coordObject, index) => {
+      const countryData = apiData.data.coordination
+        .map((coordObject, index) => {
           const [lat, lon] = Object.values(coordObject)[0].split("~");
           const formattedIndex =
             apiData.data.critical_care[index] +
             apiData.data.haematology[index] +
             apiData.data.immunotherapy[index];
           const totalIndex = isNaN(formattedIndex) ? 0 : formattedIndex;
-           // Skip countries with totalIndex equal to zero
-        if (totalIndex === 0) {
-          return null;
-        }
+          // Skip countries with totalIndex equal to zero
+          if (totalIndex === 0) {
+            return null;
+          }
           return {
             name: Object.keys(coordObject)[0],
             lat: parseFloat(lat),
@@ -262,17 +263,17 @@ const CanadaCountryRegistration = () => {
             countryLat: apiData.data.lat,
             countryLon: apiData.data.long,
           };
-        }
-      ).filter(Boolean);
+        })
+        .filter(Boolean);
       console.log(countryData);
       setNewData(countryData);
 
-      const newSeries = [ 
+      const newSeries = [
         {
           name: `Haematology`,
           data: apiData.data?.haematology,
           color: Highcharts?.getOptions()?.colors[1],
-        }
+        },
       ];
       const categories = apiData.data?.country;
 
@@ -299,7 +300,7 @@ const CanadaCountryRegistration = () => {
             0
           )})`,
           data: haematology,
-        }
+        },
       ];
 
       const newTable = {

@@ -427,8 +427,21 @@ const CanadaDeliveryRegistration = () => {
     chart: {
       type: "line",
     },
+
     title: {
-      text: "Registered HCP's (CIS)",
+      text: `Registered HCP's ${
+        localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="
+          ? "(CIS)"
+          : localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A=="
+          ? "(CANADA)"
+          : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
+          ? "(LATAM)"
+          : localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ=="
+          ? "(MENA)"
+          : localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ=="
+          ? "(MEXICO)"
+          : null
+      }`,
     },
     credits: {
       enabled: false,
