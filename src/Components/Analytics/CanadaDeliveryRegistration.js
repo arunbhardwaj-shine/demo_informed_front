@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
@@ -11,36 +10,18 @@ import Select from "react-select";
 import HighchartsReact from "highcharts-react-official";
 import { Link } from "react-router-dom";
 import drilldown from "highcharts/modules/drilldown.js";
-import CommonLineGraph from "./CommonLineGraph"
-
+import CommonLineGraph from "./CommonLineGraph";
+exporting(Highcharts);
+exportData(Highcharts);
+drilldown(Highcharts);
 const CanadaDeliveryRegistration = () => {
   const [data, setData] = useState({});
-  const [newData, setNewData] = useState([])
+  const [newData, setNewData] = useState([]);
   const [pieData, setPieData] = useState({});
 
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const selectFilter = useRef(null);
-  
-  const chart = useRef(null);
-  Highcharts.setOptions({
-    colors: [
-      "#FFBE2C",
-      "#F58289",
-      "#d1d132",
-      "#D61975",
-      "#0066BE",
-      "#00003C",
-      "#b490f5",
-      "#91817e",
-      "#2b6570",
-      "#9C9CA2",
-      "#7cb0dd",
-      "#4f4566",
-      "#00D4C0",
-      "#32a1d1",
-    ],
-  });
   const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState({
     chart: {
       plotBackgroundColor: null,
@@ -68,218 +49,55 @@ const CanadaDeliveryRegistration = () => {
           enabled: true,
           format: "<b>{point.name}</b>: {point.percentage:.1f} %",
         },
+        point: {
+          events: {
+            drilldown: function (e) {
+              // Handle drilldown event
+              console.log("Drilldown event:", e);
+            },
+          },
+        },
       },
     },
-
     series: [
       {
         name: "Article Registration based on delivery",
         colorByPoint: true,
-        drilldown: true,
-        data: [
-          {
-            name: "Email campaign",
-
-            y: 66.3,
-
-            color: Highcharts.getOptions().colors[0],
-
-            drilldown: "email",
-          },
-
-          {
-            name: "inforMedGO",
-
-            y: 66.3,
-
-            color: Highcharts.getOptions().colors[1],
-
-            drilldown: "informedgo",
-          },
-
-          {
-            name: "Docintel Code",
-
-            y: 66.3,
-
-            color: Highcharts.getOptions().colors[2],
-
-            drilldown: "docintelcode",
-          },
-
-          {
-            name: "Direct",
-
-            y: 28.3,
-
-            color: Highcharts.getOptions().colors[4],
-
-            drilldown: "direct",
-          },
-
-          {
-            name: "Peer sharing",
-
-            y: 2.0,
-
-            color: Highcharts.getOptions().colors[5],
-
-            drilldown: "peer",
-          },
-
-          {
-            name: "Webinar",
-
-            y: 2.1,
-
-            color: Highcharts.getOptions().colors[6],
-
-            drilldown: "webinar",
-          },
-
-          {
-            name: "IBU Email campaign",
-
-            y: 4.2,
-
-            color: Highcharts.getOptions().colors[7],
-
-            drilldown: "ibuemail",
-          },
-
-          {
-            name: "IBU inforMedGO",
-
-            y: 3.4,
-
-            color: Highcharts.getOptions().colors[8],
-
-            drilldown: "ibuinformedgo",
-          },
-
-          {
-            name: "IBU QR",
-
-            y: 0.4,
-
-            color: Highcharts.getOptions().colors[10],
-
-            drilldown: "ibuqr",
-          },
-
-          {
-            name: "IBU Direct",
-
-            y: 5.2,
-
-            color: Highcharts.getOptions().colors[11],
-
-            drilldown: "ibudirect",
-          },
-
-          {
-            name: "Webinar IBU",
-
-            y: 3.3,
-
-            color: Highcharts.getOptions().colors[13],
-
-            drilldown: "webinaribu",
-          },
-        ],
+        data: [], // Initialize with empty data
+        drilldown: true, // Enable drilldown for this series
       },
     ],
-
     drilldown: {
-      series: [
-        {
-          name: "Email campaign",
-
-          id: "email",
-
-          data: [
-            ["Critical Care", 5],
-
-            ["Haematology", 2.2],
-
-            ["Immunotherapy", 0.5],
-          ],
-        },
-
-        {
-          name: "inforMedGO",
-          id: "inforMedGO",
-          data: [
-            ["Critical Care", 5],
-
-            ["Haematology", 2.2],
-
-            ["Immunotherapy", 0.5],
-          ],
-        },
-
-        {
-          name: "Docintel Code",
-          id: "Docintel Code",
-
-          data: [
-            ["Critical Care", 5],
-
-            ["Haematology", 2.2],
-
-            ["Immunotherapy", 0.5],
-          ],
-        },
-
-        {
-          name: "QR",
-          id: "QR",
-
-          data: [
-            ["Critical Care", 5],
-
-            ["Haematology", 2.2],
-
-            ["Immunotherapy", 0.5],
-          ],
-        },
-
-        {
-          name: "Email campaign",
-
-          id: "peer",
-
-          data: [
-            ["Critical Care", 5],
-
-            ["Haematology", 2.2],
-
-            ["Immunotherapy", 0.5],
-          ],
-        },
-
-        {
-          name: "Email campaign",
-
-          id: "webiner",
-
-          data: [
-            ["Critical Care", 5],
-
-            ["Haematology", 2.2],
-
-            ["Immunotherapy", 0.5],
-          ],
-        },
-      ],
+      series: [], // Initialize with empty drilldown series
     },
+  });
+
+  console.log("campaignStatsPieOptions", campaignStatsPieOptions);
+
+  const chart = useRef(null);
+  Highcharts.setOptions({
+    colors: [
+      "#FFBE2C",
+      "#F58289",
+      "#d1d132",
+      "#D61975",
+      "#0066BE",
+      "#00003C",
+      "#b490f5",
+      "#91817e",
+      "#2b6570",
+      "#9C9CA2",
+      "#7cb0dd",
+      "#4f4566",
+      "#00D4C0",
+      "#32a1d1",
+    ],
   });
 
   const initiFun = async () => {
     try {
       loader("show");
       const result = await postData(ENDPOINT.CAMPAINGSTAT);
-
 
       let newValue = [
         {
@@ -372,6 +190,7 @@ const CanadaDeliveryRegistration = () => {
             {
               name: "inforMedGO",
               id: "inforMedGO",
+              y: result?.data?.data?.tot_GO_code,
               data: [
                 ["Critical Care", result?.data?.data?.tot_GO_code_c2],
                 ["Haematology", result?.data?.data?.tot_GO_code_h2],
@@ -381,6 +200,7 @@ const CanadaDeliveryRegistration = () => {
             {
               name: "Docintel Code",
               id: "Docintel Code",
+              y: result?.data?.data?.tot_Docintel_code,
               data: [
                 ["Critical Care", result?.data?.data?.tot_Docintel_code_c2],
                 ["Haematology", result?.data?.data?.tot_Docintel_code_h2],
@@ -391,6 +211,7 @@ const CanadaDeliveryRegistration = () => {
             {
               name: "QR",
               id: "QR",
+              y: result?.data?.data?.tot_QRcode,
               data: [
                 ["Critical Care", result?.data?.data?.tot_QRcode_c2],
                 ["Haematology", result?.data?.data?.tot_QRcode_h2],
@@ -401,6 +222,7 @@ const CanadaDeliveryRegistration = () => {
             {
               name: "Direct",
               id: "Direct",
+              y: result?.data?.data?.tot_web,
               data: [
                 ["Critical Care", result?.data?.data?.tot_web_c2],
                 ["Haematology", result?.data?.data?.tot_web_h2],
@@ -410,6 +232,7 @@ const CanadaDeliveryRegistration = () => {
             {
               name: "Peer sharing",
               id: "Peer sharing",
+              y: result?.data?.data?.tot_peer,
               data: [
                 ["Critical Care", result?.data?.data?.tot_peer_c2],
                 ["Haematology", result?.data?.data?.tot_peer_h2],
@@ -421,11 +244,177 @@ const CanadaDeliveryRegistration = () => {
         },
       ];
 
-      setCampaignStatsPieOptions({
-        ...campaignStatsPieOptions,
-        series: newValue,
-        drilldown: drillDownValue,
+      console.log("drillDownValue", drillDownValue);
+      setCampaignStatsPieOptions((prevOptions) => {
+        const updatedDrilldown = drillDownValue?.[0].series.map(
+          (seriesItem) => {
+            const { name, id, data } = seriesItem;
+            const updatedData = data ? data.map(([name, y]) => [name, y]) : [];
+            return {
+              name: name,
+              id: id,
+              data: updatedData,
+            };
+          }
+        );
+
+        console.log("updatedDrilldown", updatedDrilldown);
+
+        return {
+          ...prevOptions,
+          series: newValue,
+
+          drilldown: {
+            series: updatedDrilldown,
+          },
+        };
       });
+
+      // let newValue = [
+      //   {
+      //     name: "Article Registration based on delivery",
+      //     colorByPoint: true,
+      //     data: [
+      //       {
+      //         name: "Email campaign",
+      //         y: result?.data?.data?.tot_email,
+      //         color: Highcharts.getOptions().colors[0],
+      //         drilldown: "email",
+      //       },
+      //       {
+      //         name: "inforMedGO",
+      //         y: result?.data?.data?.tot_GO_code,
+      //         color: Highcharts.getOptions().colors[1],
+      //         drilldown: "inforMedGO",
+      //       },
+      //       {
+      //         name: "Docintel Code",
+      //         y: result?.data?.data?.tot_Docintel_code,
+      //         color: Highcharts.getOptions().colors[2],
+      //         drilldown: "Docintel Code",
+      //       },
+      //       {
+      //         name: "Direct",
+      //         y: result?.data?.data?.tot_web,
+      //         color: Highcharts.getOptions().colors[4],
+      //         drilldown: "direct",
+      //       },
+      //       {
+      //         name: "Peer sharing",
+      //         y: Math.round(result?.data?.data?.tot_peer),
+      //         color: Highcharts.getOptions().colors[5],
+      //         drilldown: "peer",
+      //       },
+      //       {
+      //         name: "Webinar",
+      //         y: result?.data?.data?.tot_CIS_oc,
+      //         color: Highcharts.getOptions().colors[6],
+      //         drilldown: "webinar",
+      //       },
+      //       {
+      //         name: "IBU Email campaign",
+      //         y: result?.data?.data?.tot_email_oc,
+      //         color: Highcharts.getOptions().colors[7],
+      //         drilldown: "ibuemail",
+      //       },
+      //       {
+      //         name: "IBU inforMedGO",
+      //         y: result?.data?.data?.tot_GO_code_oc,
+      //         color: Highcharts.getOptions().colors[8],
+      //         drilldown: "ibuinformedgo",
+      //       },
+      //       {
+      //         name: "IBU QR",
+      //         y: result?.data?.data?.tot_QRcode_oc,
+      //         color: Highcharts.getOptions().colors[10],
+      //         drilldown: "QR",
+      //       },
+      //       {
+      //         name: "IBU Direct",
+      //         y: result?.data?.data?.tot_web_oc,
+      //         color: Highcharts.getOptions().colors[11],
+      //         drilldown: "ibudirect",
+      //       },
+      //       {
+      //         name: "Webinar IBU",
+      //         y: result?.data?.data?.tot_IBU_oc,
+      //         color: Highcharts.getOptions().colors[13],
+      //         drilldown: "webinaribu",
+      //       },
+      //     ],
+      //   },
+      // ];
+
+      // let drillDownValue = [
+      //   {
+      //     series: [
+      //       {
+      //         name: "Email campaign",
+      //         id: "email",
+      //         y: result?.data?.data?.tot_email,
+      //         data: [
+      //           ["Critical Care", result?.data?.data?.tot_email_c2],
+      //           ["Haematology", result?.data?.data?.tot_email_h2],
+      //           ["Immunotherapy", result?.data?.data?.tot_email_i2],
+      //         ],
+      //       },
+      //       {
+      //         name: "inforMedGO",
+      //         id: "inforMedGO",
+      //         data: [
+      //           ["Critical Care", result?.data?.data?.tot_GO_code_c2],
+      //           ["Haematology", result?.data?.data?.tot_GO_code_h2],
+      //           ["Immunotherapy", result?.data?.data?.tot_GO_code_i2],
+      //         ],
+      //       },
+      //       {
+      //         name: "Docintel Code",
+      //         id: "Docintel Code",
+      //         data: [
+      //           ["Critical Care", result?.data?.data?.tot_Docintel_code_c2],
+      //           ["Haematology", result?.data?.data?.tot_Docintel_code_h2],
+      //           ["Immunotherapy", result?.data?.data?.tot_Docintel_code_i2],
+      //         ],
+      //       },
+
+      //       {
+      //         name: "QR",
+      //         id: "QR",
+      //         data: [
+      //           ["Critical Care", result?.data?.data?.tot_QRcode_c2],
+      //           ["Haematology", result?.data?.data?.tot_QRcode_h2],
+      //           ["Immunotherapy", result?.data?.data?.tot_QRcode_i2],
+      //         ],
+      //       },
+
+      //       {
+      //         name: "Direct",
+      //         id: "Direct",
+      //         data: [
+      //           ["Critical Care", result?.data?.data?.tot_web_c2],
+      //           ["Haematology", result?.data?.data?.tot_web_h2],
+      //           ["Immunotherapy", result?.data?.data?.tot_web_i2],
+      //         ],
+      //       },
+      //       {
+      //         name: "Peer sharing",
+      //         id: "Peer sharing",
+      //         data: [
+      //           ["Critical Care", result?.data?.data?.tot_peer_c2],
+      //           ["Haematology", result?.data?.data?.tot_peer_h2],
+
+      //           ["Immunotherapy", result?.data?.data?.tot_peer_i2],
+      //         ],
+      //       },
+      //     ],
+      //   },
+      // ];
+
+      // setCampaignStatsPieOptions({
+      //   ...campaignStatsPieOptions,
+      //   series: newValue,
+      //   drilldown: drillDownValue,
+      // });
 
       loader("hide");
     } catch (err) {
@@ -480,7 +469,6 @@ const CanadaDeliveryRegistration = () => {
     },
   });
 
-
   // start Line cis table
   const [tableData, setTableData] = useState({
     title: {
@@ -514,7 +502,7 @@ const CanadaDeliveryRegistration = () => {
       showTable: true,
     },
     series: [],
-    months: []
+    months: [],
   });
 
   // end line cis table
@@ -553,12 +541,10 @@ const CanadaDeliveryRegistration = () => {
       showTable: true,
     },
     series: [],
-    months: []
+    months: [],
   });
 
   // end line ibu table
-
-
 
   const [campaignStatsLineOptionIBU, setCampaignStatsLineOptionIBU] = useState({
     chart: {
@@ -608,9 +594,7 @@ const CanadaDeliveryRegistration = () => {
   });
 
   useEffect(() => {
-    exporting(Highcharts);
-    exportData(Highcharts);
-    drilldown(Highcharts);
+    window.scrollTo(0, 0);
     initiFun();
     getDataFromApi();
   }, []);
@@ -633,11 +617,10 @@ const CanadaDeliveryRegistration = () => {
       hadData.cis.sort((a, b) => a.ibu.localeCompare(b.ibu));
       hadData.ibu.sort((a, b) => a.ibu.localeCompare(b.ibu));
 
-
       const monthsString = cis[0].Months;
-      const months = monthsString
+      const months = monthsString;
       const reversedMonths = [...months].reverse();
-      const newSeriesCis = cis?.map((item, index) => {
+      const newSeriesCis = cis.map((item, index) => {
         let newData = 0;
         let newAr = [];
         item.total.forEach((value) => {
@@ -648,24 +631,22 @@ const CanadaDeliveryRegistration = () => {
 
         const totalSum = item.total;
         const totalReaders = item.total.reduce((acc, val) => acc + val, 0);
-        
+
         return {
           name: name,
           totalReaders,
           data: newAr,
-          color: Highcharts?.getOptions()?.colors[index],
+          color: Highcharts.getOptions().colors[index],
         };
       });
 
-
       const newSeriesDataCis = [
-        ...newSeriesCis?.map((series, index) => ({
+        ...newSeriesCis.map((series, index) => ({
           name: `${series.name} (${series.totalReaders})`,
           data: series.data,
-          color: Highcharts.getOptions()?.colors?.[index],
+          color: Highcharts.getOptions().colors[index],
         })),
       ];
-
 
       const newHcpOptions = {
         ...campaignStatsLineOption,
@@ -682,8 +663,11 @@ const CanadaDeliveryRegistration = () => {
       }));
 
       const tableDatas = cis.map((item, index) => ({
-        name: item.ibu + " ( " + item.total.reduce((acc, val) => acc + val, 0) + ")",
-
+        name:
+          item.ibu +
+          " ( " +
+          item.total.reduce((acc, val) => acc + val, 0) +
+          ")",
       }));
       const newTable = {
         ...tableData,
@@ -697,9 +681,8 @@ const CanadaDeliveryRegistration = () => {
 
       // end line cis  table
 
-
-      const newSeriesIbu = ibu?.map((item, index) => {
-        const totalSum = item.totalSum
+      const newSeriesIbu = ibu.map((item, index) => {
+        const totalSum = item.totalSum;
         const totalReaders = item.total.reduce((acc, val) => acc + val, 0);
         let newData = 0;
         let newAr = [];
@@ -711,7 +694,7 @@ const CanadaDeliveryRegistration = () => {
           name: item.ibu,
           totalReaders,
           data: newAr,
-          color: Highcharts.getOptions()?.colors?.[index],
+          color: Highcharts.getOptions().colors[index],
         };
       });
 
@@ -719,7 +702,7 @@ const CanadaDeliveryRegistration = () => {
         ...newSeriesIbu.map((series, index) => ({
           name: `${series.name} (${series.totalReaders})`,
           data: series.data,
-          color: Highcharts.getOptions()?.colors?.[index],
+          color: Highcharts.getOptions().colors[index],
         })),
       ];
 
@@ -733,8 +716,6 @@ const CanadaDeliveryRegistration = () => {
 
       setCampaignStatsLineOptionIBU(newHcpOptionsIbu);
 
-
-
       //start create cis table
 
       const newTableSeriesibu = ibu.map((item) => ({
@@ -742,8 +723,11 @@ const CanadaDeliveryRegistration = () => {
       }));
 
       const tableDatasibu = ibu.map((item, index) => ({
-        name: item.ibu + " ( " + item.total.reduce((acc, val) => acc + val, 0) + ")",
-
+        name:
+          item.ibu +
+          " ( " +
+          item.total.reduce((acc, val) => acc + val, 0) +
+          ")",
       }));
       const newTableibu = {
         ...tableDataIbu,
@@ -757,16 +741,6 @@ const CanadaDeliveryRegistration = () => {
 
       // end create ibu table
 
-
-
-
-
-
-
-
-
-
-
       setIsDataFound(true);
       setData(cis);
     } catch (err) {
@@ -779,7 +753,6 @@ const CanadaDeliveryRegistration = () => {
   const total = tableData.series.reduce((acc, serie) => {
     return acc + serie.data.reduce((a, b) => a + b, 0);
   }, 0);
-
 
   const totalibu = tableDataIbu.series.reduce((acc, serie) => {
     return acc + serie.data.reduce((a, b) => a + b, 0);
@@ -837,7 +810,7 @@ const CanadaDeliveryRegistration = () => {
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={campaignStatsLineOption}
-                  //   ref={chart}
+                    //   ref={chart}
                   />
                 </div>
 
@@ -873,14 +846,11 @@ const CanadaDeliveryRegistration = () => {
                   </div>
                 </div>
 
-               
-               {console.log("-------------=-=-=->",Highcharts)}
-               
                 <div className="high_charts">
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={campaignStatsLineOptionIBU}
-                  //   ref={chart}
+                    //   ref={chart}
                   />
                   <div className="high_charts">
                     <div className="highcharts-data-table">
@@ -888,9 +858,11 @@ const CanadaDeliveryRegistration = () => {
                         <thead>
                           <tr>
                             <th>Category</th>
-                            {tableDataIbu.xAxis.categories.map((category, index) => (
-                              <th key={index}>{category.name}</th>
-                            ))}
+                            {tableDataIbu.xAxis.categories.map(
+                              (category, index) => (
+                                <th key={index}>{category.name}</th>
+                              )
+                            )}
                             <th>Total ({totalibu})</th>
                           </tr>
                         </thead>
@@ -898,9 +870,11 @@ const CanadaDeliveryRegistration = () => {
                           {tableDataIbu?.months?.map((month, index) => (
                             <tr key={index}>
                               <td>{month}</td>
-                              {tableDataIbu?.series?.map((serie, serieIndex) => (
-                                <td key={serieIndex}>{serie?.data[index]}</td>
-                              ))}
+                              {tableDataIbu?.series?.map(
+                                (serie, serieIndex) => (
+                                  <td key={serieIndex}>{serie?.data[index]}</td>
+                                )
+                              )}
                               <td>
                                 {tableDataIbu?.series?.reduce(
                                   (total, serie) => total + serie?.data[index],
@@ -913,7 +887,6 @@ const CanadaDeliveryRegistration = () => {
                       </table>
                     </div>
                   </div>
-
                 </div>
               </div>
             </Row>
@@ -924,4 +897,3 @@ const CanadaDeliveryRegistration = () => {
   );
 };
 export default CanadaDeliveryRegistration;
-

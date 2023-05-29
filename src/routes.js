@@ -3,11 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./App";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 //Library routes
 import LibraryContent from "./Components/Library/Content/LibraryContent";
@@ -37,13 +33,13 @@ import EditLicense from "./Components/License/CreateChange/EditLicense";
 import AnalyticsHeader from "./Components/Analytics/Layout/Header";
 import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
 import TrendingContent from "./Components/Analytics/TrendingContent";
-import CanadaTrendingContent  from "./Components/Analytics/CanadaTrendingContent"
+import CanadaTrendingContent from "./Components/Analytics/CanadaTrendingContent";
 import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 import CisStats from "./Components/Analytics/CisStats";
-import CanadaDeliveryRegistration from "./Components/Analytics/CanadaDeliveryRegistration"
+import CanadaDeliveryRegistration from "./Components/Analytics/CanadaDeliveryRegistration";
 
-import CanadaDeliveryTrends from "./Components/Analytics/CanadaDeliveryTrends"
-import CanadaTrendingTopic from  "./Components/Analytics/CanadaTrendingTopics" 
+import CanadaDeliveryTrends from "./Components/Analytics/CanadaDeliveryTrends";
+import CanadaTrendingTopic from "./Components/Analytics/CanadaTrendingTopics";
 import TopClients from "./Components/Analytics/TopClients";
 import TopReseller from "./Components/Analytics/TopReseller";
 import TopSales from "./Components/Analytics/TopSales";
@@ -78,7 +74,6 @@ import EmailStatsss from "./Components/NewWebinar/WebinarFiles/EmailStatsss";
 
 // -------END----------Webinar routes------------------------
 
-
 import DefaultLayout from "./Components/CommonComponent/DefaultLayout";
 import LoginLayout from "./Components/CommonComponent/LoginLayout";
 import Sidebar from "./Components/CommonComponent/SidebarComponent/Sidebar";
@@ -112,7 +107,7 @@ import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar"
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
 import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintelLink";
 import SpcView from "./Components/Library/SpcView";
-import CanadaContentType from "./Components/Analytics/CanadaContentType"
+import CanadaContentType from "./Components/Analytics/CanadaContentType";
 import SpcRender from "./Components/Library/SpcRender";
 import SpcEdit from "./Components/Library/SpcEdit";
 import SetPopup from "./Components/Library/CreateChange/SetPopup";
@@ -136,7 +131,6 @@ import RDRegister from "./Components/R&D/RDRegister";
 import SetLayout from "./Components/CommonComponent/SetLayout";
 import PreviewArticle from "./Components/Library/PreviewArticle";
 
-
 let platform = 0;
 let show = 0;
 
@@ -152,15 +146,16 @@ if (
   require("./Components/assets/fonts/fonts.css");
   platform = 0;
   show = 0;
-}
-else if(window.location.pathname == "/webinar" || window.location.pathname == "/rd-register"){
+} else if (
+  window.location.pathname == "/webinar" ||
+  window.location.pathname == "/rd-register"
+) {
   require("./Components/assets/css/webinar.css");
   require("./Components/assets/css/webinar-responsive.css");
   require("./Components/assets/css/aos.css");
   platform = 0;
   show = 0;
-}
-else {
+} else {
   require("./Components/assets/css/style.css");
   require("./Components/assets/css/responsive.css");
   require("./Components/assets/css/custom.css");
@@ -172,273 +167,415 @@ else {
 const Routing = () => {
   return (
     <Router>
-        <Routes>
-          //DefaultLayout for Login pages
-          <Route path="/" element={<DefaultLayout component={Informed} /> } />
-
-          <Route path="/informed" element={
-              <DefaultLayout component={Informed} />
-            }
-          />
-
-          <Route path="/publisher-page" element={
-              <DefaultLayout component={PublisherPage} />
-            }
-          />
-
-          <Route path="/webinar" element={
-              <DefaultLayout component={Webinar} />
-            }
-          />
-
-         <Route path="rd-register" element={<RDRegister />} />
-
-          //LoginLayout for pages after login
-          <Route path="/home"
-            element={<SetLayout component={SetLayout} /> }
-          />
-          <Route path="/library-content"
-            element={<LoginLayout component={LibraryContent} /> }
-          />
-
-          <Route path="/cis_stats"
-            element={<LoginLayout component={CisStats} /> }
-          />
-
-          <Route path="/totalhcp"
-           element={<LoginLayout component={Totalhcp} /> }
-          />
-
-          <Route path="/country-registration"
-            element={<LoginLayout component={CountryRegistration} /> }
-          />
-
-          <Route
-            path="/octalatch-deliveryregistration"
-            element={<LoginLayout component={OctalatchDeliveryRegistration} /> }
-          />
-
-          <Route path="/octa-country" element={<LoginLayout component={OctaCountry} /> }/>
-
-          <Route
-              path="/octalach-country-stats"
-              element={<LoginLayout component={OctalatchCountryStats} /> }
-            />
-
-          <Route path="/trending-content"  element={<LoginLayout component={TrendingContent} /> }/>
-
-         
-           <Route
-              path="/octa-trending-content"
-              element={<LoginLayout component={TrendingContentOcta} /> }
-            />
-
-          <Route path="/top-clients"
-           element={<LoginLayout component={TopClients} /> } />
-
-
-          <Route
-            path="/canada-content-type"
-            element={<LoginLayout component={CanadaContentType} /> }
-          />
-          <Route
-            path="/canada-delivery-trends"
-            element={<LoginLayout component={CanadaDeliveryTrends} /> }
-          />
-
+      <Routes>
+        //DefaultLayout for Login pages
+        <Route path="/" element={<DefaultLayout component={Informed} />} />
         <Route
-            path="/canada-delivery-registration"
-            element={<LoginLayout component={CanadaDeliveryRegistration} /> }
-          />
-           <Route
-              path="/canada-trending-topic"
-              element={<LoginLayout component={CanadaTrendingTopic} /> }
-            />
-
+          path="/informed"
+          element={<DefaultLayout component={Informed} />}
+        />
+        <Route
+          path="/publisher-page"
+          element={<DefaultLayout component={PublisherPage} />}
+        />
+        <Route
+          path="/webinar"
+          element={<DefaultLayout component={Webinar} />}
+        />
+        <Route path="rd-register" element={<RDRegister />} />
+        //LoginLayout for pages after login
+        <Route path="/home" element={<SetLayout component={SetLayout} />} />
+        <Route
+          path="/library-content"
+          element={<LoginLayout component={LibraryContent} />}
+        />
+        <Route
+          path="/cis_stats"
+          element={<LoginLayout component={CisStats} />}
+        />
+        <Route
+          path="/totalhcp"
+          element={<LoginLayout component={Totalhcp} />}
+        />
+        <Route
+          path="/country-registration"
+          element={<LoginLayout component={CountryRegistration} />}
+        />
+        <Route
+          path="/octalatch-deliveryregistration"
+          element={<LoginLayout component={OctalatchDeliveryRegistration} />}
+        />
+        <Route
+          path="/octa-country"
+          element={<LoginLayout component={OctaCountry} />}
+        />
+        <Route
+          path="/octalach-country-stats"
+          element={<LoginLayout component={OctalatchCountryStats} />}
+        />
+        <Route
+          path="/trending-content"
+          element={<LoginLayout component={TrendingContent} />}
+        />
+        <Route
+          path="/octa-trending-content"
+          element={<LoginLayout component={TrendingContentOcta} />}
+        />
+        <Route
+          path="/top-clients"
+          element={<LoginLayout component={TopClients} />}
+        />
+        <Route
+          path="/analytic-content-type"
+          element={<LoginLayout component={CanadaContentType} />}
+        />
+        <Route
+          path="/analytic-delivery-trends"
+          element={<LoginLayout component={CanadaDeliveryTrends} />}
+        />
+        <Route
+          path="/analytic-delivery-registration"
+          element={<LoginLayout component={CanadaDeliveryRegistration} />}
+        />
+        <Route
+          path="/analytic-trending-topics"
+          element={<LoginLayout component={CanadaTrendingTopic} />}
+        />
+        <Route
+          path="/analytic-trending-content"
+          element={<LoginLayout component={CanadaTrendingContent} />}
+        />
+        <Route
+          path="/octa-country-registration"
+          element={<LoginLayout component={OctaCountryRegistration} />}
+        />
+        <Route
+          path="/top-reseller"
+          element={<LoginLayout component={TopReseller} />}
+        />
+        <Route
+          path="/top-sales"
+          element={<LoginLayout component={TopSales} />}
+        />
+        <Route
+          path="/content-analytics"
+          element={<LoginLayout component={ContentAnalytics} />}
+        />
+        <Route
+          path="/trending-topics"
+          element={<LoginLayout component={TrendingTopics} />}
+        />
+        <Route
+          path="/content-type"
+          element={<LoginLayout component={ContentGraph} />}
+        />
+        <Route
+          path="/octalatch-totalhcp"
+          element={<LoginLayout component={OctalatchTotalHCP} />}
+        />
+        <Route
+          path="/openings-by-country"
+          element={<LoginLayout component={OpeningByCountry} />}
+        />
+        <Route
+          path="/campaign-stats"
+          element={<LoginLayout component={CampaignStats} />}
+        />
+        <Route
+          path="/delivery-stats"
+          element={<LoginLayout component={DeliveryTrends} />}
+        />
+        <Route
+          path="/registration-type"
+          element={<LoginLayout component={RegistrationType} />}
+        />
+        <Route
+          path="/content-analytics"
+          element={<LoginLayout component={ContentAnalytics} />}
+        />
+        <Route
+          path="/sales-by-country"
+          element={<LoginLayout component={SalesByCountry} />}
+        />
+        <Route
+          path="/readers-view"
+          element={<LoginLayout component={NewReaders} />}
+        />
+        <Route
+          path="/reader-edit"
+          element={<LoginLayout component={ReaderEdit} />}
+        />
+        <Route
+          path="/reader-add"
+          element={<LoginLayout component={ReaderAdd} />}
+        />
+        <Route
+          path="/reader-review"
+          element={<LoginLayout component={ReaderReview} />}
+        />
+        <Route
+          path="/readers-list"
+          element={<LoginLayout component={ReadersListAdd} />}
+        />
+        <Route
+          path="/timeline-detail"
+          element={<LoginLayout component={TimelineDetail} />}
+        />
+        <Route
+          path="/library-content"
+          element={<LoginLayout component={LibraryContent} />}
+        />
+        <Route
+          path="/library-edit"
+          element={<LoginLayout component={EditLibrary} />}
+        />
+        <Route
+          path="/library-create"
+          element={<LoginLayout component={LibraryCreate} />}
+        />
+        <Route
+          path="/library-popup"
+          element={<LoginLayout component={LibraryPopupSet} />}
+        />
+        <Route path="/site" element={<LoginLayout component={TrialSite} />} />
+        <Route path="/add-site" element={<LoginLayout component={AddSite} />} />
+        <Route
+          path="/edit-site"
+          element={<LoginLayout component={EditSite} />}
+        />
+        <Route path="/article_preview" element={<PreviewArticle />} />
+        <Route
+          path="/site-listing"
+          element={<LoginLayout component={SiteListing} />}
+        />
+        <Route
+          path="/library-edit-listing"
+          element={<LoginLayout component={LibraryEditListing} />}
+        />
+        <Route
+          path="/library-create-user"
+          element={<LoginLayout component={LibraryCreateUser} />}
+        />
+        <Route
+          path="/edit-Consent-Options"
+          element={<LoginLayout component={EditConsentOptions} />}
+        />
+        <Route
+          path="/set-popup"
+          element={<LoginLayout component={SetPopup} />}
+        />
+        <Route path="/spc-view" element={<LoginLayout component={SpcView} />} />
+        <Route
+          path="/spc-render"
+          element={<LoginLayout component={SpcRender} />}
+        />
+        <Route
+          path="/spc-delete"
+          element={<LoginLayout component={SpcView} />}
+        />
+        <Route path="/spc-edit" element={<LoginLayout component={SpcEdit} />} />
+        <Route
+          path="/library-sublink"
+          element={<LoginLayout component={LibrarySublink} />}
+        />
+        <Route
+          path="/library-topics"
+          element={<LoginLayout component={LibraryTopics} />}
+        />
+        <Route
+          path="/library-campaign"
+          element={<LoginLayout component={LibraryCampaign} />}
+        />
+        <Route
+          path="/content-detail"
+          element={<LoginLayout component={ContentDetail} />}
+        />
+        <Route
+          path="/preview-content"
+          element={<LoginLayout component={PreviewContent} />}
+        />
+        <Route
+          path="/create-docintel-link"
+          element={<LoginLayout component={CreateDocintelLink} />}
+        />
+        <Route path="/spc" element={<LoginLayout component={Spc} />} />
+        <Route
+          path="/spc-create"
+          element={<LoginLayout component={SpcCreate} />}
+        />
+        {localStorage.getItem("user_id") ==
+        "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
           <Route
-            path="/canada-trending-content"
-            element={<LoginLayout component={CanadaTrendingContent} /> }
+            path="/products"
+            element={<LoginLayout component={Products} />}
           />
-
-          <Route
-            path="/octa-country-registration"
-            element={<LoginLayout component={OctaCountryRegistration} /> }
-          />
-
-          <Route path="/top-reseller"
-            element={<LoginLayout component={TopReseller} /> }
-          />
-
-          <Route path="/top-sales"
-            element={<LoginLayout component={TopSales} /> }
-          />
-
-          <Route
-            path="/content-analytics"
-            element={<LoginLayout component={ContentAnalytics} /> }
-          />
-
-          <Route path="/trending-topics"
-            element={<LoginLayout component={TrendingTopics} /> } />
-
-          <Route path="/content-type"
-            element={<LoginLayout component={ContentGraph} /> } />
-
-          <Route
-            path="/octalatch-totalhcp"
-            element={<LoginLayout component={OctalatchTotalHCP} /> }
-          />
-
-          <Route
-            path="/openings-by-country"
-            element={<LoginLayout component={OpeningByCountry} /> }
-          />
-
-          <Route path="/campaign-stats"
-           element={<LoginLayout component={CampaignStats} /> } />
-
-          <Route path="/delivery-stats"
-            element={<LoginLayout component={DeliveryTrends} /> }
-          />
-
-          <Route
-            path="/registration-type"
-            element={<LoginLayout component={RegistrationType} /> }
-          />
-
-          <Route
-            path="/content-analytics"
-            element={<LoginLayout component={ContentAnalytics} /> }
-          />
-
-                <Route path="/sales-by-country"
-                  element={<LoginLayout component={SalesByCountry} /> }
-                />
-                <Route path="/readers-view"
-                  element={<LoginLayout component={NewReaders} /> }
-                />
-                <Route path="/reader-edit" element={<LoginLayout component={ReaderEdit} /> } />
-                <Route path="/reader-add" element={<LoginLayout component={ReaderAdd} /> } />
-                <Route path="/reader-review" element={<LoginLayout component={ReaderReview} /> }/>
-                <Route path="/readers-list" element={<LoginLayout component={ReadersListAdd} /> } />
-                <Route path="/timeline-detail" element={<LoginLayout component={TimelineDetail} /> } />
-                <Route path="/library-content" element={<LoginLayout component={LibraryContent} /> }/>
-                <Route path="/library-edit" element={<LoginLayout component={EditLibrary} /> }/>
-                <Route path="/library-create" element={<LoginLayout component={LibraryCreate} /> } />
-                <Route path="/library-popup" element={<LoginLayout component={LibraryPopupSet} /> } />
-                <Route path ="/site" element={<LoginLayout component={TrialSite} /> } />
-                <Route path ="/add-site" element={<LoginLayout component={AddSite} /> } />
-                <Route path ="/edit-site" element={<LoginLayout component={EditSite} /> } />
-
-                <Route path ="/article_preview" element={<PreviewArticle /> } />
-
-
-
-                <Route path ="/site-listing" element={<LoginLayout component={SiteListing} /> } />
-
-                <Route
-                  path="/library-edit-listing"
-                  element={<LoginLayout component={LibraryEditListing} /> }
-                />
-                <Route
-                  path="/library-create-user"
-                  element={<LoginLayout component={LibraryCreateUser} /> }
-                />
-                <Route
-                  path="/edit-Consent-Options"
-                  element={<LoginLayout component={EditConsentOptions} /> }
-                />
-                <Route path="/set-popup"  element={<LoginLayout component={SetPopup} /> }/>
-                <Route path="/spc-view"  element={<LoginLayout component={SpcView} /> }/>
-                <Route path="/spc-render"  element={<LoginLayout component={SpcRender} /> }/>
-                <Route path="/spc-delete"  element={<LoginLayout component={SpcView} /> }/>
-                <Route path="/spc-edit" element={<LoginLayout component={SpcEdit} /> } />
-                <Route path="/library-sublink"  element={<LoginLayout component={LibrarySublink} /> } />
-                <Route path="/library-topics"  element={<LoginLayout component={LibraryTopics} /> }/>
-                <Route path="/library-campaign" element={<LoginLayout component={LibraryCampaign} /> }/>
-                <Route path="/content-detail"  element={<LoginLayout component={ContentDetail} /> } />
-                <Route path="/preview-content"  element={<LoginLayout component={PreviewContent} /> } />
-
-
-                <Route
-                  path="/create-docintel-link"
-                  element={<LoginLayout component={CreateDocintelLink} /> }
-                />
-                <Route path="/spc" element={<LoginLayout component={Spc} /> } />
-                <Route path="/spc-create" element={<LoginLayout component={SpcCreate} /> } />
-
-                {localStorage.getItem("user_id") ==
-                "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
-                  <Route path="/products" element={<LoginLayout component={Products} /> } />
-                )}
-
-                <Route path="/new-webinar"  element={<LoginLayout component={DefaultWebinar} /> } />
-                <Route path="/contact-form"  element={<LoginLayout component={ContactForm} /> } />
-                <Route path="/email-statsss"  element={<LoginLayout component={EmailStatsss} /> } />
-                <Route path="/stats-webinar"  element={<LoginLayout component={StatsWebinar} /> } />
-                <Route path="/auto-mail"  element={<LoginLayout component={AutoMail} /> } />
-                <Route path="/event-create" element={<LoginLayout component={EventCreate} /> } />
-                <Route path="/setting-webinar"  element={<LoginLayout component={SettingWebinar} /> } />
-                <Route path="/SmartList"  element={<LoginLayout component={SmartList} /> } />
-                <Route path="/EditList"  element={<LoginLayout component={EditList} /> } />
-                <Route path="/CreateSmartList"  element={<LoginLayout component={CreateSmartList} /> } />
-                <Route path="/SmartListFilter" element={<LoginLayout component={SmartListFilter} /> } />
-                <Route path="/SelectSmartList"  element={<LoginLayout component={SelectSmartList} />} />
-                <Route path="/EmailList" element={<LoginLayout component={EmailList} /> } />
-                <Route path="/TemplateBuilder"  element={<LoginLayout component={TemplateBuilder} /> } />
-                <Route path="/AutoEmail" element={<LoginLayout component={AutoEmail} /> } />
-                <Route
-                  path="/EmailArticleSelect"
-                  element={<LoginLayout component={EmailArticleSelect} /> }
-                />
-                <Route path="/CreateEmail"  element={<LoginLayout component={CreateEmail} /> } />
-                <Route path="/FilterSegment" element={<LoginLayout component={FilterSegment} /> } />
-                <Route path="/SelectHCP" element={<LoginLayout component={SelectHCP} /> } />
-                <Route path="/VerifyHCP"  element={<LoginLayout component={VerifyHCP} />  } />
-                <Route path="/VerifyMAIL"  element={<LoginLayout component={VerifyMAIL} /> } />
-                <Route path="/VerifyHcpMAIL"  element={<LoginLayout component={VerifyHcpMAIL} /> } />
-                <Route
-                  path="/SelectSmartListUsers"
-                  element={<LoginLayout component={SelectSmartListUsers} /> }
-                />
-                <Route path="/VerifySmartList" element={<LoginLayout component={VerifySmartList} /> } />
-                <Route path="/ViewSmartList"  element={<LoginLayout component={ViewList} /> } />
-                <Route path="/UploadExcel" element={<LoginLayout component={UploadExcel} /> } />
-                <Route path="/UpdatedTable" element={<LoginLayout component={Table} /> } />
-                <Route path="/ViewTable"  element={<LoginLayout component={ViewTable} /> } />
-                <Route path="/EmailStatss"  element={<LoginLayout component={EmailStatss} />} />
-                <Route path="/bounced-email" element={<LoginLayout component={BouncedEmail} />} />
-                <Route path="/get-details" element={<LoginLayout component={GetDetails} />} />
-                <Route path="/license-content" element={<LoginLayout component={LicenseContent} />} />
-
-                <Route
-                  path="/license-edit-listing"
-                  element={<LoginLayout component={LicenseEditListing} />}
-                />
-
-                <Route path="/license-create" element={<LoginLayout component={LicenseCreate} />} />
-                <Route
-                  path="/license-create-user"
-                  element={<LoginLayout component={LicenseCreateUser} />}
-                />
-                <Route path="/license-sublink"  element={<LoginLayout component={LicenseSublink} />} />
-                <Route
-                  path="/license-set-popup"
-                  element={<LoginLayout component={LicenseSetPopup} />}
-                />
-
-                <Route path="/license-topics" element={<LoginLayout component={LicenseTopics} />} />
-                <Route
-                  path="/license-preview-content"
-                  element={<LoginLayout component={LicensePreviewContent} />}
-                />
-                <Route
-                  path="/license-content-detail"
-                  element={<LoginLayout component={LicenseContentDetail} />}
-                />
-                <Route path="/license-edit"  element={<LoginLayout component={EditLicense} />} />
-        </Routes>
-      </Router>
+        )}
+        <Route
+          path="/new-webinar"
+          element={<LoginLayout component={DefaultWebinar} />}
+        />
+        <Route
+          path="/contact-form"
+          element={<LoginLayout component={ContactForm} />}
+        />
+        <Route
+          path="/email-statsss"
+          element={<LoginLayout component={EmailStatsss} />}
+        />
+        <Route
+          path="/stats-webinar"
+          element={<LoginLayout component={StatsWebinar} />}
+        />
+        <Route
+          path="/auto-mail"
+          element={<LoginLayout component={AutoMail} />}
+        />
+        <Route
+          path="/event-create"
+          element={<LoginLayout component={EventCreate} />}
+        />
+        <Route
+          path="/setting-webinar"
+          element={<LoginLayout component={SettingWebinar} />}
+        />
+        <Route
+          path="/SmartList"
+          element={<LoginLayout component={SmartList} />}
+        />
+        <Route
+          path="/EditList"
+          element={<LoginLayout component={EditList} />}
+        />
+        <Route
+          path="/CreateSmartList"
+          element={<LoginLayout component={CreateSmartList} />}
+        />
+        <Route
+          path="/SmartListFilter"
+          element={<LoginLayout component={SmartListFilter} />}
+        />
+        <Route
+          path="/SelectSmartList"
+          element={<LoginLayout component={SelectSmartList} />}
+        />
+        <Route
+          path="/EmailList"
+          element={<LoginLayout component={EmailList} />}
+        />
+        <Route
+          path="/TemplateBuilder"
+          element={<LoginLayout component={TemplateBuilder} />}
+        />
+        <Route
+          path="/AutoEmail"
+          element={<LoginLayout component={AutoEmail} />}
+        />
+        <Route
+          path="/EmailArticleSelect"
+          element={<LoginLayout component={EmailArticleSelect} />}
+        />
+        <Route
+          path="/CreateEmail"
+          element={<LoginLayout component={CreateEmail} />}
+        />
+        <Route
+          path="/FilterSegment"
+          element={<LoginLayout component={FilterSegment} />}
+        />
+        <Route
+          path="/SelectHCP"
+          element={<LoginLayout component={SelectHCP} />}
+        />
+        <Route
+          path="/VerifyHCP"
+          element={<LoginLayout component={VerifyHCP} />}
+        />
+        <Route
+          path="/VerifyMAIL"
+          element={<LoginLayout component={VerifyMAIL} />}
+        />
+        <Route
+          path="/VerifyHcpMAIL"
+          element={<LoginLayout component={VerifyHcpMAIL} />}
+        />
+        <Route
+          path="/SelectSmartListUsers"
+          element={<LoginLayout component={SelectSmartListUsers} />}
+        />
+        <Route
+          path="/VerifySmartList"
+          element={<LoginLayout component={VerifySmartList} />}
+        />
+        <Route
+          path="/ViewSmartList"
+          element={<LoginLayout component={ViewList} />}
+        />
+        <Route
+          path="/UploadExcel"
+          element={<LoginLayout component={UploadExcel} />}
+        />
+        <Route
+          path="/UpdatedTable"
+          element={<LoginLayout component={Table} />}
+        />
+        <Route
+          path="/ViewTable"
+          element={<LoginLayout component={ViewTable} />}
+        />
+        <Route
+          path="/EmailStatss"
+          element={<LoginLayout component={EmailStatss} />}
+        />
+        <Route
+          path="/bounced-email"
+          element={<LoginLayout component={BouncedEmail} />}
+        />
+        <Route
+          path="/get-details"
+          element={<LoginLayout component={GetDetails} />}
+        />
+        <Route
+          path="/license-content"
+          element={<LoginLayout component={LicenseContent} />}
+        />
+        <Route
+          path="/license-edit-listing"
+          element={<LoginLayout component={LicenseEditListing} />}
+        />
+        <Route
+          path="/license-create"
+          element={<LoginLayout component={LicenseCreate} />}
+        />
+        <Route
+          path="/license-create-user"
+          element={<LoginLayout component={LicenseCreateUser} />}
+        />
+        <Route
+          path="/license-sublink"
+          element={<LoginLayout component={LicenseSublink} />}
+        />
+        <Route
+          path="/license-set-popup"
+          element={<LoginLayout component={LicenseSetPopup} />}
+        />
+        <Route
+          path="/license-topics"
+          element={<LoginLayout component={LicenseTopics} />}
+        />
+        <Route
+          path="/license-preview-content"
+          element={<LoginLayout component={LicensePreviewContent} />}
+        />
+        <Route
+          path="/license-content-detail"
+          element={<LoginLayout component={LicenseContentDetail} />}
+        />
+        <Route
+          path="/license-edit"
+          element={<LoginLayout component={EditLicense} />}
+        />
+      </Routes>
+    </Router>
   );
 };
 
