@@ -31,7 +31,7 @@ const SetLayout = () => {
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
-    let  newdata = [...dummyData];
+    let newdata = [...dummyData];
     if (localStorage.getItem("group_id") == 2) {
       newdata.push({
         image: `${path_image}license-icon.svg`,
@@ -42,7 +42,11 @@ const SetLayout = () => {
     if (
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
       localStorage.getItem("webinar_flag") == 1 &&
-      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
+      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" &&
+      localStorage.getItem("user_id") != "wW0geGtDPvig5gF 6KbJrg==" &&
+      localStorage.getItem("user_id") != "UbCJcnLM9fe HsRMgX8c1A==" &&
+      localStorage.getItem("user_id") != "z2TunmZQf3QwCsICFTLGGQ==" &&
+      localStorage.getItem("user_id") != "qDgwPdToP05Kgzc g2VjIQ=="
     ) {
       newdata.push({
         image: `${path_image}webinar-icon.svg`,
@@ -50,7 +54,7 @@ const SetLayout = () => {
         subtitle: "See Webinar Event users",
       });
     }
-    
+
     setData(newdata);
   }, []);
 
@@ -99,29 +103,29 @@ const SetLayout = () => {
         <>
           <Header />
           <div className="default-layout">
-          <div className="landing-layout library_create d-flex">
-            <Row>
-              {data.map((item, index) => (
-                <div
-                  className={
-                    active == index
-                      ? "col library_create-box active"
-                      : "col library_create-box"
-                  }
-                  key={index}
-                  onClick={() => handleChange(item?.title)}
-                >
-                  <div className="create-library-img">
-                    <img src={item.image} alt="Content msg Library" />
+            <div className="landing-layout library_create d-flex">
+              <Row>
+                {data.map((item, index) => (
+                  <div
+                    className={
+                      active == index
+                        ? "col library_create-box active"
+                        : "col library_create-box"
+                    }
+                    key={index}
+                    onClick={() => handleChange(item?.title)}
+                  >
+                    <div className="create-library-img">
+                      <img src={item.image} alt="Content msg Library" />
+                    </div>
+                    <div className="create-library-content">
+                      <h3>{item.title}</h3>
+                      <h5>{item.subtitle}</h5>
+                    </div>
                   </div>
-                  <div className="create-library-content">
-                    <h3>{item.title}</h3>
-                    <h5>{item.subtitle}</h5>
-                  </div>
-                </div>
-              ))}
-            </Row>
-          </div>
+                ))}
+              </Row>
+            </div>
           </div>
         </>
       ) : (
