@@ -2654,6 +2654,7 @@ const FilterSegment = (props) => {
             </div>
           </div>
         </div>
+
         <div className="apply-filter">
           <h6>
             Selected Criterias{" "}
@@ -2703,19 +2704,33 @@ const FilterSegment = (props) => {
                     <div className="filter-div-title">
                       <span>Country |</span>
                     </div>
+
                     <div className="filter-div-list">
-                      {Object.entries(selectedcountry).map(([index, item]) => (
+                      {selectedcountry?.includes("All") ? (
                         <div className="filter-result">
-                          {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
+                          {"All"}{" "}
                           <img
                             onClick={() =>
-                              removeindividualfilter("country", item)
+                              removeindividualfilter("country", "All")
                             }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
                         </div>
-                      ))}
+                      ) : (
+                        Object.entries(selectedcountry).map(([index, item]) => (
+                          <div className="filter-result">
+                            {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("country", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 ) : null
@@ -2729,18 +2744,31 @@ const FilterSegment = (props) => {
                       <span>Company |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedcompany).map(([index, item]) => (
+                      {selectedcompany?.includes("All") ? (
                         <div className="filter-result">
-                          {item}
+                          {"ALL"}
                           <img
                             onClick={() =>
-                              removeindividualfilter("company", item)
+                              removeindividualfilter("company", "All")
                             }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
                         </div>
-                      ))}
+                      ) : (
+                        Object.entries(selectedcompany).map(([index, item]) => (
+                          <div className="filter-result">
+                            {item}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("company", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 ) : null
@@ -2833,18 +2861,31 @@ const FilterSegment = (props) => {
                       <span>Speciality |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedspeciality).map(
-                        ([index, item]) => (
-                          <div className="filter-result">
-                            {item}{" "}
-                            <img
-                              onClick={() =>
-                                removeindividualfilter("speciality", item)
-                              }
-                              src={path_image + "filter-close.svg"}
-                              alt="Close-filter"
-                            />
-                          </div>
+                      {selectedspeciality?.includes("All") ? (
+                        <div className="filter-result">
+                          {"All"}{" "}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter("speciality", "All")
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ) : (
+                        Object.entries(selectedspeciality).map(
+                          ([index, item]) => (
+                            <div className="filter-result">
+                              {item}{" "}
+                              <img
+                                onClick={() =>
+                                  removeindividualfilter("speciality", item)
+                                }
+                                src={path_image + "filter-close.svg"}
+                                alt="Close-filter"
+                              />
+                            </div>
+                          )
                         )
                       )}
                     </div>
@@ -2919,18 +2960,31 @@ const FilterSegment = (props) => {
                       <span>Consent |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedconsent).map(([index, item]) => (
+                      {selectedconsent?.includes("All") ? (
                         <div className="filter-result">
-                          {item}{" "}
+                          {"All"}{" "}
                           <img
                             onClick={() =>
-                              removeindividualfilter("consent", item)
+                              removeindividualfilter("consent", "All")
                             }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
                         </div>
-                      ))}
+                      ) : (
+                        Object.entries(selectedconsent).map(([index, item]) => (
+                          <div className="filter-result">
+                            {item}{" "}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("consent", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 ) : null
@@ -2969,21 +3023,34 @@ const FilterSegment = (props) => {
                       <span>User Type |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedinvestigatorType).map(
-                        ([index, item]) => (
-                          <div className="filter-result">
-                            {item}{" "}
-                            <img
-                              onClick={() =>
-                                removeindividualfilter(
-                                  "investigator_type",
-                                  item
-                                )
-                              }
-                              src={path_image + "filter-close.svg"}
-                              alt="Close-filter"
-                            />
-                          </div>
+                      {selectedinvestigatorType?.includes("All") ? (
+                        <div className="filter-result">
+                          {"All"}{" "}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter("investigator_type", "All")
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ) : (
+                        Object.entries(selectedinvestigatorType).map(
+                          ([index, item]) => (
+                            <div className="filter-result">
+                              {item}{" "}
+                              <img
+                                onClick={() =>
+                                  removeindividualfilter(
+                                    "investigator_type",
+                                    item
+                                  )
+                                }
+                                src={path_image + "filter-close.svg"}
+                                alt="Close-filter"
+                              />
+                            </div>
+                          )
                         )
                       )}
                     </div>
@@ -2999,18 +3066,31 @@ const FilterSegment = (props) => {
                       <span>Sub Role |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedSubRole).map(([index, item]) => (
+                      {selectedSubRole?.includes("All") ? (
                         <div className="filter-result">
-                          {item}{" "}
+                          {"All"}{" "}
                           <img
                             onClick={() =>
-                              removeindividualfilter("sub_role", item)
+                              removeindividualfilter("sub_role", "All")
                             }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
                         </div>
-                      ))}
+                      ) : (
+                        Object.entries(selectedSubRole).map(([index, item]) => (
+                          <div className="filter-result">
+                            {item}{" "}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("sub_role", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 ) : null
@@ -3101,18 +3181,31 @@ const FilterSegment = (props) => {
                       <span>Site Number |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedsitenumber).map(
-                        ([index, item]) => (
-                          <div className="filter-result">
-                            {item}{" "}
-                            <img
-                              onClick={() =>
-                                removeindividualfilter("site_number", item)
-                              }
-                              src={path_image + "filter-close.svg"}
-                              alt="Close-filter"
-                            />
-                          </div>
+                      {selectedsitenumber?.includes("All") ? (
+                        <div className="filter-result">
+                          {"All"}{" "}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter("site_number", "All")
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ) : (
+                        Object.entries(selectedsitenumber).map(
+                          ([index, item]) => (
+                            <div className="filter-result">
+                              {item}{" "}
+                              <img
+                                onClick={() =>
+                                  removeindividualfilter("site_number", item)
+                                }
+                                src={path_image + "filter-close.svg"}
+                                alt="Close-filter"
+                              />
+                            </div>
+                          )
                         )
                       )}
                     </div>
@@ -3155,18 +3248,33 @@ const FilterSegment = (props) => {
                       <span>Site Name |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedsitename).map(([index, item]) => (
+                      {selectedsitename?.includes("All") ? (
                         <div className="filter-result">
-                          {item}{" "}
+                          {"All"}{" "}
                           <img
                             onClick={() =>
-                              removeindividualfilter("site_name", item)
+                              removeindividualfilter("site_name", "All")
                             }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
                         </div>
-                      ))}
+                      ) : (
+                        Object.entries(selectedsitename).map(
+                          ([index, item]) => (
+                            <div className="filter-result">
+                              {item}{" "}
+                              <img
+                                onClick={() =>
+                                  removeindividualfilter("site_name", item)
+                                }
+                                src={path_image + "filter-close.svg"}
+                                alt="Close-filter"
+                              />
+                            </div>
+                          )
+                        )
+                      )}
                     </div>
                   </div>
                 ) : null
