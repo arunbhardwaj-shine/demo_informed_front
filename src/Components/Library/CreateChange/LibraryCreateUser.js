@@ -2204,7 +2204,7 @@ const LibraryCreateUser = () => {
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
+              <label htmlFor="new-tag"> { localStorage. getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ==" ? "New Topic" : "New Tag"  } </label>
               <input
                 type="text"
                 className="form-control"

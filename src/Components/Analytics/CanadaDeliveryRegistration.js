@@ -221,7 +221,7 @@ const CanadaDeliveryRegistration = () => {
 
             {
               name: "Direct",
-              id: "Direct",
+              id: "direct",
               y: result?.data?.data?.tot_web,
               data: [
                 ["Critical Care", result?.data?.data?.tot_web_c2],
