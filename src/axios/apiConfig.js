@@ -78,5 +78,6 @@ export const ENDPOINT = {
   UPDATE_TOPIC: "library/edit-product/",
   READER_ADD_FEATURES: "/reader/add-features",
   SPCFILTERS: "library/spc-filter",
+  CHANGE_PASSWORD: "auth/change-password",
   INFORMED_USER_FORM: "https://webinar.docintel.app/lmn/contact_email",
 };

@@ -16,6 +16,8 @@ import PreviewContent from "./Components/Library/CreateChange/PreviewContent";
 import Spc from "./Components/Library/Spc";
 import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
+import ChangePassword from "./Auth/ChangePassword";
+
 
 //License routes
 import LicenseContent from "./Components/License/Content/LicenseContent";
@@ -229,6 +231,12 @@ const Routing = () => {
           path="/analytic-content-type"
           element={<LoginLayout component={CanadaContentType} />}
         />
+         <Route
+          path="/change-password"
+          element={<LoginLayout component={ChangePassword} />}
+        />
+
+
         <Route
           path="/analytic-delivery-trends"
           element={<LoginLayout component={CanadaDeliveryTrends} />}
