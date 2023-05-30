@@ -79,4 +79,5 @@ export const ENDPOINT = {
   READER_ADD_FEATURES: "/reader/add-features",
   SPCFILTERS: "library/spc-filter",
   INFORMED_USER_FORM: "https://webinar.docintel.app/lmn/contact_email",
+  READER_REFRESH: "/reader/sync-reader",
 };

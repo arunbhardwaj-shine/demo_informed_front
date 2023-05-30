@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import {
   Accordion,
   Button,
@@ -1087,6 +1088,30 @@ const NewReaders = () => {
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
   };
+  const Refresh = async (obj) => {
+    console.log("hi i am here---->");
+    try {
+      // loader("show");
+
+      let data = {
+        user_id: localStorage.getItem("user_id"),
+        userType: 5,
+        search: search,
+        type: "",
+        flag: isFlag,
+        page: 1,
+        limit: limit,
+      };
+      let payload = { ...data, ...obj };
+      const res = await postData(ENDPOINT.READER_REFRESH, payload);
+      setCount(res?.data?.data?.total);
+      // setIsLoaded(true);
+      loader("hide");
+    } catch (err) {
+      console.log(err);
+      loader("hide");
+    }
+  };
 
   return (
     <>
@@ -1099,6 +1124,15 @@ const NewReaders = () => {
                   Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
                 </h4>
               </div>
+              {Object.keys(filterObject)?.length == 2 &&
+              filterObject["status"] == "Registered" &&
+              filterObject["contact Type"] == "HCP" ? (
+                <div className="refresh-button">
+                  <button onClick={() => Refresh(filterObject)}>
+                    {/* Refresh */}
+                  </button>
+                </div>
+              ) : null}
               <div className="top-right-action library_content_view">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1119,7 +1153,13 @@ const NewReaders = () => {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                          d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 
+                          2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 
+                          12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 
+                          16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 
+                          14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 
+                          1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 
+                          11.3333 6.33328 11.3333Z"
                           fill="#97B6CF"
                         />
                       </svg>
@@ -1220,7 +1260,8 @@ const NewReaders = () => {
                                                     <input
                                                       type={
                                                         key == "status" ||
-                                                        key == "Content Owners" ||
+                                                        key ==
+                                                          "Content Owners" ||
                                                         key == "contact Type" ||
                                                         key == "userAction" ||
                                                         key == "Blinded" ||
