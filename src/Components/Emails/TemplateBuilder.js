@@ -119,6 +119,7 @@ const TemplateBuilder = (props) => {
   const [showLessInfo, setShowLessInfo] = useState(true);
   const [getSmartListId, setSmartListId] = useState(0);
   const [templateClickedd, setTemplateClicked] = useState(false);
+  const [validationError, setValidationError] = useState({});
 
   const newArr = [];
 
@@ -812,7 +813,10 @@ const TemplateBuilder = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "Please enter the email atleast";
+          setValidationError({
+            newHcpEmail: "Please enter the email atleast",
+          });
+          return;
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -820,12 +824,18 @@ const TemplateBuilder = (props) => {
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = selectedHcp.find((x) => x.email === useremail);
             if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+              });
+              return;
             } else {
               return "true";
             }
           } else {
-            return "Email format is not valid";
+            setValidationError({
+              newHcpEmail: "Email format is not valid",
+            });
+            return;
           }
         } else {
           return "true";
@@ -1111,10 +1121,10 @@ const TemplateBuilder = (props) => {
 
   const handleScroll = (ev) => {
     // if (ev.target.scrollTop > 20) {
-      // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
+    // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
     //   document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
     // } else {
-      // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
+    // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
     //   document
     //     .querySelector("#mail-view")
     //     .setAttribute("custom-atr", "non-scroll");
@@ -1279,6 +1289,27 @@ const TemplateBuilder = (props) => {
   const onTemplateTypeChange = (e) => {
     setTemplateType(e);
     console.log(e);
+  };
+
+  const replaceDangerHtml = (dynamicTempHtml) => {
+    const modifiedContent = dynamicTempHtml?.replace(
+      '<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
+    var pattern = /<img[^>]+src="([^"]*)"[^>]*>/g;
+
+    // Replace the matching img tags with a new string
+    var modifiedString = modifiedContent?.replace(
+      pattern,
+      function (match, src) {
+        if (src === "###coverpath###") {
+          return "";
+        } else {
+          return match; // Keep the original img tag if the src doesn't match
+        }
+      }
+    );
+    return modifiedString;
   };
 
   return (
@@ -1658,9 +1689,9 @@ const TemplateBuilder = (props) => {
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       initialValue={template}
-                      link_default_protocol= {'https'}
-                      link_assume_external_targets = {'https'}
-                      relative_urls = {true}
+                      link_default_protocol={"https"}
+                      link_assume_external_targets={"https"}
+                      relative_urls={true}
                       init={{
                         height: "100vh",
                         menubar:
@@ -1684,9 +1715,9 @@ const TemplateBuilder = (props) => {
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       initialValue={newTemplateNamee}
-                      link_default_protocol= {'https'}
-                      link_assume_external_targets = {'https'}
-                      relative_urls = {true}
+                      link_default_protocol={"https"}
+                      link_assume_external_targets={"https"}
+                      relative_urls={true}
                       init={{
                         height: "100vh",
                         menubar:
@@ -2017,10 +2048,16 @@ const TemplateBuilder = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email <span>*</span></label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpEmail
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     id="email-desc"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
@@ -2028,6 +2065,11 @@ const TemplateBuilder = (props) => {
                                     }
                                     value={val.email}
                                   />
+                                  {validationError?.newHcpEmail ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpEmail}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
@@ -2367,9 +2409,10 @@ const TemplateBuilder = (props) => {
                 className="thumbnail_email_view"
                 ref={ref}
                 dangerouslySetInnerHTML={{
-                  __html: templateSaving != "" ?
-                    templateSaving?.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', '')
-                  : template?.replace('<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>', ''),
+                  __html:
+                    templateSaving != ""
+                      ? replaceDangerHtml(templateSaving)
+                      : replaceDangerHtml(template),
                 }}
               ></div>
             </div>

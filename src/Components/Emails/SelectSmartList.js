@@ -49,6 +49,7 @@ const SelectSmartList = (props) => {
   const [fileLength, setFileLength] = useState();
   const [getCreatedListName, setCreatedListName] = useState("");
   const [creatorName, setCreatorName] = useState("");
+  const [validationError, setValidationError] = useState({});
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [getloadmore, setloadmore] = useState(0);
@@ -59,16 +60,16 @@ const SelectSmartList = (props) => {
     getSmartListData(1);
   }, []);
 
-  const getSmartListData = (page=1) => {
+  const getSmartListData = (page = 1) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: "",
       filter: "",
-      paging: '32'
+      paging: "32",
     };
     loader("show");
     axios
-      .post(`distributes/get_smart_list?page=`+page, body)
+      .post(`distributes/get_smart_list?page=` + page, body)
       .then((res) => {
         setSendListData(res.data.response.data);
         loader("hide");
@@ -297,16 +298,24 @@ const SelectSmartList = (props) => {
         setUploadOrDownloadCount(parseInt(adr));
       }
     }, 1000);
+    let error = {};
 
     if (getCreatedListName === "") {
-      toast.warning("Please enter the smart list name first.");
-      return false;
-    } else if (creatorName === "") {
-      toast.warning("Please enter the creator name");
-      return false;
-    } else if (selectedFile === null) {
-      toast.warning("Please upload file first");
-      return false;
+      error.getCreatedListName = "Please enter the smart list name first.";
+      // toast.warning("Please enter the smart list name first.");
+      // return false;
+    }
+    if (creatorName === "") {
+      error.creatorName = "Please enter the creator name";
+      // return false;
+    }
+    if (selectedFile === null) {
+      error.selectedFile = "Please upload file first";
+    }
+    if (Object.keys(error)?.length) {
+      setValidationError(error);
+      toast.error(error[Object.keys(error)[0]]);
+      return;
     }
 
     let formData = new FormData();
@@ -608,7 +617,6 @@ const SelectSmartList = (props) => {
                       </button>
                     </div>
                   )}
-
               </div>
             </section>
           </div>
@@ -839,19 +847,37 @@ const SelectSmartList = (props) => {
                         </label>
                         <input
                           type="text"
-                          className="form-control"
+                          className={
+                            validationError?.getCreatedListName
+                              ? "form-control error"
+                              : "form-control"
+                          }
                           value={getCreatedListName}
                           onChange={(event) => handleSmartListName(event)}
                         />
+                        {validationError?.getCreatedListName ? (
+                          <div className="login-validation">
+                            {validationError?.getCreatedListName}
+                          </div>
+                        ) : null}
                       </div>
                       <div className="form-group col">
                         <label htmlFor="creator-name">Creator’s Name</label>
                         <input
                           type="text"
-                          className="form-control"
+                          className={
+                            validationError?.creatorName
+                              ? "form-control error"
+                              : "form-control"
+                          }
                           value={creatorName}
                           onChange={(event) => handleCreatorName(event)}
                         />
+                        {validationError?.creatorName ? (
+                          <div className="login-validation">
+                            {validationError?.creatorName}
+                          </div>
+                        ) : null}
                       </div>
                       <div className="form-group col-sm-12">
                         <div className="form-group-content">
