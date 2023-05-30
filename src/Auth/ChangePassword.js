@@ -1,13 +1,15 @@
 import React,{useState} from "react"
 import { Col, Row, Button, Modal, Form } from "react-bootstrap";
 import {Validation} from "./Validation"
-
+import { useNavigate } from "react-router-dom";
+import { loader } from "../loader";
 import { postData } from "../axios/apiHelper";
 import { ENDPOINT } from "../axios/apiConfig";
 const ChangePassword = () =>{
     const [user,setUser] = useState({})
     const [error,setError] = useState({})
     const [enable,setEnable] = useState({})
+    const navigate = useNavigate()
 
 
     const handleChange = (setState)=>(e) =>{
@@ -22,8 +24,12 @@ const ChangePassword = () =>{
                 setError(errorResult)
                 return
             }
+           loader("show")
            await postData(ENDPOINT.CHANGE_PASSWORD,user)
+           loader("hide")
+           navigate("/home")
           }catch(err){
+            loader("hide")
             console.log("- imher",err)
           }
          
@@ -41,7 +47,7 @@ const ChangePassword = () =>{
     return (
         <Col className="right-sidebar custom-change">
         <div className="custom-container">
-          <Row>
+          {/* <Row> */}
             <div className="create-reader create-change-content reader_added">
               <div className="form_action">
                 <div className="row">
@@ -125,7 +131,7 @@ const ChangePassword = () =>{
                 </div>
               </div>
             </div>
-          </Row>
+          {/* </Row> */}
         </div>
         </Col>
     )
