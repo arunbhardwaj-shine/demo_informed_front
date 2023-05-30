@@ -220,7 +220,7 @@ const CampaignStats = () => {
 
             {
               name: "Direct",
-              id: "Direct",
+              id: "direct",
               y: result?.data?.data?.tot_web,
               data: [
                 ["Critical Care", result?.data?.data?.tot_web_c2],
@@ -230,7 +230,7 @@ const CampaignStats = () => {
             },
             {
               name: "Peer sharing",
-              id: "Peer sharing",
+              id: "peer",
               y: result?.data?.data?.tot_peer,
               data: [
                 ["Critical Care", result?.data?.data?.tot_peer_c2],
