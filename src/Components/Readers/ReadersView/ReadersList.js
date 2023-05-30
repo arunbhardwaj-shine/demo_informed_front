@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import {
   Accordion,
   Button,
@@ -1087,6 +1088,30 @@ const NewReaders = () => {
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
   };
+  const Refresh = async (obj) => {
+    console.log("hi i am here---->");
+    try {
+      // loader("show");
+
+      let data = {
+        user_id: localStorage.getItem("user_id"),
+        userType: 5,
+        search: search,
+        type: "",
+        flag: isFlag,
+        page: 1,
+        limit: limit,
+      };
+      let payload = { ...data, ...obj };
+      const res = await postData(ENDPOINT.READER_REFRESH, payload);
+      setCount(res?.data?.data?.total);
+      // setIsLoaded(true);
+      loader("hide");
+    } catch (err) {
+      console.log(err);
+      loader("hide");
+    }
+  };
 
   return (
     <>
@@ -1098,7 +1123,44 @@ const NewReaders = () => {
                 <h4>
                   Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
                 </h4>
+                {Object.keys(filterObject)?.length == 2 &&
+                filterObject["status"] == "Registered" &&
+                filterObject["contact Type"] == "HCP" ? (
+                  <div className="refresh-button">
+                    <button
+                      onClick={() => {
+                        Refresh(filterObject);
+                      }}
+                    >
+                      <svg
+                        fill="#fff"
+                        height="800px"
+                        width="800px"
+                        version="1.1"
+                        id="Layer_1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        // xmlns:xlink="http://www.w3.org/1999/xlink"
+                        viewBox="0 0 383.748 383.748"
+                        // xml:space="preserve"
+                      >
+                        <g>
+                          <path
+                            d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
+		C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
+		L2.081,34.641v113.365h113.91L62.772,95.042z"
+                          />
+                          <path
+                            d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
+		c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
+		c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"
+                          />
+                        </g>
+                      </svg>
+                    </button>
+                  </div>
+                ) : null}
               </div>
+
               <div className="top-right-action library_content_view">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1119,7 +1181,13 @@ const NewReaders = () => {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                          d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 
+                          2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 
+                          12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 
+                          16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 
+                          14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 
+                          1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 
+                          11.3333 6.33328 11.3333Z"
                           fill="#97B6CF"
                         />
                       </svg>
@@ -1220,7 +1288,8 @@ const NewReaders = () => {
                                                     <input
                                                       type={
                                                         key == "status" ||
-                                                        key == "Content Owners" ||
+                                                        key ==
+                                                          "Content Owners" ||
                                                         key == "contact Type" ||
                                                         key == "userAction" ||
                                                         key == "Blinded" ||

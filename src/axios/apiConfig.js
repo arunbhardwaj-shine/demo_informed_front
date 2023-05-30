@@ -80,4 +80,5 @@ export const ENDPOINT = {
   SPCFILTERS: "library/spc-filter",
   CHANGE_PASSWORD: "auth/change-password",
   INFORMED_USER_FORM: "https://webinar.docintel.app/lmn/contact_email",
+  READER_REFRESH: "/reader/sync-reader",
 };
