@@ -64,12 +64,13 @@ const CanadaTrendingContent = () => {
 
     activeTab.current = event;
     if (event == 1) {
-      getDataFromApi("haematology");
+      getDataFromApi("all");
     } else if (event == 2) {
       getDataFromApi("ibu");
     } 
    
   };
+
 
   return (
     <>

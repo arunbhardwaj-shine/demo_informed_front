@@ -12,6 +12,7 @@ const CanadaContentType = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [sectionLoader, setSectionLoader] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
+  const [totalLength, setTotalLength] = useState(0);
 
   Highcharts.setOptions({
     colors: [
@@ -122,6 +123,7 @@ const CanadaContentType = () => {
         getDataContentGraph("ibu");
       }
       const hadData = response?.data?.data;
+  
       if (hadData.length <= 0) {
         setIsDataFound(false);
       }
@@ -140,6 +142,21 @@ const CanadaContentType = () => {
       const response = await postData(ENDPOINT.CONTENT_TYPE_GRAPH, requestBody);
 
       const hadData = response?.data?.data?.data;
+
+   const dataLengths = Object.keys(hadData).map((item, index) => {
+    const dataLength = hadData[item]?.data?.length || 0;
+    const total = hadData[item]?.total || 0;
+  
+    return {
+      property: item,
+      total: total,
+      dataLength: dataLength,
+    };
+  });
+  const totalLength = dataLengths.reduce((sum, item) => sum + item.total, 0);
+  setTotalLength(totalLength);
+
+  
       const months = response?.data?.data?.month;
       setIsDataFound(true);
       const newLineData = [
@@ -156,6 +173,8 @@ const CanadaContentType = () => {
           color: Highcharts?.getOptions()?.colors[index],
         });
       });
+
+   
       const newLineOptions = {
         ...lineOption,
         xAxis: {
@@ -208,6 +227,7 @@ const CanadaContentType = () => {
       layout: "horizontal",
       x: 0,
       y: 0,
+      reversed:true
     },
     plotOptions: {
       line: {
@@ -300,7 +320,7 @@ const CanadaContentType = () => {
                     <Tab eventKey="2" title="IBU"></Tab>
                   </Tabs>
 
-                  {isDataFound && data.length > 0 ? (
+                  {isDataFound && (data.length > 0 || totalLength > 0) ? (
                     <>
                       <div className="high_charts mb-4">
                         <HighchartsReact
