@@ -664,21 +664,25 @@ const [tableDataIbu, setTableDataIbu] = useState({
 
 // start line cis  table
 const newTableSeries = cis.map((item) => ({
-  data: item.total,
+  data: item.total.reverse(),
 }));
 
 const tableDatas = cis.map((item, index) => ({
   name: item.ibu + " ( " + item.total.reduce((acc, val) => acc + val, 0) + ")",
   
   }));
+
+
 const newTable = {
   ...tableData,
   xAxis: {
     categories: tableDatas,
   },
   series: newTableSeries,
-   months: months,
+   months: reversedMonths,
 };
+
+
 setTableData(newTable); 
 
 // end line cis  table
@@ -721,10 +725,10 @@ setTableData(newTable);
 
 
 
-//start create cis table
+//start create ibu table
 
 const newTableSeriesibu = ibu.map((item) => ({
-  data: item.total,
+  data: item.total.reverse(),
 }));
 
 const tableDatasibu = ibu.map((item, index) => ({
@@ -737,7 +741,7 @@ const newTableibu = {
     categories: tableDatasibu,
   },
   series: newTableSeriesibu,
-   months: months,
+   months: reversedMonths,
 };
 setTableDataIbu(newTableibu);
 

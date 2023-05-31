@@ -60,7 +60,6 @@ export default function ContentAnalyticsComponent({ data }) {
     data: Object.values(values),
   }));
 
-  console.log("series_data-->",series_data);
 
   // Get the categories from the first series data
   let categories = Object.keys(data[Object.keys(data)[0]]);
@@ -315,7 +314,6 @@ export default function ContentAnalyticsComponent({ data }) {
                           fontWeight: "normal",
                           textShadow: "none",
                         },
-                          y: -10,
                         formatter: function () {
                           return (
                             "<div className=" +
