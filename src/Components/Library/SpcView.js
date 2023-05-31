@@ -51,10 +51,10 @@ const SpcView = () => {
       }
     }
 
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
@@ -327,7 +327,7 @@ const SpcView = () => {
                   }
                 >
                   <button
-                   ref={buttonRef}
+                    ref={buttonRef}
                     className={
                       Object.keys(filterObject).length > 0
                         ? "btn btn-secondary dropdown filter_applied"
@@ -388,7 +388,7 @@ const SpcView = () => {
                   </button>
                   {showfilter && (
                     <div
-                     ref={filterRef}
+                      ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -677,7 +677,7 @@ const SpcView = () => {
           popupMessage={{
             message1: "The SPC file will be deleted.",
             message2: "Are you sure you want to delete it?",
-            footerButton: "Yes Please!",
+            footerButton: "Yes please!",
           }}
           path_image={path_image}
         />
