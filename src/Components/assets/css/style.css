@@ -7498,7 +7498,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   /* background: #0066be; */
   padding: 9px;
   border-radius: 14px;
-  height: 35px;
+  /* height: 35px; */
   width: 35px;
 }
 .refresh-button button {
@@ -7507,8 +7507,6 @@ section.search-hcp.smart-list-view .header-btn-left {
   padding: 0;
   display: flex;
   align-items: center;
-  fill: #0066be;
-  color: #0066be;
 }
 
 .refresh-rotate svg {

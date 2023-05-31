@@ -244,7 +244,6 @@ const CanadaDeliveryRegistration = () => {
         },
       ];
 
-      console.log("drillDownValue", drillDownValue);
       setCampaignStatsPieOptions((prevOptions) => {
         const updatedDrilldown = drillDownValue?.[0].series.map(
           (seriesItem) => {
@@ -258,7 +257,6 @@ const CanadaDeliveryRegistration = () => {
           }
         );
 
-        console.log("updatedDrilldown", updatedDrilldown);
 
         return {
           ...prevOptions,
@@ -672,7 +670,7 @@ const CanadaDeliveryRegistration = () => {
 
       // start line cis  table
       const newTableSeries = cis.map((item) => ({
-        data: item.total,
+        data: item.total.reverse(),
       }));
 
       const tableDatas = cis.map((item, index) => ({
@@ -688,7 +686,7 @@ const CanadaDeliveryRegistration = () => {
           categories: tableDatas,
         },
         series: newTableSeries,
-        months: months,
+        months: reversedMonths,
       };
       setTableData(newTable);
 
@@ -729,10 +727,10 @@ const CanadaDeliveryRegistration = () => {
 
       setCampaignStatsLineOptionIBU(newHcpOptionsIbu);
 
-      //start create cis table
+      //start create ibu table
 
       const newTableSeriesibu = ibu.map((item) => ({
-        data: item.total,
+        data: item.total.reverse(),
       }));
 
       const tableDatasibu = ibu.map((item, index) => ({
@@ -748,7 +746,7 @@ const CanadaDeliveryRegistration = () => {
           categories: tableDatasibu,
         },
         series: newTableSeriesibu,
-        months: months,
+        months: reversedMonths,
       };
       setTableDataIbu(newTableibu);
 
