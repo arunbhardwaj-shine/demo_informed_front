@@ -150,12 +150,10 @@ const TemplateBuilder = (props) => {
         setSmartListData(res.data.response.data);
         if (flag == 0) {
           setPrevSmartListData(res.data.response.data);
-        } else {
-          loader("hide");
         }
       })
       .catch((err) => {
-        loader("hide");
+        // loader("hide");
         console.log(err);
       });
   };
@@ -250,15 +248,16 @@ const TemplateBuilder = (props) => {
         console.log(err);
       });
     if (flag == 1) {
-      loader("hide");
+      // loader("hide");
       toast.success("Template saved successfully");
     } else if (flag == 2) {
       setTemplateId();
       setTemplateName("");
       setNewTemplateName("");
       setTemplate("");
-      loader("hide");
+      // loader("hide");
     }
+    loader("hide");
   };
 
   useEffect(() => {
@@ -275,15 +274,15 @@ const TemplateBuilder = (props) => {
       await axios
         .post(`emailapi/get_tags`, body)
         .then((res) => {
-          setAllTags(res.data.response.data);
+          setAllTags(res?.data?.response?.data);
           // console.log(campaign_id_st);
           // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
-          loader("hide");
+          // loader("hide");
           // }
         })
         .catch((err) => {
-          loader("hide");
-          //console.log(err);
+          // loader("hide");
+          console.log(err);
         });
     };
     getAllTags();
@@ -1315,7 +1314,6 @@ const TemplateBuilder = (props) => {
   return (
     <>
       <div className="col right-sidebar">
-        {console.log(selectedIbu)}
         <div className="custom-container">
           <div className="row">
             <div className="top-header">
@@ -1412,7 +1410,7 @@ const TemplateBuilder = (props) => {
                 </div>
               </div>
             </div>
-
+            {console.log("template list", templateList)}
             <section className="select-mail-template">
               <div className="custom-container">
                 <div className="row">
