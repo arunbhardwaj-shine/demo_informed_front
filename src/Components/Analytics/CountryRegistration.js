@@ -58,10 +58,10 @@ const CountryRegistration = () => {
     let zoomCoordinates;
 
     const userId = localStorage.getItem("user_id");
-    if (userId === "qDgwPdToP05Kgzc g2VjIQ==" ||  userId === "wW0geGtDPvig5gF 6KbJrg==" || userId === "UbCJcnLM9fe HsRMgX8c1A==") {
+    if (userId === "qDgwPdToP05Kgzc g2VjIQ==" || userId === "wW0geGtDPvig5gF 6KbJrg==" || userId === "UbCJcnLM9fe HsRMgX8c1A==") {
       zoomCoordinates = { lat: 19.41944, lon: -99.14556 };
     } else {
-      zoomCoordinates = { lat: 7000, lon:41.1533 };
+      zoomCoordinates = { lat: 7.857940, lon: 24.115716 };
     }
 
     return {
@@ -71,16 +71,16 @@ const CountryRegistration = () => {
         height: "60%",
         events: {
           load: function () {
-          const lat = zoomCoordinates.lat;
-          const lon = zoomCoordinates.lon; 
-          const zoom = 0.5;
-          const map = this;
-          const center = map.fromLatLonToPoint({
-            lat: lat,
-            lon: lon,
-          });
-          map.mapZoom(zoom, center.x, center.y);
-        },
+            const lat = zoomCoordinates.lat;
+            const lon = zoomCoordinates.lon;
+            const zoom = 0.5;
+            const map = this;
+            const center = map.fromLatLonToPoint({
+              lat: lat,
+              lon: lon,
+            });
+            map.mapZoom(zoom, center.x, center.y);
+          },
         },
       },
       title: {
@@ -266,10 +266,10 @@ const CountryRegistration = () => {
             apiData.data.haematology[index] +
             apiData.data.immunotherapy[index];
           const totalIndex = isNaN(formattedIndex) ? 0 : formattedIndex;
-           // Skip countries with totalIndex equal to zero
-        if (totalIndex === 0) {
-          return null;
-        }
+          // Skip countries with totalIndex equal to zero
+          if (totalIndex === 0) {
+            return null;
+          }
           return {
             name: Object.keys(coordObject)[0],
             lat: parseFloat(lat),
@@ -368,7 +368,7 @@ const CountryRegistration = () => {
         ];
       }
 
-      
+
       const newTable = {
         ...tableData,
         xAxis: {
@@ -394,6 +394,7 @@ const CountryRegistration = () => {
 
   const selectMonthYear = useCallback(
     (selectedOption) => {
+      window.scrollTo(0, 0);
       setMonthYear(selectedOption?.value);
       const [month, year] = selectedOption?.value?.split(" ") || [];
       optionMonth.current = month;
@@ -462,7 +463,7 @@ const CountryRegistration = () => {
                 ) : null}
               </div>
               {countryList.series.some((series) => series.data.length > 0) &&
-              newData.length > 0 ? (
+                newData.length > 0 ? (
                 <div>
                   <div className="high_charts">
                     <HighchartsReact
