@@ -211,10 +211,11 @@ const Header = () => {
                     window.location.pathname == "/content-type" ||
                     window.location.pathname == "/octalatch-totalhcp" ||
                     window.location.pathname == "/analytic-trending-topics" ||
-        					  window.location.pathname == "/analytic-delivery-registration" ||
-        					  window.location.pathname == "/analytic-delivery-trends" ||
-        					  window.location.pathname == "/analytic-trending-content" ||
-        					  window.location.pathname == "/analytic-content-type" ||
+                    window.location.pathname ==
+                      "/analytic-delivery-registration" ||
+                    window.location.pathname == "/analytic-delivery-trends" ||
+                    window.location.pathname == "/analytic-trending-content" ||
+                    window.location.pathname == "/analytic-content-type" ||
                     window.location.pathname == "/octa-country" ||
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
@@ -307,8 +308,10 @@ const Header = () => {
 
                 {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
                 localStorage.getItem("webinar_flag") == 1 &&
+                localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" &&
+                localStorage.getItem("user_id") != "qDgwPdToP05Kgzc g2VjIQ==" &&
                 localStorage.getItem("user_id") !=
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  "wW0geGtDPvig5gF 6KbJrg==" ? (
                   <li className="nav-item">
                     <a
                       className="nav-link"
@@ -354,7 +357,7 @@ const Header = () => {
                 <Dropdown.Menu>
                   <Dropdown.Item
                     // href="https://informed.pro/Pages/change_password/"
-                    onClick={()=>navigate("/change-password")}
+                    onClick={() => navigate("/change-password")}
                     className="dropdown-item"
                   >
                     Change Password

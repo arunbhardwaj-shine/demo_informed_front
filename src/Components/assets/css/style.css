@@ -7482,8 +7482,8 @@ section.search-hcp.smart-list-view .header-btn-left {
 .refresh-button svg {
   width: 20px;
   height: 20px;
-  fill: #fff;
-  color: #fff;
+  fill: #0066be;
+  color: #0066be;
 }
 .top-header .page-title {
   padding: 0;
@@ -7495,7 +7495,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 .refresh-button {
   display: inline-block;
-  background: #0066be;
+  /* background: #0066be; */
   padding: 9px;
   border-radius: 14px;
   height: 35px;
@@ -7507,4 +7507,28 @@ section.search-hcp.smart-list-view .header-btn-left {
   padding: 0;
   display: flex;
   align-items: center;
+  fill: #0066be;
+  color: #0066be;
+}
+
+.refresh-rotate svg {
+  -webkit-animation: spin 2s linear infinite;
+  -moz-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
