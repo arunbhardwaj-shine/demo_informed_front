@@ -112,6 +112,7 @@ const NewReaders = () => {
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   useEffect(() => {
     getFilters();
@@ -1090,7 +1091,7 @@ const NewReaders = () => {
   };
   const Refresh = async (obj) => {
     try {
-      // loader("show");
+      setRefreshFlag(true);
 
       let data = {
         user_id: localStorage.getItem("user_id"),
@@ -1104,11 +1105,11 @@ const NewReaders = () => {
       let payload = { ...data, ...obj };
       const res = await postData(ENDPOINT.READER_REFRESH, payload);
       setCount(res?.data?.data?.total);
-      // setIsLoaded(true);
-      loader("hide");
+
+      setRefreshFlag(false);
     } catch (err) {
       console.log(err);
-      loader("hide");
+      setRefreshFlag(false);
     }
   };
 
@@ -1128,6 +1129,7 @@ const NewReaders = () => {
                   filterObject["contact Type"] == "HCP" ? (
                     <div className="refresh-button">
                       <button
+                        className={refreshFlag ? "refresh-rotate" : "refresh"}
                         onClick={() => {
                           Refresh(filterObject);
                         }}
