@@ -153,7 +153,7 @@ const TemplateBuilder = (props) => {
         }
       })
       .catch((err) => {
-        // loader("hide");
+        loader("hide");
         console.log(err);
       });
   };
@@ -171,8 +171,7 @@ const TemplateBuilder = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           setCountryall(res.data.response.data.country);
-          //console.log(res.data.response.data.country);
-          // console.log(countryall);
+
           // setCounter(counter + 1);
         })
         .catch((err) => {
@@ -248,21 +247,19 @@ const TemplateBuilder = (props) => {
         console.log(err);
       });
     if (flag == 1) {
-      // loader("hide");
       toast.success("Template saved successfully");
     } else if (flag == 2) {
       setTemplateId();
       setTemplateName("");
       setNewTemplateName("");
       setTemplate("");
-      // loader("hide");
     }
     loader("hide");
   };
 
-  useEffect(() => {
-    //console.log("sdsdsd");
-  }, [selectedHcp]);
+  // useEffect(() => {
+
+  // }, [selectedHcp]);
 
   useEffect(() => {
     const body = {
@@ -275,13 +272,13 @@ const TemplateBuilder = (props) => {
         .post(`emailapi/get_tags`, body)
         .then((res) => {
           setAllTags(res?.data?.response?.data);
-          // console.log(campaign_id_st);
+
           // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
           // loader("hide");
           // }
         })
         .catch((err) => {
-          // loader("hide");
+          loader("hide");
           console.log(err);
         });
     };
@@ -303,7 +300,6 @@ const TemplateBuilder = (props) => {
           getSpecificKeyData &&
           getSpecificKeyData.hasOwnProperty("source_code")
         ) {
-          console.log(state_object);
           if (state_object != null && state_object?.template != "") {
             if (state_object.template !== "") {
               setTemplate("state_object.template");
@@ -478,7 +474,6 @@ const TemplateBuilder = (props) => {
       axios
         .post(`emailapi/send_sample_email`, body)
         .then((res) => {
-          //console.log(res);
           loader("hide");
           if (res.data.status_code === 200) {
             setUploadOrDownloadCount(100);
@@ -549,7 +544,6 @@ const TemplateBuilder = (props) => {
   };
 
   const closeModal = () => {
-    //console.log("closed");
     setIsOpen(false);
   };
 
@@ -626,8 +620,6 @@ const TemplateBuilder = (props) => {
   };
 
   const sendSample = (event) => {
-    //  console.log(selectedHcp);
-
     event.preventDefault();
     if (templateId == "" || templateId == 0) {
       toast.warning("Please select email template first");
@@ -650,7 +642,6 @@ const TemplateBuilder = (props) => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
-    //console.log("hi");
   };
 
   const responsive = {
@@ -670,22 +661,17 @@ const TemplateBuilder = (props) => {
         email: email,
       };
 
-      //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          console.log(res);
-          // console.log(res.data.response.data);
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
           } else {
             toast.warning(res.data.message);
           }
-          // if (res.data.message) {
-          //   setMessage(res.data.message);
-          // }
+
           loader("hide");
         })
         .catch((err) => {
@@ -715,7 +701,6 @@ const TemplateBuilder = (props) => {
     const name = hpc[i].firstname;
     list[i].firstname = value;
     setHpc(list);
-    // console.log(hpc);
   };
 
   const onLastNameChange = (e, i) => {
@@ -724,7 +709,6 @@ const TemplateBuilder = (props) => {
     const name = hpc[i].lastname;
     list[i].lastname = value;
     setHpc(list);
-    //console.log(hpc);
   };
 
   const onEmailChange = (e, i) => {
@@ -734,7 +718,6 @@ const TemplateBuilder = (props) => {
     list[i].email = value;
     setHpc(list);
     // setEmailData(e.target.value);
-    //console.log(hpc);
   };
 
   const onContactTypeChange = (e, i) => {
@@ -743,7 +726,6 @@ const TemplateBuilder = (props) => {
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
     setHpc(list);
-    console.log(hpc);
   };
 
   const getCountrySelected = (e) => {
@@ -753,7 +735,6 @@ const TemplateBuilder = (props) => {
 
     const value = e;
     // const list = [...hpc];
-    console.log(value);
   };
 
   const onCountryChange = (e, i) => {
@@ -763,7 +744,6 @@ const TemplateBuilder = (props) => {
     const name = hpc[i].country;
     list[i].country = value;
     setHpc(list);
-    console.log(hpc);
   };
 
   const deleteRecord = (i) => {
@@ -876,8 +856,6 @@ const TemplateBuilder = (props) => {
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
-      console.log(formData);
-
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -952,7 +930,7 @@ const TemplateBuilder = (props) => {
 
   const languageSelected = (e) => {
     loader("show");
-    console.log(e);
+
     setSelectedLanguage(e.value);
     getTemplateListData(2, e.value, selectedIbu);
   };
@@ -1045,18 +1023,12 @@ const TemplateBuilder = (props) => {
         content_included: templateType,
       };
 
-      console.log(selectedLanguage);
-      console.log(newTemplateNamee);
-      console.log(selectedIbu);
-      console.log(newTemplateContent);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/add_update_template`, body)
         .then((res) => {
-          console.log(res);
           if (res.data.status_code === 200) {
-            console.log(res);
             loader("hide");
             getTemplateListData(1, selectedLanguage, selectedIbu);
             setTemplateId(res.data.response.data.last_id);
@@ -1153,7 +1125,6 @@ const TemplateBuilder = (props) => {
       templateId != "" &&
       templateId != 0
     ) {
-      console.log(templateId);
       setviewEmailModal(true);
     } else {
       toast.warning("Template not selected.");
@@ -1287,7 +1258,6 @@ const TemplateBuilder = (props) => {
 
   const onTemplateTypeChange = (e) => {
     setTemplateType(e);
-    console.log(e);
   };
 
   const replaceDangerHtml = (dynamicTempHtml) => {
@@ -1410,7 +1380,7 @@ const TemplateBuilder = (props) => {
                 </div>
               </div>
             </div>
-            {console.log("template list", templateList)}
+
             <section className="select-mail-template">
               <div className="custom-container">
                 <div className="row">
@@ -1460,7 +1430,6 @@ const TemplateBuilder = (props) => {
                                   type="text"
                                   value={newTemplateNamee}
                                   onChange={(e) => {
-                                    console.log(e.target.value);
                                     setNewTemplateNamee(e.target.value);
                                   }}
                                 ></input>
@@ -1702,7 +1671,6 @@ const TemplateBuilder = (props) => {
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                       }}
                       onEditorChange={(content) => {
-                        console.log(content);
                         setTemplateSaving(content);
                       }}
                     />
@@ -1728,7 +1696,6 @@ const TemplateBuilder = (props) => {
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                       }}
                       onEditorChange={(content) => {
-                        console.log(content);
                         setNewTemplateContent(content);
                       }}
                     />
