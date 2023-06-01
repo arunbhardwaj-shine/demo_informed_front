@@ -780,7 +780,6 @@ const Webinar = () => {
         document.querySelector(".horizon-next").classList.add("show-next");
       }
 
-      console.log(scrollLeftValue);
       if (scrollLeftValue <= 350) {
         document.querySelector(".horizon-prev").classList.remove("show-prev");
       }
@@ -802,8 +801,6 @@ const Webinar = () => {
       const popupWidth = ampopupInside.offsetWidth;
       const movableWidth = totalWidth - popupWidth;
       const rigthOffset = movableWidth - scrollLeftValue;
-
-      console.log(rigthOffset);
 
       if (rigthOffset <= 350) {
         document.querySelector(".horizon-next").classList.remove("show-next");
