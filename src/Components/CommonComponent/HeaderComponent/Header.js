@@ -309,9 +309,8 @@ const Header = () => {
                 {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
                 localStorage.getItem("webinar_flag") == 1 &&
                 localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" &&
-                localStorage.getItem("user_id") != "qDgwPdToP05Kgzc g2VjIQ==" &&
                 localStorage.getItem("user_id") !=
-                  "wW0geGtDPvig5gF 6KbJrg==" ? (
+                  "qDgwPdToP05Kgzc g2VjIQ==" ? (
                   <li className="nav-item">
                     <a
                       className="nav-link"

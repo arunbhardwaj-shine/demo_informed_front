@@ -416,7 +416,13 @@ const LicenseSublink = () => {
                                     </a>
                                   </div>
                                   <div className="doc-content">
-                                    <h5>{articleData?.title}</h5>
+                                    <h5
+                                      dangerouslySetInnerHTML={{
+                                        __html: articleData?.title,
+                                      }}
+                                    >
+                                      {/* {articleData?.title} */}
+                                    </h5>
                                     <h6>{articleData?.pdf_sub_title}</h6>
                                     <p>{articleData?.key_author}</p>
                                     <div className="select-tags">

@@ -261,7 +261,10 @@ const Informed = () => {
         <section className="library-section">
           <Container>
             <div className="dotted-line">
-              <img src="https://webinar.informed.pro/componentAssets/images/bnr2-line-new.png" alt="" />
+              <img
+                src="https://webinar.informed.pro/componentAssets/images/bnr2-line-new.png"
+                alt=""
+              />
               <div className="dt-line r-none">
                 <span className="dt-line-dote">
                   <img
@@ -276,15 +279,24 @@ const Informed = () => {
               <Col sm={3}>
                 <ul className="library-list">
                   <li>
-                    <img src="https://webinar.informed.pro/componentAssets/images/librery-icon-new.png" alt="" />
+                    <img
+                      src="https://webinar.informed.pro/componentAssets/images/librery-icon-new.png"
+                      alt=""
+                    />
                   </li>
                   <li></li>
                   <li></li>
                   <li>
-                    <img src="https://webinar.informed.pro/componentAssets/images/behaviour.png" alt="" />
+                    <img
+                      src="https://webinar.informed.pro/componentAssets/images/behaviour.png"
+                      alt=""
+                    />
                   </li>
                   <li>
-                    <img src="https://webinar.informed.pro/componentAssets/images/share-icon.png" alt="" />
+                    <img
+                      src="https://webinar.informed.pro/componentAssets/images/share-icon.png"
+                      alt=""
+                    />
                   </li>
                 </ul>
               </Col>
@@ -298,37 +310,61 @@ const Informed = () => {
                   </p>
                   <ul className="feature-list shift_left">
                     <li>
-                      <img src="https://webinar.informed.pro/componentAssets/images/list-icon1.png" alt="" />
+                      <img
+                        src="https://webinar.informed.pro/componentAssets/images/list-icon1.png"
+                        alt=""
+                      />
                       <p>Articles</p>
                     </li>
                     <li>
-                      <img src="https://webinar.informed.pro/componentAssets/images/list-icon2.png" alt="" />
+                      <img
+                        src="https://webinar.informed.pro/componentAssets/images/list-icon2.png"
+                        alt=""
+                      />
                       <p>Web pages</p>
                     </li>
                     <li>
-                      <img src="https://webinar.informed.pro/componentAssets/images/list-icon3.png" alt="" />
+                      <img
+                        src="https://webinar.informed.pro/componentAssets/images/list-icon3.png"
+                        alt=""
+                      />
                       <p>EBooks</p>
                     </li>
                     <li>
-                      <img src="https://webinar.informed.pro/componentAssets/images/list-icon4.png" alt="" />
+                      <img
+                        src="https://webinar.informed.pro/componentAssets/images/list-icon4.png"
+                        alt=""
+                      />
                       <p>CME/CPD</p>
                     </li>
                     <li>
-                      <img src="https://webinar.informed.pro/componentAssets/images/list-icon5.png" alt="" />
+                      <img
+                        src="https://webinar.informed.pro/componentAssets/images/list-icon5.png"
+                        alt=""
+                      />
                       <p>Video</p>
                     </li>
                     <li>
-                      <img src="https://webinar.informed.pro/componentAssets/images/list-icon6.png" alt="" />
+                      <img
+                        src="https://webinar.informed.pro/componentAssets/images/list-icon6.png"
+                        alt=""
+                      />
                       <p>Combinations</p>
                     </li>
                   </ul>
                   <div className="feature-list-next-content">
                     <p>
                       <span>
-                        <img src="https://webinar.informed.pro/componentAssets/images/saleforce-plus.png" alt="" />
+                        <img
+                          src="https://webinar.informed.pro/componentAssets/images/saleforce-plus.png"
+                          alt=""
+                        />
                       </span>
                       <a href="https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000FHBQ4UAP">
-                        <img src="https://webinar.informed.pro/componentAssets/images/sale-icon.png" alt="" />
+                        <img
+                          src="https://webinar.informed.pro/componentAssets/images/sale-icon.png"
+                          alt=""
+                        />
                       </a>
                       <span className="saleforce_cont">
                         Naturally the library can be integrated with your
@@ -367,7 +403,10 @@ const Informed = () => {
                   <div className="content-part personalisation">
                     <ul>
                       <li className="personalisation-right">
-                        <img src="https://webinar.informed.pro/componentAssets/images/personalize.png" alt="" />
+                        <img
+                          src="https://webinar.informed.pro/componentAssets/images/personalize.png"
+                          alt=""
+                        />
                       </li>
                     </ul>
                     <div className="personalisation-content">
@@ -385,7 +424,10 @@ const Informed = () => {
             <div className="content-sec mobile" style={{ display: "none" }}>
               <ul className="library-list">
                 <li>
-                  <img src="https://webinar.informed.pro/componentAssets/images/librery-icon-new.png" alt="" />
+                  <img
+                    src="https://webinar.informed.pro/componentAssets/images/librery-icon-new.png"
+                    alt=""
+                  />
                   <div className="content-part c-p1">
                     <h2>The inforMed Library: Content and Consent </h2>
                     <p>
@@ -395,33 +437,54 @@ const Informed = () => {
                     </p>
                     <ul className="feature-list shift_left">
                       <li>
-                        <img src="https://webinar.informed.pro/componentAssets/images/list-icon1.png" alt="" />
+                        <img
+                          src="https://webinar.informed.pro/componentAssets/images/list-icon1.png"
+                          alt=""
+                        />
                         <p>Web pages</p>
                       </li>
                       <li>
-                        <img src="https://webinar.informed.pro/componentAssets/images/list-icon3.png" alt="" />
+                        <img
+                          src="https://webinar.informed.pro/componentAssets/images/list-icon3.png"
+                          alt=""
+                        />
                         <p>EBooks</p>
                       </li>
                       <li>
-                        <img src="https://webinar.informed.pro/componentAssets/images/list-icon4.png" alt="" />
+                        <img
+                          src="https://webinar.informed.pro/componentAssets/images/list-icon4.png"
+                          alt=""
+                        />
                         <p>CME/CPD</p>
                       </li>
                       <li>
-                        <img src="https://webinar.informed.pro/componentAssets/images/list-icon5.png" alt="" />
+                        <img
+                          src="https://webinar.informed.pro/componentAssets/images/list-icon5.png"
+                          alt=""
+                        />
                         <p>Video</p>
                       </li>
                       <li>
-                        <img src="https://webinar.informed.pro/componentAssets/images/list-icon6.png" alt="" />
+                        <img
+                          src="https://webinar.informed.pro/componentAssets/images/list-icon6.png"
+                          alt=""
+                        />
                         <p>Combinations</p>
                       </li>
                     </ul>
                     <div className="feature-list-next-content">
                       <p>
                         <span>
-                          <img src="https://webinar.informed.pro/componentAssets/images/saleforce-plus.png" alt="" />
+                          <img
+                            src="https://webinar.informed.pro/componentAssets/images/saleforce-plus.png"
+                            alt=""
+                          />
                         </span>
                         <a href="https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000FHBQ4UAP ">
-                          <img src="https://webinar.informed.pro/componentAssets/images/sale-icon.png" alt="" />
+                          <img
+                            src="https://webinar.informed.pro/componentAssets/images/sale-icon.png"
+                            alt=""
+                          />
                         </a>
                         <span className="saleforce_cont">
                           Naturally the library can be integrated with your
@@ -432,7 +495,10 @@ const Informed = () => {
                   </div>
                 </li>
                 <li>
-                  <img src="https://webinar.informed.pro/componentAssets/images/behaviour.png" alt="" />
+                  <img
+                    src="https://webinar.informed.pro/componentAssets/images/behaviour.png"
+                    alt=""
+                  />
                   <div className="content-part c-p2 behaviour">
                     <h2>Behaviour</h2>
                     <p>
@@ -449,7 +515,10 @@ const Informed = () => {
                   </div>
                 </li>
                 <li>
-                  <img src="https://webinar.informed.pro/componentAssets/images/share-icon.png" alt="" />
+                  <img
+                    src="https://webinar.informed.pro/componentAssets/images/share-icon.png"
+                    alt=""
+                  />
                   <div className="content-part c-p2 behaviour">
                     <h2>Action </h2>
                     <p>
@@ -467,7 +536,10 @@ const Informed = () => {
                   </div>
                 </li>
                 <li className="personalisation-right">
-                  <img src="https://webinar.informed.pro/componentAssets/images/personalize.png" alt="" />
+                  <img
+                    src="https://webinar.informed.pro/componentAssets/images/personalize.png"
+                    alt=""
+                  />
                   <div className="personalisation-content">
                     <h2 className="heading-personal">Personalisation</h2>
                     <p>
@@ -511,7 +583,10 @@ const Informed = () => {
         <section className="rtr-section">
           <Container>
             <div className="dotted-line">
-              <img src="https://webinar.informed.pro/componentAssets/images/bnr3-line.png" alt="" />
+              <img
+                src="https://webinar.informed.pro/componentAssets/images/bnr3-line.png"
+                alt=""
+              />
               <div className="dt-line r-none">
                 <span className="dt-line-dote">
                   <img
@@ -526,7 +601,10 @@ const Informed = () => {
               <Col className="albert-inside-upper">
                 <div className="albert-inside-upper-left">
                   <div className="albert-inside-upper-left-logo">
-                    <img src="https://webinar.informed.pro/componentAssets/images/docintel-white-tag.png" alt="" />
+                    <img
+                      src="https://webinar.informed.pro/componentAssets/images/docintel-white-tag.png"
+                      alt=""
+                    />
                   </div>
                   <p>
                     Docintel is a personal library for Clinicians to keep all
@@ -565,7 +643,10 @@ const Informed = () => {
                 <ul className="feature-list">
                   <li className="cr-flow">
                     {" "}
-                    <img src="https://webinar.informed.pro/componentAssets/images/rtr-icon1.png" alt="" />
+                    <img
+                      src="https://webinar.informed.pro/componentAssets/images/rtr-icon1.png"
+                      alt=""
+                    />
                     <div className="separator-line b-c1"></div>
                     <p className="p-c1">
                       Watched <br />
@@ -574,7 +655,10 @@ const Informed = () => {
                     <h3 className="p-c1">100%</h3>
                   </li>
                   <li>
-                    <img src="https://webinar.informed.pro/componentAssets/images/rtr-icon2.png" alt="" />
+                    <img
+                      src="https://webinar.informed.pro/componentAssets/images/rtr-icon2.png"
+                      alt=""
+                    />
                     <div className="separator-line  b-c2"></div>
                     <p className="p-c2">
                       Read <br />
@@ -583,7 +667,10 @@ const Informed = () => {
                     <h3 className="p-c2">55%</h3>
                   </li>
                   <li className="cr-flow c-f2">
-                    <img src="https://webinar.informed.pro/componentAssets/images/rtr-icon3.png" alt="" />
+                    <img
+                      src="https://webinar.informed.pro/componentAssets/images/rtr-icon3.png"
+                      alt=""
+                    />
                     <div className="separator-line  b-c3"></div>
                     <p className="p-c3">
                       Read <br />
@@ -592,7 +679,10 @@ const Informed = () => {
                     <h3 className="p-c3">28%</h3>
                   </li>
                   <li>
-                    <img src="https://webinar.informed.pro/componentAssets/images/rtr-icon4.png" alt="" />
+                    <img
+                      src="https://webinar.informed.pro/componentAssets/images/rtr-icon4.png"
+                      alt=""
+                    />
                     <div className="separator-line  b-c4"></div>
                     <p className="p-c4">
                       Read pages
@@ -617,10 +707,16 @@ const Informed = () => {
         <section className="team-section">
           <Container>
             <div className="dotted-line">
-              <img src="https://webinar.informed.pro/componentAssets/images/bnr4-line-new.png" alt="" />
+              <img
+                src="https://webinar.informed.pro/componentAssets/images/bnr4-line-new.png"
+                alt=""
+              />
               <div className="dt-line r-none">
                 <span className="dt-line-dote">
-                  <img src="https://webinar.informed.pro/componentAssets/images/bnr4-0line-new.png" alt="" />
+                  <img
+                    src="https://webinar.informed.pro/componentAssets/images/bnr4-0line-new.png"
+                    alt=""
+                  />
                 </span>
               </div>
             </div>
@@ -700,7 +796,10 @@ const Informed = () => {
                 <div className="start-building-gdpr">
                   <div className="start-building-gdpr-content">
                     <div className="start-building-gdpr-left">
-                      <img src="https://webinar.informed.pro/componentAssets/images/build-flag.png" alt="" />
+                      <img
+                        src="https://webinar.informed.pro/componentAssets/images/build-flag.png"
+                        alt=""
+                      />
                     </div>
                     <div className="start-building-gdpr-right">
                       <h4>
@@ -870,7 +969,7 @@ const Informed = () => {
         </section>
         <footer>
           <p>
-            Copyright 2021
+            Copyright 2023
             <a href="https://informed.pro/" target="_blank">
               {" "}
               InforMed.Pro
