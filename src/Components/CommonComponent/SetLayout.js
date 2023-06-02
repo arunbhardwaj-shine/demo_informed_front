@@ -43,7 +43,7 @@ const SetLayout = () => {
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
       localStorage.getItem("webinar_flag") == 1 &&
       localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" &&
-      localStorage.getItem("user_id") != "wW0geGtDPvig5gF 6KbJrg==" &&
+      // localStorage.getItem("user_id") != "wW0geGtDPvig5gF 6KbJrg==" &&
       localStorage.getItem("user_id") != "UbCJcnLM9fe HsRMgX8c1A==" &&
       localStorage.getItem("user_id") != "z2TunmZQf3QwCsICFTLGGQ==" &&
       localStorage.getItem("user_id") != "qDgwPdToP05Kgzc g2VjIQ=="
@@ -54,7 +54,7 @@ const SetLayout = () => {
         subtitle: "See Webinar Event users",
       });
     }
-
+    console.log("new data", newdata);
     setData(newdata);
   }, []);
 
@@ -102,6 +102,7 @@ const SetLayout = () => {
       {isAuthenticated ? (
         <>
           <Header />
+          {console.log("--->", data)}
           <div className="default-layout">
             <div className="landing-layout library_create d-flex">
               <Row>

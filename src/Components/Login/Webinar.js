@@ -2136,7 +2136,7 @@ const Webinar = () => {
         >
           <div className="copyright">
             <ul>
-              <li>&copy; 2020 DocIntel</li>
+              <li>&copy; 2023 DocIntel</li>
               <li>
                 <a
                   target="_blank"
