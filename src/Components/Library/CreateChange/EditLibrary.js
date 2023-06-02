@@ -270,9 +270,9 @@ const EditLibrary = () => {
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
           : []
       );
-      if(hadData?.data?.data?.pdfData?.docintelFormat == "pdfSpc"){
-        setpdfSpcData(hadData?.data?.data?.ebookData)
-      }else if(hadData?.data?.data?.ebookData?.length) {
+      if (hadData?.data?.data?.pdfData?.docintelFormat == "pdfSpc") {
+        setpdfSpcData(hadData?.data?.data?.ebookData);
+      } else if (hadData?.data?.data?.ebookData?.length) {
         setChapter(hadData?.data?.data?.ebookData);
       }
       setShowFlag(true);
@@ -339,7 +339,6 @@ const EditLibrary = () => {
     }
   };
 
-  
   const onPdfTitleChange = (e, i) => {
     const { value } = e.target;
     const list = [...pdfSpcData];
@@ -355,7 +354,6 @@ const EditLibrary = () => {
     setEbookFile(ebookFile);
     setpdfSpcData(list);
   };
-
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
@@ -404,33 +402,36 @@ const EditLibrary = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-    if(isSelectedName ==  "docintelFormat"){
-      
-      if(e == "ebook"){
-        setEbookFile([])
-          setpdfSpcData([{
+    if (isSelectedName == "docintelFormat") {
+      if (e == "ebook") {
+        setEbookFile([]);
+        setpdfSpcData([
+          {
             chapterTitle: "",
             uploadFile: "",
             fileValue: "",
-          }])
-
-      }else if(e == "pdfSpc"){
-        setEbookFile([])
+          },
+        ]);
+      } else if (e == "pdfSpc") {
+        setEbookFile([]);
         setChapter([
           {
             chapterTitle: "",
             uploadFile: "",
             fileValue: "",
-          }
-        ])
+          },
+        ]);
       }
-      setCreateLibraryInputs({...userInputs,uploadFile:"", [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-      ? e?.target?.files
-        ? e?.target?.files
-        : e
-      : e?.target?.value,})
-    }
-    else{
+      setCreateLibraryInputs({
+        ...userInputs,
+        uploadFile: "",
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e?.target?.files
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    } else {
       setCreateLibraryInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -440,7 +441,6 @@ const EditLibrary = () => {
           : e?.target?.value,
       });
     }
-    
   };
 
   const nextButtonClicked = async (e) => {
@@ -448,7 +448,7 @@ const EditLibrary = () => {
 
     if (userInputs.docintelFormat == "ebook") {
       userInputs.chapter = chapter;
-    }else if(userInputs.docintelFormat == "pdfSpc"){
+    } else if (userInputs.docintelFormat == "pdfSpc") {
       userInputs.pdfChapter = pdfSpcData;
     }
     if (
@@ -550,7 +550,12 @@ const EditLibrary = () => {
         formData.append("country", userInputs?.country);
         formData.append("company", userInputs?.company);
         formData.append("journalTitle", userInputs?.journalTitle);
-        formData.append("fileType", userInputs?.docintelFormat == "pdfSpc"?"ebook":userInputs?.docintelFormat);
+        formData.append(
+          "fileType",
+          userInputs?.docintelFormat == "pdfSpc"
+            ? "ebook"
+            : userInputs?.docintelFormat
+        );
         if (userInputs?.docintelFormat == "pdfSpc") {
           formData.append("spcInc", spcType);
         } else {
@@ -561,7 +566,12 @@ const EditLibrary = () => {
           formData.append("ebookData", item);
         });
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
-        formData.append("chapter",userInputs?.docintelFormat == "pdfSpc"?JSON.stringify(pdfSpcData):JSON.stringify(chapter));
+        formData.append(
+          "chapter",
+          userInputs?.docintelFormat == "pdfSpc"
+            ? JSON.stringify(pdfSpcData)
+            : JSON.stringify(chapter)
+        );
         formData.append("productionNotes", userInputs?.productionNotes);
         formData.append("specialRequirment", userInputs?.specialRequirment);
         formData.append("createdBy", id);
@@ -892,8 +902,10 @@ const EditLibrary = () => {
                       options={userDetail?.category || []}
                       placeholder="Select category type for HCPs to sort"
                       defaultValue={{
-                        label: userInputs?.category,
-                        value: userInputs?.category,
+                        label:
+                          userInputs?.category == 0 ? "" : userInputs?.category,
+                        value:
+                          userInputs?.category == 0 ? "" : userInputs?.category,
                       }}
                       onChange={(e) => handleChange(e?.value, "category")}
                       className="dropdown-basic-button split-button-dropup"
@@ -1476,8 +1488,9 @@ const EditLibrary = () => {
                       ) : null}
 
                       {localStorage.getItem("user_id") !=
-                      "iSnEsKu5gB/DRlycxB6G4g==" && localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "iSnEsKu5gB/DRlycxB6G4g==" &&
+                      localStorage.getItem("user_id") !=
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <div className="form-group">
                           <label htmlFor="">Author</label>
                           <input
@@ -1861,9 +1874,9 @@ const EditLibrary = () => {
                               : "dropdown-basic-button split-button-dropup"
                           }
                           options={ePrintType}
-                          value = {
-                            ePrintType.find(item =>item.value == userInputs?.docintelFormat )
-                          }
+                          value={ePrintType.find(
+                            (item) => item.value == userInputs?.docintelFormat
+                          )}
                           isClearable
                           placeholder="Select type of Docintel format "
                           onChange={(event) =>
@@ -2026,8 +2039,7 @@ const EditLibrary = () => {
                             </>
                           );
                         })
-                      ) :
-                      userInputs.docintelFormat == "pdfSpc"?(
+                      ) : userInputs.docintelFormat == "pdfSpc" ? (
                         pdfSpcData.map((val, i) => {
                           return (
                             <>
@@ -2038,7 +2050,7 @@ const EditLibrary = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg=="
                                       ? "Chapter "
                                       : "File "}{" "}
-                                      title
+                                    title
                                   </label>
                                   <input
                                     type="text"
@@ -2087,11 +2099,7 @@ const EditLibrary = () => {
                             </>
                           );
                         })
-                  ):
-                      
-                      
-                      
-                      // <div className="form-group val">
+                      ) : // <div className="form-group val">
                       //   <label htmlFor="">Upload Ebook</label>
                       //   <div className="upload-file-box">
                       //     <div className="box">

@@ -5,8 +5,8 @@ import ReactPlayer from "react-player";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { Link, useNavigate } from "react-router-dom";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import AOS from "aos";
+import "aos/dist/aos.css";
 import {
   Form,
   Modal,
@@ -24,8 +24,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const Webinar = () => {
   useEffect(() => {
-        AOS.init();
-  }, [])
+    AOS.init();
+  }, []);
   const navigate = useNavigate();
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [userInputs, setUserInputs] = useState({});
@@ -780,7 +780,6 @@ const Webinar = () => {
         document.querySelector(".horizon-next").classList.add("show-next");
       }
 
-      console.log(scrollLeftValue);
       if (scrollLeftValue <= 350) {
         document.querySelector(".horizon-prev").classList.remove("show-prev");
       }
@@ -802,8 +801,6 @@ const Webinar = () => {
       const popupWidth = ampopupInside.offsetWidth;
       const movableWidth = totalWidth - popupWidth;
       const rigthOffset = movableWidth - scrollLeftValue;
-
-      console.log(rigthOffset);
 
       if (rigthOffset <= 350) {
         document.querySelector(".horizon-next").classList.remove("show-next");
@@ -937,6 +934,9 @@ const Webinar = () => {
       var slide = parentLi.getAttribute("data-slide-to");
     } else if (event.target.tagName === "LI") {
       var slide = event.target.getAttribute("data-slide-to");
+    } else if (event.target.tagName === "SPAN") {
+      const parentLi = event.target.parentNode;
+      var slide = parentLi.getAttribute("data-slide-to");
     }
 
     //var activeSlide = event.target.getAttribute('data-slide-active');
@@ -952,6 +952,9 @@ const Webinar = () => {
       image.classList.remove("active");
     });
     if (event.target.tagName === "IMG") {
+      const parentLi = event.target.parentNode;
+      parentLi.classList.add("active");
+    } else if (event.target.tagName === "SPAN") {
       const parentLi = event.target.parentNode;
       parentLi.classList.add("active");
     } else if (event.target.tagName === "LI") {
@@ -1215,7 +1218,11 @@ const Webinar = () => {
         >
           <div className="container">
             <div className="row">
-              <div className="col-md-6 left-sec" data-aos="fade-right" data-aos-duration="1000">
+              <div
+                className="col-md-6 left-sec"
+                data-aos="fade-right"
+                data-aos-duration="1000"
+              >
                 <div className="content">
                   <ul>
                     <li>Docintel</li>
@@ -1226,7 +1233,12 @@ const Webinar = () => {
               </div>
               <div className="col-md-6 right-sec">
                 <div className="right-banner">
-                  <img data-aos="fade-up" data-aos-duration="1300" src={path_image + "banner-main.png"} alt="" />
+                  <img
+                    data-aos="fade-up"
+                    data-aos-duration="1300"
+                    src={path_image + "banner-main.png"}
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
@@ -1270,9 +1282,15 @@ const Webinar = () => {
           data-anchor="building-section"
         >
           <div className="container">
-            <h2 data-aos="fade-right" data-aos-duration="1000">Building Relationships</h2>
+            <h2 data-aos="fade-right" data-aos-duration="1000">
+              Building Relationships
+            </h2>
             <div className="row">
-              <div className="col-md-5 left-sec" data-aos="fade-right" data-aos-duration="1300">
+              <div
+                className="col-md-5 left-sec"
+                data-aos="fade-right"
+                data-aos-duration="1300"
+              >
                 <div className="content">
                   <div className="video-sec">
                     <img src={path_image + "jdflindtWebinar.png"} alt="video" />
@@ -1297,7 +1315,11 @@ const Webinar = () => {
                 </div>
                 {/* <!-- <div className="want-more"><a href="#">Want to know how?</a></div> --> */}
               </div>
-              <div className="col-md-7 right-sec" data-aos="fade-left" data-aos-duration="1300">
+              <div
+                className="col-md-7 right-sec"
+                data-aos="fade-left"
+                data-aos-duration="1300"
+              >
                 <div className="mt-5 mb-5">
                   <div className="row">
                     <div className="col-md-12 space-left">
@@ -1377,10 +1399,7 @@ const Webinar = () => {
   </div> --> */}
 
               <div className="col-md-12 d-flex justify-content-between">
-                <h2
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                >
+                <h2 data-aos="fade-up" data-aos-duration="1000">
                   Platform Features
                 </h2>
                 <a
@@ -1403,8 +1422,11 @@ const Webinar = () => {
                     className="carousel slide row "
                     data-ride="carousel"
                   >
-                    <div className="col-md-8 col-sm-8 col-8 cst-cs-item pl-0" data-aos="fade-up"
-                  data-aos-duration="1000">
+                    <div
+                      className="col-md-8 col-sm-8 col-8 cst-cs-item pl-0"
+                      data-aos="fade-up"
+                      data-aos-duration="1000"
+                    >
                       <div id="slider">
                         <input
                           type="radio"
@@ -1432,7 +1454,7 @@ const Webinar = () => {
                           onClick={(e) => changeSlider(e)}
                         />
                         {/* <input type="radio" className="slide-radio" name="slide-radio" id="s4" checked value="4"> */}
-                        <label htmlFor="s1" id="slide1" >
+                        <label htmlFor="s1" id="slide1">
                           <img
                             src={path_image + "post-webinar.png"}
                             className="img-fluid"
@@ -1677,8 +1699,11 @@ const Webinar = () => {
                         </label>
                       </div>
                     </div>
-                    <div className="col-md-4 col-sm-4 col-4 left-sdd" data-aos="fade-down"
-                  data-aos-duration="1000">
+                    <div
+                      className="col-md-4 col-sm-4 col-4 left-sdd"
+                      data-aos="fade-down"
+                      data-aos-duration="1000"
+                    >
                       <ol className="carousel-indicators cst-tab">
                         <li
                           data-target="#blogCarousel"
@@ -1726,7 +1751,7 @@ const Webinar = () => {
                           data-slide-active="3"
                           id="slide-tab1"
                           className="slide-tab"
-                          onClick={(e) => changeSliderTab(e)}
+                          onClick={changeSliderTab}
                         >
                           <img
                             className="without-active"
@@ -1778,34 +1803,31 @@ const Webinar = () => {
           <div className="container">
             <div className="row">
               <div className="col-md-12">
-                <h2 data-aos="fade-right"
-                  data-aos-duration="1500">effective webinars</h2>
+                <h2 data-aos="fade-right" data-aos-duration="1500">
+                  effective webinars
+                </h2>
               </div>
               <div className="col-md-8">
                 <ul className="efft-list">
-                  <li data-aos="fade-right"
-                  data-aos-duration="1000">
+                  <li data-aos="fade-right" data-aos-duration="1000">
                     <span>
                       <img src={path_image + "effect1.png"} alt="" />
                     </span>
                     <p>Gathering HCP's together</p>
                   </li>
-                  <li data-aos="fade-left"
-                  data-aos-duration="1000">
+                  <li data-aos="fade-left" data-aos-duration="1000">
                     <span>
                       <img src={path_image + "effect3.png"} alt="" />
                     </span>
                     <p>Sharing new information and the latest learnings</p>
                   </li>
-                  <li data-aos="fade-right"
-                  data-aos-duration="1000">
+                  <li data-aos="fade-right" data-aos-duration="1000">
                     <span>
                       <img src={path_image + "effect2.png"} alt="" />
                     </span>
                     <p>Seeking feedback from HCP's</p>
                   </li>
-                  <li data-aos="fade-left"
-                  data-aos-duration="1000">
+                  <li data-aos="fade-left" data-aos-duration="1000">
                     <span>
                       <img src={path_image + "effect4.png"} alt="" />
                     </span>
@@ -1815,8 +1837,12 @@ const Webinar = () => {
               </div>
               <div className="col-md-4"></div>
               <div className="col-md-12">
-                <a data-aos="zoom-out-down"
-                  data-aos-duration="1000" href="#" className="btnn">
+                <a
+                  data-aos="zoom-out-down"
+                  data-aos-duration="1000"
+                  href="#"
+                  className="btnn"
+                >
                   find out more
                 </a>
               </div>
@@ -1853,7 +1879,13 @@ const Webinar = () => {
           <div className="custom-container">
             <div className="row">
               <div className="col-md-12 blue-br">
-                <h3 data-aos="fade-right" data-aos-easing="linear" data-aos-duration="1500">Case Examples</h3>
+                <h3
+                  data-aos="fade-right"
+                  data-aos-easing="linear"
+                  data-aos-duration="1500"
+                >
+                  Case Examples
+                </h3>
                 <div className="map_buttons">
                   <ul>
                     <li>
@@ -1922,7 +1954,11 @@ const Webinar = () => {
             <div className="container">
               <div className="row">
                 <div className="demo-video-form">
-                  <form className="form-horizontal"  data-aos="fade-up" data-aos-duration="1100">
+                  <form
+                    className="form-horizontal"
+                    data-aos="fade-up"
+                    data-aos-duration="1100"
+                  >
                     <h2>Get a FREE walkthrough</h2>
                     <p>
                       Need further information?
@@ -2100,7 +2136,7 @@ const Webinar = () => {
         >
           <div className="copyright">
             <ul>
-              <li>&copy; 2020 DocIntel</li>
+              <li>&copy; 2023 DocIntel</li>
               <li>
                 <a
                   target="_blank"
@@ -2291,7 +2327,8 @@ const Webinar = () => {
         <Modal
           show={show}
           onHide={(e) => handleClose("forgot")}
-          className="header-forgot" centered
+          className="header-forgot"
+          centered
         >
           <Modal.Header closeButton>
             <Modal.Title>Reset Your Password</Modal.Title>

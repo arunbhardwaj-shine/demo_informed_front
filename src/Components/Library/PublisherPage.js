@@ -312,23 +312,21 @@ const PublisherPage = () => {
                   <div className="path-fet-img">
                     <img src={path_image + "Group_1.png"} alt="" />
                     <div className="video_popup_icon">
-                      <a
+                      {/* <a
+                        
                         href="https://docintel.app/Webinar/Docintel/login.php#Group_1"
                         target="_blank"
-                      >
-                        <img
-                          src={path_image + "video-icon.png"}
-                          alt=""
-                          id="Group_1"
-                          className="watch-demo"
-                        />
-                        <div className="hover-image">
-                          <img
-                            src={path_image + "ePrint-24-March.gif"}
-                            alt=""
-                          />
-                        </div>
-                      </a>
+                        >  */}
+                      <img
+                        src={path_image + "video-icon.png"}
+                        alt=""
+                        id="Group_1"
+                        className="watch-demo"
+                      />
+                      <div className="hover-image">
+                        <img src={path_image + "ePrint-24-March.gif"} alt="" />
+                      </div>
+                      {/* </a> */}
                     </div>
                   </div>
                   <div className="path-fet-cont">
@@ -347,20 +345,20 @@ const PublisherPage = () => {
                   <div className="path-fet-img">
                     <img src={path_image + "Group_2.png"} alt="" />
                     <div className="video_popup_icon">
-                      <a
+                      {/* <a
                         href="https://docintel.app/Webinar/Docintel/login.php#Group_2"
                         target="_blank"
-                      >
-                        <img
-                          src={path_image + "video-icon.png"}
-                          id="Group_2"
-                          alt=""
-                          className="watch-demo"
-                        />
-                        <div className="hover-image">
-                          <img src={path_image + "Delivery-6-May.gif"} alt="" />
-                        </div>
-                      </a>
+                      > */}
+                      <img
+                        src={path_image + "video-icon.png"}
+                        id="Group_2"
+                        alt=""
+                        className="watch-demo"
+                      />
+                      <div className="hover-image">
+                        <img src={path_image + "Delivery-6-May.gif"} alt="" />
+                      </div>
+                      {/* </a> */}
                     </div>
                   </div>
                   <div className="path-fet-cont">
@@ -382,20 +380,20 @@ const PublisherPage = () => {
                   <div className="path-fet-img">
                     <img src={path_image + "Group_3.png"} alt="" />
                     <div className="video_popup_icon">
-                      <a
+                      {/* <a
                         href="https://docintel.app/Webinar/Docintel/login.php#Group_3"
                         target="_blank"
-                      >
-                        <img
-                          src={path_image + "video-icon.png"}
-                          id="Group_3"
-                          alt=""
-                          className="watch-demo"
-                        />
-                        <div className="hover-image">
-                          <img src={path_image + "Docintel-GIF.gif"} alt="" />
-                        </div>
-                      </a>
+                      > */}
+                      <img
+                        src={path_image + "video-icon.png"}
+                        id="Group_3"
+                        alt=""
+                        className="watch-demo"
+                      />
+                      <div className="hover-image">
+                        <img src={path_image + "Docintel-GIF.gif"} alt="" />
+                      </div>
+                      {/* </a> */}
                     </div>
                   </div>
                   <div className="path-fet-cont">
@@ -889,7 +887,7 @@ const PublisherPage = () => {
         </section>
         <footer>
           <p>
-            Copyright 2021
+            Copyright 2023
             <a href="https://informed.pro/"> InforMed.Pro</a>. Read our{" "}
             <a href="javascript:;" onClick={(e) => handleShow("privacy")}>
               {" "}

@@ -1222,7 +1222,13 @@ const LicenseContent = (props) => {
                               </a>
                             </div>
                             <div className="doc-content">
-                              <h5>{data?.title}</h5>
+                              <h5
+                                dangerouslySetInnerHTML={{
+                                  __html: data?.title,
+                                }}
+                              >
+                                {/* {data?.title} */}
+                              </h5>
                               <h6>
                                 {data?.pdf_sub_title
                                   ? data.pdf_sub_title
