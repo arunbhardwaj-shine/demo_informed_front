@@ -54,7 +54,7 @@ const SetLayout = () => {
         subtitle: "See Webinar Event users",
       });
     }
-    console.log("new data", newdata);
+
     setData(newdata);
   }, []);
 
@@ -102,7 +102,7 @@ const SetLayout = () => {
       {isAuthenticated ? (
         <>
           <Header />
-          {console.log("--->", data)}
+
           <div className="default-layout">
             <div className="landing-layout library_create d-flex">
               <Row>
