@@ -207,7 +207,7 @@ const CanadaContentType = () => {
   const [lineOption, setLineOption] = useState({
     chart: {
       type: "line",
-      height: 500,
+      height: 800,
     },
     title: {
       text: "Registered HCP's",
@@ -217,6 +217,7 @@ const CanadaContentType = () => {
     },
     yAxis: {
       min: 0,
+      tickPixelInterval: 35,
       title: {
         text: "IBU",
       },
