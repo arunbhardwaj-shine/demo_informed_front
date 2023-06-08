@@ -1097,7 +1097,7 @@ const Webinar = () => {
         <div className="informed-header header">
           <div className="custom-container">
             <Navbar expand="lg" className="webinar-nav">
-              <Navbar.Brand href="#home">
+              <Navbar.Brand href="/">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="50.333"
