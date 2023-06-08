@@ -377,12 +377,12 @@ const LibraryContent = (props) => {
 
       const res = await postData(ENDPOINT.LIBRARY, body);
 
-      if (totalCount != res?.data?.data?.total) {
+      if (totalCount != res?.data?.data?.total && page == 1) {
         setCount(res?.data?.data?.total);
       }
 
       let total_results = 0;
-      if (libraryData?.length) {
+      if (page != 1) {
         total_results = res?.data?.data?.library.length + libraryData.length;
         if (res?.data?.data?.library) {
           setLibraryData((oldArray) => [
@@ -395,10 +395,18 @@ const LibraryContent = (props) => {
         setLibraryData(res?.data?.data?.library);
       }
 
-      if (res?.data?.data?.total > total_results) {
-        setIsLoaded(true);
+      if (page == 1) {
+        if (res?.data?.data?.total > total_results) {
+          setIsLoaded(true);
+        } else {
+          setIsLoaded(false);
+        }
       } else {
-        setIsLoaded(false);
+        if (totalCount > total_results) {
+          setIsLoaded(true);
+        } else {
+          setIsLoaded(false);
+        }
       }
 
       setPageAll(false);
