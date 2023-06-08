@@ -99,9 +99,10 @@ const CanadaContentType = () => {
 
   useEffect(() => {
     getDataFromApi();
+  //  getDataContentGraph();
   }, []);
 
-  const getDataFromApi = async (type = "Haematology") => {
+  const getDataFromApi = async (type = "all") => {
     setSectionLoader(true);
     setApiCallStatus(false);
     try {
@@ -117,8 +118,8 @@ const CanadaContentType = () => {
       }
 
       const response = await postData(ENDPOINT.CIS_CONTENT_TYPE, requestBody);
-      if (type == "Haematology") {
-        getDataContentGraph("Haematology");
+      if (type == "all") {
+        getDataContentGraph("");
       } else if (type == "ibu") {
         getDataContentGraph("ibu");
       }
@@ -139,9 +140,11 @@ const CanadaContentType = () => {
   const getDataContentGraph = async (type = "") => {
     try {
       let requestBody = { type: type };
+   
       const response = await postData(ENDPOINT.CONTENT_TYPE_GRAPH, requestBody);
 
       const hadData = response?.data?.data?.data;
+  
 
    const dataLengths = Object.keys(hadData).map((item, index) => {
     const dataLength = hadData[item]?.data?.length || 0;
@@ -198,7 +201,7 @@ const CanadaContentType = () => {
 
     activeTab.current = event;
     if (event == 1) {
-      getDataFromApi("Haematology");
+      getDataFromApi("all");
     } else if (event == 2) {
       getDataFromApi("ibu");
     }
@@ -219,7 +222,7 @@ const CanadaContentType = () => {
       min: 0,
       tickPixelInterval: 35,
       title: {
-        text: "IBU",
+        text: "Total User",
       },
     },
     legend: {
