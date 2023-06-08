@@ -28,8 +28,7 @@ var state_object = {};
 
 const CreateEmail = (props) => {
   const editorRef = useRef(null);
-  // console.log(state_object);
-  // console.log(props);
+
   const filterConfig = {
     matchFrom: "start",
   };
@@ -161,7 +160,6 @@ const CreateEmail = (props) => {
   ]);
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
-
   const [addListOpen, setAddListOpen] = useState(false);
   const [smartListData, setSmartListData] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
@@ -284,12 +282,14 @@ const CreateEmail = (props) => {
         setCounter(counter + 1);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     if (flag == 1) {
       loader("hide");
+
       toast.success("Template saved successfully");
     }
+    loader("hide");
   };
 
   useEffect(() => {
@@ -309,11 +309,11 @@ const CreateEmail = (props) => {
           setAllTags(res.data.response.data);
           // console.log(campaign_id_st);
           // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
-          loader("hide");
+          // loader("hide");
           // }
         })
         .catch((err) => {
-          loader("hide");
+          // loader("hide");
           //console.log(err);
         });
     };
