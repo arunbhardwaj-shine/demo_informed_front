@@ -33,7 +33,6 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-// import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
 import { connect } from "react-redux";
 import {
@@ -44,8 +43,8 @@ import {
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryContent = (props) => {
-  const limit = 24;
-  const [size, setSize] = useState("Small");
+  //-----All States-----//
+
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
@@ -67,11 +66,7 @@ const LibraryContent = (props) => {
   const [tagsCounter, setTagsCounter] = useState(0);
   const [pdftagsid, setpdftagsid] = useState();
   const [appliedFilter, setAppliedFilter] = useState({});
-
   const [otherFilter, setOtherFilter] = useState({});
-
-  const navigate = useNavigate();
-  let obj = {};
   const [userId, setUserId] = useState();
   const [filterObject, setFilterObject] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -79,14 +74,12 @@ const LibraryContent = (props) => {
   const [filterdata, setFilterData] = useState({
     language: ["English", "Russian"],
   });
-
   const [deletestatus, setDeleteStatus] = useState(false);
   const [page, setPage] = useState(1);
   const [type, setType] = useState("");
   const [showfilter, setShowFilter] = useState(false);
   const [qrValue, setQrValue] = useState("QR-code");
   const [newTag, setNewTag] = useState("");
-
   const [libraryData, setLibraryData] = useState([]);
   const [changeConsent, setchangeConsent] = useState([]);
   const [updateflag, setupdateFlag] = useState(0);
@@ -94,7 +87,6 @@ const LibraryContent = (props) => {
     value: "",
   });
   const [qrSize, setQrSize] = useState(290);
-
   const [isOpen, setIsOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
   const [allTags, setAllTags] = useState({});
@@ -106,8 +98,16 @@ const LibraryContent = (props) => {
     footerButton: "",
   });
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
+  const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
+  const navigate = useNavigate();
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
+
+  let obj = {};
+  const limit = 24;
 
   const downloadQRData = [
     {
@@ -129,8 +129,7 @@ const LibraryContent = (props) => {
       ],
     },
   ];
-  const buttonRef = useRef(null);
-  const filterRef = useRef(null);
+
   useEffect(() => {
     if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
       let linktype = types;
@@ -189,22 +188,34 @@ const LibraryContent = (props) => {
   };
 
   const loadMoreClicked = () => {
+    loader("show");
+
     let sp = page + 1;
-    getLibraryData(sp, filterObject, search, 1);
-    setPage(page + 1);
-    // setPageAllClicked(true);
-    // setPage(2);
-    // setType("rest");
+    let totalRecord = loadData.limit * sp;
+    let newData = [];
+
+    if (totalLibraryRecord?.length >= totalRecord) {
+      newData = totalLibraryRecord.slice(loadData.nextLimit, totalRecord);
+      setLoadData({ ...loadData, nextLimit: totalRecord });
+    } else {
+      newData = totalLibraryRecord.slice(loadData.nextLimit);
+      setIsLoaded(false);
+    }
+
+    setLibraryData((oldArray) => [...oldArray, ...newData]);
+    setPage(sp);
+
     loader("hide");
   };
 
   const submitHandler = (event) => {
-    setLibraryData([]);
-    getLibraryData(page, filterObject, search);
     event.preventDefault();
+    setLibraryData([]);
+    setPage(1);
+    getLibraryData(1, filterObject, search);
     return false;
   };
-  // const [otherFilter, setOtherFilter] = useState({});
+
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
     let otherObj = JSON.parse(JSON.stringify(otherFilter));
@@ -284,7 +295,6 @@ const LibraryContent = (props) => {
     setUserId(id);
 
     if (event == "data-tab") {
-      // setOpeningDetails(normal_data);
       let index = opening_details.findIndex((el) => el.pdfId == id);
       if (index === -1) {
         let normal_data = opening_details;
@@ -359,9 +369,7 @@ const LibraryContent = (props) => {
     try {
       loader("show");
       setIsLoaded(false);
-      if (load == 0) {
-        // loader("show");
-      } else {
+      if (load) {
         setPageAll(true);
       }
       setApiCallStatus(false);
@@ -377,37 +385,53 @@ const LibraryContent = (props) => {
 
       const res = await postData(ENDPOINT.LIBRARY, body);
 
-      if (totalCount != res?.data?.data?.total && page == 1) {
-        setCount(res?.data?.data?.total);
-      }
+      setTotalLibraryRecord(res?.data?.data?.library);
 
-      let total_results = 0;
-      if (page != 1) {
-        total_results = res?.data?.data?.library.length + libraryData.length;
-        if (res?.data?.data?.library) {
-          setLibraryData((oldArray) => [
-            ...oldArray,
-            ...res?.data?.data?.library,
-          ]);
-        }
-      } else {
-        total_results = res?.data?.data?.library.length;
-        setLibraryData(res?.data?.data?.library);
-      }
+      let apiData = [];
+      if (res?.data?.data?.library?.length) {
+        const totalData =
+          res.data?.data?.library?.length >= 24
+            ? 24
+            : res.data.data.library?.length;
+        apiData = res?.data?.data?.library?.slice(0, totalData);
 
-      if (page == 1) {
-        if (res?.data?.data?.total > total_results) {
+        if (res?.data?.data?.library?.length > 24) {
+          setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
-        } else {
-          setIsLoaded(false);
-        }
-      } else {
-        if (totalCount > total_results) {
-          setIsLoaded(true);
-        } else {
-          setIsLoaded(false);
         }
       }
+      setLibraryData(apiData);
+      // if (totalCount != res?.data?.data?.total && page == 1) {
+      //   setCount(res?.data?.data?.total);
+      // }
+
+      // let total_results = 0;
+      // if (page != 1) {
+      //   total_results = res?.data?.data?.library.length + libraryData.length;
+      //   if (res?.data?.data?.library) {
+      //     setLibraryData((oldArray) => [
+      //       ...oldArray,
+      //       ...res?.data?.data?.library,
+      //     ]);
+      //   }
+      // } else {
+      //   total_results = res?.data?.data?.library.length;
+      //   setLibraryData(res?.data?.data?.library);
+      // }
+
+      // if (page == 1) {
+      //   if (res?.data?.data?.total > total_results) {
+      //     setIsLoaded(true);
+      //   } else {
+      //     setIsLoaded(false);
+      //   }
+      // } else {
+      //   if (totalCount > total_results) {
+      //     setIsLoaded(true);
+      //   } else {
+      //     setIsLoaded(false);
+      //   }
+      // }
 
       setPageAll(false);
       setApiCallStatus(true);
