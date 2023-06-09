@@ -2657,7 +2657,7 @@ const ViewTable = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                               {localStorage.getItem("user_Id") == userId?"Add User +":"Add HCP +"}
+                               {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
 

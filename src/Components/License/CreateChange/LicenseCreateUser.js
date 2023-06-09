@@ -761,7 +761,7 @@ const LicenseCreateUser = () => {
                           topicButtonClicked(userDetail?.user[0]?.group_id)
                         }
                       >
-                      {localStorage.getItem("user_Id") == userId?"Add User +":"Add HCP +"}
+                      {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                       </button>
                     </div>
                     <div className="tags_added">
