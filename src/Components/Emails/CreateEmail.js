@@ -1443,7 +1443,7 @@ const CreateEmail = (props) => {
                       <a href="">Create Your Email</a>
                     </li>
                     <li className="">
-                      <a href="">Select HCPs</a>
+                      <a href="">{localStorage.getItem("user_id") == userId?"Select Users":"Select HCPs"}</a>
                     </li>
                     <li className="">
                       <a href="">Verify your list</a>

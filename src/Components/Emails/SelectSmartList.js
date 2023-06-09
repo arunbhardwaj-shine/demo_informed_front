@@ -423,7 +423,7 @@ const SelectSmartList = (props) => {
                       <Link to="/CreateEmail">Create Your Email</Link>
                     </li>
                     <li className="active active-main">
-                      <Link to="/SelectSmartList">Select HCPs</Link>
+                      <Link to="/SelectSmartList">{ localStorage.getItem("user_id") == userId?"Select Users":"Select HCPs"}  </Link>
                     </li>
                     {/*
                   <li className="active active-main">
