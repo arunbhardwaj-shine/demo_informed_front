@@ -256,7 +256,6 @@ const CountryRegistration = () => {
         month,
       });
       const apiData = response.data;
-      console.log("apiData-->",apiData);
       const countryData = apiData.data.coordination.map(
         (coordObject, index) => {
           const [lat, lon] = Object.values(coordObject)[0].split("~");
@@ -271,7 +270,7 @@ const CountryRegistration = () => {
           }
           return {
             name: apiData.data.country[index],
-         // name: Object.keys(coordObject)[0],
+            // name: Object.keys(coordObject)[0],
             lat: parseFloat(lat),
             lon: parseFloat(lon),
             critical_care: apiData.data.critical_care[index],
@@ -283,8 +282,8 @@ const CountryRegistration = () => {
           };
         }
       ).filter(Boolean);
-       console.log("countryData-->",countryData);
-
+      setIsLoaded(true)
+      setMonthYear(true);
       setNewData(countryData);
 
       let newSeries = [
@@ -392,18 +391,28 @@ const CountryRegistration = () => {
     return acc + serie.data.reduce((a, b) => a + b, 0);
   }, 0);
 
-  const selectMonthYear = useCallback(
-    (selectedOption) => {
-      window.scrollTo(0, 0);
-      setMonthYear(selectedOption?.value);
-      const [month, year] = selectedOption?.value?.split(" ") || [];
-      optionMonth.current = month;
-      optionYear.current = year;
-      setNewData([]);
-      getDataFromApi();
-    },
-    [getDataFromApi]
-  );
+  // const selectMonthYear = useCallback(
+  //   (selectedOption) => {
+  //     window.scrollTo(0, 0);
+  //     setMonthYear(selectedOption?.value);
+  //     const [month, year] = selectedOption?.value?.split(" ") || [];
+  //     optionMonth.current = month;
+  //     optionYear.current = year;
+  //     setNewData([]);
+  //     getDataFromApi();
+  //   },
+  //   [getDataFromApi]
+  // );
+
+  const selectMonthYear = (e) => {
+    window.scrollTo(0, 0);
+    const { value } = e;
+    const [month, year] = value.split(' ') || [];
+    optionMonth.current = month;
+    optionYear.current = year;
+    setMonthYear(true);
+    getDataFromApi();
+  };
 
   return (
     <>
@@ -458,9 +467,9 @@ const CountryRegistration = () => {
                 </Form>
               </div>
               <div className="high_charts">
-                {newData.length || newData.length === 0 ? (
+                {(newData.length || newData.length === 0) && isLoaded && (
                   <MemoizedMap data={newData} options={mapOptions} />
-                ) : null}
+                )}
               </div>
               {countryList.series.some((series) => series.data.length > 0) &&
                 newData.length > 0 ? (
