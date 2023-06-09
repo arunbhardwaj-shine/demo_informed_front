@@ -28,7 +28,7 @@ const CampaignStats = () => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 700,
+      height: 500,
     },
     title: {
       text: "Registration based on delivery",
