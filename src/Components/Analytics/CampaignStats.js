@@ -10,13 +10,13 @@ import Select from "react-select";
 import HighchartsReact from "highcharts-react-official";
 import { Link } from "react-router-dom";
 import drilldown from "highcharts/modules/drilldown.js";
-import CommonLineGraph from "./CommonLineGraph"
+import CommonLineGraph from "./CommonLineGraph";
 exporting(Highcharts);
 exportData(Highcharts);
 drilldown(Highcharts);
 const CampaignStats = () => {
   const [data, setData] = useState({});
-  const[newData, setNewData] = useState([])
+  const [newData, setNewData] = useState([]);
   const [pieData, setPieData] = useState({});
 
   const [isDataFound, setIsDataFound] = useState(false);
@@ -28,6 +28,7 @@ const CampaignStats = () => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
+      height: 700,
     },
     title: {
       text: "Registration based on delivery",
@@ -51,9 +52,7 @@ const CampaignStats = () => {
         },
         point: {
           events: {
-            drilldown: function (e) {
-        
-            },
+            drilldown: function (e) {},
           },
         },
       },
@@ -70,7 +69,6 @@ const CampaignStats = () => {
       series: [], // Initialize with empty drilldown series
     },
   });
-
 
   const chart = useRef(null);
   Highcharts.setOptions({
@@ -97,7 +95,7 @@ const CampaignStats = () => {
       loader("show");
       const result = await postData(ENDPOINT.CAMPAINGSTAT);
 
-     let newValue = [
+      let newValue = [
         {
           name: "Article Registration based on delivery",
           colorByPoint: true,
@@ -125,6 +123,12 @@ const CampaignStats = () => {
               y: result?.data?.data?.tot_web,
               color: Highcharts.getOptions().colors[4],
               drilldown: "direct",
+            },
+            {
+              name: "QR",
+              y: result?.data.data.tot_QRcode,
+              color: Highcharts.getOptions().colors[3],
+              drilldown: "QR",
             },
             {
               name: "Peer sharing",
@@ -157,6 +161,12 @@ const CampaignStats = () => {
               drilldown: "QR",
             },
             {
+              name: "IBU Docintel Code",
+              y: result?.data?.data?.tot_Docintel_code_oc,
+              color: Highcharts.getOptions().colors[9],
+              drilldown: "QR",
+            },
+            {
               name: "IBU Direct",
               y: result?.data?.data?.tot_web_oc,
               color: Highcharts.getOptions().colors[11],
@@ -172,8 +182,7 @@ const CampaignStats = () => {
         },
       ];
 
-
-    let drillDownValue = [
+      let drillDownValue = [
         {
           series: [
             {
@@ -243,20 +252,19 @@ const CampaignStats = () => {
         },
       ];
 
-    
-
       setCampaignStatsPieOptions((prevOptions) => {
-        const updatedDrilldown = drillDownValue?.[0].series.map((seriesItem) => {
-          const { name, id, data } = seriesItem;
-          const updatedData = data ? data.map(([name, y]) => [name, y]) : [];
-          return {
-            name: name,
-            id: id,
-            data: updatedData,
-          };
-        });
-      
-      
+        const updatedDrilldown = drillDownValue?.[0].series.map(
+          (seriesItem) => {
+            const { name, id, data } = seriesItem;
+            const updatedData = data ? data.map(([name, y]) => [name, y]) : [];
+            return {
+              name: name,
+              id: id,
+              data: updatedData,
+            };
+          }
+        );
+
         return {
           ...prevOptions,
           series: newValue,
@@ -266,10 +274,7 @@ const CampaignStats = () => {
           },
         };
       });
-      
-      
-      
- 
+
       // let newValue = [
       //   {
       //     name: "Article Registration based on delivery",
@@ -438,7 +443,7 @@ const CampaignStats = () => {
     },
     exporting: {
       showHighchart: true,
-     // showTable: true,
+      // showTable: true,
       tableCaption: "",
     },
     xAxis: {},
@@ -469,85 +474,82 @@ const CampaignStats = () => {
     },
   });
 
-
-// start Line cis table
-const [tableData, setTableData] = useState({
-  title: {
-    text: "Total HCPs",
-  },
-  xAxis: {
-    categories: [],
-  },
-  yAxis: {
-    min: 0,
+  // start Line cis table
+  const [tableData, setTableData] = useState({
     title: {
-      text: "HCP",
+      text: "Total HCPs",
     },
-    stackLabels: {
-      enabled: true,
+    xAxis: {
+      categories: [],
     },
-  },
-  legend: {
-    align: "center",
-    verticalAlign: "bottom",
-    layout: "horizontal",
-    x: 0,
-    y: 0,
-  },
-  plotOptions: {
-    series: {
-      stacking: "normal",
+    yAxis: {
+      min: 0,
+      title: {
+        text: "HCP",
+      },
+      stackLabels: {
+        enabled: true,
+      },
     },
-  },
-  exporting: {
-    showTable: true,
-  },
-  series: [],
-  months: []
-});
+    legend: {
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "horizontal",
+      x: 0,
+      y: 0,
+    },
+    plotOptions: {
+      series: {
+        stacking: "normal",
+      },
+    },
+    exporting: {
+      showTable: true,
+    },
+    series: [],
+    months: [],
+  });
 
-// end line cis table
+  // end line cis table
 
-//start line ibu table
+  //start line ibu table
 
-const [tableDataIbu, setTableDataIbu] = useState({
-  title: {
-    text: "Total HCPs",
-  },
-  xAxis: {
-    categories: [],
-  },
-  yAxis: {
-    min: 0,
+  const [tableDataIbu, setTableDataIbu] = useState({
     title: {
-      text: "HCP",
+      text: "Total HCPs",
     },
-    stackLabels: {
-      enabled: true,
+    xAxis: {
+      categories: [],
     },
-  },
-  legend: {
-    align: "center",
-    verticalAlign: "bottom",
-    layout: "horizontal",
-    x: 0,
-    y: 0,
-  },
-  plotOptions: {
-    series: {
-      stacking: "normal",
+    yAxis: {
+      min: 0,
+      title: {
+        text: "HCP",
+      },
+      stackLabels: {
+        enabled: true,
+      },
     },
-  },
-  exporting: {
-    showTable: true,
-  },
-  series: [],
-  months: []
-});
+    legend: {
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "horizontal",
+      x: 0,
+      y: 0,
+    },
+    plotOptions: {
+      series: {
+        stacking: "normal",
+      },
+    },
+    exporting: {
+      showTable: true,
+    },
+    series: [],
+    months: [],
+  });
 
-// end line ibu table
-
-
+  // end line ibu table
 
   const [campaignStatsLineOptionIBU, setCampaignStatsLineOptionIBU] = useState({
     chart: {
@@ -565,7 +567,7 @@ const [tableDataIbu, setTableDataIbu] = useState({
 
     exporting: {
       showHighchart: true,
-    //  showTable: true,
+      //  showTable: true,
       tableCaption: "",
     },
     xAxis: {},
@@ -613,37 +615,35 @@ const [tableDataIbu, setTableDataIbu] = useState({
         return;
       }
 
-    //  setNewData(hadData);
+      //  setNewData(hadData);
 
       const { cis, ibu } = hadData;
 
-   hadData.cis.sort((a, b) => a.ibu.localeCompare(b.ibu));
-   hadData.ibu.sort((a, b) => a.ibu.localeCompare(b.ibu));
-
+      hadData.cis.sort((a, b) => a.ibu.localeCompare(b.ibu));
+      hadData.ibu.sort((a, b) => a.ibu.localeCompare(b.ibu));
 
       const monthsString = cis[0].Months;
-      const months = monthsString
-        const reversedMonths = [...months].reverse();
-        const newSeriesCis = cis.map((item, index) => {
-          let newData = 0;
-          let newAr = [];
-          item.total.forEach((value) => {
-            newData += value;
-            newAr.push(newData);
-          });
-          const name = item.ibu;
-          
-          const totalSum = item.total;
-          const totalReaders = item.total.reduce((acc, val) => acc + val, 0);
-
-          return {
-            name: name,
-            totalReaders,
-            data: newAr,
-            color: Highcharts.getOptions().colors[index],
-          };
+      const months = monthsString;
+      const reversedMonths = [...months].reverse();
+      const newSeriesCis = cis.map((item, index) => {
+        let newData = 0;
+        let newAr = [];
+        item.total.forEach((value) => {
+          newData += value;
+          newAr.push(newData);
         });
+        const name = item.ibu;
 
+        const totalSum = item.total;
+        const totalReaders = item.total.reduce((acc, val) => acc + val, 0);
+
+        return {
+          name: name,
+          totalReaders,
+          data: newAr,
+          color: Highcharts.getOptions().colors[index],
+        };
+      });
 
       const newSeriesDataCis = [
         ...newSeriesCis.map((series, index) => ({
@@ -662,34 +662,34 @@ const [tableDataIbu, setTableDataIbu] = useState({
       };
       setCampaignStatsLineOption(newHcpOptions);
 
-// start line cis  table
-const newTableSeries = cis.map((item) => ({
-  data: item.total.reverse(),
-}));
+      // start line cis  table
+      const newTableSeries = cis.map((item) => ({
+        data: item.total.reverse(),
+      }));
 
-const tableDatas = cis.map((item, index) => ({
-  name: item.ibu + " ( " + item.total.reduce((acc, val) => acc + val, 0) + ")",
-  
-  }));
+      const tableDatas = cis.map((item, index) => ({
+        name:
+          item.ibu +
+          " ( " +
+          item.total.reduce((acc, val) => acc + val, 0) +
+          ")",
+      }));
 
+      const newTable = {
+        ...tableData,
+        xAxis: {
+          categories: tableDatas,
+        },
+        series: newTableSeries,
+        months: reversedMonths,
+      };
 
-const newTable = {
-  ...tableData,
-  xAxis: {
-    categories: tableDatas,
-  },
-  series: newTableSeries,
-   months: reversedMonths,
-};
+      setTableData(newTable);
 
-
-setTableData(newTable); 
-
-// end line cis  table
-
+      // end line cis  table
 
       const newSeriesIbu = ibu.map((item, index) => {
-        const totalSum = item.totalSum
+        const totalSum = item.totalSum;
         const totalReaders = item.total.reduce((acc, val) => acc + val, 0);
         let newData = 0;
         let newAr = [];
@@ -723,39 +723,30 @@ setTableData(newTable);
 
       setCampaignStatsLineOptionIBU(newHcpOptionsIbu);
 
+      //start create ibu table
 
+      const newTableSeriesibu = ibu.map((item) => ({
+        data: item.total.reverse(),
+      }));
 
-//start create ibu table
+      const tableDatasibu = ibu.map((item, index) => ({
+        name:
+          item.ibu +
+          " ( " +
+          item.total.reduce((acc, val) => acc + val, 0) +
+          ")",
+      }));
+      const newTableibu = {
+        ...tableDataIbu,
+        xAxis: {
+          categories: tableDatasibu,
+        },
+        series: newTableSeriesibu,
+        months: reversedMonths,
+      };
+      setTableDataIbu(newTableibu);
 
-const newTableSeriesibu = ibu.map((item) => ({
-  data: item.total.reverse(),
-}));
-
-const tableDatasibu = ibu.map((item, index) => ({
-  name: item.ibu + " ( " + item.total.reduce((acc, val) => acc + val, 0) + ")",
-  
-  }));
-const newTableibu = {
-  ...tableDataIbu,
-  xAxis: {
-    categories: tableDatasibu,
-  },
-  series: newTableSeriesibu,
-   months: reversedMonths,
-};
-setTableDataIbu(newTableibu);
-
-// end create ibu table
-
-
-
-
-
-
-
-
-
-
+      // end create ibu table
 
       setIsDataFound(true);
       setData(cis);
@@ -770,11 +761,10 @@ setTableDataIbu(newTableibu);
     return acc + serie.data.reduce((a, b) => a + b, 0);
   }, 0);
 
-
   const totalibu = tableDataIbu.series.reduce((acc, serie) => {
     return acc + serie.data.reduce((a, b) => a + b, 0);
   }, 0);
-//end total of cis
+  //end total of cis
 
   return (
     <>
@@ -822,7 +812,7 @@ setTableDataIbu(newTableibu);
                     ref={chart}
                   />
                 </div>
-             
+
                 <div className="high_charts">
                   <HighchartsReact
                     highcharts={Highcharts}
@@ -863,46 +853,47 @@ setTableDataIbu(newTableibu);
                   </div>
                 </div>
 
-
-
                 <div className="high_charts">
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={campaignStatsLineOptionIBU}
                     //   ref={chart}
                   />
-      <div className="high_charts">
-                  <div className="highcharts-data-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Category</th>
-                          {tableDataIbu.xAxis.categories.map((category, index) => (
-                            <th key={index}>{category.name}</th>
-                          ))}
-                          <th>Total ({totalibu})</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {tableDataIbu?.months?.map((month, index) => (
-                          <tr key={index}>
-                            <td>{month}</td>
-                            {tableDataIbu?.series?.map((serie, serieIndex) => (
-                              <td key={serieIndex}>{serie?.data[index]}</td>
-                            ))}
-                            <td>
-                              {tableDataIbu?.series?.reduce(
-                                (total, serie) => total + serie?.data[index],
-                                0
-                              )}
-                            </td>
+                  <div className="high_charts">
+                    <div className="highcharts-data-table">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Category</th>
+                            {tableDataIbu.xAxis.categories.map(
+                              (category, index) => (
+                                <th key={index}>{category.name}</th>
+                              )
+                            )}
+                            <th>Total ({totalibu})</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {tableDataIbu?.months?.map((month, index) => (
+                            <tr key={index}>
+                              <td>{month}</td>
+                              {tableDataIbu?.series?.map(
+                                (serie, serieIndex) => (
+                                  <td key={serieIndex}>{serie?.data[index]}</td>
+                                )
+                              )}
+                              <td>
+                                {tableDataIbu?.series?.reduce(
+                                  (total, serie) => total + serie?.data[index],
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
-
                 </div>
               </div>
             </Row>
