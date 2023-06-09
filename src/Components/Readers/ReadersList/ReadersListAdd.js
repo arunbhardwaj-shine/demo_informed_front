@@ -48,6 +48,7 @@ const ReadersListAdd = () => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [emailChanged, setEmailChanged] = useState("");
   const [emailData, setEmailData] = useState("");
 
@@ -1277,7 +1278,7 @@ const ReadersListAdd = () => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    Add HCP +
+                                  {localStorage.getItem("user_Id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>

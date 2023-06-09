@@ -64,6 +64,7 @@ const EditConsentOptions = (props) => {
     { value: "Offline", label: "Offline" },
     { value: "Sunshine", label: "Sunshine" },
   ]);
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [getTemplateTime, setTemplateTime] = useState([
     { value: "Online", label: "Online" },
     { value: "Offline", label: "Offline" },
@@ -1895,7 +1896,7 @@ const EditConsentOptions = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    Add HCP +
+                                {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>

@@ -27,6 +27,7 @@ const LicenseCreateUser = () => {
   const limitFieldRef = useRef(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [reseller, setReseller] = useState([]);
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
   const [id, setId] = useState(localStorage.getItem("user_id"));
@@ -760,7 +761,7 @@ const LicenseCreateUser = () => {
                           topicButtonClicked(userDetail?.user[0]?.group_id)
                         }
                       >
-                        Add HCP +
+                      {localStorage.getItem("user_Id") == userId?"Add User +":"Add HCP +"}
                       </button>
                     </div>
                     <div className="tags_added">

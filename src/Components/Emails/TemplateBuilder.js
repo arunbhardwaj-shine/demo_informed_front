@@ -55,7 +55,7 @@ const TemplateBuilder = (props) => {
   const [activeManual, setActiveManual] = useState("active");
   const [plainTemplateClickedd, setPlainTemplateClicked] = useState(false);
   const [linkTemplateClickedd, setLinkTemplateClicked] = useState(false);
-
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [templateList, setTemplateList] = useState([]);
   const [editableTemplate, setEdiatbleTemplate] = useState(false);
   const [template, setTemplate] = useState("");
@@ -2060,7 +2060,9 @@ const TemplateBuilder = (props) => {
                                           : ""
                                       }
                                     >
-                                      HCP
+                         {localStorage.getItem("user_id") == userId?"User +":"HCP"}
+
+                                      
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                       eventKey="Staff"
@@ -2161,7 +2163,7 @@ const TemplateBuilder = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    Add HCP +
+                                 {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>
