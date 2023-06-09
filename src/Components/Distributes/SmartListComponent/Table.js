@@ -1055,7 +1055,7 @@ const Table = (props, ref) => {
           <div className="table-title">
             {props.upload_by_filter == 0 ? (
               <h4>
-                Uploaded HCPs for the smart list{" "}
+                {localStorage.getItem("user_id") == userId?"Uploaded Users for the smart list": "Uploaded HCPs for the smart list"}
                 <span>| {editList.length > 0 ? editList.length : 0}</span>
               </h4>
             ) : (
