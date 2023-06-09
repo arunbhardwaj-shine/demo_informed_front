@@ -795,7 +795,8 @@ const ReadersListAdd = () => {
               <div className="form_action">
                 <div className="create-reader-form-header table-title">
                   <h4>
-                    Uploaded HCPs
+                  {localStorage.getItem("user_id") == userId?"  Uploaded Users":"  Uploaded HCPs"}
+                  
                     <span> | {readersData.length}</span>
                   </h4>
 
@@ -1278,7 +1279,7 @@ const ReadersListAdd = () => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                  {localStorage.getItem("user_Id") == userId?"Add User +":"Add HCP +"}
+                                  {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>
