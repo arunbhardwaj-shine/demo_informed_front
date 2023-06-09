@@ -62,6 +62,7 @@ const CreateEmail = (props) => {
       ? props.getDraftData.source_code
       : ""
   );
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [templateSaving, setTemplateSaving] = useState("");
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
@@ -2631,8 +2632,8 @@ const CreateEmail = (props) => {
                                     className="nav-link btn-bordered"
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
-                                  >
-                                    Add HCP +
+                                  > 
+                                  {localStorage.getItem("user_Id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                                 {/*<li className="nav-item add-file">

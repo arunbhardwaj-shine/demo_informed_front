@@ -31,6 +31,7 @@ const SelectSmartListUsers = (props) => {
   const [removedReaders, setRemovedReaders] = useState([]);
   const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
   const [reRender, setReRender] = useState(0);
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [update, setUpdate] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
@@ -1487,7 +1488,7 @@ const SelectSmartListUsers = (props) => {
                                     data-bs-toggle="tab"
                                     href="#add_hcp_form"
                                   >
-                                    Add HCP +
+                                   {localStorage.getItem("user_Id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                                 {/*

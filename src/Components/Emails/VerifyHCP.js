@@ -52,6 +52,7 @@ const VerifyHCP = (props) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [editableData, setEditableData] = useState([]);
   const [sortingCount, setSortingCount] = useState(0);
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const navigate = useNavigate();
 
   const [selectedHcp, setSelectedHcp] = useState(
@@ -885,7 +886,7 @@ const VerifyHCP = (props) => {
                         data-bs-target="#add_hcp"
                         onClick={addNewHcp}
                       >
-                        Add New HCP +
+                        {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                       </button>
                     </div>
                   </div>
@@ -1443,7 +1444,7 @@ const VerifyHCP = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    Add HCP +
+                                     {localStorage.getItem("user_Id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
 

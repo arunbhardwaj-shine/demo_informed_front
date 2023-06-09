@@ -49,6 +49,7 @@ const AutoEmail = () => {
   const [hide, setHide] = useState(false);
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
@@ -1428,7 +1429,7 @@ const AutoEmail = () => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    Add HCP +
+                                    {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>

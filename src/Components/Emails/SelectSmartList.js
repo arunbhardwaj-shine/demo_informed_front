@@ -39,6 +39,7 @@ const SelectSmartList = (props) => {
     : draft_object?.campaign_id
     ? draft_object.campaign_id
     : "";
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
@@ -476,8 +477,13 @@ const SelectSmartList = (props) => {
                 <div className="table-title">
                   <div className="create-smart-list">
                     <p>
-                      If you do not have a smart list for the HCPs group, you
-                      can :
+                      {
+                      localStorage.getItem("user_id") == userId?`If you do not have a smart list for the Users group, you
+                      can :`:`If you do not have a smart list for the HCPs group, you
+                      can `
+
+                      }
+                      
                     </p>
                     <button
                       className="btn btn-primary btn-bordered"

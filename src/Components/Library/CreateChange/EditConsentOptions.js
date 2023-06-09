@@ -58,6 +58,7 @@ const EditConsentOptions = (props) => {
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateSaving, setTemplateSaving] = useState("");
+  
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
   const [getConsentType, setConsentType] = useState([
     { value: "Online", label: "Online" },
@@ -87,7 +88,7 @@ const EditConsentOptions = (props) => {
   const [countryOption, setCountryOption] = useState(0);
   const [ibuOption, setIbuOption] = useState("");
   const [validator] = React.useState(new SimpleReactValidator());
-
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [message, setMessage] = useState("");
@@ -1895,7 +1896,7 @@ const EditConsentOptions = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    Add HCP +
+                                   {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>

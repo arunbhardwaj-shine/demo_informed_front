@@ -21,6 +21,7 @@ const SelectHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [selection, setSelection] = useState(0);
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
 
   // const [templateId, setTemplateId] = useState(
   //   props.getDraftData ? props.getDraftData.campaign_data.list_selection : 0
@@ -249,7 +250,8 @@ const SelectHCP = (props) => {
                         alt="Group HCPs"
                       />
                     </div>
-                    <p>Group of HCPs</p>
+                    
+                    <p>{localStorage.getItem("user_id") == userId?"Group of Users":"Group of HCPs" } </p>
                   </li>
                   <li>
                     <div
@@ -272,7 +274,7 @@ const SelectHCP = (props) => {
                         alt="Single HCP"
                       />
                     </div>
-                    <p>Single HCP</p>
+                    <p>{localStorage.getItem("user_id") == userId?"Single User":"Single HCP"}  </p>
                   </li>
                 </ul>
               </div>

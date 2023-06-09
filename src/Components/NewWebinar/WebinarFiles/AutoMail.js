@@ -48,7 +48,7 @@ const AutoMail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
-
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [subject, setSubject] = useState("");
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
@@ -1867,7 +1867,7 @@ const AutoMail = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    Add HCP +
+                                   {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>
