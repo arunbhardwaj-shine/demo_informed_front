@@ -1330,7 +1330,7 @@ const FilterSegment = (props) => {
                 </li>
                 <li className="active active-main">
                   <a href="javascript:void(0)">
-                    {localStorage.getItem("user_Id") == userId?"Select & Verify your Users":"Select & Verify your HCPs"}
+                    {localStorage.getItem("user_id") == userId?"Select & Verify your Users":"Select & Verify your HCPs"}
                     </a>
                 </li>
               </ul>
