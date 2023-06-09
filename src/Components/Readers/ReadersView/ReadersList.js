@@ -1152,8 +1152,9 @@ const NewReaders = () => {
                     filterObject["status"] == "Registered" &&
                     filterObject["contact Type"] == "HCP") ||
                   (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                    ? Object.keys(filterObject)?.length == 1
-                    : false && filterObject["status"] == "Registered") ? (
+                    ? Object.keys(filterObject)?.length == 1 &&
+                      filterObject["status"] == "Registered"
+                    : false) ? (
                     <div className="refresh-button">
                       <button
                         className={refreshFlag ? "refresh-rotate" : "refresh"}
