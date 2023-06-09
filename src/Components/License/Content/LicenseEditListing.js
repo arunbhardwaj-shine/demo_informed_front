@@ -98,6 +98,8 @@ const LicenseEditListing = () => {
     footerButton: "",
   });
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
+  const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
@@ -120,11 +122,6 @@ const LicenseEditListing = () => {
         },
       ],
     },
-    // {
-    //   label: "Product name",
-    //   type: "input",
-    //   placeholder: "Type your product name",
-    // },
   ];
 
   const buttonRef = useRef(null);
@@ -145,10 +142,10 @@ const LicenseEditListing = () => {
       }
     }
 
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
@@ -171,12 +168,24 @@ const LicenseEditListing = () => {
   };
 
   const loadMoreClicked = () => {
+    loader("show");
+
     let sp = page + 1;
-    getLibraryData(sp, filterObject, search, 1);
-    setPage(page + 1);
-    // setPageAllClicked(true);
-    // setPage(2);
-    // setType("rest");
+    let totalRecord = loadData.limit * sp;
+    let newData = [];
+    // getLibraryData(sp, filterObject, search, 1);
+
+    if (totalLibraryRecord?.length >= totalRecord) {
+      newData = totalLibraryRecord.slice(loadData.nextLimit, totalRecord);
+      setLoadData({ ...loadData, nextLimit: totalRecord });
+    } else {
+      newData = totalLibraryRecord.slice(loadData.nextLimit);
+      setIsLoaded(false);
+    }
+
+    setLibraryData((oldArray) => [...oldArray, ...newData]);
+    setPage(sp);
+    loader("hide");
   };
 
   const submitHandler = (event) => {
@@ -299,37 +308,47 @@ const LicenseEditListing = () => {
 
       let body = { ...data, ...obj };
 
-      // if (pageAllClicked == true) {
-      //   setPageAll(true);
-      // } else {
-      //   loader("show");
+      const res = await postData(ENDPOINT.LIBRARY, body);
+      setTotalLibraryRecord(res?.data?.data?.library);
+
+      let apiData = [];
+      if (res?.data?.data?.library?.length) {
+        const totalData =
+          res.data?.data?.library?.length >= 24
+            ? 24
+            : res.data.data.library?.length;
+        apiData = res?.data?.data?.library?.slice(0, totalData);
+
+        if (res?.data?.data?.library?.length > 24) {
+          setLoadData({ ...loadData, nextLimit: 24 });
+          setIsLoaded(true);
+        }
+      }
+      setLibraryData(apiData);
+
+      // if (totalCount != res?.data?.data?.total) {
+      //   setCount(res?.data?.data?.total);
       // }
 
-      const res = await postData(ENDPOINT.LIBRARY, body);
+      // let total_results = 0;
+      // if (libraryData?.length) {
+      //   total_results = res?.data?.data?.library.length + libraryData.length;
+      //   if (res?.data?.data?.library) {
+      //     setLibraryData((oldArray) => [
+      //       ...oldArray,
+      //       ...res?.data?.data?.library,
+      //     ]);
+      //   }
+      // } else {
+      //   total_results = res?.data?.data?.library.length;
+      //   setLibraryData(res?.data?.data?.library);
+      // }
 
-      if (totalCount != res?.data?.data?.total) {
-        setCount(res?.data?.data?.total);
-      }
-
-      let total_results = 0;
-      if (libraryData?.length) {
-        total_results = res?.data?.data?.library.length + libraryData.length;
-        if (res?.data?.data?.library) {
-          setLibraryData((oldArray) => [
-            ...oldArray,
-            ...res?.data?.data?.library,
-          ]);
-        }
-      } else {
-        total_results = res?.data?.data?.library.length;
-        setLibraryData(res?.data?.data?.library);
-      }
-
-      if (res?.data?.data?.total > total_results) {
-        setIsLoaded(true);
-      } else {
-        setIsLoaded(false);
-      }
+      // if (res?.data?.data?.total > total_results) {
+      //   setIsLoaded(true);
+      // } else {
+      //   setIsLoaded(false);
+      // }
 
       setPageAll(false);
       setApiCallStatus(true);
@@ -779,7 +798,7 @@ const LicenseEditListing = () => {
                   }
                 >
                   <button
-                   ref={buttonRef}
+                    ref={buttonRef}
                     className={
                       Object.keys(filterObject).length > 0
                         ? "btn btn-secondary dropdown filter_applied"
@@ -1906,16 +1925,16 @@ const LicenseEditListing = () => {
                 ) : null}
               </>
             </div>
-              <div className="load_more">
-            {isLoaded == true ? (
+            <div className="load_more">
+              {isLoaded == true ? (
                 <Button
                   className="btn btn-primary btn-filled"
                   onClick={loadMoreClicked}
                 >
                   Load More
                 </Button>
-            ) : null}
-              </div>
+              ) : null}
+            </div>
 
             {pageAll == true ? (
               <div

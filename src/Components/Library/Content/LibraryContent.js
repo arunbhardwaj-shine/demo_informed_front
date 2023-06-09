@@ -209,10 +209,10 @@ const LibraryContent = (props) => {
   };
 
   const submitHandler = (event) => {
+    event.preventDefault();
     setLibraryData([]);
     setPage(1);
     getLibraryData(1, filterObject, search);
-    event.preventDefault();
     return false;
   };
 

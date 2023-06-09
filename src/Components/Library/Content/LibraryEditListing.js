@@ -97,6 +97,8 @@ const LibraryEditListing = () => {
     footerButton: "",
   });
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
+  const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
@@ -119,16 +121,10 @@ const LibraryEditListing = () => {
         },
       ],
     },
-    // {
-    //   label: "Product name",
-    //   type: "input",
-    //   placeholder: "Type your product name",
-    // },
   ];
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
-
 
   useEffect(() => {
     if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -153,12 +149,11 @@ const LibraryEditListing = () => {
       }
     }
 
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
-
   }, []);
 
   const applyFilters = async () => {
@@ -179,18 +174,32 @@ const LibraryEditListing = () => {
   };
 
   const loadMoreClicked = () => {
+    // getLibraryData(sp, filterObject, search, 1);
+    loader("show");
+
     let sp = page + 1;
-    getLibraryData(sp, filterObject, search, 1);
-    setPage(page + 1);
-    // setPageAllClicked(true);
-    // setPage(2);
-    // setType("rest");
+    let totalRecord = loadData.limit * sp;
+    let newData = [];
+
+    if (totalLibraryRecord?.length >= totalRecord) {
+      newData = totalLibraryRecord.slice(loadData.nextLimit, totalRecord);
+      setLoadData({ ...loadData, nextLimit: totalRecord });
+    } else {
+      newData = totalLibraryRecord.slice(loadData.nextLimit);
+      setIsLoaded(false);
+    }
+
+    setLibraryData((oldArray) => [...oldArray, ...newData]);
+    setPage(sp);
+
+    loader("hide");
   };
 
   const submitHandler = (event) => {
-    setLibraryData([]);
-    getLibraryData(page, filterObject, search);
     event.preventDefault();
+    setLibraryData([]);
+    setPage(1);
+    getLibraryData(1, filterObject, search);
     return false;
   };
 
@@ -318,37 +327,47 @@ const LibraryEditListing = () => {
 
       let body = { ...data, ...obj };
 
-      // if (pageAllClicked == true) {
-      //   setPageAll(true);
-      // } else {
-      //   loader("show");
+      const res = await postData(ENDPOINT.LIBRARY, body);
+      setTotalLibraryRecord(res?.data?.data?.library);
+
+      let apiData = [];
+      if (res?.data?.data?.library?.length) {
+        const totalData =
+          res.data?.data?.library?.length >= 24
+            ? 24
+            : res.data.data.library?.length;
+        apiData = res?.data?.data?.library?.slice(0, totalData);
+
+        if (res?.data?.data?.library?.length > 24) {
+          setLoadData({ ...loadData, nextLimit: 24 });
+          setIsLoaded(true);
+        }
+      }
+      setLibraryData(apiData);
+
+      // if (totalCount != res?.data?.data?.total) {
+      //   setCount(res?.data?.data?.total);
       // }
 
-      const res = await postData(ENDPOINT.LIBRARY, body);
+      // let total_results = 0;
+      // if (libraryData?.length) {
+      //   total_results = res?.data?.data?.library.length + libraryData.length;
+      //   if (res?.data?.data?.library) {
+      //     setLibraryData((oldArray) => [
+      //       ...oldArray,
+      //       ...res?.data?.data?.library,
+      //     ]);
+      //   }
+      // } else {
+      //   total_results = res?.data?.data?.library.length;
+      //   setLibraryData(res?.data?.data?.library);
+      // }
 
-      if (totalCount != res?.data?.data?.total) {
-        setCount(res?.data?.data?.total);
-      }
-
-      let total_results = 0;
-      if (libraryData?.length) {
-        total_results = res?.data?.data?.library.length + libraryData.length;
-        if (res?.data?.data?.library) {
-          setLibraryData((oldArray) => [
-            ...oldArray,
-            ...res?.data?.data?.library,
-          ]);
-        }
-      } else {
-        total_results = res?.data?.data?.library.length;
-        setLibraryData(res?.data?.data?.library);
-      }
-
-      if (res?.data?.data?.total > total_results) {
-        setIsLoaded(true);
-      } else {
-        setIsLoaded(false);
-      }
+      // if (res?.data?.data?.total > total_results) {
+      //   setIsLoaded(true);
+      // } else {
+      //   setIsLoaded(false);
+      // }
 
       setPageAll(false);
       setApiCallStatus(true);
@@ -798,7 +817,7 @@ const LibraryEditListing = () => {
                   }
                 >
                   <button
-                  ref={buttonRef}
+                    ref={buttonRef}
                     className={
                       Object.keys(filterObject).length > 0
                         ? "btn btn-secondary dropdown filter_applied"
@@ -859,7 +878,7 @@ const LibraryEditListing = () => {
                   </button>
                   {showfilter && (
                     <div
-                     ref={filterRef}
+                      ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -1926,7 +1945,7 @@ const LibraryEditListing = () => {
                                                 data?.trail_user_type != ""
                                                 ? JSON.parse(
                                                     data?.trail_user_type
-                                                  ).join(', ')
+                                                  ).join(", ")
                                                 : "N/A"
                                               : "N/A"}
                                           </h6>
@@ -2006,7 +2025,7 @@ const LibraryEditListing = () => {
                 ) : null}
               </>
             </div>
-              <div className="load_more">
+            <div className="load_more">
               {isLoaded == true ? (
                 <Button
                   className="btn btn-primary btn-filled"
@@ -2014,9 +2033,9 @@ const LibraryEditListing = () => {
                 >
                   Load More
                 </Button>
-                ) : null}
-              </div>
-          
+              ) : null}
+            </div>
+
             {pageAll == true ? (
               <div
                 className="load_more"

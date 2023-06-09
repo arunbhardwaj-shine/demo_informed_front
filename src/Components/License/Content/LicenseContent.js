@@ -130,11 +130,6 @@ const LicenseContent = (props) => {
         },
       ],
     },
-    // {
-    //   label: "Product name",
-    //   type: "input",
-    //   placeholder: "Type your product name",
-    // },
   ];
 
   const buttonRef = useRef(null);
