@@ -209,9 +209,10 @@ const LibraryContent = (props) => {
   };
 
   const submitHandler = (event) => {
-    setLibraryData([]);
-    getLibraryData(page, filterObject, search);
     event.preventDefault();
+    setLibraryData([]);
+    setPage(1);
+    getLibraryData(1, filterObject, search);
     return false;
   };
 
@@ -338,7 +339,6 @@ const LibraryContent = (props) => {
   };
 
   const applyFilter = (e) => {
-    console.log("-otherf",otherFilter)
     e.preventDefault();
     setFilterApplyflag(1);
     setLibraryData([]);
@@ -365,15 +365,13 @@ const LibraryContent = (props) => {
     }
   };
 
-
-
   const getLibraryData = async (page, obj, search, load = 0) => {
     try {
       loader("show");
       setIsLoaded(false);
       if (load) {
         setPageAll(true);
-      } 
+      }
       setApiCallStatus(false);
       let data = {
         user_id: localStorage.getItem("user_id"),
@@ -384,7 +382,7 @@ const LibraryContent = (props) => {
         limit: limit,
       };
       let body = { ...data, ...obj };
-  
+
       const res = await postData(ENDPOINT.LIBRARY, body);
 
       setTotalLibraryRecord(res?.data?.data?.library);
@@ -395,7 +393,7 @@ const LibraryContent = (props) => {
           res.data?.data?.library?.length >= 24
             ? 24
             : res.data.data.library?.length;
-            apiData = res?.data?.data?.library?.slice(0, totalData);
+        apiData = res?.data?.data?.library?.slice(0, totalData);
 
         if (res?.data?.data?.library?.length > 24) {
           setLoadData({ ...loadData, nextLimit: 24 });
