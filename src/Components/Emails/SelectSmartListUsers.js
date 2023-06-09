@@ -1263,7 +1263,7 @@ const SelectSmartListUsers = (props) => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add New HCP
+            {localStorage.getItem("user_id") == userId?"Add New User +":"Add New HCP"}
             </h5>
             <button
               onClick={() => {
@@ -1488,7 +1488,7 @@ const SelectSmartListUsers = (props) => {
                                     data-bs-toggle="tab"
                                     href="#add_hcp_form"
                                   >
-                                   {localStorage.getItem("user_Id") == userId?"Add User +":"Add HCP +"}
+                                   {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                                 {/*

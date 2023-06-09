@@ -2633,7 +2633,7 @@ const CreateEmail = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   > 
-                                  {localStorage.getItem("user_Id") == userId?"Add User +":"Add HCP +"}
+                                  {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                                 {/*<li className="nav-item add-file">
