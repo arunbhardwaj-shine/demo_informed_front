@@ -33,7 +33,6 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-// import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
 import { connect } from "react-redux";
 import {
@@ -215,7 +214,7 @@ const LibraryContent = (props) => {
     event.preventDefault();
     return false;
   };
-  // const [otherFilter, setOtherFilter] = useState({});
+
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
     let otherObj = JSON.parse(JSON.stringify(otherFilter));
@@ -339,6 +338,7 @@ const LibraryContent = (props) => {
   };
 
   const applyFilter = (e) => {
+    console.log("-otherf",otherFilter)
     e.preventDefault();
     setFilterApplyflag(1);
     setLibraryData([]);
@@ -365,15 +365,15 @@ const LibraryContent = (props) => {
     }
   };
 
+
+
   const getLibraryData = async (page, obj, search, load = 0) => {
     try {
       loader("show");
       setIsLoaded(false);
-      if (load == 0) {
-        // loader("show");
-      } else {
+      if (load) {
         setPageAll(true);
-      }
+      } 
       setApiCallStatus(false);
       let data = {
         user_id: localStorage.getItem("user_id"),
@@ -384,25 +384,25 @@ const LibraryContent = (props) => {
         limit: limit,
       };
       let body = { ...data, ...obj };
-
+  
       const res = await postData(ENDPOINT.LIBRARY, body);
 
       setTotalLibraryRecord(res?.data?.data?.library);
 
-      let libraryData = [];
+      let apiData = [];
       if (res?.data?.data?.library?.length) {
         const totalData =
           res.data?.data?.library?.length >= 24
             ? 24
             : res.data.data.library?.length;
-        libraryData = res?.data?.data?.library?.slice(0, totalData);
+            apiData = res?.data?.data?.library?.slice(0, totalData);
 
         if (res?.data?.data?.library?.length > 24) {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
       }
-      setLibraryData(libraryData);
+      setLibraryData(apiData);
       // if (totalCount != res?.data?.data?.total && page == 1) {
       //   setCount(res?.data?.data?.total);
       // }
