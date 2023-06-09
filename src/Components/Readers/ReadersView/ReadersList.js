@@ -198,6 +198,7 @@ const NewReaders = () => {
           setCount(res?.data?.data?.total);
         }
       }
+      // setCount(res?.data?.data?.total);
 
       let total_results = 0;
       if (page != 1) {
@@ -282,6 +283,7 @@ const NewReaders = () => {
   const searchChange = (e) => {
     setSearch(e?.target?.value);
     setFlag(0);
+
     if (e?.target?.value === "") {
       setReaderDataList([]);
       // setPageAllClicked(false);
@@ -292,7 +294,7 @@ const NewReaders = () => {
 
   const submitHandler = (event) => {
     setReaderDataList([]);
-    setCount(0);
+    setTotalCountFlag(false);
 
     getReaderListData(page, filterObject, search);
     event.preventDefault();

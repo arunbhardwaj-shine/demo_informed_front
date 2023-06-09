@@ -223,7 +223,7 @@ const ContentGraph = () => {
     yAxis: {
       min: 0,
       title: {
-        text: "IBU",
+        text: "Total User",
       },
     },
     legend: {
