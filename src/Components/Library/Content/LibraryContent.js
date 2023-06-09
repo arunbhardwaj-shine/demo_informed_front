@@ -33,7 +33,6 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-// import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
 import { connect } from "react-redux";
 import {
@@ -189,12 +188,12 @@ const LibraryContent = (props) => {
   };
 
   const loadMoreClicked = () => {
+    
+    
+
     let sp = page + 1;
     getLibraryData(sp, filterObject, search, 1);
-    setPage(page + 1);
-    // setPageAllClicked(true);
-    // setPage(2);
-    // setType("rest");
+    setPage(sp);
     loader("hide");
   };
 
@@ -204,7 +203,7 @@ const LibraryContent = (props) => {
     event.preventDefault();
     return false;
   };
-  // const [otherFilter, setOtherFilter] = useState({});
+
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
     let otherObj = JSON.parse(JSON.stringify(otherFilter));
@@ -355,15 +354,15 @@ const LibraryContent = (props) => {
     }
   };
 
+
+
   const getLibraryData = async (page, obj, search, load = 0) => {
     try {
       loader("show");
       setIsLoaded(false);
-      if (load == 0) {
-        // loader("show");
-      } else {
+      if (load) {
         setPageAll(true);
-      }
+      } 
       setApiCallStatus(false);
       let data = {
         user_id: localStorage.getItem("user_id"),
