@@ -842,7 +842,8 @@ const VerifyHCP = (props) => {
 
             <div className="top-header">
               <div className="page-title">
-                <h4>Search For HCP By:</h4>
+                <h4>{localStorage.getItem("user_id") == userId?"Search For User By:":"Search For HCP By:"}
+              </h4>
               </div>
             </div>
 
@@ -986,7 +987,10 @@ const VerifyHCP = (props) => {
               <div className="selected-hcp-table">
                 <div className="table-title">
                   <h4>
-                    Selected HCPs <span>| {selectedHcp.length}</span>
+                    {
+                       localStorage.getItem("user_id") == userId?"Selected Users":"Selected HCPs"
+                    }
+                     <span>| {selectedHcp.length}</span>
                   </h4>
                   <div className="selected-hcp-table-action">
                     {editable == false ? (
