@@ -48,6 +48,7 @@ const ReadersListAdd = () => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [emailChanged, setEmailChanged] = useState("");
   const [emailData, setEmailData] = useState("");
 
@@ -794,7 +795,8 @@ const ReadersListAdd = () => {
               <div className="form_action">
                 <div className="create-reader-form-header table-title">
                   <h4>
-                    Uploaded HCPs
+                  {localStorage.getItem("user_id") == userId?"  Uploaded Users":"  Uploaded HCPs"}
+                  
                     <span> | {readersData.length}</span>
                   </h4>
 
@@ -1094,7 +1096,7 @@ const ReadersListAdd = () => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add New HCP
+            {localStorage.getItem("user_id") == userId?"Add New User +":"Add New HCP"}
             </h5>
             <button
               onClick={() => {
@@ -1277,7 +1279,7 @@ const ReadersListAdd = () => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    Add HCP +
+                                  {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>

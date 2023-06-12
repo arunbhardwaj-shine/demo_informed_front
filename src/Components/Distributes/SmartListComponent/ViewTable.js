@@ -50,7 +50,7 @@ const ViewTable = (props) => {
   const [showReaders, setShowSaveReader] = useState(false);
   const [save, setSave] = useState(false);
   const [updateCounter, setUpdateCounter] = useState(0);
-
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [name_edits, setNameEdit] = useState("");
   const [country_edits, setCountryEdit] = useState("");
   const [email_edits, setEmailEdit] = useState("");
@@ -1941,7 +1941,7 @@ const ViewTable = (props) => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add New HCP
+            {localStorage.getItem("user_id") == userId?"Add New User +":"Add New HCP"}
             </h5>
             <button
               onClick={() => {
@@ -2657,7 +2657,7 @@ const ViewTable = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    Add HCP +
+                               {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
 

@@ -41,7 +41,16 @@ const NewReaders = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const [totalCount, setCount] = useState(0);
-  const [appliedFilter, setAppliedFilter] = useState({
+  // const [appliedFilter, setAppliedFilter] = useState({
+  //   status: ["Registered"],
+  //   "contact Type": ["HCP"],
+  // });
+  const [appliedFilter, setAppliedFilter] = useState();
+  const [filterObject, setFilterObject] = useState({
+    status: ["Registered"],
+    "contact Type": ["HCP"],
+  });
+  const [apifilterObject, setApifilterObject] = useState({
     status: ["Registered"],
     "contact Type": ["HCP"],
   });
@@ -64,14 +73,7 @@ const NewReaders = () => {
     // Status: ["Registered", "Unregistered"],
   });
   const [originalFilterData, setOriginalFilterData] = useState({});
-  const [filterObject, setFilterObject] = useState({
-    status: ["Registered"],
-    "contact Type": ["HCP"],
-  });
-  const [apifilterObject, setApifilterObject] = useState({
-    status: ["Registered"],
-    "contact Type": ["HCP"],
-  });
+
   const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
   const [types, setTypes] = useState([
@@ -113,8 +115,19 @@ const NewReaders = () => {
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   const [refreshFlag, setRefreshFlag] = useState(false);
+  const [refreshButton, setRefreshButton] = useState(false);
 
   useEffect(() => {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      setAppliedFilter({ status: ["Registered"] });
+      setFilterObject({ status: ["Registered"] });
+      setApifilterObject({ status: ["Registered"] });
+    } else {
+      setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
+      setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
+      setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
+    }
+
     getFilters();
     getReaderListData(page, filterObject, search);
 
@@ -198,6 +211,7 @@ const NewReaders = () => {
           setCount(res?.data?.data?.total);
         }
       }
+      // setCount(res?.data?.data?.total);
 
       let total_results = 0;
       if (page != 1) {
@@ -282,6 +296,7 @@ const NewReaders = () => {
   const searchChange = (e) => {
     setSearch(e?.target?.value);
     setFlag(0);
+
     if (e?.target?.value === "") {
       setReaderDataList([]);
       // setPageAllClicked(false);
@@ -292,7 +307,7 @@ const NewReaders = () => {
 
   const submitHandler = (event) => {
     setReaderDataList([]);
-    setCount(0);
+    setTotalCountFlag(false);
 
     getReaderListData(page, filterObject, search);
     event.preventDefault();
@@ -1121,12 +1136,25 @@ const NewReaders = () => {
             <div className="top-sticky">
               <div className="top-header reader_list">
                 <div className="page-title">
-                  <h4>
-                    Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
-                  </h4>
-                  {Object.keys(filterObject)?.length == 2 &&
-                  filterObject["status"] == "Registered" &&
-                  filterObject["contact Type"] == "HCP" ? (
+                  {localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    <h4>
+                      Total USER |{" "}
+                      <span>{totalCountFlag ? totalCount : 0}</span>
+                    </h4>
+                  ) : (
+                    <h4>
+                      Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
+                    </h4>
+                  )}
+
+                  {(Object.keys(filterObject)?.length == 2 &&
+                    filterObject["status"] == "Registered" &&
+                    filterObject["contact Type"] == "HCP") ||
+                  (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                    ? Object.keys(filterObject)?.length == 1 &&
+                      filterObject["status"] == "Registered"
+                    : false) ? (
                     <div className="refresh-button">
                       <button
                         className={refreshFlag ? "refresh-rotate" : "refresh"}

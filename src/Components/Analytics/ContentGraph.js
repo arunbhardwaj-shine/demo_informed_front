@@ -215,7 +215,7 @@ const ContentGraph = () => {
       height: 500,
     },
     title: {
-      text: "Registered HCP's",
+      text: "Content formats delivered to HCP accounts",
     },
     xAxis: {
       categories: [],
@@ -223,7 +223,7 @@ const ContentGraph = () => {
     yAxis: {
       min: 0,
       title: {
-        text: "IBU",
+        text: "Total User",
       },
     },
     legend: {
@@ -263,11 +263,6 @@ const ContentGraph = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
-              {/* <div className="page-title d-flex">
-                <h2>Content in activated HCP Docintel accounts</h2>
-              </div> */}
-            </div>
             <div className="distribute-page-reader">
               <svg
                 width="24"
@@ -338,9 +333,15 @@ const ContentGraph = () => {
                           options={lineOption}
                         />
                       </div>
-                      {/*<div className="con_title">
-                                Content in activated HCP Docintel accounts
-                              </div>*/}
+
+                      <div
+                        className="page-title d-flex justify-content-center distribute-page-reader"
+                        style={{
+                          background: "rgba(11,58,129,0.16)",
+                        }}
+                      >
+                        <h2>Content in activated HCP Docintel accounts</h2>
+                      </div>
 
                       <DocintelAccount data={activeTab.current ? data : null} />
                     </>

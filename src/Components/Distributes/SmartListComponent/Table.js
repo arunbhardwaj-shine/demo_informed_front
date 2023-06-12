@@ -78,7 +78,7 @@ const Table = (props, ref) => {
   const [emailChanged, setEmailChanged] = useState("");
   const [getStorageState, setStorageState] = useState(false);
   let file_name = useRef("");
-
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [hpc, setHpc] = useState([
     {
       firstname: "",
@@ -1055,7 +1055,7 @@ const Table = (props, ref) => {
           <div className="table-title">
             {props.upload_by_filter == 0 ? (
               <h4>
-                Uploaded HCPs for the smart list{" "}
+                {localStorage.getItem("user_id") == userId?"Uploaded Users for the smart list": "Uploaded HCPs for the smart list"}
                 <span>| {editList.length > 0 ? editList.length : 0}</span>
               </h4>
             ) : (
@@ -1572,7 +1572,7 @@ const Table = (props, ref) => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add New HCP
+            {localStorage.getItem("user_id") == userId?"Add New User +":"Add New HCP"}
             </h5>
             <button
               onClick={() => {
@@ -1788,7 +1788,7 @@ const Table = (props, ref) => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    Add HCP +
+                                  {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
 

@@ -51,7 +51,7 @@ const FilterSegment = (props) => {
   const [confirmationPopupStatus, setConfirmationPopupStatus] = useState(false);
   const [getfilterapplied, setfilterapplied] = useState(0);
   const [getStorageState, setStorageState] = useState(false);
-
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
@@ -1329,7 +1329,9 @@ const FilterSegment = (props) => {
                   <a href="javascript:void(0)">Create smart list</a>
                 </li>
                 <li className="active active-main">
-                  <a href="javascript:void(0)">Select & Verify your HCPs</a>
+                  <a href="javascript:void(0)">
+                    {localStorage.getItem("user_id") == userId?"Select & Verify your Users":"Select & Verify your HCPs"}
+                    </a>
                 </li>
               </ul>
             </div>

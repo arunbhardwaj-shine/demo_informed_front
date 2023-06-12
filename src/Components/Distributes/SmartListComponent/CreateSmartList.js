@@ -39,6 +39,7 @@ const CreateSmartList = () => {
   const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validationError, setValidationError] = useState({});
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -290,7 +291,9 @@ const CreateSmartList = () => {
                       <a href="javascript:void(0)">Create smart list</a>
                     </li>
                     <li className="">
-                      <a href="javascript:void(0)">Select & Verify Your HCPs</a>
+                      <a href="javascript:void(0)">
+                      {localStorage.getItem("user_id") == userId?" Select & Verify Your Users":" Select & Verify Your HCPs"}
+                       </a>
                     </li>
                   </ul>
                 </div>
@@ -413,13 +416,20 @@ const CreateSmartList = () => {
                           <img src={path + "upload-btn.svg"} alt="Single HCP" />{" "}
                           {filename != "" ? <p>{filename}</p> : null}
                         </div>
-                        <p>Upload new HCPs</p>
+
+                        <p>
+                          {localStorage.getItem("user_id") == userId?"Upload new Users":"Upload new HCPs"}
+                            </p>
                       </li>
                     </ul>
                   </div>
                 </div>
                 <div className="download-sample">
-                  <p>Download sample Excel file to upload new HCPs</p>
+                  <p>
+                  {localStorage.getItem("user_id") == userId?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
+ 
+                    
+                   </p>
                   <div className="upload-btn" onClick={downloadFile}>
                     Download File
                   </div>

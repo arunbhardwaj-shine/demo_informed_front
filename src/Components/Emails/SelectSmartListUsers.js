@@ -31,6 +31,7 @@ const SelectSmartListUsers = (props) => {
   const [removedReaders, setRemovedReaders] = useState([]);
   const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
   const [reRender, setReRender] = useState(0);
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [update, setUpdate] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
@@ -788,7 +789,7 @@ const SelectSmartListUsers = (props) => {
                       <Link to="/CreateEmail">Create Your Email</Link>
                     </li>
                     <li className="active">
-                      <Link to="/SelectSmartList">Select HCPs</Link>
+                      <Link to="/SelectSmartList">{localStorage.getItem("user_id") == userId?"Select Users":"Select HCPs"}</Link>
                     </li>
                     {/*
                   <li className="active">
@@ -1262,7 +1263,7 @@ const SelectSmartListUsers = (props) => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add New HCP
+            {localStorage.getItem("user_id") == userId?"Add New User +":"Add New HCP"}
             </h5>
             <button
               onClick={() => {
@@ -1487,7 +1488,7 @@ const SelectSmartListUsers = (props) => {
                                     data-bs-toggle="tab"
                                     href="#add_hcp_form"
                                   >
-                                    Add HCP +
+                                   {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                                 {/*

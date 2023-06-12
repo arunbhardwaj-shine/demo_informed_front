@@ -62,6 +62,7 @@ const CreateEmail = (props) => {
       ? props.getDraftData.source_code
       : ""
   );
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [templateSaving, setTemplateSaving] = useState("");
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
@@ -249,8 +250,8 @@ const CreateEmail = (props) => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag) => {
     let pdf_id = state_object?.PdfSelected
-      ? state_object.PdfSelected
-      : props.getDraftData.pdf_id;
+      ? state_object?.PdfSelected
+      : props.getDraftData?.pdf_id;
 
     let content_included = 1;
     if (pdf_id == 16) {
@@ -282,7 +283,8 @@ const CreateEmail = (props) => {
         setCounter(counter + 1);
       })
       .catch((err) => {
-        // console.log(err);
+        console.log(err);
+        loader("hide");
       });
     if (flag == 1) {
       loader("hide");
@@ -306,15 +308,15 @@ const CreateEmail = (props) => {
       await axios
         .post(`emailapi/get_tags`, body)
         .then((res) => {
-          setAllTags(res.data.response.data);
+          setAllTags(res?.data?.response?.data);
           // console.log(campaign_id_st);
           // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
           // loader("hide");
           // }
         })
         .catch((err) => {
-          // loader("hide");
-          //console.log(err);
+          loader("hide");
+          console.log(err);
         });
     };
     getAllTags();
@@ -927,7 +929,7 @@ const CreateEmail = (props) => {
       error.templateId = "Please select email template first";
     }
     if (emailSubject == "" || emailSubject == 0) {
-      error.emailSubject = "Please select email subject first";
+      error.emailSubject = "The email subject field is required.";
     }
     if (Object.keys(error)?.length) {
       setValidationError(error);
@@ -953,11 +955,9 @@ const CreateEmail = (props) => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
-    //console.log("hi");
   };
 
   const removeTag = (index) => {
-    //console.log(index);
     const tags = tagClickedFirst;
 
     tags.splice(index, 1);
@@ -1443,7 +1443,7 @@ const CreateEmail = (props) => {
                       <a href="">Create Your Email</a>
                     </li>
                     <li className="">
-                      <a href="">Select HCPs</a>
+                      <a href="">{localStorage.getItem("user_id") == userId?"Select Users":"Select HCPs"}</a>
                     </li>
                     <li className="">
                       <a href="">Verify your list</a>
@@ -1669,12 +1669,22 @@ const CreateEmail = (props) => {
                             <div className="login-validation">
                               {validationError?.emailSubject}
                             </div>
+                          ) : validator.message(
+                              "emailSubject",
+                              emailSubject,
+                              "required"
+                            ) ? (
+                            validator.message(
+                              "emailSubject",
+                              emailSubject,
+                              "required"
+                            )
                           ) : null}
-                          {validator.message(
+                          {/* {validator.message(
                             "emailSubject",
                             emailSubject,
                             "required"
-                          )}
+                          )} */}
                         </div>
                         <div className="form-buttons right-side col-12 col-md-7">
                           <button
@@ -1821,15 +1831,17 @@ const CreateEmail = (props) => {
               <h6>Select Tag :</h6>
               <div className="tag-lists">
                 <div className="tag-lists-view">
-                  {Object.values(allTags).map((data, index) => {
-                    return (
-                      <>
-                        <div key={index} onClick={() => tagClicked(data)}>
-                          {data}{" "}
-                        </div>
-                      </>
-                    );
-                  })}
+                  {allTags
+                    ? Object.values(allTags)?.map((data, index) => {
+                        return (
+                          <>
+                            <div key={index} onClick={() => tagClicked(data)}>
+                              {data}{" "}
+                            </div>
+                          </>
+                        );
+                      })
+                    : ""}
                 </div>
               </div>
             </div>
@@ -2620,8 +2632,8 @@ const CreateEmail = (props) => {
                                     className="nav-link btn-bordered"
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
-                                  >
-                                    Add HCP +
+                                  > 
+                                  {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                                 {/*<li className="nav-item add-file">
