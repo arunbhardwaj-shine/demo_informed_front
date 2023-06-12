@@ -1482,6 +1482,7 @@ const TemplateBuilder = (props) => {
                                       : templateType == 1
                                       ? "Plain Text"
                                       : "Select Type"
+                                    // "Article"
                                   }
                                   onSelect={(event) =>
                                     onTemplateTypeChange(event)
@@ -1502,6 +1503,7 @@ const TemplateBuilder = (props) => {
                                     }
                                   >
                                     Plain text
+                                    {/* Article */}
                                   </Dropdown.Item>
                                 </DropdownButton>
                               </div>
@@ -1706,6 +1708,9 @@ const TemplateBuilder = (props) => {
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       initialValue={newTemplateNamee}
+                      // link_default_protocol={"https"}
+                      // link_assume_external_targets={"https"}
+                      // relative_urls={true}
                       init={{
                         height: "100vh",
                         menubar:
