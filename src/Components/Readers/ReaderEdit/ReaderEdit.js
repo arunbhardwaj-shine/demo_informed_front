@@ -842,39 +842,35 @@ const ReaderEdit = () => {
                     ) : (
                       ""
                     )}
-                    {userInputs ? (
-                      <Form.Group className="form-group">
-                        <Form.Label htmlFor="">
-                          Country <span>*</span>
-                        </Form.Label>
 
-                        <Select
-                          options={countryAll}
-                          placeholder="Select country"
-                          name="country"
-                          value={{
-                            label: userInputs?.country,
-                            value: userInputs?.country,
-                          }}
-                          className={
-                            error?.country
-                              ? "dropdown-basic-button split-button-dropup error"
-                              : "dropdown-basic-button split-button-dropup"
-                          }
-                          isClearable
-                          onChange={(e) => handleChange(e?.value, "country")}
-                        />
-                        {error?.country ? (
-                          <div className="login-validation">
-                            {error?.country}
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </Form.Group>
-                    ) : (
-                      ""
-                    )}
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">
+                        Country <span>*</span>
+                      </Form.Label>
+
+                      <Select
+                        options={countryAll}
+                        placeholder="Select country"
+                        name="country"
+                        value={{
+                          label: userInputs?.country,
+                          value: userInputs?.country,
+                        }}
+                        className={
+                          error?.country
+                            ? "dropdown-basic-button split-button-dropup error"
+                            : "dropdown-basic-button split-button-dropup"
+                        }
+                        isClearable
+                        onChange={(e) => handleChange(e?.value, "country")}
+                      />
+                      {error?.country ? (
+                        <div className="login-validation">{error?.country}</div>
+                      ) : (
+                        ""
+                      )}
+                    </Form.Group>
+
                     {userInputs ? (
                       <>
                         {groupId == 3 && flag == 1 ? (
