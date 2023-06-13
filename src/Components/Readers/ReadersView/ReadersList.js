@@ -1012,14 +1012,14 @@ const NewReaders = () => {
 
       setReaderDataList([]);
       setAppliedFilter(old_object);
-      getReaderListData(page, old_object);
+      getReaderListData(page, old_object, search);
     } else {
       let obj = {};
       setFilterObject({});
       setAppliedFilter({});
       setApifilterObject({});
       setReaderDataList([]);
-      getReaderListData(page, obj);
+      getReaderListData(page, obj, search);
     }
   };
 
