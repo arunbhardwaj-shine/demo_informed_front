@@ -500,15 +500,12 @@ const LibraryContent = (props) => {
         });
         const updatedRes = libraryData.filter((item) => item.id !== id);
         setLibraryData(updatedRes);
-        // setLibraryData([]);
-        // getLibraryData(page, filterObject, search);
       }
 
       loader("hide");
     } catch (err) {
       loader("hide");
     }
-
     hideConfirmationModal();
   };
 
@@ -545,8 +542,6 @@ const LibraryContent = (props) => {
       otherFilterObj[key]?.splice(index, 1);
 
       if (old_object[key]?.length == 0) {
-        // delete [key]?.splice(index,1)
-
         delete old_object[key];
       }
     }
@@ -554,7 +549,7 @@ const LibraryContent = (props) => {
     setOtherFilter(otherFilterObj);
     setFilterObject(old_object);
     setLibraryData([]);
-    getLibraryData(page, old_object);
+    getLibraryData(page, old_object, search);
   };
 
   const downloadQRCode = () => {
@@ -638,7 +633,6 @@ const LibraryContent = (props) => {
         setOpeningDetails(normal_data);
         setFlag(1);
         setUpdate(update + 1);
-
         loader("hide");
         popup_alert({
           visible: "show",
@@ -696,7 +690,6 @@ const LibraryContent = (props) => {
     tagsClickedFirst.splice(index, 1);
     setFinalTags(tags);
     setTagClickedFirst(tagsClickedFirst);
-
     setTagsReRender(tagsReRender + 1);
   };
 
@@ -714,7 +707,6 @@ const LibraryContent = (props) => {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
-      //  console.log(allTags)
       let alltemp_tags = [];
       Object.entries(allTags).map((data) => {
         return alltemp_tags.push(...data);
@@ -733,7 +725,6 @@ const LibraryContent = (props) => {
           user_id: localStorage.getItem("user_id"),
           tags: newTag,
         };
-        //console.log(body);
       } else {
         toast.error("Tag already in list.");
       }
@@ -799,7 +790,6 @@ const LibraryContent = (props) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
     document.body.appendChild(textArea);
-    // textArea.focus();
     textArea.select();
     try {
       document.execCommand("copy");
@@ -825,12 +815,10 @@ const LibraryContent = (props) => {
       data += "Request | ";
     }
     if (data) {
-      // data = data.replace(/^,|,$/g, "");
       data = data.trim().slice(0, -1);
     } else {
       data = "N/A";
     }
-
     return data;
   };
 
@@ -993,15 +981,11 @@ const LibraryContent = (props) => {
                                                         value={item}
                                                         name={key}
                                                         checked={
-                                                          // filterObject?.hasOwnProperty(
-                                                          //   key
-                                                          // )
                                                           otherFilter[
                                                             key
                                                           ]?.includes(item)
                                                             ? true
                                                             : false
-                                                          // : false
                                                         }
                                                         onChange={(e) =>
                                                           handleOnFilterChange(
