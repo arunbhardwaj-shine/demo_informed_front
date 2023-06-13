@@ -1246,9 +1246,20 @@
   }
 }
 
+@media only screen and (max-width: 1399px) {
+
+  .create-smart-list .btn.btn-primary {
+    padding: 6px 13px;
+  }
+}
+
 @media only screen and (max-width: 1365px) {
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
+  }
+
+  .modal #create_list_popup .upload-file-box h4 {
+    bottom: 10px;
   }
 
   .email-form form .form-inline .login-validation {
