@@ -16,7 +16,7 @@ const EmailArticleSelect = (props) => {
   const [filterdata, setFilterData] = useState([]);
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
-
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [PdfSelected, setPdfSelected] = useState(
     dxr !== 0 && dxr
       ? typeof dxr != "undefined"
@@ -238,7 +238,11 @@ const EmailArticleSelect = (props) => {
                       <a href="">Create Your Email</a>
                     </li>
                     <li className="">
-                      <a href="">Select HCPs</a>
+                      <a href="">
+                        {localStorage.getItem("user_id") == userId
+                          ? "Select Users"
+                          : "Select HCPs"}
+                      </a>
                     </li>
                     <li className="">
                       <a href="">Verify your list</a>
