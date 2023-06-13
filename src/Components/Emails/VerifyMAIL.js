@@ -54,7 +54,7 @@ const VerifyMAIL = (props) => {
     : props.getDraftData.PdfSelected;
 
   const [getpdfdata, setPdfData] = useState([]);
-
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
@@ -537,7 +537,7 @@ const VerifyMAIL = (props) => {
                       <Link to="/CreateEmail">Create Your Email</Link>
                     </li>
                     <li className="active">
-                      <Link to="/SelectSmartList">Select HCPs</Link>
+                      <Link to="/SelectSmartList">{localStorage.getItem("user_id") == userId?"Select Users":"Select HCPs"}</Link>
                     </li>
 
                     {/*
