@@ -842,35 +842,39 @@ const ReaderEdit = () => {
                     ) : (
                       ""
                     )}
-                        <Form.Group className="form-group">
-                          <Form.Label htmlFor="">
-                            Country <span>*</span>
-                          </Form.Label>
+                    {userInputs ? (
+                      <Form.Group className="form-group">
+                        <Form.Label htmlFor="">
+                          Country <span>*</span>
+                        </Form.Label>
 
-                          <Select
-                            options={countryAll}
-                            placeholder="Select country"
-                            name="country"
-                            defaultValue={{
-                              label: userInputs?.country,
-                              value: userInputs?.country,
-                            }}
-                            className={
-                              error?.country
-                                ? "dropdown-basic-button split-button-dropup error"
-                                : "dropdown-basic-button split-button-dropup"
-                            }
-                            isClearable
-                            onChange={(e) => handleChange(e?.value, "country")}
-                          />
-                          {error?.country ? (
-                            <div className="login-validation">
-                              {error?.country}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </Form.Group>
+                        <Select
+                          options={countryAll}
+                          placeholder="Select country"
+                          name="country"
+                          value={{
+                            label: userInputs?.country,
+                            value: userInputs?.country,
+                          }}
+                          className={
+                            error?.country
+                              ? "dropdown-basic-button split-button-dropup error"
+                              : "dropdown-basic-button split-button-dropup"
+                          }
+                          isClearable
+                          onChange={(e) => handleChange(e?.value, "country")}
+                        />
+                        {error?.country ? (
+                          <div className="login-validation">
+                            {error?.country}
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </Form.Group>
+                    ) : (
+                      ""
+                    )}
                     {userInputs ? (
                       <>
                         {groupId == 3 && flag == 1 ? (
@@ -879,7 +883,11 @@ const ReaderEdit = () => {
                               <Form.Label htmlFor="">Site Number </Form.Label>
                               <Select
                                 options={userDetail?.siteNumber}
-                                noOptionsMessage={() => userInputs?.country == "" ? 'Please select country first' : 'No options'}
+                                noOptionsMessage={() =>
+                                  userInputs?.country == ""
+                                    ? "Please select country first"
+                                    : "No options"
+                                }
                                 defaultValue={{
                                   label: userInputs?.siteNumber,
                                   value: userInputs?.siteNumber,
@@ -909,7 +917,11 @@ const ReaderEdit = () => {
                               <Form.Label htmlFor="">Site Name </Form.Label>
                               <Select
                                 options={userDetail?.siteName}
-                                noOptionsMessage={() => userInputs?.country == "" ? 'Please select country first' : 'No options'}
+                                noOptionsMessage={() =>
+                                  userInputs?.country == ""
+                                    ? "Please select country first"
+                                    : "No options"
+                                }
                                 defaultValue={{
                                   label: userInputs?.siteName,
                                   value: userInputs?.siteName,
