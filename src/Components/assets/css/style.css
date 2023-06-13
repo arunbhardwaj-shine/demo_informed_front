@@ -7356,6 +7356,11 @@ section.search-hcp.smart-list-view .header-btn-left {
   animation: spin 2s linear infinite;
 }
 
+.modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) [class*=css-] [class*=-indicatorContainer],
+.modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) [class*=css-] [class*=-indicatorSeparator] {
+  display: none;
+}
+
 @-moz-keyframes spin {
   100% {
     -moz-transform: rotate(360deg);
