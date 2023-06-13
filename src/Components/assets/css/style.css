@@ -5948,9 +5948,9 @@ table thead.sticky-header:after {
   top: 0px;
 }
 
-/* .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
-  top: 74px;
-} */
+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+  top: 0px;
+}
 
 header.top-0~div .custom-change .search-hcp table thead.sticky-header,
 header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
