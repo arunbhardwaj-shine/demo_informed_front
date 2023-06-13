@@ -663,7 +663,7 @@ const EmailArticleSelect = (props) => {
               </div>
             </div>
 
-            {
+            {/* {
               localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
                 <div className="col-12 col-md-4">
                   <div className="mail-content-select-box">
@@ -697,7 +697,7 @@ const EmailArticleSelect = (props) => {
                   </div>
                 </div>
               )
-            }
+            } */}
 
           </div>
           {/*Default section end*/}
