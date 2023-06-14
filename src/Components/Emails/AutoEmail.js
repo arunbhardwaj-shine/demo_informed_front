@@ -1504,11 +1504,9 @@ const AutoEmail = () => {
                                           onSiteNumberChange(event, i)
                                         }
                                         value={
-                                          siteNumberAll[hpc[i].siteNumberIndex]
+                                          siteNumberAll[hpc[i].siteNumberIndex]? siteNumberAll[hpc[i].siteNumberIndex]:""
                                         }
-                                        defaultValue={
-                                          siteNumberAll[hpc[i].siteNumberIndex]
-                                        }
+                                        
                                         placeholder={
                                           typeof siteNumberAll[
                                             hpc[i].siteNumberIndex
@@ -1532,12 +1530,8 @@ const AutoEmail = () => {
                                         onChange={(event) =>
                                           onSiteNameChange(event, i)
                                         }
-
-                                        defaultValue={
-                                          siteNameAll[hpc[i].siteNameIndex]
-                                        }
                                         value={
-                                          siteNameAll[hpc[i].siteNameIndex]
+                                          siteNameAll[hpc[i].siteNameIndex]?siteNameAll[hpc[i].siteNameIndex]:""
                                         }
                                         placeholder={
                                           typeof siteNameAll[
