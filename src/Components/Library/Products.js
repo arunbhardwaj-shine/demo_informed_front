@@ -74,7 +74,6 @@ function Products() {
 
   const handleSubmit = async (e) => {
     if (!topicId) {
-      console.log("add product", newValue?.newProductValue);
       loader("show");
       try {
         await postData(ENDPOINT.ADD_SPC_PRODUCT, {
