@@ -77,6 +77,7 @@ function LibraryTopics() {
         try {
           await postData(`${ENDPOINT.UPDATE_TOPIC}${topicId}`, {
             product: newValue?.newProductValue?.trim(),
+            type: content?.value,
           });
           loader("hide");
 
@@ -119,7 +120,7 @@ function LibraryTopics() {
           placeholder: "Type your topic name",
         },
       ];
-
+      setTopicId();
       setHeading("Add New Topic");
       setFooterButton("Add");
       setShow(true);
@@ -130,7 +131,6 @@ function LibraryTopics() {
           label: "Topic",
           type: "input",
           placeholder: "Type your topic name",
-          // name: "topic_name",
           value: value,
         },
       ];
@@ -165,11 +165,11 @@ function LibraryTopics() {
                   />
                 </svg>
               </Link>
-              <h2>Products & Topics</h2>
+              <h2> Topics</h2>
             </div>
           </div>
           <div className="create-change-content spc-content">
-          <div className="form_action sticky-view"> 
+            <div className="form_action sticky-view">
               {productData?.flag ? (
                 <h4>Please select the business unit to show the products</h4>
               ) : null}
@@ -223,6 +223,7 @@ function LibraryTopics() {
                           {item?.product}
                           <span>
                             <button
+                              title="Delete"
                               className="dlt_btn"
                               onClick={() => {
                                 setConfirmationPopup(true);
@@ -230,7 +231,7 @@ function LibraryTopics() {
                               }}
                             >
                               <img
-                                src={path_image + "delete.svg"}
+                                src={path_image + "delete-icon.svg"}
                                 alt="Delete Row"
                               />
                             </button>
@@ -246,7 +247,8 @@ function LibraryTopics() {
                               }}
                             >
                               <img
-                                src={path_image + "edit-white.svg"}
+                                title="Edit"
+                                src={path_image + "edit-purple.svg"}
                                 alt="Delete Row"
                               />
                             </button>

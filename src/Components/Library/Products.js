@@ -4,7 +4,7 @@ import Select from "react-select";
 import { postData, deleteMethod } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
-import CommanModel from "../../Model/CommonModel";
+import CommonModel from "../../Model/CommonModel";
 import CommonConfirmModel from "../../Model/CommonConfirmModel";
 import { Link } from "react-router-dom";
 import { popup_alert } from "../../popup_alert";
@@ -74,7 +74,6 @@ function Products() {
 
   const handleSubmit = async (e) => {
     if (!topicId) {
-      console.log("add product", newValue?.newProductValue);
       loader("show");
       try {
         await postData(ENDPOINT.ADD_SPC_PRODUCT, {
@@ -137,7 +136,7 @@ function Products() {
           placeholder: "Type your topic name",
         },
       ];
-
+      setTopicId();
       setHeading(`Add New ${content?.label?.trim()}`);
       setFooterButton("Add");
       setShow(true);
@@ -148,7 +147,6 @@ function Products() {
           label: `${content?.label?.trim()}`,
           type: "input",
           placeholder: "Type your topic name",
-          // name: "topic_name",
           value: value,
         },
       ];
@@ -276,7 +274,7 @@ function Products() {
           </div>
         </Row>
       </div>
-      <CommanModel
+      <CommonModel
         show={show}
         onClose={setShow}
         // heading={"Add New Product"}
