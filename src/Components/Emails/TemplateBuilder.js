@@ -831,6 +831,10 @@ const TemplateBuilder = (props) => {
         label: key,
         value: key,
       }));
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
 
       setSiteNumberAll(siteNumbers);
       setSiteNameAll(filteredSiteNames);
@@ -865,22 +869,37 @@ const TemplateBuilder = (props) => {
   };
 
   const saveClicked = async () => {
+
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        return {
-          first_name: data.firstname,
-          last_name: data.lastname,
-          email: data.email,
-          country: data.country,
-          contact_type: data.contact_type,
-        };
+        if(localStorage.getItem("user_id") ==
+        "56Ek4feL/1A8mZgIKQWEqg=="){
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+           siteNumber: data?.siteNumber ? data.siteNumber : "",
+           siteName: data.siteName ? data.siteName : "",
+          };
+        }else{
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+          };
+        }
+        
       });
-
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
+      console.log("-test",body)
 
       const status = body.data.map((data) => {
         if (data.email == "") {
@@ -2158,9 +2177,7 @@ const TemplateBuilder = (props) => {
                                           : ""
                                       }
                                     >
-                                      {localStorage.getItem("user_id") == userId
-                                        ? "User +"
-                                        : "HCP"}
+                                      {"HCP"}
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                       eventKey="Staff"
