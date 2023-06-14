@@ -377,7 +377,6 @@ const AutoEmail = () => {
   const onSiteNumberChange = (e, i) => {
     if (e == null) {
       const list = [...hpc];
-
       list[i].siteNumber = "";
 
       setHpc(list);
@@ -515,7 +514,10 @@ const AutoEmail = () => {
         label: key,
         value: key,
       }));
-
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
       setSiteNumberAll(siteNumbers);
       setSiteNameAll(filteredSiteNames);
     }
@@ -532,13 +534,26 @@ const AutoEmail = () => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        return {
-          first_name: data.firstname,
-          last_name: data.lastname,
-          email: data.email,
-          country: data.country,
-          contact_type: data.contact_type,
-        };
+        if(localStorage.getItem("user_id") ==
+        "56Ek4feL/1A8mZgIKQWEqg=="){
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+           siteNumber: data?.siteNumber ? data.siteNumber : "",
+           siteName: data.siteName ? data.siteName : "",
+          };
+        }else{
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+          };
+        }
       });
 
       const body = {
@@ -546,6 +561,7 @@ const AutoEmail = () => {
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
+      console.log("- im hererer ",body)
 
       const status = body.data.map((data) => {
         if (data.email == "") {
@@ -1523,7 +1539,8 @@ const AutoEmail = () => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site Name</label>
-
+                                      
+                                      {console.log("-dfd",hpc[i])}
                                       <Select
                                         options={siteNameAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
