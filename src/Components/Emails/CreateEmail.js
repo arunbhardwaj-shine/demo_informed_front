@@ -1218,6 +1218,10 @@ const CreateEmail = (props) => {
         }));
         setSiteNumberAll(siteNumbers);
         setSiteNameAll(filteredSiteNames);
+        // console.log("siteName-->", filteredSiteNames);
+        // console.log("siteNumber-->", siteNumbers);
+        // onSiteNameChange(filteredSiteNames[0], 0);
+        // onSiteNumberChange(siteNumbers[0], 0);
       }
       const value = e.value;
       const list = [...hpc];
@@ -1226,7 +1230,10 @@ const CreateEmail = (props) => {
 
       let index = countryall.findIndex((x) => x.value === value);
       list[i].countryIndex = index;
-
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
       setHpc(list);
     }
   };
@@ -1264,13 +1271,25 @@ const CreateEmail = (props) => {
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        return {
-          first_name: data.firstname,
-          last_name: data.lastname,
-          email: data.email,
-          country: data.country,
-          contact_type: data.contact_type,
-        };
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+            siteNumber: data?.siteNumber ? data.siteNumber : "",
+            siteName: data.siteName ? data.siteName : "",
+          };
+        } else {
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+          };
+        }
       });
 
       const body = {
