@@ -4495,6 +4495,15 @@ svg.pencil_icon {
 .filter-by.nav-item.dropdown > button:focus {
   border: 0.5px solid transparent;
 }
+.spc-content .selected-products-list {
+    gap: 32px 0;
+}
+.spc-content .selected-products-list .products-listing {
+    margin: 0;
+    height: 100%;
+    align-items: center;
+    display: flex;
+}
 .selected-products-list .products-listing:first-letter {
   text-transform: capitalize;
 }

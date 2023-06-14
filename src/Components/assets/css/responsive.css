@@ -350,6 +350,14 @@
     margin-right: 30px;
   }
 
+  section.search-hcp.smart-list-view .header-btn-left button.back {
+    padding: 9px 15px;
+  }
+
+  section.search-hcp.smart-list-view .header-btn-left {
+    left: -20px;
+  }
+
   .email-form form .form-inline .login-validation {
     top: 62px;
     font-size: 13px;
@@ -1251,6 +1259,11 @@
   .create-smart-list .btn.btn-primary {
     padding: 6px 13px;
   }
+
+  section.search-hcp.smart-list-view .header-btn-left {
+    position: static;
+    margin-bottom: 10px;
+  }
 }
 
 @media only screen and (max-width: 1365px) {
@@ -1282,7 +1295,7 @@
   }
 
   .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {
-    max-width: 890px;
+    max-width: 100%;
     margin-right: 0;
   }
 
@@ -1630,6 +1643,10 @@
   .modal-second #mail-view .modal-body .sticky-header,
   .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
     top: 67px;
+  }
+
+  .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+    top: 0px;
   }
 
   header.top-0~div .custom-change .search-hcp table thead.sticky-header,
