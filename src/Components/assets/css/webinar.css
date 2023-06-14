@@ -80,7 +80,7 @@
 }
 
 div#flashMessage {
-  color: red;
+  color: #f00;
   font-size: 14px;
   margin-right: 20px;
 }
@@ -2797,6 +2797,25 @@ a {
   background-color: #97b6cf;
 }
 
+.informed ::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 20px;
+}
+
+.informed ::-webkit-scrollbar-track {
+  background: #d2d4df;
+  border-radius: 20px;
+  padding: 0 5px;
+}
+
+.informed ::-webkit-scrollbar-thumb {
+  width: 6px;
+  background: #092ca6;
+  border-radius: 15px;
+}
+
+
+
 /* R&D Tools CSS Start  */
 
 .rd-main-wrapper .header-sec {
@@ -2930,23 +2949,6 @@ a {
   margin-right: 2px;
 }
 
-.informed ::-webkit-scrollbar {
-  width: 6px;
-  border-radius: 20px;
-}
-
-.informed ::-webkit-scrollbar-track {
-  background: #d2d4df;
-  border-radius: 20px;
-  padding: 0 5px;
-}
-
-.informed ::-webkit-scrollbar-thumb {
-  width: 6px;
-  background: #092ca6;
-  border-radius: 15px;
-}
-
 .rd-main-wrapper .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"] {
   font-size: 14px;
   color: #97b4cd;
@@ -2954,8 +2956,9 @@ a {
 }
 
 .rd-main-wrapper .split-button-dropup div:nth-child(3)>div div {
-  color: #000000;
-  font-weight: 400;
+  color: #000 !important;
+  font-weight: 400 !important;
+  font-size: 14px;
 }
 
 .rd-main-wrapper .split-button-dropup div:nth-child(4)>div div:hover {
@@ -3244,6 +3247,81 @@ input:-webkit-autofill:active {
   margin: 0;
 }
 
+/* R&D Tools CSS End  */
+/* Modal CSS Start  */
+
+.modal.rd-modal .modal-content {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 14px;
+  min-width: 535px;
+}
+
+.modal.rd-modal .modal-wrapper {
+  text-align: center;
+  padding: 24px 24px 30px;
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 102, 190, 0.06);
+  box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.32);
+  backdrop-filter: blur(0.5px);
+  border-radius: 15px;
+}
+
+.modal.rd-modal .modal-header,
+.modal.rd-modal .modal-footer {
+  border: 0;
+  padding: 0;
+}
+
+.success_modal {
+  z-index: 9999;
+}
+
+.modal.rd-modal .modal-body {
+  padding: 10px 0;
+}
+
+.success_modal .modal-.informed-header .btn-close {
+  background: transparent url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIuNzI3NTEiIGhlaWdodD0iMTkuNzQwMiIgcng9IjEuMzYzNzYiIHRyYW5zZm9ybT0ibWF0cml4KDAuNzAyMDQ2IDAuNzEyMTMyIC0wLjcwMjA0NiAwLjcxMjEzMiAxNC4wODQ2IDApIiBmaWxsPSIjNzA4OTlFIi8+CjxyZWN0IHdpZHRoPSIyLjcyNzUxIiBoZWlnaHQ9IjE5Ljc0MDIiIHJ4PSIxLjM2Mzc2IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjcwMjA0NiAtMC43MTIxMzIgMC43MDIwNDYgMC43MTIxMzIgMCAxLjk0MjM4KSIgZmlsbD0iIzcwODk5RSIvPgo8L3N2Zz4K") center/1em auto no-repeat;
+  opacity: 1;
+}
+
+.modal.rd-modal .popup-title {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 28px;
+  text-align: center;
+  text-transform: capitalize;
+  color: #092ca6;
+  margin: 20px 10px 32px;
+  font-family: "Poppins";
+}
+
+.modal.rd-modal .popup_subtitle {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  letter-spacing: 0.01em;
+  color: #ee801c;
+  font-family: "Poppins";
+}
+
+.modal.rd-modal .popup-btn {
+  background: #092ca6;
+  color: #fff;
+  padding: 8px 22px;
+  border-radius: 30px;
+  transition: all 0.3s ease-in-out;
+  border: 0;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+/* Modal CSS End  */
+
+
 /**css loader**/
 .loader {
   text-align: center;
@@ -3339,80 +3417,9 @@ input:-webkit-autofill:active {
   height: auto;
 }
 
-/* R&D Tools CSS End  */
 
-/* Modal CSS Start  */
 
-.modal.rd-modal .modal-content {
-  background: #ffffff;
-  border-radius: 15px;
-  padding: 14px;
-  min-width: 535px;
-}
 
-.modal.rd-modal .modal-wrapper {
-  text-align: center;
-  padding: 24px 24px 30px;
-  background: #ffffff;
-  border: 0.5px solid rgba(0, 102, 190, 0.06);
-  box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.32);
-  backdrop-filter: blur(0.5px);
-  border-radius: 15px;
-}
-
-.modal.rd-modal .modal-header,
-.modal.rd-modal .modal-footer {
-  border: 0;
-  padding: 0;
-}
-
-.success_modal {
-  z-index: 9999;
-}
-
-.modal.rd-modal .modal-body {
-  padding: 10px 0;
-}
-
-.success_modal .modal-.informed-header .btn-close {
-  background: transparent url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIuNzI3NTEiIGhlaWdodD0iMTkuNzQwMiIgcng9IjEuMzYzNzYiIHRyYW5zZm9ybT0ibWF0cml4KDAuNzAyMDQ2IDAuNzEyMTMyIC0wLjcwMjA0NiAwLjcxMjEzMiAxNC4wODQ2IDApIiBmaWxsPSIjNzA4OTlFIi8+CjxyZWN0IHdpZHRoPSIyLjcyNzUxIiBoZWlnaHQ9IjE5Ljc0MDIiIHJ4PSIxLjM2Mzc2IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjcwMjA0NiAtMC43MTIxMzIgMC43MDIwNDYgMC43MTIxMzIgMCAxLjk0MjM4KSIgZmlsbD0iIzcwODk5RSIvPgo8L3N2Zz4K") center/1em auto no-repeat;
-  opacity: 1;
-}
-
-.modal.rd-modal .popup-title {
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 28px;
-  text-align: center;
-  text-transform: capitalize;
-  color: #092ca6;
-  margin: 20px 10px 32px;
-  font-family: "Poppins";
-}
-
-.modal.rd-modal .popup_subtitle {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 20px;
-  letter-spacing: 0.01em;
-  color: #ee801c;
-  font-family: "Poppins";
-}
-
-.modal.rd-modal .popup-btn {
-  background: #092ca6;
-  color: #fff;
-  padding: 8px 22px;
-  border-radius: 30px;
-  transition: all 0.3s ease-in-out;
-  border: 0;
-  margin: 0 auto;
-  font-size: 16px;
-  line-height: 22px;
-}
-
-/* Modal CSS End  */
 
 /* Media-query Start  */
 

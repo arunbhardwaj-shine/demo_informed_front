@@ -46,10 +46,13 @@ const AutoEmail = () => {
   const [email, setEmail] = useState("");
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [name, setName] = useState("");
+  const [siteNameAll, setSiteNameAll] = useState([]);
+  const [siteNumberAll, setSiteNumberAll] = useState([]);
+
   const [hide, setHide] = useState(false);
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
@@ -60,6 +63,7 @@ const AutoEmail = () => {
   const [readers, setReaders] = useState([]);
 
   const [getReaderDetails, setReaderDetails] = useState({});
+  const [totalData, setTotalData] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [validationError, setValidationError] = useState({});
@@ -95,6 +99,7 @@ const AutoEmail = () => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
+          setTotalData(res.data.response.data);
           setCountryall(res.data.response.data.country);
         })
         .catch((err) => {
@@ -369,6 +374,69 @@ const AutoEmail = () => {
     }
   };
 
+  const onSiteNumberChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+
+      list[i].siteNumber = "";
+
+      setHpc(list);
+    } else {
+      let getSiteData = totalData.site_data;
+
+      let site_name_value = getSiteData[e.value];
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteNumber;
+      list[i].siteNumber = value;
+      list[i].siteName = site_name_value;
+      let snameindex = siteNameAll.findIndex(
+        (x) => x.value === site_name_value
+      );
+      list[i].siteNameIndex = snameindex;
+      let index = siteNumberAll.findIndex((x) => x.value === value);
+      list[i].siteNumberIndex = index;
+      setHpc(list);
+    }
+  };
+
+  const onSiteNameChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteName = "";
+
+      setHpc(list);
+    } else {
+      const value = e.value;
+
+      let getSiteData = totalData.site_data;
+
+      let site_number_value = Object.keys(getSiteData).find(
+        (key) => getSiteData[key] === e.value
+      );
+
+      const list = [...hpc];
+
+      const name = hpc[i].siteName;
+
+      list[i].siteName = value;
+
+      list[i].siteNumber = site_number_value;
+
+      let snameindex = siteNumberAll.findIndex(
+        (x) => x.value === site_number_value
+      );
+
+      list[i].siteNumberIndex = snameindex;
+
+      let index = siteNameAll.findIndex((x) => x.value === value);
+
+      list[i].siteNameIndex = index;
+
+      setHpc(list);
+    }
+  };
+
   const handleScroll = (ev) => {
     if (ev.target.scrollTop > 20) {
       document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
@@ -426,8 +494,33 @@ const AutoEmail = () => {
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
+
+    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      let consetValue = value;
+      if (value == "B&H") {
+        consetValue = "Bosnia and Herzegovina";
+      }
+
+      const matchingKeys = Object.entries(totalData.site_country_data)
+        .filter(([key, value]) => {
+          return value == consetValue;
+        })
+        .map(([key, value]) => key);
+
+      const filteredSiteNames = matchingKeys.map((key) => ({
+        label: totalData.site_data[key],
+        value: totalData.site_data[key],
+      }));
+      const siteNumbers = matchingKeys.map((key) => ({
+        label: key,
+        value: key,
+      }));
+
+      setSiteNumberAll(siteNumbers);
+      setSiteNameAll(filteredSiteNames);
+    }
     setHpc(list);
-    console.log(hpc);
+    // console.log(hpc);
   };
 
   const deleteRecord = (i) => {
@@ -1397,6 +1490,61 @@ const AutoEmail = () => {
                                   </DropdownButton>
                                 </div>
                               </div>
+                              {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Number</label>
+
+                                      <Select
+                                        options={siteNumberAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNumberChange(event, i)
+                                        }
+                                        value={
+                                          siteNumberAll[hpc[i].siteNumberIndex]? siteNumberAll[hpc[i].siteNumberIndex]:""
+                                        }
+                                        
+                                        placeholder={
+                                          typeof siteNumberAll[
+                                            hpc[i].siteNumberIndex
+                                          ] === "undefined"
+                                            ? "Select Site Number"
+                                            : siteNumberAll[
+                                                hpc[i].siteNumberIndex
+                                              ]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Name</label>
+
+                                      <Select
+                                        options={siteNameAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNameChange(event, i)
+                                        }
+                                        value={
+                                          siteNameAll[hpc[i].siteNameIndex]?siteNameAll[hpc[i].siteNameIndex]:""
+                                        }
+                                        placeholder={
+                                          typeof siteNameAll[
+                                            hpc[i].siteNameIndex
+                                          ] === "undefined"
+                                            ? "Select Site Name"
+                                            : siteNameAll[hpc[i].siteNameIndex]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                </>
+                              ) : null}
                             </div>
                           </div>
 
@@ -1429,7 +1577,9 @@ const AutoEmail = () => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
+                                    {localStorage.getItem("user_id") == userId
+                                      ? "Add User +"
+                                      : "Add HCP +"}
                                   </a>
                                 </li>
                               </ul>
@@ -1577,15 +1727,13 @@ const AutoEmail = () => {
                               />
                               {data.readers_count}
                             </div>
-                            {
-                              /*<div className="smartlist-buttons">
+                            {/*<div className="smartlist-buttons">
                                 <button className="btn btn-primary btn-bordered view">
                                   <a onClick={() => openSmartListPopup(data.id)}>
                                     View
                                   </a>
                                 </button>
-                              </div>*/
-                            }
+                              </div>*/}
                           </div>
                         </div>
                       </div>

@@ -5949,7 +5949,7 @@ table thead.sticky-header:after {
 }
 
 .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
-  top: 74px;
+  top: 0px;
 }
 
 header.top-0~div .custom-change .search-hcp table thead.sticky-header,
