@@ -29,7 +29,7 @@ var state_object = {};
 const CreateEmail = (props) => {
   const editorRef = useRef(null);
   const [totalData, setTotalData] = useState({});
-  const [forceRender, setForceRender] = useState(false);
+
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
   const filterConfig = {
@@ -1229,7 +1229,6 @@ const CreateEmail = (props) => {
 
       setHpc(list);
     }
-    setForceRender(!forceRender);
   };
 
   const deleteRecord = (i) => {
@@ -2730,45 +2729,54 @@ const CreateEmail = (props) => {
                                   )}
                                 </div>
                               </div>*/}
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Number</label>
 
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Site Number</label>
+                                      <Select
+                                        options={siteNumberAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNumberChange(event, i)
+                                        }
+                                        value={
+                                          siteNumberAll[hpc[i]?.siteNumberIndex]
+                                            ? siteNumberAll[
+                                                hpc[i]?.siteNumberIndex
+                                              ]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Number"}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Name</label>
 
-                                  <Select
-                                    options={siteNumberAll}
-                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                    onChange={(event) =>
-                                      onSiteNumberChange(event, i)
-                                    }
-                                    value={
-                                      siteNumberAll[hpc[i]?.siteNumberIndex]
-                                        ? siteNumberAll[hpc[i]?.siteNumberIndex]
-                                        : ""
-                                    }
-                                    placeholder={"Select Site Number"}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Site Name</label>
-
-                                  <Select
-                                    options={siteNameAll}
-                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                    onChange={(event) =>
-                                      onSiteNameChange(event, i)
-                                    }
-                                    value={
-                                      siteNameAll[hpc[i].siteNameIndex]
-                                        ? siteNameAll[hpc[i].siteNameIndex]
-                                        : ""
-                                    }
-                                    placeholder={"Select Site Name"}
-                                  />
-                                </div>
-                              </div>
+                                      <Select
+                                        options={siteNameAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNameChange(event, i)
+                                        }
+                                        value={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Name"}
+                                      />
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
 
