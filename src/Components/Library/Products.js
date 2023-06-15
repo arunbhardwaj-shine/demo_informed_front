@@ -277,10 +277,8 @@ function Products() {
       <CommonModel
         show={show}
         onClose={setShow}
-        // heading={"Add New Product"}
         heading={heading}
         data={downloadData}
-        // footerButton={"Add"}
         footerButton={footerButton}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
@@ -293,7 +291,7 @@ function Products() {
         popupMessage={{
           message1: "You are about to remove this product forever.",
           message2: "Are you sure you want to do this?",
-          footerButton: " Yes Please!",
+          footerButton: " Yes please!",
         }}
         path_image={path_image}
       />
