@@ -115,7 +115,7 @@ function Products() {
       initFun();
       popup_alert({
         visible: "show",
-        message: "Your Product has been deleted <br />successfully !",
+        message: "Your product has been deleted <br />successfully !",
         type: "success",
         redirect: "",
       });
@@ -133,7 +133,7 @@ function Products() {
         {
           label: `${content?.label?.trim()}`,
           type: "input",
-          placeholder: "Type your topic name",
+          placeholder: `Type your ${content?.label?.trim()} name`,
         },
       ];
       setTopicId();
