@@ -82,6 +82,7 @@ function LicenseTopics() {
     //     }
     //   }
     // }
+    loader("hide");
   };
   const handleConfirmModel = async (id) => {
     setConfirmationPopup(false);
