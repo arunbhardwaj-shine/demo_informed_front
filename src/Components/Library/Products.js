@@ -10,13 +10,6 @@ import { Link } from "react-router-dom";
 import { popup_alert } from "../../popup_alert";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-// const downloadData = [
-//   {
-//     label: "Product name",
-//     type: "input",
-//     placeholder: "Type your product name",
-//   },
-// ];
 let downloadData = [];
 function Products() {
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -115,7 +108,7 @@ function Products() {
       initFun();
       popup_alert({
         visible: "show",
-        message: "Your Product has been deleted <br />successfully !",
+        message: "Your product has been deleted <br />successfully !",
         type: "success",
         redirect: "",
       });
@@ -133,7 +126,7 @@ function Products() {
         {
           label: `${content?.label?.trim()}`,
           type: "input",
-          placeholder: "Type your topic name",
+          placeholder: `Type your ${content?.label?.trim()} name`,
         },
       ];
       setTopicId();
@@ -146,7 +139,7 @@ function Products() {
         {
           label: `${content?.label?.trim()}`,
           type: "input",
-          placeholder: "Type your topic name",
+          placeholder: `Type your ${content?.label?.trim()} name`,
           value: value,
         },
       ];
@@ -277,10 +270,8 @@ function Products() {
       <CommonModel
         show={show}
         onClose={setShow}
-        // heading={"Add New Product"}
         heading={heading}
         data={downloadData}
-        // footerButton={"Add"}
         footerButton={footerButton}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
@@ -293,7 +284,7 @@ function Products() {
         popupMessage={{
           message1: "You are about to remove this product forever.",
           message2: "Are you sure you want to do this?",
-          footerButton: " Yes Please!",
+          footerButton: " Yes please!",
         }}
         path_image={path_image}
       />

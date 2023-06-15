@@ -130,7 +130,7 @@ const CommonModel = ({
     <>
       <Modal
         show={show}
-        onHide={handleClose}
+        onHide={handleCross}
         className="send-confirm"
         id="download-qr"
       >
