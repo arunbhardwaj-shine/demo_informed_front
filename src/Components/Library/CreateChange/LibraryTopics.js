@@ -10,13 +10,6 @@ import { Link } from "react-router-dom";
 import { popup_alert } from "../../../popup_alert";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-// const downloadData = [
-//   {
-//     label: "Topic",
-//     type: "input",
-//     placeholder: "Type your topic name",
-//   },
-// ];
 let downloadData = [];
 
 function LibraryTopics() {
@@ -266,10 +259,8 @@ function LibraryTopics() {
       <CommanModel
         show={show}
         onClose={setShow}
-        // heading={"Add New Topic"}
         heading={heading}
         data={downloadData}
-        // footerButton={"Add"}
         footerButton={footerButton}
         handleChange={handleChange}
         handleSubmit={handleSubmit}

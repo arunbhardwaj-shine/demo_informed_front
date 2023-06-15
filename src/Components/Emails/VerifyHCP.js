@@ -22,6 +22,10 @@ import Select, { createFilter } from "react-select";
 var old_object = {};
 var selected_Data = [];
 const VerifyHCP = (props) => {
+  const [totalData, setTotalData] = useState({});
+
+  const [siteNumberAll, setSiteNumberAll] = useState([]);
+  const [siteNameAll, setSiteNameAll] = useState([]);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const filterConfig = {
     matchFrom: "start",
@@ -52,7 +56,7 @@ const VerifyHCP = (props) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [editableData, setEditableData] = useState([]);
   const [sortingCount, setSortingCount] = useState(0);
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const navigate = useNavigate();
 
   const [selectedHcp, setSelectedHcp] = useState(
@@ -172,6 +176,7 @@ const VerifyHCP = (props) => {
               });
             });
             setCountryall(arr);
+            setTotalData(res.data.response.data);
           }
           // setCountryall(res.data.response.data.country);
           //console.log(countryall)
@@ -354,12 +359,10 @@ const VerifyHCP = (props) => {
 
   const onContactTypeChange = (e, i) => {
     const value = e;
-    //console.log(value);
     const list = [...hpc];
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
     setHpc(list);
-    //console.log(hpc);
   };
 
   const onCountryChange = (e, i) => {
@@ -369,6 +372,25 @@ const VerifyHCP = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        let consetValue = e.value;
+        if (e.value == "B&H") {
+          consetValue = "Bosnia and Herzegovina";
+        }
+        const matchingKeys = Object.entries(totalData.site_country_data)
+          .filter(([key, value]) => value === consetValue)
+          .map(([key, value]) => key);
+        const filteredSiteNames = matchingKeys.map((key) => ({
+          label: totalData.site_data[key],
+          value: totalData.site_data[key],
+        }));
+        const siteNumbers = matchingKeys.map((key) => ({
+          label: key,
+          value: key,
+        }));
+        setSiteNumberAll(siteNumbers);
+        setSiteNameAll(filteredSiteNames);
+      }
       const value = e.value;
       const list = [...hpc];
       const name = hpc[i].country;
@@ -376,6 +398,58 @@ const VerifyHCP = (props) => {
 
       let index = countryall.findIndex((x) => x.value === value);
       list[i].countryIndex = index;
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      setHpc(list);
+    }
+  };
+
+  const onSiteNumberChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteNumber = "";
+      setHpc(list);
+    } else {
+      let getSiteData = totalData.site_data;
+      let site_name_value = getSiteData[e.value];
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteNumber;
+      list[i].siteNumber = value;
+      list[i].siteName = site_name_value;
+      let snameindex = siteNameAll.findIndex(
+        (x) => x.value === site_name_value
+      );
+      list[i].siteNameIndex = snameindex;
+      let index = siteNumberAll.findIndex((x) => x.value === value);
+      list[i].siteNumberIndex = index;
+      setHpc(list);
+    }
+  };
+
+  const onSiteNameChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteName = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      let getSiteData = totalData.site_data;
+      let site_number_value = Object.keys(getSiteData).find(
+        (key) => getSiteData[key] === e.value
+      );
+      const list = [...hpc];
+      const name = hpc[i].siteName;
+      list[i].siteName = value;
+      list[i].siteNumber = site_number_value;
+      let snameindex = siteNumberAll.findIndex(
+        (x) => x.value === site_number_value
+      );
+      list[i].siteNumberIndex = snameindex;
+      let index = siteNameAll.findIndex((x) => x.value === value);
+      list[i].siteNameIndex = index;
       setHpc(list);
     }
   };
@@ -393,13 +467,25 @@ const VerifyHCP = (props) => {
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        return {
-          first_name: data.firstname,
-          last_name: data.lastname,
-          email: data.email,
-          country: data.country,
-          contact_type: data.contact_type,
-        };
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+            siteNumber: data?.siteNumber ? data.siteNumber : "",
+            siteName: data.siteName ? data.siteName : "",
+          };
+        } else {
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+          };
+        }
       });
 
       const body = {
@@ -842,8 +928,11 @@ const VerifyHCP = (props) => {
 
             <div className="top-header">
               <div className="page-title">
-                <h4>{localStorage.getItem("user_id") == userId?"Search For User By:":"Search For HCP By:"}
-              </h4>
+                <h4>
+                  {localStorage.getItem("user_id") == userId
+                    ? "Search For User By:"
+                    : "Search For HCP By:"}
+                </h4>
               </div>
             </div>
 
@@ -887,7 +976,9 @@ const VerifyHCP = (props) => {
                         data-bs-target="#add_hcp"
                         onClick={addNewHcp}
                       >
-                        {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
+                        {localStorage.getItem("user_id") == userId
+                          ? "Add User +"
+                          : "Add HCP +"}
                       </button>
                     </div>
                   </div>
@@ -987,10 +1078,10 @@ const VerifyHCP = (props) => {
               <div className="selected-hcp-table">
                 <div className="table-title">
                   <h4>
-                    {
-                       localStorage.getItem("user_id") == userId?"Selected Users":"Selected HCPs"
-                    }
-                     <span>| {selectedHcp.length}</span>
+                    {localStorage.getItem("user_id") == userId
+                      ? "Selected Users"
+                      : "Selected HCPs"}
+                    <span>| {selectedHcp.length}</span>
                   </h4>
                   <div className="selected-hcp-table-action">
                     {editable == false ? (
@@ -1206,7 +1297,9 @@ const VerifyHCP = (props) => {
 
           <Modal.Header>
             <h5 className="modal-title" id="staticBackdropLabel">
-            {localStorage.getItem("user_id") == userId?"Add New User +":"Add New HCP"}
+              {localStorage.getItem("user_id") == userId
+                ? "Add New User +"
+                : "Add New HCP"}
             </h5>
             <button
               onClick={closeModal}
@@ -1255,7 +1348,9 @@ const VerifyHCP = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email <span>*</span></label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
                                     className="form-control"
@@ -1416,6 +1511,55 @@ const VerifyHCP = (props) => {
                                   </div>
                                 </div>
                                 */}
+
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Number</label>
+
+                                      <Select
+                                        options={siteNumberAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNumberChange(event, i)
+                                        }
+                                        value={
+                                          siteNumberAll[hpc[i]?.siteNumberIndex]
+                                            ? siteNumberAll[
+                                                hpc[i]?.siteNumberIndex
+                                              ]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Number"}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Name</label>
+
+                                      <Select
+                                        options={siteNameAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNameChange(event, i)
+                                        }
+                                        value={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Name"}
+                                      />
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
                           <div className="hcp-modal-action">
@@ -1448,7 +1592,9 @@ const VerifyHCP = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                     {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
+                                    {localStorage.getItem("user_id") == userId
+                                      ? "Add User +"
+                                      : "Add HCP +"}
                                   </a>
                                 </li>
 
