@@ -1218,10 +1218,6 @@ const CreateEmail = (props) => {
         }));
         setSiteNumberAll(siteNumbers);
         setSiteNameAll(filteredSiteNames);
-        // console.log("siteName-->", filteredSiteNames);
-        // console.log("siteNumber-->", siteNumbers);
-        // onSiteNameChange(filteredSiteNames[0], 0);
-        // onSiteNumberChange(siteNumbers[0], 0);
       }
       const value = e.value;
       const list = [...hpc];
