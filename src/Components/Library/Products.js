@@ -10,13 +10,6 @@ import { Link } from "react-router-dom";
 import { popup_alert } from "../../popup_alert";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-// const downloadData = [
-//   {
-//     label: "Product name",
-//     type: "input",
-//     placeholder: "Type your product name",
-//   },
-// ];
 let downloadData = [];
 function Products() {
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -146,7 +139,7 @@ function Products() {
         {
           label: `${content?.label?.trim()}`,
           type: "input",
-          placeholder: "Type your topic name",
+          placeholder: `Type your ${content?.label?.trim()} name`,
           value: value,
         },
       ];

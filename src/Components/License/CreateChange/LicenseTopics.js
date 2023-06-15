@@ -4,19 +4,13 @@ import Select from "react-select";
 import { postData, deleteMethod } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
-import CommanModel from "../../../Model/CommonModel";
+import CommonModel from "../../../Model/CommonModel";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import { Link } from "react-router-dom";
 import { popup_alert } from "../../../popup_alert";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const downloadData = [
-  {
-    label: "Products",
-    type: "input",
-    placeholder: "Type your products name",
-  },
-];
+let downloadData = [];
 
 function LicenseTopics() {
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -39,6 +33,9 @@ function LicenseTopics() {
     { value: 2, label: "Immunotherapy" },
   ]);
   const [productData, setProductData] = useState({});
+  const [heading, setHeading] = useState();
+  const [footerButton, setFooterButton] = useState();
+  const [topicId, setTopicId] = useState();
   const initFun = async () => {
     loader("show");
     const resp = await postData(ENDPOINT.SPC_PRO_LISTING, {
@@ -55,18 +52,36 @@ function LicenseTopics() {
 
   const handleSubmit = async (e) => {
     loader("show");
-    try {
-      await postData(ENDPOINT.ADD_SPC_PRODUCT, {
-        user_id: localStorage.getItem("user_id"),
-        product: newValue?.newProductValue,
-        category: newValue?.category,
-        type: content?.value,
-      });
-      loader("hide");
-      initFun();
-    } catch (err) {
-      loader("hide");
+    if (!topicId) {
+      try {
+        await postData(ENDPOINT.ADD_SPC_PRODUCT, {
+          user_id: localStorage.getItem("user_id"),
+          product: newValue?.newProductValue,
+          category: newValue?.category,
+          type: content?.value,
+        });
+        loader("hide");
+        initFun();
+      } catch (err) {
+        loader("hide");
+      }
     }
+    //  else {
+    //   if (newValue?.newProductValue) {
+    //     try {
+    //       await postData(`${ENDPOINT.UPDATE_TOPIC}${topicId}`, {
+    //         product: newValue?.newProductValue?.trim(),
+    //         type: content?.value,
+    //       });
+    //       loader("hide");
+
+    //       initFun();
+    //     } catch (err) {
+    //       loader("hide");
+    //       console.log(err);
+    //     }
+    //   }
+    // }
   };
   const handleConfirmModel = async (id) => {
     setConfirmationPopup(false);
@@ -78,7 +93,7 @@ function LicenseTopics() {
       initFun();
       popup_alert({
         visible: "show",
-        message: "Your Products has been deleted <br />successfully !",
+        message: "Your products has been deleted <br />successfully !",
         type: "success",
         redirect: "",
       });
@@ -88,6 +103,39 @@ function LicenseTopics() {
   };
   const handleChange = (e) => {
     setNewValue({ ...newValue, newProductValue: e.target.value });
+  };
+  const setCommonModel = (stateMsg, e, id, value) => {
+    console.log("msg", stateMsg);
+    console.log("id", id);
+    console.log("value", value);
+    if (stateMsg == "Add") {
+      downloadData = [
+        {
+          label: `${content?.label?.trim()}`,
+          type: "input",
+          placeholder: `Type your ${content?.label?.trim()} name`,
+        },
+      ];
+      setTopicId();
+      setHeading("Add New Topic");
+      setFooterButton("Add");
+      setShow(true);
+    }
+    if (stateMsg == "Update") {
+      downloadData = [
+        {
+          label: `${content?.label?.trim()}`,
+          type: "input",
+          placeholder: `Type your ${content?.label?.trim()} name`,
+          value: value,
+        },
+      ];
+
+      setTopicId(id);
+      setHeading("Update Topic");
+      setFooterButton("Update");
+      setShow(true);
+    }
   };
   return (
     <Col className="right-sidebar">
@@ -154,7 +202,8 @@ function LicenseTopics() {
                 <Button
                   className="btn-bordered btn-voilet"
                   onClick={() => {
-                    setShow(true);
+                    // setShow(true);
+                    setCommonModel("Add");
                   }}
                 >
                   Add New {content?.label?.trim()} +
@@ -177,7 +226,24 @@ function LicenseTopics() {
                             }}
                           >
                             <img
-                              src={path_image + "delete.svg"}
+                              src={path_image + "delete-icon.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
+                          <button
+                            className="btn-edit btn-voilet"
+                            onClick={(e) => {
+                              setCommonModel(
+                                "Update",
+                                e,
+                                item?.id,
+                                item?.product
+                              );
+                            }}
+                          >
+                            <img
+                              title="Edit"
+                              src={path_image + "edit-purple.svg"}
                               alt="Delete Row"
                             />
                           </button>
@@ -191,12 +257,12 @@ function LicenseTopics() {
           </div>
         </Row>
       </div>
-      <CommanModel
+      <CommonModel
         show={show}
         onClose={setShow}
-        heading={"Add New Product"}
+        heading={heading}
         data={downloadData}
-        footerButton={"Add"}
+        footerButton={footerButton}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
