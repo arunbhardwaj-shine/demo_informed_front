@@ -336,6 +336,21 @@ const ReaderEdit = () => {
       ]);
       setCommonHeader("Add New Province");
     }
+
+    if (statusMsg == "hospital") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "hospital",
+          label: "Hospital",
+          type: "input",
+          placeholder: "Type your hospital",
+        },
+      ]);
+
+      setCommonHeader("Add New Hospital");
+    }
+
   };
 
   useEffect(() => {
@@ -1005,6 +1020,17 @@ const ReaderEdit = () => {
                                   handleChange(e?.value, "hospital")
                                 }
                               />
+                               <div className="add_product">
+                              <span>&nbsp;</span>
+                              <Button
+                                className="btn-bordered btn-voilet"
+                                onClick={(e) =>
+                                  addNewProductClicked("hospital", e)
+                                }
+                              >
+                                Add New Hospital +
+                            </Button>
+                          </div>
                             </Form.Group>
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Title</Form.Label>
