@@ -3367,6 +3367,7 @@ form#add_hcp_form .row:not(:first-child) {
   font-size: 20px;
   color: var(--light-blue);
   font-weight: 500;
+  margin: 0 0 4px;
 }
 
 .dropdown-menu.filter-options .accordion {

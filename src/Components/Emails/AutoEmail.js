@@ -561,7 +561,6 @@ const AutoEmail = () => {
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
-      console.log("- im hererer ",body)
 
       const status = body.data.map((data) => {
         if (data.email == "") {

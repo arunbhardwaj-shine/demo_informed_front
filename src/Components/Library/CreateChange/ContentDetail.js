@@ -444,6 +444,8 @@ const ContentDetail = () => {
                                     </div>
                                   ) : null}
 
+                                
+
                                   {
                                     localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
                                       (
@@ -494,6 +496,16 @@ const ContentDetail = () => {
                                                           </>
                                                           : null
                                                       }
+                                                         {localStorage.getItem("group_id") == "3" &&
+                                                         localStorage.getItem("user_id") !=
+                                                           "56Ek4feL/1A8mZgIKQWEqg=="? <tr>
+                                                           <th>Product</th>
+                                                           <td>
+                                                             {data?.product
+                                                               ? data?.product
+                                                               : "N/A"}
+                                                           </td>
+                                                         </tr> :""}
 
                                                       {localStorage.getItem(
                                                         "user_id"
