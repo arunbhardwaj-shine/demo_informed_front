@@ -108,6 +108,7 @@ const ReaderEdit = () => {
     sub_role: "",
     title: "",
     ibu: "",
+    hospitalData: {},
   });
   const [userDetail, setUserDetail] = useState({
     speciality: [
@@ -146,14 +147,28 @@ const ReaderEdit = () => {
       const newArr = userDetail[newProduct?.label];
       loader("show");
       try {
-        await postData(`${ENDPOINT.READER_ADD_FEATURES}`, {
-          label: newProduct?.label,
-          value: newProduct?.value,
-        });
+        if (commonHeader != "Add New Hospital") {
+          await postData(`${ENDPOINT.READER_ADD_FEATURES}`, {
+            label: newProduct?.label,
+            value: newProduct?.value,
+          });
+        } else {
+          setAddReaderInputs({
+            ...userInputs,
+            hospitalData: {
+              label: newProduct?.value,
+              value: newProduct?.value,
+            },
+            hospital: "",
+          });
+          loader("hide");
+          return;
+        }
 
         let checkIndex = newArr.findIndex(
           (el) => el.value?.trim() == newProduct?.value?.trim()
         );
+
         if (checkIndex == -1) {
           newArr.unshift({
             value: newProduct?.value,
@@ -164,6 +179,7 @@ const ReaderEdit = () => {
         } else {
           toast.error(newProduct?.label + " already in list.");
         }
+
         loader("hide");
       } catch (err) {
         loader("hide");
@@ -336,6 +352,20 @@ const ReaderEdit = () => {
       ]);
       setCommonHeader("Add New Province");
     }
+
+    if (statusMsg == "hospital") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "hospital",
+          label: "Hospital",
+          type: "input",
+          placeholder: "Type your hospital",
+        },
+      ]);
+
+      setCommonHeader("Add New Hospital");
+    }
   };
 
   useEffect(() => {
@@ -373,7 +403,17 @@ const ReaderEdit = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-    if (isSelectedName == "country") {
+    if (isSelectedName == "hospital") {
+      setAddReaderInputs({
+        ...userInputs,
+        hospitalData: {},
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e?.target?.files
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    } else if (isSelectedName == "country") {
       let newSite = [],
         newSiteNumber = [];
       userDetail?.sideData?.forEach((item) => {
@@ -480,7 +520,10 @@ const ReaderEdit = () => {
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province?.trim(),
-          hospital: userInputs?.hospital,
+          // hospital: userInputs?.hospital,
+          hospital: userInputs?.hospital
+            ? userInputs?.hospital
+            : userInputs?.hospitalData?.value,
           title: userInputs?.title,
           speciality: userInputs?.speciality,
           discipline: userInputs?.discipline,
@@ -995,16 +1038,38 @@ const ReaderEdit = () => {
                               <Select
                                 options={hospital}
                                 placeholder="Select hospital"
-                                defaultValue={{
-                                  label: userInputs?.hospital,
-                                  value: userInputs?.hospital,
-                                }}
+                                // defaultValue={{
+                                //   label: userInputs?.hospital,
+                                //   value: userInputs?.hospital,
+                                // }}
+                                value={
+                                  userInputs?.hospital
+                                    ? {
+                                        label: userInputs?.hospital,
+                                        value: userInputs?.hospital,
+                                      }
+                                    : Object.keys(userInputs?.hospitalData)
+                                        ?.length
+                                    ? userInputs.hospitalData
+                                    : ""
+                                }
                                 className="dropdown-basic-button split-button-dropup"
                                 isClearable
                                 onChange={(e) =>
                                   handleChange(e?.value, "hospital")
                                 }
                               />
+                              <div className="add_product">
+                                <span>&nbsp;</span>
+                                <Button
+                                  className="btn-bordered btn-voilet"
+                                  onClick={(e) =>
+                                    addNewProductClicked("hospital", e)
+                                  }
+                                >
+                                  Add New Hospital +
+                                </Button>
+                              </div>
                             </Form.Group>
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Title</Form.Label>
