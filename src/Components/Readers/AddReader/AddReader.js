@@ -328,6 +328,21 @@ const ReaderAdd = () => {
 
       setCommonHeader("Add New Province");
     }
+
+    if (statusMsg == "hospital") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "hospital",
+          label: "Hospital",
+          type: "input",
+          placeholder: "Type your hospital ",
+        },
+      ]);
+
+      setCommonHeader("Add New Hospital");
+    }
+
     setCommonFooter("Add");
   };
 
@@ -659,7 +674,11 @@ const ReaderAdd = () => {
           <Select
             options={userDetail?.siteNumber}
             placeholder="Select Site Number"
-            noOptionsMessage={() => userInputs?.country == "" ? 'Please select country first' : 'No options'}
+            noOptionsMessage={() =>
+              userInputs?.country == ""
+                ? "Please select country first"
+                : "No options"
+            }
             name="siteNumber"
             value={
               userDetail?.siteNumber.findIndex(
@@ -682,7 +701,11 @@ const ReaderAdd = () => {
           <Select
             options={userDetail?.siteName}
             placeholder="Select Site Name "
-            noOptionsMessage={() => userInputs?.country == "" ? 'Please select country first' : 'No options'}
+            noOptionsMessage={() =>
+              userInputs?.country == ""
+                ? "Please select country first"
+                : "No options"
+            }
             name="siteName"
             value={
               userDetail?.siteName.findIndex(
@@ -994,6 +1017,17 @@ const ReaderAdd = () => {
                             isClearable
                             onChange={(e) => handleChange(e?.value, "hospital")}
                           />
+                          <div className="add_product">
+                            <span>&nbsp;</span>
+                            <Button
+                              className="btn-bordered btn-voilet"
+                              onClick={(e) =>
+                                addNewProductClicked("hospital", e)
+                              }
+                            >
+                              Add New Hospital +
+                            </Button>
+                          </div>
                         </Form.Group>
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">Title</Form.Label>
@@ -1192,7 +1226,7 @@ const ReaderAdd = () => {
                             <Form.Label htmlFor="">Select User Type</Form.Label>
                             <Select
                               options={userDetail?.userType}
-                              placeholder="Select province"
+                              placeholder="Select user type"
                               name="userType"
                               className="dropdown-basic-button split-button-dropup"
                               isClearable

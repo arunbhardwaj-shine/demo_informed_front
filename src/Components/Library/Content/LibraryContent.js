@@ -2116,6 +2116,22 @@ const LibraryContent = (props) => {
                                           */}
                                       </>
                                     )}
+                                    {localStorage.getItem("group_id") == "3" &&
+                                    localStorage.getItem("user_id") !=
+                                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      <>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Product
+                                          </h6>
+                                          <h6>
+                                            {data?.product
+                                              ? data.product
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                      </>
+                                    ) : null}
 
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" &&
