@@ -34,6 +34,9 @@ const TemplateBuilder = (props) => {
   const [UserData, setUserData] = useState([]);
   const [newTemplateClicked, setNewTemplateClicked] = useState(false);
   const location = useLocation();
+  const [siteNameAll, setSiteNameAll] = useState([]);
+  const [siteNumberAll, setSiteNumberAll] = useState([]);
+   const [totalData, setTotalData] = useState({});
   const [uniqueId, setUniqueId] = useState("");
   const [templateType, setTemplateType] = useState();
   const [showPreogressBar, setShowProgressBar] = useState(false);
@@ -170,6 +173,7 @@ const TemplateBuilder = (props) => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
+          setTotalData(res.data.response.data)
           setCountryall(res.data.response.data.country);
 
           // setCounter(counter + 1);
@@ -349,6 +353,72 @@ const TemplateBuilder = (props) => {
       toast.warning("Please input the email atleast");
     }
   };
+  
+
+  const onSiteNumberChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+
+      list[i].siteNumber = "";
+
+      setHpc(list);
+    } else {
+      let getSiteData = totalData.site_data;
+
+      let site_name_value = getSiteData[e.value];
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteNumber;
+      list[i].siteNumber = value;
+      list[i].siteName = site_name_value;
+      let snameindex = siteNameAll.findIndex(
+        (x) => x.value === site_name_value
+      );
+      list[i].siteNameIndex = snameindex;
+      let index = siteNumberAll.findIndex((x) => x.value === value);
+      list[i].siteNumberIndex = index;
+      setHpc(list);
+    }
+  };
+
+  const onSiteNameChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteName = "";
+
+      setHpc(list);
+    } else {
+      const value = e.value;
+
+      let getSiteData = totalData.site_data;
+
+      let site_number_value = Object.keys(getSiteData).find(
+        (key) => getSiteData[key] === e.value
+      );
+
+      const list = [...hpc];
+
+      const name = hpc[i].siteName;
+
+      list[i].siteName = value;
+
+      list[i].siteNumber = site_number_value;
+
+      let snameindex = siteNumberAll.findIndex(
+        (x) => x.value === site_number_value
+      );
+
+      list[i].siteNumberIndex = snameindex;
+
+      let index = siteNameAll.findIndex((x) => x.value === value);
+
+      list[i].siteNameIndex = index;
+
+      setHpc(list);
+    }
+  };
+
+
 
   const deleteSelected = (index) => {
     let arr = [];
@@ -738,11 +808,37 @@ const TemplateBuilder = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    // const { value } = e.target;
     const value = e;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
+    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      let consetValue = value;
+      if (value == "B&H") {
+        consetValue = "Bosnia and Herzegovina";
+      }
+      const matchingKeys = Object.entries(totalData.site_country_data)
+        .filter(([key, value]) => {
+          return value == consetValue;
+        })
+        .map(([key, value]) => key);
+
+      const filteredSiteNames = matchingKeys.map((key) => ({
+        label: totalData.site_data[key],
+        value: totalData.site_data[key],
+      }));
+      const siteNumbers = matchingKeys.map((key) => ({
+        label: key,
+        value: key,
+      }));
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+
+      setSiteNumberAll(siteNumbers);
+      setSiteNameAll(filteredSiteNames);
+    }
     setHpc(list);
   };
 
@@ -773,22 +869,37 @@ const TemplateBuilder = (props) => {
   };
 
   const saveClicked = async () => {
+
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        return {
-          first_name: data.firstname,
-          last_name: data.lastname,
-          email: data.email,
-          country: data.country,
-          contact_type: data.contact_type,
-        };
+        if(localStorage.getItem("user_id") ==
+        "56Ek4feL/1A8mZgIKQWEqg=="){
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+           siteNumber: data?.siteNumber ? data.siteNumber : "",
+           siteName: data.siteName ? data.siteName : "",
+          };
+        }else{
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+          };
+        }
+        
       });
-
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
+      console.log("-test",body)
 
       const status = body.data.map((data) => {
         if (data.email == "") {
@@ -2066,9 +2177,7 @@ const TemplateBuilder = (props) => {
                                           : ""
                                       }
                                     >
-                                      {localStorage.getItem("user_id") == userId
-                                        ? "User +"
-                                        : "HCP"}
+                                      {"HCP"}
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                       eventKey="Staff"
@@ -2137,6 +2246,62 @@ const TemplateBuilder = (props) => {
                                   </DropdownButton>
                                 </div>
                               </div>
+                              {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Number</label>
+
+                                      <Select
+                                        options={siteNumberAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNumberChange(event, i)
+                                        }
+                                        value={
+                                          siteNumberAll[hpc[i].siteNumberIndex]?siteNumberAll[hpc[i].siteNumberIndex]:""
+                                        }
+                                        
+                                        placeholder={
+                                          typeof siteNumberAll[
+                                            hpc[i].siteNumberIndex
+                                          ] === "undefined"
+                                            ? "Select Site Number"
+                                            : siteNumberAll[
+                                                hpc[i].siteNumberIndex
+                                              ]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Name</label>
+                                      
+                                      <Select
+                                        options={siteNameAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNameChange(event, i)
+                                        }
+                                        value={
+                                          siteNameAll[hpc[i].siteNameIndex]? siteNameAll[hpc[i].siteNameIndex]:""
+                                        }
+                                        placeholder={
+                                          typeof siteNameAll[
+                                            hpc[i]?.siteNameIndex
+                                          ] === "undefined"
+                                            ? "Select Site Name"
+                                            : siteNameAll[hpc[i]?.siteNameIndex]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                </>
+                              ) : null}
+
                             </div>
                           </div>
 

@@ -992,16 +992,16 @@ const LibraryCreateUser = () => {
   };
   const handleSubmitModelFun = async (e) => {
     try {
-      let newAr = userDetail?.product;
-
-      newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
       let body = {
         user_id: localStorage.getItem("user_id"),
         product: userDetail?.newValue,
         category: 0,
         type: 1,
       };
-      const res = await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
+       await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
+      let newAr = userDetail?.product;
+      newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
+  
       setCreateLibraryInputs({
         ...userInputs,
         product: { value: userDetail?.newValue, label: userDetail?.newValue },

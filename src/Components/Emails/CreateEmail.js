@@ -28,7 +28,10 @@ var state_object = {};
 
 const CreateEmail = (props) => {
   const editorRef = useRef(null);
+  const [totalData, setTotalData] = useState({});
 
+  const [siteNumberAll, setSiteNumberAll] = useState([]);
+  const [siteNameAll, setSiteNameAll] = useState([]);
   const filterConfig = {
     matchFrom: "start",
   };
@@ -62,7 +65,7 @@ const CreateEmail = (props) => {
       ? props.getDraftData.source_code
       : ""
   );
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [templateSaving, setTemplateSaving] = useState("");
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
@@ -237,6 +240,7 @@ const CreateEmail = (props) => {
               });
             });
             setCountryall(arr);
+            setTotalData(res.data.response.data);
           }
         })
         .catch((err) => {
@@ -843,6 +847,107 @@ const CreateEmail = (props) => {
     setIsOpen(true);
     setModalCounter(modalCounter + 1);
   };
+  const onSiteNumberChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+
+      list[i].siteNumber = "";
+
+      setHpc(list);
+    } else {
+      let getSiteData = totalData.site_data;
+
+      let site_name_value = getSiteData[e.value];
+
+      const value = e.value;
+
+      const list = [...hpc];
+
+      const name = hpc[i].siteNumber;
+
+      list[i].siteNumber = value;
+
+      list[i].siteName = site_name_value;
+
+      let snameindex = siteNameAll.findIndex(
+        (x) => x.value === site_name_value
+      );
+
+      list[i].siteNameIndex = snameindex;
+
+      let index = siteNumberAll.findIndex((x) => x.value === value);
+
+      list[i].siteNumberIndex = index;
+
+      setHpc(list);
+    }
+
+    // e.preventDefault();
+
+    // if (index != 0) {
+
+    //   const { value } = e.target;
+
+    //   const old_hpc = hpc;
+
+    //   old_hpc[i].siteDetails[index].siteNumber = value;
+
+    //   setHpc(old_hpc);
+
+    //   setUpdate(update + 1);
+
+    // } else if (index == 0) {
+
+    //   const { value } = e;
+
+    //   const old_hpc = hpc;
+
+    //   old_hpc[i].siteDetails[index].siteNumber = value;
+
+    //   setHpc(old_hpc);
+
+    //   setUpdate(update + 1);
+
+    // }
+  };
+
+  const onSiteNameChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+
+      list[i].siteName = "";
+
+      setHpc(list);
+    } else {
+      const value = e.value;
+
+      let getSiteData = totalData.site_data;
+
+      let site_number_value = Object.keys(getSiteData).find(
+        (key) => getSiteData[key] === e.value
+      );
+
+      const list = [...hpc];
+
+      const name = hpc[i].siteName;
+
+      list[i].siteName = value;
+
+      list[i].siteNumber = site_number_value;
+
+      let snameindex = siteNumberAll.findIndex(
+        (x) => x.value === site_number_value
+      );
+
+      list[i].siteNumberIndex = snameindex;
+
+      let index = siteNameAll.findIndex((x) => x.value === value);
+
+      list[i].siteNameIndex = index;
+
+      setHpc(list);
+    }
+  };
 
   const newTagChanged = (e) => {
     setNewTag(e.target.value);
@@ -1095,6 +1200,25 @@ const CreateEmail = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        let consetValue = e.value;
+        if (e.value == "B&H") {
+          consetValue = "Bosnia and Herzegovina";
+        }
+        const matchingKeys = Object.entries(totalData.site_country_data)
+          .filter(([key, value]) => value === consetValue)
+          .map(([key, value]) => key);
+        const filteredSiteNames = matchingKeys.map((key) => ({
+          label: totalData.site_data[key],
+          value: totalData.site_data[key],
+        }));
+        const siteNumbers = matchingKeys.map((key) => ({
+          label: key,
+          value: key,
+        }));
+        setSiteNumberAll(siteNumbers);
+        setSiteNameAll(filteredSiteNames);
+      }
       const value = e.value;
       const list = [...hpc];
       const name = hpc[i].country;
@@ -1102,7 +1226,10 @@ const CreateEmail = (props) => {
 
       let index = countryall.findIndex((x) => x.value === value);
       list[i].countryIndex = index;
-
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
       setHpc(list);
     }
   };
@@ -1140,13 +1267,25 @@ const CreateEmail = (props) => {
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        return {
-          first_name: data.firstname,
-          last_name: data.lastname,
-          email: data.email,
-          country: data.country,
-          contact_type: data.contact_type,
-        };
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+            siteNumber: data?.siteNumber ? data.siteNumber : "",
+            siteName: data.siteName ? data.siteName : "",
+          };
+        } else {
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+          };
+        }
       });
 
       const body = {
@@ -1443,7 +1582,11 @@ const CreateEmail = (props) => {
                       <a href="">Create Your Email</a>
                     </li>
                     <li className="">
-                      <a href="">{localStorage.getItem("user_id") == userId?"Select Users":"Select HCPs"}</a>
+                      <a href="">
+                        {localStorage.getItem("user_id") == userId
+                          ? "Select Users"
+                          : "Select HCPs"}
+                      </a>
                     </li>
                     <li className="">
                       <a href="">Verify your list</a>
@@ -2601,6 +2744,54 @@ const CreateEmail = (props) => {
                                   )}
                                 </div>
                               </div>*/}
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Number</label>
+
+                                      <Select
+                                        options={siteNumberAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNumberChange(event, i)
+                                        }
+                                        value={
+                                          siteNumberAll[hpc[i]?.siteNumberIndex]
+                                            ? siteNumberAll[
+                                                hpc[i]?.siteNumberIndex
+                                              ]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Number"}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Name</label>
+
+                                      <Select
+                                        options={siteNameAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNameChange(event, i)
+                                        }
+                                        value={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Name"}
+                                      />
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
 
@@ -2632,8 +2823,10 @@ const CreateEmail = (props) => {
                                     className="nav-link btn-bordered"
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
-                                  > 
-                                  {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
+                                  >
+                                    {localStorage.getItem("user_id") == userId
+                                      ? "Add User +"
+                                      : "Add HCP +"}
                                   </a>
                                 </li>
                                 {/*<li className="nav-item add-file">

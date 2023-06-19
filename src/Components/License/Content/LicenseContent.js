@@ -1005,12 +1005,14 @@ const LicenseContent = (props) => {
                       {deletestatus ? (
                         <button
                           className="btn btn-outline-primary cancel"
+                          title="Cancel delete"
                           onClick={(e) => showDeleteButtons()}
                         >
                           Cancel
                         </button>
                       ) : (
                         <button
+                          title="Delete"
                           className="btn btn-outline-primary"
                           onClick={(e) => showDeleteButtons()}
                         >
