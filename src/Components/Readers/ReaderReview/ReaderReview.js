@@ -22,8 +22,7 @@ const ReaderReview = () => {
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}
   );
-  console.log("reader Data", readerData);
-
+  console.log("state data-->", state?.data);
   const createUser = async () => {
     loader("show");
     try {
@@ -44,8 +43,7 @@ const ReaderReview = () => {
             <Row className="row justify-content-end align-items-center">
               <Col md="1">
                 <div className="header-btn-left">
-                {
-                  /*<Link
+                  {/*<Link
                     className="btn btn-primary btn-bordered back-btn"
                     to="/readers-view"
                   >
@@ -61,8 +59,7 @@ const ReaderReview = () => {
                         fill="#97B6CF"
                       />
                     </svg>
-                  </Link>*/
-                }
+                  </Link>*/}
 
                   {/* <button className="btn btn-primary btn-bordered back">
                       <Link to="/reader-add">Back</Link>
@@ -84,8 +81,8 @@ const ReaderReview = () => {
                   <Link
                     className="btn btn-primary btn-bordered move-draft"
                     to="/readers-view"
-                    >
-                      Close
+                  >
+                    Close
                   </Link>
                   <Button
                     className="btn btn-primary btn-filled next send_btn"
@@ -93,7 +90,6 @@ const ReaderReview = () => {
                   >
                     Create
                   </Button>
-
                 </div>
               </Col>
             </Row>
@@ -144,8 +140,11 @@ const ReaderReview = () => {
                       <tr>
                         <th className="tab-content-title">Primary phone </th>
                         <td>
-                          {readerData?.primary_phone
-                            ? readerData?.primary_phone.replace('informed-','')
+                          {readerData?.primary_phone !== "-informed-"
+                            ? readerData?.primary_phone.replace(
+                                "-informed-",
+                                ""
+                              )
                             : "N/A"}
                         </td>
                       </tr>
@@ -172,9 +171,7 @@ const ReaderReview = () => {
                       <tr>
                         <th className="tab-content-title">Province</th>
                         <td>
-                          {readerData?.province
-                            ? readerData?.province
-                            : "N/A"}
+                          {readerData?.province ? readerData?.province : "N/A"}
                         </td>
                       </tr>
                       {/*readerData?.province ? (

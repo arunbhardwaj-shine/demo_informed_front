@@ -94,6 +94,7 @@ const ReaderAdd = () => {
     alternativePhone: "",
     blind_type: "",
     country: "",
+    countryCode: "",
     createdBy: "",
     discipline: "",
     email: "",
@@ -531,6 +532,8 @@ const ReaderAdd = () => {
       loader("hide");
       try {
         loader("show");
+        console.log("user inputs-->", userInputs);
+        console.log("country code-->", userInputs?.countryCode);
         let data = {
           createdBy: localStorage.getItem("user_id"),
           firstName: userInputs?.firstName,
@@ -539,7 +542,9 @@ const ReaderAdd = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label}-informed-${userInputs?.primary_phone}`,
+          primary_phone: `${
+            userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+          }-informed-${userInputs?.primary_phone}`,
 
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,

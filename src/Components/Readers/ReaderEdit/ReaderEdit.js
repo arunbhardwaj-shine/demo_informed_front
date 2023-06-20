@@ -504,6 +504,7 @@ const ReaderEdit = () => {
     } else {
       try {
         loader("show");
+        console.log("country code--->", userInputs?.countryCode?.label);
         let data = {
           createdBy: userId,
           firstName: userInputs?.firstName,
@@ -1048,8 +1049,9 @@ const ReaderEdit = () => {
                                         label: userInputs?.hospital,
                                         value: userInputs?.hospital,
                                       }
-                                    : Object.keys(userInputs?.hospitalData)
-                                        ?.length
+                                    : Object.keys(
+                                        userInputs?.hospitalData || {}
+                                      )?.length
                                     ? userInputs.hospitalData
                                     : ""
                                 }
