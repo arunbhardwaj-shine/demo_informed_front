@@ -215,6 +215,10 @@ header {
   color: var(--light-blue);
 }
 
+.sidebar-menu ul li.active a p {
+  color: var(--light-blue);
+}
+
 .sidebar-menu ul li a {
   white-space: nowrap;
   font-size: 16px;
