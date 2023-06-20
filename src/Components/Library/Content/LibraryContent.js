@@ -177,7 +177,19 @@ const LibraryContent = (props) => {
 
       if (res?.data?.data) {
         setFilterData(res?.data?.data);
-        setAllTags(res?.data?.data?.tags);
+        let tagData = res?.data?.data?.tags?.length
+          ? res?.data?.data?.tags
+          : res?.data?.data?.topic?.length
+          ? res?.data?.data?.topic
+          : [];
+        if (tagData?.length) {
+          let indexNo = tagData.indexOf("All");
+          if (!indexNo > -1) {
+            tagData.splice(indexNo, 1);
+          }
+          setAllTags(tagData);
+        }
+
         getLibraryData(page, obj, search);
       }
       // loader("hide");
@@ -701,35 +713,50 @@ const LibraryContent = (props) => {
   };
 
   const addTag = async () => {
-    if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
-    } else {
-      let temp_tags = tagClickedFirst.map((data) => {
-        return data.toLowerCase();
-      });
-      let alltemp_tags = [];
-      Object.entries(allTags).map((data) => {
-        return alltemp_tags.push(...data);
-      });
-      alltemp_tags = alltemp_tags.map((data) => {
-        return data.toLowerCase();
-      });
-
-      if (
-        !temp_tags.includes(newTag.toLowerCase()) &&
-        !alltemp_tags.includes(newTag.toLowerCase())
-      ) {
-        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
-
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          tags: newTag,
-        };
+    try {
+      if (typeof newTag == "undefined" || newTag.trim().length == 0) {
+        toast.error("Please input a tag");
       } else {
-        toast.error("Tag already in list.");
+        loader("show");
+        const hadData = await postData(ENDPOINT.ADD_TAGS, {
+          product: newTag,
+          type: 2,
+        });
+        loader("hide");
+        let temp_tags = tagClickedFirst.map((data) => {
+          return data.toLowerCase();
+        });
+        let alltemp_tags = [];
+        Object.entries(allTags).map((data) => {
+          return alltemp_tags.push(...data);
+        });
+        alltemp_tags = alltemp_tags.map((data) => {
+          return data.toLowerCase();
+        });
+
+        let prevtag = allTags;
+        prevtag.push(newTag);
+        setAllTags(prevtag);
+
+        if (
+          !temp_tags.includes(newTag.toLowerCase()) &&
+          !alltemp_tags.includes(newTag.toLowerCase())
+        ) {
+          setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+
+          const body = {
+            user_id: localStorage.getItem("user_id"),
+            tags: newTag,
+          };
+        } else {
+          toast.error("Tag already in list.");
+        }
+        setNewTag("");
+        setTagsCounter(tagsCounter + 1);
       }
-      setNewTag("");
-      setTagsCounter(tagsCounter + 1);
+    } catch (err) {
+      loader("hide");
+      console.log(err);
     }
   };
 
