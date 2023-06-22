@@ -137,7 +137,14 @@ const RDRegister = () => {
         sitename:e,
         sitecity:site_city_value,
       });
-    }else{
+    }else if(isSelectedName == "rdChecheckbox"){
+      setInputs({
+        ...userInputs,
+        [isSelectedName ]:e?.target?.checked
+      });
+      
+    }
+    else{
       setInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -261,12 +268,13 @@ const RDRegister = () => {
       setError(err);
       return;
     } else {
-      // console.log(userInputs);
+      delete userInputs.rdChecheckbox
       loader("show");
       try {
         const options = {
           headers: {'Content-Type': 'application/json'}
         };
+
         await axios
           .post(ENDPOINT.REGISTERRD, userInputs,options)
           .then((response) => {
@@ -358,7 +366,7 @@ const RDRegister = () => {
 
                             <Col md={6}>
                                 <div className="form-group">
-                                  <label>Institution <span>*</span></label>
+                                  <label>I work at <span>*</span></label>
                                     <Select
                                       options={siteInstitution}
                                       placeholder="Select institution"
@@ -459,10 +467,24 @@ const RDRegister = () => {
                               : null
                             }
                         </Row>
-                        <div className="submit-btn">
-
-                            <Button className='btn btn-filled' onClick={submitHandler} role="button">Submit</Button>
+                        <div className='d-flex align-items-start'>
+                          <div className='consent'>
+                           <input type="checkbox" id="rdChecheckbox" name="rdChecheckbox" value="rdChecheckbox"
+                            onChange={(e) => handleChange(e, "rdChecheckbox")}
+                          />
+                         <label for="rdChecheckbox"> I also consent to receive invitations to participate in study related surveys and other potential interactions through Docintel</label>
+                         {error?.rdChecheckbox ? (
+                                                <div className="login-validation">{error?.rdChecheckbox}</div>
+                                              ) : null}
                         </div>
+
+                        <div className="submit-btn">
+                        <Button className='btn btn-filled' onClick={submitHandler} role="button">Submit</Button>
+                        </div>
+                        </div>
+
+
+                        
                     </Form>
 
                 </div>

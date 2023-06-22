@@ -7,6 +7,10 @@ export const rdregistration = (data) => {
       error.name = "Name is required!";
     }
 
+    if(!data?.rdChecheckbox || !data?.hasOwnProperty("rdChecheckbox")){
+      error.rdChecheckbox = "Please give consent"
+    }
+
     if (!data?.email || regemail?.test(data?.email) === false) {
       error.email = "Email required with email pattern";
     }
