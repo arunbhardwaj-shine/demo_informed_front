@@ -3348,10 +3348,11 @@ input:-webkit-autofill:active {
   line-height: 22px;
 }
 .consent {
-  display: flex;
   align-items: flex-start;
-  padding-right: 20px;
+  display: flex;
   flex-wrap: wrap;
+  padding-right: 20px;
+  position: relative;
 }
 .rd-main-wrapper .form-wrapper .consent label {
   width: calc(100% - 30px);
@@ -3362,10 +3363,12 @@ input:-webkit-autofill:active {
   margin-top: 4px;
 }
 .consent .login-validation {
-  flex: 0 0 100%;
   color: #e94362;
+  flex: 0 0 100%;
   font-size: 14px;
   margin: 3px 0 0;
+  position: static;
+  padding-left: 20px;
 }
 /* Modal CSS End  */
 

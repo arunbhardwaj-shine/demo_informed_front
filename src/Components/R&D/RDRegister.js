@@ -618,7 +618,7 @@ const RDRegister = () => {
                   to="https://albert.docintel.app/docintel-terms"
                   target="_blank"
                 >
-                  Term of use
+                  Docintel term of use
                 </Link>
               </div>
               <div className="footer-logo">
