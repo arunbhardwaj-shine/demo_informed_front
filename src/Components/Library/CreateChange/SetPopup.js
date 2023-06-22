@@ -56,6 +56,7 @@ const SetPopup = (props) => {
   const [newTemplateName, setNewTemplateName] = useState("");
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
+  const [templateToolTip, setTemplateToolTip] = useState();
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
   );
@@ -248,6 +249,19 @@ const SetPopup = (props) => {
     if (div) {
       div.classList.remove("select_mm");
     }
+    let tooltip = "";
+    if (template?.popupNo == 1) {
+      tooltip = "will come when Pop up first time appears for the user";
+    } else if (template?.popupNo == 2) {
+      tooltip = "will come when Pop up 1 is canceled";
+    } else if (template?.popupNo == 3) {
+      tooltip = "will come when user cancel the 1st and 2nd Pop up";
+    } else if (template?.popupNo == 4) {
+      tooltip = "will come when user submit the 1st or 2nd Pop up";
+    } else {
+      tooltip = "no pop up is selected";
+    }
+    setTemplateToolTip(tooltip);
     setTemplateClicked(true);
     setTemplateName(template?.name);
     setNewTemplateName(template?.name);
@@ -259,7 +273,7 @@ const SetPopup = (props) => {
 
   const updateTemplate = async (e) => {
     e.preventDefault();
-    let findTemplateIndex = templateList.findIndex(
+    let findTemplateIndex = templateList?.findIndex(
       (el) => el.popupNo === popupNo
     );
     templateList[findTemplateIndex].source_code = templateSaving;
@@ -630,7 +644,7 @@ const SetPopup = (props) => {
                                         <h4>
                                           {templateName}{" "}
                                           <LinkWithTooltip
-                                            tooltip={`${templateName} will come when Pop up first time appears for the user`}
+                                            tooltip={`${templateName} ${templateToolTip}`}
                                           >
                                             <img
                                               src={
