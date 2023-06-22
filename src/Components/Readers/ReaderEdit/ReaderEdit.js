@@ -504,7 +504,6 @@ const ReaderEdit = () => {
     } else {
       try {
         loader("show");
-        console.log("country code--->", userInputs?.countryCode?.label);
         let data = {
           createdBy: userId,
           firstName: userInputs?.firstName,
@@ -538,9 +537,14 @@ const ReaderEdit = () => {
           irt: userInputs?.irt,
           ibu: userInputs?.ibu,
         };
-        await postData(ENDPOINT.READER_CREATE, data);
+        // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
-        navigate("/readers-view");
+        navigate("/reader-review", {
+          state: {
+            data: data,
+            flag: 1,
+          },
+        });
       } catch (err) {
         console.log(err);
         loader("hide");
@@ -778,6 +782,7 @@ const ReaderEdit = () => {
                             Primary email <span>*</span>
                           </Form.Label>
                           <input
+                            readOnly
                             type="email"
                             className={
                               error?.email
@@ -788,7 +793,7 @@ const ReaderEdit = () => {
                             name="email"
                             ref={emailRef}
                             defaultValue={userInputs?.email}
-                            onInput={(e) => handleChange(e)}
+                            // onInput={(e) => handleChange(e)}
                           />
                           {error?.email ? (
                             <div className="login-validation">
