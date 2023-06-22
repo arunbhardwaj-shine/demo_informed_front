@@ -36,10 +36,7 @@ const DeliveryTrends = () => {
     setSectionLoader(true);
     setApiCallStatus(false);
     try {
-      const requestBody = {
-        type: type,
-      };
-      const response = await postData(ENDPOINT.DELIVERYTRENDS, requestBody);
+      const response = await postData(ENDPOINT.DELIVERYTRENDS, { type: type });
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
@@ -50,6 +47,7 @@ const DeliveryTrends = () => {
       let g2 = JSON.parse(hadData[2].graph_data);
       let g3 = JSON.parse(hadData[3].graph_data);
       let g4 = JSON.parse(hadData[4].graph_data);
+      let g5 = JSON.parse(hadData[5]?.graph_data);
 
       const maxValue = g0.outer_radius + g1.outer_radius;
       const g0_1 = Math.round((g0.outer_radius / maxValue) * 100);
@@ -67,7 +65,6 @@ const DeliveryTrends = () => {
       const g3_2 = Math.round((g3.total_ctr * 100) / g3.total_opened_2nd);
       const g3_3 = Math.round((g3.total_rtr * 100) / g3.total_opened_2nd);
 
-
       const g4_1 = g4.total_shared_2nd < 100 ? 100 : g4.total_shared_2nd;
       const g4_2 = Math.round(
         (g4.total_opened_2nd * 100) / g4.total_shared_2nd
@@ -75,12 +72,15 @@ const DeliveryTrends = () => {
       const g4_3 = Math.round((g4.total_ctr * 100) / g4.total_shared_2nd);
       const g4_4 = Math.round((g4.total_rtr * 100) / g4.total_shared_2nd);
 
+      const g5_1 = g5?.total_opened_2nd < 100 ? 100 : g5?.total_opened_2nd;
+      const g5_2 = Math.round((g5?.total_ctr * 100) / g5?.total_opened_2nd);
+      const g5_3 = Math.round((g5?.total_rtr * 100) / g5?.total_opened_2nd);
+
       const updatedData = {
         tab: {
           g0: [
             {
               name: "Email Send",
-
               data: [
                 {
                   color: Highcharts.getOptions().colors[0],
@@ -325,6 +325,47 @@ const DeliveryTrends = () => {
               ],
             },
           ],
+          g5: [
+            {
+              name: "Content Clicked",
+              data: [
+                {
+                  color: Highcharts.getOptions().colors[1],
+                  radius: "87%",
+                  innerRadius: "63%",
+                  y: g5_1,
+                  z: g5.total_opened_2nd,
+                  p: 99,
+                },
+              ],
+            },
+            {
+              name: "Registered",
+              data: [
+                {
+                  color: Highcharts.getOptions().colors[2],
+                  radius: "62%",
+                  innerRadius: "38%",
+                  y: g5_2,
+                  z: g5.total_ctr,
+                  p: 99,
+                },
+              ],
+            },
+            {
+              name: "RTR (Read Through Rate)",
+              data: [
+                {
+                  color: Highcharts.getOptions().colors[3],
+                  radius: "38%",
+                  innerRadius: "18%",
+                  y: g5_3,
+                  z: g5.total_rtr,
+                  p: 99,
+                },
+              ],
+            },
+          ],
         },
       };
 
@@ -332,8 +373,14 @@ const DeliveryTrends = () => {
         tab: {
           g0: [
             { "Email Sent": `${isNaN(g0_1) ? 0 : g0_1}% (${g0.outer_radius})` },
-            { "Email Opened": `${isNaN(g0_2) ? 0 : g0_2}% (${g0.total_opened_2nd})` },
-            { "Content opened": `${isNaN(g0_3) ? 0 : g0_3}% (${g0.total_ctr})` },
+            {
+              "Email Opened": `${isNaN(g0_2) ? 0 : g0_2}% (${
+                g0.total_opened_2nd
+              })`,
+            },
+            {
+              "Content opened": `${isNaN(g0_3) ? 0 : g0_3}% (${g0.total_ctr})`,
+            },
             { RTR: `${isNaN(g0_4) ? 0 : g0_4}% (${g0.total_rtr})` },
           ],
           g1: [
@@ -357,9 +404,20 @@ const DeliveryTrends = () => {
 
           g4: [
             { Shared: `${g4.total_shared_2nd} ` },
-            { "Content Clicked": `${isNaN(g4_2) ? 0 : g4_2}% (${g4.total_opened_2nd})` },
+            {
+              "Content Clicked": `${isNaN(g4_2) ? 0 : g4_2}% (${
+                g4.total_opened_2nd
+              })`,
+            },
             { Registered: `${isNaN(g4_3) ? 0 : g4_3}% (${g4.total_ctr})` },
             { RTR: `${isNaN(g4_4) ? 0 : g4_4}% (${g4.total_rtr})` },
+          ],
+          g5: [
+            {
+              "Content Clicked": `${g5.total_opened_2nd} `,
+            },
+            { Registered: `${isNaN(g5_2) ? 0 : g5_2}% (${g5.total_ctr})` },
+            { RTR: `${isNaN(g5_3) ? 0 : g5_3}% (${g5.total_rtr})` },
           ],
         },
       };
@@ -367,8 +425,6 @@ const DeliveryTrends = () => {
       setIsDataFound(true);
       setData(updatedData);
       setListData(updatedListData);
-      // setIsTabClicked(true);
-      // setData(hadData);
       setSectionLoader(false);
     } catch (err) {
       setIsDataFound(false);
