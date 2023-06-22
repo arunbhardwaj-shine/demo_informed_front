@@ -1074,7 +1074,7 @@ const LibrarySublink = () => {
                                             </label>
                                             <Select
                                               options={types}
-                                              value={consentValue}
+                                              // value={consentValue}
                                               defaultValue={
                                                 articleData.linkType == "Online"
                                                   ? types[0]

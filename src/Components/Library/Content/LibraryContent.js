@@ -2014,7 +2014,7 @@ const LibraryContent = (props) => {
                                             : "Select"
                                         }
                                         onChange={(event) =>
-                                          onConsentChange(event, data.id)
+                                          onConsentChange(event, data?.id)
                                         }
                                         id={"consent_dropdown_" + index}
                                         className="dropdown-basic-button split-button-dropup"
