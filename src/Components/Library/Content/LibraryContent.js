@@ -684,6 +684,7 @@ const LibraryContent = (props) => {
   };
 
   const closeModal = () => {
+    setNewTag("");
     setIsOpen(false);
   };
 

@@ -212,33 +212,36 @@ const LibraryCreateUser = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-    if(isSelectedName ==  "docintelFormat"){
-      
-      if(e == "ebook"){
-        setEbookFile([])
-          setpdfSpcData([{
+    if (isSelectedName == "docintelFormat") {
+      if (e == "ebook") {
+        setEbookFile([]);
+        setpdfSpcData([
+          {
             chapterTitle: "",
             uploadFile: "",
             fileValue: "",
-          }])
-
-      }else if(e == "pdfSpc"){
-        setEbookFile([])
+          },
+        ]);
+      } else if (e == "pdfSpc") {
+        setEbookFile([]);
         setChapter([
           {
             chapterTitle: "",
             uploadFile: "",
             fileValue: "",
-          }
-        ])
+          },
+        ]);
       }
-      setCreateLibraryInputs({...userInputs,uploadFile:"", [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-      ? e?.target?.files
-        ? e?.target?.files
-        : e
-      : e?.target?.value,})
-    }else{
-
+      setCreateLibraryInputs({
+        ...userInputs,
+        uploadFile: "",
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e?.target?.files
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    } else {
       setCreateLibraryInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -248,13 +251,12 @@ const LibraryCreateUser = () => {
           : e?.target?.value,
       });
     }
-  
   };
 
   const nextButtonClicked = async (e) => {
-    if (userInputs.docintelFormat == "ebook" ) {
+    if (userInputs.docintelFormat == "ebook") {
       userInputs.chapter = chapter;
-    }else if(userInputs?.docintelFormat == "pdfSpc"){
+    } else if (userInputs?.docintelFormat == "pdfSpc") {
       userInputs.pdfChapter = pdfSpcData;
     }
     if (
@@ -372,12 +374,22 @@ const LibraryCreateUser = () => {
         ebookFile?.forEach((item) => {
           formData.append("ebookData", item);
         });
-        formData.append("fileType", userInputs?.docintelFormat == "pdfSpc"?"ebook":userInputs?.docintelFormat);
+        formData.append(
+          "fileType",
+          userInputs?.docintelFormat == "pdfSpc"
+            ? "ebook"
+            : userInputs?.docintelFormat
+        );
         if (userInputs?.docintelFormat == "pdfSpc") {
           formData.append("spcInc", spcType);
         }
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
-        formData.append("chapter",userInputs?.docintelFormat == "pdfSpc"?JSON.stringify(pdfSpcData):JSON.stringify(chapter));
+        formData.append(
+          "chapter",
+          userInputs?.docintelFormat == "pdfSpc"
+            ? JSON.stringify(pdfSpcData)
+            : JSON.stringify(chapter)
+        );
         formData.append("specialRequirment", userInputs?.specialRequirment);
         formData.append("createdBy", id);
 
@@ -469,7 +481,6 @@ const LibraryCreateUser = () => {
     setChapter(list);
   };
 
-
   const onPdfTitleChange = (e, i) => {
     const { value } = e.target;
     const list = [...pdfSpcData];
@@ -485,8 +496,6 @@ const LibraryCreateUser = () => {
     setEbookFile(ebookFile);
     setpdfSpcData(list);
   };
-
-
 
   const onChapterSelect = (event) => {
     setChapterSelect(event);
@@ -524,6 +533,7 @@ const LibraryCreateUser = () => {
   };
 
   const closeModal = () => {
+    setNewTag("");
     setIsOpen(false);
   };
 
@@ -998,10 +1008,10 @@ const LibraryCreateUser = () => {
         category: 0,
         type: 1,
       };
-       await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
+      await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
       let newAr = userDetail?.product;
       newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
-  
+
       setCreateLibraryInputs({
         ...userInputs,
         product: { value: userDetail?.newValue, label: userDetail?.newValue },
@@ -1332,8 +1342,9 @@ const LibraryCreateUser = () => {
                     ) : null}
 
                     {localStorage.getItem("user_id") !=
-                    "iSnEsKu5gB/DRlycxB6G4g==" && localStorage.getItem("user_id") !=
-                    "56Ek4feL/1A8mZgIKQWEqg=="  ? (
+                      "iSnEsKu5gB/DRlycxB6G4g==" &&
+                    localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
                       <div className="form-group">
                         <label htmlFor="">Author</label>
                         <input
@@ -1800,8 +1811,7 @@ const LibraryCreateUser = () => {
                           </>
                         );
                       })
-                    ) :
-                    userInputs.docintelFormat == "pdfSpc"?(
+                    ) : userInputs.docintelFormat == "pdfSpc" ? (
                       pdfSpcData.map((val, i) => {
                         return (
                           <>
@@ -1812,7 +1822,7 @@ const LibraryCreateUser = () => {
                                   "56Ek4feL/1A8mZgIKQWEqg=="
                                     ? "Chapter "
                                     : "File "}{" "}
-                                    title
+                                  title
                                 </label>
                                 <input
                                   type="text"
@@ -1861,8 +1871,7 @@ const LibraryCreateUser = () => {
                           </>
                         );
                       })
-                    ):
-                    null}
+                    ) : null}
 
                     {userDetail?.user?.[0]?.flag == 0 &&
                     userDetail?.user?.[0]?.group_id == 3 ? (
@@ -2204,7 +2213,12 @@ const LibraryCreateUser = () => {
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag"> { localStorage. getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ==" ? "New Topic" : "New Tag"  } </label>
+              <label htmlFor="new-tag">
+                {" "}
+                {localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ=="
+                  ? "New Topic"
+                  : "New Tag"}{" "}
+              </label>
               <input
                 type="text"
                 className="form-control"
