@@ -3318,7 +3318,26 @@ input:-webkit-autofill:active {
   font-size: 16px;
   line-height: 22px;
 }
-
+.consent {
+  display: flex;
+  align-items: flex-start;
+  padding-right: 20px;
+  flex-wrap: wrap;
+}
+.rd-main-wrapper .form-wrapper .consent label {
+  width: calc(100% - 30px);
+}
+.consent #rdChecheckbox {
+  width: auto;
+  margin-right: 7px;
+  margin-top: 4px;
+}
+.consent .login-validation {
+  flex: 0 0 100%;
+  color: #e94362;
+  font-size: 14px;
+  margin: 3px 0 0;
+}
 /* Modal CSS End  */
 
 
