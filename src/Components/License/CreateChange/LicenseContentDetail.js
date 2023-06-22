@@ -18,7 +18,7 @@ const LicenseContentDetail = () => {
   const { state } = useLocation();
   const [libraryData, setLibraryData] = useState();
   const [qrValue, setQrValue] = useState("QR-code");
-  const [qrState, setQr] = useState({value: ""});
+  const [qrState, setQr] = useState({ value: "" });
   const [qrSize, setQrSize] = useState(290);
   const [size, setSize] = useState("Small");
   const [show, setShow] = useState(false);
@@ -228,8 +228,8 @@ const LicenseContentDetail = () => {
                                           ? data?.key_author
                                           : "N/A"}
                                       </h6>
-                                      {
-                                        localStorage.getItem("group_id") == "3" ?
+                                      {localStorage.getItem("group_id") ==
+                                      "3" ? (
                                         <h6>
                                           <strong>Topics | </strong>
                                           <ul>
@@ -249,8 +249,7 @@ const LicenseContentDetail = () => {
                                               : "N/A"}
                                           </ul>
                                         </h6>
-                                        : null
-                                      }
+                                      ) : null}
 
                                       <h6>
                                         <strong>Docintel | </strong>
@@ -278,14 +277,14 @@ const LicenseContentDetail = () => {
 
                                       <div className="info_btn">
                                         <Button
-                                        className="btn btn-primary btn-bordered move-draft"
-                                        onClick={() => {
-                                          commonModelFun();
-                                          setQr({
-                                            ...qrState,
-                                            value: data?.docintelLink,
-                                          });
-                                        }}
+                                          className="btn btn-primary btn-bordered move-draft"
+                                          onClick={() => {
+                                            commonModelFun();
+                                            setQr({
+                                              ...qrState,
+                                              value: data?.docintelLink,
+                                            });
+                                          }}
                                         >
                                           Download QR
                                         </Button>
@@ -411,16 +410,12 @@ const LicenseContentDetail = () => {
                                                 </tr>
                                                 <tr>
                                                   <th>inforMedGO code</th>
-                                                  <td>
-                                                    {data?.rep_code}
-                                                  </td>
+                                                  <td>{data?.rep_code}</td>
                                                 </tr>
 
                                                 <tr>
                                                   <th>Docintel code</th>
-                                                  <td>
-                                                    {data?.docintel_code}
-                                                  </td>
+                                                  <td>{data?.docintel_code}</td>
                                                 </tr>
                                                 <tr>
                                                   <th>Invoice Notes</th>
@@ -482,53 +477,54 @@ const LicenseContentDetail = () => {
                                                 <tr>
                                                   <th>ePrint type</th>
                                                   <td>
-                                                    {
-                                                      data?.spc_included ? "PDF+SPC" :
-                                                      data?.file_type == "ebook" ? "Ebook" :
-                                                      data?.file_type == "video" ? "Video" :
-                                                       "PDF"
-                                                    }
+                                                    {data?.spc_included
+                                                      ? "PDF+SPC"
+                                                      : data?.file_type ==
+                                                        "ebook"
+                                                      ? "Ebook"
+                                                      : data?.file_type ==
+                                                        "video"
+                                                      ? "Video"
+                                                      : "PDF"}
                                                   </td>
                                                 </tr>
-                                                {
-                                                  data?.file_type == "ebook" ?
-                                                    <tr>
-                                                      <th>Uploaded chapters</th>
-                                                      <td>
-                                                        {data?.chapterCount
-                                                          ? data?.chapterCount
-                                                          : "N/A"}
-                                                      </td>
-                                                    </tr>
-                                                  : null
-                                                }
-                                                {
-                                                  data?.file_type == "video" ?
+                                                {data?.file_type == "ebook" ? (
+                                                  <tr>
+                                                    <th>Uploaded chapters</th>
+                                                    <td>
+                                                      {data?.chapterCount
+                                                        ? data?.chapterCount
+                                                        : "N/A"}
+                                                    </td>
+                                                  </tr>
+                                                ) : null}
+                                                {data?.file_type == "video" ? (
                                                   <tr>
                                                     <th>Included videos</th>
                                                     <td>
-                                                      {data?.file_type == "video"
+                                                      {data?.file_type ==
+                                                      "video"
                                                         ? "Yes"
                                                         : "N/A"}
                                                     </td>
                                                   </tr>
-                                                  : null
-                                                }
-                                                {
-                                                  localStorage.getItem("group_id") == "3" ?
-                                                    <tr>
-                                                      <th>Saved as draft</th>
-                                                      <td>
-                                                        {data?.draft
-                                                          ? "Yes"
-                                                          : "N/A"}
-                                                      </td>
-                                                    </tr>
-                                                  :  null
-                                                }
+                                                ) : null}
+                                                {localStorage.getItem(
+                                                  "group_id"
+                                                ) == "3" ? (
+                                                  <tr>
+                                                    <th>Saved as draft</th>
+                                                    <td>
+                                                      {data?.draft
+                                                        ? "Yes"
+                                                        : "N/A"}
+                                                    </td>
+                                                  </tr>
+                                                ) : null}
                                                 <tr>
                                                   <th>
-                                                    Production notes for Docintel team
+                                                    Production notes for
+                                                    Docintel team
                                                   </th>
                                                   <td>
                                                     {data?.production_notes
@@ -600,7 +596,7 @@ const LicenseContentDetail = () => {
         onClose={setShow}
         heading={"Download QR"}
         data={downloadQRData}
-        footerButton={"Save"}
+        footerButton={"Download"}
         handleSubmit={downloadQRCode}
         handleQR={handleQR}
       />

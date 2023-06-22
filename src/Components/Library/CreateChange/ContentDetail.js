@@ -18,7 +18,7 @@ const ContentDetail = () => {
   const { state } = useLocation();
   const [libraryData, setLibraryData] = useState();
   const [qrValue, setQrValue] = useState("QR-code");
-  const [qrState, setQr] = useState({value: ""});
+  const [qrState, setQr] = useState({ value: "" });
   const [qrSize, setQrSize] = useState(290);
   const [size, setSize] = useState("Small");
   const [show, setShow] = useState(false);
@@ -218,30 +218,29 @@ const ContentDetail = () => {
                                       </h6>
                                       <h6>
                                         <>
-                                        {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                                         ?
-                                          <strong>Comment | </strong>
-                                         :
-                                          <strong>Content subtitle | </strong>
-                                        }
-                                        {data?.pdf_sub_title
-                                          ? data?.pdf_sub_title
-                                          : "N/A"}
+                                          {localStorage.getItem("user_id") ==
+                                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                            <strong>Comment | </strong>
+                                          ) : (
+                                            <strong>Content subtitle | </strong>
+                                          )}
+                                          {data?.pdf_sub_title
+                                            ? data?.pdf_sub_title
+                                            : "N/A"}
                                         </>
                                       </h6>
-                                      {
-                                        localStorage.getItem("user_id") != "iSnEsKu5gB/DRlycxB6G4g==" ?
+                                      {localStorage.getItem("user_id") !=
+                                      "iSnEsKu5gB/DRlycxB6G4g==" ? (
                                         <h6>
                                           <strong>Author | </strong>
                                           {data?.key_author
                                             ? data?.key_author
                                             : "N/A"}
                                         </h6>
-                                        : null
-                                      }
+                                      ) : null}
 
-                                      {
-                                        localStorage.getItem("group_id") == "3" ?
+                                      {localStorage.getItem("group_id") ==
+                                      "3" ? (
                                         <h6>
                                           <strong>Topics | </strong>
                                           <ul>
@@ -261,8 +260,7 @@ const ContentDetail = () => {
                                               : "N/A"}
                                           </ul>
                                         </h6>
-                                        : null
-                                      }
+                                      ) : null}
 
                                       <h6>
                                         <strong>Docintel | </strong>
@@ -288,25 +286,25 @@ const ContentDetail = () => {
                                         </span>
                                       </h6>
                                       <div className="info_btn">
-                                      <Button
-                                      className="btn btn-primary btn-bordered move-draft"
-                                      onClick={() => {
-                                        commonModelFun();
-                                        setQr({
-                                          ...qrState,
-                                          value: data?.docintelLink,
-                                        });
-                                      }}
-                                      >
-                                        Download QR
-                                      </Button>
-                                      <Link
-                                        to="/library-sublink"
-                                        state={{ pdfid: data.id }}
-                                        className="btn btn-primary btn-filled next"
-                                      >
-                                        New sublink
-                                      </Link>
+                                        <Button
+                                          className="btn btn-primary btn-bordered move-draft"
+                                          onClick={() => {
+                                            commonModelFun();
+                                            setQr({
+                                              ...qrState,
+                                              value: data?.docintelLink,
+                                            });
+                                          }}
+                                        >
+                                          Download QR
+                                        </Button>
+                                        <Link
+                                          to="/library-sublink"
+                                          state={{ pdfid: data.id }}
+                                          className="btn btn-primary btn-filled next"
+                                        >
+                                          New sublink
+                                        </Link>
                                       </div>
                                     </div>
                                   </div>
@@ -335,16 +333,14 @@ const ContentDetail = () => {
                                                     "group_id"
                                                   ) == "3" ? (
                                                     <>
-                                                      {
-                                                        /*<tr>
+                                                      {/*<tr>
                                                           <th>Trial</th>
                                                           <td>
                                                             {data?.trial_name
                                                               ? data?.trial_name
                                                               : "N/A"}
                                                           </td>
-                                                        </tr>*/
-                                                      }
+                                                        </tr>*/}
                                                       <tr>
                                                         <th>User Role</th>
                                                         <td>
@@ -360,8 +356,7 @@ const ContentDetail = () => {
                                                             : "N/A"}
                                                         </td>
                                                       </tr>
-                                                      {
-                                                        /*<tr>
+                                                      {/*<tr>
                                                           <th>Blind Type</th>
                                                           <td>
                                                             {data?.blindType
@@ -371,8 +366,7 @@ const ContentDetail = () => {
                                                                 : "No"
                                                               : "No"}
                                                           </td>
-                                                        </tr>*/
-                                                      }
+                                                        </tr>*/}
 
                                                       <tr>
                                                         <th>Mandatory</th>
@@ -444,154 +438,161 @@ const ContentDetail = () => {
                                     </div>
                                   ) : null}
 
-                                
+                                  {localStorage.getItem("user_id") !=
+                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    <>
+                                      <div className="col-12 col-md-4 mail-recipt-left">
+                                        {localStorage.getItem("group_id") ==
+                                        2 ? (
+                                          <h6>Limits agreed </h6>
+                                        ) : null}
 
-                                  {
-                                    localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
-                                      (
-                                        <>
-                                        <div className="col-12 col-md-4 mail-recipt-left">
-                                          {
-                                            localStorage.getItem("group_id") == 2 ?<h6>Limits agreed </h6> : null
-                                          }
+                                        <div className="smartlist-view email_box_outer">
+                                          <div className="smartlist-view email_box">
+                                            <div className="mail-box-content">
+                                              <div className="mailbox-table">
+                                                <table>
+                                                  <tbody>
+                                                    {localStorage.getItem(
+                                                      "group_id"
+                                                    ) == 2 ? (
+                                                      <tr>
+                                                        <th>Cost center</th>
+                                                        <td>
+                                                          {data?.cost_center
+                                                            ? data?.cost_center
+                                                            : "N/A"}
+                                                        </td>
+                                                      </tr>
+                                                    ) : null}
 
-                                          <div className="smartlist-view email_box_outer">
-                                            <div className="smartlist-view email_box">
-                                              <div className="mail-box-content">
-                                                <div className="mailbox-table">
-                                                  <table>
-                                                    <tbody>
-                                                      {localStorage.getItem(
-                                                        "group_id"
-                                                      ) == 2 ? (
+                                                    {localStorage.getItem(
+                                                      "group_id"
+                                                    ) == 2 ? (
+                                                      <>
                                                         <tr>
-                                                          <th>Cost center</th>
+                                                          <th>
+                                                            Expiration date
+                                                          </th>
                                                           <td>
-                                                            {data?.cost_center
-                                                              ? data?.cost_center
+                                                            {data?.expireDate
+                                                              ? data?.expireDate
                                                               : "N/A"}
                                                           </td>
                                                         </tr>
-                                                      ) : null}
-
-                                                      {
-                                                          localStorage.getItem("group_id") == 2 ?
-                                                          <>
-                                                          <tr>
-                                                            <th>Expiration date</th>
-                                                            <td>
-                                                              {data?.expireDate
-                                                                ? data?.expireDate
-                                                                : "N/A"}
-                                                            </td>
-                                                          </tr>
-                                                          <tr>
-                                                            <th>Set limit of usage</th>
-                                                            <td>
-                                                              {data?.limit > 0
-                                                                ? data?.limit
-                                                                : "unlimited"}
-                                                            </td>
-                                                          </tr>
-                                                          </>
-                                                          : null
-                                                      }
-                                                         {localStorage.getItem("group_id") == "3" &&
-                                                         localStorage.getItem("user_id") !=
-                                                           "56Ek4feL/1A8mZgIKQWEqg=="? <tr>
-                                                           <th>Product</th>
-                                                           <td>
-                                                             {data?.product
-                                                               ? data?.product
-                                                               : "N/A"}
-                                                           </td>
-                                                         </tr> :""}
-
-                                                      {localStorage.getItem(
-                                                        "user_id"
-                                                      ) !=
+                                                        <tr>
+                                                          <th>
+                                                            Set limit of usage
+                                                          </th>
+                                                          <td>
+                                                            {data?.limit > 0
+                                                              ? data?.limit
+                                                              : "unlimited"}
+                                                          </td>
+                                                        </tr>
+                                                      </>
+                                                    ) : null}
+                                                    {localStorage.getItem(
+                                                      "group_id"
+                                                    ) == "3" &&
+                                                    localStorage.getItem(
+                                                      "user_id"
+                                                    ) !=
                                                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                                        <tr>
-                                                          <th>Enabled</th>
-                                                          <td>
-                                                            {enableData?.enable
-                                                              ? enableData?.enable
-                                                              : "N/A"}
-                                                          </td>
-                                                        </tr>
-                                                      ) : null}
-
                                                       <tr>
-                                                        <th>inforMedGO code</th>
+                                                        <th>Product</th>
                                                         <td>
-                                                          {data?.rep_code}
+                                                          {data?.product
+                                                            ? data?.product
+                                                            : "N/A"}
                                                         </td>
                                                       </tr>
+                                                    ) : (
+                                                      ""
+                                                    )}
 
+                                                    {localStorage.getItem(
+                                                      "user_id"
+                                                    ) !=
+                                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                                       <tr>
-                                                        <th>Docintel code</th>
+                                                        <th>Enabled</th>
                                                         <td>
-                                                          {data?.docintel_code}
+                                                          {enableData?.enable
+                                                            ? enableData?.enable
+                                                            : "N/A"}
                                                         </td>
                                                       </tr>
+                                                    ) : null}
 
-                                                      {
-                                                        localStorage.getItem("group_id") == 2
-                                                        ?
-                                                        <tr>
-                                                          <th>Invoice Notes</th>
-                                                          <td>
-                                                            {data?.special_requirment
-                                                              ? data?.special_requirment?.trim()
-                                                                  ?.length > 100
-                                                                ? data?.special_requirment?.substring(
-                                                                    0,
-                                                                    100
-                                                                  )
-                                                                : data?.special_requirment?.trim()
-                                                              : "N/A"}
+                                                    <tr>
+                                                      <th>inforMedGO code</th>
+                                                      <td>{data?.rep_code}</td>
+                                                    </tr>
 
-                                                            <Collapse in={open}>
-                                                              <div id="collapse-text-view">
-                                                                {data?.special_requirment
-                                                                  ? data?.special_requirment?.trim()
-                                                                  : ""}
-                                                              </div>
-                                                            </Collapse>
-                                                            {data?.special_requirment ? (
-                                                              data?.special_requirment?.trim()
-                                                                ?.length > 100 ? (
-                                                                <span
-                                                                  className="show_more"
-                                                                  onClick={() =>
-                                                                    setOpen(!open)
-                                                                  }
-                                                                  aria-controls="example-collapse-text"
-                                                                  aria-expanded={open}
-                                                                >
-                                                                  ...
-                                                                </span>
-                                                              ) : (
-                                                                ""
-                                                              )
+                                                    <tr>
+                                                      <th>Docintel code</th>
+                                                      <td>
+                                                        {data?.docintel_code}
+                                                      </td>
+                                                    </tr>
+
+                                                    {localStorage.getItem(
+                                                      "group_id"
+                                                    ) == 2 ? (
+                                                      <tr>
+                                                        <th>Invoice Notes</th>
+                                                        <td>
+                                                          {data?.special_requirment
+                                                            ? data?.special_requirment?.trim()
+                                                                ?.length > 100
+                                                              ? data?.special_requirment?.substring(
+                                                                  0,
+                                                                  100
+                                                                )
+                                                              : data?.special_requirment?.trim()
+                                                            : "N/A"}
+
+                                                          <Collapse in={open}>
+                                                            <div id="collapse-text-view">
+                                                              {data?.special_requirment
+                                                                ? data?.special_requirment?.trim()
+                                                                : ""}
+                                                            </div>
+                                                          </Collapse>
+                                                          {data?.special_requirment ? (
+                                                            data?.special_requirment?.trim()
+                                                              ?.length > 100 ? (
+                                                              <span
+                                                                className="show_more"
+                                                                onClick={() =>
+                                                                  setOpen(!open)
+                                                                }
+                                                                aria-controls="example-collapse-text"
+                                                                aria-expanded={
+                                                                  open
+                                                                }
+                                                              >
+                                                                ...
+                                                              </span>
                                                             ) : (
                                                               ""
-                                                            )}
-                                                          </td>
-                                                        </tr>
-                                                        : null
-                                                      }
-                                                    </tbody>
-                                                  </table>
-                                                </div>
+                                                            )
+                                                          ) : (
+                                                            ""
+                                                          )}
+                                                        </td>
+                                                      </tr>
+                                                    ) : null}
+                                                  </tbody>
+                                                </table>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
-                                        </>
-                                      )
-                                    : null
-                                  }
+                                      </div>
+                                    </>
+                                  ) : null}
 
                                   <div className="col-12 col-md-4 mail-recipt-left">
                                     <h6>About the Docintel Link </h6>
@@ -601,27 +602,30 @@ const ContentDetail = () => {
                                           <div className="mailbox-table">
                                             <table>
                                               <tbody>
-                                                {
-                                                  localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
-                                                    <tr>
-                                                      <th>ePrint type</th>
-                                                      <td>
-                                                        {
-                                                          data?.spc_included ? "PDF+SPC" :
-                                                          data?.file_type == "ebook" ? "Ebook" :
-                                                          data?.file_type == "video" ? "Video" :
-                                                           "PDF"
-                                                        }
-                                                        {/*data?.linkType
+                                                {localStorage.getItem(
+                                                  "user_id"
+                                                ) !=
+                                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                  <tr>
+                                                    <th>ePrint type</th>
+                                                    <td>
+                                                      {data?.spc_included
+                                                        ? "PDF+SPC"
+                                                        : data?.file_type ==
+                                                          "ebook"
+                                                        ? "Ebook"
+                                                        : data?.file_type ==
+                                                          "video"
+                                                        ? "Video"
+                                                        : "PDF"}
+                                                      {/*data?.linkType
                                                           ? data?.linkType
                                                           : "N/A"*/}
-                                                      </td>
-                                                    </tr>
-                                                    : null
-                                                }
+                                                    </td>
+                                                  </tr>
+                                                ) : null}
 
-                                                {
-                                                  data?.file_type == "ebook" ?
+                                                {data?.file_type == "ebook" ? (
                                                   <tr>
                                                     <th>Uploaded chapters</th>
                                                     <td>
@@ -630,38 +634,42 @@ const ContentDetail = () => {
                                                         : 0}
                                                     </td>
                                                   </tr>
-                                                  : null
-                                                }
+                                                ) : null}
 
-                                                {
-                                                  data?.file_type == "video" ?
-                                                    <tr>
-                                                      <th>Included videos</th>
-                                                      <td>
+                                                {data?.file_type == "video" ? (
+                                                  <tr>
+                                                    <th>Included videos</th>
+                                                    <td>
                                                       Yes
-                                                        {/*data?.file_type == "video"
+                                                      {/*data?.file_type == "video"
                                                           ? "Yes"
                                                           : "N/A"*/}
-                                                      </td>
-                                                    </tr>
-                                                  : null
-                                                }
+                                                    </td>
+                                                  </tr>
+                                                ) : null}
 
-                                                {
-                                                  localStorage.getItem("group_id") == "3" ?
+                                                {localStorage.getItem(
+                                                  "group_id"
+                                                ) == "3" ? (
                                                   <>
                                                     <tr>
                                                       <th>Saved as draft</th>
                                                       <td>
-                                                        {data?.draft ? "Yes" : "No"}
+                                                        {data?.draft
+                                                          ? "Yes"
+                                                          : "No"}
                                                       </td>
                                                     </tr>
 
-                                                    {
-                                                      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                                    {localStorage.getItem(
+                                                      "user_id"
+                                                    ) ==
+                                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                                       <>
                                                         <tr>
-                                                          <th>inforMedGO code</th>
+                                                          <th>
+                                                            inforMedGO code
+                                                          </th>
                                                           <td>
                                                             {data?.rep_code}
                                                           </td>
@@ -670,20 +678,23 @@ const ContentDetail = () => {
                                                         <tr>
                                                           <th>Docintel code</th>
                                                           <td>
-                                                            {data?.docintel_code}
+                                                            {
+                                                              data?.docintel_code
+                                                            }
                                                           </td>
-                                                        </tr></>
-                                                      : null
-                                                    }
+                                                        </tr>
+                                                      </>
+                                                    ) : null}
                                                   </>
-                                                  : null
-                                                }
-                                                {
-                                                  localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
-                                                  ?
+                                                ) : null}
+                                                {localStorage.getItem(
+                                                  "user_id"
+                                                ) !=
+                                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                                   <tr>
                                                     <th>
-                                                      Production notes for Docintel team
+                                                      Production notes for
+                                                      Docintel team
                                                     </th>
                                                     <td>
                                                       {data?.production_notes
@@ -729,8 +740,7 @@ const ContentDetail = () => {
                                                       )}
                                                     </td>
                                                   </tr>
-                                                  : null
-                                                }
+                                                ) : null}
                                               </tbody>
                                             </table>
                                           </div>
@@ -757,7 +767,7 @@ const ContentDetail = () => {
         onClose={setShow}
         heading={"Download QR"}
         data={downloadQRData}
-        footerButton={"Save"}
+        footerButton={"Download"}
         handleSubmit={downloadQRCode}
         handleQR={handleQR}
       />
