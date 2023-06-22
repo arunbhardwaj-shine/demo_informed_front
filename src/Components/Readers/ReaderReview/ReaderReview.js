@@ -22,7 +22,6 @@ const ReaderReview = () => {
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}
   );
-  console.log("state data-->", state?.data);
   const createUser = async () => {
     loader("show");
     try {
@@ -69,7 +68,7 @@ const ReaderReview = () => {
               <Col md="9">
                 <ul className="tabnav-link">
                   <li className="">
-                    <a href="">Create CRM</a>
+                    <a href="">{state?.flag ? "Edit " : "Create "} CRM</a>
                   </li>
                   <li className="active active-main">
                     <a href="">Review &amp; approve</a>
@@ -88,7 +87,7 @@ const ReaderReview = () => {
                     className="btn btn-primary btn-filled next send_btn"
                     onClick={createUser}
                   >
-                    Create
+                    {state?.flag ? "Save " : "Create "}
                   </Button>
                 </div>
               </Col>
@@ -143,7 +142,7 @@ const ReaderReview = () => {
                           {readerData?.primary_phone !== "-informed-"
                             ? readerData?.primary_phone.replace(
                                 "-informed-",
-                                ""
+                                "-"
                               )
                             : "N/A"}
                         </td>
@@ -174,11 +173,6 @@ const ReaderReview = () => {
                           {readerData?.province ? readerData?.province : "N/A"}
                         </td>
                       </tr>
-                      {/*readerData?.province ? (
-
-                      ) : (
-                        ""
-                      )*/}
                       <tr>
                         <th className="tab-content-title">Hospital</th>
                         <td>
@@ -206,11 +200,6 @@ const ReaderReview = () => {
                             : "N/A"}
                         </td>
                       </tr>
-                      {/*readerData?.discipline ? (
-
-                      ) : (
-                        ""
-                      )*/}
                       {readerData?.ibu ? (
                         <tr>
                           <th className="tab-content-title">Bussiness Unit</th>

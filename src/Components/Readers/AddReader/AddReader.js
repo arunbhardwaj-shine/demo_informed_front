@@ -532,8 +532,6 @@ const ReaderAdd = () => {
       loader("hide");
       try {
         loader("show");
-        console.log("user inputs-->", userInputs);
-        console.log("country code-->", userInputs?.countryCode);
         let data = {
           createdBy: localStorage.getItem("user_id"),
           firstName: userInputs?.firstName,
