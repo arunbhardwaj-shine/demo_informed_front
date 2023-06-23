@@ -8903,6 +8903,12 @@ border-radius: 26px;
             line-height: 18px;
             color: #004A89;
             padding:5px 16px 16px;
+            &.site_name {
+                min-width: 445px;
+            }
+            &.active-irt{
+              width:125px;
+            }
           }  
         }
       }
@@ -8978,6 +8984,14 @@ border-radius: 26px;
         }
         td{
           height:50px;
+          &.active-irt{
+            span{
+              min-width: 20px;
+            }
+            img{
+              margin-left:45px;
+            }
+          }
            &:last-child{
               position:relative;
                text-align: right;
