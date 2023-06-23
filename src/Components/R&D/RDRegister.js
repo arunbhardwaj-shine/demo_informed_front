@@ -139,7 +139,7 @@ const RDRegister = () => {
         email: userInputs?.email,
         country: userInputs?.country,
         institution: userInputs?.institution,
-        sitenumber: site_number_value,
+        sitenumber: siteValue,
         sitename: e,
         sitecity: site_city_value,
       });
@@ -185,6 +185,7 @@ const RDRegister = () => {
     if (isSelectedName == "country") {
       let newSite = [],newAr =[];
       let sitenumb = [];
+       setSiteCity([]);
       Object.entries(apiData?.site_country_data).forEach(([key, value]) => {
         if (e == "B&H") {
           e = "Bosnia and Herzegovina";
@@ -573,13 +574,23 @@ const RDRegister = () => {
                 </Row>
                 <div className="d-flex align-items-start">
                   <div className="consent">
-                    <input
+
+                     <div className="text-group">
+                      <input
+                        type="checkbox"
+                        id="rdChecheckbox"
+                        name="rdChecheckbox"
+                        value="rdChecheckbox"
+                        onChange={(e) => handleChange(e, "rdChecheckbox")}/>
+                        <span class="checkmark"></span>
+                      </div>
+                    {/* <input
                       type="checkbox"
                       id="rdChecheckbox"
                       name="rdChecheckbox"
                       value="rdChecheckbox"
                       onChange={(e) => handleChange(e, "rdChecheckbox")}
-                    />
+                    /> */}
                     <label for="rdChecheckbox">
                       {" "}
                       I also consent to receive invitations to participate in
