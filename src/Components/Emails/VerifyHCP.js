@@ -26,6 +26,11 @@ const VerifyHCP = (props) => {
 
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
+  const [role, setRole] = useState([]);
+  const [optIRT, setoptIRT] = useState([
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ]);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const filterConfig = {
     matchFrom: "start",
@@ -78,6 +83,8 @@ const VerifyHCP = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
+      optIRT: "",
+      role: "",
     },
   ]);
   const [updateCounter, setUpdateCounter] = useState(0);
@@ -175,6 +182,13 @@ const VerifyHCP = (props) => {
                 label: label,
               });
             });
+            let type = res?.data?.response?.data?.investigator_type;
+            let newType = [];
+            Object.keys(type)?.map((item, i) => {
+              newType.push({ label: item, value: item });
+            });
+
+            setRole(newType);
             setCountryall(arr);
             setTotalData(res.data.response.data);
           }
@@ -233,6 +247,8 @@ const VerifyHCP = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        role: "",
+        optIRT: "",
       },
     ]);
     setActiveManual("active");
@@ -357,6 +373,24 @@ const VerifyHCP = (props) => {
     //console.log(hpc);
   };
 
+  const onRoleChange = (e, i) => {
+    const value = e?.value;
+    const list = [...hpc];
+    const name = hpc[i].role;
+    list[i].role = value;
+    setHpc(list);
+    console.log("role", hpc);
+  };
+
+  const onIRTChange = (e, i) => {
+    const value = e?.value;
+    const list = [...hpc];
+    const name = hpc[i].optIRT;
+    list[i].optIRT = value;
+    setHpc(list);
+    console.log("irt", hpc);
+  };
+
   const onContactTypeChange = (e, i) => {
     const value = e;
     const list = [...hpc];
@@ -464,6 +498,7 @@ const VerifyHCP = (props) => {
   const saveClicked = async () => {
     //  console.log(validator);
     //setIsOpen(false);
+    console.log("--->", hpc);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -473,9 +508,11 @@ const VerifyHCP = (props) => {
             last_name: data.lastname,
             email: data.email,
             country: data.country,
-            contact_type: data.contact_type,
+            // contact_type: data.contact_type,
             siteNumber: data?.siteNumber ? data.siteNumber : "",
             siteName: data.siteName ? data.siteName : "",
+            investigator_type: data?.role,
+            siteIrt: data.optIRT == "yes" ? 1 : 0,
           };
         } else {
           return {
@@ -602,6 +639,8 @@ const VerifyHCP = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
+          optIRT: "",
+          role: "",
         },
       ]);
     } else {
@@ -1363,53 +1402,90 @@ const VerifyHCP = (props) => {
                                   />
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Contact Type</label>
-                                  <DropdownButton
-                                    className="dropdown-basic-button split-button-dropup"
-                                    title={
-                                      hpc[i].contact_type != "" &&
-                                      hpc[i].contact_type != "undefined"
-                                        ? hpc[i].contact_type
-                                        : "Select Type"
-                                    }
-                                    onSelect={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                  >
-                                    <Dropdown.Item
-                                      eventKey="HCP"
-                                      className={
-                                        hpc[i].contact_type == "HCP"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      HCP
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Staff"
-                                      className={
-                                        hpc[i].contact_type == "Staff"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      Staff
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Test Users"
-                                      className={
-                                        hpc[i].contact_type == "Test Users"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      Test Users
-                                    </Dropdown.Item>
-                                  </DropdownButton>
-                                  {/*
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT</label>
+
+                                      <Select
+                                        options={optIRT}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onIRTChange(event, i)
+                                        }
+                                        // value={val.optIRT}
+                                        placeholder="Select IRT"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Role</label>
+
+                                      <Select
+                                        options={role}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onRoleChange(event, i)
+                                        }
+                                        // value={val.role}
+                                        placeholder="Select Role"
+                                      />
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label htmlFor="">Contact Type</label>
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          hpc[i].contact_type != "" &&
+                                          hpc[i].contact_type != "undefined"
+                                            ? hpc[i].contact_type
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onContactTypeChange(event, i)
+                                        }
+                                      >
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          HCP
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </DropdownButton>
+                                      {/*
                                       <select
                                       className="form-contact"
                                       aria-label="select"
@@ -1425,8 +1501,10 @@ const VerifyHCP = (props) => {
                                     </option>
                                     </select>
                                       */}
-                                </div>
-                              </div>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
