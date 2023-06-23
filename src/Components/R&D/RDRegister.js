@@ -469,7 +469,7 @@ const RDRegister = () => {
                     </Col>
                   ) : null}
 
-                  {institutionFlag || userInputs?.country ? (
+                  {institutionFlag && userInputs?.country ? (
                     <>
                       {/* <Col md={6}>
                         <div className="form-group">
