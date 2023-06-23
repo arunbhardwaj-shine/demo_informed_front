@@ -119,15 +119,17 @@ const RDRegister = () => {
       });
     } else if (isSelectedName == "sitename") {
       let site_number_value = "";
-      Object.entries(apiData?.site_data).forEach(([key, value]) => {
-        if (e == value) {
-          site_number_value = key;
-        }
-      });
+      let siteValue = e.split("=+")?.[1]
+      // Object.entries(apiData?.site_data).forEach(([key, value]) => {
+      //   if (e == value) {
+      //     site_number_value = key;
+      //   }
+      // });
 
       let site_city_value = "";
       Object.entries(apiData?.site_city_data).forEach(([key, value]) => {
-        if (site_number_value == key) {
+
+        if (siteValue == key) {
           site_city_value = value;
         }
       });
@@ -137,7 +139,7 @@ const RDRegister = () => {
         email: userInputs?.email,
         country: userInputs?.country,
         institution: userInputs?.institution,
-        sitenumber: site_number_value,
+        sitenumber: siteValue,
         sitename: e,
         sitecity: site_city_value,
       });
@@ -181,26 +183,34 @@ const RDRegister = () => {
     }
 
     if (isSelectedName == "country") {
-      let newSite = [];
+      let newSite = [],newAr =[];
       let sitenumb = [];
+       setSiteCity([]);
       Object.entries(apiData?.site_country_data).forEach(([key, value]) => {
         if (e == "B&H") {
           e = "Bosnia and Herzegovina";
         }
         if (value == e) {
           newSite.push({ label: key, value: key });
+          if(apiData?.site_data[key]){
+            let newValue = `${apiData?.site_data[key]} =+${key}`
+            let newLabel = `${apiData?.site_data[key]} (${key})`
+            newAr.push({label: newLabel, value: newValue})
+          }
           sitenumb.push(key);
         }
       });
       setSiteNumber(newSite);
 
-      let siteName = [];
-      Object.entries(apiData?.site_data).forEach(([key, value]) => {
-        if (sitenumb.includes(key)) {
-          siteName.push({ label: value, value: value });
-        }
-      });
-      setSiteName(siteName);
+      // let siteName = [];
+      // Object.entries(apiData?.site_data).forEach(([key, value]) => {
+      //   if (sitenumb.includes(key)) {
+         
+
+      //     siteName.push({ label: value, value: value });
+      //   }
+      // });
+      setSiteName(newAr);
 
       //
       // let siteCity = [];
@@ -226,18 +236,18 @@ const RDRegister = () => {
       //     }
       // });
       // setSiteName(siteName);
-
+      let siteValue = e.split("=+")?.[1]
       let site_value = "";
       if (isSelectedName == "sitename") {
-        Object.entries(apiData?.site_data).forEach(([key, value]) => {
-          if (e == value) {
-            site_value = key;
-          }
-        });
+        // Object.entries(apiData?.site_data).forEach(([key, value]) => {
+          site_value = siteValue
+        //   if (siteValue == value) {
+        //     site_value = key;
+        //   }
+        // });
       } else {
         site_value = e;
       }
-
       let siteCity = [];
       Object.entries(apiData?.site_city_data).forEach(([key, value]) => {
         if (site_value == key) {
@@ -462,7 +472,7 @@ const RDRegister = () => {
 
                   {institutionFlag ? (
                     <>
-                      <Col md={6}>
+                      {/* <Col md={6}>
                         <div className="form-group">
                           <label>
                             Site number <span>*</span>
@@ -494,7 +504,7 @@ const RDRegister = () => {
                             </div>
                           ) : null}
                         </div>
-                      </Col>
+                      </Col> */}
 
                       <Col md={6}>
                         <div className="form-group">
@@ -564,13 +574,23 @@ const RDRegister = () => {
                 </Row>
                 <div className="d-flex align-items-start">
                   <div className="consent">
-                    <input
+
+                     <div className="text-group">
+                      <input
+                        type="checkbox"
+                        id="rdChecheckbox"
+                        name="rdChecheckbox"
+                        value="rdChecheckbox"
+                        onChange={(e) => handleChange(e, "rdChecheckbox")}/>
+                        <span class="checkmark"></span>
+                      </div>
+                    {/* <input
                       type="checkbox"
                       id="rdChecheckbox"
                       name="rdChecheckbox"
                       value="rdChecheckbox"
                       onChange={(e) => handleChange(e, "rdChecheckbox")}
-                    />
+                    /> */}
                     <label for="rdChecheckbox">
                       {" "}
                       I also consent to receive invitations to participate in
@@ -618,7 +638,7 @@ const RDRegister = () => {
                   to="https://albert.docintel.app/docintel-terms"
                   target="_blank"
                 >
-                  Term of use
+                  Docintel term of use
                 </Link>
               </div>
               <div className="footer-logo">

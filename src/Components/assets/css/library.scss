@@ -8631,7 +8631,7 @@ border-radius: 26px;
     width: 24px;
     z-index: 4;
     min-width: 24px;
-    transition: all .3s ease-out 0s;
+    transition: all .2s ease-out 0s;
 }
 .switch6-light input:checked~a.btn {
     right: 5%;
@@ -8903,6 +8903,12 @@ border-radius: 26px;
             line-height: 18px;
             color: #004A89;
             padding:5px 16px 16px;
+            &.site_name {
+                min-width: 445px;
+            }
+            &.active-irt{
+              width:125px;
+            }
           }  
         }
       }
@@ -8960,28 +8966,8 @@ border-radius: 26px;
         }
       }
       .view{
-        cursor: pointer;
-        &.show{
-            border-radius: 9px 9px 0 0;
-            td{
-              &:first-child{
-                border-radius: 9px 0 0 0;
-              }
-              &:last-child{
-                border-radius: 0px 9px 0 0;
-                &:after{
-                  transform: rotate(180deg);
-                  top: 38%;
-                }
-              }
-            }
-        }
-        td{
-          height:50px;
-           &:last-child{
-              position:relative;
-               text-align: right;
-              &:after{
+        position:relative;
+        &:after{
                 content: "";
                 position: absolute;
                 top: 50%;
@@ -8991,8 +8977,37 @@ border-radius: 26px;
                 background-size: 16px;
                 width:16px;
                 height:10px;
+                transition: all 0.2s ease-out 0s;
               }
-           }
+        cursor: pointer;
+        &.show{
+            border-radius: 9px 9px 0 0;
+            &:after{
+                  transform: rotate(180deg);
+                  top: 38%;
+                }
+            td{
+              &:first-child{
+                border-radius: 9px 0 0 0;
+              }
+              &:last-child{
+                border-radius: 0px 9px 0 0;
+              }
+            }
+        }
+        td{
+          height:50px;
+          &.active-irt{
+            span{
+              min-width: 20px;
+            }
+            img{
+              margin-left:45px;
+            }
+          }
+          &.pics{
+            text-align: right;
+          }
         }
       }
       .fold{
