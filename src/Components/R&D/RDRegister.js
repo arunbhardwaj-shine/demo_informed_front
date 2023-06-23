@@ -27,7 +27,7 @@ const RDRegister = () => {
   const [error, setError] = useState({});
   const [institutionFlag, setInstitutionFlag] = useState(false);
   const [siteInstitution, setSiteInstitution] = useState([
-    { value: "site_name", label: "Site Name" },
+    { value: "institution", label: "Institution" },
     { value: "cro", label: "CRO" },
     { value: "comac", label: "Comac" },
     { value: "octapharma", label: "Octapharma" },
@@ -159,7 +159,7 @@ const RDRegister = () => {
     }
 
     if (isSelectedName == "institution") {
-      if (e == "site_name") {
+      if (e == "institution") {
         setInstitutionFlag(true);
         let objcountry = Object.values(apiData?.site_country_data);
         let countryValuesSet = new Set(objcountry);
