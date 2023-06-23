@@ -5783,6 +5783,12 @@ input:-webkit-autofill {
   white-space: normal;
 }
 
+.modal .split-button-dropup.edit-country-dropdown>div:nth-child(4)>div div:hover,
+.modal .split-button-dropup.edit-country-dropdown>div:nth-child(4)>div div:focus {
+  color: var(--white);
+  background: var(--light-blue);
+}
+
 .split-button-dropup.edit-country-dropdown div:nth-child(3)>div>div input {
   box-shadow: none;
   background: transparent;
