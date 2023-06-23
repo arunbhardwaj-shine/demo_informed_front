@@ -3374,31 +3374,25 @@ input:-webkit-autofill:active {
   width: 20px;
   background-color: rgb(238 128 28 / 46%);
   border: 1px solid #ee801c;
-
 }
 
 .consent .text-group:hover input~.checkmark {
   background-color: #ee801c;
 }
 
-/* When the checkbox is checked, add a blue background */
 .consent .text-group input:checked~.checkmark {
   background-color: #ee801c;
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
 .consent .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Show the checkmark when checked */
 .consent input:checked~.checkmark:after {
   display: block;
 }
-
-/* Style the checkmark/indicator */
 
 .consent .checkmark:after {
   left: 6px;
