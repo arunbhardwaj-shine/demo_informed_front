@@ -119,7 +119,7 @@ const RDRegister = () => {
       });
     } else if (isSelectedName == "sitename") {
       let site_number_value = "";
-      let siteValue = e.split("=+")?.[1]
+      let siteValue = e.split("=+")?.[1];
       // Object.entries(apiData?.site_data).forEach(([key, value]) => {
       //   if (e == value) {
       //     site_number_value = key;
@@ -128,7 +128,6 @@ const RDRegister = () => {
 
       let site_city_value = "";
       Object.entries(apiData?.site_city_data).forEach(([key, value]) => {
-
         if (siteValue == key) {
           site_city_value = value;
         }
@@ -183,19 +182,20 @@ const RDRegister = () => {
     }
 
     if (isSelectedName == "country") {
-      let newSite = [],newAr =[];
+      let newSite = [],
+        newAr = [];
       let sitenumb = [];
-       setSiteCity([]);
+      setSiteCity([]);
       Object.entries(apiData?.site_country_data).forEach(([key, value]) => {
         if (e == "B&H") {
           e = "Bosnia and Herzegovina";
         }
         if (value == e) {
           newSite.push({ label: key, value: key });
-          if(apiData?.site_data[key]){
-            let newValue = `${apiData?.site_data[key]} =+${key}`
-            let newLabel = `${apiData?.site_data[key]} (${key})`
-            newAr.push({label: newLabel, value: newValue})
+          if (apiData?.site_data[key]) {
+            let newValue = `${apiData?.site_data[key]} =+${key}`;
+            let newLabel = `${apiData?.site_data[key]} (${key})`;
+            newAr.push({ label: newLabel, value: newValue });
           }
           sitenumb.push(key);
         }
@@ -205,7 +205,6 @@ const RDRegister = () => {
       // let siteName = [];
       // Object.entries(apiData?.site_data).forEach(([key, value]) => {
       //   if (sitenumb.includes(key)) {
-         
 
       //     siteName.push({ label: value, value: value });
       //   }
@@ -236,11 +235,11 @@ const RDRegister = () => {
       //     }
       // });
       // setSiteName(siteName);
-      let siteValue = e.split("=+")?.[1]
+      let siteValue = e.split("=+")?.[1];
       let site_value = "";
       if (isSelectedName == "sitename") {
         // Object.entries(apiData?.site_data).forEach(([key, value]) => {
-          site_value = siteValue
+        site_value = siteValue;
         //   if (siteValue == value) {
         //     site_value = key;
         //   }
@@ -470,9 +469,9 @@ const RDRegister = () => {
                     </Col>
                   ) : null}
 
-                  {institutionFlag ? (
-                    <>
-                      {/* <Col md={6}>
+                  {/* {institutionFlag ? (
+                    <> */}
+                  {/* <Col md={6}>
                         <div className="form-group">
                           <label>
                             Site number <span>*</span>
@@ -506,6 +505,8 @@ const RDRegister = () => {
                         </div>
                       </Col> */}
 
+                  {userInputs?.country ? (
+                    <>
                       <Col md={6}>
                         <div className="form-group">
                           <label>
@@ -574,16 +575,16 @@ const RDRegister = () => {
                 </Row>
                 <div className="d-flex align-items-start">
                   <div className="consent">
-
-                     <div className="text-group">
+                    <div className="text-group">
                       <input
                         type="checkbox"
                         id="rdChecheckbox"
                         name="rdChecheckbox"
                         value="rdChecheckbox"
-                        onChange={(e) => handleChange(e, "rdChecheckbox")}/>
-                        <span class="checkmark"></span>
-                      </div>
+                        onChange={(e) => handleChange(e, "rdChecheckbox")}
+                      />
+                      <span class="checkmark"></span>
+                    </div>
                     {/* <input
                       type="checkbox"
                       id="rdChecheckbox"
