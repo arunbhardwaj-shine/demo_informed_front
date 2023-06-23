@@ -8631,7 +8631,7 @@ border-radius: 26px;
     width: 24px;
     z-index: 4;
     min-width: 24px;
-    transition: all .3s ease-out 0s;
+    transition: all .2s ease-out 0s;
 }
 .switch6-light input:checked~a.btn {
     right: 5%;
@@ -8966,19 +8966,32 @@ border-radius: 26px;
         }
       }
       .view{
+        position:relative;
+        &:after{
+                content: "";
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right:17px;
+                background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+                background-size: 16px;
+                width:16px;
+                height:10px;
+                transition: all 0.2s ease-out 0s;
+              }
         cursor: pointer;
         &.show{
             border-radius: 9px 9px 0 0;
+            &:after{
+                  transform: rotate(180deg);
+                  top: 38%;
+                }
             td{
               &:first-child{
                 border-radius: 9px 0 0 0;
               }
               &:last-child{
                 border-radius: 0px 9px 0 0;
-                &:after{
-                  transform: rotate(180deg);
-                  top: 38%;
-                }
               }
             }
         }
@@ -8992,21 +9005,9 @@ border-radius: 26px;
               margin-left:45px;
             }
           }
-           &:last-child{
-              position:relative;
-               text-align: right;
-              &:after{
-                content: "";
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                right:17px;
-                background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
-                background-size: 16px;
-                width:16px;
-                height:10px;
-              }
-           }
+          &.pics{
+            text-align: right;
+          }
         }
       }
       .fold{
