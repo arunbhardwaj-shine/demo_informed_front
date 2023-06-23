@@ -2184,7 +2184,7 @@ const LicenseContent = (props) => {
         onClose={setShow}
         heading={"Download QR"}
         data={downloadQRData}
-        footerButton={"Save"}
+        footerButton={"Download"}
         handleSubmit={downloadQRCode}
         handleQR={handleQR}
       />

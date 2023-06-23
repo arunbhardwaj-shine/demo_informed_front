@@ -893,10 +893,11 @@ const NewReaders = () => {
         }
       }
 
-      if (Object.keys(body).length !== 0) {
+      if (Object.keys(body)?.length !== 0) {
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
+        console.log("user Type--->", userTypeValues?.[type]);
         const libDataIndex = readerDataList.findIndex(
-          (el) => el.id === reader_id
+          (el) => el?.id === reader_id
         );
 
         if (country !== "") {
@@ -1863,7 +1864,7 @@ const NewReaders = () => {
                                       <Link
                                         to="/reader-edit"
                                         className="btn btn-primary btn-filled"
-                                        state={{ id: data.id }}
+                                        state={{ id: data?.id }}
                                       >
                                         Edit
                                       </Link>
