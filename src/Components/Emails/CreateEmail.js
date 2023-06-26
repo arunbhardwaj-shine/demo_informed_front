@@ -33,6 +33,7 @@ const CreateEmail = (props) => {
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
+  const [irtRole, setIrtRole] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -247,13 +248,22 @@ const CreateEmail = (props) => {
               });
             });
 
-            let type = res?.data?.response?.data?.investigator_type;
+            let investigator_type =
+              res?.data?.response?.data?.investigator_type;
             let newType = [];
-            Object.keys(type)?.map((item, i) => {
+            Object.keys(investigator_type)?.map((item, i) => {
               newType.push({ label: item, value: item });
             });
 
             setRole(newType);
+
+            let irt_inverstigator_type =
+              res?.data?.response?.data?.irt_inverstigator_type;
+            let newIrtType = [];
+            Object.keys(irt_inverstigator_type)?.map((item, i) => {
+              newIrtType.push({ label: item, value: item });
+            });
+            setIrtRole(newIrtType);
             setCountryall(arr);
             setTotalData(res.data.response.data);
           }
@@ -873,29 +883,18 @@ const CreateEmail = (props) => {
       setHpc(list);
     } else {
       let getSiteData = totalData.site_data;
-
       let site_name_value = getSiteData[e.value];
-
       const value = e.value;
-
       const list = [...hpc];
-
       const name = hpc[i].siteNumber;
-
       list[i].siteNumber = value;
-
       list[i].siteName = site_name_value;
-
       let snameindex = siteNameAll.findIndex(
         (x) => x.value === site_name_value
       );
-
       list[i].siteNameIndex = snameindex;
-
       let index = siteNumberAll.findIndex((x) => x.value === value);
-
       list[i].siteNumberIndex = index;
-
       setHpc(list);
     }
 
@@ -966,20 +965,37 @@ const CreateEmail = (props) => {
     }
   };
 
-  const onRoleChange = (e, i) => {
-    const value = e?.value;
-    const list = [...hpc];
-    const name = hpc[i].role;
-    list[i].role = value;
-    setHpc(list);
+  const onRoleChange = (e, i, statemsg) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].role = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].role;
+      list[i].role = value;
+
+      setHpc(list);
+    }
   };
 
   const onIRTChange = (e, i) => {
-    const value = e?.value;
-    const list = [...hpc];
-    const name = hpc[i].optIRT;
-    list[i].optIRT = value;
-    setHpc(list);
+    if (e == "") {
+      const list = [...hpc];
+      list[i].optIRT = "";
+      list[i].role = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].optIRT;
+      list[i].optIRT = value;
+      list[i].role = "";
+      setHpc(list);
+    }
+
+    setCounterFlag(counterFlag + 1);
   };
 
   const newTagChanged = (e) => {
@@ -1295,32 +1311,27 @@ const CreateEmail = (props) => {
   };
 
   const saveClicked = async () => {
-    //  console.log(validator);
-
-    // setIsOpenAdd(false);
-    console.log("hcp==>", hpc);
-
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
           return {
-            first_name: data.firstname,
-            last_name: data.lastname,
-            email: data.email,
-            country: data.country,
-            contact_type: data.contact_type,
+            first_name: data?.firstname,
+            last_name: data?.lastname,
+            email: data?.email,
+            country: data?.country,
+            // contact_type: data?.contact_type,
             siteNumber: data?.siteNumber ? data.siteNumber : "",
-            siteName: data.siteName ? data.siteName : "",
+            siteName: data?.siteName ? data.siteName : "",
             investigator_type: data?.role,
-            siteIrt: data.optIRT == "yes" ? 1 : 0,
+            siteIrt: data?.optIRT == "yes" ? 1 : 0,
           };
         } else {
           return {
-            first_name: data.firstname,
-            last_name: data.lastname,
-            email: data.email,
-            country: data.country,
-            contact_type: data.contact_type,
+            first_name: data?.firstname,
+            last_name: data?.lastname,
+            email: data?.email,
+            country: data?.country,
+            contact_type: data?.contact_type,
           };
         }
       });
@@ -2574,8 +2585,8 @@ const CreateEmail = (props) => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
-                    // role: "",
-                    // irt: "",
+                    role: "",
+                    optIRT: "",
                   },
                 ]);
                 if (document.querySelector("#file-4")) {
@@ -2653,6 +2664,7 @@ const CreateEmail = (props) => {
                                   ) : null}
                                 </div>
                               </div>
+                              {console.log("role-->", val?.role)}
 
                               {
                                 localStorage.getItem("user_id") ===
@@ -2669,7 +2681,7 @@ const CreateEmail = (props) => {
                                           onChange={(event) =>
                                             onIRTChange(event, i)
                                           }
-                                          // value={val.optIRT}
+                                          defaultValue={val?.optIRT}
                                           placeholder="Select IRT"
                                         />
                                       </div>
@@ -2677,16 +2689,51 @@ const CreateEmail = (props) => {
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
                                         <label for="">Role</label>
-
-                                        <Select
-                                          options={role}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onRoleChange(event, i)
-                                          }
-                                          // value={val.role}
-                                          placeholder="Select Role"
-                                        />
+                                        {val.optIRT == "yes" ? (
+                                          <Select
+                                            options={irtRole}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            onChange={(event) =>
+                                              onRoleChange(event, i, "role")
+                                            }
+                                            value={
+                                              irtRole.findIndex(
+                                                (el) => el.value == val?.role
+                                              ) == -1
+                                                ? ""
+                                                : irtRole[
+                                                    irtRole.findIndex(
+                                                      (el) =>
+                                                        el.value == val?.role
+                                                    )
+                                                  ]
+                                            }
+                                            isClearable
+                                            placeholder="Select Role"
+                                          />
+                                        ) : (
+                                          <Select
+                                            options={role}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            onChange={(event) =>
+                                              onRoleChange(event, i, "irtRole")
+                                            }
+                                            value={
+                                              role.findIndex(
+                                                (el) => el.value == val?.role
+                                              ) == -1
+                                                ? ""
+                                                : role[
+                                                    role.findIndex(
+                                                      (el) =>
+                                                        el.value == val?.role
+                                                    )
+                                                  ]
+                                            }
+                                            isClearable
+                                            placeholder="Select Role"
+                                          />
+                                        )}
                                       </div>
                                     </div>
                                   </>
