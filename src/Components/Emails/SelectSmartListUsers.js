@@ -18,6 +18,12 @@ const SelectSmartListUsers = (props) => {
   const [totalData, setTotalData] = useState({});
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
+  const [role, setRole] = useState([]);
+  const [irtRole, setIrtRole] = useState([]);
+  const [optIRT, setoptIRT] = useState([
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ]);
   const filterConfig = {
     matchFrom: "start",
   };
@@ -56,6 +62,8 @@ const SelectSmartListUsers = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
+      optIrt: "",
+      role: "",
     },
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -183,6 +191,21 @@ const SelectSmartListUsers = (props) => {
                 label: label,
               });
             });
+            let investigator_type =
+              res?.data?.response?.data?.investigator_type;
+            let newType = [];
+            Object.keys(investigator_type)?.map((item, i) => {
+              newType.push({ label: item, value: item });
+            });
+            let irt_inverstigator_type =
+              res?.data?.response?.data?.irt_inverstigator_type;
+            let newIrtType = [];
+            Object.keys(irt_inverstigator_type)?.map((item, i) => {
+              newIrtType.push({ label: item, value: item });
+            });
+
+            setRole(newType);
+            setIrtRole(newIrtType);
             setCountryall(arr);
             setTotalData(res.data.response.data);
           }
@@ -318,6 +341,36 @@ const SelectSmartListUsers = (props) => {
     setHpc(list);
     // setEmailData(e.target.value);
   };
+  const onRoleChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].role = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].role;
+      list[i].role = value;
+      setHpc(list);
+    }
+  };
+
+  const onIRTChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].optIrt = "";
+      list[i].role = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].optIrt;
+      list[i].optIrt = value;
+      list[i].role = "";
+      setHpc(list);
+    }
+    setCounterFlag(counterFlag + 1);
+  };
 
   const onContactTypeChange = (e, i) => {
     const value = e;
@@ -432,6 +485,8 @@ const SelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        role: "",
+        optIrt: "",
       },
     ]);
     setActiveManual("active");
@@ -712,132 +767,135 @@ const SelectSmartListUsers = (props) => {
 
   const saveClicked = async () => {
     //   setIsOpenAdd(false);
-    if (activeManual == "active") {
-      const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-          return {
-            first_name: data.firstname,
-            last_name: data.lastname,
-            email: data.email,
-            country: data.country,
-            contact_type: data.contact_type,
-            siteNumber: data?.siteNumber ? data.siteNumber : "",
-            siteName: data.siteName ? data.siteName : "",
-          };
-        } else {
-          return {
-            first_name: data.firstname,
-            last_name: data.lastname,
-            email: data.email,
-            country: data.country,
-            contact_type: data.contact_type,
-          };
-        }
-      });
+    console.log("hcp--->", hpc);
+    // if (activeManual == "active") {
+    //   const body_data = hpc.map((data) => {
+    //     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    //       return {
+    //         first_name: data.firstname,
+    //         last_name: data.lastname,
+    //         email: data.email,
+    //         country: data.country,
+    //         // contact_type: data.contact_type,
+    //         siteNumber: data?.siteNumber ? data.siteNumber : "",
+    //         siteName: data.siteName ? data.siteName : "",
+    //         investigator_type: data?.role,
+    //         siteIrt: data?.optIrt == "yes" ? 1 : 0,
+    //       };
+    //     } else {
+    //       return {
+    //         first_name: data.firstname,
+    //         last_name: data.lastname,
+    //         email: data.email,
+    //         country: data.country,
+    //         contact_type: data.contact_type,
+    //       };
+    //     }
+    //   });
 
-      const body = {
-        data: body_data,
-        user_id: localStorage.getItem("user_id"),
-        smart_list_id: "",
-      };
+    //   const body = {
+    //     data: body_data,
+    //     user_id: localStorage.getItem("user_id"),
+    //     smart_list_id: "",
+    //   };
 
-      const status = body.data.map((data) => {
-        if (data.email == "") {
-          setValidationError({ newHcpEmail: "Please enter the email atleast" });
-          return;
-        } else if (data.email != "") {
-          let email = data.email;
-          let useremail = email.trim();
-          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = readers.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
-              setValidationError({
-                newHcpEmail: "User with same email already added in list.",
-              });
-              return;
-            } else {
-              return "true";
-            }
-            return "true";
-          } else {
-            setValidationError({ newHcpEmail: "Email format is not valid" });
-            return;
-          }
-        } else {
-          return "true";
-        }
-      });
-      status.sort();
-      if (status.every((element) => element == "true")) {
-        loader("show");
+    //   const status = body.data.map((data) => {
+    //     if (data.email == "") {
+    //       setValidationError({ newHcpEmail: "Please enter the email atleast" });
+    //       return;
+    //     } else if (data.email != "") {
+    //       let email = data.email;
+    //       let useremail = email.trim();
+    //       var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    //       if (regex.test(String(useremail).toLowerCase())) {
+    //         let prev_obj = readers.find((x) => x.email === useremail);
+    //         if (typeof prev_obj != "undefined") {
+    //           setValidationError({
+    //             newHcpEmail: "User with same email already added in list.",
+    //           });
+    //           return;
+    //         } else {
+    //           return "true";
+    //         }
+    //         return "true";
+    //       } else {
+    //         setValidationError({ newHcpEmail: "Email format is not valid" });
+    //         return;
+    //       }
+    //     } else {
+    //       return "true";
+    //     }
+    //   });
+    //   status.sort();
+    //   if (status.every((element) => element == "true")) {
+    //     loader("show");
 
-        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        await axios
-          .post(`distributes/add_new_readers_in_list`, body)
-          .then((res) => {
-            if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
-              res.data.response.data.map((data) => {
-                setReadersNewlyAdded((oldArray) => [data, ...oldArray]);
-              });
-              setIsOpen(false);
-              setIsOpenAdd(false);
-            } else {
-              toast.warning(res.data.message);
-              loader("hide");
-            }
-            loader("hide");
+    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //     await axios
+    //       .post(`distributes/add_new_readers_in_list`, body)
+    //       .then((res) => {
+    //         if (res.data.status_code === 200) {
+    //           toast.success("User added successfuly");
+    //           res.data.response.data.map((data) => {
+    //             setReadersNewlyAdded((oldArray) => [data, ...oldArray]);
+    //           });
+    //           setIsOpen(false);
+    //           setIsOpenAdd(false);
+    //         } else {
+    //           toast.warning(res.data.message);
+    //           loader("hide");
+    //         }
+    //         loader("hide");
 
-            //setSelectedHcp(res.data.response.data);
-          })
-          .catch((err) => {
-            loader("hide");
-            toast.error("Somwthing went wrong");
-          });
-      } else {
-        toast.warning(status[0]);
-      }
+    //         //setSelectedHcp(res.data.response.data);
+    //       })
+    //       .catch((err) => {
+    //         loader("hide");
+    //         toast.error("Somwthing went wrong");
+    //       });
+    //   } else {
+    //     toast.warning(status[0]);
+    //   }
 
-      //  setIsOpen(false);
-    } else {
-      let formData = new FormData();
-      let user_id = localStorage.getItem("user_id");
-      formData.append("user_id", user_id);
-      formData.append("smart_list_id", "");
-      formData.append("reader_file", selectedFile);
+    //   //  setIsOpen(false);
+    // } else {
+    //   let formData = new FormData();
+    //   let user_id = localStorage.getItem("user_id");
+    //   formData.append("user_id", user_id);
+    //   formData.append("smart_list_id", "");
+    //   formData.append("reader_file", selectedFile);
 
-      console.log(formData);
+    //   console.log(formData);
 
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      if (selectedFile) {
-        loader("show");
-        await axios
-          .post(`distributes/update_reader_list`, formData)
-          .then((res) => {
-            if (res.data.status_code === 200) {
-              res.data.response.data.map((data) => {
-                setReadersNewlyAdded((oldArray) => [...oldArray, data]);
-              });
-              setIsOpenAdd(false);
-              setActiveManual("active");
-              setActiveExcel("");
-              setSelectedFile(null);
-              loader("hide");
-              toast.success("user added successfully");
-            } else {
-              toast.warning(res.data.message);
-              loader("hide");
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        setIsOpen(false);
-      } else {
-        toast.warning("Please add a excel file");
-      }
-    }
+    //   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //   if (selectedFile) {
+    //     loader("show");
+    //     await axios
+    //       .post(`distributes/update_reader_list`, formData)
+    //       .then((res) => {
+    //         if (res.data.status_code === 200) {
+    //           res.data.response.data.map((data) => {
+    //             setReadersNewlyAdded((oldArray) => [...oldArray, data]);
+    //           });
+    //           setIsOpenAdd(false);
+    //           setActiveManual("active");
+    //           setActiveExcel("");
+    //           setSelectedFile(null);
+    //           loader("hide");
+    //           toast.success("user added successfully");
+    //         } else {
+    //           toast.warning(res.data.message);
+    //           loader("hide");
+    //         }
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //     setIsOpen(false);
+    //   } else {
+    //     toast.warning("Please add a excel file");
+    //   }
+    // }
   };
 
   const editButtonClicked = () => {
@@ -1367,6 +1425,8 @@ const SelectSmartListUsers = (props) => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
+                    optIrt: "",
+                    role: "",
                   },
                 ]);
                 setActiveManual("active");
@@ -1441,54 +1501,129 @@ const SelectSmartListUsers = (props) => {
                                   ) : null}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Contact Type</label>
-                                  <DropdownButton
-                                    className="dropdown-basic-button split-button-dropup"
-                                    title={
-                                      hpc[i].contact_type != "" &&
-                                      hpc[i].contact_type != "undefined"
-                                        ? hpc[i].contact_type
-                                        : "Select Type"
-                                    }
-                                    onSelect={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                  >
-                                    <Dropdown.Item
-                                      eventKey="HCP"
-                                      className={
-                                        hpc[i].contact_type == "HCP"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      HCP
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Staff"
-                                      className={
-                                        hpc[i].contact_type == "Staff"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      Staff
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Test Users"
-                                      className={
-                                        hpc[i].contact_type == "Test Users"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      Test Users
-                                    </Dropdown.Item>
-                                  </DropdownButton>
-                                </div>
-                              </div>
+
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT</label>
+
+                                      <Select
+                                        options={optIRT}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onIRTChange(event, i)
+                                        }
+                                        defaultValue={val?.optIrt}
+                                        placeholder="Select IRT"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Role</label>
+                                      {val?.optIrt == "yes" ? (
+                                        <Select
+                                          options={irtRole}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i)
+                                          }
+                                          value={
+                                            irtRole?.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : irtRole[
+                                                  irtRole?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : (
+                                        <Select
+                                          options={role}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i)
+                                          }
+                                          value={
+                                            role?.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : role[
+                                                  role?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      )}
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label htmlFor="">Contact Type</label>
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          hpc[i].contact_type != "" &&
+                                          hpc[i].contact_type != "undefined"
+                                            ? hpc[i].contact_type
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onContactTypeChange(event, i)
+                                        }
+                                      >
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          HCP
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </DropdownButton>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
