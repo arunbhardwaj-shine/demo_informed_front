@@ -564,13 +564,15 @@ const RDRegister = () => {
                 </Row>
                 <div className="d-flex align-items-start">
                   <div className="consent">
+                    <div className="text-group">
                     <input
                       type="checkbox"
                       id="rdChecheckbox"
                       name="rdChecheckbox"
                       value="rdChecheckbox"
-                      onChange={(e) => handleChange(e, "rdChecheckbox")}
-                    />
+                      onChange={(e) => handleChange(e, "rdChecheckbox")}/>
+                      <span class="checkmark"></span>
+                    </div>
                     <label for="rdChecheckbox">
                       {" "}
                       I also consent to receive invitations to participate in
