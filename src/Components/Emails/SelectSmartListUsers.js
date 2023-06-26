@@ -767,135 +767,135 @@ const SelectSmartListUsers = (props) => {
 
   const saveClicked = async () => {
     //   setIsOpenAdd(false);
-    console.log("hcp--->", hpc);
-    // if (activeManual == "active") {
-    //   const body_data = hpc.map((data) => {
-    //     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-    //       return {
-    //         first_name: data.firstname,
-    //         last_name: data.lastname,
-    //         email: data.email,
-    //         country: data.country,
-    //         // contact_type: data.contact_type,
-    //         siteNumber: data?.siteNumber ? data.siteNumber : "",
-    //         siteName: data.siteName ? data.siteName : "",
-    //         investigator_type: data?.role,
-    //         siteIrt: data?.optIrt == "yes" ? 1 : 0,
-    //       };
-    //     } else {
-    //       return {
-    //         first_name: data.firstname,
-    //         last_name: data.lastname,
-    //         email: data.email,
-    //         country: data.country,
-    //         contact_type: data.contact_type,
-    //       };
-    //     }
-    //   });
 
-    //   const body = {
-    //     data: body_data,
-    //     user_id: localStorage.getItem("user_id"),
-    //     smart_list_id: "",
-    //   };
+    if (activeManual == "active") {
+      const body_data = hpc.map((data) => {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            // contact_type: data.contact_type,
+            siteNumber: data?.siteNumber ? data.siteNumber : "",
+            siteName: data.siteName ? data.siteName : "",
+            investigator_type: data?.role,
+            siteIrt: data?.optIrt == "yes" ? 1 : 0,
+          };
+        } else {
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+          };
+        }
+      });
 
-    //   const status = body.data.map((data) => {
-    //     if (data.email == "") {
-    //       setValidationError({ newHcpEmail: "Please enter the email atleast" });
-    //       return;
-    //     } else if (data.email != "") {
-    //       let email = data.email;
-    //       let useremail = email.trim();
-    //       var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    //       if (regex.test(String(useremail).toLowerCase())) {
-    //         let prev_obj = readers.find((x) => x.email === useremail);
-    //         if (typeof prev_obj != "undefined") {
-    //           setValidationError({
-    //             newHcpEmail: "User with same email already added in list.",
-    //           });
-    //           return;
-    //         } else {
-    //           return "true";
-    //         }
-    //         return "true";
-    //       } else {
-    //         setValidationError({ newHcpEmail: "Email format is not valid" });
-    //         return;
-    //       }
-    //     } else {
-    //       return "true";
-    //     }
-    //   });
-    //   status.sort();
-    //   if (status.every((element) => element == "true")) {
-    //     loader("show");
+      const body = {
+        data: body_data,
+        user_id: localStorage.getItem("user_id"),
+        smart_list_id: "",
+      };
 
-    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //     await axios
-    //       .post(`distributes/add_new_readers_in_list`, body)
-    //       .then((res) => {
-    //         if (res.data.status_code === 200) {
-    //           toast.success("User added successfuly");
-    //           res.data.response.data.map((data) => {
-    //             setReadersNewlyAdded((oldArray) => [data, ...oldArray]);
-    //           });
-    //           setIsOpen(false);
-    //           setIsOpenAdd(false);
-    //         } else {
-    //           toast.warning(res.data.message);
-    //           loader("hide");
-    //         }
-    //         loader("hide");
+      const status = body.data.map((data) => {
+        if (data.email == "") {
+          setValidationError({ newHcpEmail: "Please enter the email atleast" });
+          return;
+        } else if (data.email != "") {
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            let prev_obj = readers.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+              });
+              return;
+            } else {
+              return "true";
+            }
+            return "true";
+          } else {
+            setValidationError({ newHcpEmail: "Email format is not valid" });
+            return;
+          }
+        } else {
+          return "true";
+        }
+      });
+      status.sort();
+      if (status.every((element) => element == "true")) {
+        loader("show");
 
-    //         //setSelectedHcp(res.data.response.data);
-    //       })
-    //       .catch((err) => {
-    //         loader("hide");
-    //         toast.error("Somwthing went wrong");
-    //       });
-    //   } else {
-    //     toast.warning(status[0]);
-    //   }
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        await axios
+          .post(`distributes/add_new_readers_in_list`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
+              res.data.response.data.map((data) => {
+                setReadersNewlyAdded((oldArray) => [data, ...oldArray]);
+              });
+              setIsOpen(false);
+              setIsOpenAdd(false);
+            } else {
+              toast.warning(res.data.message);
+              loader("hide");
+            }
+            loader("hide");
 
-    //   //  setIsOpen(false);
-    // } else {
-    //   let formData = new FormData();
-    //   let user_id = localStorage.getItem("user_id");
-    //   formData.append("user_id", user_id);
-    //   formData.append("smart_list_id", "");
-    //   formData.append("reader_file", selectedFile);
+            //setSelectedHcp(res.data.response.data);
+          })
+          .catch((err) => {
+            loader("hide");
+            toast.error("Somwthing went wrong");
+          });
+      } else {
+        toast.warning(status[0]);
+      }
 
-    //   console.log(formData);
+      //  setIsOpen(false);
+    } else {
+      let formData = new FormData();
+      let user_id = localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
+      formData.append("smart_list_id", "");
+      formData.append("reader_file", selectedFile);
 
-    //   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //   if (selectedFile) {
-    //     loader("show");
-    //     await axios
-    //       .post(`distributes/update_reader_list`, formData)
-    //       .then((res) => {
-    //         if (res.data.status_code === 200) {
-    //           res.data.response.data.map((data) => {
-    //             setReadersNewlyAdded((oldArray) => [...oldArray, data]);
-    //           });
-    //           setIsOpenAdd(false);
-    //           setActiveManual("active");
-    //           setActiveExcel("");
-    //           setSelectedFile(null);
-    //           loader("hide");
-    //           toast.success("user added successfully");
-    //         } else {
-    //           toast.warning(res.data.message);
-    //           loader("hide");
-    //         }
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //     setIsOpen(false);
-    //   } else {
-    //     toast.warning("Please add a excel file");
-    //   }
-    // }
+      console.log(formData);
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      if (selectedFile) {
+        loader("show");
+        await axios
+          .post(`distributes/update_reader_list`, formData)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              res.data.response.data.map((data) => {
+                setReadersNewlyAdded((oldArray) => [...oldArray, data]);
+              });
+              setIsOpenAdd(false);
+              setActiveManual("active");
+              setActiveExcel("");
+              setSelectedFile(null);
+              loader("hide");
+              toast.success("user added successfully");
+            } else {
+              toast.warning(res.data.message);
+              loader("hide");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        setIsOpen(false);
+      } else {
+        toast.warning("Please add a excel file");
+      }
+    }
   };
 
   const editButtonClicked = () => {
