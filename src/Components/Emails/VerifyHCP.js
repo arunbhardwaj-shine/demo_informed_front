@@ -84,7 +84,7 @@ const VerifyHCP = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      optIRT: "",
+      optIrt: "",
       role: "",
     },
   ]);
@@ -257,7 +257,7 @@ const VerifyHCP = (props) => {
         country: "",
         countryIndex: "",
         role: "",
-        optIRT: "",
+        optIrt: "",
       },
     ]);
     setActiveManual("active");
@@ -399,14 +399,14 @@ const VerifyHCP = (props) => {
   const onIRTChange = (e, i) => {
     if (e == "") {
       const list = [...hpc];
-      list[i].optIRT = "";
+      list[i].optIrt = "";
       list[i].role = "";
       setHpc(list);
     } else {
       const value = e?.value;
       const list = [...hpc];
-      const name = hpc[i].optIRT;
-      list[i].optIRT = value;
+      const name = hpc[i].optIrt;
+      list[i].optIrt = value;
       list[i].role = "";
       setHpc(list);
     }
@@ -530,7 +530,7 @@ const VerifyHCP = (props) => {
             siteNumber: data?.siteNumber ? data.siteNumber : "",
             siteName: data?.siteName ? data.siteName : "",
             investigator_type: data?.role,
-            siteIrt: data?.optIRT == "yes" ? 1 : 0,
+            siteIrt: data?.optIrt == "yes" ? 1 : 0,
           };
         } else {
           return {
@@ -657,7 +657,7 @@ const VerifyHCP = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          optIRT: "",
+          optIrt: "",
           role: "",
         },
       ]);
@@ -1434,7 +1434,7 @@ const VerifyHCP = (props) => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIRT}
+                                        defaultValue={val?.optIrt}
                                         placeholder="Select IRT"
                                       />
                                     </div>
@@ -1442,7 +1442,7 @@ const VerifyHCP = (props) => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Role</label>
-                                      {val?.optIRT == "yes" ? (
+                                      {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
