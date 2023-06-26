@@ -2664,134 +2664,130 @@ const CreateEmail = (props) => {
                                   ) : null}
                                 </div>
                               </div>
-                              {console.log("role-->", val?.role)}
 
-                              {
-                                localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                  <>
-                                    {" "}
-                                    <div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label for="">IRT</label>
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT</label>
 
+                                      <Select
+                                        options={optIRT}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onIRTChange(event, i)
+                                        }
+                                        defaultValue={val?.optIRT}
+                                        placeholder="Select IRT"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Role</label>
+                                      {val.optIRT == "yes" ? (
                                         <Select
-                                          options={optIRT}
+                                          options={irtRole}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                           onChange={(event) =>
-                                            onIRTChange(event, i)
+                                            onRoleChange(event, i, "role")
                                           }
-                                          defaultValue={val?.optIRT}
-                                          placeholder="Select IRT"
+                                          value={
+                                            irtRole.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : irtRole[
+                                                  irtRole.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
                                         />
-                                      </div>
+                                      ) : (
+                                        <Select
+                                          options={role}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i, "irtRole")
+                                          }
+                                          value={
+                                            role.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : role[
+                                                  role.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      )}
                                     </div>
-                                    <div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label for="">Role</label>
-                                        {val.optIRT == "yes" ? (
-                                          <Select
-                                            options={irtRole}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                            onChange={(event) =>
-                                              onRoleChange(event, i, "role")
-                                            }
-                                            value={
-                                              irtRole.findIndex(
-                                                (el) => el.value == val?.role
-                                              ) == -1
-                                                ? ""
-                                                : irtRole[
-                                                    irtRole.findIndex(
-                                                      (el) =>
-                                                        el.value == val?.role
-                                                    )
-                                                  ]
-                                            }
-                                            isClearable
-                                            placeholder="Select Role"
-                                          />
-                                        ) : (
-                                          <Select
-                                            options={role}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                            onChange={(event) =>
-                                              onRoleChange(event, i, "irtRole")
-                                            }
-                                            value={
-                                              role.findIndex(
-                                                (el) => el.value == val?.role
-                                              ) == -1
-                                                ? ""
-                                                : role[
-                                                    role.findIndex(
-                                                      (el) =>
-                                                        el.value == val?.role
-                                                    )
-                                                  ]
-                                            }
-                                            isClearable
-                                            placeholder="Select Role"
-                                          />
-                                        )}
-                                      </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label htmlFor="">Contact Type</label>
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          hpc[i].contact_type != "" &&
+                                          hpc[i].contact_type != "undefined"
+                                            ? hpc[i].contact_type
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onContactTypeChange(event, i)
+                                        }
+                                      >
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          HCP
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </DropdownButton>
                                     </div>
-                                  </>
-                                ) : null
-                                //  (
-                                //   <>
-                                //     {" "}
-                                //     <div className="col-12 col-md-6">
-                                //       <div className="form-group">
-                                //         <label htmlFor="">Contact Type</label>
-                                //         <DropdownButton
-                                //           className="dropdown-basic-button split-button-dropup"
-                                //           title={
-                                //             hpc[i].contact_type != "" &&
-                                //             hpc[i].contact_type != "undefined"
-                                //               ? hpc[i].contact_type
-                                //               : "Select Type"
-                                //           }
-                                //           onSelect={(event) =>
-                                //             onContactTypeChange(event, i)
-                                //           }
-                                //         >
-                                //           <Dropdown.Item
-                                //             eventKey="HCP"
-                                //             className={
-                                //               hpc[i].contact_type == "HCP"
-                                //                 ? "active"
-                                //                 : ""
-                                //             }
-                                //           >
-                                //             HCP
-                                //           </Dropdown.Item>
-                                //           <Dropdown.Item
-                                //             eventKey="Staff"
-                                //             className={
-                                //               hpc[i].contact_type == "Staff"
-                                //                 ? "active"
-                                //                 : ""
-                                //             }
-                                //           >
-                                //             Staff
-                                //           </Dropdown.Item>
-                                //           <Dropdown.Item
-                                //             eventKey="Test Users"
-                                //             className={
-                                //               hpc[i].contact_type == "Test Users"
-                                //                 ? "active"
-                                //                 : ""
-                                //             }
-                                //           >
-                                //             Test Users
-                                //           </Dropdown.Item>
-                                //         </DropdownButton>
-                                //       </div>
-                                //     </div>
-                                //   </>
-                                // )
-                              }
+                                  </div>
+                                </>
+                              )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
