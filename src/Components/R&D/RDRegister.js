@@ -574,10 +574,7 @@ const RDRegister = () => {
                       <span class="checkmark"></span>
                     </div>
                     <label for="rdChecheckbox">
-                      {" "}
-                      I also consent to receive invitations to participate in
-                      study related surveys and other potential interactions
-                      through Docintel
+                      I also consent to: receive invitations to participate in surveys and other potentialengagement through Docintel, which are study related.
                     </label>
                     {error?.rdChecheckbox ? (
                       <div className="login-validation">

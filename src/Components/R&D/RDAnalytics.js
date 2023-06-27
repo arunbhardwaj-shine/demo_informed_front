@@ -1,5 +1,9 @@
-import React from 'react'
+import React ,{useEffect} from 'react'
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap'
+import {getData} from "../../axios/apiInstanceHelper"
+import { ENDPOINT } from '../../axios/apiConfig';
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 
 const RDAnalytics = () => {
   const [show, setShow] = React.useState("");
@@ -30,6 +34,62 @@ const RDAnalytics = () => {
       pages_viewer: "103",
     },
   ]
+  const options = {
+    chart: {
+      type: 'column'
+  },
+  title: {
+      text: 'UEFA CL most assists by season'
+  },
+  xAxis: {
+      categories: ['2021/22', '2020/21', '2019/20', '2018/19', '2017/18']
+  },
+  yAxis: {
+      min: 0,
+      title: {
+          text: 'Assists'
+      }
+  },
+  tooltip: {
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+      shared: true
+  },
+  plotOptions: {
+      column: {
+          stacking: 'percent'
+      }
+  },
+  series: [{
+      name: 'Kevin De Bruyne',
+      data: [4, 4, 2, 4, 4]
+  }, {
+      name: 'Joshua Kimmich',
+      data: [0, 4, 3, 2, 3]
+  }, {
+      name: 'Sadio Mané',
+      data: [1, 2, 2, 1, 2]
+  }]
+
+
+
+
+
+
+
+
+   
+  }
+  const initialFun = async() =>{
+    try{
+      const result =  await getData(ENDPOINT.SITEREGISTER)
+      console.log("- im herer",result)
+    }catch(err){
+      console.log("-err",err)
+    }
+  }
+  useEffect(()=>{
+    initialFun()
+  },[])
   return (
     <>
     <Col className="right-sidebar col">
@@ -112,7 +172,15 @@ const RDAnalytics = () => {
                                       </label>
                                     </div>
                                   </div>
-                                <img className="graph-chart" src={path_image + "graph-chart.png"} alt="" />
+                                  <HighchartsReact
+                                    highcharts={Highcharts}
+                                    options={options}
+                                  />
+                                                              
+                                {/* <img className="graph-chart" src={path_image + "graph-chart.png"} alt="" /> */}
+                            
+                            
+                            
                                </div>
                                <div className='rd-box-export'>
                                 <img src={path_image + "arrow-export.svg"} alt="" />
