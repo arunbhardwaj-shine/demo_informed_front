@@ -88,7 +88,6 @@ const SelectSmartListUsers = (props) => {
     // removedHcp
     if (old_object?.removedHcp) {
       if (old_object.removedHcp.length > 0) {
-        console.log(old_object.removedHcp);
         setRemovedReaders(old_object.removedHcp);
       }
     } else {
@@ -118,7 +117,6 @@ const SelectSmartListUsers = (props) => {
       axios
         .post(`distributes/get_reders_list`, body)
         .then((res) => {
-          // console.log(removedReaders)
           if (old_object?.removedHcp) {
             if (old_object.removedHcp.length > 0) {
               var removedUsers = old_object.removedHcp;
@@ -128,6 +126,7 @@ const SelectSmartListUsers = (props) => {
                   return objFromA.profile_id === objFromB.profile_id;
                 });
               });
+
               setReaders(pendingUsers);
             } else {
               setReaders(res.data.response.data);
@@ -148,6 +147,7 @@ const SelectSmartListUsers = (props) => {
                   return objFromA.profile_id === objFromB.profile_id;
                 });
               });
+
               setReaders(pendingUsers);
             } else {
               setReaders(res.data.response.data);
@@ -210,7 +210,7 @@ const SelectSmartListUsers = (props) => {
             setTotalData(res.data.response.data);
           }
           // setCountryall(res.data.response.data.country);
-          //console.log(countryall)
+
           // setCounter(counter + 1);
         })
         .catch((err) => {
@@ -268,7 +268,6 @@ const SelectSmartListUsers = (props) => {
       status: 2,
     };
 
-    // console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -296,7 +295,6 @@ const SelectSmartListUsers = (props) => {
   };
 
   const nextClicked = () => {
-    console.log(removedReaders);
     navigate("/verifyMAIL", {
       // data: data,
       // smartListName: smartListName,
@@ -512,7 +510,6 @@ const SelectSmartListUsers = (props) => {
       }
     }
     setUpdate(update + 1);
-    // console.log(old_object);
   };
 
   const handleInputChange = (event, selected) => {
@@ -531,11 +528,9 @@ const SelectSmartListUsers = (props) => {
     readersRemoved.splice(i, 1);
     setRemovedReaders(readersRemoved);
     setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
-    // console.log(readersNewlyAdded);
+
     //setReaders((oldArray) => [reader, ...oldArray]);
     setReRender(reRender + 1);
-
-    // console.log(readers);
   };
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
@@ -638,9 +633,14 @@ const SelectSmartListUsers = (props) => {
       const country_edit = document.getElementById(
         "field_country" + profile_user_id
       ).value;
-      const contact_type_edit = document.getElementById(
-        "field_contact_type" + profile_user_id
-      ).value;
+      {
+      }
+
+      const contact_type_edit =
+        localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+          ? document.getElementById("field_contact_type" + profile_user_id)
+              .value
+          : "";
 
       const arr = [];
       arr.push({
@@ -697,9 +697,12 @@ const SelectSmartListUsers = (props) => {
         const edit_index = document.getElementById(
           "field_index" + data.profile_user_id
         ).value;
-        const contact_type_edit = document.getElementById(
-          "field_contact_type" + data.profile_user_id
-        ).value;
+        const contact_type_edit =
+          localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+            ? document.getElementById(
+                "field_contact_type" + data.profile_user_id
+              ).value
+            : "";
 
         let prev_obj = readers.find(
           (x) => x.profile_user_id === data.profile_user_id
@@ -731,6 +734,7 @@ const SelectSmartListUsers = (props) => {
       setSaveOpen(false);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
+
       await axios
         .post(`distributes/update_reders_details`, body)
         .then((res) => {
@@ -778,7 +782,7 @@ const SelectSmartListUsers = (props) => {
             last_name: data.lastname,
             email: data.email,
             country: data.country,
-            // contact_type: data.contact_type,
+            contact_type: data?.contact_type ? data?.contact_type : "",
             siteNumber: data?.siteNumber ? data.siteNumber : "",
             siteName: data.siteName ? data.siteName : "",
             investigator_type: data?.role,
@@ -866,8 +870,6 @@ const SelectSmartListUsers = (props) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
-
-      console.log(formData);
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
@@ -1084,7 +1086,13 @@ const SelectSmartListUsers = (props) => {
                         <th scope="col">Bounced</th>
                         <th scope="col">Country</th>
                         <th scope="col">Business Unit</th>
-                        <th scope="col">Contact Type</th>
+                        {localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          <th scope="col">Role</th>
+                        ) : (
+                          <th scope="col">Contact Type</th>
+                        )}
+
                         {showLessInfo == false ? (
                           <>
                             <th scope="col">Consent</th>
@@ -1103,39 +1111,63 @@ const SelectSmartListUsers = (props) => {
                             <tr className="hcps-deleted">
                               <td>
                                 <span>
-                                  {rr.first_name + " " + rr.last_name}
+                                  {rr.first_name
+                                    ? rr.first_name + " " + rr.last_name
+                                    : "N/A"}
                                 </span>
                               </td>
-                              <td>{rr.email}</td>
-                              <td>{rr.bounce}</td>
+                              <td>{rr.email ? rr.email : "N/A"}</td>
+                              <td>{rr.bounce ? rr.bounce : "N/A"}</td>
                               <td>
-                                <span>{rr.country}</span>
+                                <span>{rr.country ? rr.country : "N/A"}</span>
                               </td>
                               <td>{rr.ibu}</td>
-                              <td>{rr.contact_type}</td>
+                              {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <td>
+                                  {rr.user_type != 0 ? rr.user_type : "N/A"}
+                                </td>
+                              ) : (
+                                <td>
+                                  {rr.contact_type ? rr.contact_type : "N/A"}
+                                </td>
+                              )}
+
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.consent}</span>{" "}
+                                  <span>{rr.consent ? rr.consent : "N/A"}</span>{" "}
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.email_received}</span>
+                                  <span>
+                                    {rr.email_received
+                                      ? rr.email_received
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.email_opening}</span>
+                                  <span>
+                                    {rr.email_opening
+                                      ? rr.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.registration}</span>
+                                  <span>
+                                    {rr.registration ? rr.registration : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.last_email}</span>
+                                  <span>
+                                    {rr.last_email ? rr.last_email : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {/* <td>NA</td>
@@ -1154,7 +1186,7 @@ const SelectSmartListUsers = (props) => {
                           <td>
                             <span>NA</span>
                           </td> */}
-                              <td className="add-new-hcp" colspan="12">
+                              <td className="add-new-hcp" colSpan="12">
                                 <img
                                   src={path_image + "add-row.png"}
                                   alt="Add Row"
@@ -1193,7 +1225,7 @@ const SelectSmartListUsers = (props) => {
                     </td>
                   </tr>*/}
                       <tr className="seprator-add">
-                        <td colspan="13"></td>
+                        <td colSpan="13"></td>
                       </tr>
                       {readersNewlyAdded.map((readers, i) => {
                         return (
@@ -1215,21 +1247,25 @@ const SelectSmartListUsers = (props) => {
                             >
                               <td
                                 id={`field_name` + readers.profile_user_id}
-                                contenteditable={
+                                contentEditable={
                                   editable === 0 ? "false" : "true"
                                 }
                               >
                                 <span>
-                                  {readers.first_name + " " + readers.last_name}
+                                  {readers.first_name
+                                    ? readers.first_name +
+                                      " " +
+                                      readers.last_name
+                                    : "N/A"}
                                 </span>
                               </td>
-                              <td>{readers.email}</td>
+                              <td>{readers.email ? readers.email : "N/A"}</td>
                               <input
                                 type="hidden"
                                 id={`field_index` + readers.profile_user_id}
                                 value={i}
                               />
-                              <td>{readers.bounce}</td>
+                              <td>{readers.bounce ? readers.bounce : "N/A"}</td>
                               <td>
                                 {editable ? (
                                   <EditCountry
@@ -1240,43 +1276,72 @@ const SelectSmartListUsers = (props) => {
                                   <span>{readers.country}</span>
                                 )}
                               </td>
-                              <td>{readers.ibu}</td>
+                              <td>{readers.ibu ? readers.ibu : "N/A"}</td>
                               <td>
-                                {editable ? (
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  <span>
+                                    {readers.user_type
+                                      ? readers?.user_type
+                                      : "N/A"}
+                                  </span>
+                                ) : editable ? (
                                   <EditContactType
                                     selected_ibu={readers.contact_type}
                                     profile_user={readers.profile_user_id}
                                   ></EditContactType>
                                 ) : (
-                                  <span>{readers.contact_type}</span>
+                                  <span>
+                                    {readers.contact_type
+                                      ? readers.contact_type
+                                      : "N/A"}
+                                  </span>
                                 )}
                               </td>
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.consent}</span>{" "}
+                                  <span>
+                                    {readers.consent ? readers.consent : "N/A"}
+                                  </span>{" "}
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.email_received}</span>
+                                  <span>
+                                    {readers.email_received
+                                      ? readers.email_received
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.email_opening}</span>
+                                  <span>
+                                    {readers.email_opening
+                                      ? readers.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.registration}</span>
+                                  <span>
+                                    {readers.registration
+                                      ? readers.registration
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.last_email}</span>
+                                  <span>
+                                    {readers.last_email
+                                      ? readers.last_email
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
-                              <td className="delete_row" colspan="12">
+                              <td className="delete_row" colSpan="12">
                                 <img
                                   src={path_image + "delete.svg"}
                                   alt="Delete Row"
@@ -1307,19 +1372,21 @@ const SelectSmartListUsers = (props) => {
                             >
                               <td
                                 id={`field_name` + readers.profile_user_id}
-                                contenteditable={
+                                contentEditable={
                                   editable === 0 ? "false" : "true"
                                 }
                               >
                                 <span>
                                   {" "}
-                                  {readers.first_name +
-                                    " " +
-                                    readers.last_name}{" "}
+                                  {readers.first_name
+                                    ? readers.first_name +
+                                      " " +
+                                      readers.last_name
+                                    : "N/A"}{" "}
                                 </span>
                               </td>
                               <td id={`field_email` + readers.profile_user_id}>
-                                {readers.email}
+                                {readers.email ? readers.email : "N/A"}
                               </td>
                               <input
                                 type="hidden"
@@ -1329,7 +1396,7 @@ const SelectSmartListUsers = (props) => {
                               <td
                                 id={`field_bounced` + readers.profile_user_id}
                               >
-                                {readers.bounce}
+                                {readers.bounce ? readers.bounce : "N/A"}
                               </td>
                               <td>
                                 {editable ? (
@@ -1338,46 +1405,77 @@ const SelectSmartListUsers = (props) => {
                                     profile_user={readers.profile_user_id}
                                   ></EditCountry>
                                 ) : (
-                                  <span>{readers.country}</span>
+                                  <span>
+                                    {readers.country ? readers.country : "N/A"}
+                                  </span>
                                 )}
                               </td>
-                              <td>{readers.ibu}</td>
+                              <td>{readers.ibu ? readers.ibu : "N/A"}</td>
                               <td>
-                                {editable ? (
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  <span>
+                                    {readers.user_type != 0
+                                      ? readers?.user_type
+                                      : "N/A"}
+                                  </span>
+                                ) : editable ? (
                                   <EditContactType
                                     selected_ibu={readers.contact_type}
                                     profile_user={readers.profile_user_id}
                                   ></EditContactType>
                                 ) : (
-                                  <span>{readers.contact_type}</span>
+                                  <span>
+                                    {readers.contact_type
+                                      ? readers.contact_type
+                                      : "N/A"}
+                                  </span>
                                 )}
                               </td>
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.consent}</span>
+                                  <span>
+                                    {readers.consent ? readers.consent : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.email_received}</span>
+                                  <span>
+                                    {readers.email_received
+                                      ? readers.email_received
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.email_opening}</span>
+                                  <span>
+                                    {readers.email_opening
+                                      ? readers.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.registration}</span>
+                                  <span>
+                                    {readers.registration
+                                      ? readers.registration
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.last_email}</span>
+                                  <span>
+                                    {readers.last_email
+                                      ? readers.last_email
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
-                              <td className="delete_row" colspan="12">
+                              <td className="delete_row" colSpan="12">
                                 <img
                                   src={path_image + "delete.svg"}
                                   alt="Add Row"
@@ -1407,7 +1505,7 @@ const SelectSmartListUsers = (props) => {
         <div
           data-bs-backdrop="static"
           data-bs-keyboard="false"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-header">
