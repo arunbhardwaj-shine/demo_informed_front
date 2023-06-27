@@ -82,6 +82,7 @@ const EmailArticleSelect = (props) => {
   }, [PdfSelected]);
 
   const handleSelect = (e) => {
+    console.log("e--->", e.target.value);
     setPdfSelected(e.target.value);
   };
 
@@ -260,6 +261,7 @@ const EmailArticleSelect = (props) => {
                     >
                       Cancel
                     </button>
+                    {console.log("pdf selected--->", PdfSelected)}
                     {PdfSelected === 0 ? (
                       <button
                         ref={inputElement}
@@ -633,11 +635,9 @@ const EmailArticleSelect = (props) => {
                           </p>
                         </div>
                       </div>
-                      <div
-                        className="select-mail-option"
-                        onClick={handleSelect}
-                      >
+                      <div className="select-mail-option">
                         <input
+                          onClick={handleSelect}
                           type="radio"
                           name="radio"
                           value={13}
@@ -668,11 +668,9 @@ const EmailArticleSelect = (props) => {
                           </p>
                         </div>
                       </div>
-                      <div
-                        className="select-mail-option"
-                        onClick={handleSelect}
-                      >
+                      <div className="select-mail-option">
                         <input
+                          onClick={handleSelect}
                           type="radio"
                           name="radio"
                           value={16}
@@ -750,11 +748,9 @@ const EmailArticleSelect = (props) => {
                                 </ul>
                               </div>
                             </div>
-                            <div
-                              className="select-mail-option"
-                              onClick={handleSelect}
-                            >
+                            <div className="select-mail-option">
                               <input
+                                onClick={handleSelect}
                                 type="radio"
                                 name="radio"
                                 value={data.id}
@@ -766,6 +762,7 @@ const EmailArticleSelect = (props) => {
                               <span className="checkmark"></span>
                             </div>
                           </div>
+
                           <div className="mail-content-table">
                             <table>
                               <tbody>
