@@ -666,9 +666,12 @@ const ViewTable = (props) => {
         const edit_index = document.getElementById(
           "field_index" + data.profile_user_id
         ).value;
-        const contact_type_edit = document.getElementById(
-          "field_contact_type" + data.profile_user_id
-        ).value;
+        const contact_type_edit =
+          localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+            ? document.getElementById(
+                "field_contact_type" + data.profile_user_id
+              ).value
+            : "";
 
         let prev_obj = editList.find(
           (x) => x.profile_user_id === data.profile_user_id
@@ -1658,7 +1661,7 @@ const ViewTable = (props) => {
                   <th scope="col">Business Unit</th>
                   {localStorage.getItem("user_id") ==
                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                    <th scope="col">Role</th>
+                    <th scope="col"> Role </th>
                   ) : (
                     <th scope="col">Contact Type</th>
                   )}

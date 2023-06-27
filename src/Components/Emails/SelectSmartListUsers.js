@@ -179,7 +179,9 @@ const SelectSmartListUsers = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
+            console.log("country", res.data.response.data.country);
             let country = res.data.response.data.country;
+
             let arr = [];
             Object.entries(country).map(([index, item]) => {
               let label = item;
@@ -191,22 +193,26 @@ const SelectSmartListUsers = (props) => {
                 label: label,
               });
             });
-            let investigator_type =
-              res?.data?.response?.data?.investigator_type;
-            let newType = [];
-            Object.keys(investigator_type)?.map((item, i) => {
-              newType.push({ label: item, value: item });
-            });
-            let irt_inverstigator_type =
-              res?.data?.response?.data?.irt_inverstigator_type;
-            let newIrtType = [];
-            Object.keys(irt_inverstigator_type)?.map((item, i) => {
-              newIrtType.push({ label: item, value: item });
-            });
 
-            setRole(newType);
-            setIrtRole(newIrtType);
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              let investigator_type =
+                res?.data?.response?.data?.investigator_type;
+              let newType = [];
+              Object.keys(investigator_type)?.map((item, i) => {
+                newType.push({ label: item, value: item });
+              });
+              let irt_inverstigator_type =
+                res?.data?.response?.data?.irt_inverstigator_type;
+              let newIrtType = [];
+              Object.keys(irt_inverstigator_type)?.map((item, i) => {
+                newIrtType.push({ label: item, value: item });
+              });
+
+              setRole(newType);
+              setIrtRole(newIrtType);
+            }
             setCountryall(arr);
+
             setTotalData(res.data.response.data);
           }
           // setCountryall(res.data.response.data.country);
@@ -1724,6 +1730,7 @@ const SelectSmartListUsers = (props) => {
                                   </div>
                                 </>
                               )}
+                              {console.log("--->", countryall)}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
