@@ -82,7 +82,8 @@ const EmailArticleSelect = (props) => {
   }, [PdfSelected]);
 
   const handleSelect = (e) => {
-    setPdfSelected(e.target.value);
+    let pdfId = e?.target?.value === PdfSelected ? 0 : e?.target?.value;
+    setPdfSelected(pdfId);
   };
 
   const cancelClicked = () => {
@@ -260,6 +261,7 @@ const EmailArticleSelect = (props) => {
                     >
                       Cancel
                     </button>
+
                     {PdfSelected === 0 ? (
                       <button
                         ref={inputElement}
@@ -633,11 +635,9 @@ const EmailArticleSelect = (props) => {
                           </p>
                         </div>
                       </div>
-                      <div
-                        className="select-mail-option"
-                        onClick={handleSelect}
-                      >
+                      <div className="select-mail-option">
                         <input
+                          onClick={handleSelect}
                           type="radio"
                           name="radio"
                           value={13}
@@ -668,11 +668,9 @@ const EmailArticleSelect = (props) => {
                           </p>
                         </div>
                       </div>
-                      <div
-                        className="select-mail-option"
-                        onClick={handleSelect}
-                      >
+                      <div className="select-mail-option">
                         <input
+                          onClick={handleSelect}
                           type="radio"
                           name="radio"
                           value={16}
@@ -750,22 +748,23 @@ const EmailArticleSelect = (props) => {
                                 </ul>
                               </div>
                             </div>
-                            <div
-                              className="select-mail-option"
-                              onClick={handleSelect}
-                            >
+                            <div className="select-mail-option">
                               <input
+                                onClick={handleSelect}
                                 type="radio"
                                 name="radio"
                                 value={data.id}
                                 checked={
                                   typeof PdfSelected !== "undefined" &&
                                   PdfSelected == data.id
+                                    ? true
+                                    : false
                                 }
                               />
                               <span className="checkmark"></span>
                             </div>
                           </div>
+
                           <div className="mail-content-table">
                             <table>
                               <tbody>
