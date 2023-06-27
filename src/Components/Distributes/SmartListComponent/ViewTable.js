@@ -866,9 +866,11 @@ const ViewTable = (props) => {
       const country_edit = document.getElementById(
         "field_country" + profile_user_id
       ).value;
-      const contact_type_edit = document.getElementById(
-        "field_contact_type" + profile_user_id
-      ).value;
+      const contact_type_edit =
+        localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+          ? document.getElementById("field_contact_type" + profile_user_id)
+              .value
+          : "";
 
       var arr = [];
       arr.push({
@@ -1654,7 +1656,13 @@ const ViewTable = (props) => {
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
                   <th scope="col">Business Unit</th>
-                  <th scope="col">Contact Type</th>
+                  {localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    <th scope="col">Role</th>
+                  ) : (
+                    <th scope="col">Contact Type</th>
+                  )}
+
                   {showLessInfo == false ? (
                     <>
                       {" "}
@@ -1718,7 +1726,7 @@ const ViewTable = (props) => {
                       id={`field_index` + item.profile_user_id}
                       value={index}
                     />
-                    <td>{item.bounce}</td>
+                    <td>{item.bounce ? item.bounce : "N/A"}</td>
                     <td>
                       {editable ? (
                         <EditCountry
@@ -1726,43 +1734,56 @@ const ViewTable = (props) => {
                           profile_user={item.profile_user_id}
                         ></EditCountry>
                       ) : (
-                        <span>{item.country}</span>
+                        <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    <td>{item.ibu}</td>
+                    <td>{item.ibu ? item.ibu : "N/A"}</td>
                     <td>
-                      {editable ? (
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <span>
+                          {item.user_type != 0 ? item.user_type : "N/A"}
+                        </span>
+                      ) : editable ? (
                         <EditContactType
                           selected_ibu={item.contact_type}
                           profile_user={item.profile_user_id}
                         ></EditContactType>
                       ) : (
-                        <span>{item.contact_type}</span>
+                        <span>
+                          {item.contact_type ? item.contact_type : "N/A"}
+                        </span>
                       )}
                     </td>
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.consent}</span>{" "}
+                        <span>{item.consent ? item.consent : "N/A"}</span>{" "}
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_received}</span>
+                        <span>
+                          {item.email_received ? item.email_received : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_opening}</span>
+                        <span>
+                          {item.email_opening ? item.email_opening : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.registration}</span>
+                        <span>
+                          {item.registration ? item.registration : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.last_email}</span>
+                        <span>{item.last_email ? item.last_email : "N/A"}</span>
                       </td>
                     ) : null}
                     <td className="delete_row" colspan="12">
@@ -1822,44 +1843,57 @@ const ViewTable = (props) => {
                           profile_user={item.profile_user_id}
                         ></EditCountry>
                       ) : (
-                        <span>{item.country}</span>
+                        <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
                     <td id="field_business_unit">{item.ibu}</td>
                     <td id="field_interest">
-                      {editable ? (
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <span>
+                          {item.user_type != 0 ? item.user_type : "N/A"}
+                        </span>
+                      ) : editable ? (
                         <EditContactType
                           selected_ibu={item.contact_type}
                           profile_user={item.profile_user_id}
                         ></EditContactType>
                       ) : (
-                        <span>{item.contact_type}</span>
+                        <span>
+                          {item.contact_type ? item.contact_type : "N/A"}
+                        </span>
                       )}
                     </td>
 
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.consent}</span>{" "}
+                        <span>{item.consent ? item.consent : "N/A"}</span>{" "}
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_received}</span>
+                        <span>
+                          {item.email_received ? item.email_received : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_opening}</span>
+                        <span>
+                          {item.email_opening ? item.email_opening : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.registration}</span>
+                        <span>
+                          {item.registration ? item.registration : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.last_email}</span>
+                        <span>{item.last_email ? item.last_email : "N/A"}</span>
                       </td>
                     ) : null}
 
@@ -1921,7 +1955,7 @@ const ViewTable = (props) => {
                 setOpenDeleteConfirmation(true);
               }}
             >
-              Yes Please!
+              Yes please!
             </button>
 
             <button
