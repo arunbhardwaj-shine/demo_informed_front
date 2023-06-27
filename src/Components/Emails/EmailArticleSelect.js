@@ -82,8 +82,8 @@ const EmailArticleSelect = (props) => {
   }, [PdfSelected]);
 
   const handleSelect = (e) => {
-    console.log("e--->", e.target.value);
-    setPdfSelected(e.target.value);
+    let pdfId = e?.target?.value === PdfSelected ? 0 : e?.target?.value;
+    setPdfSelected(pdfId);
   };
 
   const cancelClicked = () => {
@@ -261,7 +261,7 @@ const EmailArticleSelect = (props) => {
                     >
                       Cancel
                     </button>
-                    {console.log("pdf selected--->", PdfSelected)}
+
                     {PdfSelected === 0 ? (
                       <button
                         ref={inputElement}
@@ -757,6 +757,8 @@ const EmailArticleSelect = (props) => {
                                 checked={
                                   typeof PdfSelected !== "undefined" &&
                                   PdfSelected == data.id
+                                    ? true
+                                    : false
                                 }
                               />
                               <span className="checkmark"></span>
