@@ -247,23 +247,23 @@ const CreateEmail = (props) => {
                 label: label,
               });
             });
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              let investigator_type =
+                res?.data?.response?.data?.investigator_type;
+              let newType = [];
+              Object.keys(investigator_type)?.map((item, i) => {
+                newType.push({ label: item, value: item });
+              });
 
-            let investigator_type =
-              res?.data?.response?.data?.investigator_type;
-            let newType = [];
-            Object.keys(investigator_type)?.map((item, i) => {
-              newType.push({ label: item, value: item });
-            });
-
-            setRole(newType);
-
-            let irt_inverstigator_type =
-              res?.data?.response?.data?.irt_inverstigator_type;
-            let newIrtType = [];
-            Object.keys(irt_inverstigator_type)?.map((item, i) => {
-              newIrtType.push({ label: item, value: item });
-            });
-            setIrtRole(newIrtType);
+              let irt_inverstigator_type =
+                res?.data?.response?.data?.irt_inverstigator_type;
+              let newIrtType = [];
+              Object.keys(irt_inverstigator_type)?.map((item, i) => {
+                newIrtType.push({ label: item, value: item });
+              });
+              setRole(newType);
+              setIrtRole(newIrtType);
+            }
             setCountryall(arr);
             setTotalData(res.data.response.data);
           }
