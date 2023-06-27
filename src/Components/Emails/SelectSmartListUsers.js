@@ -556,6 +556,8 @@ const SelectSmartListUsers = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
+          optIrt: "",
+          role: "",
         },
       ]);
     } else {
