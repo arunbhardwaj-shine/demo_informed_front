@@ -782,7 +782,7 @@ const CreateEmail = (props) => {
     });
 
     if (validator.allValid()) {
-      console.log(PdfSelected);
+      // console.log(PdfSelected);
       props.getEmailData({
         //uniqueId: uniqueId,
         status: getIsApprovedStatus,
