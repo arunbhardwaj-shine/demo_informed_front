@@ -2248,9 +2248,30 @@ const CreateEmail = (props) => {
                               <p className="send-hcp-box-title">
                                 Email | <span>{data.email}</span>
                               </p>
-                              <p className="send-hcp-box-title">
-                                Contact Type | <span>{data.contact_type}</span>
-                              </p>
+
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <p className="send-hcp-box-title">
+                                  {" "}
+                                  Role |{" "}
+                                  <span>
+                                    {data?.user_type != 0
+                                      ? data?.user_type
+                                      : "N/A"}
+                                  </span>
+                                </p>
+                              ) : (
+                                <p className="send-hcp-box-title">
+                                  {" "}
+                                  Contact Type |{" "}
+                                  <span>
+                                    {data?.contact_type
+                                      ? data?.contact_type
+                                      : "N/A"}
+                                  </span>
+                                </p>
+                              )}
+
                               <div className="remove-existing-field">
                                 <img
                                   src={path_image + "delete.svg"}
