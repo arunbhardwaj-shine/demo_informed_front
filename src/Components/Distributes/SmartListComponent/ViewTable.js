@@ -2191,6 +2191,32 @@ const ViewTable = (props) => {
                                   <hr />
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
+                                      <label for="">IRT</label>
+                                      <Select
+                                        options={siteIrtAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteIrtChange(
+                                            event,
+
+                                            i
+                                          )
+                                        }
+                                        defaultValue={
+                                          siteIrtAll[hpc[i].siteIrtIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteIrtAll[
+                                            hpc[i].siteIrtIndex
+                                          ] === "undefined"
+                                            ? "Select Site IRT"
+                                            : siteIrtAll[hpc[i].siteIrtIndex]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
                                       <label for="">Role</label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
@@ -2216,7 +2242,8 @@ const ViewTable = (props) => {
                                           isClearable
                                           // filterOption={createFilter(filterConfig)}
                                         />
-                                      ) : (
+                                      ) : siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "No" ? (
                                         <Select
                                           options={userTypeAll}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2239,7 +2266,37 @@ const ViewTable = (props) => {
                                           placeholder={"Select Role"}
                                           // filterOption={createFilter(filterConfig)}
                                         />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          placeholder={"Select Role"}
+                                        />
                                       )}
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Blind Type</label>
+                                      <Select
+                                        options={blindTypeAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onBlindTypeChange(event, i)
+                                        }
+                                        defaultValue={
+                                          blindTypeAll[hpc[i].blindTypeIndex]
+                                        }
+                                        placeholder={
+                                          typeof blindTypeAll[
+                                            hpc[i].blindTypeIndex
+                                          ] === "undefined"
+                                            ? "Select Blind Type"
+                                            : blindTypeAll[
+                                                hpc[i].blindTypeIndex
+                                              ]
+                                        }
+                                        // filterOption={createFilter(filterConfig)}
+                                      />
                                     </div>
                                   </div>
 
@@ -2272,58 +2329,6 @@ const ViewTable = (props) => {
                                     </div>
                                   </div>
 
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Blind Type</label>
-                                      <Select
-                                        options={blindTypeAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onBlindTypeChange(event, i)
-                                        }
-                                        defaultValue={
-                                          blindTypeAll[hpc[i].blindTypeIndex]
-                                        }
-                                        placeholder={
-                                          typeof blindTypeAll[
-                                            hpc[i].blindTypeIndex
-                                          ] === "undefined"
-                                            ? "Select Blind Type"
-                                            : blindTypeAll[
-                                                hpc[i].blindTypeIndex
-                                              ]
-                                        }
-                                        // filterOption={createFilter(filterConfig)}
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT</label>
-                                      <Select
-                                        options={siteIrtAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteIrtChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteIrtAll[
-                                            hpc[i].siteIrtIndex
-                                          ] === "undefined"
-                                            ? "Select Site IRT"
-                                            : siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Country</label>

@@ -2709,7 +2709,7 @@ const CreateEmail = (props) => {
                                           isClearable
                                           placeholder="Select Role"
                                         />
-                                      ) : (
+                                      ) : val.optIRT == "no" ? (
                                         <Select
                                           options={role}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2729,6 +2729,11 @@ const CreateEmail = (props) => {
                                                 ]
                                           }
                                           isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                           placeholder="Select Role"
                                         />
                                       )}
@@ -3161,7 +3166,13 @@ const CreateEmail = (props) => {
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
                       <th scope="col">Business Unit</th>
-                      <th scope="col">Contact Type</th>
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <th scope="col">Role</th>
+                      ) : (
+                        <th scope="col">Contact Type</th>
+                      )}
+
                       {showLessInfo == false ? (
                         <>
                           <th scope="col">Consent</th>
@@ -3180,35 +3191,60 @@ const CreateEmail = (props) => {
                         return (
                           <>
                             <tr key={i}>
-                              <td>{rr.first_name}</td>
-                              <td>{rr.email}</td>
-                              <td>{rr.bounce}</td>
-                              <td>{rr.country}</td>
-                              <td>{rr.ibu}</td>
-                              <td>{rr.contact_type}</td>
+                              <td>{rr?.first_name ? rr?.first_name : "N/A"}</td>
+                              <td>{rr?.email ? rr?.email : "N/A"}</td>
+                              <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
+                              <td>{rr?.country ? rr?.country : "N/A"}</td>
+                              <td>{rr?.ibu ? rr?.ibu : "N/A"}</td>
+                              <td>
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr?.user_type != 0
+                                    ? rr?.user_type
+                                    : "N/A"
+                                  : rr?.contact_type
+                                  ? rr?.contact_type
+                                  : "N/A"}
+                              </td>
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.consent}</span>{" "}
+                                  <span>
+                                    {rr?.consent ? rr?.consent : "N/A"}
+                                  </span>{" "}
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.email_received}</span>
+                                  <span>
+                                    {rr?.email_received
+                                      ? rr?.email_recieved
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.email_opening}</span>
+                                  <span>
+                                    {rr?.email_opening
+                                      ? rr?.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.registration}</span>
+                                  <span>
+                                    {rr?.registration
+                                      ? rr?.registration
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.last_email}</span>
+                                  <span>
+                                    {rr?.last_email ? rr?.last_email : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               <td className="add-new-hcp" colspan="12"></td>
