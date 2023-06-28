@@ -1652,7 +1652,7 @@ const SelectSmartListUsers = (props) => {
                                           isClearable
                                           placeholder="Select Role"
                                         />
-                                      ) : (
+                                      ) : val?.optIrt == "no" ? (
                                         <Select
                                           options={role}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -1672,6 +1672,11 @@ const SelectSmartListUsers = (props) => {
                                                 ]
                                           }
                                           isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                           placeholder="Select Role"
                                         />
                                       )}
