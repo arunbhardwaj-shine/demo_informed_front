@@ -1117,8 +1117,8 @@ const SelectSmartListUsers = (props) => {
                             <tr className="hcps-deleted">
                               <td>
                                 <span>
-                                  {rr.first_name
-                                    ? rr.first_name + " " + rr.last_name
+                                  {rr?.first_name
+                                    ? rr?.first_name + " " + rr?.last_name
                                     : "N/A"}
                                 </span>
                               </td>
@@ -1127,11 +1127,11 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 <span>{rr.country ? rr.country : "N/A"}</span>
                               </td>
-                              <td>{rr.ibu}</td>
+                              <td>{rr?.ibu ? rr?.ibu : "N/A"}</td>
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <td>
-                                  {rr.user_type != 0 ? rr.user_type : "N/A"}
+                                  {rr?.user_type != 0 ? rr.user_type : "N/A"}
                                 </td>
                               ) : (
                                 <td>
@@ -1287,7 +1287,7 @@ const SelectSmartListUsers = (props) => {
                                 {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <span>
-                                    {readers.user_type
+                                    {readers.user_type != 0
                                       ? readers?.user_type
                                       : "N/A"}
                                   </span>
