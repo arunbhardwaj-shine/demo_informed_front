@@ -1064,7 +1064,15 @@ const VerifyHCP = (props) => {
                           <th scope="col">Bounced</th>
                           <th scope="col">Country</th>
                           <th scope="col">Business Unit</th>
-                          <th scope="col">Contact Type</th>
+
+                          <th scope="col">
+                            {localStorage.getItem("user_id") ===
+                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              <th scope="col">Role</th>
+                            ) : (
+                              <th scope="col">Contact Type</th>
+                            )}
+                          </th>
                           <th scope="col">Consent</th>
                           <th scope="col">Email Received</th>
                           <th scope="col">Openings</th>
@@ -1083,7 +1091,16 @@ const VerifyHCP = (props) => {
                                 <td>{users.bounce}</td>
                                 <td>{users.country}</td>
                                 <td>{users.ibu}</td>
-                                <td>{users.contact_type}</td>
+                                <td>
+                                  {localStorage.getItem("user_id") ===
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? users?.user_type
+                                      ? users?.user_type
+                                      : "N/A"
+                                    : users.contact_type
+                                    ? users?.contact_type
+                                    : "N/A"}
+                                </td>
                                 <td>
                                   <span>{users.consent}</span>
                                 </td>
@@ -1230,7 +1247,12 @@ const VerifyHCP = (props) => {
                           <th scope="col">Bounced</th>
                           <th scope="col">Country</th>
                           <th scope="col">Business Unit</th>
-                          <th scope="col">Interest</th>
+                          {localStorage.getItem("user_id") ===
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                            <th scope="col">Role</th>
+                          ) : (
+                            <th scope="col">Interest</th>
+                          )}
                           <th scope="col">Consent</th>
                           <th scope="col">Email Received</th>
                           <th scope="col">Openings</th>
@@ -1256,7 +1278,10 @@ const VerifyHCP = (props) => {
                                     data.company,
                                     data.country,
                                     data.first_name + " " + data.last_name,
-                                    data.contact_type
+                                    localStorage.getItem("user_id") ===
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? data?.user_type
+                                      : data.contact_type
                                   )
                                 }
                               >
@@ -1266,10 +1291,10 @@ const VerifyHCP = (props) => {
                                     editable === 0 ? "false" : "true"
                                   }
                                 >
-                                  <span>{data.name || data.first_name}</span>
+                                  <span>{data?.name || data?.first_name}</span>
                                 </td>
                                 <td id={`field_email` + data.profile_user_id}>
-                                  {data.email}
+                                  {data?.email ? data?.email : "N/A"}
                                 </td>
                                 <input
                                   type="hidden"
@@ -1277,7 +1302,7 @@ const VerifyHCP = (props) => {
                                   value={index}
                                 />
                                 <td id={`field_bounced` + data.profile_user_id}>
-                                  {data.bounce}
+                                  {data?.bounce ? data?.bounce : "N/A"}
                                 </td>
                                 <td>
                                   {editable ? (
@@ -1286,34 +1311,61 @@ const VerifyHCP = (props) => {
                                       profile_user={data.profile_user_id}
                                     ></EditCountry>
                                   ) : (
-                                    <span>{data.country}</span>
+                                    <span>
+                                      {data?.country ? data?.country : "N/A"}
+                                    </span>
                                   )}
                                 </td>
-                                <td>{data.ibu}</td>
+                                <td>{data?.ibu ? data?.ibu : "N/A"}</td>
                                 <td>
-                                  {editable ? (
+                                  {localStorage.getItem("user_id") ===
+                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    data?.user_type!=0?data?.user_type:"N/A"
+                                  ) : editable ? (
                                     <EditContactType
                                       selected_ibu={data.contact_type}
                                       profile_user={data.profile_user_id}
                                     ></EditContactType>
                                   ) : (
-                                    <span>{data.contact_type}</span>
+                                    <span>
+                                      {data?.contact_type
+                                        ? data?.contact_type
+                                        : "N/A"}
+                                    </span>
                                   )}
                                 </td>
                                 <td>
-                                  <span>{data.consent}</span>
+                                  <span>
+                                    {data?.consent ? data?.consent : "N/A"}
+                                  </span>
                                 </td>
                                 <td>
-                                  <span>{data.email_received}</span>
+                                  <span>
+                                    {data?.email_received
+                                      ? data?.email_received
+                                      : "N/A"}
+                                  </span>
                                 </td>
                                 <td>
-                                  <span>{data.email_opening}</span>
+                                  <span>
+                                    {data?.email_opening
+                                      ? data?.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                                 <td>
-                                  <span>{data.registration}</span>
+                                  <span>
+                                    {data?.registration
+                                      ? data?.registration
+                                      : "N/A"}
+                                  </span>
                                 </td>
                                 <td>
-                                  <span>{data.last_email}</span>
+                                  <span>
+                                    {data?.last_email
+                                      ? data?.last_email
+                                      : "N/A"}
+                                  </span>
                                 </td>
                                 <td className="delete_row" colSpan="12">
                                   <img
@@ -1466,7 +1518,7 @@ const VerifyHCP = (props) => {
                                           isClearable
                                           placeholder="Select Role"
                                         />
-                                      ) : (
+                                      ) : val?.optIrt == "no" ? (
                                         <Select
                                           options={role}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -1486,6 +1538,11 @@ const VerifyHCP = (props) => {
                                                 ]
                                           }
                                           isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                           placeholder="Select Role"
                                         />
                                       )}
