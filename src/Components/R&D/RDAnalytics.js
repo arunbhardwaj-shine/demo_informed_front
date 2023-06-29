@@ -1,9 +1,23 @@
 import React from 'react'
-import { Accordion, Button, Col, Row, Table } from 'react-bootstrap'
-
+import { Accordion, Button, Col, Row, Table, OverlayTrigger, Tooltip} from 'react-bootstrap'
+function LinkWithTooltip({ id, children, href, tooltip }) {
+  return (
+    <OverlayTrigger
+      overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+      placement="top"
+      delayShow={300}
+      delayHide={150}
+    >
+      <a href={href}>{children}</a>
+    </OverlayTrigger>
+  );
+}
 const RDAnalytics = () => {
   const [show, setShow] = React.useState("");
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  // <Tooltip id="tooltip">
+  //   <strong>Holy guacamole!</strong> Check this info.
+  // </Tooltip>
    const data = [
     {
       article_number:"1",
@@ -147,7 +161,7 @@ const RDAnalytics = () => {
                         </div>
                       </Col>
                     </Row>
-                </Col>
+                  </Col>
                 <Col md={3}>
                   <div className='rd-analytics-box rd-content'>
                       <p className='rd-box-small-title'>Content</p>
@@ -190,7 +204,32 @@ const RDAnalytics = () => {
                                   <span>Click on the graph to see more details</span>
                               </div>
                               <img className="pie-chart" src={path_image + "pie-chart2.png"} alt="" />
-                             
+                               {/* <OverlayTrigger 
+                                 trigger="hover" 
+                                 placement="top" 
+                                 overlay={popover} >
+                                  <Button variant="danger">Hover over me</Button>
+                                <img src={path_image + "tooltip-img.svg"} alt=""/>
+                              </OverlayTrigger> */}
+                              {/* <p className="muted" style={{ marginBottom: 0 }}>
+                                Tight pants next level keffiyeh{' '}
+                              <LinkWithTooltip
+                                tooltip={
+                                  <span>
+                                    Another <strong>tooltip</strong>
+                                  </span>
+                                }
+                                href="#"
+                                id="tooltip-2"
+                              >
+                                have a
+                              </LinkWithTooltip>
+                               freegan cred raw denim single-origin coffee viral.
+                              </p> */}
+                              
+                              {/* <OverlayTrigger placement="top" overlay={Tooltip}>
+                                <Button>Holy guacamole!</Button>
+                              </OverlayTrigger> */}
                           </div>
                           <div className='rd-box-export'>
                             <img src={path_image + "arrow-export.svg"} alt="" />
@@ -967,7 +1006,7 @@ const RDAnalytics = () => {
                             <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z" fill="#97B6CF"/>
                               <path d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z" fill="#97B6CF"/>
-                              </svg>
+                            </svg>
                           </Button>        
                       </div>
                     </div>
@@ -1037,22 +1076,21 @@ const RDAnalytics = () => {
                             <div className="fold-content">
                               <p>Completed Contents | <span>2</span></p>
                               <span>Click on the content for more details</span> 
-                                    <div className='d-flex align-items-start engagement-sec'>
-                                      <div className='content-image'>
-                                        <img src={path_image + "article-content.png"} alt="" />
-                                      </div>
-                                      <div className='content-detail'>
-                                        <h6>Lorem sollicitudin faucibus eu molestie sollicitudin gravi ulvinar ultricies neque praesent maurircu aliquam ondi ment zcsum nudolor nibhcudolor ..</h6>
-                                        <p>Lorem sollicitudin faucibus eu molestie sollicitudin gravida</p>
-                                        <div className='page-count'>
-                                          <div className='time'>
-                                            Pages <span>7</span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                       <div class="pages-viewer">103 <img src="componentAssets/images/viewer.svg" alt=""/></div>
+                              <div className='d-flex align-items-start engagement-sec'>
+                                <div className='content-image'>
+                                  <img src={path_image + "article-content.png"} alt="" />
+                                </div>
+                                <div className='content-detail'>
+                                  <h6>Lorem sollicitudin faucibus eu molestie sollicitudin gravi ulvinar ultricies neque praesent maurircu aliquam ondi ment zcsum nudolor nibhcudolor ..</h6>
+                                  <p>Lorem sollicitudin faucibus eu molestie sollicitudin gravida</p>
+                                  <div className='page-count'>
+                                    <div className='time'>
+                                      Pages <span>7</span>
                                     </div>
-    
+                                  </div>
+                                </div>
+                                  <div class="pages-viewer">103 <img src="componentAssets/images/viewer.svg" alt=""/></div>
+                              </div>
                             </div>
                           </td>
                         </tr>
