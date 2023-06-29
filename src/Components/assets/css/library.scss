@@ -494,7 +494,7 @@
       color: $dark-blue;
       flex: 0 0 154px;
       > span {
-        color: #d61975;
+        color: $pink;
       }
     }
     .form-control {
@@ -5639,7 +5639,7 @@ svg.pencil_icon {
   min-width: 150px;
 }
 .header-forgot .modal-content p {
-  color: #d61975;
+  color: $pink;
   font-size: 14px;
   margin: 0;
 }
@@ -5682,7 +5682,7 @@ svg.pencil_icon {
   background-size: 225px;
 }
 // .modal-body .form-group label span{
-//   color:#d61975;
+//   color:$pink;
 // }
 .form-group.primary_phone
   .dropdown-basic-button.split-button-dropup
