@@ -434,6 +434,13 @@
           padding-top: 12px;
           margin: 0px 0px;
           gap: 0px;
+          &.clone{
+            .footer-btn {
+            padding: 7px 5px;
+            font-size: 12px;
+            min-width: 24%;
+            }
+          }
           @include flex-center;
           .footer-btn {
             text-transform: none;
@@ -6610,7 +6617,7 @@ svg.pencil_icon {
   .apply-filter {
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 0;
+    margin-top: 15px;
   }
   .custom-change .library-content-box-layuot {
     padding: 0 10px;
@@ -6674,6 +6681,10 @@ svg.pencil_icon {
 @media only screen and (max-width: 1500px) {
   .selected-products-list.product_show .products_top_action {
     margin-top: 0px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper.clone .footer-btn {
+    padding: 7px 4px;
+    font-size: 11px;
 }
   .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
     max-width: 190px;
