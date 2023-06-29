@@ -219,9 +219,10 @@ const Header = () => {
                     window.location.pathname == "/octa-country" ||
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
+                    window.location.pathname =="/rd-analytics" ||
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
-                      : "nav-item"
+                      : "nav-item" 
                   }
                 >
                   <Link

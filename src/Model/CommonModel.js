@@ -22,6 +22,9 @@ const CommonModel = ({
   };
   useEffect(() => {
     let obj = {};
+    if(data?.length){
+      setSelectedValue(data[0]?.label)
+    }
     data?.forEach((item) => {
       if (!obj[item?.name ? item?.name : item?.label]) {
         obj[item?.name ? item?.name : item?.label] = item?.value

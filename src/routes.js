@@ -130,6 +130,7 @@ import OctalatchDeliveryRegistration from "./Components/Analytics/OctalatchDeliv
 import Webinar from "./Components/Login/Webinar";
 import BouncedEmail from "./Components/Distributes/BouncedEmail";
 import RDRegister from "./Components/R&D/RDRegister";
+import RDAnalytics from "./Components/R&D/RDAnalytics";
 import SetLayout from "./Components/CommonComponent/SetLayout";
 import PreviewArticle from "./Components/Library/PreviewArticle";
 
@@ -185,6 +186,7 @@ const Routing = () => {
           element={<DefaultLayout component={Webinar} />}
         />
         <Route path="rd-register" element={<RDRegister />} />
+        <Route path="/rd-analytics" element={<LoginLayout component={RDAnalytics} />} />
         //LoginLayout for pages after login
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
         <Route
