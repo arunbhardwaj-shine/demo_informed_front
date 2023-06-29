@@ -149,11 +149,11 @@ const LibraryContent = (props) => {
         },
         {
           key: "Russian",
-          value: "1",
+          value: "4",
         },
         {
           key: "Spanish",
-          value: "2",
+          value: "3",
         },
       ],
     },
@@ -1537,8 +1537,9 @@ const LibraryContent = (props) => {
                                 {location?.state?.data != "edit" &&
                                 deletestatus == false ? (
                                   <div className="data-main-footer-sec">
-                                    <div className={`footer-btn-wrapper ${localStorage.getItem("user_id") ==
-                                        "B7SHpAc XDXSH NXkN0rdQ==" &&
+                                    <div className={`footer-btn-wrapper ${["wW0geGtDPvig5gF 6KbJrg==","B7SHpAc XDXSH NXkN0rdQ==","z2TunmZQf3QwCsICFTLGGQ==","qDgwPdToP05Kgzc g2VjIQ==",
+                                   "UbCJcnLM9fe HsRMgX8c1A=="  
+                                  ].includes(localStorage.getItem("user_id"))&&
                                       filterObject["Content Owners"] ==
                                         "IBU Owner"?"clone":""}`}>
                                       {data?.spc_included ? (
@@ -1589,8 +1590,7 @@ const LibraryContent = (props) => {
                                       >
                                         Send in email
                                       </Link>
-                                      {localStorage.getItem("user_id") ==
-                                        "B7SHpAc XDXSH NXkN0rdQ==" &&
+                                      {["wW0geGtDPvig5gF 6KbJrg==","B7SHpAc XDXSH NXkN0rdQ==","z2TunmZQf3QwCsICFTLGGQ==","qDgwPdToP05Kgzc g2VjIQ==","UbCJcnLM9fe HsRMgX8c1A=="].includes(localStorage.getItem("user_id")) &&
                                       filterObject["Content Owners"] ==
                                         "IBU Owner" ? (
                                         <Button
