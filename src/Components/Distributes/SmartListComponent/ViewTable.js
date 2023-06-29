@@ -50,7 +50,7 @@ const ViewTable = (props) => {
   const [showReaders, setShowSaveReader] = useState(false);
   const [save, setSave] = useState(false);
   const [updateCounter, setUpdateCounter] = useState(0);
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [name_edits, setNameEdit] = useState("");
   const [country_edits, setCountryEdit] = useState("");
   const [email_edits, setEmailEdit] = useState("");
@@ -75,6 +75,7 @@ const ViewTable = (props) => {
   const [siteIrtAll, setSiteIrtAll] = useState([]);
   const [siteData, setSiteData] = useState([]);
   const animatedComponents = makeAnimated();
+  const [forceRender, setForceRender] = useState(false);
   let file_name = useRef("");
 
   useEffect(() => {
@@ -119,6 +120,8 @@ const ViewTable = (props) => {
             let arrSiteCity;
             let arrSitePostCode;
             let arrSiteIrt;
+            let irt_user_type;
+            let arrIrtUserType = [];
 
             let arr = [];
             //console.log("outside");
@@ -133,6 +136,7 @@ const ViewTable = (props) => {
               site_street = res.data.response.data.site_street;
               site_postcode = res.data.response.data.site_post_code;
               site_city = res.data.response.data.site_city;
+              irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
 
               arrUserType = [];
               arrSubRole = [];
@@ -235,11 +239,17 @@ const ViewTable = (props) => {
                   label: label,
                 });
               });
+              Object.entries(irt_user_type)?.map(([item, index]) => {
+                arrIrtUserType.push({
+                  label: item,
+                  value: item,
+                });
+              });
             }
 
             setCountryall(arr);
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-              //console.log(arrUserType);
+              setIrtRole(arrIrtUserType);
               setUserTypeAll(arrUserType);
               setSubUserTypeAll(arrSubRole);
               setSiteNumberAll(arrSiteNumber);
@@ -248,7 +258,6 @@ const ViewTable = (props) => {
               setSitePostCodeAll(arrSitePostCode);
               setSiteCityAll(arrSiteCity);
               setSiteIrtAll(arrSiteIrt);
-              ////console.log(res.data.response.data.blind_type);
               setBlindTypeAll(arrBlindType);
               setSiteData(res.data.response.data.site_data);
               setChanges(res.data.response.data);
@@ -346,6 +355,7 @@ const ViewTable = (props) => {
 
   const [countryall, setCountryall] = useState([]);
   const [userTypeAll, setUserTypeAll] = useState([]);
+  const [irtRole, setIrtRole] = useState([]);
   const [subUserTypeAll, setSubUserTypeAll] = useState([]);
   const [blindTypeAll, setBlindTypeAll] = useState([]);
   const handleClose = () => {
@@ -656,9 +666,12 @@ const ViewTable = (props) => {
         const edit_index = document.getElementById(
           "field_index" + data.profile_user_id
         ).value;
-        const contact_type_edit = document.getElementById(
-          "field_contact_type" + data.profile_user_id
-        ).value;
+        const contact_type_edit =
+          localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+            ? document.getElementById(
+                "field_contact_type" + data.profile_user_id
+              ).value
+            : "";
 
         let prev_obj = editList.find(
           (x) => x.profile_user_id === data.profile_user_id
@@ -856,9 +869,11 @@ const ViewTable = (props) => {
       const country_edit = document.getElementById(
         "field_country" + profile_user_id
       ).value;
-      const contact_type_edit = document.getElementById(
-        "field_contact_type" + profile_user_id
-      ).value;
+      const contact_type_edit =
+        localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+          ? document.getElementById("field_contact_type" + profile_user_id)
+              .value
+          : "";
 
       var arr = [];
       arr.push({
@@ -1074,6 +1089,8 @@ const ViewTable = (props) => {
       const list = [...hpc];
       list[i].siteIrt = "";
       list[i].siteIrt = "";
+      list[i].userType = "";
+      list[i].userTypeIndex = "";
       setHpc(list);
     } else {
       const value = e.value;
@@ -1083,8 +1100,11 @@ const ViewTable = (props) => {
 
       let index = siteIrtAll.findIndex((x) => x.value === value);
       list[i].siteIrtIndex = index;
+      list[i].userType = "";
+      list[i].userTypeIndex = "";
       setHpc(list);
     }
+    setForceRender(!forceRender);
   };
 
   const onSiteCityChange = (e, i) => {
@@ -1124,7 +1144,6 @@ const ViewTable = (props) => {
 
   const onContactTypeChange = (e, i) => {
     const value = e;
-    // //console.log(value);
     const list = [...hpc];
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
@@ -1180,7 +1199,7 @@ const ViewTable = (props) => {
     if (e == null) {
       const list = [...hpc];
       list[i].userType = "";
-      list[i].userType = "";
+      list[i].userTypeIndex = "";
       setHpc(list);
     } else {
       const value = e.value;
@@ -1290,7 +1309,7 @@ const ViewTable = (props) => {
             data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
         };
       });
-      // //console.log(body_data);
+
       var pattern = "^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$";
 
       const body = {
@@ -1640,7 +1659,13 @@ const ViewTable = (props) => {
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
                   <th scope="col">Business Unit</th>
-                  <th scope="col">Contact Type</th>
+                  {localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    <th scope="col"> Role </th>
+                  ) : (
+                    <th scope="col">Contact Type</th>
+                  )}
+
                   {showLessInfo == false ? (
                     <>
                       {" "}
@@ -1704,7 +1729,7 @@ const ViewTable = (props) => {
                       id={`field_index` + item.profile_user_id}
                       value={index}
                     />
-                    <td>{item.bounce}</td>
+                    <td>{item.bounce ? item.bounce : "N/A"}</td>
                     <td>
                       {editable ? (
                         <EditCountry
@@ -1712,43 +1737,56 @@ const ViewTable = (props) => {
                           profile_user={item.profile_user_id}
                         ></EditCountry>
                       ) : (
-                        <span>{item.country}</span>
+                        <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    <td>{item.ibu}</td>
+                    <td>{item.ibu ? item.ibu : "N/A"}</td>
                     <td>
-                      {editable ? (
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <span>
+                          {item.user_type != 0 ? item.user_type : "N/A"}
+                        </span>
+                      ) : editable ? (
                         <EditContactType
                           selected_ibu={item.contact_type}
                           profile_user={item.profile_user_id}
                         ></EditContactType>
                       ) : (
-                        <span>{item.contact_type}</span>
+                        <span>
+                          {item.contact_type ? item.contact_type : "N/A"}
+                        </span>
                       )}
                     </td>
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.consent}</span>{" "}
+                        <span>{item.consent ? item.consent : "N/A"}</span>{" "}
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_received}</span>
+                        <span>
+                          {item.email_received ? item.email_received : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_opening}</span>
+                        <span>
+                          {item.email_opening ? item.email_opening : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.registration}</span>
+                        <span>
+                          {item.registration ? item.registration : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.last_email}</span>
+                        <span>{item.last_email ? item.last_email : "N/A"}</span>
                       </td>
                     ) : null}
                     <td className="delete_row" colspan="12">
@@ -1808,44 +1846,57 @@ const ViewTable = (props) => {
                           profile_user={item.profile_user_id}
                         ></EditCountry>
                       ) : (
-                        <span>{item.country}</span>
+                        <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
                     <td id="field_business_unit">{item.ibu}</td>
                     <td id="field_interest">
-                      {editable ? (
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <span>
+                          {item.user_type != 0 ? item.user_type : "N/A"}
+                        </span>
+                      ) : editable ? (
                         <EditContactType
                           selected_ibu={item.contact_type}
                           profile_user={item.profile_user_id}
                         ></EditContactType>
                       ) : (
-                        <span>{item.contact_type}</span>
+                        <span>
+                          {item.contact_type ? item.contact_type : "N/A"}
+                        </span>
                       )}
                     </td>
 
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.consent}</span>{" "}
+                        <span>{item.consent ? item.consent : "N/A"}</span>{" "}
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_received}</span>
+                        <span>
+                          {item.email_received ? item.email_received : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_opening}</span>
+                        <span>
+                          {item.email_opening ? item.email_opening : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.registration}</span>
+                        <span>
+                          {item.registration ? item.registration : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.last_email}</span>
+                        <span>{item.last_email ? item.last_email : "N/A"}</span>
                       </td>
                     ) : null}
 
@@ -1907,7 +1958,7 @@ const ViewTable = (props) => {
                 setOpenDeleteConfirmation(true);
               }}
             >
-              Yes Please!
+              Yes please!
             </button>
 
             <button
@@ -1941,7 +1992,9 @@ const ViewTable = (props) => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-            {localStorage.getItem("user_id") == userId?"Add New User +":"Add New HCP"}
+              {localStorage.getItem("user_id") == userId
+                ? "Add New User +"
+                : "Add New HCP"}
             </h5>
             <button
               onClick={() => {
@@ -2138,22 +2191,109 @@ const ViewTable = (props) => {
                                   <hr />
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT</label>
                                       <Select
-                                        options={userTypeAll}
+                                        options={siteIrtAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onUserTypeChange(event, i)
+                                          onSiteIrtChange(
+                                            event,
+
+                                            i
+                                          )
                                         }
                                         defaultValue={
-                                          userTypeAll[hpc[i].userTypeIndex]
+                                          siteIrtAll[hpc[i].siteIrtIndex]
                                         }
                                         placeholder={
-                                          typeof userTypeAll[
-                                            hpc[i].userTypeIndex
+                                          typeof siteIrtAll[
+                                            hpc[i].siteIrtIndex
                                           ] === "undefined"
-                                            ? "Select Role"
-                                            : userTypeAll[hpc[i].userTypeIndex]
+                                            ? "Select Site IRT"
+                                            : siteIrtAll[hpc[i].siteIrtIndex]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Role</label>
+                                      {siteIrtAll[hpc[i].siteIrtIndex]
+                                        ?.value === "Yes" ? (
+                                        <Select
+                                          options={irtRole}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onUserTypeChange(event, i)
+                                          }
+                                          value={
+                                            irtRole.findIndex(
+                                              (el) => el.value == val?.userType
+                                            ) == -1
+                                              ? ""
+                                              : irtRole[
+                                                  irtRole.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.userType
+                                                  )
+                                                ]
+                                          }
+                                          placeholder={"Select Role"}
+                                          isClearable
+                                          // filterOption={createFilter(filterConfig)}
+                                        />
+                                      ) : siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "No" ? (
+                                        <Select
+                                          options={userTypeAll}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onUserTypeChange(event, i)
+                                          }
+                                          value={
+                                            userTypeAll.findIndex(
+                                              (el) => el.value == val?.userType
+                                            ) == -1
+                                              ? ""
+                                              : userTypeAll[
+                                                  userTypeAll.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.userType
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder={"Select Role"}
+                                          // filterOption={createFilter(filterConfig)}
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          placeholder={"Select Role"}
+                                        />
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Blind Type</label>
+                                      <Select
+                                        options={blindTypeAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onBlindTypeChange(event, i)
+                                        }
+                                        defaultValue={
+                                          blindTypeAll[hpc[i].blindTypeIndex]
+                                        }
+                                        placeholder={
+                                          typeof blindTypeAll[
+                                            hpc[i].blindTypeIndex
+                                          ] === "undefined"
+                                            ? "Select Blind Type"
+                                            : blindTypeAll[
+                                                hpc[i].blindTypeIndex
+                                              ]
                                         }
                                         // filterOption={createFilter(filterConfig)}
                                       />
@@ -2189,58 +2329,6 @@ const ViewTable = (props) => {
                                     </div>
                                   </div>
 
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Blind Type</label>
-                                      <Select
-                                        options={blindTypeAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onBlindTypeChange(event, i)
-                                        }
-                                        defaultValue={
-                                          blindTypeAll[hpc[i].blindTypeIndex]
-                                        }
-                                        placeholder={
-                                          typeof blindTypeAll[
-                                            hpc[i].blindTypeIndex
-                                          ] === "undefined"
-                                            ? "Select Blind Type"
-                                            : blindTypeAll[
-                                                hpc[i].blindTypeIndex
-                                              ]
-                                        }
-                                        // filterOption={createFilter(filterConfig)}
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT</label>
-                                      <Select
-                                        options={siteIrtAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteIrtChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteIrtAll[
-                                            hpc[i].siteIrtIndex
-                                          ] === "undefined"
-                                            ? "Select Site IRT"
-                                            : siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Country</label>
@@ -2657,7 +2745,9 @@ const ViewTable = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                               {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
+                                    {localStorage.getItem("user_id") == userId
+                                      ? "Add User +"
+                                      : "Add HCP +"}
                                   </a>
                                 </li>
 

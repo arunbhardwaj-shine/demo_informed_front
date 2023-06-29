@@ -81,4 +81,5 @@ export const ENDPOINT = {
   CHANGE_PASSWORD: "auth/change-password",
   INFORMED_USER_FORM: "https://webinar.docintel.app/lmn/contact_email",
   READER_REFRESH: "/reader/sync-reader",
+  LIBRARY_CLONE_ARTICLE: "/library/clone-article",
 };

@@ -632,7 +632,7 @@ const ReaderAdd = () => {
               isClearable
               onChange={(e) => handleChange(e?.value, "role")}
             />
-          ) : (
+          ) : userInputs?.irt && userInputs.irt == 0 ? (
             <Select
               options={userDetail?.role}
               placeholder="Select Role"
@@ -651,6 +651,11 @@ const ReaderAdd = () => {
               }
               isClearable
               onChange={(e) => handleChange(e?.value, "role")}
+            />
+          ) : (
+            <Select
+              className="dropdown-basic-button split-button-dropup"
+              placeholder="Select Role"
             />
           )}
         </Form.Group>

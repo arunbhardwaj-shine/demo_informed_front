@@ -18,6 +18,12 @@ const SelectSmartListUsers = (props) => {
   const [totalData, setTotalData] = useState({});
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
+  const [role, setRole] = useState([]);
+  const [irtRole, setIrtRole] = useState([]);
+  const [optIRT, setoptIRT] = useState([
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ]);
   const filterConfig = {
     matchFrom: "start",
   };
@@ -56,6 +62,8 @@ const SelectSmartListUsers = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
+      optIrt: "",
+      role: "",
     },
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -80,7 +88,6 @@ const SelectSmartListUsers = (props) => {
     // removedHcp
     if (old_object?.removedHcp) {
       if (old_object.removedHcp.length > 0) {
-        console.log(old_object.removedHcp);
         setRemovedReaders(old_object.removedHcp);
       }
     } else {
@@ -110,7 +117,6 @@ const SelectSmartListUsers = (props) => {
       axios
         .post(`distributes/get_reders_list`, body)
         .then((res) => {
-          // console.log(removedReaders)
           if (old_object?.removedHcp) {
             if (old_object.removedHcp.length > 0) {
               var removedUsers = old_object.removedHcp;
@@ -120,6 +126,7 @@ const SelectSmartListUsers = (props) => {
                   return objFromA.profile_id === objFromB.profile_id;
                 });
               });
+
               setReaders(pendingUsers);
             } else {
               setReaders(res.data.response.data);
@@ -140,6 +147,7 @@ const SelectSmartListUsers = (props) => {
                   return objFromA.profile_id === objFromB.profile_id;
                 });
               });
+
               setReaders(pendingUsers);
             } else {
               setReaders(res.data.response.data);
@@ -171,7 +179,9 @@ const SelectSmartListUsers = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
+            console.log("country", res.data.response.data.country);
             let country = res.data.response.data.country;
+
             let arr = [];
             Object.entries(country).map(([index, item]) => {
               let label = item;
@@ -183,11 +193,30 @@ const SelectSmartListUsers = (props) => {
                 label: label,
               });
             });
+
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              let investigator_type =
+                res?.data?.response?.data?.investigator_type;
+              let newType = [];
+              Object.keys(investigator_type)?.map((item, i) => {
+                newType.push({ label: item, value: item });
+              });
+              let irt_inverstigator_type =
+                res?.data?.response?.data?.irt_inverstigator_type;
+              let newIrtType = [];
+              Object.keys(irt_inverstigator_type)?.map((item, i) => {
+                newIrtType.push({ label: item, value: item });
+              });
+
+              setRole(newType);
+              setIrtRole(newIrtType);
+            }
             setCountryall(arr);
+
             setTotalData(res.data.response.data);
           }
           // setCountryall(res.data.response.data.country);
-          //console.log(countryall)
+
           // setCounter(counter + 1);
         })
         .catch((err) => {
@@ -245,7 +274,6 @@ const SelectSmartListUsers = (props) => {
       status: 2,
     };
 
-    // console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -273,7 +301,6 @@ const SelectSmartListUsers = (props) => {
   };
 
   const nextClicked = () => {
-    console.log(removedReaders);
     navigate("/verifyMAIL", {
       // data: data,
       // smartListName: smartListName,
@@ -317,6 +344,36 @@ const SelectSmartListUsers = (props) => {
     list[i].email = value;
     setHpc(list);
     // setEmailData(e.target.value);
+  };
+  const onRoleChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].role = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].role;
+      list[i].role = value;
+      setHpc(list);
+    }
+  };
+
+  const onIRTChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].optIrt = "";
+      list[i].role = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].optIrt;
+      list[i].optIrt = value;
+      list[i].role = "";
+      setHpc(list);
+    }
+    setCounterFlag(counterFlag + 1);
   };
 
   const onContactTypeChange = (e, i) => {
@@ -432,6 +489,8 @@ const SelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        role: "",
+        optIrt: "",
       },
     ]);
     setActiveManual("active");
@@ -457,7 +516,6 @@ const SelectSmartListUsers = (props) => {
       }
     }
     setUpdate(update + 1);
-    // console.log(old_object);
   };
 
   const handleInputChange = (event, selected) => {
@@ -476,11 +534,9 @@ const SelectSmartListUsers = (props) => {
     readersRemoved.splice(i, 1);
     setRemovedReaders(readersRemoved);
     setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
-    // console.log(readersNewlyAdded);
+
     //setReaders((oldArray) => [reader, ...oldArray]);
     setReRender(reRender + 1);
-
-    // console.log(readers);
   };
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
@@ -501,6 +557,8 @@ const SelectSmartListUsers = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
+          optIrt: "",
+          role: "",
         },
       ]);
     } else {
@@ -581,9 +639,14 @@ const SelectSmartListUsers = (props) => {
       const country_edit = document.getElementById(
         "field_country" + profile_user_id
       ).value;
-      const contact_type_edit = document.getElementById(
-        "field_contact_type" + profile_user_id
-      ).value;
+      {
+      }
+
+      const contact_type_edit =
+        localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+          ? document.getElementById("field_contact_type" + profile_user_id)
+              .value
+          : "";
 
       const arr = [];
       arr.push({
@@ -640,9 +703,12 @@ const SelectSmartListUsers = (props) => {
         const edit_index = document.getElementById(
           "field_index" + data.profile_user_id
         ).value;
-        const contact_type_edit = document.getElementById(
-          "field_contact_type" + data.profile_user_id
-        ).value;
+        const contact_type_edit =
+          localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+            ? document.getElementById(
+                "field_contact_type" + data.profile_user_id
+              ).value
+            : "";
 
         let prev_obj = readers.find(
           (x) => x.profile_user_id === data.profile_user_id
@@ -674,6 +740,7 @@ const SelectSmartListUsers = (props) => {
       setSaveOpen(false);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
+
       await axios
         .post(`distributes/update_reders_details`, body)
         .then((res) => {
@@ -712,6 +779,7 @@ const SelectSmartListUsers = (props) => {
 
   const saveClicked = async () => {
     //   setIsOpenAdd(false);
+
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -720,9 +788,11 @@ const SelectSmartListUsers = (props) => {
             last_name: data.lastname,
             email: data.email,
             country: data.country,
-            contact_type: data.contact_type,
+            contact_type: data?.contact_type ? data?.contact_type : "",
             siteNumber: data?.siteNumber ? data.siteNumber : "",
             siteName: data.siteName ? data.siteName : "",
+            investigator_type: data?.role,
+            siteIrt: data?.optIrt == "yes" ? 1 : 0,
           };
         } else {
           return {
@@ -806,8 +876,6 @@ const SelectSmartListUsers = (props) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
-
-      console.log(formData);
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
@@ -1024,7 +1092,13 @@ const SelectSmartListUsers = (props) => {
                         <th scope="col">Bounced</th>
                         <th scope="col">Country</th>
                         <th scope="col">Business Unit</th>
-                        <th scope="col">Contact Type</th>
+                        {localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          <th scope="col">Role</th>
+                        ) : (
+                          <th scope="col">Contact Type</th>
+                        )}
+
                         {showLessInfo == false ? (
                           <>
                             <th scope="col">Consent</th>
@@ -1043,39 +1117,63 @@ const SelectSmartListUsers = (props) => {
                             <tr className="hcps-deleted">
                               <td>
                                 <span>
-                                  {rr.first_name + " " + rr.last_name}
+                                  {rr?.first_name
+                                    ? rr?.first_name + " " + rr?.last_name
+                                    : "N/A"}
                                 </span>
                               </td>
-                              <td>{rr.email}</td>
-                              <td>{rr.bounce}</td>
+                              <td>{rr.email ? rr.email : "N/A"}</td>
+                              <td>{rr.bounce ? rr.bounce : "N/A"}</td>
                               <td>
-                                <span>{rr.country}</span>
+                                <span>{rr.country ? rr.country : "N/A"}</span>
                               </td>
-                              <td>{rr.ibu}</td>
-                              <td>{rr.contact_type}</td>
+                              <td>{rr?.ibu ? rr?.ibu : "N/A"}</td>
+                              {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <td>
+                                  {rr?.user_type != 0 ? rr.user_type : "N/A"}
+                                </td>
+                              ) : (
+                                <td>
+                                  {rr.contact_type ? rr.contact_type : "N/A"}
+                                </td>
+                              )}
+
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.consent}</span>{" "}
+                                  <span>{rr.consent ? rr.consent : "N/A"}</span>{" "}
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.email_received}</span>
+                                  <span>
+                                    {rr.email_received
+                                      ? rr.email_received
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.email_opening}</span>
+                                  <span>
+                                    {rr.email_opening
+                                      ? rr.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.registration}</span>
+                                  <span>
+                                    {rr.registration ? rr.registration : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.last_email}</span>
+                                  <span>
+                                    {rr.last_email ? rr.last_email : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {/* <td>NA</td>
@@ -1094,7 +1192,7 @@ const SelectSmartListUsers = (props) => {
                           <td>
                             <span>NA</span>
                           </td> */}
-                              <td className="add-new-hcp" colspan="12">
+                              <td className="add-new-hcp" colSpan="12">
                                 <img
                                   src={path_image + "add-row.png"}
                                   alt="Add Row"
@@ -1133,7 +1231,7 @@ const SelectSmartListUsers = (props) => {
                     </td>
                   </tr>*/}
                       <tr className="seprator-add">
-                        <td colspan="13"></td>
+                        <td colSpan="13"></td>
                       </tr>
                       {readersNewlyAdded.map((readers, i) => {
                         return (
@@ -1155,21 +1253,25 @@ const SelectSmartListUsers = (props) => {
                             >
                               <td
                                 id={`field_name` + readers.profile_user_id}
-                                contenteditable={
+                                contentEditable={
                                   editable === 0 ? "false" : "true"
                                 }
                               >
                                 <span>
-                                  {readers.first_name + " " + readers.last_name}
+                                  {readers.first_name
+                                    ? readers.first_name +
+                                      " " +
+                                      readers.last_name
+                                    : "N/A"}
                                 </span>
                               </td>
-                              <td>{readers.email}</td>
+                              <td>{readers.email ? readers.email : "N/A"}</td>
                               <input
                                 type="hidden"
                                 id={`field_index` + readers.profile_user_id}
                                 value={i}
                               />
-                              <td>{readers.bounce}</td>
+                              <td>{readers.bounce ? readers.bounce : "N/A"}</td>
                               <td>
                                 {editable ? (
                                   <EditCountry
@@ -1180,43 +1282,72 @@ const SelectSmartListUsers = (props) => {
                                   <span>{readers.country}</span>
                                 )}
                               </td>
-                              <td>{readers.ibu}</td>
+                              <td>{readers.ibu ? readers.ibu : "N/A"}</td>
                               <td>
-                                {editable ? (
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  <span>
+                                    {readers.user_type != 0
+                                      ? readers?.user_type
+                                      : "N/A"}
+                                  </span>
+                                ) : editable ? (
                                   <EditContactType
                                     selected_ibu={readers.contact_type}
                                     profile_user={readers.profile_user_id}
                                   ></EditContactType>
                                 ) : (
-                                  <span>{readers.contact_type}</span>
+                                  <span>
+                                    {readers.contact_type
+                                      ? readers.contact_type
+                                      : "N/A"}
+                                  </span>
                                 )}
                               </td>
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.consent}</span>{" "}
+                                  <span>
+                                    {readers.consent ? readers.consent : "N/A"}
+                                  </span>{" "}
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.email_received}</span>
+                                  <span>
+                                    {readers.email_received
+                                      ? readers.email_received
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.email_opening}</span>
+                                  <span>
+                                    {readers.email_opening
+                                      ? readers.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.registration}</span>
+                                  <span>
+                                    {readers.registration
+                                      ? readers.registration
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.last_email}</span>
+                                  <span>
+                                    {readers.last_email
+                                      ? readers.last_email
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
-                              <td className="delete_row" colspan="12">
+                              <td className="delete_row" colSpan="12">
                                 <img
                                   src={path_image + "delete.svg"}
                                   alt="Delete Row"
@@ -1247,19 +1378,21 @@ const SelectSmartListUsers = (props) => {
                             >
                               <td
                                 id={`field_name` + readers.profile_user_id}
-                                contenteditable={
+                                contentEditable={
                                   editable === 0 ? "false" : "true"
                                 }
                               >
                                 <span>
                                   {" "}
-                                  {readers.first_name +
-                                    " " +
-                                    readers.last_name}{" "}
+                                  {readers.first_name
+                                    ? readers.first_name +
+                                      " " +
+                                      readers.last_name
+                                    : "N/A"}{" "}
                                 </span>
                               </td>
                               <td id={`field_email` + readers.profile_user_id}>
-                                {readers.email}
+                                {readers.email ? readers.email : "N/A"}
                               </td>
                               <input
                                 type="hidden"
@@ -1269,7 +1402,7 @@ const SelectSmartListUsers = (props) => {
                               <td
                                 id={`field_bounced` + readers.profile_user_id}
                               >
-                                {readers.bounce}
+                                {readers.bounce ? readers.bounce : "N/A"}
                               </td>
                               <td>
                                 {editable ? (
@@ -1278,46 +1411,77 @@ const SelectSmartListUsers = (props) => {
                                     profile_user={readers.profile_user_id}
                                   ></EditCountry>
                                 ) : (
-                                  <span>{readers.country}</span>
+                                  <span>
+                                    {readers.country ? readers.country : "N/A"}
+                                  </span>
                                 )}
                               </td>
-                              <td>{readers.ibu}</td>
+                              <td>{readers.ibu ? readers.ibu : "N/A"}</td>
                               <td>
-                                {editable ? (
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  <span>
+                                    {readers.user_type != 0
+                                      ? readers?.user_type
+                                      : "N/A"}
+                                  </span>
+                                ) : editable ? (
                                   <EditContactType
                                     selected_ibu={readers.contact_type}
                                     profile_user={readers.profile_user_id}
                                   ></EditContactType>
                                 ) : (
-                                  <span>{readers.contact_type}</span>
+                                  <span>
+                                    {readers.contact_type
+                                      ? readers.contact_type
+                                      : "N/A"}
+                                  </span>
                                 )}
                               </td>
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.consent}</span>
+                                  <span>
+                                    {readers.consent ? readers.consent : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.email_received}</span>
+                                  <span>
+                                    {readers.email_received
+                                      ? readers.email_received
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.email_opening}</span>
+                                  <span>
+                                    {readers.email_opening
+                                      ? readers.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.registration}</span>
+                                  <span>
+                                    {readers.registration
+                                      ? readers.registration
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{readers.last_email}</span>
+                                  <span>
+                                    {readers.last_email
+                                      ? readers.last_email
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
-                              <td className="delete_row" colspan="12">
+                              <td className="delete_row" colSpan="12">
                                 <img
                                   src={path_image + "delete.svg"}
                                   alt="Add Row"
@@ -1347,7 +1511,7 @@ const SelectSmartListUsers = (props) => {
         <div
           data-bs-backdrop="static"
           data-bs-keyboard="false"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-header">
@@ -1367,6 +1531,8 @@ const SelectSmartListUsers = (props) => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
+                    optIrt: "",
+                    role: "",
                   },
                 ]);
                 setActiveManual("active");
@@ -1441,54 +1607,135 @@ const SelectSmartListUsers = (props) => {
                                   ) : null}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Contact Type</label>
-                                  <DropdownButton
-                                    className="dropdown-basic-button split-button-dropup"
-                                    title={
-                                      hpc[i].contact_type != "" &&
-                                      hpc[i].contact_type != "undefined"
-                                        ? hpc[i].contact_type
-                                        : "Select Type"
-                                    }
-                                    onSelect={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                  >
-                                    <Dropdown.Item
-                                      eventKey="HCP"
-                                      className={
-                                        hpc[i].contact_type == "HCP"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      HCP
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Staff"
-                                      className={
-                                        hpc[i].contact_type == "Staff"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      Staff
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Test Users"
-                                      className={
-                                        hpc[i].contact_type == "Test Users"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      Test Users
-                                    </Dropdown.Item>
-                                  </DropdownButton>
-                                </div>
-                              </div>
+
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT</label>
+
+                                      <Select
+                                        options={optIRT}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onIRTChange(event, i)
+                                        }
+                                        defaultValue={val?.optIrt}
+                                        placeholder="Select IRT"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Role</label>
+                                      {val?.optIrt == "yes" ? (
+                                        <Select
+                                          options={irtRole}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i)
+                                          }
+                                          value={
+                                            irtRole?.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : irtRole[
+                                                  irtRole?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : val?.optIrt == "no" ? (
+                                        <Select
+                                          options={role}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i)
+                                          }
+                                          value={
+                                            role?.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : role[
+                                                  role?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          placeholder="Select Role"
+                                        />
+                                      )}
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label htmlFor="">Contact Type</label>
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          hpc[i].contact_type != "" &&
+                                          hpc[i].contact_type != "undefined"
+                                            ? hpc[i].contact_type
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onContactTypeChange(event, i)
+                                        }
+                                      >
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          HCP
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </DropdownButton>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+                              {console.log("--->", countryall)}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
