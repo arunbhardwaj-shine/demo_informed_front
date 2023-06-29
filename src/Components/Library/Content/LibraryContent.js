@@ -72,6 +72,7 @@ const LibraryContent = (props) => {
   const [filterObject, setFilterObject] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
+  
   const [filterdata, setFilterData] = useState({
     language: ["English", "Russian"],
   });
@@ -98,7 +99,7 @@ const LibraryContent = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
   const [allTags, setAllTags] = useState({});
-  const [resetDataId, setResetDataId] = useState();
+  const [resetDataId, setResetDataId] = useState("");
   const [forceRender, setForceRender] = useState(false);
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
@@ -148,11 +149,11 @@ const LibraryContent = (props) => {
         },
         {
           key: "Russian",
-          value: "1",
+          value: "4",
         },
         {
           key: "Spanish",
-          value: "2",
+          value: "3",
         },
       ],
     },
@@ -571,22 +572,22 @@ const LibraryContent = (props) => {
   };
 
   const commonModelFun = (e, id, stateMsg) => {
-    // setResetDataId(id);
     if (stateMsg == "downloadQR") {
       setHeading("Download QR");
       setFooterButton("Download");
       setModelData(downloadQRData);
-      setHandleSubmit(() => downloadQRCode);
-      setHandleType(() => handleQR);
-    }
-    if (stateMsg == "clone") {
-      setResetDataId(id);
+      setResetDataId("");
 
+      // setHandleSubmit(() => downloadQRCode);
+      // setHandleType(() => handleQR);
+    }
+    else if (stateMsg == "clone") {
+      setResetDataId(id);
       setHeading("Clone Article");
       setFooterButton("Save");
       setModelData(articleLanguages);
-      setHandleSubmit(() => saveArticle);
-      setHandleType(() => handleLanguage);
+      // setHandleSubmit(() => saveArticle);
+      // setHandleType(() => handleLanguage);
     }
     setShow(true);
   };
@@ -1536,7 +1537,11 @@ const LibraryContent = (props) => {
                                 {location?.state?.data != "edit" &&
                                 deletestatus == false ? (
                                   <div className="data-main-footer-sec">
-                                    <div className="footer-btn-wrapper">
+                                    <div className={`footer-btn-wrapper ${["wW0geGtDPvig5gF 6KbJrg==","B7SHpAc XDXSH NXkN0rdQ==","z2TunmZQf3QwCsICFTLGGQ==","qDgwPdToP05Kgzc g2VjIQ==",
+                                   "UbCJcnLM9fe HsRMgX8c1A=="  
+                                  ].includes(localStorage.getItem("user_id"))&&
+                                      filterObject["Content Owners"] ==
+                                        "IBU Owner"?"clone":""}`}>
                                       {data?.spc_included ? (
                                         <>
                                           <button
@@ -1585,13 +1590,11 @@ const LibraryContent = (props) => {
                                       >
                                         Send in email
                                       </Link>
-                                      {localStorage.getItem("user_id") ==
-                                        "B7SHpAc XDXSH NXkN0rdQ==" &&
+                                      {["wW0geGtDPvig5gF 6KbJrg==","B7SHpAc XDXSH NXkN0rdQ==","z2TunmZQf3QwCsICFTLGGQ==","qDgwPdToP05Kgzc g2VjIQ==","UbCJcnLM9fe HsRMgX8c1A=="].includes(localStorage.getItem("user_id")) &&
                                       filterObject["Content Owners"] ==
                                         "IBU Owner" ? (
                                         <Button
                                           onClick={(e) => {
-                                            // setResetDataId(data?.id);
                                             commonModelFun(
                                               e,
                                               data?.id,
@@ -2389,7 +2392,7 @@ const LibraryContent = (props) => {
           </Row>
         </div>
       </Col>
-
+     
       <CommonModel
         show={show}
         onClose={setShow}
@@ -2401,10 +2404,10 @@ const LibraryContent = (props) => {
         heading={heading}
         data={modelData}
         footerButton={footerButton}
-        handleSubmit={handleSubmit}
-        handleQR={handleType}
+        handleSubmit={resetDataId?saveArticle:downloadQRCode}
+        handleQR={resetDataId?handleLanguage:handleQR}
       />
-
+      
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}
