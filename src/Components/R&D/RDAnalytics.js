@@ -214,9 +214,9 @@ const RDAnalytics = () => {
             </div>
             <div className="rd-analytics-content">
               <Row>
-                <Col md={9}>
+                <Col md={12} lg={9}>
                   <Row>
-                    <Col md={4}>
+                    <Col md={6} lg={4}>
                       <div className="rd-analytics-box irt">
                         <p className="rd-box-small-title">IRT Training</p>
                         <div className="rd-analytics-box-layout">
@@ -253,7 +253,7 @@ const RDAnalytics = () => {
                         </div>
                       </div>
                     </Col>
-                    <Col md={8}>
+                    <Col md={6} lg={8}>
                       <div className="rd-analytics-box sites">
                         <p className="rd-box-small-title">Sites</p>
                         <div className="rd-analytics-box-layout">
@@ -352,7 +352,7 @@ const RDAnalytics = () => {
                         </div>
                       </div>
                     </Col>
-                    <Col md={12}>
+                    <Col md={12} lg={12}>
                       <div className="rd-analytics-box non-mandatory">
                         <p className="rd-box-small-title">
                           Non-mandatory Content
@@ -391,7 +391,7 @@ const RDAnalytics = () => {
                     </Col>
                   </Row>
                 </Col>
-                <Col md={3}>
+                <Col md={12} lg={3}>
                   <div className="rd-analytics-box rd-content">
                     <p className="rd-box-small-title">Content</p>
                     <div className="rd-analytics-box-layout">

@@ -8811,7 +8811,28 @@ border-radius: 26px;
               }
               
             }
-            
+            .highcharts-container {
+              .highcharts-legend{
+                .highcharts-legend-item{
+                  text {
+                    color: #70899E!important;
+                    font-size: 13px!important;
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: 400!important;
+                    fill: #70899E!important;
+                  }
+                }
+              }  
+              .highcharts-axis-labels{
+                text {
+                  color: #004A89!important;
+                  font-size: 12px!important;
+                  fill: #004A89!important;
+                  font-weight: 400;
+                }
+              } 
+            }
         }
         .rd-box-export {
             position: absolute;
@@ -8828,6 +8849,7 @@ border-radius: 26px;
     h4{
       color: $light-gray;
       font-weight: 400;
+      text-transform: unset;
     }
   }
   .rd-training-block{
@@ -8988,8 +9010,8 @@ border-radius: 26px;
               min-width: 20px;
             }
             img{
-              margin-left:45px;
               width:20px;
+              float: right;
             }
           }
           &.pics{
@@ -9212,7 +9234,7 @@ border-radius: 26px;
                 width: 220px;
             }
             .site_complete table.table thead th:nth-child(3) {
-                width: 255px;
+                width: 185px;
             }
             
   }
@@ -9461,6 +9483,9 @@ border-radius: 26px;
   .rd-full-explain .rd-training-block .site_complete table.table thead th:first-child {
     width: 392px;
 }
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top h5 {
+    font-size: 16px;
+}
 .rd-full-explain .rd-training-block .site_complete table.table thead th:nth-child(2) {
     width: 137px;
 }
@@ -9469,6 +9494,127 @@ border-radius: 26px;
 }
 .contents-block-right .used-device-detail img {
     max-width: 250px;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top .count-number {
+    font-size: 18px;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top img {
+    width: 16px;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box p {
+    font-size: 14px;
+}
+.rd-analytics-content .highcharts-container svg text.highcharts-title {
+    font-size: 15px !important;
+}
+.rd-full-explain .rd-training-block .content-detail h6 {
+    font-size: 15px;
+}
+.rd-full-explain .rd-training-block table thead tr th {
+    padding: 5px 16px 6px;
+}
+}
+@media (max-width: $layout-breakpoint-large) {
+.rd-full-explain .rd-training-block .engagement-sec .pages-viewer {
+    min-height: 80px;
+}
+.rd-full-explain .rd-training-block .contents-block-left table thead tr th button {
+    font-size: 13px;
+    padding: 7px;
+    min-width: 86px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+.lex-article-box .lex-detail {
+    flex: 1 1;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .lex-article .lex-article-box .lex-detail p {
+    font-size: 15px;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .lex-article .lex-article-box .lex-detail span {
+    font-size: 13px;
+    line-height: 16px;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .lex-article .lex-article-box .lex-detail .pages-number, .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .lex-article .lex-article-box .lex-detail .pages-viewer, .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .lex-article .lex-article-box .lex-detail .pages-number span {
+    font-size: 12px;
+}
+.rd-analytics-box.rd-content {
+    margin: 15px 0 0;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box p {
+    font-size: 15px;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top .count-number {
+    font-size: 20px;
+}
+}
+@media (min-width:$layout-breakpoint-medium) and (max-width: $layout-breakpoint-large) {
+.rd-analytics-content .col-lg-9, .rd-analytics-content .col-lg-3{
+  width:100%;
+}
+.rd-full-explain .rd-training-block table thead tr th.site_name {
+    min-width: 195px;
+}
+.rd-full-explain .rd-training-block .site_complete table.table thead th:first-child {
+    width: 214px;
+}
+.rd-full-explain .rd-training-block h4, .rd-full-explain .rd-section-title h4 {
+    font-size: 16px;
+}
+.accordion-body .contents-block .contents-block-right, .accordion-body .contents-block .contents-block-right {
+    flex: 0 0 250px;
+}
+.rd-full-explain .rd-training-block table {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.rd-full-explain .rd-training-block .engagement-sec .pages-viewer {
+    font-size: 20px;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .pie-chart {
+    margin: 5px auto 0;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .lex-article {
+    margin: 20px 0 20px;
+}
+.lex-article .lex-article-box {
+    width: 100%;
+}
+.lex-article-box .lex-detail {
+    flex: 1 1;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top .count-number {
+    line-height: 30px;
+}
+.rd-full-explain .rd-section-title {
+    margin: 30px 0 13px;
+}
+.rd-full-explain .rd-training-block table tbody td.pics img {
+    width: 32px;
+}
+.rd-full-explain .rd-training-block table tbody .view td {
+    height: 44px;
+}
+.rd-full-explain .rd-training-block table tbody td, .rd-full-explain .rd-training-block table thead tr th {
+    font-size: 13px;
+}
+
+}
+@media (min-width: 768px) and (max-width: $layout-breakpoint-medium) {
+.rd-full-explain .rd-training-block table thead tr th.site_name {
+    min-width: initial;
+    width: 235px;
+}
+.rd-full-explain .rd-training-block .site_complete table.table thead th:first-child {
+    width: 236px;
+}
+.accordion-body .contents-block .contents-block-right, .accordion-body .contents-block .contents-block-right {
+    flex: 0 0 240px;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .lex-article {
+    margin: 15px 0 15px;
 }
 }
 /*Responsive for R&D Analytics End*/
