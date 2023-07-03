@@ -211,6 +211,7 @@ const RDAnalytics = () => {
     } catch (err) {
       console.log("-err", err);
     }
+   
   };
 
   const getPieChartData = async () => {
@@ -340,7 +341,12 @@ const RDAnalytics = () => {
                           </div>
 
                           <div className="rd-box-export">
-                            <img src={path_image + "arrow-export.svg"} alt="" />
+                            <img src={path_image + "arrow-export.svg"} alt="" onClick={()=>setFlag({
+    individual_Completion: true,
+    site_Completion: false,
+    site_Engagement: false,
+    content: false,
+  })}/>
                           </div>
                         </div>
                       </div>
@@ -439,7 +445,12 @@ const RDAnalytics = () => {
                             {/* <img className="graph-chart" src={path_image + "graph-chart.png"} alt="" /> */}
                           </div>
                           <div className="rd-box-export">
-                            <img src={path_image + "arrow-export.svg"} alt="" />
+                            <img src={path_image + "arrow-export.svg"} alt="" onClick={()=>setFlag({
+    individual_Completion: false,
+    site_Completion: true,
+    site_Engagement: false,
+    content: false,
+  })}/>
                           </div>
                         </div>
                       </div>
@@ -482,7 +493,12 @@ const RDAnalytics = () => {
                             />
                           </div>
                           <div className="rd-box-export">
-                            <img src={path_image + "arrow-export.svg"} alt="" />
+                            <img src={path_image + "arrow-export.svg"} alt="" onClick={()=>setFlag({
+    individual_Completion: false,
+    site_Completion: false,
+    site_Engagement: true,
+    content: false,
+  })}/>
                           </div>
                         </div>
                       </div>
