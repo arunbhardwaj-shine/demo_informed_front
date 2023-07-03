@@ -83,4 +83,5 @@ export const ENDPOINT = {
   READER_REFRESH: "/reader/sync-reader",
   SITEREGISTER: "/siteRegistration",
   IRT_COUNT_GRAPH: "/findirtcount",
+  RD_SITE_ENGAGEMENT: "/rd_site_engagement",
 };
