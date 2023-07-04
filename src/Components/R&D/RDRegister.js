@@ -595,7 +595,11 @@ const RDRegister = () => {
                       onChange={(e) => handleChange(e, "rdChecheckbox")}
                     /> */}
                     <label for="rdChecheckbox">
+<<<<<<< HEAD
                       I also consent to: receive invitations to participate in surveys and other potential engagement through Docintel, which are study related.
+=======
+                      I also consent to: receive invitations to participate in surveys and other potentialengagement through Docintel, which are study related.
+>>>>>>> 6240111774d359c80889726d020eff8ce11ccb68
                     </label>
                     {error?.rdChecheckbox ? (
                       <div className="login-validation">
