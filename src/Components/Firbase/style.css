@@ -1724,7 +1724,8 @@ div#shared-stream {
     margin-top: 10px;
 }
 
-#pollModel.modal-dialog .modal-header .btn-close {
+#pollModel.modal-dialog .modal-header .btn-close,
+#pollModel1.modal-dialog .modal-header .btn-close {
     filter: brightness(0) invert(1);
 }
 
@@ -1741,6 +1742,11 @@ div#shared-stream {
 #pollModel .modal-header {
     display: flex;
     justify-content: center;
+}
+
+#pollModel .error {
+    color: #f00;
+    font-size: 14px;
 }
 
 @media only screen and (max-width:767px) {

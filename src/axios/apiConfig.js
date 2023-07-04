@@ -81,14 +81,12 @@ export const ENDPOINT = {
   CHANGE_PASSWORD: "auth/change-password",
   INFORMED_USER_FORM: "https://webinar.docintel.app/lmn/contact_email",
   READER_REFRESH: "/reader/sync-reader",
-<<<<<<< HEAD
   LIBRARY_CLONE_ARTICLE: "/library/clone-article",
   WEBINAR_QUESTION: `/auth/questions`,
   POLL_ANSWER: `/auth/poll-answer`,
   EVENT_ID: `/auth/event-data`,
 
 
-=======
   SITEREGISTER: "/site-registration",
   IRT_COUNT_GRAPH: "/find-irt-count",
   // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
@@ -98,5 +96,4 @@ export const ENDPOINT = {
   INDIVIDUAL_TRAINING_COMPLETION: "/training-completion",
   TRAINING_COMPLETION_DROPDOWN: "/training-completion-dropdown",
   TRAINING_COMPLETION_PAGE_CLICK: "/training-completion-page-click",
->>>>>>> 6240111774d359c80889726d020eff8ce11ccb68
 };
