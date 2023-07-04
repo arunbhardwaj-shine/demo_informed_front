@@ -824,7 +824,15 @@ const RDAnalytics = () => {
                                 <td>{item?.username}</td>
                                 <td>{item?.user_type}</td>
                                 <td>{item?.blind_type}</td>
-                                <td className="complete">
+                                <td
+                                  className={
+                                    item?.training_status == "started"
+                                      ? "started"
+                                      : item?.training_status == "complete"
+                                      ? "complete"
+                                      : "not_yet"
+                                  }
+                                >
                                   {item?.training_status}
                                 </td>
                                 <td>{item?.site_name}</td>
