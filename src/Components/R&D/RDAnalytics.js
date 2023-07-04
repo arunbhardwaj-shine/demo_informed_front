@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Accordion, Button, Col, Row, Table } from "react-bootstrap";
 import { getData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
@@ -7,9 +7,26 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 const RDAnalytics = () => {
-  const [show, setShow] = useState("");
+  const [show, setShow] = useState();
   const [totalSiteNumber, setTotalSiteNumber] = useState();
+  const [totalRdSiteNumber, setTotalRdSiteNumber] = useState();
+  const [rdSiteData, setRdSiteData] = useState();
   const [pieData, setPieData] = useState({});
+  const [flag, setFlag] = useState({
+    individual_Completion: true,
+    site_Completion: true,
+    site_Engagement: true,
+    content: true,
+  });
+
+  const [indidualCompletionTableData, setIndividualCompletionTableData] =
+    useState();
+  const [siteCompletionTableData, setSiteCompletionTableData] = useState();
+  const [siteCompletionShow, setSiteCompletionShow] = useState();
+
+  const individual_Completion = useRef(null);
+  const site_Completion = useRef(null);
+  const site_Engagement = useRef(null);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const data = [
     {
@@ -102,6 +119,9 @@ const RDAnalytics = () => {
     },
     xAxis: {
       categories: [],
+      title: {
+        text: "Site",
+      },
     },
     yAxis: {
       min: 0,
@@ -117,11 +137,53 @@ const RDAnalytics = () => {
     legend: {
       verticalAlign: "bottom",
       reversed: true,
+      symbolWidth: 20, // Width of the legend symbol (rectangle)
+      symbolHeight: 10, // Height of the legend symbol (rectangle)
+      symbolRadius: 0, // Disable rounded corners of the legend symbol
     },
     plotOptions: {
       series: {
         stacking: "normal",
-        pointWidth: 30,
+        // pointWidth: 30,
+      },
+    },
+    series: [],
+  });
+  const [rdSiteOptions, setRdSiteOptions] = useState({
+    chart: {
+      type: "column",
+    },
+    title: {
+      text: "UEFA CL most assists by season",
+    },
+    xAxis: {
+      categories: [],
+      title: {
+        text: "Site",
+      },
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: "",
+      },
+    },
+    tooltip: {
+      pointFormat:
+        '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+      shared: true,
+    },
+    legend: {
+      verticalAlign: "bottom",
+      reversed: true,
+      symbolWidth: 20, // Width of the legend symbol (rectangle)
+      symbolHeight: 10, // Height of the legend symbol (rectangle)
+      symbolRadius: 0, // Disable rounded corners of the legend symbol
+    },
+    plotOptions: {
+      series: {
+        // stacking: "normal",
+        // pointWidth: 30,
       },
     },
     series: [],
@@ -130,6 +192,7 @@ const RDAnalytics = () => {
   useEffect(() => {
     initialFun();
     getPieChartData();
+    getRdSiteChartData();
   }, []);
 
   const initialFun = async () => {
@@ -137,7 +200,7 @@ const RDAnalytics = () => {
       loader("show");
       const result = await getData(ENDPOINT.SITEREGISTER);
       const data = result?.data?.data?.registered_irt;
-      setTotalSiteNumber(result?.data?.total_site_number);
+      setTotalSiteNumber(result?.data?.total_sites);
 
       const newSeries = data?.map((item, index) => {
         return {
@@ -162,7 +225,6 @@ const RDAnalytics = () => {
 
   const getPieChartData = async () => {
     try {
-      // loader("show");
       const result = await getData(ENDPOINT.IRT_COUNT_GRAPH);
       setPieData({
         completed: result?.data?.data?.completed,
@@ -177,13 +239,13 @@ const RDAnalytics = () => {
             {
               name: "Completed",
               y: result?.data?.data?.completed,
-              // color: Highcharts.getOptions().colors[0],
+
               color: colors[0],
             },
             {
               name: "Not Completed",
               y: result?.data?.data?.notcompleted,
-              // color: Highcharts.getOptions().colors[2],
+
               color: colors[1],
             },
           ],
@@ -200,6 +262,78 @@ const RDAnalytics = () => {
       // loader("hide");
       console.log("-err", err);
     }
+  };
+
+  const getRdSiteChartData = async () => {
+    try {
+      const result = await getData(ENDPOINT.RD_SITE_ENGAGEMENT);
+      const data = result?.data?.data;
+      setTotalRdSiteNumber(result?.data?.total_content);
+      setRdSiteData(data);
+
+      let siteUsers = [];
+      let contentEngagement = [];
+      let site_number = [];
+      let newArr = [];
+
+      data?.map((item, index) => {
+        site_number.push(item?.site_number);
+        siteUsers.push(item?.site_users);
+        contentEngagement.push(item?.content_engagement);
+      });
+      newArr.push({
+        name: "Non-mandatory content engaged with",
+        data: contentEngagement,
+      });
+      newArr.push({
+        name: "Users in the site",
+        data: siteUsers,
+      });
+
+      const newRdSiteOptions = {
+        ...rdSiteOptions,
+        xAxis: {
+          categories: site_number,
+        },
+        series: newArr,
+      };
+      setRdSiteOptions(newRdSiteOptions);
+
+      // loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log("--err", err);
+    }
+  };
+  const individualCompletion = async () => {
+    if (!indidualCompletionTableData) {
+      try {
+        loader("show");
+        const result = await getData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION);
+        console.log("training--->", result);
+        setIndividualCompletionTableData(result);
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log("-err", err);
+      }
+    }
+    individual_Completion?.current?.focus();
+  };
+  const siteCompletion = async () => {
+    if (!siteCompletionTableData) {
+      try {
+        loader("show");
+
+        const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
+
+        setSiteCompletionTableData(result?.data?.data);
+        loader("hide");
+      } catch (err) {
+        console.log("-err", err);
+      }
+    }
+    site_Completion?.current?.focus();
   };
 
   return (
@@ -246,10 +380,23 @@ const RDAnalytics = () => {
                               options={pieOptions}
                             />
                           </div>
-
-                          <div className="rd-box-export">
-                            <img src={path_image + "arrow-export.svg"} alt="" />
-                          </div>
+                          {pieOptions?.series?.length ? (
+                            <div className="rd-box-export">
+                              <img
+                                src={path_image + "arrow-export.svg"}
+                                alt=""
+                                onClick={() => {
+                                  setFlag({
+                                    individual_Completion: true,
+                                    site_Completion: false,
+                                    site_Engagement: false,
+                                    content: false,
+                                  });
+                                  individualCompletion();
+                                }}
+                              />
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     </Col>
@@ -346,9 +493,24 @@ const RDAnalytics = () => {
 
                             {/* <img className="graph-chart" src={path_image + "graph-chart.png"} alt="" /> */}
                           </div>
-                          <div className="rd-box-export">
-                            <img src={path_image + "arrow-export.svg"} alt="" />
-                          </div>
+                          {columnOptions?.series?.length ? (
+                            <div className="rd-box-export">
+                              <img
+                                src={path_image + "arrow-export.svg"}
+                                alt=""
+                                onClick={() => {
+                                  setFlag({
+                                    individual_Completion: false,
+                                    site_Completion: true,
+                                    site_Engagement: false,
+                                    content: false,
+                                  });
+
+                                  siteCompletion();
+                                }}
+                              />
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     </Col>
@@ -361,7 +523,9 @@ const RDAnalytics = () => {
                           <div className="rd-analytics-top d-flex justify-content-between align-items-center">
                             <h5>Site Engagement</h5>
                             <div className="d-flex">
-                              <div className="count-number">8</div>
+                              <div className="count-number">
+                                {totalRdSiteNumber}
+                              </div>
                               <img
                                 src={path_image + "site-engaged.svg"}
                                 alt=""
@@ -377,20 +541,38 @@ const RDAnalytics = () => {
                                 Click on the graph to see more details
                               </span>
                             </div>
-                            <img
+                            {/* <img
                               className="graph-chart"
                               src={path_image + "graph-chart1.png"}
                               alt=""
+                            /> */}
+                            <HighchartsReact
+                              highcharts={Highcharts}
+                              options={rdSiteOptions}
                             />
                           </div>
-                          <div className="rd-box-export">
-                            <img src={path_image + "arrow-export.svg"} alt="" />
-                          </div>
+                          {rdSiteOptions?.series?.length ? (
+                            <div className="rd-box-export">
+                              <img
+                                src={path_image + "arrow-export.svg"}
+                                alt=""
+                                onClick={() =>
+                                  setFlag({
+                                    individual_Completion: false,
+                                    site_Completion: false,
+                                    site_Engagement: true,
+                                    content: false,
+                                  })
+                                }
+                              />
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     </Col>
                   </Row>
                 </Col>
+
                 <Col md={12} lg={3}>
                   <div className="rd-analytics-box rd-content">
                     <p className="rd-box-small-title">Content</p>
@@ -459,1364 +641,1434 @@ const RDAnalytics = () => {
                   </div>
                 </Col>
               </Row>
-              <div className="rd-full-explain">
-                <div className="rd-section-title">
-                  <h4>IRT Training</h4>
-                </div>
-                <div className="rd-training-block">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="rd-training-block-left">
-                      <h4>
-                        Individual Completion | <span>35</span>
-                      </h4>
-                      <p>Click on the Record to see more details</p>
-                    </div>
-                    <div className="rd-training-block-right d-flex">
-                      <Button title="Download stats">
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                            fill="#0066BE"
-                          ></path>
-                          <path
-                            d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                            fill="#0066BE"
-                          ></path>
-                        </svg>
-                      </Button>
-                      <Button className="sort_btn">
-                        Sort By
-                        <svg
-                          width="20"
-                          height="18"
-                          viewBox="0 0 20 18"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                            fill="#97B6CF"
-                          />
-                          <path
-                            d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                            fill="#97B6CF"
-                          />
-                        </svg>
-                      </Button>
-                    </div>
+              {flag.individual_Completion ? (
+                <div className="rd-full-explain">
+                  <div className="rd-section-title">
+                    <h4>IRT Training</h4>
                   </div>
-                  <Table className="fold-table">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Role</th>
-                        <th>Blind type</th>
-                        <th>Training</th>
-                        <th>Site</th>
-                        <th>&nbsp;</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        className={`view ${show && show == "1" ? "show" : ""}`}
-                        onClick={() => setShow("1")}
-                      >
-                        <td>UserName</td>
-                        <td>Role name</td>
-                        <td>Blinded</td>
-                        <td className="complete">Completed</td>
-                        <td>Site name</td>
-                        <td className="pics">
-                          <img
-                            src={path_image + "certificate.png"}
-                            alt="Certificate"
-                          />
-                        </td>
-                      </tr>
-                      <tr
-                        className={`fold ${show && show == "1" ? "show" : ""}`}
-                      >
-                        <td colSpan="6">
-                          <div className="fold-content">
-                            <p>
-                              Completed Contents | <span>2</span>
-                            </p>
-                            <span>Click on the content for more details</span>
-                            <Accordion>
-                              <Accordion.Item eventKey="0">
-                                <Accordion.Header>
-                                  <div className="d-flex align-items-start">
-                                    <div className="content-image">
-                                      <img
-                                        src={path_image + "article-content.png"}
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="content-detail">
-                                      <h6>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravi ulvinar ultricies
-                                        neque praesent maurircu aliquam ondi
-                                        ment zcsum nudolor nibhcudolor ..
-                                      </h6>
-                                      <p>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravida
-                                      </p>
-                                      <div className="page-count">
-                                        <div className="time">
-                                          Pages <span>7</span>
-                                        </div>
-                                        <div className="completed-date">
-                                          Completed date
-                                          <span className="complete">
-                                            1 Jan 2023{" "}
-                                            <img
-                                              src={
-                                                path_image +
-                                                "check-complete.svg"
-                                              }
-                                              alt=""
-                                            />
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                  <div className="article-pages-details d-flex">
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
+                  <div
+                    className="rd-training-block"
+                    ref={individual_Completion}
+                    tabIndex={-1}
+                  >
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="rd-training-block-left">
+                        <h4>
+                          Individual Completion | <span>35</span>
+                        </h4>
+                        <p>Click on the Record to see more details</p>
+                      </div>
+                      <div className="rd-training-block-right d-flex">
+                        <Button title="Download stats">
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                              fill="#0066BE"
+                            ></path>
+                            <path
+                              d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                              fill="#0066BE"
+                            ></path>
+                          </svg>
+                        </Button>
+                        <Button className="sort_btn">
+                          Sort By
+                          <svg
+                            width="20"
+                            height="18"
+                            viewBox="0 0 20 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
+                              fill="#97B6CF"
+                            />
+                            <path
+                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
+                              fill="#97B6CF"
+                            />
+                          </svg>
+                        </Button>
+                      </div>
+                    </div>
+                    <Table className="fold-table">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Role</th>
+                          <th>Blind type</th>
+                          <th>Training</th>
+                          <th>Site</th>
+                          <th>&nbsp;</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          className={`view ${
+                            show && show == "1" ? "show" : ""
+                          }`}
+                          onClick={() => setShow("1")}
+                        >
+                          <td>UserName</td>
+                          <td>Role name</td>
+                          <td>Blinded</td>
+                          <td className="complete">Completed</td>
+                          <td>Site name</td>
+                          <td className="pics">
+                            <img
+                              src={path_image + "certificate.png"}
+                              alt="Certificate"
+                            />
+                          </td>
+                        </tr>
+                        <tr
+                          className={`fold ${
+                            show && show == "1" ? "show" : ""
+                          }`}
+                        >
+                          <td colspan="6">
+                            <div className="fold-content">
+                              <p>
+                                Completed Contents | <span>2</span>
+                              </p>
+                              <span>Click on the content for more details</span>
+                              <Accordion>
+                                <Accordion.Item eventKey="0">
+                                  <Accordion.Header>
+                                    <div className="d-flex align-items-start">
+                                      <div className="content-image">
                                         <img
                                           src={
-                                            path_image +
-                                            "article-content-cover.png"
+                                            path_image + "article-content.png"
                                           }
                                           alt=""
                                         />
                                       </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 1
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
+                                      <div className="content-detail">
+                                        <h6>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravi ulvinar
+                                          ultricies neque praesent maurircu
+                                          aliquam ondi ment zcsum nudolor
+                                          nibhcudolor ..
+                                        </h6>
+                                        <p>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravida
+                                        </p>
+                                        <div className="page-count">
+                                          <div className="time">
+                                            Pages <span>7</span>
+                                          </div>
+                                          <div className="completed-date">
+                                            Completed date
+                                            <span className="complete">
+                                              1 Jan 2023{" "}
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "check-complete.svg"
+                                                }
+                                                alt=""
+                                              />
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
+                                  </Accordion.Header>
+                                  <Accordion.Body>
+                                    <div className="article-pages-details d-flex">
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 1
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 2
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 3
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 4
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 5
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 6
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 7
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                                <Accordion.Item eventKey="1">
+                                  <Accordion.Header>
+                                    <div className="d-flex align-items-start">
+                                      <div className="content-image">
                                         <img
                                           src={
                                             path_image +
-                                            "article-content-cover.png"
+                                            "article-video-cover.png"
                                           }
                                           alt=""
                                         />
                                       </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 2
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
+                                      <div className="content-detail">
+                                        <h6>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravi ulvinar
+                                          ultricies neque praesent maurircu
+                                          aliquam ondi ment zcsum nudolor
+                                          nibhcudolor ..
+                                        </h6>
+                                        <p>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravida
+                                        </p>
+                                        <div className="page-count">
+                                          <div className="time">
+                                            Time <span>15:11</span>
+                                          </div>
+                                          <div className="completed-date">
+                                            Completed date
+                                            <span className="complete">
+                                              1 Jan 2023{" "}
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "check-complete.svg"
+                                                }
+                                                alt=""
+                                              />
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
+                                  </Accordion.Header>
+                                  <Accordion.Body>
+                                    <div className="article-pages-details d-flex">
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article _cover_video.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Video
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              12<small>minutes</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article _cover_video.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Video
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>minutes</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                                <Accordion.Item eventKey="2">
+                                  <Accordion.Header>
+                                    <div className="d-flex align-items-start">
+                                      <div className="content-image">
                                         <img
                                           src={
-                                            path_image +
-                                            "article-content-cover.png"
+                                            path_image + "certificate-cover.png"
                                           }
                                           alt=""
                                         />
                                       </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 3
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
+                                      <div className="content-detail">
+                                        <h6>Certificate</h6>
+                                        <p>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravida
+                                        </p>
+                                        <div className="page-count">
+                                          <div className="time"></div>
+                                          <div className="completed-date">
+                                            Issued date{" "}
+                                            <span className="complete">
+                                              2 Jan 2023{" "}
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "check-complete.svg"
+                                                }
+                                                alt=""
+                                              />
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
+                                  </Accordion.Header>
+                                  <Accordion.Body></Accordion.Body>
+                                </Accordion.Item>
+                              </Accordion>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr className="blank">
+                          <td colspan="6" style={{ height: "10px" }}>
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr
+                          className={`view ${
+                            show && show == "2" ? "show" : ""
+                          }`}
+                          onClick={() => setShow("2")}
+                        >
+                          <td>UserName</td>
+                          <td>Role name</td>
+                          <td>Blinded</td>
+                          <td className="started">Started</td>
+                          <td>Site name</td>
+                          <td className="pics"></td>
+                        </tr>
+                        <tr
+                          className={`fold ${
+                            show && show == "2" ? "show" : ""
+                          }`}
+                        >
+                          <td colspan="6">
+                            <div className="fold-content">
+                              <p>
+                                Completed Contents | <span>2</span>
+                              </p>
+                              <span>Click on the content for more details</span>
+                              <Accordion>
+                                <Accordion.Item eventKey="0">
+                                  <Accordion.Header>
+                                    <div className="d-flex align-items-start">
+                                      <div className="content-image">
                                         <img
                                           src={
-                                            path_image +
-                                            "article-content-cover.png"
+                                            path_image + "article-content.png"
                                           }
                                           alt=""
                                         />
                                       </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 4
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
+                                      <div className="content-detail">
+                                        <h6>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravi ulvinar
+                                          ultricies neque praesent maurircu
+                                          aliquam ondi ment zcsum nudolor
+                                          nibhcudolor ..
+                                        </h6>
+                                        <p>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravida
+                                        </p>
+                                        <div className="page-count">
+                                          <div className="time">
+                                            Pages <span>7</span>
+                                          </div>
+                                          <div className="completed-date">
+                                            Completed date
+                                            <span className="started">
+                                              1 Jan 2023
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
+                                  </Accordion.Header>
+                                  <Accordion.Body>
+                                    <div className="article-pages-details d-flex">
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 1
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 2
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 3
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 4
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 5
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 6
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 7
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                                <Accordion.Item eventKey="1">
+                                  <Accordion.Header>
+                                    <div className="d-flex align-items-start">
+                                      <div className="content-image">
                                         <img
                                           src={
                                             path_image +
-                                            "article-content-cover.png"
+                                            "article-video-cover.png"
                                           }
                                           alt=""
                                         />
                                       </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 5
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
+                                      <div className="content-detail">
+                                        <h6>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravi ulvinar
+                                          ultricies neque praesent maurircu
+                                          aliquam ondi ment zcsum nudolor
+                                          nibhcudolor ..
+                                        </h6>
+                                        <p>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravida
+                                        </p>
+                                        <div className="page-count">
+                                          <div className="time">
+                                            Time <span>15:11</span>
+                                          </div>
+                                          <div className="completed-date">
+                                            Completed date{" "}
+                                            <span className="started">
+                                              1 Jan 2023
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
+                                  </Accordion.Header>
+                                  <Accordion.Body>
+                                    <div className="article-pages-details d-flex">
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article _cover_video.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Video
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              12<small>minutes</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article _cover_video.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Video
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>minutes</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              </Accordion>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr className="blank">
+                          <td colspan="6" style={{ height: "10px" }}>
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr
+                          className={`view ${
+                            show && show == "3" ? "show" : ""
+                          }`}
+                          onClick={() => setShow("3")}
+                        >
+                          <td>UserName</td>
+                          <td>Role name</td>
+                          <td>Blinded</td>
+                          <td className="not_yet">Not yet</td>
+                          <td>Site name</td>
+                          <td className="pics"></td>
+                        </tr>
+                        <tr
+                          className={`fold ${
+                            show && show == "3" ? "show" : ""
+                          }`}
+                        >
+                          <td colspan="6">
+                            <div className="fold-content">
+                              <p>
+                                Completed Contents | <span>2</span>
+                              </p>
+                              <span>Click on the content for more details</span>
+                              <Accordion>
+                                <Accordion.Item eventKey="0">
+                                  <Accordion.Header>
+                                    <div className="d-flex align-items-start">
+                                      <div className="content-image">
                                         <img
                                           src={
-                                            path_image +
-                                            "article-content-cover.png"
+                                            path_image + "article-content.png"
                                           }
                                           alt=""
                                         />
                                       </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 6
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
+                                      <div className="content-detail">
+                                        <h6>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravi ulvinar
+                                          ultricies neque praesent maurircu
+                                          aliquam ondi ment zcsum nudolor
+                                          nibhcudolor ..
+                                        </h6>
+                                        <p>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravida
+                                        </p>
+                                        <div className="page-count">
+                                          <div className="time">
+                                            Pages <span>7</span>
+                                          </div>
+                                          <div className="completed-date">
+                                            Completed date
+                                            <span className="started">
+                                              1 Jan 2023
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
+                                  </Accordion.Header>
+                                  <Accordion.Body>
+                                    <div className="article-pages-details d-flex">
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 1
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 2
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 3
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 4
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 5
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 6
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article-content-cover.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page 7
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>sec</small>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                                <Accordion.Item eventKey="1">
+                                  <Accordion.Header>
+                                    <div className="d-flex align-items-start">
+                                      <div className="content-image">
                                         <img
                                           src={
                                             path_image +
-                                            "article-content-cover.png"
+                                            "article-video-cover.png"
                                           }
                                           alt=""
                                         />
                                       </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 7
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Body>
-                              </Accordion.Item>
-                              <Accordion.Item eventKey="1">
-                                <Accordion.Header>
-                                  <div className="d-flex align-items-start">
-                                    <div className="content-image">
-                                      <img
-                                        src={
-                                          path_image + "article-video-cover.png"
-                                        }
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="content-detail">
-                                      <h6>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravi ulvinar ultricies
-                                        neque praesent maurircu aliquam ondi
-                                        ment zcsum nudolor nibhcudolor ..
-                                      </h6>
-                                      <p>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravida
-                                      </p>
-                                      <div className="page-count">
-                                        <div className="time">
-                                          Time <span>15:11</span>
-                                        </div>
-                                        <div className="completed-date">
-                                          Completed date
-                                          <span className="complete">
-                                            1 Jan 2023{" "}
-                                            <img
-                                              src={
-                                                path_image +
-                                                "check-complete.svg"
-                                              }
-                                              alt=""
-                                            />
-                                          </span>
+                                      <div className="content-detail">
+                                        <h6>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravi ulvinar
+                                          ultricies neque praesent maurircu
+                                          aliquam ondi ment zcsum nudolor
+                                          nibhcudolor ..
+                                        </h6>
+                                        <p>
+                                          Lorem sollicitudin faucibus eu
+                                          molestie sollicitudin gravida
+                                        </p>
+                                        <div className="page-count">
+                                          <div className="time">
+                                            Time <span>15:11</span>
+                                          </div>
+                                          <div className="completed-date">
+                                            Completed date{" "}
+                                            <span className="started">
+                                              1 Jan 2023
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                  <div className="article-pages-details d-flex">
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article _cover_video.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Video
+                                  </Accordion.Header>
+                                  <Accordion.Body>
+                                    <div className="article-pages-details d-flex">
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article _cover_video.png"
+                                            }
+                                            alt=""
+                                          />
                                         </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            12<small>minutes</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article _cover_video.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Video
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>minutes</small>
-                                          </span>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Video
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              12<small>minutes</small>
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Body>
-                              </Accordion.Item>
-                              <Accordion.Item eventKey="2">
-                                <Accordion.Header>
-                                  <div className="d-flex align-items-start">
-                                    <div className="content-image">
-                                      <img
-                                        src={
-                                          path_image + "certificate-cover.png"
-                                        }
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="content-detail">
-                                      <h6>Certificate</h6>
-                                      <p>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravida
-                                      </p>
-                                      <div className="page-count">
-                                        <div className="time"></div>
-                                        <div className="completed-date">
-                                          Issued date{" "}
-                                          <span className="complete">
-                                            2 Jan 2023{" "}
-                                            <img
-                                              src={
-                                                path_image +
-                                                "check-complete.svg"
-                                              }
-                                              alt=""
-                                            />
-                                          </span>
+                                      <div className="article-page-show">
+                                        <div className="article-cover-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "article _cover_video.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Video
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Time spent |{" "}
+                                            <span>
+                                              5<small>minutes</small>
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </Accordion.Header>
-                                <Accordion.Body></Accordion.Body>
-                              </Accordion.Item>
-                            </Accordion>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr className="blank">
-                        <td colSpan="6" style={{ height: "10px" }}>
-                          &nbsp;
-                        </td>
-                      </tr>
-                      <tr
-                        className={`view ${show && show == "2" ? "show" : ""}`}
-                        onClick={() => setShow("2")}
-                      >
-                        <td>UserName</td>
-                        <td>Role name</td>
-                        <td>Blinded</td>
-                        <td className="started">Started</td>
-                        <td>Site name</td>
-                        <td className="pics"></td>
-                      </tr>
-                      <tr
-                        className={`fold ${show && show == "2" ? "show" : ""}`}
-                      >
-                        <td colSpan="6">
-                          <div className="fold-content">
-                            <p>
-                              Completed Contents | <span>2</span>
-                            </p>
-                            <span>Click on the content for more details</span>
-                            <Accordion>
-                              <Accordion.Item eventKey="0">
-                                <Accordion.Header>
-                                  <div className="d-flex align-items-start">
-                                    <div className="content-image">
-                                      <img
-                                        src={path_image + "article-content.png"}
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="content-detail">
-                                      <h6>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravi ulvinar ultricies
-                                        neque praesent maurircu aliquam ondi
-                                        ment zcsum nudolor nibhcudolor ..
-                                      </h6>
-                                      <p>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravida
-                                      </p>
-                                      <div className="page-count">
-                                        <div className="time">
-                                          Pages <span>7</span>
-                                        </div>
-                                        <div className="completed-date">
-                                          Completed date
-                                          <span className="started">
-                                            1 Jan 2023
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                  <div className="article-pages-details d-flex">
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 1
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 2
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 3
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 4
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 5
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 6
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 7
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Body>
-                              </Accordion.Item>
-                              <Accordion.Item eventKey="1">
-                                <Accordion.Header>
-                                  <div className="d-flex align-items-start">
-                                    <div className="content-image">
-                                      <img
-                                        src={
-                                          path_image + "article-video-cover.png"
-                                        }
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="content-detail">
-                                      <h6>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravi ulvinar ultricies
-                                        neque praesent maurircu aliquam ondi
-                                        ment zcsum nudolor nibhcudolor ..
-                                      </h6>
-                                      <p>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravida
-                                      </p>
-                                      <div className="page-count">
-                                        <div className="time">
-                                          Time <span>15:11</span>
-                                        </div>
-                                        <div className="completed-date">
-                                          Completed date{" "}
-                                          <span className="started">
-                                            1 Jan 2023
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                  <div className="article-pages-details d-flex">
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article _cover_video.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Video
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            12<small>minutes</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article _cover_video.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Video
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>minutes</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Body>
-                              </Accordion.Item>
-                            </Accordion>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr className="blank">
-                        <td colSpan="6" style={{ height: "10px" }}>
-                          &nbsp;
-                        </td>
-                      </tr>
-                      <tr
-                        className={`view ${show && show == "3" ? "show" : ""}`}
-                        onClick={() => setShow("3")}
-                      >
-                        <td>UserName</td>
-                        <td>Role name</td>
-                        <td>Blinded</td>
-                        <td className="not_yet">Not yet</td>
-                        <td>Site name</td>
-                        <td className="pics"></td>
-                      </tr>
-                      <tr
-                        className={`fold ${show && show == "3" ? "show" : ""}`}
-                      >
-                        <td colSpan="6">
-                          <div className="fold-content">
-                            <p>
-                              Completed Contents | <span>2</span>
-                            </p>
-                            <span>Click on the content for more details</span>
-                            <Accordion>
-                              <Accordion.Item eventKey="0">
-                                <Accordion.Header>
-                                  <div className="d-flex align-items-start">
-                                    <div className="content-image">
-                                      <img
-                                        src={path_image + "article-content.png"}
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="content-detail">
-                                      <h6>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravi ulvinar ultricies
-                                        neque praesent maurircu aliquam ondi
-                                        ment zcsum nudolor nibhcudolor ..
-                                      </h6>
-                                      <p>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravida
-                                      </p>
-                                      <div className="page-count">
-                                        <div className="time">
-                                          Pages <span>7</span>
-                                        </div>
-                                        <div className="completed-date">
-                                          Completed date
-                                          <span className="started">
-                                            1 Jan 2023
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                  <div className="article-pages-details d-flex">
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 1
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 2
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 3
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 4
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 5
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 6
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-content-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Page 7
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>sec</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Body>
-                              </Accordion.Item>
-                              <Accordion.Item eventKey="1">
-                                <Accordion.Header>
-                                  <div className="d-flex align-items-start">
-                                    <div className="content-image">
-                                      <img
-                                        src={
-                                          path_image + "article-video-cover.png"
-                                        }
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="content-detail">
-                                      <h6>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravi ulvinar ultricies
-                                        neque praesent maurircu aliquam ondi
-                                        ment zcsum nudolor nibhcudolor ..
-                                      </h6>
-                                      <p>
-                                        Lorem sollicitudin faucibus eu molestie
-                                        sollicitudin gravida
-                                      </p>
-                                      <div className="page-count">
-                                        <div className="time">
-                                          Time <span>15:11</span>
-                                        </div>
-                                        <div className="completed-date">
-                                          Completed date{" "}
-                                          <span className="started">
-                                            1 Jan 2023
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                  <div className="article-pages-details d-flex">
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article _cover_video.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Video
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            12<small>minutes</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="article-page-show">
-                                      <div className="article-cover-img">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article _cover_video.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-page-number">
-                                          Video
-                                        </div>
-                                        <div className="article-spanrd-time">
-                                          Time spent |{" "}
-                                          <span>
-                                            5<small>minutes</small>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Accordion.Body>
-                              </Accordion.Item>
-                            </Accordion>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              </Accordion>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </div>
                 </div>
-              </div>
-
+              ) : null}
               {/*Site Completion */}
-
-              <div className="rd-full-explain">
-                <div className="rd-section-title">
-                  <h4>Sites</h4>
-                </div>
-                <div className="rd-training-block">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="rd-training-block-left">
-                      <h4>
-                        Site Completion | <span>20</span>
-                      </h4>
-                      <p></p>
-                    </div>
-                    <div className="rd-training-block-right d-flex">
-                      <Button title="Download stats">
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                            fill="#0066BE"
-                          ></path>
-                          <path
-                            d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                            fill="#0066BE"
-                          ></path>
-                        </svg>
-                      </Button>
-                      <Button className="sort_btn">
-                        Sort By
-                        <svg
-                          width="20"
-                          height="18"
-                          viewBox="0 0 20 18"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                            fill="#97B6CF"
-                          />
-                          <path
-                            d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                            fill="#97B6CF"
-                          />
-                        </svg>
-                      </Button>
-                    </div>
+              {flag?.site_Completion ? (
+                <div className="rd-full-explain">
+                  <div className="rd-section-title">
+                    <h4>Sites</h4>
                   </div>
-                  <Table className="fold-table">
-                    <thead>
-                      <tr>
-                        <th className="site_name">Site Name</th>
-                        <th>Site Number</th>
-                        <th>Country</th>
-                        <th className="active-irt">
-                          Active IRTs | Pharmacists
-                        </th>
-                        <th>Completed Training</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        className={`view ${show && show == "11" ? "show" : ""}`}
-                        onClick={() => setShow("11")}
-                      >
-                        <td className="site_name">Site name</td>
-                        <td>00801-94</td>
-                        <td>United Kingdom</td>
-                        <td className="active-irt">
-                          <span>3</span>{" "}
-                          <img src={path_image + "doctor-svg.svg"} alt="" />
-                        </td>
-                        <td className="complete">2</td>
-                      </tr>
-                      <tr
-                        className={`fold ${show && show == "11" ? "show" : ""}`}
-                      >
-                        <td colSpan="5" className="site_complete">
-                          <Table>
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Blind Type</th>
-                                <th>Training</th>
+                  <div
+                    className="rd-training-block"
+                    ref={site_Completion}
+                    tabIndex={-1}
+                  >
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="rd-training-block-left">
+                        <h4>
+                          Site Completion |{" "}
+                          <span>{siteCompletionTableData?.length}</span>
+                        </h4>
+                        <p></p>
+                      </div>
+                      <div className="rd-training-block-right d-flex">
+                        <Button title="Download stats">
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                              fill="#0066BE"
+                            ></path>
+                            <path
+                              d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                              fill="#0066BE"
+                            ></path>
+                          </svg>
+                        </Button>
+                        <Button className="sort_btn">
+                          Sort By
+                          <svg
+                            width="20"
+                            height="18"
+                            viewBox="0 0 20 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
+                              fill="#97B6CF"
+                            />
+                            <path
+                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
+                              fill="#97B6CF"
+                            />
+                          </svg>
+                        </Button>
+                      </div>
+                    </div>
+                    <Table className="fold-table">
+                      <thead>
+                        <tr>
+                          <th className="site_name">Site Name</th>
+                          <th>Site Number</th>
+                          <th>Country</th>
+                          <th className="active-irt">
+                            Active IRTs | Pharmacists
+                          </th>
+                          <th>Completed Training</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {siteCompletionTableData?.map((item, index) => {
+                          return (
+                            <>
+                              <tr
+                                // className={`view ${
+                                //   show && show == "11" ? "show" : ""
+                                // }`}
+                                onClick={() => {
+                                  setSiteCompletionShow(index);
+                                }}
+                              >
+                                <td className="site_name">{item?.site_name}</td>
+                                <td>{item?.site_number}</td>
+                                <td>{item?.site_country}</td>
+                                <td className="active-irt">
+                                  <span>{item?.total_user}</span>{" "}
+                                  <img
+                                    src={path_image + "doctor-svg.svg"}
+                                    alt=""
+                                  />
+                                </td>
+                                <td className="complete">
+                                  {item?.completed_training}
+                                </td>
                               </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>UserName</td>
-                                <td>Role name</td>
-                                <td>Blinded</td>
-                                <td className="complete">Completed</td>
-                              </tr>
-                              <tr>
-                                <td>UserName</td>
-                                <td>Role name</td>
-                                <td>Blinded</td>
-                                <td className="complete">Completed</td>
-                              </tr>
-                              <tr>
-                                <td>UserName</td>
-                                <td>Role name</td>
-                                <td>Blinded</td>
-                                <td className="not_yet">Not yet</td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                        </td>
-                      </tr>
-                      <tr className="blank">
-                        <td colSpan="5" style={{ height: "10px" }}>
-                          &nbsp;
-                        </td>
-                      </tr>
-                      <tr
-                        className={`view ${show && show == "12" ? "show" : ""}`}
-                        onClick={() => setShow("12")}
-                      >
-                        <td className="site_name">Site name</td>
-                        <td>00801-94</td>
-                        <td>United Kingdom</td>
-                        <td className="active-irt">
-                          <span>16</span>
-                          <img src={path_image + "doctor-svg.svg"} alt="" />
-                        </td>
-                        <td className="complete">14</td>
-                      </tr>
-                      <tr
-                        className={`fold ${show && show == "12" ? "show" : ""}`}
-                      >
-                        <td colSpan="5" className="site_complete">
-                          <Table>
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Blind Type</th>
-                                <th>Training</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>UserName</td>
-                                <td>Role name</td>
-                                <td>Blinded</td>
-                                <td className="complete">Completed</td>
-                              </tr>
-                              <tr>
-                                <td>UserName</td>
-                                <td>Role name</td>
-                                <td>Blinded</td>
-                                <td className="complete">Completed</td>
-                              </tr>
-                              <tr>
-                                <td>UserName</td>
-                                <td>Role name</td>
-                                <td>Blinded</td>
-                                <td className="not_yet">Not yet</td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                        </td>
-                      </tr>
-                      <tr className="blank">
-                        <td colSpan="5" style={{ height: "10px" }}>
-                          &nbsp;
-                        </td>
-                      </tr>
-                      <tr
-                        className={`view ${show && show == "13" ? "show" : ""}`}
-                        onClick={() => setShow("13")}
-                      >
-                        <td className="site_name">Site name</td>
-                        <td>00801-94</td>
-                        <td>United Kingdom</td>
-                        <td className="active-irt">
-                          <span>12</span>
-                          <img src={path_image + "doctor-svg.svg"} alt="" />
-                        </td>
-                        <td className="complete">4</td>
-                      </tr>
-                      <tr
-                        className={`fold ${show && show == "13" ? "show" : ""}`}
-                      >
-                        <td colSpan="5" className="site_complete">
-                          <Table>
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Blind Type</th>
-                                <th>Training</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>UserName</td>
-                                <td>Role name</td>
-                                <td>Blinded</td>
-                                <td className="complete">Completed</td>
-                              </tr>
-                              <tr>
-                                <td>UserName</td>
-                                <td>Role name</td>
-                                <td>Blinded</td>
-                                <td className="complete">Completed</td>
-                              </tr>
-                              <tr>
-                                <td>UserName</td>
-                                <td>Role name</td>
-                                <td>Blinded</td>
-                                <td className="not_yet">Not yet</td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
+                              {siteCompletionShow == index ? (
+                                <tr
+                                // className={`fold ${
+                                //   siteCompletionShow &&
+                                //   siteCompletionShow == index
+                                //     ? "show"
+                                //     : ""
+                                // }`}
+                                >
+                                  <td colspan="5" className="site_complete">
+                                    {item?.Users?.length ? (
+                                      item?.Users?.map((data, i) => {
+                                        return (
+                                          <>
+                                            <Table>
+                                              <thead>
+                                                <tr>
+                                                  <th>Name</th>
+                                                  <th>Role</th>
+                                                  <th>Blind Type</th>
+                                                  <th>Training</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td>{data?.first_name}</td>
+                                                  <td>{data?.user_type}</td>
+                                                  <td>{data?.binded}</td>
+                                                  <td className="complete">
+                                                    {data?.training}
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </Table>
+                                          </>
+                                        );
+                                      })
+                                    ) : (
+                                      <div>No Data</div>
+                                    )}
+                                  </td>
+                                </tr>
+                              ) : null}
+                            </>
+                          );
+                        })}
+
+                        <tr className="blank">
+                          <td colspan="5" style={{ height: "10px" }}>
+                            &nbsp;
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </div>
                 </div>
-              </div>
+              ) : null}
               {/*Site Completion End*/}
-
               {/*Site Engagement */}
-              <div className="rd-full-explain">
-                <div className="rd-section-title">
-                  <h4>Non-mandatory Content</h4>
-                </div>
-                <div className="rd-training-block">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="rd-training-block-left">
-                      <h4>
-                        Site Engagement | <span>8</span>
-                      </h4>
-                      <p>Click on the Record to see more details</p>
-                    </div>
-                    <div className="rd-training-block-right d-flex">
-                      <Button title="Download stats">
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                            fill="#0066BE"
-                          ></path>
-                          <path
-                            d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                            fill="#0066BE"
-                          ></path>
-                        </svg>
-                      </Button>
-                      <Button className="sort_btn">
-                        Sort By
-                        <svg
-                          width="20"
-                          height="18"
-                          viewBox="0 0 20 18"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                            fill="#97B6CF"
-                          />
-                          <path
-                            d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                            fill="#97B6CF"
-                          />
-                        </svg>
-                      </Button>
-                    </div>
+              {flag?.site_Engagement ? (
+                <div className="rd-full-explain">
+                  <div className="rd-section-title">
+                    <h4>Non-mandatory Content</h4>
                   </div>
-                  <Table className="fold-table">
-                    <thead>
-                      <tr>
-                        <th>Site</th>
-                        <th>Site Number</th>
-                        <th>Country</th>
-                        <th>Site Users</th>
-                        <th>Content engagement</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        className={`view ${show && show == "31" ? "show" : ""}`}
-                        onClick={() => setShow("31")}
-                      >
-                        <td>Site Name</td>
-                        <td>00801-94</td>
-                        <td>United Kingdom</td>
-                        <td>4</td>
-                        <td>2</td>
-                      </tr>
-                      <tr
-                        className={`fold ${show && show == "31" ? "show" : ""}`}
-                      >
-                        <td colSpan="5">
-                          <div className="fold-content">
-                            <p>
-                              Content engagement | <span>2</span>
-                            </p>
-                            <span>Click on the content for more details</span>
+                  <div className="rd-training-block">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="rd-training-block-left">
+                        <h4>
+                          Site Engagement | <span>{rdSiteData?.length}</span>
+                        </h4>
+                        <p>Click on the Record to see more details</p>
+                      </div>
+                      <div className="rd-training-block-right d-flex">
+                        <Button title="Download stats">
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                              fill="#0066BE"
+                            ></path>
+                            <path
+                              d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                              fill="#0066BE"
+                            ></path>
+                          </svg>
+                        </Button>
+                        <Button className="sort_btn">
+                          Sort By
+                          <svg
+                            width="20"
+                            height="18"
+                            viewBox="0 0 20 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
+                              fill="#97B6CF"
+                            />
+                            <path
+                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
+                              fill="#97B6CF"
+                            />
+                          </svg>
+                        </Button>
+                      </div>
+                    </div>
+                    <Table className="fold-table">
+                      <thead>
+                        <tr>
+                          <th>Site</th>
+                          <th>Site Number</th>
+                          <th>Country</th>
+                          <th>Site Users</th>
+                          <th>Content engagement</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rdSiteData?.map((item, index) => {
+                          return (
+                            <>
+                              <tr
+                                key={index}
+                                className={`view ${
+                                  show && show == "31" ? "show" : ""
+                                }`}
+                                onClick={() => setShow(index)}
+                              >
+                                <td>{item?.site_name}</td>
+                                <td>{item?.site_number}</td>
+                                <td>{item?.site_country}</td>
+                                <td>{item?.site_users}</td>
+                                <td>{item?.content_engagement}</td>
+                              </tr>
+                              {show == index ? (
+                                <Table
+                                  className="view"
+                                  // className={`fold ${
+                                  //   show && show == index ? "show" : ""
+                                  // }`}
+                                >
+                                  <tbody>
+                                    {item?.pdf_data?.length ? (
+                                      // item?.pdf_data?.map((data, i) => {
+                                      //     return (
+                                      //       <>
+                                      <tr
+                                      // className={`fold ${
+                                      //   show && show == index ? "show" : ""
+                                      // }`}
+                                      >
+                                        <td colspan="5">
+                                          <div className="fold-content">
+                                            <p>
+                                              Content engagement |{" "}
+                                              <span>
+                                                {item?.pdf_data?.length}
+                                              </span>
+                                            </p>
+                                            <span>
+                                              Click on the content for more
+                                              details
+                                            </span>
+                                            {item?.pdf_data?.map((data, i) => {
+                                              return (
+                                                <>
+                                                  <div className="d-flex align-items-start engagement-sec">
+                                                    <div className="content-image">
+                                                      <img
+                                                        src={
+                                                          // path_image +
+                                                          // "article-content.png"
+                                                          data?.cover_img
+                                                        }
+                                                        alt="no image"
+                                                      />
+                                                    </div>
+                                                    <div className="content-detail">
+                                                      <h6>{data?.title}</h6>
+                                                      <p>
+                                                        {data?.pdf_sub_title}
+                                                      </p>
+                                                      <div className="page-count">
+                                                        <div className="time">
+                                                          Pages{" "}
+                                                          <span>
+                                                            {data?.total_pages}
+                                                          </span>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <div className="pages-viewer">
+                                                      {data?.unique_users}{" "}
+                                                      <img
+                                                        src="componentAssets/images/viewer.svg"
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </>
+                                              );
+                                            })}
+                                            
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ) : (
+                                      <div className="content-detail">
+                                        No Data
+                                      </div>
+                                    )}
+                                  </tbody>
+                                </Table>
+                              ) : null}
+
+                              <tr className="blank">
+                                <td colspan="5" style={{ height: "10px" }}>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
+
+                      </tbody>
+                    </Table>
+                  </div>
+                </div>
+              ) : null}
+              {/*Site Engagement End*/}
+              {/*Content*/}
+              {flag?.content ? (
+                <div className="rd-full-explain">
+                  <div className="rd-section-title">
+                    <h4>Contents</h4>
+                  </div>
+                  <div className="rd-training-block">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="rd-training-block-left">
+                        <h4>
+                          Contents | <span>8</span>
+                        </h4>
+                        <p>Click on the Record to see more details</p>
+                      </div>
+                    </div>
+                    <div className="fold-content contents">
+                      <Accordion>
+                        <Accordion.Item eventKey="0">
+                          <Accordion.Header>
                             <div className="d-flex align-items-start engagement-sec">
                               <div className="content-image">
                                 <img
@@ -1842,72 +2094,298 @@ const RDAnalytics = () => {
                                 </div>
                               </div>
                               <div className="pages-viewer">
-                                103{" "}
+                                5{" "}
                                 <img
                                   src="componentAssets/images/viewer.svg"
                                   alt=""
                                 />
                               </div>
                             </div>
-                            <div className="d-flex align-items-start engagement-sec">
-                              <div className="content-image">
-                                <img
-                                  src={path_image + "article-video-cover.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="content-detail">
-                                <h6>
-                                  Lorem sollicitudin faucibus eu molestie
-                                  sollicitudin gravi ulvinar ultricies neque
-                                  praesent maurircu aliquam ondi ment zcsum
-                                  nudolor nibhcudolor ..
-                                </h6>
-                                <p>
-                                  Lorem sollicitudin faucibus eu molestie
-                                  sollicitudin gravida
-                                </p>
-                                <div className="page-count">
-                                  <div className="time">
-                                    Time <span>15:11</span>
+                          </Accordion.Header>
+                          <Accordion.Body>
+                            <div className="article-pages-details d-flex">
+                              <div className="article-page-show">
+                                <div className="article-cover-img">
+                                  <img
+                                    src={
+                                      path_image + "article-content-cover.png"
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="article-detail-view">
+                                  <div className="article-page-number">
+                                    Page 1
+                                  </div>
+                                  <div className="article-spanrd-time">
+                                    Time spent |{" "}
+                                    <span>
+                                      5<small>sec</small>
+                                    </span>
                                   </div>
                                 </div>
                               </div>
-                              <div className="pages-viewer">
-                                103{" "}
-                                <img
-                                  src="componentAssets/images/viewer.svg"
-                                  alt=""
-                                />
+                              <div className="article-page-show">
+                                <div className="article-cover-img">
+                                  <img
+                                    src={
+                                      path_image + "article-content-cover.png"
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="article-detail-view">
+                                  <div className="article-page-number">
+                                    Page 2
+                                  </div>
+                                  <div className="article-spanrd-time">
+                                    Time spent |{" "}
+                                    <span>
+                                      5<small>sec</small>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="article-page-show">
+                                <div className="article-cover-img">
+                                  <img
+                                    src={
+                                      path_image + "article-content-cover.png"
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="article-detail-view">
+                                  <div className="article-page-number">
+                                    Page 3
+                                  </div>
+                                  <div className="article-spanrd-time">
+                                    Time spent |{" "}
+                                    <span>
+                                      5<small>sec</small>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="article-page-show">
+                                <div className="article-cover-img">
+                                  <img
+                                    src={
+                                      path_image + "article-content-cover.png"
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="article-detail-view">
+                                  <div className="article-page-number">
+                                    Page 4
+                                  </div>
+                                  <div className="article-spanrd-time">
+                                    Time spent |{" "}
+                                    <span>
+                                      5<small>sec</small>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="article-page-show">
+                                <div className="article-cover-img">
+                                  <img
+                                    src={
+                                      path_image + "article-content-cover.png"
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="article-detail-view">
+                                  <div className="article-page-number">
+                                    Page 5
+                                  </div>
+                                  <div className="article-spanrd-time">
+                                    Time spent |{" "}
+                                    <span>
+                                      5<small>sec</small>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="article-page-show">
+                                <div className="article-cover-img">
+                                  <img
+                                    src={
+                                      path_image + "article-content-cover.png"
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="article-detail-view">
+                                  <div className="article-page-number">
+                                    Page 6
+                                  </div>
+                                  <div className="article-spanrd-time">
+                                    Time spent |{" "}
+                                    <span>
+                                      5<small>sec</small>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="article-page-show">
+                                <div className="article-cover-img">
+                                  <img
+                                    src={
+                                      path_image + "article-content-cover.png"
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="article-detail-view">
+                                  <div className="article-page-number">
+                                    Page 7
+                                  </div>
+                                  <div className="article-spanrd-time">
+                                    Time spent |{" "}
+                                    <span>
+                                      5<small>sec</small>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr className="blank">
-                        <td colSpan="5" style={{ height: "10px" }}>
-                          &nbsp;
-                        </td>
-                      </tr>
-                      <tr
-                        className={`view ${show && show == "32" ? "show" : ""}`}
-                        onClick={() => setShow("32")}
-                      >
-                        <td>Site Name</td>
-                        <td>00801-94</td>
-                        <td>United Kingdom</td>
-                        <td>4</td>
-                        <td>2</td>
-                      </tr>
-                      <tr
-                        className={`fold ${show && show == "32" ? "show" : ""}`}
-                      >
-                        <td colSpan="5">
-                          <div className="fold-content">
-                            <p>
-                              Completed Contents | <span>2</span>
-                            </p>
-                            <span>Click on the content for more details</span>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                        <Accordion.Item
+                          eventKey="10"
+                          className="accordion-read"
+                        >
+                          <Accordion.Header>
+                            <div className="d-flex align-items-center justify-content-center">
+                              Who Read | Watched at each site{" "}
+                              <img
+                                src={path_image + "accordian_arrow.svg"}
+                                alt=""
+                              />
+                            </div>
+                          </Accordion.Header>
+                          <Accordion.Body>
+                            <div className="contents-block d-flex">
+                              <div className="contents-block-left">
+                                <Table>
+                                  <thead>
+                                    <tr>
+                                      <th>Site</th>
+                                      <th>Site Number</th>
+                                      <th className="short_value">
+                                        <Button className="sort_btn">
+                                          Sort By
+                                          <svg
+                                            width="20"
+                                            height="18"
+                                            viewBox="0 0 20 18"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
+                                              fill="#97B6CF"
+                                            />
+                                            <path
+                                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
+                                              fill="#97B6CF"
+                                            />
+                                          </svg>
+                                        </Button>{" "}
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </Table>
+                              </div>
+                              <div className="contents-block-right">
+                                <h4>Used Devices</h4>
+                                <div className="used-device-detail">
+                                  <img
+                                    src={path_image + "used-device-stats.png"}
+                                    alt=""
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      </Accordion>
+                    </div>
+                    <div className="fold-content contents">
+                      <Accordion>
+                        <Accordion.Item eventKey="1">
+                          <Accordion.Header>
                             <div className="d-flex align-items-start engagement-sec">
                               <div className="content-image">
                                 <img
@@ -1928,709 +2406,364 @@ const RDAnalytics = () => {
                                 </p>
                                 <div className="page-count">
                                   <div className="time">
-                                    Pages <span>7</span>
+                                    Pages <span>5</span>
                                   </div>
                                 </div>
                               </div>
                               <div className="pages-viewer">
-                                103{" "}
+                                1{" "}
                                 <img
                                   src="componentAssets/images/viewer.svg"
                                   alt=""
                                 />
                               </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                </div>
-              </div>
-              {/*Site Engagement End*/}
-
-              {/*Content*/}
-              <div className="rd-full-explain">
-                <div className="rd-section-title">
-                  <h4>Contents</h4>
-                </div>
-                <div className="rd-training-block">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="rd-training-block-left">
-                      <h4>
-                        Contents | <span>8</span>
-                      </h4>
-                      <p>Click on the Record to see more details</p>
+                          </Accordion.Header>
+                          <Accordion.Body>
+                            <div className="article-pages-details d-flex">
+                              <div className="article-page-show">
+                                <div className="article-cover-img">
+                                  <img
+                                    src={
+                                      path_image + "article _cover_video.png"
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="article-detail-view">
+                                  <div className="article-page-number">
+                                    Video
+                                  </div>
+                                  <div className="article-spanrd-time">
+                                    Time spent |{" "}
+                                    <span>
+                                      12<small>minutes</small>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="article-page-show">
+                                <div className="article-cover-img">
+                                  <img
+                                    src={
+                                      path_image + "article _cover_video.png"
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="article-detail-view">
+                                  <div className="article-page-number">
+                                    Video
+                                  </div>
+                                  <div className="article-spanrd-time">
+                                    Time spent |{" "}
+                                    <span>
+                                      5<small>minutes</small>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                        <Accordion.Item
+                          eventKey="11"
+                          className="accordion-read"
+                        >
+                          <Accordion.Header>
+                            <div className="d-flex align-items-center justify-content-center">
+                              Who Read | Watched at each site{" "}
+                              <img
+                                src={path_image + "accordian_arrow.svg"}
+                                alt=""
+                              />
+                            </div>
+                          </Accordion.Header>
+                          <Accordion.Body>
+                            <div className="contents-block d-flex">
+                              <div className="contents-block-left">
+                                <Table>
+                                  <thead>
+                                    <tr>
+                                      <th>Site</th>
+                                      <th>Site Number</th>
+                                      <th className="short_value">
+                                        <Button className="sort_btn">
+                                          Sort By
+                                          <svg
+                                            width="20"
+                                            height="18"
+                                            viewBox="0 0 20 18"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
+                                              fill="#97B6CF"
+                                            />
+                                            <path
+                                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
+                                              fill="#97B6CF"
+                                            />
+                                          </svg>
+                                        </Button>{" "}
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </Table>
+                              </div>
+                              <div className="contents-block-right">
+                                <h4>Used Devices</h4>
+                                <div className="used-device-detail">
+                                  <img
+                                    src={path_image + "used-device-stats.png"}
+                                    alt=""
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      </Accordion>
+                    </div>
+                    <div className="fold-content contents">
+                      <Accordion>
+                        <Accordion.Item eventKey="2">
+                          <Accordion.Header>
+                            <div className="d-flex align-items-start engagement-sec">
+                              <div className="content-image">
+                                <img
+                                  src={path_image + "article-content.png"}
+                                  alt=""
+                                />
+                              </div>
+                              <div className="content-detail">
+                                <h6>
+                                  Lorem sollicitudin faucibus eu molestie
+                                  sollicitudin gravi ulvinar ultricies neque
+                                  praesent maurircu aliquam ondi ment zcsum
+                                  nudolor nibhcudolor ..
+                                </h6>
+                                <p>
+                                  Lorem sollicitudin faucibus eu molestie
+                                  sollicitudin gravida
+                                </p>
+                                <div className="page-count">
+                                  <div className="time">
+                                    Pages <span>5</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="pages-viewer">
+                                2{" "}
+                                <img
+                                  src="componentAssets/images/viewer.svg"
+                                  alt=""
+                                />
+                              </div>
+                            </div>
+                          </Accordion.Header>
+                          <Accordion.Body></Accordion.Body>
+                        </Accordion.Item>
+                        <Accordion.Item
+                          eventKey="12"
+                          className="accordion-read"
+                        >
+                          <Accordion.Header>
+                            <div className="d-flex align-items-center justify-content-center">
+                              Who Read | Watched at each site{" "}
+                              <img
+                                src={path_image + "accordian_arrow.svg"}
+                                alt=""
+                              />
+                            </div>
+                          </Accordion.Header>
+                          <Accordion.Body>
+                            <div className="contents-block d-flex">
+                              <div className="contents-block-left">
+                                <Table>
+                                  <thead>
+                                    <tr>
+                                      <th>Site</th>
+                                      <th>Site Number</th>
+                                      <th className="short_value">
+                                        <Button className="sort_btn">
+                                          Sort By
+                                          <svg
+                                            width="20"
+                                            height="18"
+                                            viewBox="0 0 20 18"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
+                                              fill="#97B6CF"
+                                            />
+                                            <path
+                                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
+                                              fill="#97B6CF"
+                                            />
+                                          </svg>
+                                        </Button>{" "}
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Site Name</td>
+                                      <td>00801-94</td>
+                                      <td className="short_value">
+                                        103{" "}
+                                        <img
+                                          src="componentAssets/images/viewer.svg"
+                                          alt=""
+                                        />
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </Table>
+                              </div>
+                              <div className="contents-block-right">
+                                <h4>Used Devices</h4>
+                                <div className="used-device-detail">
+                                  <img
+                                    src={path_image + "used-device-stats.png"}
+                                    alt=""
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      </Accordion>
                     </div>
                   </div>
-                  <div className="fold-content contents">
-                    <Accordion>
-                      <Accordion.Item eventKey="0">
-                        <Accordion.Header>
-                          <div className="d-flex align-items-start engagement-sec">
-                            <div className="content-image">
-                              <img
-                                src={path_image + "article-content.png"}
-                                alt=""
-                              />
-                            </div>
-                            <div className="content-detail">
-                              <h6>
-                                Lorem sollicitudin faucibus eu molestie
-                                sollicitudin gravi ulvinar ultricies neque
-                                praesent maurircu aliquam ondi ment zcsum
-                                nudolor nibhcudolor ..
-                              </h6>
-                              <p>
-                                Lorem sollicitudin faucibus eu molestie
-                                sollicitudin gravida
-                              </p>
-                              <div className="page-count">
-                                <div className="time">
-                                  Pages <span>5</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="pages-viewer">
-                              5{" "}
-                              <img
-                                src="componentAssets/images/viewer.svg"
-                                alt=""
-                              />
-                            </div>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <div className="article-pages-details d-flex">
-                            <div className="article-page-show">
-                              <div className="article-cover-img">
-                                <img
-                                  src={path_image + "article-content-cover.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="article-detail-view">
-                                <div className="article-page-number">
-                                  Page 1
-                                </div>
-                                <div className="article-spanrd-time">
-                                  Time spent |{" "}
-                                  <span>
-                                    5<small>sec</small>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="article-page-show">
-                              <div className="article-cover-img">
-                                <img
-                                  src={path_image + "article-content-cover.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="article-detail-view">
-                                <div className="article-page-number">
-                                  Page 2
-                                </div>
-                                <div className="article-spanrd-time">
-                                  Time spent |{" "}
-                                  <span>
-                                    5<small>sec</small>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="article-page-show">
-                              <div className="article-cover-img">
-                                <img
-                                  src={path_image + "article-content-cover.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="article-detail-view">
-                                <div className="article-page-number">
-                                  Page 3
-                                </div>
-                                <div className="article-spanrd-time">
-                                  Time spent |{" "}
-                                  <span>
-                                    5<small>sec</small>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="article-page-show">
-                              <div className="article-cover-img">
-                                <img
-                                  src={path_image + "article-content-cover.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="article-detail-view">
-                                <div className="article-page-number">
-                                  Page 4
-                                </div>
-                                <div className="article-spanrd-time">
-                                  Time spent |{" "}
-                                  <span>
-                                    5<small>sec</small>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="article-page-show">
-                              <div className="article-cover-img">
-                                <img
-                                  src={path_image + "article-content-cover.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="article-detail-view">
-                                <div className="article-page-number">
-                                  Page 5
-                                </div>
-                                <div className="article-spanrd-time">
-                                  Time spent |{" "}
-                                  <span>
-                                    5<small>sec</small>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="article-page-show">
-                              <div className="article-cover-img">
-                                <img
-                                  src={path_image + "article-content-cover.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="article-detail-view">
-                                <div className="article-page-number">
-                                  Page 6
-                                </div>
-                                <div className="article-spanrd-time">
-                                  Time spent |{" "}
-                                  <span>
-                                    5<small>sec</small>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="article-page-show">
-                              <div className="article-cover-img">
-                                <img
-                                  src={path_image + "article-content-cover.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="article-detail-view">
-                                <div className="article-page-number">
-                                  Page 7
-                                </div>
-                                <div className="article-spanrd-time">
-                                  Time spent |{" "}
-                                  <span>
-                                    5<small>sec</small>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item eventKey="10" className="accordion-read">
-                        <Accordion.Header>
-                          <div className="d-flex align-items-center justify-content-center">
-                            Who Read | Watched at each site{" "}
-                            <img
-                              src={path_image + "accordian_arrow.svg"}
-                              alt=""
-                            />
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <div className="contents-block d-flex">
-                            <div className="contents-block-left">
-                              <Table>
-                                <thead>
-                                  <tr>
-                                    <th>Site</th>
-                                    <th>Site Number</th>
-                                    <th className="short_value">
-                                      <Button className="sort_btn">
-                                        Sort By
-                                        <svg
-                                          width="20"
-                                          height="18"
-                                          viewBox="0 0 20 18"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                                            fill="#97B6CF"
-                                          />
-                                          <path
-                                            d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                                            fill="#97B6CF"
-                                          />
-                                        </svg>
-                                      </Button>{" "}
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </Table>
-                            </div>
-                            <div className="contents-block-right">
-                              <h4>Used Devices</h4>
-                              <div className="used-device-detail">
-                                <img
-                                  src={path_image + "used-device-stats.png"}
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                  </div>
-                  <div className="fold-content contents">
-                    <Accordion>
-                      <Accordion.Item eventKey="1">
-                        <Accordion.Header>
-                          <div className="d-flex align-items-start engagement-sec">
-                            <div className="content-image">
-                              <img
-                                src={path_image + "article-content.png"}
-                                alt=""
-                              />
-                            </div>
-                            <div className="content-detail">
-                              <h6>
-                                Lorem sollicitudin faucibus eu molestie
-                                sollicitudin gravi ulvinar ultricies neque
-                                praesent maurircu aliquam ondi ment zcsum
-                                nudolor nibhcudolor ..
-                              </h6>
-                              <p>
-                                Lorem sollicitudin faucibus eu molestie
-                                sollicitudin gravida
-                              </p>
-                              <div className="page-count">
-                                <div className="time">
-                                  Pages <span>5</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="pages-viewer">
-                              1{" "}
-                              <img
-                                src="componentAssets/images/viewer.svg"
-                                alt=""
-                              />
-                            </div>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <div className="article-pages-details d-flex">
-                            <div className="article-page-show">
-                              <div className="article-cover-img">
-                                <img
-                                  src={path_image + "article _cover_video.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="article-detail-view">
-                                <div className="article-page-number">Video</div>
-                                <div className="article-spanrd-time">
-                                  Time spent |{" "}
-                                  <span>
-                                    12<small>minutes</small>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="article-page-show">
-                              <div className="article-cover-img">
-                                <img
-                                  src={path_image + "article _cover_video.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="article-detail-view">
-                                <div className="article-page-number">Video</div>
-                                <div className="article-spanrd-time">
-                                  Time spent |{" "}
-                                  <span>
-                                    5<small>minutes</small>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item eventKey="11" className="accordion-read">
-                        <Accordion.Header>
-                          <div className="d-flex align-items-center justify-content-center">
-                            Who Read | Watched at each site{" "}
-                            <img
-                              src={path_image + "accordian_arrow.svg"}
-                              alt=""
-                            />
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <div className="contents-block d-flex">
-                            <div className="contents-block-left">
-                              <Table>
-                                <thead>
-                                  <tr>
-                                    <th>Site</th>
-                                    <th>Site Number</th>
-                                    <th className="short_value">
-                                      <Button className="sort_btn">
-                                        Sort By
-                                        <svg
-                                          width="20"
-                                          height="18"
-                                          viewBox="0 0 20 18"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                                            fill="#97B6CF"
-                                          />
-                                          <path
-                                            d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                                            fill="#97B6CF"
-                                          />
-                                        </svg>
-                                      </Button>{" "}
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </Table>
-                            </div>
-                            <div className="contents-block-right">
-                              <h4>Used Devices</h4>
-                              <div className="used-device-detail">
-                                <img
-                                  src={path_image + "used-device-stats.png"}
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                  </div>
-                  <div className="fold-content contents">
-                    <Accordion>
-                      <Accordion.Item eventKey="2">
-                        <Accordion.Header>
-                          <div className="d-flex align-items-start engagement-sec">
-                            <div className="content-image">
-                              <img
-                                src={path_image + "article-content.png"}
-                                alt=""
-                              />
-                            </div>
-                            <div className="content-detail">
-                              <h6>
-                                Lorem sollicitudin faucibus eu molestie
-                                sollicitudin gravi ulvinar ultricies neque
-                                praesent maurircu aliquam ondi ment zcsum
-                                nudolor nibhcudolor ..
-                              </h6>
-                              <p>
-                                Lorem sollicitudin faucibus eu molestie
-                                sollicitudin gravida
-                              </p>
-                              <div className="page-count">
-                                <div className="time">
-                                  Pages <span>5</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="pages-viewer">
-                              2{" "}
-                              <img
-                                src="componentAssets/images/viewer.svg"
-                                alt=""
-                              />
-                            </div>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body></Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item eventKey="12" className="accordion-read">
-                        <Accordion.Header>
-                          <div className="d-flex align-items-center justify-content-center">
-                            Who Read | Watched at each site{" "}
-                            <img
-                              src={path_image + "accordian_arrow.svg"}
-                              alt=""
-                            />
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <div className="contents-block d-flex">
-                            <div className="contents-block-left">
-                              <Table>
-                                <thead>
-                                  <tr>
-                                    <th>Site</th>
-                                    <th>Site Number</th>
-                                    <th className="short_value">
-                                      <Button className="sort_btn">
-                                        Sort By
-                                        <svg
-                                          width="20"
-                                          height="18"
-                                          viewBox="0 0 20 18"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                                            fill="#97B6CF"
-                                          />
-                                          <path
-                                            d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                                            fill="#97B6CF"
-                                          />
-                                        </svg>
-                                      </Button>{" "}
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Site Name</td>
-                                    <td>00801-94</td>
-                                    <td className="short_value">
-                                      103{" "}
-                                      <img
-                                        src="componentAssets/images/viewer.svg"
-                                        alt=""
-                                      />
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </Table>
-                            </div>
-                            <div className="contents-block-right">
-                              <h4>Used Devices</h4>
-                              <div className="used-device-detail">
-                                <img
-                                  src={path_image + "used-device-stats.png"}
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                  </div>
                 </div>
-              </div>
-
+              ) : null}
               {/*Content End*/}
             </div>
           </Row>

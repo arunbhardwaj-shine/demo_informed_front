@@ -81,6 +81,11 @@ export const ENDPOINT = {
   CHANGE_PASSWORD: "auth/change-password",
   INFORMED_USER_FORM: "https://webinar.docintel.app/lmn/contact_email",
   READER_REFRESH: "/reader/sync-reader",
-  SITEREGISTER: "/siteRegistration",
-  IRT_COUNT_GRAPH: "/findirtcount",
+  SITEREGISTER: "/site-registration",
+  IRT_COUNT_GRAPH: "/find-irt-count",
+  // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
+  RD_SITE_ENGAGEMENT:
+    "https://webinar.docintel.app/lmn/api/analytics/rd_site_engagement",
+  SITE_REGISTRATION_LIST: "/site-registration-list",
+  INDIVIDUAL_TRAINING_COMPLETION: "/training-completion",
 };
