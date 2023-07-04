@@ -773,6 +773,11 @@ const CreateEmail = (props) => {
   };
 
   const emailSubjectChanged = (e) => {
+    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+      setemailCampaign(e.target.value);
+      setEmailCreator("Octapharma R&D")
+      setEmailDescription(e.target.value);
+    }
     setEmailSubject(e.target.value);
   };
 
@@ -1721,7 +1726,11 @@ const CreateEmail = (props) => {
 
                   <div className="email-form">
                     <form>
-                      <div className="form-inline row justify-content-between align-items-center">
+
+                      {
+                        localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="?(
+                         <>
+                         <div className="form-inline row justify-content-between align-items-center">
                         <div className="form-group col-12 col-md-7">
                           <label htmlFor="exampleInputEmail1">
                             Email Description <span>*</span>{" "}
@@ -1803,7 +1812,11 @@ const CreateEmail = (props) => {
                           )}
                         </div>
                       </div>
-                      <div className="input-group w-100">
+                     
+                         </>
+                        ):null
+                      }
+                       <div className="input-group w-100">
                         <div className="input-group-prepend">
                           <button
                             className="btn btn-bordered btn-primary"
@@ -1835,6 +1848,7 @@ const CreateEmail = (props) => {
                           </ul>
                         </div>
                       </div>
+                      
                       <div className="form-inline row justify-content-end align-items-center">
                         <div className="form-group col-12 col-md-5">
                           <label htmlFor="exampleInputEmail1">
