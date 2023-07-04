@@ -126,7 +126,7 @@ const EventModel = ({ show, onClose, data }) => {
         )}
       </Modal.Body>
       <Modal.Footer>
-        {error?.msg ? <p>{error.msg}</p> : ""}
+        {error?.msg ? <p className="error">{error.msg}</p> : ""}
         <Button onClick={handleSubmit}>Submit</Button>
       </Modal.Footer>
     </Modal>

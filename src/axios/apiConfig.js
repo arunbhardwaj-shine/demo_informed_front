@@ -84,6 +84,7 @@ export const ENDPOINT = {
   LIBRARY_CLONE_ARTICLE: "/library/clone-article",
   WEBINAR_QUESTION: `/auth/questions`,
   POLL_ANSWER: `/auth/poll-answer`,
+  EVENT_ID: `/auth/event-data`,
 
 
 };

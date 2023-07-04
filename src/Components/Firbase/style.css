@@ -1219,12 +1219,14 @@ div#shared-stream {
 .webinar__description .question_form .question_form-list {
     padding-right: 3px;
 }
-#pollModel .modal-header, #pollAnswerModel .modal-header, #socketConnect .modal-header{
+#pollModel .modal-header, #pollModel1 .modal-header, #pollAnswerModel .modal-header, #socketConnect .modal-header{
     padding: 15px 25px;
     border: 0;
     background: #64b8b0;
 }
-    
+#pollModel1 .modal-content {
+    border-radius: 0.3rem;
+}
 /* #pollModel .modal-dialog, #pollAnswerModel .modal-dialog, #socketConnect .modal-dialog{
     max-width: 700px;
     border: 0;
@@ -1246,7 +1248,7 @@ div#shared-stream {
 	display: flex;
 	flex-wrap: wrap;
 }
-#pollModel .modal-body p {
+#pollModel .modal-body p, #pollModel1 .modal-body p  {
 	font-size: 20px;
 	margin-bottom: 20px;
 	color: #1b6194;
@@ -1377,7 +1379,7 @@ div#shared-stream {
 }
 
 @media only screen and (max-width:767px){
-#pollModel {
+#pollModel, #pollModel1 {
     max-width: 90%;
 }
 .modal-header .modal-title img {
@@ -1386,25 +1388,25 @@ div#shared-stream {
 .modal .modal-content {
     padding: 0;
 }
-#pollModel .modal-body {
+#pollModel .modal-body, #pollModel1 .modal-body {
     padding: 20px 20px;
 }
-#pollModel .modal-body p {
+#pollModel .modal-body p, #pollModel1 .modal-body p {
     font-size: 16px;
     margin-bottom: 12px;
 }
 #pollModel .form-check.form-check-inline {
     width: 100%;
 }
-#pollModel.modal-dialog .modal-header .btn-close {
+#pollModel.modal-dialog .modal-header .btn-close, #pollModel1.modal-dialog .modal-header .btn-close {
     right: 9px;
     top: 11px;
 }
-#pollModel .modal-footer button {
+#pollModel .modal-footer button, #pollModel1 .modal-footer button  {
     padding: 7px 10px;
     font-size: 15px;
 }
-#pollModel.modal-dialog .modal-content {
+#pollModel.modal-dialog .modal-content, #pollModel1.modal-dialog .modal-content {
     padding: 0;
 }
 body {

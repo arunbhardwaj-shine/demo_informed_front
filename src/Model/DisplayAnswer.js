@@ -5,6 +5,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 function DisplayAnswer({ show, data, onClose }) {
   const [highchartData, setHighChartData] = useState({});
+  const [userCount,setUserCount] = useState(0) 
   useEffect(() => {
     let line_v = [],line_h=[],totalAnswer=0,graphData=[];
     data?.answers?.forEach((value, index)=>{
@@ -52,6 +53,7 @@ function DisplayAnswer({ show, data, onClose }) {
         },
       ],
     };
+    setUserCount(totalAnswer)
     setHighChartData(chart);
   }, [data]);
 
@@ -61,16 +63,21 @@ function DisplayAnswer({ show, data, onClose }) {
 
   return (
     <>
-      <Modal show={show} backdrop="static" keyboard={false}>
+      <Modal show={show} backdrop="static" keyboard={false} id="pollModel1">
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          <img
+            src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
+            alt=""
+          />
+        </Modal.Title>
+      </Modal.Header>
         <Modal.Body>
           <p>{data?.question}</p>
           <HighchartsReact highcharts={Highcharts} options={highchartData} />
+          <h5>Total Answer:{userCount}</h5>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={onClose}>
-            Close
-          </Button>
-        </Modal.Footer>
+      
       </Modal>
     </>
   );
