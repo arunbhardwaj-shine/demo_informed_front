@@ -171,6 +171,10 @@ const SelectSmartListUsers = (props) => {
   };
 
   useEffect(() => {
+    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+      axiosFun()
+    }
+
     const getalCountry = async () => {
       let body = {
         user_id: localStorage.getItem("user_id"),
@@ -181,18 +185,22 @@ const SelectSmartListUsers = (props) => {
           if (res.data.status_code == 200) {
             console.log("country", res.data.response.data.country);
             let country = res.data.response.data.country;
-
             let arr = [];
-            Object.entries(country).map(([index, item]) => {
-              let label = item;
-              if (index == "B&H") {
-                label = "Bosnia and Herzegovina";
-              }
-              arr.push({
-                value: item,
-                label: label,
+            if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
+              Object.entries(country).map(([index, item]) => {
+                let label = item;
+                if (index == "B&H") {
+                  label = "Bosnia and Herzegovina";
+                }
+                arr.push({
+                  value: item,
+                  label: label,
+                });
               });
-            });
+              setCountryall(arr);
+            }
+
+            
 
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
               let investigator_type =
@@ -211,7 +219,7 @@ const SelectSmartListUsers = (props) => {
               setRole(newType);
               setIrtRole(newIrtType);
             }
-            setCountryall(arr);
+           
 
             setTotalData(res.data.response.data);
           }
@@ -309,6 +317,32 @@ const SelectSmartListUsers = (props) => {
         removedHcp: removedReaders,
       },
     });
+  };
+
+  const axiosFun = async () => {
+    try {
+      const result = await axios.get(`emailapi/get_site`);
+      console.log("-result", result?.data?.response?.data?.site_country_data);
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+      setCountryall(arr);
+
+    } catch (err) {
+
+      console.log("-err", err);
+
+    }
+
   };
 
   const onFileChange = (event) => {
