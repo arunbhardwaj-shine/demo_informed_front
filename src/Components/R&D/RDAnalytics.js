@@ -791,7 +791,7 @@ const RDAnalytics = () => {
                         </Button>
                       </div>
                     </div>
-                    <Table class="fold-table">
+                    <Table className="fold-table">
                       <thead>
                         <tr>
                           <th>Name</th>
@@ -1054,7 +1054,7 @@ const RDAnalytics = () => {
                         </Button>
                       </div>
                     </div>
-                    <Table class="fold-table">
+                    <Table className="fold-table">
                       <thead>
                         <tr>
                           <th className="site_name">Site Name</th>
@@ -1203,7 +1203,7 @@ const RDAnalytics = () => {
                         </Button>
                       </div>
                     </div>
-                    <Table class="fold-table">
+                    <Table className="fold-table">
                       <thead>
                         <tr>
                           <th>Site</th>
@@ -1308,7 +1308,7 @@ const RDAnalytics = () => {
                               ) : null}
 
                               <tr className="blank">
-                                <td colspan="5" style={{ height: "10px;" }}>
+                                <td colspan="5" style={{ height: "10px" }}>
                                   &nbsp;
                                 </td>
                               </tr>
@@ -1364,7 +1364,7 @@ const RDAnalytics = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div class="pages-viewer">
+                              <div className="pages-viewer">
                                 5{" "}
                                 <img
                                   src="componentAssets/images/viewer.svg"
@@ -1681,7 +1681,7 @@ const RDAnalytics = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div class="pages-viewer">
+                              <div className="pages-viewer">
                                 1{" "}
                                 <img
                                   src="componentAssets/images/viewer.svg"
@@ -1893,7 +1893,7 @@ const RDAnalytics = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div class="pages-viewer">
+                              <div className="pages-viewer">
                                 2{" "}
                                 <img
                                   src="componentAssets/images/viewer.svg"
