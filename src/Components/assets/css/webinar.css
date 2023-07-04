@@ -2968,6 +2968,11 @@ a {
   padding-right: 4px;
 }
 
+.rd-main-wrapper .split-button-dropup>div:nth-child(3) div:nth-child(2)>div[class*="-indicatorContainer"],
+.rd-main-wrapper .split-button-dropup>div:nth-child(3) div:nth-child(2)>div[class*="-indicatorSeparator"] {
+  display: none;
+}
+
 .split-button-dropup>div:nth-child(3) div:nth-child(2)>div:first-child>svg {
   fill: #97b6cf;
   cursor: pointer;
@@ -3210,10 +3215,12 @@ input:-webkit-autofill:active {
   width: 100%;
   overflow-y: scroll;
 }
+
 .copyright-links {
   margin: 20px 0 0;
   text-align: right;
 }
+
 .rd-main-wrapper .form-wrapper form .submit-btn {
   text-align: right;
   margin: 10px auto 0;

@@ -87,4 +87,13 @@ export const ENDPOINT = {
   EVENT_ID: `/auth/event-data`,
 
 
+  SITEREGISTER: "/site-registration",
+  IRT_COUNT_GRAPH: "/find-irt-count",
+  // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
+  RD_SITE_ENGAGEMENT:
+    "https://webinar.docintel.app/lmn/api/analytics/rd_site_engagement",
+  SITE_REGISTRATION_LIST: "/site-registration-list",
+  INDIVIDUAL_TRAINING_COMPLETION: "/training-completion",
+  TRAINING_COMPLETION_DROPDOWN: "/training-completion-dropdown",
+  TRAINING_COMPLETION_PAGE_CLICK: "/training-completion-page-click",
 };
