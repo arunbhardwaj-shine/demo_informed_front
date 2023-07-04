@@ -236,7 +236,7 @@ const RDAnalytics = () => {
       };
       setColumnOptions(newColumnOptions);
     } catch (err) {
-      console.log("-err", err);
+      // console.log("-err", err);
     }
   };
 
@@ -277,7 +277,7 @@ const RDAnalytics = () => {
       loader("hide");
     } catch (err) {
       // loader("hide");
-      console.log("-err", err);
+      // console.log("-err", err);
     }
   };
 
@@ -345,14 +345,14 @@ const RDAnalytics = () => {
         pdf_id: pdf_id,
       });
       const data = result?.data?.data;
-      console.log("drowdown",data);
+      // console.log("drowdown",data);
   
     
       setMostPopularContentPageData(prevData => ({
         ...prevData,
         [pdf_id]: data.time_spend_on_pdf
       }));
-      console.log(mostPopularContentPageData)
+      // console.log(mostPopularContentPageData)
     } catch (err) {
       console.log("--err", err);
     }
@@ -370,7 +370,7 @@ const RDAnalytics = () => {
         [pdf_id]: data
       }));
 
-      console.log("dropdown", data);
+      // console.log("dropdown", data);
       
       // Set chart data options for the PDF
       setChartOptions(prevOptions => ({
@@ -429,7 +429,7 @@ const RDAnalytics = () => {
         }
       }));
       
-      console.log(chartOptions);
+      // console.log(chartOptions);
     } catch (err) {
       console.log("--err", err);
     }
@@ -482,7 +482,7 @@ const RDAnalytics = () => {
         );
         // setTrainingCertificate(result?.data?.certificate);
         setTrainingCompletionDropdownData(result?.data?.data);
-        console.log("result--->", result);
+        // console.log("result--->", result);
         loader("hide");
       } catch (err) {
         loader("hide");
@@ -506,7 +506,7 @@ const RDAnalytics = () => {
           ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
           body
         );
-        console.log("page click-->", result?.data?.data?.time_spend_on_pdf);
+        // console.log("page click-->", result?.data?.data?.time_spend_on_pdf);
         setTrainingAccordianData(result?.data?.data?.time_spend_on_pdf);
         setTrainingAccordianShow(i);
       }
@@ -795,7 +795,7 @@ const RDAnalytics = () => {
                       <div className="rd-analytics-top d-flex justify-content-between align-items-center">
                         <h5>Most Popular content</h5>
                         <div className="d-flex">
-                          <div className="count-number">332</div>
+                          <div className="count-number">{mostPopularContentData?mostPopularContentData[0]?.watched_count+mostPopularContentData[1]?.watched_count+mostPopularContentData[2]?.watched_count:0}</div>
                           <img src={path_image + "content-view.svg"} alt="" />
                         </div>
                       </div>
