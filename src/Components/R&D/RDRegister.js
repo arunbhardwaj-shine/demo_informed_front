@@ -27,8 +27,8 @@ const RDRegister = () => {
   const [error, setError] = useState({});
   const [institutionFlag, setInstitutionFlag] = useState(false);
   const [siteInstitution, setSiteInstitution] = useState([
-    { value: "institution", label: "Institution" },
-    { value: "cro", label: "CRO" },
+    { value: "institution", label: "Study site" },
+    { value: "cro", label: "Premier Research" },
     { value: "comac", label: "Comac" },
     { value: "octapharma", label: "Octapharma" },
   ]);
@@ -358,7 +358,7 @@ const RDRegister = () => {
               ) : null}
               <div className="form-head-sec">
                 <h3>
-                  Access is only for Study participants. Please check your
+                We provide training material to health care professionals, who support us in clinical studies, on the basis of legitimate interest. Octapharma will not track on an individual user basis if you have accessed these documents or not. The same (i.e. “will not track on an individual user basis”) applies for study related communication with such health care professionals. Please check your
                   details and give your consent for Octapharma to track your
                   engagement with the content provided.
                 </h3>
@@ -407,7 +407,7 @@ const RDRegister = () => {
                       </label>
                       <Select
                         options={siteInstitution}
-                        placeholder="Select institution"
+                        placeholder="Select"
                         name="institution"
                         value={
                           siteInstitution.findIndex(
@@ -537,7 +537,8 @@ const RDRegister = () => {
                         </div>
                       </Col>
 
-                      <Col md={6}>
+                      {
+                        userInputs?.sitename?   <Col md={6}>
                         <div className="form-group">
                           <label>
                             Site city <span>*</span>
@@ -567,7 +568,10 @@ const RDRegister = () => {
                             </div>
                           ) : null}
                         </div>
-                      </Col>
+                      </Col>:null
+                      }
+
+                   
                     </>
                   ) : null}
                 </Row>
@@ -591,7 +595,7 @@ const RDRegister = () => {
                       onChange={(e) => handleChange(e, "rdChecheckbox")}
                     /> */}
                     <label for="rdChecheckbox">
-                      I also consent to: receive invitations to participate in surveys and other potentialengagement through Docintel, which are study related.
+                      I also consent to: receive invitations to participate in surveys and other potential engagement through Docintel, which are study related.
                     </label>
                     {error?.rdChecheckbox ? (
                       <div className="login-validation">
@@ -611,12 +615,6 @@ const RDRegister = () => {
                   </div>
                 </div>
               </Form>
-            </div>
-            <div className="footer-content">
-              <p>
-                This content is for invited healthcare professionals only.
-                Please do not share this link with anybody else.
-              </p>
               <div className="copyright-links">
                 <Link
                   to="https://albert.docintel.app/octapharma-trail-privacy"
@@ -637,6 +635,10 @@ const RDRegister = () => {
                   Docintel term of use
                 </Link>
               </div>
+            </div>
+            <div className="footer-content">
+              
+             
               <div className="footer-logo">
                 <img
                   src={path_image + "octapharma-footer-logo.png"}

@@ -18,6 +18,10 @@ import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
 import ChangePassword from "./Auth/ChangePassword";
 
+//Firbase 
+
+import Event from "./Components/Firbase/Event";
+
 
 //License routes
 import LicenseContent from "./Components/License/Content/LicenseContent";
@@ -335,6 +339,14 @@ const Routing = () => {
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
         />
+
+          <Route
+          path="/event"
+          element={<Event />}
+        />
+
+
+
         <Route
           path="/library-edit"
           element={<LoginLayout component={EditLibrary} />}
