@@ -537,7 +537,8 @@ const RDRegister = () => {
                         </div>
                       </Col>
 
-                      <Col md={6}>
+                      {
+                        userInputs?.sitename?   <Col md={6}>
                         <div className="form-group">
                           <label>
                             Site city <span>*</span>
@@ -567,7 +568,10 @@ const RDRegister = () => {
                             </div>
                           ) : null}
                         </div>
-                      </Col>
+                      </Col>:null
+                      }
+
+                   
                     </>
                   ) : null}
                 </Row>

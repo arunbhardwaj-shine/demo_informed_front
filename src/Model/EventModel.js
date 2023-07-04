@@ -82,7 +82,7 @@ const EventModel = ({ show, onClose, data }) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton>
+      <Modal.Header >
         <Modal.Title id="contained-modal-title-vcenter">
           <img
             src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
