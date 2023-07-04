@@ -307,10 +307,10 @@
 }
 
 @media only screen and (max-width: 1550px) {
+
   #add_hcp .modal-body .hcp-add-form form {
     margin-bottom: 0;
   }
-
 
   #accordion-smart .card-body .col {
     flex: 0 0 17.5%;
@@ -1255,7 +1255,6 @@
 }
 
 @media only screen and (max-width: 1399px) {
-
   .create-smart-list .btn.btn-primary {
     padding: 6px 13px;
   }
@@ -1299,9 +1298,6 @@
     margin-right: 0;
   }
 
-  /* #accordion-smart .card-body .col.consent-type {
-    flex: 0 0 194px;
-  } */
   .smartlist-view .mail-box-content {
     min-height: 343px;
   }
@@ -1635,13 +1631,11 @@
 
   .selected-hcp-list {
     width: 100%;
-    /* overflow-y: auto; */
     padding: 0 3px;
   }
 
   .search-hcp table thead.sticky-header,
-  .modal-second #mail-view .modal-body .sticky-header,
-  .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+  .modal-second #mail-view .modal-body .sticky-header {
     top: 67px;
   }
 
