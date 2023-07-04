@@ -511,7 +511,7 @@ const RDAnalytics = () => {
                       </Button>
                     </div>
                   </div>
-                  <Table class="fold-table">
+                  <Table className="fold-table">
                     <thead>
                       <tr>
                         <th>Name</th>
@@ -532,7 +532,7 @@ const RDAnalytics = () => {
                         <td>Blinded</td>
                         <td className="complete">Completed</td>
                         <td>Site name</td>
-                        <td class="pics">
+                        <td className="pics">
                           <img
                             src={path_image + "certificate.png"}
                             alt="Certificate"
@@ -542,7 +542,7 @@ const RDAnalytics = () => {
                       <tr
                         className={`fold ${show && show == "1" ? "show" : ""}`}
                       >
-                        <td colspan="6">
+                        <td colSpan="6">
                           <div className="fold-content">
                             <p>
                               Completed Contents | <span>2</span>
@@ -884,7 +884,7 @@ const RDAnalytics = () => {
                         </td>
                       </tr>
                       <tr className="blank">
-                        <td colspan="6" style={{ height: "10px;" }}>
+                        <td colSpan="6" style={{ height: "10px" }}>
                           &nbsp;
                         </td>
                       </tr>
@@ -897,12 +897,12 @@ const RDAnalytics = () => {
                         <td>Blinded</td>
                         <td className="started">Started</td>
                         <td>Site name</td>
-                        <td class="pics"></td>
+                        <td className="pics"></td>
                       </tr>
                       <tr
                         className={`fold ${show && show == "2" ? "show" : ""}`}
                       >
-                        <td colspan="6">
+                        <td colSpan="6">
                           <div className="fold-content">
                             <p>
                               Completed Contents | <span>2</span>
@@ -1192,7 +1192,7 @@ const RDAnalytics = () => {
                         </td>
                       </tr>
                       <tr className="blank">
-                        <td colspan="6" style={{ height: "10px;" }}>
+                        <td colSpan="6" style={{ height: "10px" }}>
                           &nbsp;
                         </td>
                       </tr>
@@ -1205,12 +1205,12 @@ const RDAnalytics = () => {
                         <td>Blinded</td>
                         <td className="not_yet">Not yet</td>
                         <td>Site name</td>
-                        <td class="pics"></td>
+                        <td className="pics"></td>
                       </tr>
                       <tr
                         className={`fold ${show && show == "3" ? "show" : ""}`}
                       >
-                        <td colspan="6">
+                        <td colSpan="6">
                           <div className="fold-content">
                             <p>
                               Completed Contents | <span>2</span>
@@ -1558,7 +1558,7 @@ const RDAnalytics = () => {
                       </Button>
                     </div>
                   </div>
-                  <Table class="fold-table">
+                  <Table className="fold-table">
                     <thead>
                       <tr>
                         <th className="site_name">Site Name</th>
@@ -1587,7 +1587,7 @@ const RDAnalytics = () => {
                       <tr
                         className={`fold ${show && show == "11" ? "show" : ""}`}
                       >
-                        <td colspan="5" className="site_complete">
+                        <td colSpan="5" className="site_complete">
                           <Table>
                             <thead>
                               <tr>
@@ -1621,7 +1621,7 @@ const RDAnalytics = () => {
                         </td>
                       </tr>
                       <tr className="blank">
-                        <td colspan="5" style={{ height: "10px;" }}>
+                        <td colSpan="5" style={{ height: "10px" }}>
                           &nbsp;
                         </td>
                       </tr>
@@ -1641,7 +1641,7 @@ const RDAnalytics = () => {
                       <tr
                         className={`fold ${show && show == "12" ? "show" : ""}`}
                       >
-                        <td colspan="5" className="site_complete">
+                        <td colSpan="5" className="site_complete">
                           <Table>
                             <thead>
                               <tr>
@@ -1675,7 +1675,7 @@ const RDAnalytics = () => {
                         </td>
                       </tr>
                       <tr className="blank">
-                        <td colspan="5" style={{ height: "10px;" }}>
+                        <td colSpan="5" style={{ height: "10px" }}>
                           &nbsp;
                         </td>
                       </tr>
@@ -1695,7 +1695,7 @@ const RDAnalytics = () => {
                       <tr
                         className={`fold ${show && show == "13" ? "show" : ""}`}
                       >
-                        <td colspan="5" className="site_complete">
+                        <td colSpan="5" className="site_complete">
                           <Table>
                             <thead>
                               <tr>
@@ -1787,7 +1787,7 @@ const RDAnalytics = () => {
                       </Button>
                     </div>
                   </div>
-                  <Table class="fold-table">
+                  <Table className="fold-table">
                     <thead>
                       <tr>
                         <th>Site</th>
@@ -1811,7 +1811,7 @@ const RDAnalytics = () => {
                       <tr
                         className={`fold ${show && show == "31" ? "show" : ""}`}
                       >
-                        <td colspan="5">
+                        <td colSpan="5">
                           <div className="fold-content">
                             <p>
                               Content engagement | <span>2</span>
@@ -1841,7 +1841,7 @@ const RDAnalytics = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div class="pages-viewer">
+                              <div className="pages-viewer">
                                 103{" "}
                                 <img
                                   src="componentAssets/images/viewer.svg"
@@ -1873,7 +1873,7 @@ const RDAnalytics = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div class="pages-viewer">
+                              <div className="pages-viewer">
                                 103{" "}
                                 <img
                                   src="componentAssets/images/viewer.svg"
@@ -1885,7 +1885,7 @@ const RDAnalytics = () => {
                         </td>
                       </tr>
                       <tr className="blank">
-                        <td colspan="5" style={{ height: "10px;" }}>
+                        <td colSpan="5" style={{ height: "10px" }}>
                           &nbsp;
                         </td>
                       </tr>
@@ -1902,7 +1902,7 @@ const RDAnalytics = () => {
                       <tr
                         className={`fold ${show && show == "32" ? "show" : ""}`}
                       >
-                        <td colspan="5">
+                        <td colSpan="5">
                           <div className="fold-content">
                             <p>
                               Completed Contents | <span>2</span>
@@ -1932,7 +1932,7 @@ const RDAnalytics = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div class="pages-viewer">
+                              <div className="pages-viewer">
                                 103{" "}
                                 <img
                                   src="componentAssets/images/viewer.svg"
@@ -1991,7 +1991,7 @@ const RDAnalytics = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="pages-viewer">
+                            <div className="pages-viewer">
                               5{" "}
                               <img
                                 src="componentAssets/images/viewer.svg"
@@ -2291,7 +2291,7 @@ const RDAnalytics = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="pages-viewer">
+                            <div className="pages-viewer">
                               1{" "}
                               <img
                                 src="componentAssets/images/viewer.svg"
@@ -2492,7 +2492,7 @@ const RDAnalytics = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="pages-viewer">
+                            <div className="pages-viewer">
                               2{" "}
                               <img
                                 src="componentAssets/images/viewer.svg"
