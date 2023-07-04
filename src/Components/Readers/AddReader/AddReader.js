@@ -10,7 +10,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import axios from "axios"
 const ReaderAdd = () => {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -193,12 +193,41 @@ const ReaderAdd = () => {
       }
     }
   };
+  const axiosFun = async () => {
+    try {
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      const result = await axios.get(`emailapi/get_site`);
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+
+      setCountryAll(arr);
+
+    } catch (err) {
+
+      console.log("-err", err);
+
+    }
+
+  };
+
+
   const initalFun = async () => {
     loader("show");
     const hasData = await getData(`${ENDPOINT.READER_USER_DROP}`);
 
-    let country = [];
-    hasData?.data?.data?.country.reduce((objEntries, key) => {
+    if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
+      let country = [];
+      hasData?.data?.data?.country.reduce((objEntries, key) => {
       country.push({
         label: key,
         value: key,
@@ -206,6 +235,8 @@ const ReaderAdd = () => {
     });
 
     setCountryAll(country);
+    }
+    
     // setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
@@ -361,6 +392,9 @@ const ReaderAdd = () => {
   };
 
   useEffect(() => {
+    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+      axiosFun()
+    }
     initalFun();
   }, []);
 
