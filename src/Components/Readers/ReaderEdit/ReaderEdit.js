@@ -9,7 +9,7 @@ import { getData, postData, postFormData } from "../../../axios/apiHelper";
 import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
-
+import axios from "axios"
 const ReaderEdit = () => {
   const { state } = useLocation();
   const nameRef = useRef(null);
@@ -142,6 +142,33 @@ const ReaderEdit = () => {
     setNewProduct({ label: e?.target?.name, value: e?.target?.value });
   };
 
+  const axiosFun = async () => {
+    try {
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      const result = await axios.get(`emailapi/get_site`);
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+
+      setCountryAll(arr);
+
+    } catch (err) {
+
+      console.log("-err", err);
+
+    }
+
+  };
+
   const handleSubmitModelFun = async (e) => {
     if (newProduct?.value?.length) {
       const newArr = userDetail[newProduct?.label];
@@ -190,15 +217,18 @@ const ReaderEdit = () => {
   const initalFun = async () => {
     loader("show");
     const hasData = await getData(`${ENDPOINT.READER_USER_DROP} `);
-
-    let country = [];
-    hasData?.data?.data?.country.reduce((objEntries, key) => {
-      country.push({
-        label: key,
-        value: key,
+    if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
+      let country = [];
+      hasData?.data?.data?.country.reduce((objEntries, key) => {
+        country.push({
+          label: key,
+          value: key,
+        });
       });
-    });
-    setCountryAll(country);
+      setCountryAll(country);
+    }
+
+   
     // setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
@@ -369,6 +399,9 @@ const ReaderEdit = () => {
   };
 
   useEffect(() => {
+    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+      axiosFun()
+    }
     initalFun();
     initialReaderFun();
   }, []);
