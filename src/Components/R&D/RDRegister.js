@@ -323,6 +323,7 @@ const RDRegister = () => {
 
   return (
     <>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       {/*Loader code*/}
       <div className="loader" id="custom_loader">
         <div className="loader_show">
