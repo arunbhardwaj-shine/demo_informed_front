@@ -891,7 +891,9 @@ const RDAnalytics = () => {
                                                       <div className="content-detail">
                                                         <h6>{data?.title}</h6>
                                                         <p>
-                                                          {data?.pdf_sub_title}
+                                                          {data?.pdf_sub_title
+                                                            ? data?.pdf_sub_title
+                                                            : " "}
                                                         </p>
                                                         <div className="page-count">
                                                           <div className="time">
@@ -918,18 +920,33 @@ const RDAnalytics = () => {
                                                             ) : null}
                                                           </div>
                                                           <div className="completed-date">
-                                                            Completed date
-                                                            {}
-                                                            <span className="complete">
-                                                              1 Jan 2023{" "}
-                                                              <img
-                                                                src={
-                                                                  path_image +
-                                                                  "check-complete.svg"
-                                                                }
-                                                                alt=""
-                                                              />
-                                                            </span>
+                                                            {item?.training_status ==
+                                                            "complete" ? (
+                                                              <>
+                                                                Completed date
+                                                                <span className="complete">
+                                                                  {
+                                                                    data?.completion_date
+                                                                  }{" "}
+                                                                  <img
+                                                                    src={
+                                                                      path_image +
+                                                                      "check-complete.svg"
+                                                                    }
+                                                                    alt=""
+                                                                  />
+                                                                </span>
+                                                              </>
+                                                            ) : (
+                                                              <>
+                                                                Recent Activity
+                                                                <span className="started">
+                                                                  {
+                                                                    data?.recent_activity
+                                                                  }{" "}
+                                                                </span>
+                                                              </>
+                                                            )}
                                                           </div>
                                                         </div>
                                                       </div>
