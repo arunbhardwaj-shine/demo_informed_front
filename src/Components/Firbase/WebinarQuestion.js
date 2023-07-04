@@ -3,14 +3,14 @@ import { postData } from "../../axios/apiHelper"
 import { ENDPOINT } from "../../axios/apiConfig"
 const WebinarQuestion = ()=>{
 
-    const initiFun = ()=>{
+    const initiFun = async()=>{
         try{
+         await postData(ENDPOINT)
 
         }catch(err){
             console.log("-err",err)
         }
     }
-
 
     useEffect(()=>{
 
