@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Accordion, Button, Col, Row, Table } from "react-bootstrap";
 import { getData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
@@ -7,16 +7,26 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 const RDAnalytics = () => {
-  const [show, setShow] = useState("");
+  const [show, setShow] = useState();
   const [totalSiteNumber, setTotalSiteNumber] = useState();
-  const [totalRdSiteData, setTotalRdSiteData] = useState();
+  const [totalRdSiteNumber, setTotalRdSiteNumber] = useState();
+  const [rdSiteData, setRdSiteData] = useState();
   const [pieData, setPieData] = useState({});
   const [flag, setFlag] = useState({
-    individual_Completion: false,
-    site_Completion: false,
-    site_Engagement: false,
-    content: false,
+    individual_Completion: true,
+    site_Completion: true,
+    site_Engagement: true,
+    content: true,
   });
+
+  const [indidualCompletionTableData, setIndividualCompletionTableData] =
+    useState();
+  const [siteCompletionTableData, setSiteCompletionTableData] = useState();
+  const [siteCompletionShow, setSiteCompletionShow] = useState();
+
+  const individual_Completion = useRef(null);
+  const site_Completion = useRef(null);
+  const site_Engagement = useRef(null);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const data = [
     {
@@ -190,7 +200,7 @@ const RDAnalytics = () => {
       loader("show");
       const result = await getData(ENDPOINT.SITEREGISTER);
       const data = result?.data?.data?.registered_irt;
-      setTotalSiteNumber(result?.data?.total_site_number);
+      setTotalSiteNumber(result?.data?.total_sites);
 
       const newSeries = data?.map((item, index) => {
         return {
@@ -199,7 +209,7 @@ const RDAnalytics = () => {
         };
       });
       const columnCategories = result?.data?.data?.site_numbers;
-      console.log("column series", newSeries);
+
       const newColumnOptions = {
         ...columnOptions,
         xAxis: {
@@ -211,7 +221,6 @@ const RDAnalytics = () => {
     } catch (err) {
       console.log("-err", err);
     }
-   
   };
 
   const getPieChartData = async () => {
@@ -248,6 +257,7 @@ const RDAnalytics = () => {
         series: newValue,
       };
       setPieOptions(newPieOptions);
+      loader("hide");
     } catch (err) {
       // loader("hide");
       console.log("-err", err);
@@ -258,7 +268,8 @@ const RDAnalytics = () => {
     try {
       const result = await getData(ENDPOINT.RD_SITE_ENGAGEMENT);
       const data = result?.data?.data;
-      setTotalRdSiteData(result?.data?.total_content);
+      setTotalRdSiteNumber(result?.data?.total_content);
+      setRdSiteData(data);
 
       let siteUsers = [];
       let contentEngagement = [];
@@ -288,11 +299,41 @@ const RDAnalytics = () => {
       };
       setRdSiteOptions(newRdSiteOptions);
 
-      loader("hide");
+      // loader("hide");
     } catch (err) {
       loader("hide");
       console.log("--err", err);
     }
+  };
+  const individualCompletion = async () => {
+    if (!indidualCompletionTableData) {
+      try {
+        loader("show");
+        const result = await getData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION);
+        console.log("training--->", result);
+        setIndividualCompletionTableData(result);
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log("-err", err);
+      }
+    }
+    individual_Completion?.current?.focus();
+  };
+  const siteCompletion = async () => {
+    if (!siteCompletionTableData) {
+      try {
+        loader("show");
+
+        const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
+
+        setSiteCompletionTableData(result?.data?.data);
+        loader("hide");
+      } catch (err) {
+        console.log("-err", err);
+      }
+    }
+    site_Completion?.current?.focus();
   };
 
   return (
@@ -339,15 +380,23 @@ const RDAnalytics = () => {
                               options={pieOptions}
                             />
                           </div>
-
-                          <div className="rd-box-export">
-                            <img src={path_image + "arrow-export.svg"} alt="" onClick={()=>setFlag({
-    individual_Completion: true,
-    site_Completion: false,
-    site_Engagement: false,
-    content: false,
-  })}/>
-                          </div>
+                          {pieOptions?.series?.length ? (
+                            <div className="rd-box-export">
+                              <img
+                                src={path_image + "arrow-export.svg"}
+                                alt=""
+                                onClick={() => {
+                                  setFlag({
+                                    individual_Completion: true,
+                                    site_Completion: false,
+                                    site_Engagement: false,
+                                    content: false,
+                                  });
+                                  individualCompletion();
+                                }}
+                              />
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     </Col>
@@ -444,14 +493,24 @@ const RDAnalytics = () => {
 
                             {/* <img className="graph-chart" src={path_image + "graph-chart.png"} alt="" /> */}
                           </div>
-                          <div className="rd-box-export">
-                            <img src={path_image + "arrow-export.svg"} alt="" onClick={()=>setFlag({
-    individual_Completion: false,
-    site_Completion: true,
-    site_Engagement: false,
-    content: false,
-  })}/>
-                          </div>
+                          {columnOptions?.series?.length ? (
+                            <div className="rd-box-export">
+                              <img
+                                src={path_image + "arrow-export.svg"}
+                                alt=""
+                                onClick={() => {
+                                  setFlag({
+                                    individual_Completion: false,
+                                    site_Completion: true,
+                                    site_Engagement: false,
+                                    content: false,
+                                  });
+
+                                  siteCompletion();
+                                }}
+                              />
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     </Col>
@@ -465,7 +524,7 @@ const RDAnalytics = () => {
                             <h5>Site Engagement</h5>
                             <div className="d-flex">
                               <div className="count-number">
-                                {totalRdSiteData}
+                                {totalRdSiteNumber}
                               </div>
                               <img
                                 src={path_image + "site-engaged.svg"}
@@ -492,14 +551,22 @@ const RDAnalytics = () => {
                               options={rdSiteOptions}
                             />
                           </div>
-                          <div className="rd-box-export">
-                            <img src={path_image + "arrow-export.svg"} alt="" onClick={()=>setFlag({
-    individual_Completion: false,
-    site_Completion: false,
-    site_Engagement: true,
-    content: false,
-  })}/>
-                          </div>
+                          {rdSiteOptions?.series?.length ? (
+                            <div className="rd-box-export">
+                              <img
+                                src={path_image + "arrow-export.svg"}
+                                alt=""
+                                onClick={() =>
+                                  setFlag({
+                                    individual_Completion: false,
+                                    site_Completion: false,
+                                    site_Engagement: true,
+                                    content: false,
+                                  })
+                                }
+                              />
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     </Col>
@@ -579,7 +646,11 @@ const RDAnalytics = () => {
                   <div className="rd-section-title">
                     <h4>IRT Training</h4>
                   </div>
-                  <div className="rd-training-block">
+                  <div
+                    className="rd-training-block"
+                    ref={individual_Completion}
+                    tabIndex={-1}
+                  >
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
                         <h4>
@@ -1653,11 +1724,16 @@ const RDAnalytics = () => {
                   <div className="rd-section-title">
                     <h4>Sites</h4>
                   </div>
-                  <div className="rd-training-block">
+                  <div
+                    className="rd-training-block"
+                    ref={site_Completion}
+                    tabIndex={-1}
+                  >
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
                         <h4>
-                          Site Completion | <span>20</span>
+                          Site Completion |{" "}
+                          <span>{siteCompletionTableData?.length}</span>
                         </h4>
                         <p></p>
                       </div>
@@ -1714,44 +1790,64 @@ const RDAnalytics = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr
-                          className={`view ${
-                            show && show == "11" ? "show" : ""
-                          }`}
-                          onClick={() => setShow("11")}
-                        >
-                          <td className="site_name">Site name</td>
-                          <td>00801-94</td>
-                          <td>United Kingdom</td>
-                          <td className="active-irt">
-                            <span>3</span>{" "}
-                            <img src={path_image + "doctor-svg.svg"} alt="" />
-                          </td>
-                          <td className="complete">2</td>
-                        </tr>
-                        <tr
-                          className={`fold ${
-                            show && show == "11" ? "show" : ""
-                          }`}
-                        >
-                          <td colspan="5" className="site_complete">
-                            <Table>
-                              <thead>
-                                <tr>
-                                  <th>Name</th>
-                                  <th>Role</th>
-                                  <th>Blind Type</th>
-                                  <th>Training</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>UserName</td>
-                                  <td>Role name</td>
-                                  <td>Blinded</td>
-                                  <td className="complete">Completed</td>
-                                </tr>
-                                <tr>
+                        {siteCompletionTableData?.map((item, index) => {
+                          return (
+                            <>
+                              <tr
+                                // className={`view ${
+                                //   show && show == "11" ? "show" : ""
+                                // }`}
+                                onClick={() => {
+                                  setSiteCompletionShow(index);
+                                }}
+                              >
+                                <td className="site_name">{item?.site_name}</td>
+                                <td>{item?.site_number}</td>
+                                <td>{item?.site_country}</td>
+                                <td className="active-irt">
+                                  <span>{item?.total_user}</span>{" "}
+                                  <img
+                                    src={path_image + "doctor-svg.svg"}
+                                    alt=""
+                                  />
+                                </td>
+                                <td className="complete">
+                                  {item?.completed_training}
+                                </td>
+                              </tr>
+                              {siteCompletionShow == index ? (
+                                <tr
+                                // className={`fold ${
+                                //   siteCompletionShow &&
+                                //   siteCompletionShow == index
+                                //     ? "show"
+                                //     : ""
+                                // }`}
+                                >
+                                  <td colspan="5" className="site_complete">
+                                    {item?.Users?.length ? (
+                                      item?.Users?.map((data, i) => {
+                                        return (
+                                          <>
+                                            <Table>
+                                              <thead>
+                                                <tr>
+                                                  <th>Name</th>
+                                                  <th>Role</th>
+                                                  <th>Blind Type</th>
+                                                  <th>Training</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td>{data?.first_name}</td>
+                                                  <td>{data?.user_type}</td>
+                                                  <td>{data?.binded}</td>
+                                                  <td className="complete">
+                                                    {data?.training}
+                                                  </td>
+                                                </tr>
+                                                {/* <tr>
                                   <td>UserName</td>
                                   <td>Role name</td>
                                   <td>Blinded</td>
@@ -1762,17 +1858,28 @@ const RDAnalytics = () => {
                                   <td>Role name</td>
                                   <td>Blinded</td>
                                   <td className="not_yet">Not yet</td>
+                                </tr> */}
+                                              </tbody>
+                                            </Table>
+                                          </>
+                                        );
+                                      })
+                                    ) : (
+                                      <div>No Data</div>
+                                    )}
+                                  </td>
                                 </tr>
-                              </tbody>
-                            </Table>
-                          </td>
-                        </tr>
+                              ) : null}
+                            </>
+                          );
+                        })}
+
                         <tr className="blank">
                           <td colspan="5" style={{ height: "10px;" }}>
                             &nbsp;
                           </td>
                         </tr>
-                        <tr
+                        {/* <tr
                           className={`view ${
                             show && show == "12" ? "show" : ""
                           }`}
@@ -1786,8 +1893,8 @@ const RDAnalytics = () => {
                             <img src={path_image + "doctor-svg.svg"} alt="" />
                           </td>
                           <td className="complete">14</td>
-                        </tr>
-                        <tr
+                        </tr> */}
+                        {/* <tr
                           className={`fold ${
                             show && show == "12" ? "show" : ""
                           }`}
@@ -1882,7 +1989,7 @@ const RDAnalytics = () => {
                               </tbody>
                             </Table>
                           </td>
-                        </tr>
+                        </tr> */}
                       </tbody>
                     </Table>
                   </div>
@@ -1899,7 +2006,7 @@ const RDAnalytics = () => {
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
                         <h4>
-                          Site Engagement | <span>8</span>
+                          Site Engagement | <span>{rdSiteData?.length}</span>
                         </h4>
                         <p>Click on the Record to see more details</p>
                       </div>
@@ -1954,102 +2061,152 @@ const RDAnalytics = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr
-                          className={`view ${
-                            show && show == "31" ? "show" : ""
-                          }`}
-                          onClick={() => setShow("31")}
-                        >
-                          <td>Site Name</td>
-                          <td>00801-94</td>
-                          <td>United Kingdom</td>
-                          <td>4</td>
-                          <td>2</td>
-                        </tr>
-                        <tr
-                          className={`fold ${
-                            show && show == "31" ? "show" : ""
-                          }`}
-                        >
-                          <td colspan="5">
-                            <div className="fold-content">
-                              <p>
-                                Content engagement | <span>2</span>
-                              </p>
-                              <span>Click on the content for more details</span>
-                              <div className="d-flex align-items-start engagement-sec">
-                                <div className="content-image">
-                                  <img
-                                    src={path_image + "article-content.png"}
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="content-detail">
-                                  <h6>
-                                    Lorem sollicitudin faucibus eu molestie
-                                    sollicitudin gravi ulvinar ultricies neque
-                                    praesent maurircu aliquam ondi ment zcsum
-                                    nudolor nibhcudolor ..
-                                  </h6>
-                                  <p>
-                                    Lorem sollicitudin faucibus eu molestie
-                                    sollicitudin gravida
-                                  </p>
-                                  <div className="page-count">
-                                    <div className="time">
-                                      Pages <span>5</span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="pages-viewer">
-                                  103{" "}
-                                  <img
-                                    src="componentAssets/images/viewer.svg"
-                                    alt=""
-                                  />
-                                </div>
-                              </div>
-                              <div className="d-flex align-items-start engagement-sec">
-                                <div className="content-image">
-                                  <img
-                                    src={path_image + "article-video-cover.png"}
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="content-detail">
-                                  <h6>
-                                    Lorem sollicitudin faucibus eu molestie
-                                    sollicitudin gravi ulvinar ultricies neque
-                                    praesent maurircu aliquam ondi ment zcsum
-                                    nudolor nibhcudolor ..
-                                  </h6>
-                                  <p>
-                                    Lorem sollicitudin faucibus eu molestie
-                                    sollicitudin gravida
-                                  </p>
-                                  <div className="page-count">
-                                    <div className="time">
-                                      Time <span>15:11</span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="pages-viewer">
-                                  103{" "}
-                                  <img
-                                    src="componentAssets/images/viewer.svg"
-                                    alt=""
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr className="blank">
-                          <td colspan="5" style={{ height: "10px;" }}>
-                            &nbsp;
-                          </td>
-                        </tr>
-                        <tr
+                        {rdSiteData?.map((item, index) => {
+                          return (
+                            <>
+                              <tr
+                                key={index}
+                                className={`view ${
+                                  show && show == "31" ? "show" : ""
+                                }`}
+                                onClick={() => setShow(index)}
+                              >
+                                <td>{item?.site_name}</td>
+                                <td>{item?.site_number}</td>
+                                <td>{item?.site_country}</td>
+                                <td>{item?.site_users}</td>
+                                <td>{item?.content_engagement}</td>
+                              </tr>
+                              {show == index ? (
+                                <Table
+                                  class="view"
+                                  // className={`fold ${
+                                  //   show && show == index ? "show" : ""
+                                  // }`}
+                                >
+                                  <tbody>
+                                    {item?.pdf_data?.length ? (
+                                      // item?.pdf_data?.map((data, i) => {
+                                      //     return (
+                                      //       <>
+                                      <tr
+                                      // className={`fold ${
+                                      //   show && show == index ? "show" : ""
+                                      // }`}
+                                      >
+                                        <td colspan="5">
+                                          <div className="fold-content">
+                                            <p>
+                                              Content engagement |{" "}
+                                              <span>
+                                                {item?.pdf_data?.length}
+                                              </span>
+                                            </p>
+                                            <span>
+                                              Click on the content for more
+                                              details
+                                            </span>
+                                            {item?.pdf_data?.map((data, i) => {
+                                              return (
+                                                <>
+                                                  <div className="d-flex align-items-start engagement-sec">
+                                                    <div className="content-image">
+                                                      <img
+                                                        src={
+                                                          // path_image +
+                                                          // "article-content.png"
+                                                          data?.cover_img
+                                                        }
+                                                        alt="no image"
+                                                      />
+                                                    </div>
+                                                    <div className="content-detail">
+                                                      <h6>{data?.title}</h6>
+                                                      <p>
+                                                        {data?.pdf_sub_title}
+                                                      </p>
+                                                      <div className="page-count">
+                                                        <div className="time">
+                                                          Pages{" "}
+                                                          <span>
+                                                            {data?.total_pages}
+                                                          </span>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <div class="pages-viewer">
+                                                      {data?.unique_users}{" "}
+                                                      <img
+                                                        src="componentAssets/images/viewer.svg"
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </>
+                                              );
+                                            })}
+                                            {/* <div className="d-flex align-items-start engagement-sec">
+                                                      <div className="content-image">
+                                                        <img
+                                                          src={
+                                                            path_image +
+                                                            "article-video-cover.png"
+                                                          }
+                                                          alt=""
+                                                        />
+                                                      </div>
+                                                      <div className="content-detail">
+                                                        <h6>
+                                                          Lorem sollicitudin
+                                                          faucibus eu molestie
+                                                          sollicitudin gravi
+                                                          ulvinar ultricies
+                                                          neque praesent
+                                                          maurircu aliquam ondi
+                                                          ment zcsum nudolor
+                                                          nibhcudolor ..
+                                                        </h6>
+                                                        <p>
+                                                          Lorem sollicitudin
+                                                          faucibus eu molestie
+                                                          sollicitudin gravida
+                                                        </p>
+                                                        <div className="page-count">
+                                                          <div className="time">
+                                                            Time{" "}
+                                                            <span>15:11</span>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <div class="pages-viewer">
+                                                        103{" "}
+                                                        <img
+                                                          src="componentAssets/images/viewer.svg"
+                                                          alt=""
+                                                        />
+                                                      </div>
+                                                    </div> */}
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ) : (
+                                      <div className="content-detail">
+                                        No Data
+                                      </div>
+                                    )}
+                                  </tbody>
+                                </Table>
+                              ) : null}
+
+                              <tr className="blank">
+                                <td colspan="5" style={{ height: "10px;" }}>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
+                        {/* <tr
                           className={`view ${
                             show && show == "32" ? "show" : ""
                           }`}
@@ -2106,7 +2263,7 @@ const RDAnalytics = () => {
                               </div>
                             </div>
                           </td>
-                        </tr>
+                        </tr> */}
                       </tbody>
                     </Table>
                   </div>

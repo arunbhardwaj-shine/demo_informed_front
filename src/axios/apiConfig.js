@@ -83,5 +83,9 @@ export const ENDPOINT = {
   READER_REFRESH: "/reader/sync-reader",
   SITEREGISTER: "/siteRegistration",
   IRT_COUNT_GRAPH: "/findirtcount",
-  RD_SITE_ENGAGEMENT: "/rd_site_engagement",
+  // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
+  RD_SITE_ENGAGEMENT:
+    "https://webinar.docintel.app/lmn/api/analytics/rd_site_engagement",
+  SITE_REGISTRATION_LIST: "/siteRegistrationList",
+  INDIVIDUAL_TRAINING_COMPLETION: "/training-completion",
 };
