@@ -88,4 +88,6 @@ export const ENDPOINT = {
     "https://webinar.docintel.app/lmn/api/analytics/rd_site_engagement",
   SITE_REGISTRATION_LIST: "/site-registration-list",
   INDIVIDUAL_TRAINING_COMPLETION: "/training-completion",
+  TRAINING_COMPLETION_DROPDOWN: "/training-completion-dropdown",
+  TRAINING_COMPLETION_PAGE_CLICK: "/training-completion-page-click",
 };

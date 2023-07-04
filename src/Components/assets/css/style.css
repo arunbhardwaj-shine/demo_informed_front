@@ -1445,6 +1445,7 @@ ul.tabnav-link li {
   display: inline-block;
   margin: 10px;
   position: relative;
+  border: 0;
 }
 
 .select-mail-option input:checked~.checkmark {

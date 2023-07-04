@@ -16,14 +16,19 @@ const RDAnalytics = () => {
   const [rdSiteData, setRdSiteData] = useState();
   const [pieData, setPieData] = useState({});
   const [flag, setFlag] = useState({
-    individual_Completion: true,
-    site_Completion: true,
-    site_Engagement: true,
-    content: true,
+    individual_Completion: false,
+    site_Completion: false,
+    site_Engagement: false,
+    content: false,
   });
 
   const [indidualCompletionTableData, setIndividualCompletionTableData] =
     useState();
+  const [individualCompletionShow, setIndividualCompletionShow] = useState();
+  const [trainingDropdownData, setTrainingCompletionDropdownData] = useState();
+  const [trainingAccordianShow, setTrainingAccordianShow] = useState();
+  const [traingAccordianData, setTrainingAccordianData] = useState();
+
   const [siteCompletionTableData, setSiteCompletionTableData] = useState();
   const [mostPopularContentData, setMostPopularContentData] = useState([]);
   const [mostPopularContentPageData, setMostPopularContentPageData] = useState(
@@ -67,7 +72,7 @@ const RDAnalytics = () => {
       pages_viewer: "103",
     },
   ];
-  const colors = ["#39CABC", "#FFCACD"];
+  const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
@@ -111,12 +116,11 @@ const RDAnalytics = () => {
       },
     },
     series: [
-      {
-        name: "",
-
-        colorByPoint: true,
-        data: [], // Initialize with empty data
-      },
+      // {
+      //   name: "",
+      //   colorByPoint: true,
+      //   data: [],
+      // },
     ],
   });
 
@@ -184,7 +188,9 @@ const RDAnalytics = () => {
       shared: true,
     },
     legend: {
-      verticalAlign: "bottom",
+      align: "right",
+      verticalAlign: "middle",
+      layout: "verticle",
       reversed: true,
       symbolWidth: 20, // Width of the legend symbol (rectangle)
       symbolHeight: 10, // Height of the legend symbol (rectangle)
@@ -295,10 +301,12 @@ const RDAnalytics = () => {
       newArr.push({
         name: "Non-mandatory content engaged with",
         data: contentEngagement,
+        color: colors[2],
       });
       newArr.push({
         name: "Users in the site",
         data: siteUsers,
+        color: colors[3],
       });
 
       const newRdSiteOptions = {
@@ -427,13 +435,28 @@ const RDAnalytics = () => {
     }
   };
   
+  const rdShowData = (e, index) => {
+    if (show == index) {
+      setShow();
+    } else {
+      setShow(index);
+    }
+  };
+  const siteCompletionShowData = (e, index) => {
+    if (siteCompletionShow == index) {
+      setSiteCompletionShow();
+    } else {
+      setSiteCompletionShow(index);
+    }
+  };
+
   const individualCompletion = async () => {
     if (!indidualCompletionTableData) {
       try {
         loader("show");
-        const result = await getData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION);
-        console.log("training--->", result);
-        setIndividualCompletionTableData(result);
+        const result = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION);
+
+        setIndividualCompletionTableData(result?.data?.data);
         loader("hide");
       } catch (err) {
         loader("hide");
@@ -442,6 +465,58 @@ const RDAnalytics = () => {
     }
     individual_Completion?.current?.focus();
   };
+
+  const individualCompletionShowData = async (e, index, id, statusCode) => {
+    if (individualCompletionShow == index) {
+      setIndividualCompletionShow();
+    } else {
+      try {
+        loader("show");
+        let body = {
+          user_id: id,
+          training_status_code: statusCode,
+        };
+        const result = await postData(
+          ENDPOINT.TRAINING_COMPLETION_DROPDOWN,
+          body
+        );
+        // setTrainingCertificate(result?.data?.certificate);
+        setTrainingCompletionDropdownData(result?.data?.data);
+        console.log("result--->", result);
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log("-err", err);
+      }
+      setIndividualCompletionShow(index);
+    }
+  };
+
+  const individualTrainingDropdown = async (e, i, userId, pdfId) => {
+    try {
+      loader("show");
+      if (trainingAccordianShow == i) {
+        setTrainingAccordianShow();
+      } else {
+        let body = {
+          user_id: userId,
+          pdf_id: pdfId,
+        };
+        const result = await postData(
+          ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
+          body
+        );
+        console.log("page click-->", result?.data?.data?.time_spend_on_pdf);
+        setTrainingAccordianData(result?.data?.data?.time_spend_on_pdf);
+        setTrainingAccordianShow(i);
+      }
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log("-err", err);
+    }
+  };
+
   const siteCompletion = async () => {
     if (!siteCompletionTableData) {
       try {
@@ -457,6 +532,31 @@ const RDAnalytics = () => {
     }
     site_Completion?.current?.focus();
   };
+  // const sortSelectedUsers = () => {
+  //   let normalArr = [];
+  //   normalArr = readers;
+  //   if (sorting === 0) {
+  //     normalArr.sort((a, b) =>
+  //       a.first_name.toLowerCase() > b.first_name.toLowerCase()
+  //         ? 1
+  //         : b.first_name.toLowerCase() > a.first_name.toLowerCase()
+  //         ? -1
+  //         : 0
+  //     );
+  //   } else {
+  //     normalArr.sort((a, b) =>
+  //       a.first_name.toLowerCase() < b.first_name.toLowerCase()
+  //         ? 1
+  //         : b.first_name.toLowerCase() < a.first_name.toLowerCase()
+  //         ? -1
+  //         : 0
+  //     );
+  //   }
+
+  //   setReaders(normalArr);
+  //   setSorting(1 - sorting);
+  //   setSortingCount(sortingCount + 1);
+  // };
 
   return (
     <>
@@ -492,11 +592,7 @@ const RDAnalytics = () => {
                                 Click on the graph to see more details
                               </span>
                             </div>
-                            {/* <img
-                              className="pie-chart"
-                              src={path_image + "pie-chart.png"}
-                              alt=""
-                            /> */}
+
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={pieOptions}
@@ -663,11 +759,7 @@ const RDAnalytics = () => {
                                 Click on the graph to see more details
                               </span>
                             </div>
-                            {/* <img
-                              className="graph-chart"
-                              src={path_image + "graph-chart1.png"}
-                              alt=""
-                            /> */}
+
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={rdSiteOptions}
@@ -678,14 +770,15 @@ const RDAnalytics = () => {
                               <img
                                 src={path_image + "arrow-export.svg"}
                                 alt=""
-                                onClick={() =>
+                                onClick={() => {
                                   setFlag({
                                     individual_Completion: false,
                                     site_Completion: false,
                                     site_Engagement: true,
                                     content: false,
-                                  })
-                                }
+                                  });
+                                  site_Engagement?.current?.focus();
+                                }}
                               />
                             </div>
                           ) : null}
@@ -785,7 +878,8 @@ const RDAnalytics = () => {
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
                         <h4>
-                          Individual Completion | <span>35</span>
+                          Individual Completion |{" "}
+                          <span>{indidualCompletionTableData?.length}</span>
                         </h4>
                         <p>Click on the Record to see more details</p>
                       </div>
@@ -829,7 +923,7 @@ const RDAnalytics = () => {
                         </Button>
                       </div>
                     </div>
-                    <Table class="fold-table">
+                    <Table className="fold-table">
                       <thead>
                         <tr>
                           <th>Name</th>
@@ -841,1009 +935,222 @@ const RDAnalytics = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr
-                          className={`view ${
-                            show && show == "1" ? "show" : ""
-                          }`}
-                          onClick={() => setShow("1")}
-                        >
-                          <td>UserName</td>
-                          <td>Role name</td>
-                          <td>Blinded</td>
-                          <td className="complete">Completed</td>
-                          <td>Site name</td>
-                          <td class="pics">
-                            <img
-                              src={path_image + "certificate.png"}
-                              alt="Certificate"
-                            />
-                          </td>
-                        </tr>
-                        <tr
-                          className={`fold ${
-                            show && show == "1" ? "show" : ""
-                          }`}
-                        >
-                          <td colspan="6">
-                            <div className="fold-content">
-                              <p>
-                                Completed Contents | <span>2</span>
-                              </p>
-                              <span>Click on the content for more details</span>
-                              <Accordion>
-                                <Accordion.Item eventKey="0">
-                                  <Accordion.Header>
-                                    <div className="d-flex align-items-start">
-                                      <div className="content-image">
-                                        <img
-                                          src={
-                                            path_image + "article-content.png"
+                        {indidualCompletionTableData?.map((item, index) => {
+                          return (
+                            <>
+                              <tr
+                                className={`view ${
+                                  individualCompletionShow == index
+                                    ? "show"
+                                    : ""
+                                }`}
+                                onClick={(e) =>
+                                  individualCompletionShowData(
+                                    e,
+                                    index,
+                                    item?.user_id,
+                                    item?.training_status_code
+                                  )
+                                }
+                              >
+                                <td>{item?.username}</td>
+                                <td>{item?.user_type}</td>
+                                <td>{item?.blind_type}</td>
+                                <td
+                                  className={
+                                    item?.training_status == "started"
+                                      ? "started"
+                                      : item?.training_status == "complete"
+                                      ? "complete"
+                                      : "not_yet"
+                                  }
+                                >
+                                  {item?.training_status}
+                                </td>
+                                <td>{item?.site_name}</td>
+
+                                <td class="pics">
+                                  {item?.training_status == "complete" ? (
+                                    <img
+                                      src={path_image + "certificate.png"}
+                                      alt="Certificate"
+                                    />
+                                  ) : null}
+                                </td>
+                              </tr>
+                              {individualCompletionShow == index ? (
+                                <tr className={"fold show"}>
+                                  <td colspan="6">
+                                    <div className="fold-content">
+                                      <p>
+                                        Completed Contents |{" "}
+                                        <span>
+                                          {trainingDropdownData?.length}
+                                        </span>
+                                      </p>
+                                      <span>
+                                        Click on the content for more details
+                                      </span>
+                                      <Accordion>
+                                        {trainingDropdownData?.map(
+                                          (data, i) => {
+                                            return (
+                                              <>
+                                                <Accordion.Item
+                                                  eventKey={i}
+                                                  onClick={(e) =>
+                                                    individualTrainingDropdown(
+                                                      e,
+                                                      i,
+                                                      item?.user_id,
+                                                      data?.id
+                                                    )
+                                                  }
+                                                >
+                                                  <Accordion.Header>
+                                                    <div className="d-flex align-items-start">
+                                                      <div className="content-image">
+                                                        <img
+                                                          // src={data?.pdf_thumb}
+                                                          src={
+                                                            path_image +
+                                                            "lex-book-cover.png"
+                                                          }
+                                                          alt=""
+                                                        />
+                                                      </div>
+                                                      <div className="content-detail">
+                                                        <h6>{data?.title}</h6>
+                                                        <p>
+                                                          {data?.pdf_sub_title
+                                                            ? data?.pdf_sub_title
+                                                            : " "}
+                                                        </p>
+                                                        <div className="page-count">
+                                                          <div className="time">
+                                                            {data?.file_type ==
+                                                            "pdf" ? (
+                                                              <>
+                                                                Pages{" "}
+                                                                <span>
+                                                                  {
+                                                                    data?.total_pages
+                                                                  }
+                                                                </span>
+                                                              </>
+                                                            ) : data?.file_type ==
+                                                              "video" ? (
+                                                              <>
+                                                                Time
+                                                                <span>
+                                                                  {
+                                                                    data?.max_time
+                                                                  }
+                                                                </span>
+                                                              </>
+                                                            ) : null}
+                                                          </div>
+                                                          <div className="completed-date">
+                                                            {item?.training_status ==
+                                                            "complete" ? (
+                                                              <>
+                                                                Completed date
+                                                                <span className="complete">
+                                                                  {
+                                                                    data?.completion_date
+                                                                  }{" "}
+                                                                  <img
+                                                                    src={
+                                                                      path_image +
+                                                                      "check-complete.svg"
+                                                                    }
+                                                                    alt=""
+                                                                  />
+                                                                </span>
+                                                              </>
+                                                            ) : (
+                                                              <>
+                                                                Recent Activity
+                                                                <span className="started">
+                                                                  {
+                                                                    data?.recent_activity
+                                                                  }{" "}
+                                                                </span>
+                                                              </>
+                                                            )}
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </Accordion.Header>
+                                                  {trainingAccordianShow ==
+                                                  i ? (
+                                                    <Accordion.Body>
+                                                      <div className="article-pages-details d-flex">
+                                                        {trainingDropdownData?.length ? (
+                                                          traingAccordianData?.map(
+                                                            (pageData, e) => {
+                                                              return (
+                                                                <>
+                                                                  <div className="article-page-show">
+                                                                    <div className="article-cover-img">
+                                                                      <img
+                                                                        src={
+                                                                          path_image +
+                                                                          "article-content-cover.png"
+                                                                        }
+                                                                        alt=""
+                                                                      />
+                                                                    </div>
+                                                                    <div className="article-detail-view">
+                                                                      <div className="article-page-number">
+                                                                        Page{" "}
+                                                                        {
+                                                                          pageData?.page
+                                                                        }
+                                                                      </div>
+                                                                      <div className="article-spanrd-time">
+                                                                        Time
+                                                                        spent |{" "}
+                                                                        <span>
+                                                                          {
+                                                                            pageData?.time
+                                                                          }
+                                                                          <small>
+                                                                            sec
+                                                                          </small>
+                                                                        </span>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                </>
+                                                              );
+                                                            }
+                                                          )
+                                                        ) : (
+                                                          <div>No Data</div>
+                                                        )}
+                                                      </div>
+                                                    </Accordion.Body>
+                                                  ) : null}
+                                                </Accordion.Item>
+                                              </>
+                                            );
                                           }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="content-detail">
-                                        <h6>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravi ulvinar
-                                          ultricies neque praesent maurircu
-                                          aliquam ondi ment zcsum nudolor
-                                          nibhcudolor ..
-                                        </h6>
-                                        <p>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravida
-                                        </p>
-                                        <div className="page-count">
-                                          <div className="time">
-                                            Pages <span>7</span>
-                                          </div>
-                                          <div className="completed-date">
-                                            Completed date
-                                            <span className="complete">
-                                              1 Jan 2023{" "}
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "check-complete.svg"
-                                                }
-                                                alt=""
-                                              />
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
+                                        )}
+                                      </Accordion>
                                     </div>
-                                  </Accordion.Header>
-                                  <Accordion.Body>
-                                    <div className="article-pages-details d-flex">
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 1
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 2
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 3
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 4
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 5
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 6
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 7
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Body>
-                                </Accordion.Item>
-                                <Accordion.Item eventKey="1">
-                                  <Accordion.Header>
-                                    <div className="d-flex align-items-start">
-                                      <div className="content-image">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-video-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="content-detail">
-                                        <h6>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravi ulvinar
-                                          ultricies neque praesent maurircu
-                                          aliquam ondi ment zcsum nudolor
-                                          nibhcudolor ..
-                                        </h6>
-                                        <p>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravida
-                                        </p>
-                                        <div className="page-count">
-                                          <div className="time">
-                                            Time <span>15:11</span>
-                                          </div>
-                                          <div className="completed-date">
-                                            Completed date
-                                            <span className="complete">
-                                              1 Jan 2023{" "}
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "check-complete.svg"
-                                                }
-                                                alt=""
-                                              />
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Header>
-                                  <Accordion.Body>
-                                    <div className="article-pages-details d-flex">
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article _cover_video.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Video
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              12<small>minutes</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article _cover_video.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Video
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>minutes</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Body>
-                                </Accordion.Item>
-                                <Accordion.Item eventKey="2">
-                                  <Accordion.Header>
-                                    <div className="d-flex align-items-start">
-                                      <div className="content-image">
-                                        <img
-                                          src={
-                                            path_image + "certificate-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="content-detail">
-                                        <h6>Certificate</h6>
-                                        <p>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravida
-                                        </p>
-                                        <div className="page-count">
-                                          <div className="time"></div>
-                                          <div className="completed-date">
-                                            Issued date{" "}
-                                            <span className="complete">
-                                              2 Jan 2023{" "}
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "check-complete.svg"
-                                                }
-                                                alt=""
-                                              />
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Header>
-                                  <Accordion.Body></Accordion.Body>
-                                </Accordion.Item>
-                              </Accordion>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr className="blank">
-                          <td colspan="6" style={{ height: "10px;" }}>
-                            &nbsp;
-                          </td>
-                        </tr>
-                        <tr
-                          className={`view ${
-                            show && show == "2" ? "show" : ""
-                          }`}
-                          onClick={() => setShow("2")}
-                        >
-                          <td>UserName</td>
-                          <td>Role name</td>
-                          <td>Blinded</td>
-                          <td className="started">Started</td>
-                          <td>Site name</td>
-                          <td class="pics"></td>
-                        </tr>
-                        <tr
-                          className={`fold ${
-                            show && show == "2" ? "show" : ""
-                          }`}
-                        >
-                          <td colspan="6">
-                            <div className="fold-content">
-                              <p>
-                                Completed Contents | <span>2</span>
-                              </p>
-                              <span>Click on the content for more details</span>
-                              <Accordion>
-                                <Accordion.Item eventKey="0">
-                                  <Accordion.Header>
-                                    <div className="d-flex align-items-start">
-                                      <div className="content-image">
-                                        <img
-                                          src={
-                                            path_image + "article-content.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="content-detail">
-                                        <h6>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravi ulvinar
-                                          ultricies neque praesent maurircu
-                                          aliquam ondi ment zcsum nudolor
-                                          nibhcudolor ..
-                                        </h6>
-                                        <p>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravida
-                                        </p>
-                                        <div className="page-count">
-                                          <div className="time">
-                                            Pages <span>7</span>
-                                          </div>
-                                          <div className="completed-date">
-                                            Completed date
-                                            <span className="started">
-                                              1 Jan 2023
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Header>
-                                  <Accordion.Body>
-                                    <div className="article-pages-details d-flex">
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 1
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 2
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 3
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 4
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 5
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 6
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 7
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Body>
-                                </Accordion.Item>
-                                <Accordion.Item eventKey="1">
-                                  <Accordion.Header>
-                                    <div className="d-flex align-items-start">
-                                      <div className="content-image">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-video-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="content-detail">
-                                        <h6>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravi ulvinar
-                                          ultricies neque praesent maurircu
-                                          aliquam ondi ment zcsum nudolor
-                                          nibhcudolor ..
-                                        </h6>
-                                        <p>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravida
-                                        </p>
-                                        <div className="page-count">
-                                          <div className="time">
-                                            Time <span>15:11</span>
-                                          </div>
-                                          <div className="completed-date">
-                                            Completed date{" "}
-                                            <span className="started">
-                                              1 Jan 2023
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Header>
-                                  <Accordion.Body>
-                                    <div className="article-pages-details d-flex">
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article _cover_video.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Video
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              12<small>minutes</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article _cover_video.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Video
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>minutes</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Body>
-                                </Accordion.Item>
-                              </Accordion>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr className="blank">
-                          <td colspan="6" style={{ height: "10px;" }}>
-                            &nbsp;
-                          </td>
-                        </tr>
-                        <tr
-                          className={`view ${
-                            show && show == "3" ? "show" : ""
-                          }`}
-                          onClick={() => setShow("3")}
-                        >
-                          <td>UserName</td>
-                          <td>Role name</td>
-                          <td>Blinded</td>
-                          <td className="not_yet">Not yet</td>
-                          <td>Site name</td>
-                          <td class="pics"></td>
-                        </tr>
-                        <tr
-                          className={`fold ${
-                            show && show == "3" ? "show" : ""
-                          }`}
-                        >
-                          <td colspan="6">
-                            <div className="fold-content">
-                              <p>
-                                Completed Contents | <span>2</span>
-                              </p>
-                              <span>Click on the content for more details</span>
-                              <Accordion>
-                                <Accordion.Item eventKey="0">
-                                  <Accordion.Header>
-                                    <div className="d-flex align-items-start">
-                                      <div className="content-image">
-                                        <img
-                                          src={
-                                            path_image + "article-content.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="content-detail">
-                                        <h6>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravi ulvinar
-                                          ultricies neque praesent maurircu
-                                          aliquam ondi ment zcsum nudolor
-                                          nibhcudolor ..
-                                        </h6>
-                                        <p>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravida
-                                        </p>
-                                        <div className="page-count">
-                                          <div className="time">
-                                            Pages <span>7</span>
-                                          </div>
-                                          <div className="completed-date">
-                                            Completed date
-                                            <span className="started">
-                                              1 Jan 2023
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Header>
-                                  <Accordion.Body>
-                                    <div className="article-pages-details d-flex">
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 1
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 2
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 3
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 4
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 5
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 6
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article-content-cover.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Page 7
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>sec</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Body>
-                                </Accordion.Item>
-                                <Accordion.Item eventKey="1">
-                                  <Accordion.Header>
-                                    <div className="d-flex align-items-start">
-                                      <div className="content-image">
-                                        <img
-                                          src={
-                                            path_image +
-                                            "article-video-cover.png"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="content-detail">
-                                        <h6>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravi ulvinar
-                                          ultricies neque praesent maurircu
-                                          aliquam ondi ment zcsum nudolor
-                                          nibhcudolor ..
-                                        </h6>
-                                        <p>
-                                          Lorem sollicitudin faucibus eu
-                                          molestie sollicitudin gravida
-                                        </p>
-                                        <div className="page-count">
-                                          <div className="time">
-                                            Time <span>15:11</span>
-                                          </div>
-                                          <div className="completed-date">
-                                            Completed date{" "}
-                                            <span className="started">
-                                              1 Jan 2023
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Header>
-                                  <Accordion.Body>
-                                    <div className="article-pages-details d-flex">
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article _cover_video.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Video
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              12<small>minutes</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="article-page-show">
-                                        <div className="article-cover-img">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "article _cover_video.png"
-                                            }
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="article-detail-view">
-                                          <div className="article-page-number">
-                                            Video
-                                          </div>
-                                          <div className="article-spanrd-time">
-                                            Time spent |{" "}
-                                            <span>
-                                              5<small>minutes</small>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Accordion.Body>
-                                </Accordion.Item>
-                              </Accordion>
-                            </div>
-                          </td>
-                        </tr>
+                                  </td>
+                                </tr>
+                              ) : null}
+                              <tr className="blank">
+                                <td colspan="6" style={{ height: "10px;" }}>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
                       </tbody>
                     </Table>
                   </div>
@@ -1908,7 +1215,7 @@ const RDAnalytics = () => {
                         </Button>
                       </div>
                     </div>
-                    <Table class="fold-table">
+                    <Table className="fold-table">
                       <thead>
                         <tr>
                           <th className="site_name">Site Name</th>
@@ -1925,11 +1232,11 @@ const RDAnalytics = () => {
                           return (
                             <>
                               <tr
-                                // className={`view ${
-                                //   show && show == "11" ? "show" : ""
-                                // }`}
-                                onClick={() => {
-                                  setSiteCompletionShow(index);
+                                className={`view ${
+                                  siteCompletionShow == index ? "show" : ""
+                                }`}
+                                onClick={(e) => {
+                                  siteCompletionShowData(e, index);
                                 }}
                               >
                                 <td className="site_name">{item?.site_name}</td>
@@ -1946,181 +1253,53 @@ const RDAnalytics = () => {
                                   {item?.completed_training}
                                 </td>
                               </tr>
+
                               {siteCompletionShow == index ? (
-                                <tr
-                                // className={`fold ${
-                                //   siteCompletionShow &&
-                                //   siteCompletionShow == index
-                                //     ? "show"
-                                //     : ""
-                                // }`}
-                                >
-                                  <td colspan="5" className="site_complete">
-                                    {item?.Users?.length ? (
-                                      item?.Users?.map((data, i) => {
-                                        return (
-                                          <>
-                                            <Table>
-                                              <thead>
-                                                <tr>
-                                                  <th>Name</th>
-                                                  <th>Role</th>
-                                                  <th>Blind Type</th>
-                                                  <th>Training</th>
-                                                </tr>
-                                              </thead>
-                                              <tbody>
-                                                <tr>
-                                                  <td>{data?.first_name}</td>
-                                                  <td>{data?.user_type}</td>
-                                                  <td>{data?.binded}</td>
-                                                  <td className="complete">
-                                                    {data?.training}
-                                                  </td>
-                                                </tr>
-                                                {/* <tr>
-                                  <td>UserName</td>
-                                  <td>Role name</td>
-                                  <td>Blinded</td>
-                                  <td className="complete">Completed</td>
-                                </tr>
-                                <tr>
-                                  <td>UserName</td>
-                                  <td>Role name</td>
-                                  <td>Blinded</td>
-                                  <td className="not_yet">Not yet</td>
-                                </tr> */}
-                                              </tbody>
-                                            </Table>
-                                          </>
-                                        );
-                                      })
-                                    ) : (
-                                      <div>No Data</div>
-                                    )}
-                                  </td>
-                                </tr>
+                                <>
+                                  <tr className="fold show">
+                                    <td colspan="5" className="site_complete">
+                                      {item?.Users?.length ? (
+                                        item?.Users?.map((data, i) => {
+                                          return (
+                                            <>
+                                              <Table>
+                                                <thead>
+                                                  <tr>
+                                                    <th>Name</th>
+                                                    <th>Role</th>
+                                                    <th>Blind Type</th>
+                                                    <th>Training</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                  <tr>
+                                                    <td>{data?.first_name}</td>
+                                                    <td>{data?.user_type}</td>
+                                                    <td>{data?.binded}</td>
+                                                    <td className="complete">
+                                                      {data?.training}
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </Table>
+                                            </>
+                                          );
+                                        })
+                                      ) : (
+                                        <div>No Data</div>
+                                      )}
+                                    </td>
+                                  </tr>
+                                </>
                               ) : null}
+                              <tr className="blank">
+                                <td colspan="5" style={{ height: "10px;" }}>
+                                  &nbsp;
+                                </td>
+                              </tr>
                             </>
                           );
                         })}
-
-                        <tr className="blank">
-                          <td colspan="5" style={{ height: "10px;" }}>
-                            &nbsp;
-                          </td>
-                        </tr>
-                        {/* <tr
-                          className={`view ${
-                            show && show == "12" ? "show" : ""
-                          }`}
-                          onClick={() => setShow("12")}
-                        >
-                          <td className="site_name">Site name</td>
-                          <td>00801-94</td>
-                          <td>United Kingdom</td>
-                          <td className="active-irt">
-                            <span>16</span>
-                            <img src={path_image + "doctor-svg.svg"} alt="" />
-                          </td>
-                          <td className="complete">14</td>
-                        </tr> */}
-                        {/* <tr
-                          className={`fold ${
-                            show && show == "12" ? "show" : ""
-                          }`}
-                        >
-                          <td colspan="5" className="site_complete">
-                            <Table>
-                              <thead>
-                                <tr>
-                                  <th>Name</th>
-                                  <th>Role</th>
-                                  <th>Blind Type</th>
-                                  <th>Training</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>UserName</td>
-                                  <td>Role name</td>
-                                  <td>Blinded</td>
-                                  <td className="complete">Completed</td>
-                                </tr>
-                                <tr>
-                                  <td>UserName</td>
-                                  <td>Role name</td>
-                                  <td>Blinded</td>
-                                  <td className="complete">Completed</td>
-                                </tr>
-                                <tr>
-                                  <td>UserName</td>
-                                  <td>Role name</td>
-                                  <td>Blinded</td>
-                                  <td className="not_yet">Not yet</td>
-                                </tr>
-                              </tbody>
-                            </Table>
-                          </td>
-                        </tr>
-                        <tr className="blank">
-                          <td colspan="5" style={{ height: "10px;" }}>
-                            &nbsp;
-                          </td>
-                        </tr>
-                        <tr
-                          className={`view ${
-                            show && show == "13" ? "show" : ""
-                          }`}
-                          onClick={() => setShow("13")}
-                        >
-                          <td className="site_name">Site name</td>
-                          <td>00801-94</td>
-                          <td>United Kingdom</td>
-                          <td className="active-irt">
-                            <span>12</span>
-                            <img src={path_image + "doctor-svg.svg"} alt="" />
-                          </td>
-                          <td className="complete">4</td>
-                        </tr>
-                        <tr
-                          className={`fold ${
-                            show && show == "13" ? "show" : ""
-                          }`}
-                        >
-                          <td colspan="5" className="site_complete">
-                            <Table>
-                              <thead>
-                                <tr>
-                                  <th>Name</th>
-                                  <th>Role</th>
-                                  <th>Blind Type</th>
-                                  <th>Training</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>UserName</td>
-                                  <td>Role name</td>
-                                  <td>Blinded</td>
-                                  <td className="complete">Completed</td>
-                                </tr>
-                                <tr>
-                                  <td>UserName</td>
-                                  <td>Role name</td>
-                                  <td>Blinded</td>
-                                  <td className="complete">Completed</td>
-                                </tr>
-                                <tr>
-                                  <td>UserName</td>
-                                  <td>Role name</td>
-                                  <td>Blinded</td>
-                                  <td className="not_yet">Not yet</td>
-                                </tr>
-                              </tbody>
-                            </Table>
-                          </td>
-                        </tr> */}
                       </tbody>
                     </Table>
                   </div>
@@ -2141,7 +1320,11 @@ const RDAnalytics = () => {
                         </h4>
                         <p>Click on the Record to see more details</p>
                       </div>
-                      <div className="rd-training-block-right d-flex">
+                      <div
+                        className="rd-training-block-right d-flex"
+                        ref={site_Engagement}
+                        tabIndex={-1}
+                      >
                         <Button title="Download stats">
                           <svg
                             width="20"
@@ -2181,7 +1364,7 @@ const RDAnalytics = () => {
                         </Button>
                       </div>
                     </div>
-                    <Table class="fold-table">
+                    <Table className="fold-table">
                       <thead>
                         <tr>
                           <th>Site</th>
@@ -2198,9 +1381,9 @@ const RDAnalytics = () => {
                               <tr
                                 key={index}
                                 className={`view ${
-                                  show && show == "31" ? "show" : ""
+                                  show == index ? "show" : ""
                                 }`}
-                                onClick={() => setShow(index)}
+                                onClick={(e) => rdShowData(e, index)}
                               >
                                 <td>{item?.site_name}</td>
                                 <td>{item?.site_number}</td>
@@ -2209,192 +1392,90 @@ const RDAnalytics = () => {
                                 <td>{item?.content_engagement}</td>
                               </tr>
                               {show == index ? (
-                                <Table
-                                  class="view"
+                                <tr
+                                  className="fold show"
                                   // className={`fold ${
                                   //   show && show == index ? "show" : ""
                                   // }`}
                                 >
-                                  <tbody>
-                                    {item?.pdf_data?.length ? (
-                                      // item?.pdf_data?.map((data, i) => {
-                                      //     return (
-                                      //       <>
-                                      <tr
-                                      // className={`fold ${
-                                      //   show && show == index ? "show" : ""
-                                      // }`}
-                                      >
-                                        <td colspan="5">
-                                          <div className="fold-content">
-                                            <p>
-                                              Content engagement |{" "}
-                                              <span>
-                                                {item?.pdf_data?.length}
-                                              </span>
-                                            </p>
-                                            <span>
-                                              Click on the content for more
-                                              details
-                                            </span>
-                                            {item?.pdf_data?.map((data, i) => {
-                                              return (
-                                                <>
-                                                  <div className="d-flex align-items-start engagement-sec">
-                                                    <div className="content-image">
-                                                      <img
-                                                        src={
-                                                          // path_image +
-                                                          // "article-content.png"
-                                                          data?.cover_img
-                                                        }
-                                                        alt="no image"
-                                                      />
-                                                    </div>
-                                                    <div className="content-detail">
-                                                      <h6>{data?.title}</h6>
-                                                      <p>
-                                                        {data?.pdf_sub_title}
-                                                      </p>
-                                                      <div className="page-count">
-                                                        <div className="time">
+                                  {item?.pdf_data?.length ? (
+                                    <td colspan="5">
+                                      <div className="fold-content">
+                                        <p>
+                                          Content engagement |{" "}
+                                          <span>{item?.pdf_data?.length}</span>
+                                        </p>
+                                        <span>
+                                          Click on the content for more details
+                                        </span>
+                                        {item?.pdf_data?.map((data, i) => {
+                                          return (
+                                            <>
+                                              <div className="d-flex align-items-start engagement-sec">
+                                                <div className="content-image">
+                                                  <img
+                                                    src={
+                                                      // path_image +
+                                                      // "article-content.png"
+                                                      data?.cover_img
+                                                    }
+                                                    alt="no image"
+                                                  />
+                                                </div>
+                                                <div className="content-detail">
+                                                  <h6>{data?.title}</h6>
+                                                  <p>{data?.pdf_sub_title}</p>
+                                                  <div className="page-count">
+                                                    <div className="time">
+                                                      {data?.file_type ==
+                                                      "pdf" ? (
+                                                        <>
                                                           Pages{" "}
                                                           <span>
                                                             {data?.total_pages}
                                                           </span>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                    <div class="pages-viewer">
-                                                      {data?.unique_users}{" "}
-                                                      <img
-                                                        src="componentAssets/images/viewer.svg"
-                                                        alt=""
-                                                      />
+                                                        </>
+                                                      ) : data?.file_type ==
+                                                        "video" ? (
+                                                        <>
+                                                          Time{" "}
+                                                          <span>
+                                                            {data?.max_time}
+                                                          </span>
+                                                        </>
+                                                      ) : null}
                                                     </div>
                                                   </div>
-                                                </>
-                                              );
-                                            })}
-                                            {/* <div className="d-flex align-items-start engagement-sec">
-                                                      <div className="content-image">
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "article-video-cover.png"
-                                                          }
-                                                          alt=""
-                                                        />
-                                                      </div>
-                                                      <div className="content-detail">
-                                                        <h6>
-                                                          Lorem sollicitudin
-                                                          faucibus eu molestie
-                                                          sollicitudin gravi
-                                                          ulvinar ultricies
-                                                          neque praesent
-                                                          maurircu aliquam ondi
-                                                          ment zcsum nudolor
-                                                          nibhcudolor ..
-                                                        </h6>
-                                                        <p>
-                                                          Lorem sollicitudin
-                                                          faucibus eu molestie
-                                                          sollicitudin gravida
-                                                        </p>
-                                                        <div className="page-count">
-                                                          <div className="time">
-                                                            Time{" "}
-                                                            <span>15:11</span>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                      <div class="pages-viewer">
-                                                        103{" "}
-                                                        <img
-                                                          src="componentAssets/images/viewer.svg"
-                                                          alt=""
-                                                        />
-                                                      </div>
-                                                    </div> */}
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    ) : (
-                                      <div className="content-detail">
-                                        No Data
+                                                </div>
+                                                <div class="pages-viewer">
+                                                  {data?.unique_users}{" "}
+                                                  <img
+                                                    src="componentAssets/images/viewer.svg"
+                                                    alt=""
+                                                  />
+                                                </div>
+                                              </div>
+                                            </>
+                                          );
+                                        })}
                                       </div>
-                                    )}
-                                  </tbody>
-                                </Table>
+                                    </td>
+                                  ) : (
+                                    <div className="content-detail">
+                                      No Data
+                                    </div>
+                                  )}
+                                </tr>
                               ) : null}
 
                               <tr className="blank">
-                                <td colspan="5" style={{ height: "10px;" }}>
+                                <td colspan="5" style={{ height: "10px" }}>
                                   &nbsp;
                                 </td>
                               </tr>
                             </>
                           );
                         })}
-                        {/* <tr
-                          className={`view ${
-                            show && show == "32" ? "show" : ""
-                          }`}
-                          onClick={() => setShow("32")}
-                        >
-                          <td>Site Name</td>
-                          <td>00801-94</td>
-                          <td>United Kingdom</td>
-                          <td>4</td>
-                          <td>2</td>
-                        </tr>
-                        <tr
-                          className={`fold ${
-                            show && show == "32" ? "show" : ""
-                          }`}
-                        >
-                          <td colspan="5">
-                            <div className="fold-content">
-                              <p>
-                                Completed Contents | <span>2</span>
-                              </p>
-                              <span>Click on the content for more details</span>
-                              <div className="d-flex align-items-start engagement-sec">
-                                <div className="content-image">
-                                  <img
-                                    src={path_image + "article-content.png"}
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="content-detail">
-                                  <h6>
-                                    Lorem sollicitudin faucibus eu molestie
-                                    sollicitudin gravi ulvinar ultricies neque
-                                    praesent maurircu aliquam ondi ment zcsum
-                                    nudolor nibhcudolor ..
-                                  </h6>
-                                  <p>
-                                    Lorem sollicitudin faucibus eu molestie
-                                    sollicitudin gravida
-                                  </p>
-                                  <div className="page-count">
-                                    <div className="time">
-                                      Pages <span>7</span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="pages-viewer">
-                                  103{" "}
-                                  <img
-                                    src="componentAssets/images/viewer.svg"
-                                    alt=""
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                        </tr> */}
                       </tbody>
                     </Table>
                   </div>
