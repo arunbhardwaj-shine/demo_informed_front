@@ -610,7 +610,7 @@ const RDAnalytics = () => {
                                     site_Engagement: false,
                                     content: false,
                                   });
-                                  // individualCompletion();
+                                  individualCompletion();
                                 }}
                               />
                             </div>
@@ -866,7 +866,7 @@ const RDAnalytics = () => {
                                     site_Engagement: false,
                                     content: true,
                                   });
-                                  individualCompletion();
+                                  // individualCompletion();
                                 }} />
                       </div>
                     </div>
