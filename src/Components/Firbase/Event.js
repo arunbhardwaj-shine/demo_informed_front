@@ -12,7 +12,7 @@ import "./style.css"
 import {db} from "../../config/firebaseConfig"
 const Event = () =>{
     const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
+    const queryParams = new URLSearchParams(location.search);   
     
     const [eventId,setEvent] = useState(0)
     const q = query(collection(db, "chat"), where("triggered", '!=', 0),where("event_id","==",eventId));
@@ -21,7 +21,6 @@ const Event = () =>{
     const [apiData,setApiData] = useState([])
     const [answerPop,setAnswerPopup] = useState(false)
     useEffect(()=>{
-        console.log("-=-=-=->>112",queryParams.get("evnt"))
         EventDataFun()
     },[])
     const EventDataFun = async() =>{
@@ -145,7 +144,8 @@ const Event = () =>{
 
     return (
         <>
-         <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <div className="octa_events">
       <div class="container">
 
 <div class="question-block">
@@ -244,6 +244,7 @@ data={apiData}
  onClose={()=>setAnswerPopup(false)}
 
 />
+</div>
         </>
     )
 }
