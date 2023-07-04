@@ -145,7 +145,8 @@ const Event = () =>{
 
     return (
         <>
-         <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <div className="octa_events">
       <div class="container">
 
 <div class="question-block">
@@ -244,6 +245,7 @@ data={apiData}
  onClose={()=>setAnswerPopup(false)}
 
 />
+</div>
         </>
     )
 }
