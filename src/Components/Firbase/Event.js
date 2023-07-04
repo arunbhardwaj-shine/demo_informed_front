@@ -1,20 +1,41 @@
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
 import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import EventModel from "../../Model/EventModel";
 import Cookies from 'js-cookie';
 import DisplayAnswer from "../../Model/DisplayAnswer";
 import "./custom.css"
+import { loader } from "../../loader";
 import "./style.css"
 import {db} from "../../config/firebaseConfig"
 const Event = () =>{
-    const q = query(collection(db, "chat"), where("triggered", '!=', 0),where("event_id","==",136));
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const [eventId,setEvent] = useState(0)
+
+    const q = query(collection(db, "chat"), where("triggered", '!=', 0),where("event_id","==",eventId));
     const [data,setData] = useState(0)
     const [show,setShow] = useState(false)
     const [apiData,setApiData] = useState([])
     const [answerPop,setAnswerPopup] = useState(false)
-
+    useEffect(()=>{
+        EventDataFun()
+    },[])
+    const EventDataFun = async() =>{
+        try{
+            loader("show")
+           const result = await postData(ENDPOINT.EVENT_ID,{
+                 eventCode :queryParams.get("evnt")
+            })
+            setEvent(result.data.data)
+            loader("hide")
+        }catch(err){
+            loader("hide")
+            console.log("-err",err)
+        }
+    }
   
     const [value,setValue] = useState({})
        onSnapshot(q, (querySnapshot) => {
@@ -112,8 +133,11 @@ const Event = () =>{
     useEffect(()=>{
     let events =  Cookies.get('events');
         if(!events){
-            const timestamp = Date.now();
-            Cookies.set('events', timestamp, { expires: 7 });
+            const random = Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
+            const timestamp = new Date().getTime();
+            const expirationDate = new Date();
+            expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+            Cookies.set('events', `${timestamp}${random}`, { expires: expirationDate  });
         }
       handleEvent()
     },[data])
