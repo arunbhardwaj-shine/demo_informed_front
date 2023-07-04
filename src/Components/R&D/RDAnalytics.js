@@ -10,7 +10,6 @@ const RDAnalytics = () => {
   const [show, setShow] = useState();
   const [totalSiteNumber, setTotalSiteNumber] = useState();
   const [totalRdSiteNumber, setTotalRdSiteNumber] = useState();
-  
 
   const [chartOptions, setChartOptions] = useState();
   const [rdSiteData, setRdSiteData] = useState();
@@ -33,7 +32,7 @@ const RDAnalytics = () => {
   const [mostPopularContentData, setMostPopularContentData] = useState([]);
   const [mostPopularContentPageData, setMostPopularContentPageData] = useState(
     []
-  ); 
+  );
   const [mostPopularContentSiteData, setMostPopularContentSiteData] = useState(
     []
   );
@@ -346,11 +345,10 @@ const RDAnalytics = () => {
       });
       const data = result?.data?.data;
       // console.log("drowdown",data);
-  
-    
-      setMostPopularContentPageData(prevData => ({
+
+      setMostPopularContentPageData((prevData) => ({
         ...prevData,
-        [pdf_id]: data.time_spend_on_pdf
+        [pdf_id]: data.time_spend_on_pdf,
       }));
       // console.log(mostPopularContentPageData)
     } catch (err) {
@@ -365,22 +363,22 @@ const RDAnalytics = () => {
       });
       const data = result?.data?.data.site_data;
       const chart_data = result?.data?.data?.chart_data;
-      setMostPopularContentSiteData(prevData => ({
+      setMostPopularContentSiteData((prevData) => ({
         ...prevData,
-        [pdf_id]: data
+        [pdf_id]: data,
       }));
 
       // console.log("dropdown", data);
-      
+
       // Set chart data options for the PDF
-      setChartOptions(prevOptions => ({
+      setChartOptions((prevOptions) => ({
         ...prevOptions,
         [pdf_id]: {
           chart: {
-            type: "pie"
+            type: "pie",
           },
           title: {
-            text: "Device Chart"
+            text: "Device Chart",
           },
           subtitle: {
             text: `Devices ${chart_data.totalDevices}`,
@@ -388,11 +386,11 @@ const RDAnalytics = () => {
             y: 45,
             style: {
               fontSize: "16px",
-              fontWeight: "bold"
-            }
+              fontWeight: "bold",
+            },
           },
           exporting: {
-            enabled:false
+            enabled: false,
           },
           plotOptions: {
             pie: {
@@ -404,37 +402,37 @@ const RDAnalytics = () => {
                   fontWeight: "bold",
                   color: "white",
                   textOutline: "none",
-                  fontSize: "12px"
+                  fontSize: "12px",
                 },
-                distance: -20 // Adjust the distance of the data labels from the center
+                distance: -20, // Adjust the distance of the data labels from the center
               },
               animation: {
-                duration: 1000
+                duration: 1000,
               },
-              enableMouseTracking: false // Disable hover functionality
-            }
+              enableMouseTracking: false, // Disable hover functionality
+            },
           },
           series: [
             {
               name: "Device Count",
-              data: chart_data.deviceNames.map((name,index) => ({
+              data: chart_data.deviceNames.map((name, index) => ({
                 name,
                 y: chart_data.deviceCount[name],
                 color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][index % 4],
               })),
               size: "100%",
-              innerSize: "70%"
-            }
-          ]
-        }
+              innerSize: "70%",
+            },
+          ],
+        },
       }));
-      
+
       // console.log(chartOptions);
     } catch (err) {
       console.log("--err", err);
     }
   };
-  
+
   const rdShowData = (e, index) => {
     if (show == index) {
       setShow();
@@ -795,7 +793,13 @@ const RDAnalytics = () => {
                       <div className="rd-analytics-top d-flex justify-content-between align-items-center">
                         <h5>Most Popular content</h5>
                         <div className="d-flex">
-                          <div className="count-number">{mostPopularContentData?mostPopularContentData[0]?.watched_count+mostPopularContentData[1]?.watched_count+mostPopularContentData[2]?.watched_count:0}</div>
+                          <div className="count-number">
+                            {mostPopularContentData
+                              ? mostPopularContentData[0]?.watched_count +
+                                mostPopularContentData[1]?.watched_count +
+                                mostPopularContentData[2]?.watched_count
+                              : 0}
+                          </div>
                           <img src={path_image + "content-view.svg"} alt="" />
                         </div>
                       </div>
@@ -859,15 +863,19 @@ const RDAnalytics = () => {
                         />
                       </div>
                       <div className="rd-box-export">
-                        <img src={path_image + "arrow-export.svg"} alt=""    onClick={() => {
-                                  setFlag({
-                                    individual_Completion: false,
-                                    site_Completion: false,
-                                    site_Engagement: false,
-                                    content: true,
-                                  });
-                                  // individualCompletion();
-                                }} />
+                        <img
+                          src={path_image + "arrow-export.svg"}
+                          alt=""
+                          onClick={() => {
+                            setFlag({
+                              individual_Completion: false,
+                              site_Completion: false,
+                              site_Engagement: false,
+                              content: true,
+                            });
+                            // individualCompletion();
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -1064,9 +1072,9 @@ const RDAnalytics = () => {
                                                               <>
                                                                 Completed date
                                                                 <span className="complete">
-                                                                  {
-                                                                    data?.date? data?.date:"NA"
-                                                                  }{" "}
+                                                                  {data?.date
+                                                                    ? data?.date
+                                                                    : "NA"}{" "}
                                                                   <img
                                                                     src={
                                                                       path_image +
@@ -1080,9 +1088,9 @@ const RDAnalytics = () => {
                                                               <>
                                                                 Recent Activity
                                                                 <span className="started">
-                                                                  {
-                                                                   data?.date? data?.date:"NA"
-                                                                  }{" "}
+                                                                  {data?.date
+                                                                    ? data?.date
+                                                                    : "NA"}{" "}
                                                                 </span>
                                                               </>
                                                             )}
@@ -1124,9 +1132,9 @@ const RDAnalytics = () => {
                                                                           {
                                                                             pageData?.time
                                                                           }
-                                                                          <small>
+                                                                          {/* <small>
                                                                             sec
-                                                                          </small>
+                                                                          </small> */}
                                                                         </span>
                                                                       </div>
                                                                     </div>
@@ -1513,9 +1521,7 @@ const RDAnalytics = () => {
                             key={index}
                             eventKey={index.toString()}
                             onClick={() =>
-                              getMostPopularContentPageData(
-                                item?.pdf?.id
-                              )
+                              getMostPopularContentPageData(item?.pdf?.id)
                             }
                           >
                             <Accordion.Header>
@@ -1546,32 +1552,35 @@ const RDAnalytics = () => {
                                 </div>
                                 <div class="pages-viewer">
                                   {item.watched_count}{" "}
-                                  <img
-                                    src={path_image + "viewer.svg"}
-                                    alt=""
-                                  
-                                  />
+                                  <img src={path_image + "viewer.svg"} alt="" />
                                 </div>
                               </div>
                             </Accordion.Header>
                             <Accordion.Body>
-                            <div className="article-pages-details d-flex">
-  {mostPopularContentPageData[item.pdf?.id]?.length > 0 &&
-    mostPopularContentPageData[item.pdf?.id].map((pdf, index) => (
-      <div className="article-page-show" key={index}>
-        <div className="article-cover-img">
-          <img src={pdf.article_image} alt="" />
-        </div>
-        <div className="article-detail-view">
-          <div className="article-page-number">Page {pdf.page}</div>
-          <div className="article-spanrd-time">
-            Read | Watched <span>{pdf.read_watched}
-          </span>
-        </div>
-      </div>
-    </div>
-  ))}
-
+                              <div className="article-pages-details d-flex">
+                                {mostPopularContentPageData[item.pdf?.id]
+                                  ?.length > 0 &&
+                                  mostPopularContentPageData[item.pdf?.id].map(
+                                    (pdf, index) => (
+                                      <div
+                                        className="article-page-show"
+                                        key={index}
+                                      >
+                                        <div className="article-cover-img">
+                                          <img src={pdf.article_image} alt="" />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page {pdf.page}
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Read | Watched{" "}
+                                            <span>{pdf.read_watched}</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )
+                                  )}
                               </div>
                             </Accordion.Body>
                           </Accordion.Item>
@@ -1579,12 +1588,9 @@ const RDAnalytics = () => {
                             eventKey="10"
                             className="accordion-read"
                             onClick={() =>
-                              getMostPopularContentSiteData(
-                                item?.pdf?.id
-                              )
+                              getMostPopularContentSiteData(item?.pdf?.id)
                             }
                           >
-                           
                             <Accordion.Header>
                               <div className="d-flex align-items-center justify-content-center">
                                 Who Read | Watched at each site{" "}
@@ -1594,68 +1600,74 @@ const RDAnalytics = () => {
                                 />
                               </div>
                             </Accordion.Header>
-                            {mostPopularContentSiteData[item.pdf?.id]?.length > 0 &&
-                            <>
-                            <Accordion.Body>
-                              <div className="contents-block d-flex">
-                                <div className="contents-block-left">
-                                  <Table>
-                                    <thead>
-                                      <tr>
-                                        <th>Site</th>
-                                        <th>Site Number</th>
-                                        <th className="short_value">
-                                          <Button className="sort_btn">
-                                            Sort By
-                                            <svg
-                                              width="20"
-                                              height="18"
-                                              viewBox="0 0 20 18"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                              <path
-                                                d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                                                fill="#97B6CF"
-                                              />
-                                              <path
-                                                d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                                                fill="#97B6CF"
-                                              />
-                                            </svg>
-                                          </Button>{" "}
-                                        </th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                    {mostPopularContentSiteData[item.pdf?.id].map((pdf, index) => (
-  <tr key={index}> {/* Add key prop with a unique value */}
-    <td>{pdf.site_name}</td>
-    <td>{pdf.site_number}</td>
-    <td className="short_value">
-    {pdf.count}{" "}
-      <img
-        src="componentAssets/images/viewer.svg"
-        alt=""
-      />
-    </td>
-  </tr>
-))}
-
-                                     
-                                    </tbody>
-                                  </Table>
-                                </div>
-                                <div className="contents-block-right">
-                                  <h4>Used Devices</h4>
-                                  <div className="used-device-detail">
-                                  <HighchartsReact highcharts={Highcharts} options={chartOptions[item.pdf?.id]} />
+                            {mostPopularContentSiteData[item.pdf?.id]?.length >
+                              0 && (
+                              <>
+                                <Accordion.Body>
+                                  <div className="contents-block d-flex">
+                                    <div className="contents-block-left">
+                                      <Table>
+                                        <thead>
+                                          <tr>
+                                            <th>Site</th>
+                                            <th>Site Number</th>
+                                            <th className="short_value">
+                                              <Button className="sort_btn">
+                                                Sort By
+                                                <svg
+                                                  width="20"
+                                                  height="18"
+                                                  viewBox="0 0 20 18"
+                                                  fill="none"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                  <path
+                                                    d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
+                                                    fill="#97B6CF"
+                                                  />
+                                                  <path
+                                                    d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
+                                                    fill="#97B6CF"
+                                                  />
+                                                </svg>
+                                              </Button>{" "}
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {mostPopularContentSiteData[
+                                            item.pdf?.id
+                                          ].map((pdf, index) => (
+                                            <tr key={index}>
+                                              {" "}
+                                              {/* Add key prop with a unique value */}
+                                              <td>{pdf.site_name}</td>
+                                              <td>{pdf.site_number}</td>
+                                              <td className="short_value">
+                                                {pdf.count}{" "}
+                                                <img
+                                                  src="componentAssets/images/viewer.svg"
+                                                  alt=""
+                                                />
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                    <div className="contents-block-right">
+                                      <h4>Used Devices</h4>
+                                      <div className="used-device-detail">
+                                        <HighchartsReact
+                                          highcharts={Highcharts}
+                                          options={chartOptions[item.pdf?.id]}
+                                        />
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-                            </Accordion.Body>
-                            </>
-                            }
+                                </Accordion.Body>
+                              </>
+                            )}
                           </Accordion.Item>
                         </Accordion>
                       </div>
