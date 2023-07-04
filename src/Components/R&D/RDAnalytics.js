@@ -437,7 +437,7 @@ const RDAnalytics = () => {
 
   return (
     <>
-      <Col className="right-sidebar col">
+      <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
             <div className="top-header">
