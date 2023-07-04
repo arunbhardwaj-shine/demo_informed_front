@@ -206,10 +206,10 @@ const RDAnalytics = () => {
   });
 
   useEffect(() => {
+    getMostPopularData();
     initialFun();
     getPieChartData();
     getRdSiteChartData();
-    getMostPopularData();
   }, []);
 
   const initialFun = async () => {
@@ -610,7 +610,7 @@ const RDAnalytics = () => {
                                     site_Engagement: false,
                                     content: false,
                                   });
-                                  individualCompletion();
+                                  // individualCompletion();
                                 }}
                               />
                             </div>
@@ -859,7 +859,15 @@ const RDAnalytics = () => {
                         />
                       </div>
                       <div className="rd-box-export">
-                        <img src={path_image + "arrow-export.svg"} alt="" />
+                        <img src={path_image + "arrow-export.svg"} alt=""    onClick={() => {
+                                  setFlag({
+                                    individual_Completion: false,
+                                    site_Completion: false,
+                                    site_Engagement: false,
+                                    content: true,
+                                  });
+                                  individualCompletion();
+                                }} />
                       </div>
                     </div>
                   </div>
@@ -1057,7 +1065,7 @@ const RDAnalytics = () => {
                                                                 Completed date
                                                                 <span className="complete">
                                                                   {
-                                                                    data?.completion_date
+                                                                    data?.date? data?.date:"NA"
                                                                   }{" "}
                                                                   <img
                                                                     src={
@@ -1073,7 +1081,7 @@ const RDAnalytics = () => {
                                                                 Recent Activity
                                                                 <span className="started">
                                                                   {
-                                                                    data?.recent_activity
+                                                                   data?.date? data?.date:"NA"
                                                                   }{" "}
                                                                 </span>
                                                               </>
