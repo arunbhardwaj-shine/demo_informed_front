@@ -404,14 +404,11 @@ const LibraryContent = (props) => {
   const saveArticle = async () => {
     try {
       loader("show");
-      console.log("id-->", resetDataId);
-      console.log("langu--->", articleLanguage);
       let body = {
         id: resetDataId,
         language: articleLanguage,
       };
       const res = await postData(ENDPOINT.LIBRARY_CLONE_ARTICLE, body);
-      console.log("res-->", res);
       loader("hide");
     } catch (err) {
       loader("hide");

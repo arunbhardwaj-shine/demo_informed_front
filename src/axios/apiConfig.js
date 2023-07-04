@@ -82,4 +82,9 @@ export const ENDPOINT = {
   INFORMED_USER_FORM: "https://webinar.docintel.app/lmn/contact_email",
   READER_REFRESH: "/reader/sync-reader",
   LIBRARY_CLONE_ARTICLE: "/library/clone-article",
+  WEBINAR_QUESTION: `/auth/questions`,
+  POLL_ANSWER: `/auth/poll-answer`,
+  EVENT_ID: `/auth/event-data`,
+
+
 };
