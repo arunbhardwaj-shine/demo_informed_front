@@ -64,7 +64,7 @@ function DisplayAnswer({ show, data, onClose }) {
   return (
     <>
       <Modal show={show} backdrop="static" keyboard={false} id="pollModel1">
-      <Modal.Header closeButton>
+      <Modal.Header >
         <Modal.Title id="contained-modal-title-vcenter">
           <img
             src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
