@@ -220,9 +220,33 @@ const CreateEmail = (props) => {
         console.log(err);
       });
   };
+  const axiosFun = async () => {
+    try {
+      const result = await axios.get(`emailapi/get_site`);
+
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+      setCountryall(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
+  };
 
   useEffect(() => {
     loader("show");
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
     const getalCountry = async () => {
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -236,6 +260,7 @@ const CreateEmail = (props) => {
           // setCountryall(res.data.response.data.country);
           if (res.data.status_code == 200) {
             let country = res.data.response.data.country;
+
             let arr = [];
             Object.entries(country).map(([index, item]) => {
               let label = item;
@@ -264,7 +289,9 @@ const CreateEmail = (props) => {
               setRole(newType);
               setIrtRole(newIrtType);
             }
-            setCountryall(arr);
+            if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+              setCountryall(arr);
+            }
             setTotalData(res.data.response.data);
           }
         })
@@ -773,9 +800,9 @@ const CreateEmail = (props) => {
   };
 
   const emailSubjectChanged = (e) => {
-    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       setemailCampaign(e.target.value);
-      setEmailCreator("Octapharma R&D")
+      setEmailCreator("Octapharma R&D");
       setEmailDescription(e.target.value);
     }
     setEmailSubject(e.target.value);
@@ -1726,97 +1753,94 @@ const CreateEmail = (props) => {
 
                   <div className="email-form">
                     <form>
+                      {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <>
+                          <div className="form-inline row justify-content-between align-items-center">
+                            <div className="form-group col-12 col-md-7">
+                              <label htmlFor="exampleInputEmail1">
+                                Email Description <span>*</span>{" "}
+                              </label>
 
-                      {
-                        localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="?(
-                         <>
-                         <div className="form-inline row justify-content-between align-items-center">
-                        <div className="form-group col-12 col-md-7">
-                          <label htmlFor="exampleInputEmail1">
-                            Email Description <span>*</span>{" "}
-                          </label>
-
-                          <input
-                            onChange={(e) => emailDescriptionChange(e)}
-                            type="text"
-                            className={
-                              validator?.message(
+                              <input
+                                onChange={(e) => emailDescriptionChange(e)}
+                                type="text"
+                                className={
+                                  validator?.message(
+                                    "emailDesc",
+                                    emailDescription,
+                                    "required"
+                                  )
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                id="email-desc"
+                                value={emailDescription}
+                              />
+                              {validator.message(
                                 "emailDesc",
                                 emailDescription,
                                 "required"
-                              )
-                                ? "form-control error"
-                                : "form-control"
-                            }
-                            id="email-desc"
-                            value={emailDescription}
-                          />
-                          {validator.message(
-                            "emailDesc",
-                            emailDescription,
-                            "required"
-                          )}
-                        </div>
-                        <div className="form-group right-side col-12 col-md-5">
-                          <label htmlFor="exampleInputEmail1">
-                            Email Creator <span>*</span>
-                          </label>
+                              )}
+                            </div>
+                            <div className="form-group right-side col-12 col-md-5">
+                              <label htmlFor="exampleInputEmail1">
+                                Email Creator <span>*</span>
+                              </label>
 
-                          <input
-                            onChange={(e) => emailCreatorChange(e)}
-                            type="text"
-                            className={
-                              validator.message(
+                              <input
+                                onChange={(e) => emailCreatorChange(e)}
+                                type="text"
+                                className={
+                                  validator.message(
+                                    "creator",
+                                    emailCreator,
+                                    "required"
+                                  )
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                id="email-address"
+                                value={emailCreator}
+                              />
+                              {validator.message(
                                 "creator",
                                 emailCreator,
                                 "required"
-                              )
-                                ? "form-control error"
-                                : "form-control"
-                            }
-                            id="email-address"
-                            value={emailCreator}
-                          />
-                          {validator.message(
-                            "creator",
-                            emailCreator,
-                            "required"
-                          )}
-                        </div>
-                      </div>
-                      <div className="form-inline row justify-content-between align-items-center">
-                        <div className="form-group">
-                          <label htmlFor="exampleInputEmail1">
-                            Email Campaign <span>*</span>
-                          </label>
+                              )}
+                            </div>
+                          </div>
+                          <div className="form-inline row justify-content-between align-items-center">
+                            <div className="form-group">
+                              <label htmlFor="exampleInputEmail1">
+                                Email Campaign <span>*</span>
+                              </label>
 
-                          <input
-                            type="text"
-                            className={
-                              validator.message(
+                              <input
+                                type="text"
+                                className={
+                                  validator.message(
+                                    "emailCampaign",
+                                    emailCampaign,
+                                    "required"
+                                  )
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                id="email-campaign"
+                                value={emailCampaign}
+                                onChange={changeEmailCampaign}
+                              />
+                              {validator.message(
                                 "emailCampaign",
                                 emailCampaign,
                                 "required"
-                              )
-                                ? "form-control error"
-                                : "form-control"
-                            }
-                            id="email-campaign"
-                            value={emailCampaign}
-                            onChange={changeEmailCampaign}
-                          />
-                          {validator.message(
-                            "emailCampaign",
-                            emailCampaign,
-                            "required"
-                          )}
-                        </div>
-                      </div>
-                     
-                         </>
-                        ):null
-                      }
-                       <div className="input-group w-100">
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      ) : null}
+                      <div className="input-group w-100">
                         <div className="input-group-prepend">
                           <button
                             className="btn btn-bordered btn-primary"
@@ -1848,7 +1872,7 @@ const CreateEmail = (props) => {
                           </ul>
                         </div>
                       </div>
-                      
+
                       <div className="form-inline row justify-content-end align-items-center">
                         <div className="form-group col-12 col-md-5">
                           <label htmlFor="exampleInputEmail1">
