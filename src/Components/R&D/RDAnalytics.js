@@ -358,6 +358,7 @@ const RDAnalytics = () => {
           ENDPOINT.TRAINING_COMPLETION_DROPDOWN,
           body
         );
+        // setTrainingCertificate(result?.data?.certificate);
         setTrainingCompletionDropdownData(result?.data?.data);
         console.log("result--->", result);
         loader("hide");
@@ -836,11 +837,14 @@ const RDAnalytics = () => {
                                   {item?.training_status}
                                 </td>
                                 <td>{item?.site_name}</td>
+
                                 <td class="pics">
-                                  <img
-                                    src={path_image + "certificate.png"}
-                                    alt="Certificate"
-                                  />
+                                  {item?.training_status == "complete" ? (
+                                    <img
+                                      src={path_image + "certificate.png"}
+                                      alt="Certificate"
+                                    />
+                                  ) : null}
                                 </td>
                               </tr>
                               {individualCompletionShow == index ? (
@@ -915,6 +919,7 @@ const RDAnalytics = () => {
                                                           </div>
                                                           <div className="completed-date">
                                                             Completed date
+                                                            {}
                                                             <span className="complete">
                                                               1 Jan 2023{" "}
                                                               <img
