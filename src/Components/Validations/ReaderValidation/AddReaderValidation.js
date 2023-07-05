@@ -21,11 +21,6 @@ export const AddReaderValidation = (data, groupId, flag) => {
   if (!data?.country) {
     error.country = "Please select country";
   }
-  if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-    if (!data?.irt) {
-      error.irt = "Please select IRT";
-    }
-  }
 
   return error;
 };

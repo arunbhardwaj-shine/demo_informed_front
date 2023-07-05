@@ -2858,29 +2858,7 @@ const CreateEmail = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
-                                  {val.optIRT == "no" ? (
-                                    <Select
-                                      options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                      onChange={(event) =>
-                                        onCountryChange(event, i)
-                                      }
-                                      value={
-                                        countryall.findIndex(
-                                          (el) => el.value == val?.country
-                                        ) == -1
-                                          ? ""
-                                          : countryall[
-                                              countryall.findIndex(
-                                                (el) => el.value == val?.country
-                                              )
-                                            ]
-                                      }
-                                      placeholder="Select Country"
-                                      filterOption={createFilter(filterConfig)}
-                                      isClearable
-                                    />
-                                  ) : val.optIRT == "yes" ? (
+                                  {val.optIRT == "yes" ? (
                                     <Select
                                       options={irtCountry}
                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2904,8 +2882,25 @@ const CreateEmail = (props) => {
                                     />
                                   ) : (
                                     <Select
+                                      options={countryall}
                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                      placeholder="Select country"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      value={
+                                        countryall.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : countryall[
+                                              countryall.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
                                     />
                                   )}
 

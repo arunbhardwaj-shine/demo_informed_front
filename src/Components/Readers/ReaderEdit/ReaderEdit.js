@@ -591,9 +591,7 @@ const ReaderEdit = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">
-            IRT <span>*</span>
-          </Form.Label>
+          <Form.Label htmlFor="">IRT</Form.Label>
           <Select
             options={userDetail?.irt}
             defaultValue={{
@@ -698,35 +696,7 @@ const ReaderEdit = () => {
             Country <span>*</span>
           </Form.Label>
           {userInputs?.irt &&
-          (userInputs?.irt == 0 || userInputs?.irt == "No") ? (
-            <>
-              <Select
-                options={countryAll}
-                value={
-                  countryAll?.findIndex(
-                    (e) => e.value == userInputs?.country
-                  ) == -1
-                    ? ""
-                    : countryAll[
-                        countryAll?.findIndex(
-                          (e) => e.value == userInputs?.country
-                        )
-                      ]
-                }
-                // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
-                placeholder="Select country"
-                name="country"
-                className={
-                  error?.country
-                    ? "dropdown-basic-button split-button-dropup error"
-                    : "dropdown-basic-button split-button-dropup"
-                }
-                isClearable
-                onChange={(e) => handleChange(e?.value, "country")}
-              />
-            </>
-          ) : userInputs?.irt &&
-            (userInputs?.irt == 1 || userInputs?.irt == "Yes") ? (
+          (userInputs?.irt == 1 || userInputs?.irt == "Yes") ? (
             <>
               <Select
                 options={irtCountry}
@@ -755,12 +725,27 @@ const ReaderEdit = () => {
             </>
           ) : (
             <Select
+              options={countryAll}
+              value={
+                countryAll?.findIndex((e) => e.value == userInputs?.country) ==
+                -1
+                  ? ""
+                  : countryAll[
+                      countryAll?.findIndex(
+                        (e) => e.value == userInputs?.country
+                      )
+                    ]
+              }
+              // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+              placeholder="Select country"
+              name="country"
               className={
                 error?.country
                   ? "dropdown-basic-button split-button-dropup error"
                   : "dropdown-basic-button split-button-dropup"
               }
-              placeholder="Select country"
+              isClearable
+              onChange={(e) => handleChange(e?.value, "country")}
             />
           )}
           {error?.country ? (
