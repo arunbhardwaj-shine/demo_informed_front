@@ -53,12 +53,13 @@ const RDAnalytics = () => {
   const [isActive, setIsActive] = useState(false);
   const [lastSortedPDFId, setLastSortedPDFId] = useState(null);
 
-
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
   const site_Engagement = useRef(null);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
- 
+const handleClick = event => {
+    setIsActive(current => !current);
+  };
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
@@ -198,7 +199,6 @@ const RDAnalytics = () => {
     getPieChartData();
     getRdSiteChartData();
   }, []);
-
   const initialFun = async () => {
     try {
       loader("show");
@@ -379,7 +379,7 @@ const RDAnalytics = () => {
               text: "Device Chart",
             },
             subtitle: {
-              text: `<p >Devices</p><br><span >${chart_data.totalDevices}</span>`,
+              text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
               verticalAlign: "middle",
               y: 45,
             },
@@ -1736,7 +1736,7 @@ const RDAnalytics = () => {
                           </Accordion.Item>
                           <Accordion.Item
                             eventKey="10"
-                            className="accordion-read"
+                            className={isActive ? 'accordion-read active' : 'accordion-read'} onClick={handleClick}
                            
                           >
                             <Accordion.Header  onClick={() =>
@@ -1819,12 +1819,12 @@ const RDAnalytics = () => {
                                               ?.chart_data
                                           }
                                         />
-                                        <div>
+                                        <div className="used-device-detail d-flex align-items-center">
                                           {chartOptions[
                                             item.pdf?.id
                                           ]?.device_names?.map(
                                             (item, index) => (
-                                              <span key={index}>{item}</span>
+                                              <p key={index}><span></span>{item}</p>
                                             )
                                           )}
                                         </div>
