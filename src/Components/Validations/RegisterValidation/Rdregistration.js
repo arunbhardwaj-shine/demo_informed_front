@@ -26,9 +26,9 @@ export const rdregistration = (data) => {
     }
 
     if(data?.institution == "site_name") {
-        if (!data?.sitenumber) {
-          error.sitenumber = "Please Select site number";
-        }
+        // if (!data?.sitenumber) {
+        //   error.sitenumber = "Please Select site number";
+        // }
         if (!data?.sitename) {
           error.sitename = "Please Select site name";
         }

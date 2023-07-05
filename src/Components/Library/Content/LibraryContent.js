@@ -46,6 +46,7 @@ const LibraryContent = (props) => {
   //-----All States-----//
 
   const [flag, setFlag] = useState(0);
+  const [clone, setClone] = useState(false);
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
   ]);
@@ -71,6 +72,7 @@ const LibraryContent = (props) => {
   const [filterObject, setFilterObject] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
+  
   const [filterdata, setFilterData] = useState({
     language: ["English", "Russian"],
   });
@@ -86,11 +88,18 @@ const LibraryContent = (props) => {
   const [qrState, setQr] = useState({
     value: "",
   });
+  const [heading, setHeading] = useState("");
+  const [footerButton, setFooterButton] = useState("");
+  const [handleSubmit, setHandleSubmit] = useState(() => {});
+  const [modelData, setModelData] = useState();
+  const [handleType, setHandleType] = useState(() => {});
+  const [articleDataId, setArticleDataId] = useState();
+  const [articleLanguage, setArticleLanguage] = useState();
   const [qrSize, setQrSize] = useState(290);
   const [isOpen, setIsOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
   const [allTags, setAllTags] = useState({});
-  const [resetDataId, setResetDataId] = useState();
+  const [resetDataId, setResetDataId] = useState("");
   const [forceRender, setForceRender] = useState(false);
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
@@ -125,6 +134,26 @@ const LibraryContent = (props) => {
         {
           key: "Large Print",
           value: "L",
+        },
+      ],
+    },
+  ];
+  const articleLanguages = [
+    {
+      label: "Select Language",
+      type: "dropdown",
+      dropdown: [
+        {
+          key: "English",
+          value: "0",
+        },
+        {
+          key: "Russian",
+          value: "4",
+        },
+        {
+          key: "Spanish",
+          value: "3",
         },
       ],
     },
@@ -368,6 +397,24 @@ const LibraryContent = (props) => {
     }
     setQr({ ...qrState, level: e });
   };
+  const handleLanguage = (e) => {
+    setArticleLanguage(e);
+  };
+
+  const saveArticle = async () => {
+    try {
+      loader("show");
+      let body = {
+        id: resetDataId,
+        language: articleLanguage,
+      };
+      const res = await postData(ENDPOINT.LIBRARY_CLONE_ARTICLE, body);
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+    }
+    setShow(false);
+  };
 
   const showDeleteButtons = () => {
     if (deletestatus) {
@@ -481,7 +528,7 @@ const LibraryContent = (props) => {
       } else {
         setConfirmationPopup(true);
       }
-    } else {
+    } else if (stateMsg == "reset") {
       // setDeleteStatus(false);
       setResetDataId(id);
       setCommonConfirmModelFun(() => resetCollection);
@@ -521,7 +568,24 @@ const LibraryContent = (props) => {
     hideConfirmationModal();
   };
 
-  const commonModelFun = () => {
+  const commonModelFun = (e, id, stateMsg) => {
+    if (stateMsg == "downloadQR") {
+      setHeading("Download QR");
+      setFooterButton("Download");
+      setModelData(downloadQRData);
+      setResetDataId("");
+
+      // setHandleSubmit(() => downloadQRCode);
+      // setHandleType(() => handleQR);
+    }
+    else if (stateMsg == "clone") {
+      setResetDataId(id);
+      setHeading("Clone Article");
+      setFooterButton("Save");
+      setModelData(articleLanguages);
+      // setHandleSubmit(() => saveArticle);
+      // setHandleType(() => handleLanguage);
+    }
     setShow(true);
   };
 
@@ -622,6 +686,9 @@ const LibraryContent = (props) => {
       console.log("err", err);
       loader("hide");
     }
+  };
+  const cloneArticle = async (pdf_id) => {
+    console.log("id-->", pdf_id);
   };
 
   const resetCollection = async (pdf_id) => {
@@ -1467,7 +1534,11 @@ const LibraryContent = (props) => {
                                 {location?.state?.data != "edit" &&
                                 deletestatus == false ? (
                                   <div className="data-main-footer-sec">
-                                    <div className="footer-btn-wrapper">
+                                    <div className={`footer-btn-wrapper ${["wW0geGtDPvig5gF 6KbJrg==","B7SHpAc XDXSH NXkN0rdQ==","z2TunmZQf3QwCsICFTLGGQ==","qDgwPdToP05Kgzc g2VjIQ==",
+                                   "UbCJcnLM9fe HsRMgX8c1A=="  
+                                  ].includes(localStorage.getItem("user_id"))&&
+                                      filterObject["Content Owners"] ==
+                                        "IBU Owner"?"clone":""}`}>
                                       {data?.spc_included ? (
                                         <>
                                           <button
@@ -1490,8 +1561,12 @@ const LibraryContent = (props) => {
                                       )}
 
                                       <Button
-                                        onClick={() => {
-                                          commonModelFun();
+                                        onClick={(e) => {
+                                          commonModelFun(
+                                            e,
+                                            data?.docintelLink,
+                                            "downloadQR"
+                                          );
                                           setQr({
                                             ...qrState,
                                             value: data?.docintelLink,
@@ -1501,14 +1576,6 @@ const LibraryContent = (props) => {
                                       >
                                         Download QR
                                       </Button>
-                                      {/*<Button
-                                          className="footer-btn"
-                                          onClick={() => {
-                                            navigate("/CreateEmail");
-                                          }}
-                                        >
-                                          Send in email
-                                        </Button>*/}
 
                                       <Link
                                         to="/CreateEmail"
@@ -1520,6 +1587,22 @@ const LibraryContent = (props) => {
                                       >
                                         Send in email
                                       </Link>
+                                      {["wW0geGtDPvig5gF 6KbJrg==","B7SHpAc XDXSH NXkN0rdQ==","z2TunmZQf3QwCsICFTLGGQ==","qDgwPdToP05Kgzc g2VjIQ==","UbCJcnLM9fe HsRMgX8c1A=="].includes(localStorage.getItem("user_id")) &&
+                                      filterObject["Content Owners"] ==
+                                        "IBU Owner" ? (
+                                        <Button
+                                          onClick={(e) => {
+                                            commonModelFun(
+                                              e,
+                                              data?.id,
+                                              "clone"
+                                            );
+                                          }}
+                                          className="footer-btn"
+                                        >
+                                          Clone Article
+                                        </Button>
+                                      ) : null}
                                     </div>
                                   </div>
                                 ) : null}
@@ -2306,17 +2389,22 @@ const LibraryContent = (props) => {
           </Row>
         </div>
       </Col>
-
+     
       <CommonModel
         show={show}
         onClose={setShow}
-        heading={"Download QR"}
-        data={downloadQRData}
-        footerButton={"Download"}
-        handleSubmit={downloadQRCode}
-        handleQR={handleQR}
+        // heading={"Download QR"}
+        // data={downloadQRData}
+        // footerButton={"Download"}
+        // handleSubmit={downloadQRCode}
+        // handleQR={handleQR}
+        heading={heading}
+        data={modelData}
+        footerButton={footerButton}
+        handleSubmit={resetDataId?saveArticle:downloadQRCode}
+        handleQR={resetDataId?handleLanguage:handleQR}
       />
-
+      
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}
