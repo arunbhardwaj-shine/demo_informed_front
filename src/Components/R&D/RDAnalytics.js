@@ -53,12 +53,13 @@ const RDAnalytics = () => {
   const [isActive, setIsActive] = useState(false);
   const [lastSortedPDFId, setLastSortedPDFId] = useState(null);
 
-
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
   const site_Engagement = useRef(null);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
- 
+const handleClick = event => {
+    setIsActive(current => !current);
+  };
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
@@ -198,10 +199,6 @@ const RDAnalytics = () => {
     getPieChartData();
     getRdSiteChartData();
   }, []);
-const [isActive, setIsActive] = useState(false);
-const handleClick = event => {
-    setIsActive(current => !current);
-  };
   const initialFun = async () => {
     try {
       loader("show");
