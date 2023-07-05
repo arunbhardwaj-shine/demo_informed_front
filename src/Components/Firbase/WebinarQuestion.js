@@ -6,11 +6,12 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import HighchartsReact from "highcharts-react-official";
 import { Container } from "react-bootstrap";
 import {db} from "../../config/firebaseConfig"
+import { Link } from "react-router-dom";
 const WebinarQuestion = () => {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
   const [countValue, setCountvalue] = useState(0);
-
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const q = query(collection(db, "chat"),where("event_id","==",136))
 
@@ -173,7 +174,17 @@ useEffect(() => {
   return (
     <>
     {console.log("-cout",countValue)}
+    <header
+        className="sticky"
+      >
+        <nav className="navbar navbar-expand-sm navbar-light">
+         <Container>
+
+          </Container>
+        </nav>
+      </header>
           <div className="webinar-questions">
+            
             <Container>
               <div className="webinar-question-results">
                  {data?.map((item,index)=>{
