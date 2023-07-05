@@ -244,6 +244,7 @@ const ReaderAdd = () => {
       province: hasData?.data?.data?.province,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
+      userType:[{label:"Hcp",value:"Hcp"},{label:"Staff users",value:"Staff users"},{label:"Test users",value:"Test users"}],
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
@@ -599,6 +600,7 @@ const ReaderAdd = () => {
           role: userInputs?.role,
           sub_role: userInputs?.sub_role,
           ibu: userInputs?.ibu,
+          userType:userInputs?.UserType
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
