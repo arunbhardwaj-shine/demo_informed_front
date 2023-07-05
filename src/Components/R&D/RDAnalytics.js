@@ -191,7 +191,10 @@ const RDAnalytics = () => {
     getPieChartData();
     getRdSiteChartData();
   }, []);
-
+const [isActive, setIsActive] = useState(false);
+const handleClick = event => {
+    setIsActive(current => !current);
+  };
   const initialFun = async () => {
     try {
       loader("show");
@@ -372,7 +375,7 @@ const RDAnalytics = () => {
               text: "Device Chart",
             },
             subtitle: {
-              text: `<p >Devices</p><br><span >${chart_data.totalDevices}</span>`,
+              text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
               verticalAlign: "middle",
               y: 45,
             },
@@ -1582,7 +1585,7 @@ const RDAnalytics = () => {
                           </Accordion.Item>
                           <Accordion.Item
                             eventKey="10"
-                            className="accordion-read"
+                            className={isActive ? 'accordion-read active' : 'accordion-read'} onClick={handleClick}
                            
                           >
                             <Accordion.Header  onClick={() =>
@@ -1661,12 +1664,12 @@ const RDAnalytics = () => {
                                               ?.chart_data
                                           }
                                         />
-                                        <div>
+                                        <div className="used-device-detail d-flex align-items-center">
                                           {chartOptions[
                                             item.pdf?.id
                                           ]?.device_names?.map(
                                             (item, index) => (
-                                              <span key={index}>{item}</span>
+                                              <p key={index}><span></span>{item}</p>
                                             )
                                           )}
                                         </div>
