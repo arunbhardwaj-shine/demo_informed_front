@@ -205,15 +205,23 @@ const handleClick = event => {
       const result = await getData(ENDPOINT.SITEREGISTER);
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);
-
+  
       const newSeries = data?.map((item, index) => {
         return {
           name: item.name,
           data: item.data,
         };
       });
+  
+      // Sort the newSeries array based on the maximum data
+      newSeries.sort((a, b) => {
+        const maxDataA = Math.max(...a.data);
+        const maxDataB = Math.max(...b.data);
+        return maxDataB - maxDataA;
+      });
+  
       const columnCategories = result?.data?.data?.site_numbers;
-
+  
       const newColumnOptions = {
         ...columnOptions,
         xAxis: {
@@ -225,6 +233,21 @@ const handleClick = event => {
     } catch (err) {
       // console.log("-err", err);
     }
+  };
+
+  
+  useEffect(() => {
+    const checkboxElement = document.querySelector('.switch6 input[type="checkbox"]');
+    checkboxElement.addEventListener('click', handleCheckboxClick);
+
+    return () => {
+      checkboxElement.removeEventListener('click', handleCheckboxClick);
+    };
+  }, []);
+  const handleCheckboxClick = () => {
+  
+    initialFun();
+    loader("hide")
   };
 
   const getPieChartData = async () => {
@@ -1437,7 +1460,7 @@ const handleClick = event => {
                                       ) : (
                                        
                                     <div className="no_data">
-                                      No Data
+                                      No Data Found
                                     </div>
                                     
                                       )}
@@ -1627,7 +1650,7 @@ const handleClick = event => {
                                   ) : (
                                     <td colspan="5">
                                     <div className="no_data">
-                                      No Data
+                                      No Data Found
                                     </div>
                                     </td>
                                   )}
