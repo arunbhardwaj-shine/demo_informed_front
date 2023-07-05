@@ -5,6 +5,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 const RDAnalytics = () => {
   const [show, setShow] = useState();
@@ -46,6 +47,12 @@ const RDAnalytics = () => {
   //   []
   // );
   const [siteCompletionShow, setSiteCompletionShow] = useState();
+
+  //const [sortedData, setSortedData] = useState(rdSiteData);
+  const [sortDirection, setSortDirection] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [lastSortedPDFId, setLastSortedPDFId] = useState(null);
+
 
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
@@ -555,6 +562,116 @@ const handleClick = event => {
   //   setSortingCount(sortingCount + 1);
   // };
 
+  const handleSort = () => {
+    const sortedRdSiteData = [...rdSiteData].sort((a, b) => {
+      const siteNumberA = a.site_number.toLowerCase();
+      const siteNumberB = b.site_number.toLowerCase();
+  
+      if (sortDirection === 0) {
+        if (siteNumberA < siteNumberB) return -1;
+        if (siteNumberA > siteNumberB) return 1;
+        return 0;
+      } else {
+        if (siteNumberA > siteNumberB) return -1;
+        if (siteNumberA < siteNumberB) return 1;
+        return 0;
+      }
+    });
+
+    setRdSiteData(sortedRdSiteData);
+    setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+    setIsActive(!isActive);
+  };
+  
+  const sortSiteCompletion = () => {
+    const sortedSiteCompletionTableData = [...siteCompletionTableData].sort((a, b) => {
+      const siteNumberA = a.site_number.toLowerCase();
+      const siteNumberB = b.site_number.toLowerCase();
+  
+      if (sortDirection === 0) {
+        if (siteNumberA < siteNumberB) return -1;
+        if (siteNumberA > siteNumberB) return 1;
+        return 0;
+      } else {
+        if (siteNumberA > siteNumberB) return -1;
+        if (siteNumberA < siteNumberB) return 1;
+        return 0;
+      }
+    });
+  
+    setSiteCompletionTableData(sortedSiteCompletionTableData);
+    setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+    setIsActive(!isActive);
+  }
+  
+  
+  const sortIndividualCompletion = () => {
+
+    const sortedIndividualCompletion = [...indidualCompletionTableData].sort((a,b) => {
+          const siteNumberA = a.training_status.toLowerCase();
+          const siteNumberB = b.training_status.toLowerCase();
+    
+          if (sortDirection === 0) {
+            if (siteNumberA < siteNumberB) return -1;
+            if (siteNumberA > siteNumberB) return 1;
+            return 0;
+          } else {
+            if (siteNumberA > siteNumberB) return -1;
+            if (siteNumberA < siteNumberB) return 1;
+            return 0;
+          }
+        });
+      
+
+        setIndividualCompletionTableData(sortedIndividualCompletion);
+        setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+        setIsActive(!isActive);
+    }
+  
+    const sortContentView = (pdfId) => {
+      const sortedContentViewObject = { ...mostPopularContentSiteData };
+    
+      if (!sortedContentViewObject.hasOwnProperty(pdfId)) {
+        // Handle the case when the provided ID does not exist in the data
+      //  console.error(`Data with ID ${pdfId} does not exist`);
+        return;
+      }
+    
+      const sortedArray = sortedContentViewObject[pdfId].sort((a, b) => {
+        const siteNumberA = a.count;
+        const siteNumberB = b.count;
+    
+        if (sortDirection === 0) {
+          return siteNumberA - siteNumberB;
+        } else {
+          return siteNumberB - siteNumberA;
+        }
+      });
+    
+      const updatedContentViewObject = { ...sortedContentViewObject, [pdfId]: sortedArray };
+      setMostPopularContentSiteData(updatedContentViewObject); 
+    
+     
+      if (lastSortedPDFId === pdfId) {
+        setSortDirection(sortDirection === 0 ? 1 : 0);
+        setIsActive(!isActive);
+      }
+    
+      setLastSortedPDFId(pdfId); 
+    };
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
   return (
     <>
       <Col className="right-sidebar col">
@@ -917,7 +1034,11 @@ const handleClick = event => {
                             ></path>
                           </svg>
                         </Button>
-                        <Button className="sort_btn">
+                        <Button 
+                        //className="sort_btn"
+                        className={`sort_btn ${isActive ? 'active' : ''}`}
+                        onClick={sortIndividualCompletion}
+                        >
                           Sort By
                           <svg
                             width="20"
@@ -1209,7 +1330,11 @@ const handleClick = event => {
                             ></path>
                           </svg>
                         </Button>
-                        <Button className="sort_btn">
+                        <Button  
+                       // className="sort_btn"
+                        className={`sort_btn ${isActive ? 'active' : ''}`}
+                        onClick={sortSiteCompletion}
+                        >
                           Sort By
                           <svg
                             width="20"
@@ -1340,7 +1465,14 @@ const handleClick = event => {
                         ref={site_Engagement}
                         tabIndex={-1}
                       >
-                        <Button title="Download stats">
+                        <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="download-table-xls-button"
+                    table="table-to-xls"
+                    filename="tablexls"
+                    sheet="tablexls"
+                    buttonText="Download as XLS"/>
+                        {/* <Button title="Download stats">
                           <svg
                             width="20"
                             height="20"
@@ -1357,8 +1489,12 @@ const handleClick = event => {
                               fill="#0066BE"
                             ></path>
                           </svg>
-                        </Button>
-                        <Button className="sort_btn">
+                        </Button> */}
+                        <Button 
+                        //className="sort_btn"
+                          className={`sort_btn ${isActive ? 'active' : ''}`}
+                        onClick={handleSort}
+                        >
                           Sort By
                           <svg
                             width="20"
@@ -1379,7 +1515,7 @@ const handleClick = event => {
                         </Button>
                       </div>
                     </div>
-                    <Table className="fold-table">
+                    <Table className="fold-table" id="table-to-xls">
                       <thead>
                         <tr>
                           <th>Site</th>
@@ -1390,7 +1526,7 @@ const handleClick = event => {
                         </tr>
                       </thead>
                       <tbody>
-                        {rdSiteData?.map((item, index) => {
+                      {rdSiteData?.map((item, index) => {
                           return (
                             <>
                               <tr
@@ -1611,7 +1747,11 @@ const handleClick = event => {
                                             <th>Site</th>
                                             <th>Site Number</th>
                                             <th className="short_value">
-                                              <Button className="sort_btn">
+                                              <Button 
+                                            // className="sort_btn"
+                                              className={`sort_btn ${isActive ? 'active' : ''}`}
+                                               onClick={()=>sortContentView(item.pdf?.id)}
+                                              >
                                                 Sort By
                                                 <svg
                                                   width="20"
