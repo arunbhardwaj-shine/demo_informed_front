@@ -373,7 +373,7 @@ const RDAnalytics = () => {
       // Set chart data options for the PDF
       setChartOptions((prevOptions) => ({
         ...prevOptions,
-        [pdf_id]: {
+        [pdf_id]: {chart_data:{
           chart: {
             type: "pie",
           },
@@ -425,7 +425,10 @@ const RDAnalytics = () => {
             },
           ],
         },
-      }));
+    device_names:chart_data.deviceNames
+
+      },
+    }));
 
       // console.log(chartOptions);
     } catch (err) {
@@ -1660,8 +1663,16 @@ const RDAnalytics = () => {
                                       <div className="used-device-detail">
                                         <HighchartsReact
                                           highcharts={Highcharts}
-                                          options={chartOptions[item.pdf?.id]}
+                                          options={chartOptions[item.pdf?.id]?.chart_data}
                                         />
+                                        <div>
+                                        {chartOptions[item.pdf?.id]?.device_names?.map((item, index) => (
+  <span key={index}>
+    {item}
+  </span>
+))}
+
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
