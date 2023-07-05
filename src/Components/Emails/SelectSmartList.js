@@ -39,7 +39,7 @@ const SelectSmartList = (props) => {
     : draft_object?.campaign_id
     ? draft_object.campaign_id
     : "";
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
@@ -423,7 +423,11 @@ const SelectSmartList = (props) => {
                       <Link to="/CreateEmail">Create Your Email</Link>
                     </li>
                     <li className="active active-main">
-                      <Link to="/SelectSmartList">{ localStorage.getItem("user_id") == userId?"Select Users":"Select HCPs"}  </Link>
+                      <Link to="/SelectSmartList">
+                        {localStorage.getItem("user_id") == userId
+                          ? "Select Users"
+                          : "Select HCPs"}{" "}
+                      </Link>
                     </li>
                     {/*
                   <li className="active active-main">
@@ -477,13 +481,11 @@ const SelectSmartList = (props) => {
                 <div className="table-title">
                   <div className="create-smart-list">
                     <p>
-                      {
-                      localStorage.getItem("user_id") == userId?`If you do not have a smart list for the Users group, you
-                      can :`:`If you do not have a smart list for the HCPs group, you
-                      can `
-
-                      }
-                      
+                      {localStorage.getItem("user_id") == userId
+                        ? `If you do not have a smart list for the Users group, you
+                      can :`
+                        : `If you do not have a smart list for the HCPs group, you
+                      can `}
                     </p>
                     <button
                       className="btn btn-primary btn-bordered"
@@ -522,11 +524,9 @@ const SelectSmartList = (props) => {
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <h5>{template.name}</h5>
-                            <div
-                              className="select-mail-option"
-                              onClick={() => handleSelect(template)}
-                            >
+                            <div className="select-mail-option">
                               <input
+                                onClick={() => handleSelect(template)}
                                 type="radio"
                                 name="radio"
                                 checked={
@@ -736,7 +736,13 @@ const SelectSmartList = (props) => {
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
                       <th scope="col">Business Unit</th>
-                      <th scope="col">Contact Type</th>
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <th scope="col">Role</th>
+                      ) : (
+                        <th scope="col">Contact Type</th>
+                      )}
+
                       {showLessInfo == false ? (
                         <>
                           <th scope="col">Consent</th>
@@ -761,30 +767,51 @@ const SelectSmartList = (props) => {
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
                               <td>{rr.ibu}</td>
-                              <td>{rr.contact_type}</td>
+                              <td>
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr.user_type != 0
+                                    ? rr.user_type
+                                    : "N/A"
+                                  : rr.contact_type
+                                  ? rr.contact_type
+                                  : "N/A"}
+                              </td>
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.consent}</span>{" "}
+                                  <span>{rr.consent ? rr.consent : "N/A"}</span>{" "}
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.email_received}</span>
+                                  <span>
+                                    {rr.email_received
+                                      ? rr.email_received
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.email_opening}</span>
+                                  <span>
+                                    {rr.email_opening
+                                      ? rr.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.registration}</span>
+                                  <span>
+                                    {rr.registration ? rr.registration : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.last_email}</span>
+                                  <span>
+                                    {rr.last_email ? rr.last_email : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               <td></td>
