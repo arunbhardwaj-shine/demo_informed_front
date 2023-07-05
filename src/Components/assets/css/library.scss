@@ -9660,3 +9660,28 @@ border-radius: 26px;
 }
 }
 /*Responsive for R&D Analytics End*/
+
+
+
+/**Speaker Zone Page**/
+
+.webinar-question-results {
+    background: $white;
+    -webkit-backdrop-filter: blur(254px);
+    backdrop-filter: blur(254px);
+    z-index: 1;
+    box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+    p {
+    margin: 0 0 10px;
+    color: $dark-blue;
+    font-weight: 500;
+    }
+    .highcharts-container {
+        margin: 0 0 30px;
+    }
+}
+
+/**Speaker Zone Page End**/

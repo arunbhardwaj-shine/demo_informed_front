@@ -3,6 +3,7 @@ import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { Container } from "react-bootstrap";
 const WebinarQuestion = () => {
   const [data, setData] = useState([]);
 
@@ -79,16 +80,22 @@ const WebinarQuestion = () => {
   }, []);
   return (
     <>
-    {console.log("-test")}
-    {data?.map((item)=>{
-         return (
-          <>
-          <p>{item?.question}</p>
-          <HighchartsReact highcharts={Highcharts} options={item?.highchartData} /> 
+          <div className="webinar-questions">
+            <Container>
+              <div className="webinar-question-results">
+                 {data?.map((item)=>{
+                  return (
+                    <>
+                    <p>{item?.question}</p>
+                  <HighchartsReact highcharts={Highcharts} options={item?.highchartData} /> 
+                    </>
+                    )
+              })}
+                
+              </div>
+            </Container>
+          </div>
           </>
-         )
-    })}
-    </>
   );
 };
 
