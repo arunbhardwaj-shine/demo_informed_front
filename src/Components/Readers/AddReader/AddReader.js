@@ -635,7 +635,6 @@ const ReaderAdd = () => {
       <>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
-            {localStorage.getItem("user_id") == ""}
             IRT <span>*</span>
           </Form.Label>
           <Select

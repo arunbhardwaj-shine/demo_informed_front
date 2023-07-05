@@ -591,7 +591,9 @@ const ReaderEdit = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">IRT </Form.Label>
+          <Form.Label htmlFor="">
+            IRT <span>*</span>
+          </Form.Label>
           <Select
             options={userDetail?.irt}
             defaultValue={{
