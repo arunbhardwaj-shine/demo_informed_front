@@ -702,10 +702,10 @@ const handleClick = event => {
           !classNames.includes('fold') &&
           !classNames.includes('fold-content') &&
           !classNames.includes('show')&& !classNames.includes('doctor')&& 
-          index !== 0 // Exclude the first row (header row)
+          index !== 0// Exclude the first row (header row)
         );
       });
-    console.log(filteredRows);
+    // console.log(filteredRows);
       // Create a new table element and copy the header row
       const exportTable = document.createElement('table');
       const headerRow = table.getElementsByTagName('thead')[0].cloneNode(true);
@@ -1106,7 +1106,7 @@ const handleClick = event => {
                         <p>Click on the Record to see more details</p>
                       </div>
                       <div className="rd-training-block-right d-flex">
-                        <Button title="Download stats">
+                        <Button title="Download stats" onClick={() => handleExport('individual_completion')}>
                           <svg
                             width="20"
                             height="20"
@@ -1149,7 +1149,7 @@ const handleClick = event => {
                         </Button>
                       </div>
                     </div>
-                    <Table className="fold-table">
+                    <Table className="fold-table" id="individual_completion">
                       <thead>
                         <tr>
                           <th>Name</th>
