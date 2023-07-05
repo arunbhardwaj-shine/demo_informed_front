@@ -151,9 +151,7 @@ const WebinarQuestion = () => {
   onSnapshot(q, (querySnapshot) => {
     
    querySnapshot.forEach((doc) => {
-    console.log("- im hererererer")
        if(doc.data()){
-        console.log("- inside",doc.data())
            newData = doc.data()
            if(countValue != doc.data()?.webinar){
               setCountvalue(doc.data()?.webinar)
@@ -163,11 +161,13 @@ const WebinarQuestion = () => {
    });  
  
 })
-console.log("---im herere",newData)
-// useMemo(() =>  setCount(countValue), [countValue]);
 
 useEffect(() => {
-    initiFun();
+    console.log("-useEffect",countValue)
+    if(countValue){
+        initiFun();
+    }
+   
   }, [countValue]);
  
   return (
