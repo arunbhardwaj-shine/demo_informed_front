@@ -400,8 +400,15 @@ const SelectSmartListUsers = (props) => {
       list[i].optIrt = value;
       list[i].role = "";
       list[i].country = "";
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
       setHpc(list);
     }
+    let arr = [];
+    setSiteNumberAll(arr);
+    setSiteNameAll(arr);
     setCounterFlag(counterFlag + 1);
   };
 

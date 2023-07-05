@@ -8,7 +8,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { popup_alert } from "../../popup_alert";
-import Select from "react-select";
+import Select, { createFilter } from "react-select";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -79,6 +79,9 @@ const AutoEmail = () => {
   const ref = useRef(null);
 
   let file_name = useRef("");
+  const filterConfig = {
+    matchFrom: "start",
+  };
 
   useEffect(() => {
     getSmartListData(0);
@@ -565,8 +568,15 @@ const AutoEmail = () => {
       list[i].optIrt = value;
       list[i].role = "";
       list[i].country = "";
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
       setHpc(list);
     }
+    let arr = [];
+    setSiteNumberAll(arr);
+    setSiteNameAll(arr);
     setCounterFlag(counterFlag + 1);
   };
 
@@ -1690,7 +1700,7 @@ const AutoEmail = () => {
                                             ]
                                       }
                                       placeholder="Select Country"
-                                      // filterOption={createFilter(filterConfig)}
+                                      filterOption={createFilter(filterConfig)}
                                       isClearable
                                     />
                                   ) : (
@@ -1712,7 +1722,7 @@ const AutoEmail = () => {
                                             ]
                                       }
                                       placeholder="Select Country"
-                                      // filterOption={createFilter(filterConfig)}
+                                      filterOption={createFilter(filterConfig)}
                                       isClearable
                                     />
                                   )}
