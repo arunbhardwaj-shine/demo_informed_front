@@ -9122,7 +9122,7 @@ border-radius: 26px;
           .accordion-header{
             display: flex;
             align-items: flex-start;
-            padding:4px;
+            padding:0px;
             button{
               padding:4px;
               background: transparent;
@@ -9133,6 +9133,9 @@ border-radius: 26px;
             }
             .d-flex{
               width:100%;
+              &.engagement-sec{
+                margin:0;
+              }
             }
             
           }
@@ -9209,6 +9212,15 @@ border-radius: 26px;
               }
             } 
             .fold-content{
+              &.contents{
+                .accordion-item{
+                .accordion-header{
+                  button{
+                    padding:0;
+                  }
+                }
+              }
+            }
             .content-detail{
               width:100%;
               padding-right: 10px;
