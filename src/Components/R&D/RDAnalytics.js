@@ -5,6 +5,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 const RDAnalytics = () => {
   const [show, setShow] = useState();
@@ -28,6 +29,11 @@ const RDAnalytics = () => {
 
   const [siteCompletionTableData, setSiteCompletionTableData] = useState();
   const [siteCompletionShow, setSiteCompletionShow] = useState();
+
+  //const [sortedData, setSortedData] = useState(rdSiteData);
+  const [sortDirection, setSortDirection] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+
 
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
@@ -435,6 +441,75 @@ const RDAnalytics = () => {
   //   setSortingCount(sortingCount + 1);
   // };
 
+  const handleSort = () => {
+    const sortedRdSiteData = [...rdSiteData].sort((a, b) => {
+      const siteNumberA = a.site_number.toLowerCase();
+      const siteNumberB = b.site_number.toLowerCase();
+  
+      if (sortDirection === 0) {
+        if (siteNumberA < siteNumberB) return -1;
+        if (siteNumberA > siteNumberB) return 1;
+        return 0;
+      } else {
+        if (siteNumberA > siteNumberB) return -1;
+        if (siteNumberA < siteNumberB) return 1;
+        return 0;
+      }
+    });
+
+    setRdSiteData(sortedRdSiteData);
+    setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+    setIsActive(!isActive);
+  };
+  
+  const sortSiteCompletion = () => {
+    const sortedSiteCompletionTableData = [...siteCompletionTableData].sort((a, b) => {
+      const siteNumberA = a.site_number.toLowerCase();
+      const siteNumberB = b.site_number.toLowerCase();
+  
+      if (sortDirection === 0) {
+        if (siteNumberA < siteNumberB) return -1;
+        if (siteNumberA > siteNumberB) return 1;
+        return 0;
+      } else {
+        if (siteNumberA > siteNumberB) return -1;
+        if (siteNumberA < siteNumberB) return 1;
+        return 0;
+      }
+    });
+  
+    console.log('After sorting siteCompletionTableData:', sortedSiteCompletionTableData);
+  
+    setSiteCompletionTableData(sortedSiteCompletionTableData);
+    setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+    setIsActive(!isActive);
+  }
+  
+  
+  const sortIndividualCompletion = () => {
+
+    const sortedIndividualCompletion = [...indidualCompletionTableData].sort((a,b) => {
+          const siteNumberA = a.training_status.toLowerCase();
+          const siteNumberB = b.training_status.toLowerCase();
+    
+          if (sortDirection === 0) {
+            if (siteNumberA < siteNumberB) return -1;
+            if (siteNumberA > siteNumberB) return 1;
+            return 0;
+          } else {
+            if (siteNumberA > siteNumberB) return -1;
+            if (siteNumberA < siteNumberB) return 1;
+            return 0;
+          }
+        });
+      
+        console.log('After sorting siteCompletionTableData:', sortedIndividualCompletion);
+        setIndividualCompletionTableData(sortedIndividualCompletion);
+        setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+        setIsActive(!isActive);
+    }
+  
+
   return (
     <>
       <Col className="right-sidebar col">
@@ -770,7 +845,11 @@ const RDAnalytics = () => {
                             ></path>
                           </svg>
                         </Button>
-                        <Button className="sort_btn">
+                        <Button 
+                        //className="sort_btn"
+                        className={`sort_btn ${isActive ? 'active' : ''}`}
+                        onClick={sortIndividualCompletion}
+                        >
                           Sort By
                           <svg
                             width="20"
@@ -1033,7 +1112,11 @@ const RDAnalytics = () => {
                             ></path>
                           </svg>
                         </Button>
-                        <Button className="sort_btn">
+                        <Button  
+                       // className="sort_btn"
+                        className={`sort_btn ${isActive ? 'active' : ''}`}
+                        onClick={sortSiteCompletion}
+                        >
                           Sort By
                           <svg
                             width="20"
@@ -1164,7 +1247,14 @@ const RDAnalytics = () => {
                         ref={site_Engagement}
                         tabIndex={-1}
                       >
-                        <Button title="Download stats">
+                        <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="download-table-xls-button"
+                    table="table-to-xls"
+                    filename="tablexls"
+                    sheet="tablexls"
+                    buttonText="Download as XLS"/>
+                        {/* <Button title="Download stats">
                           <svg
                             width="20"
                             height="20"
@@ -1181,8 +1271,12 @@ const RDAnalytics = () => {
                               fill="#0066BE"
                             ></path>
                           </svg>
-                        </Button>
-                        <Button className="sort_btn">
+                        </Button> */}
+                        <Button 
+                        //className="sort_btn"
+                          className={`sort_btn ${isActive ? 'active' : ''}`}
+                        onClick={handleSort}
+                        >
                           Sort By
                           <svg
                             width="20"
@@ -1203,7 +1297,7 @@ const RDAnalytics = () => {
                         </Button>
                       </div>
                     </div>
-                    <Table className="fold-table">
+                    <Table className="fold-table" id="table-to-xls">
                       <thead>
                         <tr>
                           <th>Site</th>
@@ -1214,7 +1308,7 @@ const RDAnalytics = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {rdSiteData?.map((item, index) => {
+                      {rdSiteData?.map((item, index) => {
                           return (
                             <>
                               <tr
