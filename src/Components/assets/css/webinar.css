@@ -2968,6 +2968,11 @@ a {
   padding-right: 4px;
 }
 
+.rd-main-wrapper .split-button-dropup>div:nth-child(3) div:nth-child(2)>div[class*="-indicatorContainer"],
+.rd-main-wrapper .split-button-dropup>div:nth-child(3) div:nth-child(2)>div[class*="-indicatorSeparator"] {
+  display: none;
+}
+
 .split-button-dropup>div:nth-child(3) div:nth-child(2)>div:first-child>svg {
   fill: #97b6cf;
   cursor: pointer;
@@ -2993,7 +2998,7 @@ a {
   background: #ffffff;
   box-shadow: 0px 1px 11px rgba(0, 102, 190, 0.19);
   border-radius: 8px;
-  padding: 24px 32px;
+  padding: 24px 32px 15px;
   margin: 16px auto 0;
 }
 
@@ -3041,8 +3046,9 @@ a {
 
 .rd-main-wrapper .copyright-links a {
   color: #092ca6;
-  font-size: 13px;
+  font-size: 15px;
   margin: 0 11px 0 0;
+  text-decoration: underline;
 }
 
 .rd-main-wrapper .form-wrapper span {
@@ -3208,6 +3214,11 @@ input:-webkit-autofill:active {
   height: 115px;
   width: 100%;
   overflow-y: scroll;
+}
+
+.copyright-links {
+  margin: 20px 0 0;
+  text-align: right;
 }
 
 .rd-main-wrapper .form-wrapper form .submit-btn {

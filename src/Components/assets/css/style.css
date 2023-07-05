@@ -2113,7 +2113,7 @@ form .input-group {
   padding: 24px 10px;
   border: 0;
   background: var(--white);
-  word-break: break-word;
+  /* word-break: break-word; */
 }
 
 .search-hcp-table tbody tr,
@@ -7368,8 +7368,8 @@ section.search-hcp.smart-list-view .header-btn-left {
   animation: spin 2s linear infinite;
 }
 
-.modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) [class*=css-] [class*=-indicatorContainer],
-.modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) [class*=css-] [class*=-indicatorSeparator] {
+.modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) [class*="css-"] [class*="-indicatorContainer"],
+.modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) [class*="css-"] [class*="-indicatorSeparator"] {
   display: none;
 }
 

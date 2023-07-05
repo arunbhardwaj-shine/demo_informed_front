@@ -9,7 +9,7 @@ import { getData, postData, postFormData } from "../../../axios/apiHelper";
 import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
-
+import axios from "axios";
 const ReaderEdit = () => {
   const { state } = useLocation();
   const nameRef = useRef(null);
@@ -21,6 +21,7 @@ const ReaderEdit = () => {
   const [pharmaData, setPharmaData] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
   // const [province, setProvince] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
@@ -142,6 +143,29 @@ const ReaderEdit = () => {
     setNewProduct({ label: e?.target?.name, value: e?.target?.value });
   };
 
+  const axiosFun = async () => {
+    try {
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      const result = await axios.get(`emailapi/get_site`);
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+
+      setIRTCountry(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
+  };
+
   const handleSubmitModelFun = async (e) => {
     if (newProduct?.value?.length) {
       const newArr = userDetail[newProduct?.label];
@@ -199,6 +223,7 @@ const ReaderEdit = () => {
       });
     });
     setCountryAll(country);
+
     // setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
@@ -369,6 +394,9 @@ const ReaderEdit = () => {
   };
 
   useEffect(() => {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
     initalFun();
     initialReaderFun();
   }, []);
@@ -465,6 +493,13 @@ const ReaderEdit = () => {
         [isSelectedName]: e,
         ["siteNumber"]: siteNum,
       });
+    } else if (isSelectedName == "irt") {
+      let country = "";
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["country"]: country,
+      });
     } else {
       setAddReaderInputs({
         ...userInputs,
@@ -556,7 +591,7 @@ const ReaderEdit = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">IRT </Form.Label>
+          <Form.Label htmlFor="">IRT</Form.Label>
           <Select
             options={userDetail?.irt}
             defaultValue={{
@@ -565,10 +600,19 @@ const ReaderEdit = () => {
             }}
             placeholder="Select IRT"
             name="irt"
-            className="dropdown-basic-button split-button-dropup"
+            className={
+              error?.irt
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
             isClearable
             onChange={(e) => handleChange(e?.value, "irt")}
           />
+          {error?.irt ? (
+            <div className="login-validation">{error?.irt}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Role </Form.Label>
@@ -646,6 +690,69 @@ const ReaderEdit = () => {
             isClearable
             onChange={(e) => handleChange(e?.value, "blind_type")}
           />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
+            Country <span>*</span>
+          </Form.Label>
+          {userInputs?.irt &&
+          (userInputs?.irt == 1 || userInputs?.irt == "Yes") ? (
+            <>
+              <Select
+                options={irtCountry}
+                value={
+                  irtCountry?.findIndex(
+                    (e) => e.value == userInputs?.country
+                  ) == -1
+                    ? ""
+                    : irtCountry[
+                        irtCountry?.findIndex(
+                          (e) => e.value == userInputs?.country
+                        )
+                      ]
+                }
+                // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+                placeholder="Select country"
+                name="country"
+                className={
+                  error?.country
+                    ? "dropdown-basic-button split-button-dropup error"
+                    : "dropdown-basic-button split-button-dropup"
+                }
+                isClearable
+                onChange={(e) => handleChange(e?.value, "country")}
+              />
+            </>
+          ) : (
+            <Select
+              options={countryAll}
+              value={
+                countryAll?.findIndex((e) => e.value == userInputs?.country) ==
+                -1
+                  ? ""
+                  : countryAll[
+                      countryAll?.findIndex(
+                        (e) => e.value == userInputs?.country
+                      )
+                    ]
+              }
+              // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+              placeholder="Select country"
+              name="country"
+              className={
+                error?.country
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup"
+              }
+              isClearable
+              onChange={(e) => handleChange(e?.value, "country")}
+            />
+          )}
+          {error?.country ? (
+            <div className="login-validation">{error?.country}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
       </>
     );
@@ -892,33 +999,39 @@ const ReaderEdit = () => {
                       ""
                     )}
 
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">
-                        Country <span>*</span>
-                      </Form.Label>
+                    {groupId == 3 && flag == 1 ? (
+                      ""
+                    ) : (
+                      <Form.Group className="form-group">
+                        <Form.Label htmlFor="">
+                          Country <span>*</span>
+                        </Form.Label>
 
-                      <Select
-                        options={countryAll}
-                        placeholder="Select country"
-                        name="country"
-                        value={{
-                          label: userInputs?.country,
-                          value: userInputs?.country,
-                        }}
-                        className={
-                          error?.country
-                            ? "dropdown-basic-button split-button-dropup error"
-                            : "dropdown-basic-button split-button-dropup"
-                        }
-                        isClearable
-                        onChange={(e) => handleChange(e?.value, "country")}
-                      />
-                      {error?.country ? (
-                        <div className="login-validation">{error?.country}</div>
-                      ) : (
-                        ""
-                      )}
-                    </Form.Group>
+                        <Select
+                          options={countryAll}
+                          placeholder="Select country"
+                          name="country"
+                          value={{
+                            label: userInputs?.country,
+                            value: userInputs?.country,
+                          }}
+                          className={
+                            error?.country
+                              ? "dropdown-basic-button split-button-dropup error"
+                              : "dropdown-basic-button split-button-dropup"
+                          }
+                          isClearable
+                          onChange={(e) => handleChange(e?.value, "country")}
+                        />
+                        {error?.country ? (
+                          <div className="login-validation">
+                            {error?.country}
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </Form.Group>
+                    )}
 
                     {userInputs ? (
                       <>
