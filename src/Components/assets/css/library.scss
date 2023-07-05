@@ -8647,7 +8647,7 @@ border-radius: 26px;
     height: 8px;
 }
 .rd-analytics-content {
-    margin: 14px 0 0;
+    margin: 14px 0 25px;
     padding: 0;
     .row{
       margin:0 -26px;
@@ -8732,7 +8732,7 @@ border-radius: 26px;
             }
             .pie-chart{
                 max-width: 196px;
-                margin: 22px auto 0;
+                margin: 22px auto 32px;
                 display: block;
             }
             .graph-chart{
@@ -8905,9 +8905,19 @@ border-radius: 26px;
         text-transform: capitalize;
         color: $light-gray;
         font-weight: 400;
+        &#test-table-xls-button{
+          margin:0;
+        }
         &.sort_btn{
           padding:10px 14px;
           svg{margin-left:14px;}
+          &.active{
+            background: #0066BE;
+            color: #ffffff;
+            svg path {
+                fill: #ffffff;
+            }
+          }
         }
         &:hover{
           background: $primary-color;
@@ -9114,7 +9124,7 @@ border-radius: 26px;
             align-items: flex-start;
             padding:4px;
             button{
-              padding:0;
+              padding:4px;
               background: transparent;
               box-shadow: none;
             &:after{
@@ -9161,10 +9171,20 @@ border-radius: 26px;
                     line-height: 15px;
                     color: rgba(0, 74, 137, 0.55);
                     span {
-                        font-weight: 600;
-                        font-size: 13px;
+                        // font-weight: 600;
+                        // font-size: 13px;
+                        // line-height: 15px;
+                        // color: $voilet;
+                        font-weight: 500;
+                        font-size: 14px;
                         line-height: 15px;
-                        color: $voilet;
+                        color: $primary-color;
+                        display: inline-flex;
+                        align-items: center;
+                        margin: 0 0 0 5px;
+                        img{
+                          margin-left:4px;
+                        }
                         small {
                           font-size: 11px;
                           line-height: 13px;
@@ -9271,12 +9291,12 @@ border-radius: 26px;
 }   .rd-full-explain .rd-training-block .accordion .accordion-item .accordion-header {
         padding: 0;
     }
-    .rd-full-explain .rd-training-block .engagement-sec {
-        margin: 0;
-    }
-    .rd-full-explain .rd-training-block .accordion .accordion-item {
-        margin: 0 0 5px;
-    }
+    // .rd-full-explain .rd-training-block .engagement-sec {
+    //     margin: 0;
+    // }
+    // .rd-full-explain .rd-training-block .accordion .accordion-item {
+    //     margin: 0 0 5px;
+    // }
     .rd-full-explain .rd-training-block .accordion .accordion-item.accordion-read {
         margin: 0 0 30px;
     }

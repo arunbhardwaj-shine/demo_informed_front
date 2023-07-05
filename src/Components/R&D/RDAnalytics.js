@@ -1748,7 +1748,7 @@ const handleClick = event => {
                                           </div>
                                           <div className="article-spanrd-time">
                                             Read | Watched{" "}
-                                            <span>{pdf.read_watched}</span>
+                                            <span>{pdf.read_watched} <img src={path_image + "eye-watch.svg"} alt="" /></span>
                                           </div>
                                         </div>
                                       </div>
