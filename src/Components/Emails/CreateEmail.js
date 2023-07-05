@@ -1027,9 +1027,15 @@ const CreateEmail = (props) => {
       list[i].optIRT = value;
       list[i].role = "";
       list[i].country = "";
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
       setHpc(list);
     }
-
+    let arr = [];
+    setSiteNumberAll(arr);
+    setSiteNameAll(arr);
     setCounterFlag(counterFlag + 1);
   };
 
