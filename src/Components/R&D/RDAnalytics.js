@@ -36,7 +36,16 @@ const RDAnalytics = () => {
   );
   const [mostPopularContentSiteData, setMostPopularContentSiteData] = useState(
     []
-  );
+  ); 
+  const [isContentSiteAccordionOpen, setIsContentSiteAccordionOpen] = useState(
+    []
+  ); 
+  const [isContentPageAccordionOpen, setIsContentPageAccordionOpen] = useState(
+    []
+  ); 
+  // const [mostPopularContentSiteData, setMostPopularContentSiteData] = useState(
+  //   []
+  // );
   const [siteCompletionShow, setSiteCompletionShow] = useState();
 
   //const [sortedData, setSortedData] = useState(rdSiteData);
@@ -49,35 +58,7 @@ const RDAnalytics = () => {
   const site_Completion = useRef(null);
   const site_Engagement = useRef(null);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const data = [
-    {
-      article_number: "1",
-      article_image: `${path_image}lex-book-cover.png`,
-      lex_p:
-        "Lorem sollicitudin faucibus eu molestie sollicitudin gulvinar ultricies neque prae..",
-      lex_span: "Lorem sollicitudin faucibus eu molestie sol...",
-      pages_number: "19",
-      pages_viewer: "123",
-    },
-    {
-      article_number: "2",
-      article_image: `${path_image}lex-video-cover.png`,
-      lex_p:
-        "Lorem sollicitudin faucibus eu molestie sollicitudin gulvinar ultricies neque prae..",
-      lex_span: "Lorem sollicitudin faucibus eu molestie sol...",
-      video_time: "34:19",
-      pages_viewer: "115",
-    },
-    {
-      article_number: "3",
-      article_image: `${path_image}lex-book-cover.png`,
-      lex_p:
-        "Lorem sollicitudin faucibus eu molestie sollicitudin gulvinar ultricies neque prae..",
-      lex_span: "Lorem sollicitudin faucibus eu molestie sol...",
-      pages_number: "8",
-      pages_viewer: "103",
-    },
-  ];
+ 
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
@@ -347,6 +328,7 @@ const RDAnalytics = () => {
   };
   const getMostPopularContentPageData = async (pdf_id) => {
     try {
+      if(!isContentPageAccordionOpen[pdf_id] || isContentPageAccordionOpen[pdf_id]==undefined){
       const result = await postData(ENDPOINT.MOST_POPULAR_PAGE_CONTENT, {
         pdf_id: pdf_id,
       });
@@ -357,6 +339,12 @@ const RDAnalytics = () => {
         ...prevData,
         [pdf_id]: data.time_spend_on_pdf,
       }));
+    
+    setIsContentPageAccordionOpen({...isContentPageAccordionOpen,[pdf_id]:true})
+  }
+  else{
+    setIsContentPageAccordionOpen({...isContentPageAccordionOpen,[pdf_id]:false})
+  }
       // console.log(mostPopularContentPageData)
     } catch (err) {
       console.log("--err", err);
@@ -365,6 +353,8 @@ const RDAnalytics = () => {
 
   const getMostPopularContentSiteData = async (pdf_id) => {
     try {
+// console.log(isContentSiteAccordionOpen[pdf_id]);
+      if(!isContentSiteAccordionOpen[pdf_id] || isContentSiteAccordionOpen[pdf_id]==undefined){
       const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
         pdf_id: pdf_id,
       });
@@ -381,58 +371,64 @@ const RDAnalytics = () => {
       setChartOptions((prevOptions) => ({
         ...prevOptions,
         [pdf_id]: {
-          chart: {
-            type: "pie",
-          },
-          title: {
-            text: "Device Chart",
-          },
-          subtitle: {
-            text: `Devices ${chart_data.totalDevices}`,
-            verticalAlign: "middle",
-            y: 45,
-            style: {
-              fontSize: "16px",
-              fontWeight: "bold",
+          chart_data: {
+            chart: {
+              type: "pie",
             },
-          },
-          exporting: {
-            enabled: false,
-          },
-          plotOptions: {
-            pie: {
-              innerSize: "70%",
-              dataLabels: {
-                enabled: true,
-                format: "{point.y}",
-                style: {
-                  fontWeight: "bold",
-                  color: "white",
-                  textOutline: "none",
-                  fontSize: "12px",
+            title: {
+              text: "Device Chart",
+            },
+            subtitle: {
+              text: `<p >Devices</p><br><span >${chart_data.totalDevices}</span>`,
+              verticalAlign: "middle",
+              y: 45,
+            },
+            exporting: {
+              enabled: false,
+            },
+            plotOptions: {
+              pie: {
+                innerSize: "70%",
+                dataLabels: {
+                  enabled: true,
+                  format: "{point.y}",
+                  style: {
+                    fontWeight: "bold",
+                    color: "white",
+                    textOutline: "none",
+                    fontSize: "12px",
+                  },
+                  distance: -20, // Adjust the distance of the data labels from the center
                 },
-                distance: -20, // Adjust the distance of the data labels from the center
+                animation: {
+                  duration: 1000,
+                },
+                enableMouseTracking: false, // Disable hover functionality
               },
-              animation: {
-                duration: 1000,
-              },
-              enableMouseTracking: false, // Disable hover functionality
             },
+            series: [
+              {
+                name: "Device Count",
+                data: chart_data.deviceNames.map((name, index) => ({
+                  name,
+                  y: chart_data.deviceCount[name],
+                  color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
+                    index % 4
+                  ],
+                })),
+                size: "80%",
+                innerSize: "75%",
+              },
+            ],
           },
-          series: [
-            {
-              name: "Device Count",
-              data: chart_data.deviceNames.map((name, index) => ({
-                name,
-                y: chart_data.deviceCount[name],
-                color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][index % 4],
-              })),
-              size: "100%",
-              innerSize: "70%",
-            },
-          ],
+          device_names: chart_data.deviceNames,
         },
       }));
+      setIsContentSiteAccordionOpen({...isContentSiteAccordionOpen,[pdf_id]:true})
+    }
+    else{
+      setIsContentSiteAccordionOpen({...isContentSiteAccordionOpen,[pdf_id]:false})
+    }
 
       // console.log(chartOptions);
     } catch (err) {
@@ -1658,11 +1654,9 @@ const RDAnalytics = () => {
                             eventKey={index.toString()}
                            
                           >
-                            <Accordion.Header
-                             onClick={() =>
+                            <Accordion.Header  onClick={() =>
                               getMostPopularContentPageData(item?.pdf?.id)
-                            }
-                            >
+                            }>
                               <div className="d-flex align-items-start engagement-sec">
                                 <div className="content-image">
                                   <img
@@ -1727,11 +1721,9 @@ const RDAnalytics = () => {
                             className="accordion-read"
                            
                           >
-                            <Accordion.Header
-                             onClick={() =>
+                            <Accordion.Header  onClick={() =>
                               getMostPopularContentSiteData(item?.pdf?.id)
-                            }
-                            >
+                            }>
                               <div className="d-flex align-items-center justify-content-center">
                                 Who Read | Watched at each site{" "}
                                 <img
@@ -1804,8 +1796,20 @@ const RDAnalytics = () => {
                                       <div className="used-device-detail">
                                         <HighchartsReact
                                           highcharts={Highcharts}
-                                          options={chartOptions[item.pdf?.id]}
+                                          options={
+                                            chartOptions[item.pdf?.id]
+                                              ?.chart_data
+                                          }
                                         />
+                                        <div>
+                                          {chartOptions[
+                                            item.pdf?.id
+                                          ]?.device_names?.map(
+                                            (item, index) => (
+                                              <span key={index}>{item}</span>
+                                            )
+                                          )}
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
