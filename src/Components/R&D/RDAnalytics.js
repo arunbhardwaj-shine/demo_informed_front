@@ -917,6 +917,18 @@ const RDAnalytics = () => {
                         </div>
                       </div>
                       <div className="graph-box">
+                      <div className="">
+                          <p>
+                            Sites who Read | Watch the <span>1 top</span>{" "}
+                            content
+                          </p>
+                          <span>Click on the graph to see more details</span>
+                        </div>
+                        <img
+                          className="pie-chart"
+                          src={path_image + "pie-chart2.png"}
+                          alt=""
+                        />
                         <div className="">
                           <p>The Top 3 content</p>
                         </div>
@@ -962,7 +974,7 @@ const RDAnalytics = () => {
                               </div>
                             ))}
                         </div>
-                        <div className="">
+                        {/* <div className="">
                           <p>
                             Sites who Read | Watch the <span>1 top</span>{" "}
                             content
@@ -973,7 +985,7 @@ const RDAnalytics = () => {
                           className="pie-chart"
                           src={path_image + "pie-chart2.png"}
                           alt=""
-                        />
+                        /> */}
                       </div>
                       <div className="rd-box-export">
                         <img
@@ -1394,7 +1406,7 @@ const RDAnalytics = () => {
                               {siteCompletionShow == index ? (
                                 <>
                                   <tr className="fold show">
-                                    <td colspan="5" className="site_complete">
+                                   <td colspan="5" className="site_complete">
                                       {item?.Users?.length ? (
                                         item?.Users?.map((data, i) => {
                                           return (
@@ -1423,9 +1435,13 @@ const RDAnalytics = () => {
                                           );
                                         })
                                       ) : (
-                                        <div>No Data</div>
+                                       
+                                    <div className="no_data">
+                                      No Data
+                                    </div>
+                                    
                                       )}
-                                    </td>
+                                   </td>
                                   </tr>
                                 </>
                               ) : null}
@@ -1609,9 +1625,11 @@ const RDAnalytics = () => {
                                       </div>
                                     </td>
                                   ) : (
-                                    <div className="content-detail">
+                                    <td colspan="5">
+                                    <div className="no_data">
                                       No Data
                                     </div>
+                                    </td>
                                   )}
                                 </tr>
                               ) : null}
