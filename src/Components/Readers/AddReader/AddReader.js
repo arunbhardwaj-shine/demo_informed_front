@@ -10,7 +10,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 const ReaderAdd = () => {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -22,6 +22,7 @@ const ReaderAdd = () => {
   const [pharmaData, setPharmaData] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1222" },
@@ -210,24 +211,18 @@ const ReaderAdd = () => {
         });
       });
 
-      setCountryAll(arr);
-
+      setIRTCountry(arr);
     } catch (err) {
-
       console.log("-err", err);
-
     }
-
   };
-
 
   const initalFun = async () => {
     loader("show");
     const hasData = await getData(`${ENDPOINT.READER_USER_DROP}`);
 
-    if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
-      let country = [];
-      hasData?.data?.data?.country.reduce((objEntries, key) => {
+    let country = [];
+    hasData?.data?.data?.country.reduce((objEntries, key) => {
       country.push({
         label: key,
         value: key,
@@ -235,8 +230,7 @@ const ReaderAdd = () => {
     });
 
     setCountryAll(country);
-    }
-    
+
     // setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
@@ -392,8 +386,8 @@ const ReaderAdd = () => {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-      axiosFun()
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
     }
     initalFun();
   }, []);
@@ -503,6 +497,13 @@ const ReaderAdd = () => {
         ...userInputs,
         [isSelectedName]: e,
         ["siteNumber"]: siteNum,
+      });
+    } else if (isSelectedName == "irt") {
+      let country = "";
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["country"]: country,
       });
     } else {
       setAddReaderInputs({
@@ -633,12 +634,16 @@ const ReaderAdd = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">IRT </Form.Label>
+          <Form.Label htmlFor="">IRT</Form.Label>
           <Select
             options={userDetail?.irt}
             placeholder="Select IRT"
             name="irt"
-            className="dropdown-basic-button split-button-dropup"
+            className={
+              error?.irt
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
             isClearable
             onChange={(e) => handleChange(e?.value, "irt")}
           />
@@ -720,15 +725,55 @@ const ReaderAdd = () => {
           <Form.Label htmlFor="">
             Country <span>*</span>
           </Form.Label>
-          <Select
-            options={countryAll}
-            // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
-            placeholder="Select country"
-            name="country"
-            className="dropdown-basic-button split-button-dropup"
-            isClearable
-            onChange={(e) => handleChange(e?.value, "country")}
-          />
+          {userInputs?.irt && userInputs?.irt == 1 ? (
+            <Select
+              options={irtCountry}
+              value={
+                irtCountry?.findIndex((e) => e.value == userInputs?.country) ==
+                -1
+                  ? ""
+                  : irtCountry[
+                      irtCountry?.findIndex(
+                        (e) => e.value == userInputs?.country
+                      )
+                    ]
+              }
+              // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+              placeholder="Select country"
+              name="country"
+              className={
+                error?.country
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup"
+              }
+              isClearable
+              onChange={(e) => handleChange(e?.value, "country")}
+            />
+          ) : (
+            <Select
+              options={countryAll}
+              value={
+                countryAll?.findIndex((e) => e.value == userInputs?.country) ==
+                -1
+                  ? ""
+                  : countryAll[
+                      countryAll?.findIndex(
+                        (e) => e.value == userInputs?.country
+                      )
+                    ]
+              }
+              // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+              placeholder="Select country"
+              name="country"
+              className={
+                error?.country
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup"
+              }
+              isClearable
+              onChange={(e) => handleChange(e?.value, "country")}
+            />
+          )}
           {error?.country ? (
             <div className="login-validation">{error?.country}</div>
           ) : (
