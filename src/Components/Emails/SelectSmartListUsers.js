@@ -49,6 +49,7 @@ const SelectSmartListUsers = (props) => {
   const [sorting, setSorting] = useState(0);
   const [counterFlag, setCounterFlag] = useState(0);
   const [countryall, setCountryall] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
   const [addFileReRender, setAddFileReRender] = useState(0);
   const [saveOpen, setSaveOpen] = useState(false);
   const [editable, setEditable] = useState(0);
@@ -171,8 +172,8 @@ const SelectSmartListUsers = (props) => {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-      axiosFun()
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
     }
 
     const getalCountry = async () => {
@@ -186,21 +187,18 @@ const SelectSmartListUsers = (props) => {
             console.log("country", res.data.response.data.country);
             let country = res.data.response.data.country;
             let arr = [];
-            if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
-              Object.entries(country).map(([index, item]) => {
-                let label = item;
-                if (index == "B&H") {
-                  label = "Bosnia and Herzegovina";
-                }
-                arr.push({
-                  value: item,
-                  label: label,
-                });
-              });
-              setCountryall(arr);
-            }
 
-            
+            Object.entries(country).map(([index, item]) => {
+              let label = item;
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
+              });
+            });
+            setCountryall(arr);
 
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
               let investigator_type =
@@ -219,7 +217,6 @@ const SelectSmartListUsers = (props) => {
               setRole(newType);
               setIrtRole(newIrtType);
             }
-           
 
             setTotalData(res.data.response.data);
           }
@@ -335,14 +332,10 @@ const SelectSmartListUsers = (props) => {
           label: label,
         });
       });
-      setCountryall(arr);
-
+      setIRTCountry(arr);
     } catch (err) {
-
       console.log("-err", err);
-
     }
-
   };
 
   const onFileChange = (event) => {
@@ -398,6 +391,7 @@ const SelectSmartListUsers = (props) => {
       const list = [...hpc];
       list[i].optIrt = "";
       list[i].role = "";
+      list[i].country = "";
       setHpc(list);
     } else {
       const value = e?.value;
@@ -405,6 +399,7 @@ const SelectSmartListUsers = (props) => {
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
       list[i].role = "";
+      list[i].country = "";
       setHpc(list);
     }
     setCounterFlag(counterFlag + 1);
@@ -1769,28 +1764,55 @@ const SelectSmartListUsers = (props) => {
                                   </div>
                                 </>
                               )}
-                              {console.log("--->", countryall)}
+
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
-                                  <Select
-                                    options={countryall}
-                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                    onChange={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                    defaultValue={
-                                      countryall[hpc[i].countryIndex]
-                                    }
-                                    placeholder={
-                                      typeof countryall[hpc[i].countryIndex] ===
-                                      "undefined"
-                                        ? "Select Country"
-                                        : countryall[hpc[i].countryIndex]
-                                    }
-                                    filterOption={createFilter(filterConfig)}
-                                    isClearable
-                                  />
+                                  {val?.optIrt == "yes" ? (
+                                    <Select
+                                      options={irtCountry}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      value={
+                                        irtCountry.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : irtCountry[
+                                              irtCountry.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  ) : (
+                                    <Select
+                                      options={countryall}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      value={
+                                        countryall.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : countryall[
+                                              countryall.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  )}
                                   {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                             title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }

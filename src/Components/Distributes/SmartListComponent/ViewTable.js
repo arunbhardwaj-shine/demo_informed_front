@@ -94,6 +94,9 @@ const ViewTable = (props) => {
   }, []);
 
   useEffect(() => {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
     const getalCountry = async () => {
       let body = {
         user_id: localStorage.getItem("user_id"),
@@ -124,10 +127,8 @@ const ViewTable = (props) => {
             let arrIrtUserType = [];
 
             let arr = [];
-            //console.log("outside");
+
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-              //console.log("inside");
-              //console.log(res);
               user_type = res.data.response.data.investigator_type;
               sub_role = res.data.response.data.sub_role;
               blind_type = res.data.response.data.blind_type;
@@ -153,7 +154,6 @@ const ViewTable = (props) => {
             }
 
             //  const data = Object.assign({}, res.data.response.data.blind_type);
-            ////console.log(data);
 
             Object.entries(country).map(([index, item]) => {
               let label = item;
@@ -223,9 +223,6 @@ const ViewTable = (props) => {
 
               Object.entries(sub_role).map(([index, item]) => {
                 let label = item;
-
-                //console.log(item);
-
                 arrSubRole.push({
                   value: item,
                   label: label,
@@ -354,6 +351,7 @@ const ViewTable = (props) => {
   const [renderCounterData, setCounterData] = useState([]);
 
   const [countryall, setCountryall] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
   const [userTypeAll, setUserTypeAll] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [subUserTypeAll, setSubUserTypeAll] = useState([]);
@@ -401,6 +399,28 @@ const ViewTable = (props) => {
 
   const [counter, setCounter] = useState([0]);
 
+  const axiosFun = async () => {
+    try {
+      const result = await axios.get(`emailapi/get_site`);
+
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+      setIRTCountry(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
+  };
+
   const editButtonClicked = () => {
     if (editable == 1) {
       setSaveOpen(false);
@@ -427,7 +447,6 @@ const ViewTable = (props) => {
     setTimeout(() => {
       setEditList(vr);
       setNewData(new_add_arr);
-      //console.log("This will run after 1 second!");
       setUpdateCounter(updateCounter + 1);
     }, 50);
   };
@@ -562,18 +581,13 @@ const ViewTable = (props) => {
 
   const deleteRecord = (i) => {
     const list = hpc;
-
-    //console.log(list);
-
     list.splice(i, 1);
-
     setHpc(list);
     setCounterFlag(counterFlag + 1);
   };
 
   const showMoreInfo = (e) => {
     e.preventDefault();
-
     setShowLessInfo(!showLessInfo);
   };
 
@@ -1091,6 +1105,7 @@ const ViewTable = (props) => {
       list[i].siteIrt = "";
       list[i].userType = "";
       list[i].userTypeIndex = "";
+      list[i].country = "";
       setHpc(list);
     } else {
       const value = e.value;
@@ -1102,6 +1117,7 @@ const ViewTable = (props) => {
       list[i].siteIrtIndex = index;
       list[i].userType = "";
       list[i].userTypeIndex = "";
+      list[i].country = "";
       setHpc(list);
     }
     setForceRender(!forceRender);
@@ -1388,7 +1404,6 @@ const ViewTable = (props) => {
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
 
-      // //console.log(formData);
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -1402,8 +1417,6 @@ const ViewTable = (props) => {
               let new_data = res.data.response.data;
               setNewData(new_data);
               combine_data = [...new_data, ...old_data];
-
-              // //console.log(combine_data);
               setEditList(old_data);
               setShowSaveReader(true);
               setIsOpenAdd(false);
@@ -1457,7 +1470,6 @@ const ViewTable = (props) => {
           //console.log(err);
         });
     } else {
-      //console.log(validator2.errorMessages);
       validator2.showMessages();
       setFileValidationMeassage(fileValidationMessage + 1);
     }
@@ -1474,7 +1486,6 @@ const ViewTable = (props) => {
   };
 
   const deleteNewlyAdded = (profile_user_id) => {
-    //  //console.log(profile_user_id);
     const data = newData;
     const dataUpdated = data.filter((d) => {
       return d.profile_user_id != profile_user_id;
@@ -2332,27 +2343,58 @@ const ViewTable = (props) => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Country</label>
-                                      <Select
-                                        options={countryall}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onCountryChange(event, i)
-                                        }
-                                        defaultValue={
-                                          countryall[hpc[i].countryIndex]
-                                        }
-                                        placeholder={
-                                          typeof countryall[
-                                            hpc[i].countryIndex
-                                          ] === "undefined"
-                                            ? "Select Country"
-                                            : countryall[hpc[i].countryIndex]
-                                        }
-                                        filterOption={createFilter(
-                                          filterConfig
-                                        )}
-                                        isClearable
-                                      />
+                                      {siteIrtAll[hpc[i].siteIrtIndex]
+                                        ?.value === "Yes" ? (
+                                        <Select
+                                          options={irtCountry}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onCountryChange(event, i)
+                                          }
+                                          value={
+                                            irtCountry.findIndex(
+                                              (el) => el.value == val?.country
+                                            ) == -1
+                                              ? ""
+                                              : irtCountry[
+                                                  irtCountry.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.country
+                                                  )
+                                                ]
+                                          }
+                                          placeholder="Select Country"
+                                          filterOption={createFilter(
+                                            filterConfig
+                                          )}
+                                          isClearable
+                                        />
+                                      ) : (
+                                        <Select
+                                          options={countryall}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onCountryChange(event, i)
+                                          }
+                                          value={
+                                            countryall.findIndex(
+                                              (el) => el.value == val?.country
+                                            ) == -1
+                                              ? ""
+                                              : countryall[
+                                                  countryall.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.country
+                                                  )
+                                                ]
+                                          }
+                                          placeholder="Select Country"
+                                          filterOption={createFilter(
+                                            filterConfig
+                                          )}
+                                          isClearable
+                                        />
+                                      )}
                                       {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                         title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
