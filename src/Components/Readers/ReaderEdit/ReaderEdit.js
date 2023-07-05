@@ -602,10 +602,19 @@ const ReaderEdit = () => {
             }}
             placeholder="Select IRT"
             name="irt"
-            className="dropdown-basic-button split-button-dropup"
+            className={
+              error?.irt
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
             isClearable
             onChange={(e) => handleChange(e?.value, "irt")}
           />
+          {error?.irt ? (
+            <div className="login-validation">{error?.irt}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Role </Form.Label>
@@ -707,7 +716,11 @@ const ReaderEdit = () => {
                 // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
                 placeholder="Select country"
                 name="country"
-                className="dropdown-basic-button split-button-dropup"
+                className={
+                  error?.country
+                    ? "dropdown-basic-button split-button-dropup error"
+                    : "dropdown-basic-button split-button-dropup"
+                }
                 isClearable
                 onChange={(e) => handleChange(e?.value, "country")}
               />
@@ -731,14 +744,22 @@ const ReaderEdit = () => {
                 // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
                 placeholder="Select country"
                 name="country"
-                className="dropdown-basic-button split-button-dropup"
+                className={
+                  error?.country
+                    ? "dropdown-basic-button split-button-dropup error"
+                    : "dropdown-basic-button split-button-dropup"
+                }
                 isClearable
                 onChange={(e) => handleChange(e?.value, "country")}
               />
             </>
           ) : (
             <Select
-              className="dropdown-basic-button split-button-dropup"
+              className={
+                error?.country
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup"
+              }
               placeholder="Select country"
             />
           )}
