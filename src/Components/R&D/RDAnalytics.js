@@ -659,7 +659,65 @@ const RDAnalytics = () => {
     
     
     
+    const handleExport = (tableName) => {
+      const table = document.getElementById(tableName);
+      const rows = table.getElementsByTagName('tr');
+      const base64 = (s) => {
+        return window.btoa(unescape(encodeURIComponent(s)));
+      };
     
+      const format = (s, c) => {
+        return s.replace(/{(\w+)}/g, function (m, p) {
+          return c[p];
+        });
+      };
+    
+      // Filter out rows with class names "fold" or "fold-content"
+      const filteredRows = Array.from(rows).filter((row, index) => {
+        const classNames = row.className.split(' ');
+        return (
+          !classNames.includes('fold') &&
+          !classNames.includes('fold-content') &&
+          !classNames.includes('show')&& !classNames.includes('doctor')&& 
+          index !== 0 // Exclude the first row (header row)
+        );
+      });
+    console.log(filteredRows);
+      // Create a new table element and copy the header row
+      const exportTable = document.createElement('table');
+      const headerRow = table.getElementsByTagName('thead')[0].cloneNode(true);
+      exportTable.appendChild(headerRow);
+      console.log(headerRow);
+    
+      // Copy the filtered rows to the export table
+      filteredRows.forEach((row) => {
+        const clonedRow = row.cloneNode(true);
+        exportTable.appendChild(clonedRow);
+      });
+      
+    
+      // Generate the Excel file
+      const uri = 'data:application/vnd.ms-excel;base64,';
+      const template =
+        '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-mic' +
+        'rosoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta cha' +
+        'rset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:Exce' +
+        'lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
+        '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></' +
+        'xml><![endif]--></head><body>{table}</body></html>';
+    
+      const context = {
+        worksheet: 'Sheet1',
+        table: exportTable.outerHTML,
+      };
+    
+      const randomPrefix = Math.random().toString(36).substring(7); // Generate a random string
+
+  const element = document.createElement('a');
+  element.href = uri + base64(format(template, context));
+  element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
+  element.click();
+    };
     
     
     
@@ -693,7 +751,7 @@ const RDAnalytics = () => {
                               <div className="count-number">
                                 {pieData.total}
                               </div>
-                              <img src={path_image + "doctor-svg.svg"} alt="" />
+                              <img src={path_image + "doctor-svg.svg"} alt="" class="doctor" />
                             </div>
                           </div>
                           <div className="graph-box">
@@ -1309,7 +1367,7 @@ const RDAnalytics = () => {
                         <p></p>
                       </div>
                       <div className="rd-training-block-right d-flex">
-                        <Button title="Download stats">
+                        <Button title="Download stats" onClick={() => handleExport('site_completion')}>
                           <svg
                             width="20"
                             height="20"
@@ -1352,7 +1410,7 @@ const RDAnalytics = () => {
                         </Button>
                       </div>
                     </div>
-                    <Table className="fold-table">
+                    <Table className="fold-table" id="site_completion">
                       <thead>
                         <tr>
                           <th className="site_name">Site Name</th>
@@ -1462,13 +1520,14 @@ const RDAnalytics = () => {
                         ref={site_Engagement}
                         tabIndex={-1}
                       >
-                        <ReactHTMLTableToExcel
+                        <button
                     id="test-table-xls-button"
                     className="download-table-xls-button"
-                    table="table-to-xls"
-                    filename="tablexls"
-                    sheet="tablexls"
-                    buttonText="Download as XLS"/>
+                   
+    
+                    onClick={() => handleExport('table-to-xls')} // Call your export function here
+
+                    />
                         {/* <Button title="Download stats">
                           <svg
                             width="20"
