@@ -8,7 +8,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { popup_alert } from "../../popup_alert";
-import Select from "react-select";
+import Select, { createFilter } from "react-select";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -67,11 +67,21 @@ const AutoEmail = () => {
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [validationError, setValidationError] = useState({});
+  const [role, setRole] = useState([]);
+  const [irtRole, setIrtRole] = useState([]);
+  const [optIRT, setoptIRT] = useState([
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ]);
+  const [irtCountry, setIRTCountry] = useState([]);
 
   const editorRef = useRef(null);
   const ref = useRef(null);
 
   let file_name = useRef("");
+  const filterConfig = {
+    matchFrom: "start",
+  };
 
   useEffect(() => {
     getSmartListData(0);
@@ -89,6 +99,9 @@ const AutoEmail = () => {
 
   useEffect(() => {
     loader("show");
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
     const getalCountry = async () => {
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -99,8 +112,42 @@ const AutoEmail = () => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
-          setTotalData(res.data.response.data);
-          setCountryall(res.data.response.data.country);
+          if (res.data.status_code == 200) {
+            let country = res.data.response.data.country;
+
+            let arr = [];
+
+            Object.entries(country).map(([index, item]) => {
+              let label = item;
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
+              });
+            });
+
+            setCountryall(arr);
+
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              let investigator_type =
+                res?.data?.response?.data?.investigator_type;
+              let newType = [];
+              Object.keys(investigator_type)?.map((item, i) => {
+                newType.push({ label: item, value: item });
+              });
+              let irt_inverstigator_type =
+                res?.data?.response?.data?.irt_inverstigator_type;
+              let newIrtType = [];
+              Object.keys(irt_inverstigator_type)?.map((item, i) => {
+                newIrtType.push({ label: item, value: item });
+              });
+              setRole(newType);
+              setIrtRole(newIrtType);
+            }
+            setTotalData(res.data.response.data);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -109,6 +156,27 @@ const AutoEmail = () => {
 
     getalCountry();
   }, []);
+  const axiosFun = async () => {
+    try {
+      const result = await axios.get(`emailapi/get_site`);
+
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+      setIRTCountry(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
+  };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async () => {
@@ -131,7 +199,6 @@ const AutoEmail = () => {
   };
 
   const viewButtonClicked = (template, index) => {
-    // console.log(template);
     setEmailSubject("");
     setEmailDescription("");
     setApproveClicked(false);
@@ -151,7 +218,6 @@ const AutoEmail = () => {
   };
 
   const viewReminderClicked = (template, index) => {
-    console.log(template);
     setEmailSubject("");
     setEmailDescription("");
     setApproveClicked(false);
@@ -225,14 +291,11 @@ const AutoEmail = () => {
         email: email,
       };
 
-      //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          console.log(res);
-
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
           } else {
@@ -261,7 +324,6 @@ const AutoEmail = () => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
-    //console.log("hi");
   };
 
   const selectHcp = (index) => {
@@ -478,6 +540,45 @@ const AutoEmail = () => {
     list[i].email = value;
     setHpc(list);
   };
+  const onRoleChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].role = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].role;
+      list[i].role = value;
+      setHpc(list);
+    }
+  };
+
+  const onIRTChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].optIrt = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].optIrt;
+      list[i].optIrt = value;
+      list[i].role = "";
+      list[i].country = "";
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      setHpc(list);
+    }
+    let arr = [];
+    setSiteNumberAll(arr);
+    setSiteNameAll(arr);
+    setCounterFlag(counterFlag + 1);
+  };
 
   const onContactTypeChange = (e, i) => {
     const value = e;
@@ -485,46 +586,85 @@ const AutoEmail = () => {
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
     setHpc(list);
-    console.log(hpc);
   };
 
+  // const onCountryChange = (e, i) => {
+  //   const value = e;
+  //   const list = [...hpc];
+  //   const name = hpc[i].country;
+  //   list[i].country = value;
+
+  //   if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+  //     let consetValue = value;
+  //     if (value == "B&H") {
+  //       consetValue = "Bosnia and Herzegovina";
+  //     }
+
+  //     const matchingKeys = Object.entries(totalData.site_country_data)
+  //       .filter(([key, value]) => {
+  //         return value == consetValue;
+  //       })
+  //       .map(([key, value]) => key);
+
+  //     const filteredSiteNames = matchingKeys.map((key) => ({
+  //       label: totalData.site_data[key],
+  //       value: totalData.site_data[key],
+  //     }));
+  //     const siteNumbers = matchingKeys.map((key) => ({
+  //       label: key,
+  //       value: key,
+  //     }));
+  //     list[i].siteNumberIndex = "";
+  //     list[i].siteNameIndex = "";
+  //     list[i].siteName = "";
+  //     list[i].siteNumber = "";
+  //     setSiteNumberAll(siteNumbers);
+  //     setSiteNameAll(filteredSiteNames);
+  //   }
+  //   setHpc(list);
+
+  // };
+
   const onCountryChange = (e, i) => {
-    const value = e;
-    const list = [...hpc];
-    const name = hpc[i].country;
-    list[i].country = value;
-
-    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-      let consetValue = value;
-      if (value == "B&H") {
-        consetValue = "Bosnia and Herzegovina";
+    if (e == null) {
+      const list = [...hpc];
+      list[i].country = "";
+      list[i].countryIndex = "";
+      setHpc(list);
+    } else {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        let consetValue = e.value;
+        if (e.value == "B&H") {
+          consetValue = "Bosnia and Herzegovina";
+        }
+        const matchingKeys = Object.entries(totalData.site_country_data)
+          .filter(([key, value]) => value === consetValue)
+          .map(([key, value]) => key);
+        const filteredSiteNames = matchingKeys.map((key) => ({
+          label: totalData.site_data[key],
+          value: totalData.site_data[key],
+        }));
+        const siteNumbers = matchingKeys.map((key) => ({
+          label: key,
+          value: key,
+        }));
+        setSiteNumberAll(siteNumbers);
+        setSiteNameAll(filteredSiteNames);
       }
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].country;
+      list[i].country = value;
 
-      const matchingKeys = Object.entries(totalData.site_country_data)
-        .filter(([key, value]) => {
-          return value == consetValue;
-        })
-        .map(([key, value]) => key);
-
-      const filteredSiteNames = matchingKeys.map((key) => ({
-        label: totalData.site_data[key],
-        value: totalData.site_data[key],
-      }));
-      const siteNumbers = matchingKeys.map((key) => ({
-        label: key,
-        value: key,
-      }));
+      let index = countryall.findIndex((x) => x.value === value);
+      list[i].countryIndex = index;
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
-      setSiteNumberAll(siteNumbers);
-      setSiteNameAll(filteredSiteNames);
+      setHpc(list);
     }
-    setHpc(list);
-    // console.log(hpc);
   };
-
   const deleteRecord = (i) => {
     const list = hpc;
     list.splice(i, 1);
@@ -534,18 +674,17 @@ const AutoEmail = () => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        if(localStorage.getItem("user_id") ==
-        "56Ek4feL/1A8mZgIKQWEqg=="){
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
           return {
             first_name: data.firstname,
             last_name: data.lastname,
             email: data.email,
             country: data.country,
             contact_type: data.contact_type,
-           siteNumber: data?.siteNumber ? data.siteNumber : "",
-           siteName: data.siteName ? data.siteName : "",
+            siteNumber: data?.siteNumber ? data.siteNumber : "",
+            siteName: data.siteName ? data.siteName : "",
           };
-        }else{
+        } else {
           return {
             first_name: data.firstname,
             last_name: data.lastname,
@@ -777,7 +916,6 @@ const AutoEmail = () => {
           .post(`emailapi/add_update_template`, body)
           .then((res) => {
             if (res.data.status_code == 200) {
-              console.log(res);
               getTemplateListData();
               toast.success("Template updated");
               loader("hide");
@@ -1413,55 +1551,184 @@ const AutoEmail = () => {
                                   />
                                 </div>
                               </div>
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT</label>
+
+                                      <Select
+                                        options={optIRT}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onIRTChange(event, i)
+                                        }
+                                        defaultValue={val?.optIrt}
+                                        placeholder="Select IRT"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Role</label>
+                                      {val?.optIrt == "yes" ? (
+                                        <Select
+                                          options={irtRole}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i)
+                                          }
+                                          value={
+                                            irtRole?.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : irtRole[
+                                                  irtRole?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : val?.optIrt == "no" ? (
+                                        <Select
+                                          options={role}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i)
+                                          }
+                                          value={
+                                            role?.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : role[
+                                                  role?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          placeholder="Select Role"
+                                        />
+                                      )}
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label htmlFor="">Contact Type</label>
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          hpc[i].contact_type != "" &&
+                                          hpc[i].contact_type != "undefined"
+                                            ? hpc[i].contact_type
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onContactTypeChange(event, i)
+                                        }
+                                      >
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          HCP
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </DropdownButton>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Contact Type</label>
-                                  <DropdownButton
-                                    className="dropdown-basic-button split-button-dropup"
-                                    title={
-                                      hpc[i].contact_type != "" &&
-                                      hpc[i].contact_type != "undefined"
-                                        ? hpc[i].contact_type
-                                        : "Select Type"
-                                    }
-                                    onSelect={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                  >
-                                    <Dropdown.Item
-                                      eventKey="HCP"
-                                      className={
-                                        hpc[i].contact_type == "HCP"
-                                          ? "active"
-                                          : ""
+                                  <label htmlFor="">Country</label>
+                                  {val?.optIrt == "yes" ? (
+                                    <Select
+                                      options={irtCountry}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
                                       }
-                                    >
-                                      HCP
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Staff"
-                                      className={
-                                        hpc[i].contact_type == "Staff"
-                                          ? "active"
-                                          : ""
+                                      value={
+                                        irtCountry.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : irtCountry[
+                                              irtCountry.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
                                       }
-                                    >
-                                      Staff
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Test Users"
-                                      className={
-                                        hpc[i].contact_type == "Test Users"
-                                          ? "active"
-                                          : ""
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  ) : (
+                                    <Select
+                                      options={countryall}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
                                       }
-                                    >
-                                      Test Users
-                                    </Dropdown.Item>
-                                  </DropdownButton>
+                                      value={
+                                        countryall.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : countryall[
+                                              countryall.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  )}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
+                              {/* <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
                                   <DropdownButton
@@ -1504,7 +1771,7 @@ const AutoEmail = () => {
                                     </div>
                                   </DropdownButton>
                                 </div>
-                              </div>
+                              </div> */}
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
@@ -1519,9 +1786,12 @@ const AutoEmail = () => {
                                           onSiteNumberChange(event, i)
                                         }
                                         value={
-                                          siteNumberAll[hpc[i].siteNumberIndex]? siteNumberAll[hpc[i].siteNumberIndex]:""
+                                          siteNumberAll[hpc[i].siteNumberIndex]
+                                            ? siteNumberAll[
+                                                hpc[i].siteNumberIndex
+                                              ]
+                                            : ""
                                         }
-                                        
                                         placeholder={
                                           typeof siteNumberAll[
                                             hpc[i].siteNumberIndex
@@ -1538,8 +1808,7 @@ const AutoEmail = () => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site Name</label>
-                                      
-                                      {console.log("-dfd",hpc[i])}
+
                                       <Select
                                         options={siteNameAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -1547,7 +1816,9 @@ const AutoEmail = () => {
                                           onSiteNameChange(event, i)
                                         }
                                         value={
-                                          siteNameAll[hpc[i].siteNameIndex]?siteNameAll[hpc[i].siteNameIndex]:""
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                            : ""
                                         }
                                         placeholder={
                                           typeof siteNameAll[
