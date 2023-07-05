@@ -434,6 +434,13 @@
           padding-top: 12px;
           margin: 0px 0px;
           gap: 0px;
+          &.clone{
+            .footer-btn {
+            padding: 7px 5px;
+            font-size: 12px;
+            min-width: 24%;
+            }
+          }
           @include flex-center;
           .footer-btn {
             text-transform: none;
@@ -487,13 +494,12 @@
       color: $dark-blue;
       flex: 0 0 154px;
       > span {
-        color: #d61975;
+        color: $pink;
       }
     }
     .form-control {
       @include custom-input-drop;
       margin-bottom: 5px;
-      // color: $dark-blue;
     }
     .dropdown-basic-button {
       width: 100%;
@@ -3317,6 +3323,7 @@ section.verify_email.content_details {
   // padding-top:30px;
   padding-left: 0;
   padding-right: 0;
+  background: transparent;
 }
 .top-header.content_analytic {
   margin-bottom: 24px;
@@ -5632,7 +5639,7 @@ svg.pencil_icon {
   min-width: 150px;
 }
 .header-forgot .modal-content p {
-  color: #d61975;
+  color: $pink;
   font-size: 14px;
   margin: 0;
 }
@@ -5675,7 +5682,7 @@ svg.pencil_icon {
   background-size: 225px;
 }
 // .modal-body .form-group label span{
-//   color:#d61975;
+//   color:$pink;
 // }
 .form-group.primary_phone
   .dropdown-basic-button.split-button-dropup
@@ -6610,7 +6617,7 @@ svg.pencil_icon {
   .apply-filter {
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 0;
+    margin-top: 15px;
   }
   .custom-change .library-content-box-layuot {
     padding: 0 10px;
@@ -6674,6 +6681,10 @@ svg.pencil_icon {
 @media only screen and (max-width: 1500px) {
   .selected-products-list.product_show .products_top_action {
     margin-top: 0px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper.clone .footer-btn {
+    padding: 7px 4px;
+    font-size: 11px;
 }
   .sublink_left .doc-content-main-box ul.tab-mail-list.data .progress {
     max-width: 190px;
@@ -8631,6 +8642,10 @@ border-radius: 26px;
 .switch6-light input:checked~span span:last-child svg path {
     fill: $primary-color;
 }
+.highcharts-legend-item rect.highcharts-point {
+    width: 8px;
+    height: 8px;
+}
 .rd-analytics-content {
     margin: 14px 0 0;
     padding: 0;
@@ -8746,11 +8761,12 @@ border-radius: 26px;
                     font-size: 12px;
                     line-height: 14px;
                     color: $white;
-                    width:18px;
+                    min-width:18px;
                     height:18px;
                     position: absolute;
                     left:0;
                     top:0;
+                    padding:0 3px;
                   }
                   img{
                     box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.24);
@@ -8759,6 +8775,7 @@ border-radius: 26px;
                   }
                  }
                  .lex-detail{
+                  flex:1 1;
                   p{
                     font-weight: 500;
                     font-size: 14px;
@@ -9645,3 +9662,28 @@ border-radius: 26px;
 }
 }
 /*Responsive for R&D Analytics End*/
+
+
+
+/**Speaker Zone Page**/
+
+.webinar-question-results {
+    background: $white;
+    -webkit-backdrop-filter: blur(254px);
+    backdrop-filter: blur(254px);
+    z-index: 1;
+    box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+    p {
+    margin: 0 0 10px;
+    color: $dark-blue;
+    font-weight: 500;
+    }
+    .highcharts-container {
+        margin: 0 0 30px;
+    }
+}
+
+/**Speaker Zone Page End**/
