@@ -10,6 +10,8 @@ const RDAnalytics = () => {
   const [show, setShow] = useState();
   const [totalSiteNumber, setTotalSiteNumber] = useState();
   const [totalRdSiteNumber, setTotalRdSiteNumber] = useState();
+
+  const [chartOptions, setChartOptions] = useState();
   const [rdSiteData, setRdSiteData] = useState();
   const [pieData, setPieData] = useState({});
   const [flag, setFlag] = useState({
@@ -27,6 +29,13 @@ const RDAnalytics = () => {
   const [traingAccordianData, setTrainingAccordianData] = useState();
 
   const [siteCompletionTableData, setSiteCompletionTableData] = useState();
+  const [mostPopularContentData, setMostPopularContentData] = useState([]);
+  const [mostPopularContentPageData, setMostPopularContentPageData] = useState(
+    []
+  );
+  const [mostPopularContentSiteData, setMostPopularContentSiteData] = useState(
+    []
+  );
   const [siteCompletionShow, setSiteCompletionShow] = useState();
 
   const individual_Completion = useRef(null);
@@ -196,6 +205,7 @@ const RDAnalytics = () => {
   });
 
   useEffect(() => {
+    getMostPopularData();
     initialFun();
     getPieChartData();
     getRdSiteChartData();
@@ -225,7 +235,7 @@ const RDAnalytics = () => {
       };
       setColumnOptions(newColumnOptions);
     } catch (err) {
-      console.log("-err", err);
+      // console.log("-err", err);
     }
   };
 
@@ -266,7 +276,7 @@ const RDAnalytics = () => {
       loader("hide");
     } catch (err) {
       // loader("hide");
-      console.log("-err", err);
+      // console.log("-err", err);
     }
   };
 
@@ -313,6 +323,119 @@ const RDAnalytics = () => {
       console.log("--err", err);
     }
   };
+  const getMostPopularData = async () => {
+    try {
+      const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT);
+      const data = result?.data?.data;
+      // console.log(data);
+      setMostPopularContentData(data.pdf_data);
+
+      // setRdSiteOptions(newRdSiteOptions);
+
+      // loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log("--err", err);
+    }
+  };
+  const getMostPopularContentPageData = async (pdf_id) => {
+    try {
+      const result = await postData(ENDPOINT.MOST_POPULAR_PAGE_CONTENT, {
+        pdf_id: pdf_id,
+      });
+      const data = result?.data?.data;
+      // console.log("drowdown",data);
+
+      setMostPopularContentPageData((prevData) => ({
+        ...prevData,
+        [pdf_id]: data.time_spend_on_pdf,
+      }));
+      // console.log(mostPopularContentPageData)
+    } catch (err) {
+      console.log("--err", err);
+    }
+  };
+
+  const getMostPopularContentSiteData = async (pdf_id) => {
+    try {
+      const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
+        pdf_id: pdf_id,
+      });
+      const data = result?.data?.data.site_data;
+      const chart_data = result?.data?.data?.chart_data;
+      setMostPopularContentSiteData((prevData) => ({
+        ...prevData,
+        [pdf_id]: data,
+      }));
+
+      // console.log("dropdown", data);
+
+      // Set chart data options for the PDF
+      setChartOptions((prevOptions) => ({
+        ...prevOptions,
+        [pdf_id]: {chart_data:{
+          chart: {
+            type: "pie",
+          },
+          title: {
+            text: "Device Chart",
+          },
+          subtitle: {
+            text: `Devices ${chart_data.totalDevices}`,
+            verticalAlign: "middle",
+            y: 45,
+            style: {
+              fontSize: "16px",
+              fontWeight: "bold",
+            },
+          },
+          exporting: {
+            enabled: false,
+          },
+          plotOptions: {
+            pie: {
+              innerSize: "70%",
+              dataLabels: {
+                enabled: true,
+                format: "{point.y}",
+                style: {
+                  fontWeight: "bold",
+                  color: "white",
+                  textOutline: "none",
+                  fontSize: "12px",
+                },
+                distance: -20, // Adjust the distance of the data labels from the center
+              },
+              animation: {
+                duration: 1000,
+              },
+              enableMouseTracking: false, // Disable hover functionality
+            },
+          },
+          series: [
+            {
+              name: "Device Count",
+              data: chart_data.deviceNames.map((name, index) => ({
+                name,
+                y: chart_data.deviceCount[name],
+                color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][index % 4],
+              })),
+              size: "100%",
+              innerSize: "70%",
+            },
+          ],
+        },
+    device_names:chart_data.deviceNames
+
+      },
+    }));
+
+      // console.log(chartOptions);
+    } catch (err) {
+      console.log("--err", err);
+    }
+  };
+
   const rdShowData = (e, index) => {
     if (show == index) {
       setShow();
@@ -358,8 +481,9 @@ const RDAnalytics = () => {
           ENDPOINT.TRAINING_COMPLETION_DROPDOWN,
           body
         );
+        // setTrainingCertificate(result?.data?.certificate);
         setTrainingCompletionDropdownData(result?.data?.data);
-        console.log("result--->", result);
+        // console.log("result--->", result);
         loader("hide");
       } catch (err) {
         loader("hide");
@@ -383,7 +507,7 @@ const RDAnalytics = () => {
           ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
           body
         );
-        console.log("page click-->", result?.data?.data?.time_spend_on_pdf);
+        // console.log("page click-->", result?.data?.data?.time_spend_on_pdf);
         setTrainingAccordianData(result?.data?.data?.time_spend_on_pdf);
         setTrainingAccordianShow(i);
       }
@@ -672,7 +796,13 @@ const RDAnalytics = () => {
                       <div className="rd-analytics-top d-flex justify-content-between align-items-center">
                         <h5>Most Popular content</h5>
                         <div className="d-flex">
-                          <div className="count-number">332</div>
+                          <div className="count-number">
+                            {mostPopularContentData
+                              ? mostPopularContentData[0]?.watched_count +
+                                mostPopularContentData[1]?.watched_count +
+                                mostPopularContentData[2]?.watched_count
+                              : 0}
+                          </div>
                           <img src={path_image + "content-view.svg"} alt="" />
                         </div>
                       </div>
@@ -681,37 +811,46 @@ const RDAnalytics = () => {
                           <p>The Top 3 content</p>
                         </div>
                         <div className="lex-article">
-                          {data.map((item, index) => (
-                            <div key={index} className="d-flex lex-article-box">
-                              <div className="lex-image">
-                                <div className="article-number">
-                                  {item.article_number}
-                                </div>
-                                <img src={item.article_image} alt="" />
-                              </div>
-                              <div className="lex-detail">
-                                <p>{item.lex_p}</p>
-                                <span>{item.lex_span}</span>
-                                <div className="d-flex justify-content-between">
-                                  <div className="pages-number">
-                                    {item?.pages_number ? "Pages:" : "Time:"}
-                                    <span>
-                                      {item?.pages_number
-                                        ? item.pages_number
-                                        : item?.video_time}
-                                    </span>
+                          {mostPopularContentData
+                            ?.slice(0, 3)
+                            ?.map((item, index) => (
+                              <div
+                                key={index}
+                                className="d-flex lex-article-box"
+                              >
+                                <div className="lex-image">
+                                  <div className="article-number">
+                                    {item?.pdf.id}
                                   </div>
-                                  <div className="pages-viewer">
-                                    {item.pages_viewer}{" "}
-                                    <img
-                                      src={path_image + "viewer.svg"}
-                                      alt=""
-                                    />
+                                  <img src={item?.article_image} alt="" />
+                                </div>
+                                <div className="lex-detail">
+                                  <p>{item.pdf.title}</p>
+                                  <span>{item?.pdf?.pdf_sub_title}</span>
+                                  <div className="d-flex justify-content-between">
+                                    <div className="pages-number">
+                                      {item?.total_pages ||
+                                      item?.total_pages == 0
+                                        ? "Pages:"
+                                        : "Time:"}
+                                      <span>
+                                        {item?.total_pages ||
+                                        item?.total_pages == 0
+                                          ? item.total_pages
+                                          : item?.max_time}
+                                      </span>
+                                    </div>
+                                    <div className="pages-viewer">
+                                      {item.watched_count}{" "}
+                                      <img
+                                        src={path_image + "viewer.svg"}
+                                        alt=""
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          ))}
+                            ))}
                         </div>
                         <div className="">
                           <p>
@@ -727,7 +866,19 @@ const RDAnalytics = () => {
                         />
                       </div>
                       <div className="rd-box-export">
-                        <img src={path_image + "arrow-export.svg"} alt="" />
+                        <img
+                          src={path_image + "arrow-export.svg"}
+                          alt=""
+                          onClick={() => {
+                            setFlag({
+                              individual_Completion: false,
+                              site_Completion: false,
+                              site_Engagement: false,
+                              content: true,
+                            });
+                            // individualCompletion();
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -824,15 +975,26 @@ const RDAnalytics = () => {
                                 <td>{item?.username}</td>
                                 <td>{item?.user_type}</td>
                                 <td>{item?.blind_type}</td>
-                                <td className="complete">
+                                <td
+                                  className={
+                                    item?.training_status == "started"
+                                      ? "started"
+                                      : item?.training_status == "complete"
+                                      ? "complete"
+                                      : "not_yet"
+                                  }
+                                >
                                   {item?.training_status}
                                 </td>
                                 <td>{item?.site_name}</td>
+
                                 <td class="pics">
-                                  <img
-                                    src={path_image + "certificate.png"}
-                                    alt="Certificate"
-                                  />
+                                  {item?.training_status == "complete" ? (
+                                    <img
+                                      src={path_image + "certificate.png"}
+                                      alt="Certificate"
+                                    />
+                                  ) : null}
                                 </td>
                               </tr>
                               {individualCompletionShow == index ? (
@@ -879,7 +1041,9 @@ const RDAnalytics = () => {
                                                       <div className="content-detail">
                                                         <h6>{data?.title}</h6>
                                                         <p>
-                                                          {data?.pdf_sub_title}
+                                                          {data?.pdf_sub_title
+                                                            ? data?.pdf_sub_title
+                                                            : " "}
                                                         </p>
                                                         <div className="page-count">
                                                           <div className="time">
@@ -906,17 +1070,33 @@ const RDAnalytics = () => {
                                                             ) : null}
                                                           </div>
                                                           <div className="completed-date">
-                                                            Completed date
-                                                            <span className="complete">
-                                                              1 Jan 2023{" "}
-                                                              <img
-                                                                src={
-                                                                  path_image +
-                                                                  "check-complete.svg"
-                                                                }
-                                                                alt=""
-                                                              />
-                                                            </span>
+                                                            {item?.training_status ==
+                                                            "complete" ? (
+                                                              <>
+                                                                Completed date
+                                                                <span className="complete">
+                                                                  {data?.date
+                                                                    ? data?.date
+                                                                    : "NA"}{" "}
+                                                                  <img
+                                                                    src={
+                                                                      path_image +
+                                                                      "check-complete.svg"
+                                                                    }
+                                                                    alt=""
+                                                                  />
+                                                                </span>
+                                                              </>
+                                                            ) : (
+                                                              <>
+                                                                Recent Activity
+                                                                <span className="started">
+                                                                  {data?.date
+                                                                    ? data?.date
+                                                                    : "NA"}{" "}
+                                                                </span>
+                                                              </>
+                                                            )}
                                                           </div>
                                                         </div>
                                                       </div>
@@ -955,9 +1135,9 @@ const RDAnalytics = () => {
                                                                           {
                                                                             pageData?.time
                                                                           }
-                                                                          <small>
+                                                                          {/* <small>
                                                                             sec
-                                                                          </small>
+                                                                          </small> */}
                                                                         </span>
                                                                       </div>
                                                                     </div>
@@ -1331,707 +1511,178 @@ const RDAnalytics = () => {
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
                         <h4>
-                          Contents | <span>8</span>
+                          Contents |{" "}
+                          <span>{mostPopularContentData?.length + 1}</span>
                         </h4>
                         <p>Click on the Record to see more details</p>
                       </div>
                     </div>
-                    <div className="fold-content contents">
-                      <Accordion>
-                        <Accordion.Item eventKey="0">
-                          <Accordion.Header>
-                            <div className="d-flex align-items-start engagement-sec">
-                              <div className="content-image">
+                    {mostPopularContentData?.map((item, index) => (
+                      <div className="fold-content contents">
+                        <Accordion>
+                          <Accordion.Item
+                            key={index}
+                            eventKey={index.toString()}
+                            onClick={() =>
+                              getMostPopularContentPageData(item?.pdf?.id)
+                            }
+                          >
+                            <Accordion.Header>
+                              <div className="d-flex align-items-start engagement-sec">
+                                <div className="content-image">
+                                  <img
+                                    src={path_image + "article-content.png"}
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="content-detail">
+                                  <h6>{item.pdf.title}</h6>
+                                  <p>{item?.pdf?.pdf_sub_title}</p>
+                                  <div className="page-count">
+                                    <div className="time">
+                                      {item?.total_pages ||
+                                      item?.total_pages === 0
+                                        ? "Pages:"
+                                        : "Time:"}
+                                      <span>
+                                        {item?.total_pages ||
+                                        item?.total_pages === 0
+                                          ? item.total_pages
+                                          : item?.max_time}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="pages-viewer">
+                                  {item.watched_count}{" "}
+                                  <img src={path_image + "viewer.svg"} alt="" />
+                                </div>
+                              </div>
+                            </Accordion.Header>
+                            <Accordion.Body>
+                              <div className="article-pages-details d-flex">
+                                {mostPopularContentPageData[item.pdf?.id]
+                                  ?.length > 0 &&
+                                  mostPopularContentPageData[item.pdf?.id].map(
+                                    (pdf, index) => (
+                                      <div
+                                        className="article-page-show"
+                                        key={index}
+                                      >
+                                        <div className="article-cover-img">
+                                          <img src={pdf.article_image} alt="" />
+                                        </div>
+                                        <div className="article-detail-view">
+                                          <div className="article-page-number">
+                                            Page {pdf.page}
+                                          </div>
+                                          <div className="article-spanrd-time">
+                                            Read | Watched{" "}
+                                            <span>{pdf.read_watched}</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )
+                                  )}
+                              </div>
+                            </Accordion.Body>
+                          </Accordion.Item>
+                          <Accordion.Item
+                            eventKey="10"
+                            className="accordion-read"
+                            onClick={() =>
+                              getMostPopularContentSiteData(item?.pdf?.id)
+                            }
+                          >
+                            <Accordion.Header>
+                              <div className="d-flex align-items-center justify-content-center">
+                                Who Read | Watched at each site{" "}
                                 <img
-                                  src={path_image + "article-content.png"}
+                                  src={path_image + "accordian_arrow.svg"}
                                   alt=""
                                 />
                               </div>
-                              <div className="content-detail">
-                                <h6>
-                                  Lorem sollicitudin faucibus eu molestie
-                                  sollicitudin gravi ulvinar ultricies neque
-                                  praesent maurircu aliquam ondi ment zcsum
-                                  nudolor nibhcudolor ..
-                                </h6>
-                                <p>
-                                  Lorem sollicitudin faucibus eu molestie
-                                  sollicitudin gravida
-                                </p>
-                                <div className="page-count">
-                                  <div className="time">
-                                    Pages <span>5</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="pages-viewer">
-                                5{" "}
-                                <img
-                                  src="componentAssets/images/viewer.svg"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                          </Accordion.Header>
-                          <Accordion.Body>
-                            <div className="article-pages-details d-flex">
-                              <div className="article-page-show">
-                                <div className="article-cover-img">
-                                  <img
-                                    src={
-                                      path_image + "article-content-cover.png"
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="article-detail-view">
-                                  <div className="article-page-number">
-                                    Page 1
-                                  </div>
-                                  <div className="article-spanrd-time">
-                                    Time spent |{" "}
-                                    <span>
-                                      5<small>sec</small>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="article-page-show">
-                                <div className="article-cover-img">
-                                  <img
-                                    src={
-                                      path_image + "article-content-cover.png"
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="article-detail-view">
-                                  <div className="article-page-number">
-                                    Page 2
-                                  </div>
-                                  <div className="article-spanrd-time">
-                                    Time spent |{" "}
-                                    <span>
-                                      5<small>sec</small>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="article-page-show">
-                                <div className="article-cover-img">
-                                  <img
-                                    src={
-                                      path_image + "article-content-cover.png"
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="article-detail-view">
-                                  <div className="article-page-number">
-                                    Page 3
-                                  </div>
-                                  <div className="article-spanrd-time">
-                                    Time spent |{" "}
-                                    <span>
-                                      5<small>sec</small>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="article-page-show">
-                                <div className="article-cover-img">
-                                  <img
-                                    src={
-                                      path_image + "article-content-cover.png"
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="article-detail-view">
-                                  <div className="article-page-number">
-                                    Page 4
-                                  </div>
-                                  <div className="article-spanrd-time">
-                                    Time spent |{" "}
-                                    <span>
-                                      5<small>sec</small>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="article-page-show">
-                                <div className="article-cover-img">
-                                  <img
-                                    src={
-                                      path_image + "article-content-cover.png"
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="article-detail-view">
-                                  <div className="article-page-number">
-                                    Page 5
-                                  </div>
-                                  <div className="article-spanrd-time">
-                                    Time spent |{" "}
-                                    <span>
-                                      5<small>sec</small>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="article-page-show">
-                                <div className="article-cover-img">
-                                  <img
-                                    src={
-                                      path_image + "article-content-cover.png"
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="article-detail-view">
-                                  <div className="article-page-number">
-                                    Page 6
-                                  </div>
-                                  <div className="article-spanrd-time">
-                                    Time spent |{" "}
-                                    <span>
-                                      5<small>sec</small>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="article-page-show">
-                                <div className="article-cover-img">
-                                  <img
-                                    src={
-                                      path_image + "article-content-cover.png"
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="article-detail-view">
-                                  <div className="article-page-number">
-                                    Page 7
-                                  </div>
-                                  <div className="article-spanrd-time">
-                                    Time spent |{" "}
-                                    <span>
-                                      5<small>sec</small>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                        <Accordion.Item
-                          eventKey="10"
-                          className="accordion-read"
-                        >
-                          <Accordion.Header>
-                            <div className="d-flex align-items-center justify-content-center">
-                              Who Read | Watched at each site{" "}
-                              <img
-                                src={path_image + "accordian_arrow.svg"}
-                                alt=""
-                              />
-                            </div>
-                          </Accordion.Header>
-                          <Accordion.Body>
-                            <div className="contents-block d-flex">
-                              <div className="contents-block-left">
-                                <Table>
-                                  <thead>
-                                    <tr>
-                                      <th>Site</th>
-                                      <th>Site Number</th>
-                                      <th className="short_value">
-                                        <Button className="sort_btn">
-                                          Sort By
-                                          <svg
-                                            width="20"
-                                            height="18"
-                                            viewBox="0 0 20 18"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                                              fill="#97B6CF"
-                                            />
-                                            <path
-                                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                                              fill="#97B6CF"
-                                            />
-                                          </svg>
-                                        </Button>{" "}
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
+                            </Accordion.Header>
+                            {mostPopularContentSiteData[item.pdf?.id]?.length >
+                              0 && (
+                              <>
+                                <Accordion.Body>
+                                  <div className="contents-block d-flex">
+                                    <div className="contents-block-left">
+                                      <Table>
+                                        <thead>
+                                          <tr>
+                                            <th>Site</th>
+                                            <th>Site Number</th>
+                                            <th className="short_value">
+                                              <Button className="sort_btn">
+                                                Sort By
+                                                <svg
+                                                  width="20"
+                                                  height="18"
+                                                  viewBox="0 0 20 18"
+                                                  fill="none"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                  <path
+                                                    d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
+                                                    fill="#97B6CF"
+                                                  />
+                                                  <path
+                                                    d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
+                                                    fill="#97B6CF"
+                                                  />
+                                                </svg>
+                                              </Button>{" "}
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {mostPopularContentSiteData[
+                                            item.pdf?.id
+                                          ].map((pdf, index) => (
+                                            <tr key={index}>
+                                              {" "}
+                                              {/* Add key prop with a unique value */}
+                                              <td>{pdf.site_name}</td>
+                                              <td>{pdf.site_number}</td>
+                                              <td className="short_value">
+                                                {pdf.count}{" "}
+                                                <img
+                                                  src="componentAssets/images/viewer.svg"
+                                                  alt=""
+                                                />
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                    <div className="contents-block-right">
+                                      <h4>Used Devices</h4>
+                                      <div className="used-device-detail">
+                                        <HighchartsReact
+                                          highcharts={Highcharts}
+                                          options={chartOptions[item.pdf?.id]?.chart_data}
                                         />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </Table>
-                              </div>
-                              <div className="contents-block-right">
-                                <h4>Used Devices</h4>
-                                <div className="used-device-detail">
-                                  <img
-                                    src={path_image + "used-device-stats.png"}
-                                    alt=""
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      </Accordion>
-                    </div>
-                    <div className="fold-content contents">
-                      <Accordion>
-                        <Accordion.Item eventKey="1">
-                          <Accordion.Header>
-                            <div className="d-flex align-items-start engagement-sec">
-                              <div className="content-image">
-                                <img
-                                  src={path_image + "article-content.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="content-detail">
-                                <h6>
-                                  Lorem sollicitudin faucibus eu molestie
-                                  sollicitudin gravi ulvinar ultricies neque
-                                  praesent maurircu aliquam ondi ment zcsum
-                                  nudolor nibhcudolor ..
-                                </h6>
-                                <p>
-                                  Lorem sollicitudin faucibus eu molestie
-                                  sollicitudin gravida
-                                </p>
-                                <div className="page-count">
-                                  <div className="time">
-                                    Pages <span>5</span>
+                                        <div>
+                                        {chartOptions[item.pdf?.id]?.device_names?.map((item, index) => (
+  <span key={index}>
+    {item}
+  </span>
+))}
+
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-                              <div className="pages-viewer">
-                                1{" "}
-                                <img
-                                  src="componentAssets/images/viewer.svg"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                          </Accordion.Header>
-                          <Accordion.Body>
-                            <div className="article-pages-details d-flex">
-                              <div className="article-page-show">
-                                <div className="article-cover-img">
-                                  <img
-                                    src={
-                                      path_image + "article _cover_video.png"
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="article-detail-view">
-                                  <div className="article-page-number">
-                                    Video
-                                  </div>
-                                  <div className="article-spanrd-time">
-                                    Time spent |{" "}
-                                    <span>
-                                      12<small>minutes</small>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="article-page-show">
-                                <div className="article-cover-img">
-                                  <img
-                                    src={
-                                      path_image + "article _cover_video.png"
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="article-detail-view">
-                                  <div className="article-page-number">
-                                    Video
-                                  </div>
-                                  <div className="article-spanrd-time">
-                                    Time spent |{" "}
-                                    <span>
-                                      5<small>minutes</small>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                        <Accordion.Item
-                          eventKey="11"
-                          className="accordion-read"
-                        >
-                          <Accordion.Header>
-                            <div className="d-flex align-items-center justify-content-center">
-                              Who Read | Watched at each site{" "}
-                              <img
-                                src={path_image + "accordian_arrow.svg"}
-                                alt=""
-                              />
-                            </div>
-                          </Accordion.Header>
-                          <Accordion.Body>
-                            <div className="contents-block d-flex">
-                              <div className="contents-block-left">
-                                <Table>
-                                  <thead>
-                                    <tr>
-                                      <th>Site</th>
-                                      <th>Site Number</th>
-                                      <th className="short_value">
-                                        <Button className="sort_btn">
-                                          Sort By
-                                          <svg
-                                            width="20"
-                                            height="18"
-                                            viewBox="0 0 20 18"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                                              fill="#97B6CF"
-                                            />
-                                            <path
-                                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                                              fill="#97B6CF"
-                                            />
-                                          </svg>
-                                        </Button>{" "}
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </Table>
-                              </div>
-                              <div className="contents-block-right">
-                                <h4>Used Devices</h4>
-                                <div className="used-device-detail">
-                                  <img
-                                    src={path_image + "used-device-stats.png"}
-                                    alt=""
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      </Accordion>
-                    </div>
-                    <div className="fold-content contents">
-                      <Accordion>
-                        <Accordion.Item eventKey="2">
-                          <Accordion.Header>
-                            <div className="d-flex align-items-start engagement-sec">
-                              <div className="content-image">
-                                <img
-                                  src={path_image + "article-content.png"}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="content-detail">
-                                <h6>
-                                  Lorem sollicitudin faucibus eu molestie
-                                  sollicitudin gravi ulvinar ultricies neque
-                                  praesent maurircu aliquam ondi ment zcsum
-                                  nudolor nibhcudolor ..
-                                </h6>
-                                <p>
-                                  Lorem sollicitudin faucibus eu molestie
-                                  sollicitudin gravida
-                                </p>
-                                <div className="page-count">
-                                  <div className="time">
-                                    Pages <span>5</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="pages-viewer">
-                                2{" "}
-                                <img
-                                  src="componentAssets/images/viewer.svg"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                          </Accordion.Header>
-                          <Accordion.Body></Accordion.Body>
-                        </Accordion.Item>
-                        <Accordion.Item
-                          eventKey="12"
-                          className="accordion-read"
-                        >
-                          <Accordion.Header>
-                            <div className="d-flex align-items-center justify-content-center">
-                              Who Read | Watched at each site{" "}
-                              <img
-                                src={path_image + "accordian_arrow.svg"}
-                                alt=""
-                              />
-                            </div>
-                          </Accordion.Header>
-                          <Accordion.Body>
-                            <div className="contents-block d-flex">
-                              <div className="contents-block-left">
-                                <Table>
-                                  <thead>
-                                    <tr>
-                                      <th>Site</th>
-                                      <th>Site Number</th>
-                                      <th className="short_value">
-                                        <Button className="sort_btn">
-                                          Sort By
-                                          <svg
-                                            width="20"
-                                            height="18"
-                                            viewBox="0 0 20 18"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                                              fill="#97B6CF"
-                                            />
-                                            <path
-                                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                                              fill="#97B6CF"
-                                            />
-                                          </svg>
-                                        </Button>{" "}
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Site Name</td>
-                                      <td>00801-94</td>
-                                      <td className="short_value">
-                                        103{" "}
-                                        <img
-                                          src="componentAssets/images/viewer.svg"
-                                          alt=""
-                                        />
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </Table>
-                              </div>
-                              <div className="contents-block-right">
-                                <h4>Used Devices</h4>
-                                <div className="used-device-detail">
-                                  <img
-                                    src={path_image + "used-device-stats.png"}
-                                    alt=""
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      </Accordion>
-                    </div>
+                                </Accordion.Body>
+                              </>
+                            )}
+                          </Accordion.Item>
+                        </Accordion>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ) : null}
