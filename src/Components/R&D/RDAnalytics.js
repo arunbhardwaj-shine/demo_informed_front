@@ -1521,8 +1521,8 @@ const RDAnalytics = () => {
                                           <tbody>
                                             {item?.Users.map((data, i) => (
                                               <tr key={i}>
-                                                <td>{data?.first_name}</td>
-                                                <td>{data?.user_type}</td>
+                                                <td>{data?.first_name ? data?.first_name : "NA"}</td>
+                                                <td>{data?.user_type ? data?.user_type : "NA"}</td>
                                                 <td>{data?.binded}</td>
                                                 <td className={
                                                   data?.training_status_code == "0"
