@@ -568,7 +568,7 @@ const RDAnalytics = () => {
     }
   };
 
-  const individualTrainingDropdown = async (e, i, userId, pdfId) => {
+  const individualTrainingDropdown = async (e, i, userId, pdfId, fileType) => {
     try {
       loader("show");
       if (trainingAccordianShow == i) {
@@ -577,6 +577,7 @@ const RDAnalytics = () => {
         let body = {
           user_id: userId,
           pdf_id: pdfId,
+          file_type: fileType,
         };
         const result = await postData(
           ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
@@ -1288,7 +1289,8 @@ const RDAnalytics = () => {
                                                       e,
                                                       i,
                                                       item?.user_id,
-                                                      data?.id
+                                                      data?.id,
+                                                      data?.file_type
                                                     )
                                                   }
                                                 >
@@ -1338,8 +1340,8 @@ const RDAnalytics = () => {
                                                             ) : null}
                                                           </div>
                                                           <div className="completed-date">
-                                                            {item?.training_status ==
-                                                            "complete" ? (
+                                                            {item?.training_status_code ==
+                                                            0 ? (
                                                               <>
                                                                 Completed date
                                                                 <span className="complete">
