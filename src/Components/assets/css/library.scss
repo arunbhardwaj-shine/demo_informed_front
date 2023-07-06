@@ -9448,6 +9448,12 @@ font-weight: 700;
     font-size: 17px;
     line-height: 23px;
   }
+  .rd-full-explain .rd-training-block .accordion .accordion-body .article-pages-details .article-page-show {
+    width: 30%;
+}
+.rd-full-explain .rd-training-block .accordion .accordion-body .article-pages-details .article-page-show .article-detail-view .article-spanrd-time span {
+    font-size: 13px;
+}
 .rd-full-explain .rd-training-block table thead tr th.site_name {
     width: 492px;
 }
@@ -9638,6 +9644,12 @@ font-weight: 700;
 @media (max-width: $layout-breakpoint-large) {
   .rd-full-explain .rd-training-block table thead tr th.site_name {
     width: 270px;
+}
+.rd-full-explain .rd-training-block .accordion .accordion-body .article-pages-details .article-page-show {
+    width: 48%;
+}
+.rd-full-explain .rd-training-block .accordion .accordion-body .article-pages-details {
+    gap: 17px 5px;
 }
 .rd-full-explain .rd-training-block .engagement-sec .pages-viewer {
     min-height: 80px;
