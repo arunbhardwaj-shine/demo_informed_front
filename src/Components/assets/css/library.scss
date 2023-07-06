@@ -9134,8 +9134,8 @@ border-radius: 26px;
             }
             .d-flex{
               width:100%;
-              &.engagement-sec{
-                margin:0;
+               &.engagement-sec{	
+                margin:0;	
               }
             }
             
@@ -9741,7 +9741,66 @@ font-weight: 700;
 
 
 /**Speaker Zone Page**/
-
+.webinar-quest {
+    background: $white;
+    padding: 6px;
+    filter: drop-shadow(0px 4px 29px rgba(0, 102, 190, 0.1));
+    .navbar{
+      filter: none;
+      padding:4px 0;
+      .nav-fill{
+        border-radius: 0px 15px 0px 15px;
+        color: $white;
+        background-color: #D0E2F3;
+        text-transform: capitalize;
+        padding: 7px;
+        line-height: 20px;
+        border-bottom: 1px solid $dark-blue;
+        display: inline-flex;
+        align-items: center;
+        .nav-item{
+          flex:auto;
+          color:$dark-blue;
+          font-size: 17px;
+          font-weight: 500;
+          text-transform: uppercase;
+          padding: 7px 20px;
+          &.active{
+            border-radius: 0px 15px 0px 15px;
+            color: $white;
+            background-color: $dark-blue;
+          }
+          span{
+            border-radius: 20px;
+            min-width: 35px;
+            background-color: $white;
+            color: $dark-blue;
+            margin-left: 5px;
+            font-size: 16px;
+          }
+        }
+      }
+      .right-sec{
+        h6{
+          padding-right: 20px;
+          span{
+            font-weight: 700;
+            padding-right: 13px;
+            margin-right: 8px;
+            position: relative;
+            &:after{
+                content: "";
+                border-right: 2px solid #00448E;
+                right: 0;
+                position: absolute;
+                height: 20px;
+                top: 3px;
+            }
+          }
+        }
+      }
+    }
+}
 .webinar-question-results {
     background: $white;
     -webkit-backdrop-filter: blur(254px);
@@ -9750,7 +9809,7 @@ font-weight: 700;
     box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1);
     border-radius: 15px;
     padding: 30px;
-    margin: 30px 0;
+    margin: 50px 0;
     p {
     margin: 0 0 15px;
     color: $dark-blue;

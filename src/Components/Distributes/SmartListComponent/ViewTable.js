@@ -249,8 +249,8 @@ const ViewTable = (props) => {
               setIrtRole(arrIrtUserType);
               setUserTypeAll(arrUserType);
               setSubUserTypeAll(arrSubRole);
-              setSiteNumberAll(arrSiteNumber);
-              setSiteNameAll(arrSiteName);
+              // setSiteNumberAll(arrSiteNumber);
+              // setSiteNameAll(arrSiteName);
               setSiteStreetAll(arrSiteStreet);
               setSitePostCodeAll(arrSitePostCode);
               setSiteCityAll(arrSiteCity);
@@ -2477,6 +2477,7 @@ const ViewTable = (props) => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site Name</label>
+
                                       <Select
                                         options={siteNameAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2499,9 +2500,9 @@ const ViewTable = (props) => {
                                             ? siteNameAll[hpc[i].siteNameIndex]
                                             : ""
                                         }
-                                        // defaultValue={
-                                        //   siteNameAll[hpc[i].siteNameIndex]
-                                        // }
+                                        defaultValue={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                        }
                                         placeholder={
                                           typeof siteNameAll[
                                             hpc[i].siteNameIndex

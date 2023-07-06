@@ -4,7 +4,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import Highcharts from "highcharts";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import HighchartsReact from "highcharts-react-official";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import {db} from "../../config/firebaseConfig"
 import { Link } from "react-router-dom";
 const WebinarQuestion = () => {
@@ -175,13 +175,27 @@ useEffect(() => {
     <>
     {console.log("-cout",countValue)}
     <header
-        className="sticky"
+        className="sticky webinar-quest"
       >
-        <nav className="navbar navbar-expand-sm navbar-light">
          <Container>
-
-          </Container>
+        <nav className="navbar navbar-expand-sm navbar-light">
+            <div className="d-flex justify-content-between align-items-center" style={{width:"100%"}}>
+            <Col md={6} lg={6}>
+                <div className="nav nav-fill">
+                    <a className="nav-item nav-link" id="nav-home-tab">Questions<span className="badge btn default-side-buttons">0</span></a>
+                    <a className="nav-item nav-link" id="nav-poll-tab"> Polls</a> 
+                    <a className="nav-item nav-link active" id="nav-profile-tab">All Answers</a> 
+                </div>
+            </Col>
+            <Col md={6} lg={6}>
+              <div className="right-sec d-flex justify-content-end align-items-center">
+                <h6><span>Webinar</span>Speaker Zone</h6>
+                <img src={path_image + "informed_icon.png"} alt="icon"/>
+              </div>
+            </Col>
+            </div>
         </nav>
+          </Container>
       </header>
           <div className="webinar-questions">
             
