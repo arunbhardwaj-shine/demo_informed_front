@@ -126,13 +126,13 @@ const tooltip = (
     xAxis: {
       categories: [],
       title: {
-        text: "Site",
+        text: "",
       },
     },
     yAxis: {
       min: 0,
       title: {
-        text: "Assists",
+        text: "",
       },
     },
     tooltip: {
@@ -379,119 +379,63 @@ const tooltip = (
   };
 
   const getMostPopularContentSiteData = async (pdf_id) => {
-
     try {
-
 // console.log(isContentSiteAccordionOpen[pdf_id]);
-
       if(!isContentSiteAccordionOpen[pdf_id] || isContentSiteAccordionOpen[pdf_id]==undefined){
-
       const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
-
         pdf_id: pdf_id,
-
       });
-
       const data = result?.data?.data.site_data;
-
       const chart_data = result?.data?.data?.chart_data;
-
       setMostPopularContentSiteData((prevData) => ({
-
         ...prevData,
-
         [pdf_id]: data,
-
       }));
 
-
-
       // console.log("dropdown", data);
-
-
 
       // Set chart data options for the PDF
 
       setChartOptions((prevOptions) => ({
-
         ...prevOptions,
-
         [pdf_id]: {
-
           chart_data: {
-
             chart: {
-
               type: "pie",
-
             },
-
             title: {
-
-              text: "Device Chart",
-
+              text: "",
             },
-
             subtitle: {
-
-              text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
-
+            text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
               verticalAlign: "middle",
-
-              y: 45,
-
+              y: 20,
             },
-
             exporting: {
-
-              enabled: false,
-
+             enabled: false,
             },
-
             plotOptions: {
-
               pie: {
-
                 innerSize: "70%",
-
                 dataLabels: {
-
                   enabled: true,
-
                   format: "{point.y}",
-
                   style: {
-
-                    fontWeight: "bold",
-
+                  fontWeight: "bold",
                     color: "white",
-
                     textOutline: "none",
-
                     fontSize: "12px",
-
                   },
-
                   distance: -20, // Adjust the distance of the data labels from the center
-
                 },
-
                 animation: {
-
                   duration: 1000,
-
                 },
-
                 enableMouseTracking: false, // Disable hover functionality
-
               },
-
             },
-
             series: [
-
               {
-
                 name: "Device Count",
                 data: chart_data.deviceNames.map((name, index) => ({
                   name,
@@ -1573,7 +1517,7 @@ const tooltip = (
                                           <tbody>
                                             {item?.Users.map((data, i) => (
                                               <tr key={i}>
-                                                <td>{data?.first_name || 'NaN'}</td>
+                                                <td>{data?.first_name}</td>
                                                 <td>{data?.user_type}</td>
                                                 <td>{data?.binded}</td>
                                                 <td className={
