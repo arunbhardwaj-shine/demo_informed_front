@@ -53,7 +53,7 @@ const Header = () => {
 
   const logout = () => {
     localStorage.clear();
-    navigate("/informed");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -222,7 +222,7 @@ const Header = () => {
                     window.location.pathname =="/rd-analytics" ||
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
-                      : "nav-item" 
+                      : "nav-item"
                   }
                 >
                   <Link

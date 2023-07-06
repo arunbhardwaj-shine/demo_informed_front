@@ -130,7 +130,7 @@ const SetLayout = () => {
           </div>
         </>
       ) : (
-        <Navigate to="/informed" />
+        <Navigate to="/" />
       )}
     </>
   );
