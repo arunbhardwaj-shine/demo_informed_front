@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Accordion, Button, Col, Row, Table } from "react-bootstrap";
+import { Accordion, Button, ButtonToolbar, Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
 import { getData, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
@@ -64,7 +64,11 @@ const handleClick = event => {
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
-
+const tooltip = (
+  <Tooltip id="tooltip">
+    This chart shows the sites that have users who viewed the 1top content  
+  </Tooltip>
+);
   const [pieOptions, setPieOptions] = useState({
     chart: {
       plotBackgroundColor: null,
@@ -117,7 +121,7 @@ const handleClick = event => {
       type: "column",
     },
     title: {
-      text: "UEFA CL most assists by season",
+      text: "",
     },
     xAxis: {
       categories: [],
@@ -156,7 +160,7 @@ const handleClick = event => {
       type: "column",
     },
     title: {
-      text: "UEFA CL most assists by season",
+      text: "",
     },
     xAxis: {
       categories: [],
@@ -399,19 +403,19 @@ const handleClick = event => {
               type: "pie",
             },
             title: {
-              text: "Device Chart",
+              text: "",
             },
             subtitle: {
               text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
               verticalAlign: "middle",
-              y: 45,
+              y: 20,
             },
             exporting: {
               enabled: false,
             },
             plotOptions: {
               pie: {
-                innerSize: "70%",
+                innerSize: "40%",
                 dataLabels: {
                   enabled: true,
                   format: "{point.y}",
@@ -753,13 +757,9 @@ const handleClick = event => {
     });
     };
     
+  
     
     
-    
-    
-
-
-
 
   return (
     <>
@@ -1009,12 +1009,17 @@ const handleClick = event => {
                         </div>
                       </div>
                       <div className="graph-box">
-                      <div className="">
+                        <div className="">
                           <p>
                             Sites who Read | Watch the <span>1 top</span>{" "}
                             content
                           </p>
                           <span>Click on the graph to see more details</span>
+                        </div>
+                        <div className="popular-tooltip">
+                            <OverlayTrigger placement="left" overlay={tooltip}>
+                              <img src={path_image + "tooltip-img.svg"} alt="" />
+                            </OverlayTrigger>
                         </div>
                         <img
                           className="pie-chart"
