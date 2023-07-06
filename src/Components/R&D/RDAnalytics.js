@@ -136,13 +136,13 @@ const RDAnalytics = () => {
     xAxis: {
       categories: [],
       title: {
-        text: "Site",
+        text: "",
       },
     },
     yAxis: {
       min: 0,
       title: {
-        text: "Assists",
+        text: "",
       },
     },
     tooltip: {
@@ -416,6 +416,7 @@ const RDAnalytics = () => {
         // console.log("dropdown", data);
 
         // Set chart data options for the PDF
+
         setChartOptions((prevOptions) => ({
           ...prevOptions,
           [pdf_id]: {
@@ -436,7 +437,7 @@ const RDAnalytics = () => {
               },
               plotOptions: {
                 pie: {
-                  innerSize: "40%",
+                  innerSize: "70%",
                   dataLabels: {
                     enabled: true,
                     format: "{point.y}",
@@ -446,28 +447,28 @@ const RDAnalytics = () => {
                       textOutline: "none",
                       fontSize: "12px",
                     },
-                    distance: -20, // Adjust the distance of the data labels from the center
+                    animation: {
+                      duration: 1000,
+                    },
+                    enableMouseTracking: false, // Disable hover functionality
                   },
-                  animation: {
-                    duration: 1000,
-                  },
-                  enableMouseTracking: false, // Disable hover functionality
                 },
+                series: [
+                  {
+                    name: "Device Count",
+                    data: chart_data.deviceNames.map((name, index) => ({
+                      name,
+                      y: chart_data.deviceCount[name],
+                      color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
+                        index % 4
+                      ],
+                    })),
+                    size: "80%",
+                    innerSize: "75%",
+                  },
+                ],
               },
-              series: [
-                {
-                  name: "Device Count",
-                  data: chart_data.deviceNames.map((name, index) => ({
-                    name,
-                    y: chart_data.deviceCount[name],
-                    color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
-                      index % 4
-                    ],
-                  })),
-                  size: "80%",
-                  innerSize: "75%",
-                },
-              ],
+              device_names: chart_data.deviceNames,
             },
             device_names: chart_data.deviceNames,
           },
@@ -482,7 +483,6 @@ const RDAnalytics = () => {
           [pdf_id]: false,
         });
       }
-
       // console.log(chartOptions);
     } catch (err) {
       console.log("--err", err);
@@ -638,22 +638,59 @@ const RDAnalytics = () => {
         const siteNumberA = a.training_status.toLowerCase();
         const siteNumberB = b.training_status.toLowerCase();
 
-        if (sortDirection === 0) {
-          if (siteNumberA < siteNumberB) return -1;
-          if (siteNumberA > siteNumberB) return 1;
-          return 0;
-        } else {
-          if (siteNumberA > siteNumberB) return -1;
-          if (siteNumberA < siteNumberB) return 1;
-          return 0;
-        }
+        const sortedIndividualCompletion = [
+          ...indidualCompletionTableData,
+        ].sort((a, b) => {
+          const siteNumberA = a.training_status.toLowerCase();
+          const siteNumberB = b.training_status.toLowerCase();
+
+          if (sortDirection === 0) {
+            if (siteNumberA < siteNumberB) return -1;
+            if (siteNumberA > siteNumberB) return 1;
+            return 0;
+          } else {
+            if (siteNumberA > siteNumberB) return -1;
+            if (siteNumberA < siteNumberB) return 1;
+            return 0;
+          }
+        });
+
+        setIndividualCompletionTableData(sortedIndividualCompletion);
+        setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+        setIsActive(!isActive);
       }
     );
-
-    setIndividualCompletionTableData(sortedIndividualCompletion);
-    setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
-    setIsActive(!isActive);
   };
+
+  // const sortContentView = (pdfId) => {
+  //   const sortedContentViewObject = { ...mostPopularContentSiteData };
+
+  //   if (!sortedContentViewObject.hasOwnProperty(pdfId)) {
+  //     // Handle the case when the provided ID does not exist in the data
+  //     //  console.error(`Data with ID ${pdfId} does not exist`);
+  //       return;
+  //     }
+
+  //     const sortedArray = sortedContentViewObject[pdfId].sort((a, b) => {
+  //       const siteNumberA = a.count;
+  //       const siteNumberB = b.count;
+
+  //       if (sortDirection === 0) {
+  //         if (siteNumberA < siteNumberB) return -1;
+  //         if (siteNumberA > siteNumberB) return 1;
+  //         return 0;
+  //       } else {
+  //         if (siteNumberA > siteNumberB) return -1;
+  //         if (siteNumberA < siteNumberB) return 1;
+  //         return 0;
+  //       }
+  //     }
+  //   );
+
+  //   setIndividualCompletionTableData(sortedIndividualCompletion);
+  //   setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+  //   setIsActive(!isActive);
+  // };
 
   const sortContentView = (pdfId) => {
     const sortedContentViewObject = { ...mostPopularContentSiteData };
@@ -1041,7 +1078,7 @@ const RDAnalytics = () => {
                               >
                                 <div className="lex-image">
                                   <div className="article-number">
-                                    {item?.pdf.id}
+                                    {index + 1}
                                   </div>
                                   <img src={item?.article_image} alt="" />
                                 </div>
@@ -1200,6 +1237,7 @@ const RDAnalytics = () => {
                                   )
                                 }
                               >
+                                {console.log(item)}
                                 <td>{item?.username}</td>
                                 <td>{item?.user_type}</td>
                                 <td>
@@ -1216,7 +1254,13 @@ const RDAnalytics = () => {
                                       : "not_yet"
                                   }
                                 >
-                                  {item?.training_status}
+                                  {item?.training_status_code == "0"
+                                    ? "Complete"
+                                    : item?.training_status_code == "1"
+                                    ? "Started"
+                                    : item?.training_status_code == "2"
+                                    ? "Not yet"
+                                    : null}
                                 </td>
                                 <td>{item?.site_name}</td>
 
@@ -1571,37 +1615,46 @@ const RDAnalytics = () => {
                                 </td>
                               </tr>
 
-                              {siteCompletionShow == index ? (
+                              {siteCompletionShow === index ? (
                                 <>
                                   <tr className="fold show">
                                     <td colspan="5" className="site_complete">
                                       {item?.Users?.length ? (
-                                        item?.Users?.map((data, i) => {
-                                          return (
-                                            <>
-                                              <Table>
-                                                <thead>
-                                                  <tr>
-                                                    <th>Name</th>
-                                                    <th>Role</th>
-                                                    <th>Blind Type</th>
-                                                    <th>Training</th>
-                                                  </tr>
-                                                </thead>
-                                                <tbody>
-                                                  <tr>
-                                                    <td>{data?.first_name}</td>
-                                                    <td>{data?.user_type}</td>
-                                                    <td>{data?.binded}</td>
-                                                    <td className="complete">
-                                                      {data?.training}
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </Table>
-                                            </>
-                                          );
-                                        })
+                                        <Table>
+                                          <thead>
+                                            <tr>
+                                              <th>Name</th>
+                                              <th>Role</th>
+                                              <th>Blind Type</th>
+                                              <th>Training</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            {item?.Users.map((data, i) => (
+                                              <tr key={i}>
+                                                <td>{data?.first_name}</td>
+                                                <td>{data?.user_type}</td>
+                                                <td>{data?.binded}</td>
+                                                <td
+                                                  className={
+                                                    data?.training_status_code ==
+                                                    "0"
+                                                      ? "complete"
+                                                      : "not_yet"
+                                                  }
+                                                >
+                                                  {data?.training_status_code ==
+                                                  "0"
+                                                    ? "Completed"
+                                                    : data?.training_status_code ==
+                                                      "1"
+                                                    ? "Not yet"
+                                                    : null}
+                                                </td>
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </Table>
                                       ) : (
                                         <div className="no_data">
                                           No Data Found
@@ -1611,6 +1664,7 @@ const RDAnalytics = () => {
                                   </tr>
                                 </>
                               ) : null}
+
                               <tr className="blank">
                                 <td colspan="5" style={{ height: "10px;" }}>
                                   &nbsp;
@@ -1917,9 +1971,9 @@ const RDAnalytics = () => {
                             onClick={handleClick}
                           >
                             <Accordion.Header
-                              onClick={() =>
-                                getMostPopularContentSiteData(item?.pdf?.id)
-                              }
+                              onClick={() => {
+                                getMostPopularContentSiteData(item?.pdf?.id);
+                              }}
                             >
                               <div className="d-flex align-items-center justify-content-center">
                                 Who Read | Watched at each site{" "}
