@@ -219,7 +219,7 @@ const Header = () => {
                     window.location.pathname == "/octa-country" ||
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
-                    window.location.pathname =="/rd-analytics" ||
+                    window.location.pathname =="/LEX-210-analytics" ||
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
                       : "nav-item" 
@@ -315,7 +315,7 @@ const Header = () => {
                       className="nav-link"
                       target="_blank"
                       href={
-                        "https://informed.pro/Webinar/readers_webinar?rdylr=" +
+                        "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
                         localStorage.getItem("user_id")
                       }
                     >
