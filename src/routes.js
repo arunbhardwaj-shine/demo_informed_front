@@ -156,7 +156,8 @@ if (
   show = 0;
 } else if (
   window.location.pathname == "/webinar" ||
-  window.location.pathname == "/rd-register"
+  window.location.pathname == "/rd-register" ||
+  window.location.pathname =="LEX-210-Registration"
 ) {
   require("./Components/assets/css/webinar.css");
   require("./Components/assets/css/webinar-responsive.css");
@@ -191,7 +192,8 @@ const Routing = () => {
           element={<DefaultLayout component={Webinar} />}
         />
         <Route path="rd-register" element={<RDRegister />} />
-        <Route path="/rd-analytics" element={<LoginLayout component={RDAnalytics} />} />
+        <Route path="LEX-210-Registration" element={<RDRegister />} />
+        <Route path="/LEX-210-analytics" element={<LoginLayout component={RDAnalytics} />} />
         //LoginLayout for pages after login
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
         <Route
