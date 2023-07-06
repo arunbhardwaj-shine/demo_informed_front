@@ -62,6 +62,8 @@ const RDAnalytics = () => {
   const [sortDirection, setSortDirection] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [lastSortedPDFId, setLastSortedPDFId] = useState(null);
+  const [isSortButtonActive, setIsSortButtonActive] = useState(false);
+  const [activeAccordionKey, setActiveAccordionKey] = useState(null);
 
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
@@ -423,6 +425,7 @@ const RDAnalytics = () => {
             chart_data: {
               chart: {
                 type: "pie",
+                size: "80%",
               },
               title: {
                 text: "",
@@ -437,7 +440,7 @@ const RDAnalytics = () => {
               },
               plotOptions: {
                 pie: {
-                  innerSize: "70%",
+                  innerSize: "80%",
                   dataLabels: {
                     enabled: true,
                     format: "{point.y}",
@@ -447,28 +450,28 @@ const RDAnalytics = () => {
                       textOutline: "none",
                       fontSize: "12px",
                     },
-                    animation: {
-                      duration: 1000,
-                    },
-                    enableMouseTracking: false, // Disable hover functionality
+                    distance: -20, // Adjust the distance of the data labels from the center
                   },
+                  animation: {
+                    duration: 1000,
+                  },
+                  enableMouseTracking: false, // Disable hover functionality
                 },
-                series: [
-                  {
-                    name: "Device Count",
-                    data: chart_data.deviceNames.map((name, index) => ({
-                      name,
-                      y: chart_data.deviceCount[name],
-                      color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
-                        index % 4
-                      ],
-                    })),
-                    size: "80%",
-                    innerSize: "75%",
-                  },
-                ],
               },
-              device_names: chart_data.deviceNames,
+              series: [
+                {
+                  name: "Device Count",
+                  data: chart_data.deviceNames.map((name, index) => ({
+                    name,
+                    y: chart_data.deviceCount[name],
+                    color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
+                      index % 4
+                    ],
+                  })),
+                  size: "90%",
+                  innerSize: "65%",
+                },
+              ],
             },
             device_names: chart_data.deviceNames,
           },
@@ -1255,7 +1258,7 @@ const RDAnalytics = () => {
                                   }
                                 >
                                   {item?.training_status_code == "0"
-                                    ? "Complete"
+                                    ? "Completed"
                                     : item?.training_status_code == "1"
                                     ? "Started"
                                     : item?.training_status_code == "2"
@@ -1632,8 +1635,16 @@ const RDAnalytics = () => {
                                           <tbody>
                                             {item?.Users.map((data, i) => (
                                               <tr key={i}>
-                                                <td>{data?.first_name}</td>
-                                                <td>{data?.user_type}</td>
+                                                <td>
+                                                  {data?.first_name
+                                                    ? data?.first_name
+                                                    : "NA"}
+                                                </td>
+                                                <td>
+                                                  {data?.user_type
+                                                    ? data?.user_type
+                                                    : "NA"}
+                                                </td>
                                                 <td>{data?.binded}</td>
                                                 <td
                                                   className={
@@ -1963,15 +1974,17 @@ const RDAnalytics = () => {
                           </Accordion.Item>
                           <Accordion.Item
                             eventKey="10"
+                            //  className={isActive ? 'accordion-read active' : 'accordion-read'} //onClick={handleClick}
                             className={
-                              isActive
+                              activeAccordionKey === "10"
                                 ? "accordion-read active"
                                 : "accordion-read"
                             }
-                            onClick={handleClick}
+                            onClick={() => setActiveAccordionKey("10")}
                           >
                             <Accordion.Header
                               onClick={() => {
+                                handleClick();
                                 getMostPopularContentSiteData(item?.pdf?.id);
                               }}
                             >
@@ -1998,20 +2011,16 @@ const RDAnalytics = () => {
                                               <Button
                                                 // className="sort_btn"
                                                 className={`sort_btn ${
-                                                  isActive ? "active" : ""
+                                                  isSortButtonActive
+                                                    ? "active"
+                                                    : ""
                                                 }`}
-                                                onClick={() =>
-                                                  sortContentView(item.pdf?.id)
-                                                }
+                                                onClick={() => {
+                                                  setIsSortButtonActive(true);
+                                                  sortContentView(item.pdf?.id);
+                                                }}
                                               >
-                                                Sort By
-                                                <svg
-                                                  width="20"
-                                                  height="18"
-                                                  viewBox="0 0 20 18"
-                                                  fill="none"
-                                                  xmlns="http://www.w3.org/2000/svg"
-                                                >
+                                                <svg>
                                                   <path
                                                     d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
                                                     fill="#97B6CF"
