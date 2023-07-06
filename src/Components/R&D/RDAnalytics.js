@@ -1227,12 +1227,15 @@ const RDAnalytics = () => {
                                 }
                               >
                                 {console.log(item)}
-                                <td>{item?.username}</td>
+                                <td>
+                                  {item?.username?.charAt(0).toUpperCase() +
+                                    item?.username.slice(1)}
+                                </td>
                                 <td>{item?.user_type}</td>
                                 <td>
                                   {item?.blind_type == "yes"
                                     ? "Blinded"
-                                    : "Un-Blinded"}
+                                    : "UnBlind"}
                                 </td>
                                 <td
                                   className={
