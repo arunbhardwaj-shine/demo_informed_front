@@ -143,6 +143,7 @@ const CreateEmail = (props) => {
 
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
   const [message, setMessage] = useState("");
   const [reRender, setReRender] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -236,7 +237,7 @@ const CreateEmail = (props) => {
           label: label,
         });
       });
-      setCountryall(arr);
+      setIRTCountry(arr);
     } catch (err) {
       console.log("-err", err);
     }
@@ -289,9 +290,9 @@ const CreateEmail = (props) => {
               setRole(newType);
               setIrtRole(newIrtType);
             }
-            if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
-              setCountryall(arr);
-            }
+
+            setCountryall(arr);
+
             setTotalData(res.data.response.data);
           }
         })
@@ -1017,6 +1018,7 @@ const CreateEmail = (props) => {
       const list = [...hpc];
       list[i].optIRT = "";
       list[i].role = "";
+      list[i].country = "";
       setHpc(list);
     } else {
       const value = e?.value;
@@ -1024,9 +1026,16 @@ const CreateEmail = (props) => {
       const name = hpc[i].optIRT;
       list[i].optIRT = value;
       list[i].role = "";
+      list[i].country = "";
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
       setHpc(list);
     }
-
+    let arr = [];
+    setSiteNumberAll(arr);
+    setSiteNameAll(arr);
     setCounterFlag(counterFlag + 1);
   };
 
@@ -2855,24 +2864,52 @@ const CreateEmail = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
-                                  <Select
-                                    options={countryall}
-                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                    onChange={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                    defaultValue={
-                                      countryall[hpc[i].countryIndex]
-                                    }
-                                    placeholder={
-                                      typeof countryall[hpc[i].countryIndex] ===
-                                      "undefined"
-                                        ? "Select Country"
-                                        : countryall[hpc[i].countryIndex]
-                                    }
-                                    filterOption={createFilter(filterConfig)}
-                                    isClearable
-                                  />
+                                  {val.optIRT == "yes" ? (
+                                    <Select
+                                      options={irtCountry}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      value={
+                                        irtCountry.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : irtCountry[
+                                              irtCountry.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  ) : (
+                                    <Select
+                                      options={countryall}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      value={
+                                        countryall.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : countryall[
+                                              countryall.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  )}
+
                                   {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                    onSelect={(event) => onCountryChange(event, i)}

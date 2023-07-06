@@ -97,4 +97,8 @@ export const ENDPOINT = {
   TRAINING_COMPLETION_DROPDOWN: "/training-completion-dropdown",
   TRAINING_COMPLETION_PAGE_CLICK: "/training-completion-page-click",
 
+  TRAINING_COMPLETION_PAGE_CLICK: "/training-completion-page-click", 
+  MOST_POPULAR_CONTENT: "/most-popular-content",
+  MOST_POPULAR_PAGE_CONTENT: "/most-popular-content_page_wise",
+  MOST_POPULAR_SITE_CONTENT: "/most-popular-content_site_wise",
 };

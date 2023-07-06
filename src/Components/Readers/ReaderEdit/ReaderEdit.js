@@ -9,7 +9,7 @@ import { getData, postData, postFormData } from "../../../axios/apiHelper";
 import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
-import axios from "axios"
+import axios from "axios";
 const ReaderEdit = () => {
   const { state } = useLocation();
   const nameRef = useRef(null);
@@ -21,6 +21,7 @@ const ReaderEdit = () => {
   const [pharmaData, setPharmaData] = useState();
 
   const [countryAll, setCountryAll] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
   // const [province, setProvince] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
@@ -159,14 +160,10 @@ const ReaderEdit = () => {
         });
       });
 
-      setCountryAll(arr);
-
+      setIRTCountry(arr);
     } catch (err) {
-
       console.log("-err", err);
-
     }
-
   };
 
   const handleSubmitModelFun = async (e) => {
@@ -217,18 +214,16 @@ const ReaderEdit = () => {
   const initalFun = async () => {
     loader("show");
     const hasData = await getData(`${ENDPOINT.READER_USER_DROP} `);
-    if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
-      let country = [];
-      hasData?.data?.data?.country.reduce((objEntries, key) => {
-        country.push({
-          label: key,
-          value: key,
-        });
-      });
-      setCountryAll(country);
-    }
 
-   
+    let country = [];
+    hasData?.data?.data?.country.reduce((objEntries, key) => {
+      country.push({
+        label: key,
+        value: key,
+      });
+    });
+    setCountryAll(country);
+
     // setProvince(hasData?.data?.data?.province);
     setHospital(hasData?.data?.data?.hospital);
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
@@ -242,6 +237,7 @@ const ReaderEdit = () => {
       speciality: hasData?.data?.data?.speciality,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
+      userType:[{label:"Hcp",value:"Hcp",index:0},{label:"Staff users",value:"Staff users",index:1},{label:"Test users",value:"Test users",index:3}],
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
@@ -256,14 +252,20 @@ const ReaderEdit = () => {
   const initialReaderFun = async () => {
     loader("show");
     try {
+
       const hasData = await getData(
         `${ENDPOINT.READER_GET_READER_USER}/${id} `
       );
       if (hasData?.data?.data?.country == "B&H") {
         hasData.data.data.country = "Bosnia and Herzegovina";
       }
-
-      setAddReaderInputs(hasData?.data?.data);
+      let obj = {
+        0:"Hcp",
+        1:"Staff users",
+        3:"Test users"
+      }
+      setAddReaderInputs({...hasData?.data?.data,userType:obj[hasData?.data?.data.userType]?obj[hasData?.data?.data.userType]:hasData?.data?.data.userType});
+      // setAddReaderInputs({...hasData?.data?.data,"userType":obj[hasData?.data?.data.user_status]?obj[hasData?.data?.data.user_status]:""});
       loader("hide");
     } catch (err) {
       console.log(err);
@@ -399,8 +401,8 @@ const ReaderEdit = () => {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-      axiosFun()
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
     }
     initalFun();
     initialReaderFun();
@@ -498,6 +500,13 @@ const ReaderEdit = () => {
         [isSelectedName]: e,
         ["siteNumber"]: siteNum,
       });
+    } else if (isSelectedName == "irt") {
+      let country = "";
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["country"]: country,
+      });
     } else {
       setAddReaderInputs({
         ...userInputs,
@@ -569,6 +578,8 @@ const ReaderEdit = () => {
           siteName: userInputs?.siteName,
           irt: userInputs?.irt,
           ibu: userInputs?.ibu,
+          userType: userInputs?.userType,
+
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
@@ -589,7 +600,7 @@ const ReaderEdit = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">IRT </Form.Label>
+          <Form.Label htmlFor="">IRT</Form.Label>
           <Select
             options={userDetail?.irt}
             defaultValue={{
@@ -598,10 +609,19 @@ const ReaderEdit = () => {
             }}
             placeholder="Select IRT"
             name="irt"
-            className="dropdown-basic-button split-button-dropup"
+            className={
+              error?.irt
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
             isClearable
             onChange={(e) => handleChange(e?.value, "irt")}
           />
+          {error?.irt ? (
+            <div className="login-validation">{error?.irt}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Role </Form.Label>
@@ -679,6 +699,69 @@ const ReaderEdit = () => {
             isClearable
             onChange={(e) => handleChange(e?.value, "blind_type")}
           />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
+            Country <span>*</span>
+          </Form.Label>
+          {userInputs?.irt &&
+          (userInputs?.irt == 1 || userInputs?.irt == "Yes") ? (
+            <>
+              <Select
+                options={irtCountry}
+                value={
+                  irtCountry?.findIndex(
+                    (e) => e.value == userInputs?.country
+                  ) == -1
+                    ? ""
+                    : irtCountry[
+                        irtCountry?.findIndex(
+                          (e) => e.value == userInputs?.country
+                        )
+                      ]
+                }
+                // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+                placeholder="Select country"
+                name="country"
+                className={
+                  error?.country
+                    ? "dropdown-basic-button split-button-dropup error"
+                    : "dropdown-basic-button split-button-dropup"
+                }
+                isClearable
+                onChange={(e) => handleChange(e?.value, "country")}
+              />
+            </>
+          ) : (
+            <Select
+              options={countryAll}
+              value={
+                countryAll?.findIndex((e) => e.value == userInputs?.country) ==
+                -1
+                  ? ""
+                  : countryAll[
+                      countryAll?.findIndex(
+                        (e) => e.value == userInputs?.country
+                      )
+                    ]
+              }
+              // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+              placeholder="Select country"
+              name="country"
+              className={
+                error?.country
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup"
+              }
+              isClearable
+              onChange={(e) => handleChange(e?.value, "country")}
+            />
+          )}
+          {error?.country ? (
+            <div className="login-validation">{error?.country}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
       </>
     );
@@ -925,33 +1008,39 @@ const ReaderEdit = () => {
                       ""
                     )}
 
-                    <Form.Group className="form-group">
-                      <Form.Label htmlFor="">
-                        Country <span>*</span>
-                      </Form.Label>
+                    {groupId == 3 && flag == 1 ? (
+                      ""
+                    ) : (
+                      <Form.Group className="form-group">
+                        <Form.Label htmlFor="">
+                          Country <span>*</span>
+                        </Form.Label>
 
-                      <Select
-                        options={countryAll}
-                        placeholder="Select country"
-                        name="country"
-                        value={{
-                          label: userInputs?.country,
-                          value: userInputs?.country,
-                        }}
-                        className={
-                          error?.country
-                            ? "dropdown-basic-button split-button-dropup error"
-                            : "dropdown-basic-button split-button-dropup"
-                        }
-                        isClearable
-                        onChange={(e) => handleChange(e?.value, "country")}
-                      />
-                      {error?.country ? (
-                        <div className="login-validation">{error?.country}</div>
-                      ) : (
-                        ""
-                      )}
-                    </Form.Group>
+                        <Select
+                          options={countryAll}
+                          placeholder="Select country"
+                          name="country"
+                          value={{
+                            label: userInputs?.country,
+                            value: userInputs?.country,
+                          }}
+                          className={
+                            error?.country
+                              ? "dropdown-basic-button split-button-dropup error"
+                              : "dropdown-basic-button split-button-dropup"
+                          }
+                          isClearable
+                          onChange={(e) => handleChange(e?.value, "country")}
+                        />
+                        {error?.country ? (
+                          <div className="login-validation">
+                            {error?.country}
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </Form.Group>
+                    )}
 
                     {userInputs ? (
                       <>
@@ -1259,7 +1348,7 @@ const ReaderEdit = () => {
                                 }
                               />
                             </Form.Group>
-                            {groupId == 3 && flag == 0 && pharmaData == 0 ? (
+                            {/* {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                               <Form.Group className="form-group">
                                 <Form.Label htmlFor="">
                                   Select User Type
@@ -1278,7 +1367,7 @@ const ReaderEdit = () => {
                               </Form.Group>
                             ) : (
                               ""
-                            )}
+                            )} */}
 
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Rep contact</Form.Label>
@@ -1302,19 +1391,20 @@ const ReaderEdit = () => {
 
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                       <>
+                      {console.log("dfd",userInputs)}
                         {localStorage.getItem("user_id") !=
                         "iSnEsKu5gB/DRlycxB6G4g==" ? (
                           <Form.Group className="form-group">
                             <Form.Label htmlFor="">Select User Type</Form.Label>
                             <Select
                               options={userDetail?.userType}
-                              defaultValue={userInputs?.userType}
+                              defaultValue={userDetail?.userType?.find(item =>item.label == userInputs?.userType)}
                               placeholder="Select user type"
                               name="userType"
                               className="dropdown-basic-button split-button-dropup"
                               isClearable
                               onChange={(e) =>
-                                handleChange(e?.value, "UserType")
+                                handleChange(e?.value, "userType")
                               }
                             />
                           </Form.Group>

@@ -75,6 +75,7 @@ const VerifyHCP = (props) => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
   const [countryall, setCountryall] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
   const [addFileReRender, setAddFileReRender] = useState(0);
   const [hpc, setHpc] = useState([
     {
@@ -93,7 +94,7 @@ const VerifyHCP = (props) => {
   const axiosFun = async () => {
     try {
       const result = await axios.get(`emailapi/get_site`);
-      console.log("-result", result?.data?.response?.data?.site_country_data);
+
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -106,11 +107,10 @@ const VerifyHCP = (props) => {
           label: label,
         });
       });
-      setCountryall(arr);
+      setIRTCountry(arr);
     } catch (err) {
       console.log("-err", err);
     }
-
   };
 
   const [validationReRender, setValidationReRender] = useState(0);
@@ -171,7 +171,6 @@ const VerifyHCP = (props) => {
         }
       }
     }
-
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -187,10 +186,10 @@ const VerifyHCP = (props) => {
   };
 
   useEffect(() => {
-  if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-    axiosFun()
-  }
-   
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
+
     const getalCountry = async () => {
       let body = {
         user_id: localStorage.getItem("user_id"),
@@ -201,20 +200,19 @@ const VerifyHCP = (props) => {
           if (res.data.status_code == 200) {
             let country = res.data.response.data.country;
             let arr = [];
-            if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
-              Object.entries(country).map(([index, item]) => {
-                let label = item;
-                if (index == "B&H") {
-                  label = "Bosnia and Herzegovina";
-                }
-                arr.push({
-                  value: item,
-                  label: label,
-                });
+
+            Object.entries(country).map(([index, item]) => {
+              let label = item;
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
               });
-              setCountryall(arr);
-            }
-          
+            });
+            setCountryall(arr);
+
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
@@ -234,9 +232,6 @@ const VerifyHCP = (props) => {
 
             setTotalData(res.data.response.data);
           }
-          // setCountryall(res.data.response.data.country);
-          //console.log(countryall)
-          // setCounter(counter + 1);
         })
         .catch((err) => {
           console.log(err);
@@ -321,10 +316,8 @@ const VerifyHCP = (props) => {
   };
 
   const deleteSelected = (index) => {
-    // console.log(index);
     let arr = [];
     arr = selectedHcp;
-    //  console.log(arr);
     arr.splice(index, 1);
     setSelectedHcp(arr);
     setReRender(reRender + 1);
@@ -393,7 +386,6 @@ const VerifyHCP = (props) => {
     const name = hpc[i].firstname;
     list[i].firstname = value;
     setHpc(list);
-    // console.log(hpc);
   };
 
   const onLastNameChange = (e, i) => {
@@ -402,7 +394,6 @@ const VerifyHCP = (props) => {
     const name = hpc[i].lastname;
     list[i].lastname = value;
     setHpc(list);
-    //console.log(hpc);
   };
 
   const onEmailChange = (e, i) => {
@@ -411,8 +402,6 @@ const VerifyHCP = (props) => {
     const name = hpc[i].email;
     list[i].email = value;
     setHpc(list);
-    // setEmailData(e.target.value);
-    //console.log(hpc);
   };
 
   const onRoleChange = (e, i) => {
@@ -434,6 +423,7 @@ const VerifyHCP = (props) => {
       const list = [...hpc];
       list[i].optIrt = "";
       list[i].role = "";
+      list[i].country = "";
       setHpc(list);
     } else {
       const value = e?.value;
@@ -441,8 +431,16 @@ const VerifyHCP = (props) => {
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
       list[i].role = "";
+      list[i].country = "";
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
       setHpc(list);
     }
+    let arr = [];
+    setSiteNumberAll(arr);
+    setSiteNameAll(arr);
     setCounterFlag(counterFlag + 1);
   };
 
@@ -670,8 +668,6 @@ const VerifyHCP = (props) => {
   };
 
   const addMoreHcp = () => {
-    console.log(hpc);
-
     const status = hpc.map((data) => {
       if (data.email == "") {
         return "false";
@@ -763,7 +759,6 @@ const VerifyHCP = (props) => {
         email: email,
       };
 
-      //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
@@ -926,7 +921,6 @@ const VerifyHCP = (props) => {
       status: 2,
     };
 
-    console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -1294,7 +1288,6 @@ const VerifyHCP = (props) => {
                       </thead>
                       <tbody>
                         {selectedHcp.map((data, index) => {
-                          //  console.log(data);
                           return (
                             <>
                               <tr
@@ -1351,7 +1344,11 @@ const VerifyHCP = (props) => {
                                 <td>
                                   {localStorage.getItem("user_id") ===
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                    data?.user_type!=0?data?.user_type:"N/A"
+                                    data?.user_type != 0 ? (
+                                      data?.user_type
+                                    ) : (
+                                      "N/A"
+                                    )
                                   ) : editable ? (
                                     <EditContactType
                                       selected_ibu={data.contact_type}
@@ -1651,24 +1648,51 @@ const VerifyHCP = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
-                                  <Select
-                                    options={countryall}
-                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                    onChange={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                    defaultValue={
-                                      countryall[hpc[i].countryIndex]
-                                    }
-                                    placeholder={
-                                      typeof countryall[hpc[i].countryIndex] ===
-                                      "undefined"
-                                        ? "Select Country"
-                                        : countryall[hpc[i].countryIndex]
-                                    }
-                                    filterOption={createFilter(filterConfig)}
-                                    isClearable
-                                  />
+                                  {val?.optIrt == "yes" ? (
+                                    <Select
+                                      options={irtCountry}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      value={
+                                        irtCountry.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : irtCountry[
+                                              irtCountry.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  ) : (
+                                    <Select
+                                      options={countryall}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      value={
+                                        countryall.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : countryall[
+                                              countryall.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  )}
 
                                   {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
@@ -2099,7 +2123,6 @@ const VerifyHCP = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   old_object = state.getEmailData;
   selected_Data = state.getSelected;
   return state;
