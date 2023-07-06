@@ -1228,10 +1228,14 @@ const RDAnalytics = () => {
                               >
                                 {console.log(item)}
                                 <td>
-                                  {item?.username?.charAt(0).toUpperCase() +
-                                    item?.username.slice(1)}
+                                  {item?.username
+                                    ? item?.username?.charAt(0).toUpperCase() +
+                                      item?.username.slice(1)
+                                    : "NA"}
                                 </td>
-                                <td>{item?.user_type}</td>
+                                <td>
+                                  {item?.user_type ? item?.user_type : "NA"}
+                                </td>
                                 <td>
                                   {item?.blind_type == "yes" ? "Yes" : "No"}
                                 </td>
@@ -1254,7 +1258,9 @@ const RDAnalytics = () => {
                                     ? "Not yet"
                                     : null}
                                 </td>
-                                <td>{item?.site_name}</td>
+                                <td>
+                                  {item?.site_name ? item?.site_name : "NA"}
+                                </td>
 
                                 <td class="pics">
                                   {item?.training_status_code == 0 ? (
