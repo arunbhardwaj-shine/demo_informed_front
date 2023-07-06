@@ -52,7 +52,7 @@ const RenderPdf = ({
   }, [trigger]);
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
-    // console.log("Asda");
+    console.log("Document Load");
     total_pages = e.doc.numPages;
     setNumPages(e.doc.numPages);
     setModalMessage("");
