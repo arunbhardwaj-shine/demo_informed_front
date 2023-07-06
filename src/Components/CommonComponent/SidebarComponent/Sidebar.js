@@ -955,7 +955,10 @@ const Sidebar = () => {
                       <p>Content Analytics</p>
                     </Link>
                   </li>
-                  
+                  {localStorage.getItem("user_id") ==
+              "56Ek4feL/1A8mZgIKQWEqg==" ? null : localStorage.getItem(
+                  "group_id"
+                ) == 2 ? null : (
                   <li
                     className={
                       location.pathname == "/rd-analytics"
@@ -986,7 +989,7 @@ const Sidebar = () => {
                       <p>Trials</p>
                     </Link>
                   </li>
-
+                    )}
                   <li
                     className={
                       location.pathname == "/registration-type"
