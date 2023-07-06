@@ -117,7 +117,7 @@ const handleClick = event => {
       type: "column",
     },
     title: {
-      text: "UEFA CL most assists by season",
+      text: "",
     },
     xAxis: {
       categories: [],
@@ -156,7 +156,7 @@ const handleClick = event => {
       type: "column",
     },
     title: {
-      text: "UEFA CL most assists by season",
+      text: "",
     },
     xAxis: {
       categories: [],
@@ -399,7 +399,7 @@ const handleClick = event => {
               type: "pie",
             },
             title: {
-              text: "Device Chart",
+              text: "",
             },
             subtitle: {
               text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
