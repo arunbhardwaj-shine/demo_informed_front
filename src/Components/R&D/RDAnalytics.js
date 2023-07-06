@@ -1,11 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Accordion, Button, ButtonToolbar, Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
+import {
+  Accordion,
+  Button,
+  ButtonToolbar,
+  Col,
+  OverlayTrigger,
+  Row,
+  Table,
+  Tooltip,
+} from "react-bootstrap";
 import { getData, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 const RDAnalytics = () => {
   const [show, setShow] = useState();
@@ -28,6 +37,7 @@ const RDAnalytics = () => {
   const [trainingDropdownData, setTrainingCompletionDropdownData] = useState();
   const [trainingAccordianShow, setTrainingAccordianShow] = useState();
   const [traingAccordianData, setTrainingAccordianData] = useState();
+  const [trainingCertificate, setTrainingCertificate] = useState();
 
   const [siteCompletionTableData, setSiteCompletionTableData] = useState();
   const [mostPopularContentData, setMostPopularContentData] = useState([]);
@@ -36,13 +46,13 @@ const RDAnalytics = () => {
   );
   const [mostPopularContentSiteData, setMostPopularContentSiteData] = useState(
     []
-  ); 
+  );
   const [isContentSiteAccordionOpen, setIsContentSiteAccordionOpen] = useState(
     []
-  ); 
+  );
   const [isContentPageAccordionOpen, setIsContentPageAccordionOpen] = useState(
     []
-  ); 
+  );
   // const [mostPopularContentSiteData, setMostPopularContentSiteData] = useState(
   //   []
   // );
@@ -57,18 +67,18 @@ const RDAnalytics = () => {
   const site_Completion = useRef(null);
   const site_Engagement = useRef(null);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const handleClick = event => {
-    setIsActive(current => !current);
+  const handleClick = (event) => {
+    setIsActive((current) => !current);
   };
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
-const tooltip = (
-  <Tooltip id="tooltip">
-    This chart shows the sites that have users who viewed the 1top content  
-  </Tooltip>
-);
+  const tooltip = (
+    <Tooltip id="tooltip">
+      This chart shows the sites that have users who viewed the 1top content
+    </Tooltip>
+  );
   const [pieOptions, setPieOptions] = useState({
     chart: {
       plotBackgroundColor: null,
@@ -209,23 +219,23 @@ const tooltip = (
       const result = await getData(ENDPOINT.SITEREGISTER);
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);
-  
+
       const newSeries = data?.map((item, index) => {
         return {
           name: item.name,
           data: item.data,
         };
       });
-  
+
       // Sort the newSeries array based on the maximum data
       newSeries.sort((a, b) => {
         const maxDataA = Math.max(...a.data);
         const maxDataB = Math.max(...b.data);
         return maxDataB - maxDataA;
       });
-  
+
       const columnCategories = result?.data?.data?.site_numbers;
-  
+
       const newColumnOptions = {
         ...columnOptions,
         xAxis: {
@@ -239,19 +249,19 @@ const tooltip = (
     }
   };
 
-  
   useEffect(() => {
-    const checkboxElement = document.querySelector('.switch6 input[type="checkbox"]');
-    checkboxElement.addEventListener('click', handleCheckboxClick);
+    const checkboxElement = document.querySelector(
+      '.switch6 input[type="checkbox"]'
+    );
+    checkboxElement.addEventListener("click", handleCheckboxClick);
 
     return () => {
-      checkboxElement.removeEventListener('click', handleCheckboxClick);
+      checkboxElement.removeEventListener("click", handleCheckboxClick);
     };
   }, []);
   const handleCheckboxClick = () => {
-  
     initialFun();
-    loader("hide")
+    loader("hide");
   };
 
   const getPieChartData = async () => {
@@ -355,23 +365,31 @@ const tooltip = (
   };
   const getMostPopularContentPageData = async (pdf_id) => {
     try {
-      if(!isContentPageAccordionOpen[pdf_id] || isContentPageAccordionOpen[pdf_id]==undefined){
-      const result = await postData(ENDPOINT.MOST_POPULAR_PAGE_CONTENT, {
-        pdf_id: pdf_id,
-      });
-      const data = result?.data?.data;
-      // console.log("drowdown",data);
+      if (
+        !isContentPageAccordionOpen[pdf_id] ||
+        isContentPageAccordionOpen[pdf_id] == undefined
+      ) {
+        const result = await postData(ENDPOINT.MOST_POPULAR_PAGE_CONTENT, {
+          pdf_id: pdf_id,
+        });
+        const data = result?.data?.data;
+        // console.log("drowdown",data);
 
-      setMostPopularContentPageData((prevData) => ({
-        ...prevData,
-        [pdf_id]: data.time_spend_on_pdf,
-      }));
-    
-    setIsContentPageAccordionOpen({...isContentPageAccordionOpen,[pdf_id]:true})
-  }
-  else{
-    setIsContentPageAccordionOpen({...isContentPageAccordionOpen,[pdf_id]:false})
-  }
+        setMostPopularContentPageData((prevData) => ({
+          ...prevData,
+          [pdf_id]: data.time_spend_on_pdf,
+        }));
+
+        setIsContentPageAccordionOpen({
+          ...isContentPageAccordionOpen,
+          [pdf_id]: true,
+        });
+      } else {
+        setIsContentPageAccordionOpen({
+          ...isContentPageAccordionOpen,
+          [pdf_id]: false,
+        });
+      }
       // console.log(mostPopularContentPageData)
     } catch (err) {
       console.log("--err", err);
@@ -380,82 +398,90 @@ const tooltip = (
 
   const getMostPopularContentSiteData = async (pdf_id) => {
     try {
-// console.log(isContentSiteAccordionOpen[pdf_id]);
-      if(!isContentSiteAccordionOpen[pdf_id] || isContentSiteAccordionOpen[pdf_id]==undefined){
-      const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
-        pdf_id: pdf_id,
-      });
-      const data = result?.data?.data.site_data;
-      const chart_data = result?.data?.data?.chart_data;
-      setMostPopularContentSiteData((prevData) => ({
-        ...prevData,
-        [pdf_id]: data,
-      }));
+      // console.log(isContentSiteAccordionOpen[pdf_id]);
+      if (
+        !isContentSiteAccordionOpen[pdf_id] ||
+        isContentSiteAccordionOpen[pdf_id] == undefined
+      ) {
+        const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
+          pdf_id: pdf_id,
+        });
+        const data = result?.data?.data.site_data;
+        const chart_data = result?.data?.data?.chart_data;
+        setMostPopularContentSiteData((prevData) => ({
+          ...prevData,
+          [pdf_id]: data,
+        }));
 
-      // console.log("dropdown", data);
+        // console.log("dropdown", data);
 
-      // Set chart data options for the PDF
-      setChartOptions((prevOptions) => ({
-        ...prevOptions,
-        [pdf_id]: {
-          chart_data: {
-            chart: {
-              type: "pie",
-            },
-            title: {
-              text: "",
-            },
-            subtitle: {
-              text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
-              verticalAlign: "middle",
-              y: 20,
-            },
-            exporting: {
-              enabled: false,
-            },
-            plotOptions: {
-              pie: {
-                innerSize: "40%",
-                dataLabels: {
-                  enabled: true,
-                  format: "{point.y}",
-                  style: {
-                    fontWeight: "bold",
-                    color: "white",
-                    textOutline: "none",
-                    fontSize: "12px",
+        // Set chart data options for the PDF
+        setChartOptions((prevOptions) => ({
+          ...prevOptions,
+          [pdf_id]: {
+            chart_data: {
+              chart: {
+                type: "pie",
+              },
+              title: {
+                text: "",
+              },
+              subtitle: {
+                text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
+                verticalAlign: "middle",
+                y: 20,
+              },
+              exporting: {
+                enabled: false,
+              },
+              plotOptions: {
+                pie: {
+                  innerSize: "40%",
+                  dataLabels: {
+                    enabled: true,
+                    format: "{point.y}",
+                    style: {
+                      fontWeight: "bold",
+                      color: "white",
+                      textOutline: "none",
+                      fontSize: "12px",
+                    },
+                    distance: -20, // Adjust the distance of the data labels from the center
                   },
-                  distance: -20, // Adjust the distance of the data labels from the center
+                  animation: {
+                    duration: 1000,
+                  },
+                  enableMouseTracking: false, // Disable hover functionality
                 },
-                animation: {
-                  duration: 1000,
-                },
-                enableMouseTracking: false, // Disable hover functionality
               },
+              series: [
+                {
+                  name: "Device Count",
+                  data: chart_data.deviceNames.map((name, index) => ({
+                    name,
+                    y: chart_data.deviceCount[name],
+                    color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
+                      index % 4
+                    ],
+                  })),
+                  size: "80%",
+                  innerSize: "75%",
+                },
+              ],
             },
-            series: [
-              {
-                name: "Device Count",
-                data: chart_data.deviceNames.map((name, index) => ({
-                  name,
-                  y: chart_data.deviceCount[name],
-                  color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
-                    index % 4
-                  ],
-                })),
-                size: "80%",
-                innerSize: "75%",
-              },
-            ],
+            device_names: chart_data.deviceNames,
           },
-          device_names: chart_data.deviceNames,
-        },
-      }));
-      setIsContentSiteAccordionOpen({...isContentSiteAccordionOpen,[pdf_id]:true})
-    }
-    else{
-      setIsContentSiteAccordionOpen({...isContentSiteAccordionOpen,[pdf_id]:false})
-    }
+        }));
+        setIsContentSiteAccordionOpen({
+          ...isContentSiteAccordionOpen,
+          [pdf_id]: true,
+        });
+      } else {
+        setIsContentSiteAccordionOpen({
+          ...isContentSiteAccordionOpen,
+          [pdf_id]: false,
+        });
+      }
 
       // console.log(chartOptions);
     } catch (err) {
@@ -509,8 +535,9 @@ const tooltip = (
           body
         );
         // setTrainingCertificate(result?.data?.certificate);
-        setTrainingCompletionDropdownData(result?.data?.data);
-        // console.log("result--->", result);
+        setTrainingCompletionDropdownData(result?.data?.data?.data);
+        setTrainingCertificate(result?.data?.data?.certificate);
+        console.log("result--->", result?.data?.data);
         loader("hide");
       } catch (err) {
         loader("hide");
@@ -560,37 +587,12 @@ const tooltip = (
     }
     site_Completion?.current?.focus();
   };
-  // const sortSelectedUsers = () => {
-  //   let normalArr = [];
-  //   normalArr = readers;
-  //   if (sorting === 0) {
-  //     normalArr.sort((a, b) =>
-  //       a.first_name.toLowerCase() > b.first_name.toLowerCase()
-  //         ? 1
-  //         : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-  //         ? -1
-  //         : 0
-  //     );
-  //   } else {
-  //     normalArr.sort((a, b) =>
-  //       a.first_name.toLowerCase() < b.first_name.toLowerCase()
-  //         ? 1
-  //         : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-  //         ? -1
-  //         : 0
-  //     );
-  //   }
-
-  //   setReaders(normalArr);
-  //   setSorting(1 - sorting);
-  //   setSortingCount(sortingCount + 1);
-  // };
 
   const handleSort = () => {
     const sortedRdSiteData = [...rdSiteData].sort((a, b) => {
       const siteNumberA = a.site_number.toLowerCase();
       const siteNumberB = b.site_number.toLowerCase();
-  
+
       if (sortDirection === 0) {
         if (siteNumberA < siteNumberB) return -1;
         if (siteNumberA > siteNumberB) return 1;
@@ -606,160 +608,156 @@ const tooltip = (
     setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
     setIsActive(!isActive);
   };
-  
+
   const sortSiteCompletion = () => {
-    const sortedSiteCompletionTableData = [...siteCompletionTableData].sort((a, b) => {
-      const siteNumberA = a.site_number.toLowerCase();
-      const siteNumberB = b.site_number.toLowerCase();
-  
-      if (sortDirection === 0) {
-        if (siteNumberA < siteNumberB) return -1;
-        if (siteNumberA > siteNumberB) return 1;
-        return 0;
-      } else {
-        if (siteNumberA > siteNumberB) return -1;
-        if (siteNumberA < siteNumberB) return 1;
-        return 0;
+    const sortedSiteCompletionTableData = [...siteCompletionTableData].sort(
+      (a, b) => {
+        const siteNumberA = a.site_number.toLowerCase();
+        const siteNumberB = b.site_number.toLowerCase();
+
+        if (sortDirection === 0) {
+          if (siteNumberA < siteNumberB) return -1;
+          if (siteNumberA > siteNumberB) return 1;
+          return 0;
+        } else {
+          if (siteNumberA > siteNumberB) return -1;
+          if (siteNumberA < siteNumberB) return 1;
+          return 0;
+        }
       }
-    });
-  
+    );
+
     setSiteCompletionTableData(sortedSiteCompletionTableData);
     setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
     setIsActive(!isActive);
-  }
-  
-  
+  };
+
   const sortIndividualCompletion = () => {
+    const sortedIndividualCompletion = [...indidualCompletionTableData].sort(
+      (a, b) => {
+        const siteNumberA = a.training_status.toLowerCase();
+        const siteNumberB = b.training_status.toLowerCase();
 
-    const sortedIndividualCompletion = [...indidualCompletionTableData].sort((a,b) => {
-          const siteNumberA = a.training_status.toLowerCase();
-          const siteNumberB = b.training_status.toLowerCase();
-    
-          if (sortDirection === 0) {
-            if (siteNumberA < siteNumberB) return -1;
-            if (siteNumberA > siteNumberB) return 1;
-            return 0;
-          } else {
-            if (siteNumberA > siteNumberB) return -1;
-            if (siteNumberA < siteNumberB) return 1;
-            return 0;
-          }
-        });
-      
-
-        setIndividualCompletionTableData(sortedIndividualCompletion);
-        setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
-        setIsActive(!isActive);
-    }
-  
-    const sortContentView = (pdfId) => {
-      const sortedContentViewObject = { ...mostPopularContentSiteData };
-    
-      if (!sortedContentViewObject.hasOwnProperty(pdfId)) {
-        // Handle the case when the provided ID does not exist in the data
-      //  console.error(`Data with ID ${pdfId} does not exist`);
-        return;
-      }
-    
-      const sortedArray = sortedContentViewObject[pdfId].sort((a, b) => {
-        const siteNumberA = a.count;
-        const siteNumberB = b.count;
-    
         if (sortDirection === 0) {
-          return siteNumberA - siteNumberB;
+          if (siteNumberA < siteNumberB) return -1;
+          if (siteNumberA > siteNumberB) return 1;
+          return 0;
         } else {
-          return siteNumberB - siteNumberA;
+          if (siteNumberA > siteNumberB) return -1;
+          if (siteNumberA < siteNumberB) return 1;
+          return 0;
         }
-      });
-    
-      const updatedContentViewObject = { ...sortedContentViewObject, [pdfId]: sortedArray };
-      setMostPopularContentSiteData(updatedContentViewObject); 
-    
-     
-      if (lastSortedPDFId === pdfId) {
-        setSortDirection(sortDirection === 0 ? 1 : 0);
-        setIsActive(!isActive);
       }
-    
-      setLastSortedPDFId(pdfId); 
+    );
+
+    setIndividualCompletionTableData(sortedIndividualCompletion);
+    setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+    setIsActive(!isActive);
+  };
+
+  const sortContentView = (pdfId) => {
+    const sortedContentViewObject = { ...mostPopularContentSiteData };
+
+    if (!sortedContentViewObject.hasOwnProperty(pdfId)) {
+      // Handle the case when the provided ID does not exist in the data
+      //  console.error(`Data with ID ${pdfId} does not exist`);
+      return;
+    }
+
+    const sortedArray = sortedContentViewObject[pdfId].sort((a, b) => {
+      const siteNumberA = a.count;
+      const siteNumberB = b.count;
+
+      if (sortDirection === 0) {
+        return siteNumberA - siteNumberB;
+      } else {
+        return siteNumberB - siteNumberA;
+      }
+    });
+
+    const updatedContentViewObject = {
+      ...sortedContentViewObject,
+      [pdfId]: sortedArray,
     };
-    
-    
-    
-    const handleExport = (tableName) => {
-      const table = document.getElementById(tableName);
-      const rows = table.getElementsByTagName('tr');
-      const base64 = (s) => {
-        return window.btoa(unescape(encodeURIComponent(s)));
-      };
-    
-      const format = (s, c) => {
-        return s.replace(/{(\w+)}/g, function (m, p) {
-          return c[p];
-        });
-      };
-    
+    setMostPopularContentSiteData(updatedContentViewObject);
+
+    if (lastSortedPDFId === pdfId) {
+      setSortDirection(sortDirection === 0 ? 1 : 0);
+      setIsActive(!isActive);
+    }
+
+    setLastSortedPDFId(pdfId);
+  };
+
+  const handleExport = (tableName) => {
+    const table = document.getElementById(tableName);
+    const rows = table.getElementsByTagName("tr");
+    const base64 = (s) => {
+      return window.btoa(unescape(encodeURIComponent(s)));
+    };
+
+    const format = (s, c) => {
+      return s.replace(/{(\w+)}/g, function (m, p) {
+        return c[p];
+      });
+    };
 
     // console.log(filteredRows);
     const filteredRows = Array.from(rows).filter((row, index) => {
-      const classNames = row.className.split(' ');
+      const classNames = row.className.split(" ");
       return (
-        !classNames.includes('fold') &&
-        !classNames.includes('fold-content') &&
-        !classNames.includes('show') &&
-        !classNames.includes('doctor') &&
+        !classNames.includes("fold") &&
+        !classNames.includes("fold-content") &&
+        !classNames.includes("show") &&
+        !classNames.includes("doctor") &&
         index !== 0 // Exclude the first row (header row)
       );
     });
-    
+
     // Create a new table element and copy the header row
-    const exportTable = document.createElement('table');
-    const headerRow = table.getElementsByTagName('thead')[0].cloneNode(true);
+    const exportTable = document.createElement("table");
+    const headerRow = table.getElementsByTagName("thead")[0].cloneNode(true);
     exportTable.appendChild(headerRow);
-    
+
     // Copy the filtered rows to the export table
     filteredRows.forEach((row) => {
       const clonedRow = row.cloneNode(true);
       exportTable.appendChild(clonedRow);
     });
-    
+
     // Remove the empty rows with class "blank"
-    const blankRows = exportTable.getElementsByClassName('blank');
+    const blankRows = exportTable.getElementsByClassName("blank");
     Array.from(blankRows).forEach((blankRow) => {
       blankRow.remove();
     });
-    
+
     // Generate the Excel file
-    const uri = 'data:application/vnd.ms-excel;base64,';
+    const uri = "data:application/vnd.ms-excel;base64,";
     const template =
       '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-mic' +
       'rosoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta cha' +
       'rset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:Exce' +
-      'lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
-      '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></' +
-      'xml><![endif]--></head><body>{table}</body></html>';
-    
+      "lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>" +
+      "</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></" +
+      "xml><![endif]--></head><body>{table}</body></html>";
+
     const context = {
-      worksheet: 'Sheet1',
+      worksheet: "Sheet1",
       table: exportTable.outerHTML,
     };
-    
+
     const randomPrefix = Math.random().toString(36).substring(7); // Generate a random string
-    
-    const element = document.createElement('a');
+
+    const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
     element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
     element.click();
-    
+
     // Insert the removed blank rows after the table generation
     Array.from(blankRows).forEach((blankRow) => {
       exportTable.appendChild(blankRow);
     });
-    };
-    
-  
-    
-    
+  };
 
   return (
     <>
@@ -785,7 +783,11 @@ const tooltip = (
                               <div className="count-number">
                                 {pieData.total}
                               </div>
-                              <img src={path_image + "doctor-svg.svg"} alt="" class="doctor" />
+                              <img
+                                src={path_image + "doctor-svg.svg"}
+                                alt=""
+                                class="doctor"
+                              />
                             </div>
                           </div>
                           <div className="graph-box">
@@ -1017,9 +1019,9 @@ const tooltip = (
                           <span>Click on the graph to see more details</span>
                         </div>
                         <div className="popular-tooltip">
-                            <OverlayTrigger placement="left" overlay={tooltip}>
-                              <img src={path_image + "tooltip-img.svg"} alt="" />
-                            </OverlayTrigger>
+                          <OverlayTrigger placement="left" overlay={tooltip}>
+                            <img src={path_image + "tooltip-img.svg"} alt="" />
+                          </OverlayTrigger>
                         </div>
                         <img
                           className="pie-chart"
@@ -1122,7 +1124,10 @@ const tooltip = (
                         <p>Click on the Record to see more details</p>
                       </div>
                       <div className="rd-training-block-right d-flex">
-                        <Button title="Download stats" onClick={() => handleExport('individual_completion')}>
+                        <Button
+                          title="Download stats"
+                          onClick={() => handleExport("individual_completion")}
+                        >
                           <svg
                             width="20"
                             height="20"
@@ -1140,10 +1145,10 @@ const tooltip = (
                             ></path>
                           </svg>
                         </Button>
-                        <Button 
-                        //className="sort_btn"
-                        className={`sort_btn ${isActive ? 'active' : ''}`}
-                        onClick={sortIndividualCompletion}
+                        <Button
+                          //className="sort_btn"
+                          className={`sort_btn ${isActive ? "active" : ""}`}
+                          onClick={sortIndividualCompletion}
                         >
                           Sort By
                           <svg
@@ -1197,13 +1202,17 @@ const tooltip = (
                               >
                                 <td>{item?.username}</td>
                                 <td>{item?.user_type}</td>
-                                <td>{item?.blind_type}</td>
+                                <td>
+                                  {item?.blind_type == "yes"
+                                    ? "Blinded"
+                                    : "Un-Blinded"}
+                                </td>
                                 <td
                                   className={
-                                    item?.training_status == "started"
-                                      ? "started"
-                                      : item?.training_status == "complete"
+                                    item?.training_status_code == 0
                                       ? "complete"
+                                      : item?.training_status_code == 1
+                                      ? "started"
                                       : "not_yet"
                                   }
                                 >
@@ -1212,7 +1221,7 @@ const tooltip = (
                                 <td>{item?.site_name}</td>
 
                                 <td class="pics">
-                                  {item?.training_status == "complete" ? (
+                                  {item?.training_status_code == 0 ? (
                                     <img
                                       src={path_image + "certificate.png"}
                                       alt="Certificate"
@@ -1253,11 +1262,13 @@ const tooltip = (
                                                     <div className="d-flex align-items-start">
                                                       <div className="content-image">
                                                         <img
-                                                          // src={data?.pdf_thumb}
                                                           src={
-                                                            path_image +
-                                                            "lex-book-cover.png"
+                                                            data?.article_image
                                                           }
+                                                          // src={
+                                                          //   path_image +
+                                                          //   "lex-book-cover.png"
+                                                          // }
                                                           alt=""
                                                         />
                                                       </div>
@@ -1293,8 +1304,8 @@ const tooltip = (
                                                             ) : null}
                                                           </div>
                                                           <div className="completed-date">
-                                                            {item?.training_status ==
-                                                            "complete" ? (
+                                                            {item?.training_status_code ==
+                                                            0 ? (
                                                               <>
                                                                 Completed date
                                                                 <span className="complete">
@@ -1358,9 +1369,6 @@ const tooltip = (
                                                                           {
                                                                             pageData?.time
                                                                           }
-                                                                          {/* <small>
-                                                                            sec
-                                                                          </small> */}
                                                                         </span>
                                                                       </div>
                                                                     </div>
@@ -1381,6 +1389,65 @@ const tooltip = (
                                           }
                                         )}
                                       </Accordion>
+
+                                      {trainingCertificate?.length ? (
+                                        <Accordion>
+                                          {trainingCertificate?.map(
+                                            (item, index) => {
+                                              return (
+                                                <>
+                                                  <Accordion.Item
+                                                    eventKey={index}
+                                                  >
+                                                    <Accordion.Header>
+                                                      <div className="d-flex align-items-start">
+                                                        <div className="content-image">
+                                                          <img
+                                                            src={
+                                                              item?.certificateImage
+                                                              // path_image +
+                                                              // "article-content.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="content-detail">
+                                                          <h6>{item?.type}</h6>
+                                                          <p>
+                                                            Lorem sollicitudin
+                                                            faucibus eu molestie
+                                                            sollicitudin gravida
+                                                          </p>
+                                                          <div className="page-count">
+                                                            <div className="time">
+                                                              {" "}
+                                                              <span></span>
+                                                            </div>
+                                                            <div className="completed-date">
+                                                              Issued date
+                                                              <span className="complete">
+                                                                {item?.date}
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "check-complete.svg"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                              </span>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </Accordion.Header>
+                                                    <Accordion.Body></Accordion.Body>
+                                                  </Accordion.Item>
+                                                </>
+                                              );
+                                            }
+                                          )}
+                                        </Accordion>
+                                      ) : null}
                                     </div>
                                   </td>
                                 </tr>
@@ -1418,7 +1485,10 @@ const tooltip = (
                         <p></p>
                       </div>
                       <div className="rd-training-block-right d-flex">
-                        <Button title="Download stats" onClick={() => handleExport('site_completion')}>
+                        <Button
+                          title="Download stats"
+                          onClick={() => handleExport("site_completion")}
+                        >
                           <svg
                             width="20"
                             height="20"
@@ -1436,10 +1506,10 @@ const tooltip = (
                             ></path>
                           </svg>
                         </Button>
-                        <Button  
-                       // className="sort_btn"
-                        className={`sort_btn ${isActive ? 'active' : ''}`}
-                        onClick={sortSiteCompletion}
+                        <Button
+                          // className="sort_btn"
+                          className={`sort_btn ${isActive ? "active" : ""}`}
+                          onClick={sortSiteCompletion}
                         >
                           Sort By
                           <svg
@@ -1504,7 +1574,7 @@ const tooltip = (
                               {siteCompletionShow == index ? (
                                 <>
                                   <tr className="fold show">
-                                   <td colspan="5" className="site_complete">
+                                    <td colspan="5" className="site_complete">
                                       {item?.Users?.length ? (
                                         item?.Users?.map((data, i) => {
                                           return (
@@ -1533,13 +1603,11 @@ const tooltip = (
                                           );
                                         })
                                       ) : (
-                                       
-                                    <div className="no_data">
-                                      No Data Found
-                                    </div>
-                                    
+                                        <div className="no_data">
+                                          No Data Found
+                                        </div>
                                       )}
-                                   </td>
+                                    </td>
                                   </tr>
                                 </>
                               ) : null}
@@ -1577,13 +1645,10 @@ const tooltip = (
                         tabIndex={-1}
                       >
                         <button
-                    id="test-table-xls-button"
-                    className="download-table-xls-button"
-                   
-    
-                    onClick={() => handleExport('table-to-xls')} // Call your export function here
-
-                    />
+                          id="test-table-xls-button"
+                          className="download-table-xls-button"
+                          onClick={() => handleExport("table-to-xls")} // Call your export function here
+                        />
                         {/* <Button title="Download stats">
                           <svg
                             width="20"
@@ -1602,10 +1667,10 @@ const tooltip = (
                             ></path>
                           </svg>
                         </Button> */}
-                        <Button 
-                        //className="sort_btn"
-                          className={`sort_btn ${isActive ? 'active' : ''}`}
-                        onClick={handleSort}
+                        <Button
+                          //className="sort_btn"
+                          className={`sort_btn ${isActive ? "active" : ""}`}
+                          onClick={handleSort}
                         >
                           Sort By
                           <svg
@@ -1638,7 +1703,7 @@ const tooltip = (
                         </tr>
                       </thead>
                       <tbody>
-                      {rdSiteData?.map((item, index) => {
+                        {rdSiteData?.map((item, index) => {
                           return (
                             <>
                               <tr
@@ -1725,9 +1790,9 @@ const tooltip = (
                                     </td>
                                   ) : (
                                     <td colspan="5">
-                                    <div className="no_data">
-                                      No Data Found
-                                    </div>
+                                      <div className="no_data">
+                                        No Data Found
+                                      </div>
                                     </td>
                                   )}
                                 </tr>
@@ -1769,11 +1834,12 @@ const tooltip = (
                           <Accordion.Item
                             key={index}
                             eventKey={index.toString()}
-                           
                           >
-                            <Accordion.Header  onClick={() =>
-                              getMostPopularContentPageData(item?.pdf?.id)
-                            }>
+                            <Accordion.Header
+                              onClick={() =>
+                                getMostPopularContentPageData(item?.pdf?.id)
+                              }
+                            >
                               <div className="d-flex align-items-start engagement-sec">
                                 <div className="content-image">
                                   <img
@@ -1824,7 +1890,15 @@ const tooltip = (
                                           </div>
                                           <div className="article-spanrd-time">
                                             Read | Watched{" "}
-                                            <span>{pdf.read_watched} <img src={path_image + "eye-watch.svg"} alt="" /></span>
+                                            <span>
+                                              {pdf.read_watched}{" "}
+                                              <img
+                                                src={
+                                                  path_image + "eye-watch.svg"
+                                                }
+                                                alt=""
+                                              />
+                                            </span>
                                           </div>
                                         </div>
                                       </div>
@@ -1835,12 +1909,18 @@ const tooltip = (
                           </Accordion.Item>
                           <Accordion.Item
                             eventKey="10"
-                            className={isActive ? 'accordion-read active' : 'accordion-read'} onClick={handleClick}
-                           
+                            className={
+                              isActive
+                                ? "accordion-read active"
+                                : "accordion-read"
+                            }
+                            onClick={handleClick}
                           >
-                            <Accordion.Header  onClick={() =>
-                              getMostPopularContentSiteData(item?.pdf?.id)
-                            }>
+                            <Accordion.Header
+                              onClick={() =>
+                                getMostPopularContentSiteData(item?.pdf?.id)
+                              }
+                            >
                               <div className="d-flex align-items-center justify-content-center">
                                 Who Read | Watched at each site{" "}
                                 <img
@@ -1861,10 +1941,14 @@ const tooltip = (
                                             <th>Site</th>
                                             <th>Site Number</th>
                                             <th className="short_value">
-                                              <Button 
-                                            // className="sort_btn"
-                                              className={`sort_btn ${isActive ? 'active' : ''}`}
-                                               onClick={()=>sortContentView(item.pdf?.id)}
+                                              <Button
+                                                // className="sort_btn"
+                                                className={`sort_btn ${
+                                                  isActive ? "active" : ""
+                                                }`}
+                                                onClick={() =>
+                                                  sortContentView(item.pdf?.id)
+                                                }
                                               >
                                                 Sort By
                                                 <svg
@@ -1923,7 +2007,10 @@ const tooltip = (
                                             item.pdf?.id
                                           ]?.device_names?.map(
                                             (item, index) => (
-                                              <p key={index}><span></span>{item}</p>
+                                              <p key={index}>
+                                                <span></span>
+                                                {item}
+                                              </p>
                                             )
                                           )}
                                         </div>
