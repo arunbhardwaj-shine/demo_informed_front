@@ -9417,13 +9417,22 @@ border-radius: 26px;
       position: relative;
       z-index: 1;
       top: -20px;
+      flex-wrap: wrap;
+      gap: 15px 0;
   }
   .rd-full-explain .rd-training-block .used-device-detail p {
-      width: 50%;
-      text-align: center;
-      color: $dark-blue;
-      font-size: 16px;
-  }
+    width: 50%;
+    text-align: center;
+    color: #004A89;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    flex: 0 0 50%;
+}
+.rd-full-explain .rd-training-block .used-device-detail p span {
+  margin-right: 5px;
+  display: block;
+}
 .highcharts-subtitle tspan {
     color: #70899E!important;
     fill: #70899E!important;
