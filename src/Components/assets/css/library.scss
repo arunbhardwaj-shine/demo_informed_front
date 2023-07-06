@@ -9123,7 +9123,7 @@ border-radius: 26px;
           .accordion-header{
             display: flex;
             align-items: flex-start;
-            padding:4px;
+            padding:0px;
             button{
               padding:4px;
               background: transparent;
@@ -9134,6 +9134,9 @@ border-radius: 26px;
             }
             .d-flex{
               width:100%;
+               &.engagement-sec{	
+                margin:0;	
+              }
             }
             
           }
@@ -9729,7 +9732,47 @@ font-weight: 700;
 
 
 /**Speaker Zone Page**/
-
+.webinar-quest {
+    background: $white;
+    padding: 6px;
+    filter: drop-shadow(0px 4px 29px rgba(0, 102, 190, 0.1));
+    .navbar{
+      filter: none;
+      padding:4px 0;
+      .nav-fill{
+        border-radius: 0px 15px 0px 15px;
+        color: $white;
+        background-color: #D0E2F3;
+        text-transform: capitalize;
+        padding: 7px;
+        line-height: 20px;
+        border-bottom: 1px solid $dark-blue;
+        display: inline-flex;
+        align-items: center;
+        .nav-item{
+          flex:auto;
+          color:$dark-blue;
+          font-size: 17px;
+          font-weight: 500;
+          text-transform: uppercase;
+          padding: 7px 20px;
+          &.active{
+            border-radius: 0px 15px 0px 15px;
+            color: $white;
+            background-color: $dark-blue;
+          }
+          span{
+            border-radius: 20px;
+            min-width: 35px;
+            background-color: $white;
+            color: $dark-blue;
+            margin-left: 5px;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+}
 .webinar-question-results {
     background: $white;
     -webkit-backdrop-filter: blur(254px);
