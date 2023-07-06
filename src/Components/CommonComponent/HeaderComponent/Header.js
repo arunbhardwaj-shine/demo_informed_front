@@ -354,7 +354,7 @@ const Header = () => {
 
                 <Dropdown.Menu>
                   <Dropdown.Item
-                    // href="https://informed.pro/Pages/change_password/"
+                    // href="https://webinar.informed.pro/Pages/change_password/"
                     onClick={() => navigate("/change-password")}
                     className="dropdown-item"
                   >
