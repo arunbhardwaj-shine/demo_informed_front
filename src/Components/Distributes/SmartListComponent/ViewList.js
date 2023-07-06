@@ -32,8 +32,6 @@ const EditList = () => {
     await axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
-        console.log(res);
-
         if (res.data.response) {
           if (res.data.response.data.length > 0) {
             setCreatorName(res.data.response.creator_name);
@@ -73,20 +71,20 @@ const EditList = () => {
     return (
       <>
         <div className="col right-sidebar custom-change">
-        <div className="custom-container">
-          <div className="row">
-          <ViewTable
-            data={editList}
-            smartListDatafn={getSmartListData}
-            api_flag={api_flag}
-            list_count={getlistcount}
-            listId={queryParams.listId}
-            upload_by_filter={getuploadedby}
-            smartListName={smartListName}
-            creatorName={creatorName}
-          />
-        </div>
-        </div>
+          <div className="custom-container">
+            <div className="row">
+              <ViewTable
+                data={editList}
+                smartListDatafn={getSmartListData}
+                api_flag={api_flag}
+                list_count={getlistcount}
+                listId={queryParams.listId}
+                upload_by_filter={getuploadedby}
+                smartListName={smartListName}
+                creatorName={creatorName}
+              />
+            </div>
+          </div>
         </div>
       </>
     );
@@ -94,11 +92,11 @@ const EditList = () => {
     return (
       <>
         <div className="col right-sidebar">
-        <div className="custom-container">
-          <div className="row">
-          {isLoading ? <div className={"item"}></div> : null}
-        </div>
-        </div>
+          <div className="custom-container">
+            <div className="row">
+              {isLoading ? <div className={"item"}></div> : null}
+            </div>
+          </div>
         </div>
       </>
     );

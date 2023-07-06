@@ -249,8 +249,8 @@ const ViewTable = (props) => {
               setIrtRole(arrIrtUserType);
               setUserTypeAll(arrUserType);
               setSubUserTypeAll(arrSubRole);
-              setSiteNumberAll(arrSiteNumber);
-              setSiteNameAll(arrSiteName);
+              // setSiteNumberAll(arrSiteNumber);
+              // setSiteNameAll(arrSiteName);
               setSiteStreetAll(arrSiteStreet);
               setSitePostCodeAll(arrSitePostCode);
               setSiteCityAll(arrSiteCity);
@@ -291,7 +291,7 @@ const ViewTable = (props) => {
   const [country, setCountry] = useState(null);
   const [email, setEmail] = useState(null);
   const [updateData, setUpdatedData] = useState(null);
-
+  const [totalData, setTotalData] = useState({});
   const [editList, setEditList] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [counterFlag, setCounterFlag] = useState(0);
@@ -1201,10 +1201,6 @@ const ViewTable = (props) => {
 
         setSiteNumberAll(siteNumbers);
         setSiteNameAll(filteredSiteNames);
-        // setSiteNameAll((prevSiteNumbers) => ({
-        //   ...prevSiteNumbers,
-        //   [index]: siteNames,
-        // }));
       }
 
       const value = e.value;
@@ -1214,6 +1210,10 @@ const ViewTable = (props) => {
 
       let index = countryall.findIndex((x) => x.value === value);
       list[i].countryIndex = index;
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
       setHpc(list);
     }
   };
@@ -2436,10 +2436,14 @@ const ViewTable = (props) => {
                                         }
                                         value={
                                           siteNumberAll[hpc[i].siteNumberIndex]
+                                            ? siteNumberAll[
+                                                hpc[i].siteNumberIndex
+                                              ]
+                                            : ""
                                         }
-                                        defaultValue={
-                                          siteNumberAll[hpc[i].siteNumberIndex]
-                                        }
+                                        // defaultValue={
+                                        //   siteNumberAll[hpc[i].siteNumberIndex]
+                                        // }
                                         placeholder={
                                           typeof siteNumberAll[
                                             hpc[i].siteNumberIndex
@@ -2473,6 +2477,7 @@ const ViewTable = (props) => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site Name</label>
+
                                       <Select
                                         options={siteNameAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2490,10 +2495,12 @@ const ViewTable = (props) => {
                                         // valueField={
                                         //   siteNameAll[hpc[i].siteNameIndex]?.value
                                         // }
-                                        defaultValue={
-                                          siteNameAll[hpc[i].siteNameIndex]
-                                        }
                                         value={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                            : ""
+                                        }
+                                        defaultValue={
                                           siteNameAll[hpc[i].siteNameIndex]
                                         }
                                         placeholder={
