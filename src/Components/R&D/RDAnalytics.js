@@ -52,6 +52,9 @@ const RDAnalytics = () => {
   const [sortDirection, setSortDirection] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [lastSortedPDFId, setLastSortedPDFId] = useState(null);
+  const [isSortButtonActive, setIsSortButtonActive] = useState(false)
+  const [activeAccordionKey, setActiveAccordionKey] = useState(null);
+
 
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
@@ -64,11 +67,11 @@ const RDAnalytics = () => {
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
-const tooltip = (
-  <Tooltip id="tooltip">
-    This chart shows the sites that have users who viewed the 1top content  
-  </Tooltip>
-);
+  const tooltip = (
+    <Tooltip id="tooltip">
+      This chart shows the sites that have users who viewed the 1top content
+    </Tooltip>
+  );
   const [pieOptions, setPieOptions] = useState({
     chart: {
       plotBackgroundColor: null,
@@ -380,83 +383,84 @@ const tooltip = (
 
   const getMostPopularContentSiteData = async (pdf_id) => {
     try {
-// console.log(isContentSiteAccordionOpen[pdf_id]);
-      if(!isContentSiteAccordionOpen[pdf_id] || isContentSiteAccordionOpen[pdf_id]==undefined){
-      const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
-        pdf_id: pdf_id,
-      });
-      const data = result?.data?.data.site_data;
-      const chart_data = result?.data?.data?.chart_data;
-      setMostPopularContentSiteData((prevData) => ({
-        ...prevData,
-        [pdf_id]: data,
-      }));
+      // console.log(isContentSiteAccordionOpen[pdf_id]);
+      if (!isContentSiteAccordionOpen[pdf_id] || isContentSiteAccordionOpen[pdf_id] == undefined) {
+        const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
+          pdf_id: pdf_id,
+        });
+        const data = result?.data?.data.site_data;
+        const chart_data = result?.data?.data?.chart_data;
+        setMostPopularContentSiteData((prevData) => ({
+          ...prevData,
+          [pdf_id]: data,
+        }));
 
-      // console.log("dropdown", data);
+        // console.log("dropdown", data);
 
-      // Set chart data options for the PDF
+        // Set chart data options for the PDF
 
-      setChartOptions((prevOptions) => ({
-        ...prevOptions,
-        [pdf_id]: {
-          chart_data: {
-            chart: {
-              type: "pie",
-            },
-            title: {
-              text: "",
-            },
-            subtitle: {
-            text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
-              verticalAlign: "middle",
-              y: 20,
-            },
-            exporting: {
-             enabled: false,
-            },
-            plotOptions: {
-              pie: {
-                innerSize: "70%",
-                dataLabels: {
-                  enabled: true,
-                  format: "{point.y}",
-                  style: {
-                  fontWeight: "bold",
-                    color: "white",
-                    textOutline: "none",
-                    fontSize: "12px",
+        setChartOptions((prevOptions) => ({
+          ...prevOptions,
+          [pdf_id]: {
+            chart_data: {
+              chart: {
+                type: "pie",
+                size:"80%"
+              },
+              title: {
+                text: "",
+              },
+              subtitle: {
+                text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
+                verticalAlign: "middle",
+                y: 20,
+              },
+              exporting: {
+                enabled: false,
+              },
+              plotOptions: {
+                pie: {
+                  innerSize: "80%",
+                  dataLabels: {
+                    enabled: true,
+                    format: "{point.y}",
+                    style: {
+                      fontWeight: "bold",
+                      color: "white",
+                      textOutline: "none",
+                      fontSize: "12px",
+                    },
+                    distance: -20, // Adjust the distance of the data labels from the center
                   },
-                  distance: -20, // Adjust the distance of the data labels from the center
+                  animation: {
+                    duration: 1000,
+                  },
+                  enableMouseTracking: false, // Disable hover functionality
                 },
-                animation: {
-                  duration: 1000,
-                },
-                enableMouseTracking: false, // Disable hover functionality
               },
+              series: [
+                {
+                  name: "Device Count",
+                  data: chart_data.deviceNames.map((name, index) => ({
+                    name,
+                    y: chart_data.deviceCount[name],
+                    color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
+                      index % 4
+                    ],
+                  })),
+                  size: "90%",
+                  innerSize: "65%",
+                },
+              ],
             },
-            series: [
-              {
-                name: "Device Count",
-                data: chart_data.deviceNames.map((name, index) => ({
-                  name,
-                  y: chart_data.deviceCount[name],
-                  color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
-                    index % 4
-                  ],
-                })),
-                size: "80%",
-                innerSize: "75%",
-              },
-            ],
+            device_names: chart_data.deviceNames,
           },
-          device_names: chart_data.deviceNames,
-        },
-      }));
-      setIsContentSiteAccordionOpen({...isContentSiteAccordionOpen,[pdf_id]:true})
-    }
-    else{
-      setIsContentSiteAccordionOpen({...isContentSiteAccordionOpen,[pdf_id]:false})
-    }
+        }));
+        setIsContentSiteAccordionOpen({ ...isContentSiteAccordionOpen, [pdf_id]: true })
+      }
+      else {
+        setIsContentSiteAccordionOpen({ ...isContentSiteAccordionOpen, [pdf_id]: false })
+      }
       // console.log(chartOptions);
     } catch (err) {
       console.log("--err", err);
@@ -658,47 +662,47 @@ const tooltip = (
     if (!sortedContentViewObject.hasOwnProperty(pdfId)) {
       // Handle the case when the provided ID does not exist in the data
       //  console.error(`Data with ID ${pdfId} does not exist`);
-        return;
+      return;
+    }
+
+    const sortedArray = sortedContentViewObject[pdfId].sort((a, b) => {
+      const siteNumberA = a.count;
+      const siteNumberB = b.count;
+
+      if (sortDirection === 0) {
+        return siteNumberA - siteNumberB;
+      } else {
+        return siteNumberB - siteNumberA;
       }
-    
-      const sortedArray = sortedContentViewObject[pdfId].sort((a, b) => {
-        const siteNumberA = a.count;
-        const siteNumberB = b.count;
-    
-        if (sortDirection === 0) {
-          return siteNumberA - siteNumberB;
-        } else {
-          return siteNumberB - siteNumberA;
-        }
-      });
-    
-      const updatedContentViewObject = { ...sortedContentViewObject, [pdfId]: sortedArray };
-      setMostPopularContentSiteData(updatedContentViewObject); 
-    
-     
-      if (lastSortedPDFId === pdfId) {
-        setSortDirection(sortDirection === 0 ? 1 : 0);
-        setIsActive(!isActive);
-      }
-    
-      setLastSortedPDFId(pdfId); 
+    });
+
+    const updatedContentViewObject = { ...sortedContentViewObject, [pdfId]: sortedArray };
+    setMostPopularContentSiteData(updatedContentViewObject);
+
+
+    if (lastSortedPDFId === pdfId) {
+      setSortDirection(sortDirection === 0 ? 1 : 0);
+      setIsActive(!isActive);
+    }
+
+    setLastSortedPDFId(pdfId);
+  };
+
+
+
+  const handleExport = (tableName) => {
+    const table = document.getElementById(tableName);
+    const rows = table.getElementsByTagName('tr');
+    const base64 = (s) => {
+      return window.btoa(unescape(encodeURIComponent(s)));
     };
-    
-    
-    
-    const handleExport = (tableName) => {
-      const table = document.getElementById(tableName);
-      const rows = table.getElementsByTagName('tr');
-      const base64 = (s) => {
-        return window.btoa(unescape(encodeURIComponent(s)));
-      };
-    
-      const format = (s, c) => {
-        return s.replace(/{(\w+)}/g, function (m, p) {
-          return c[p];
-        });
-      };
-    
+
+    const format = (s, c) => {
+      return s.replace(/{(\w+)}/g, function (m, p) {
+        return c[p];
+      });
+    };
+
 
     // console.log(filteredRows);
     const filteredRows = Array.from(rows).filter((row, index) => {
@@ -711,24 +715,24 @@ const tooltip = (
         index !== 0 // Exclude the first row (header row)
       );
     });
-    
+
     // Create a new table element and copy the header row
     const exportTable = document.createElement('table');
     const headerRow = table.getElementsByTagName('thead')[0].cloneNode(true);
     exportTable.appendChild(headerRow);
-    
+
     // Copy the filtered rows to the export table
     filteredRows.forEach((row) => {
       const clonedRow = row.cloneNode(true);
       exportTable.appendChild(clonedRow);
     });
-    
+
     // Remove the empty rows with class "blank"
     const blankRows = exportTable.getElementsByClassName('blank');
     Array.from(blankRows).forEach((blankRow) => {
       blankRow.remove();
     });
-    
+
     // Generate the Excel file
     const uri = 'data:application/vnd.ms-excel;base64,';
     const template =
@@ -738,28 +742,28 @@ const tooltip = (
       'lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
       '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></' +
       'xml><![endif]--></head><body>{table}</body></html>';
-    
+
     const context = {
       worksheet: 'Sheet1',
       table: exportTable.outerHTML,
     };
-    
+
     const randomPrefix = Math.random().toString(36).substring(7); // Generate a random string
-    
+
     const element = document.createElement('a');
     element.href = uri + base64(format(template, context));
     element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
     element.click();
-    
+
     // Insert the removed blank rows after the table generation
     Array.from(blankRows).forEach((blankRow) => {
       exportTable.appendChild(blankRow);
     });
-    };
-    
-  
-    
-    
+  };
+
+
+
+
 
   return (
     <>
@@ -1017,9 +1021,9 @@ const tooltip = (
                           <span>Click on the graph to see more details</span>
                         </div>
                         <div className="popular-tooltip">
-                            <OverlayTrigger placement="left" overlay={tooltip}>
-                              <img src={path_image + "tooltip-img.svg"} alt="" />
-                            </OverlayTrigger>
+                          <OverlayTrigger placement="left" overlay={tooltip}>
+                            <img src={path_image + "tooltip-img.svg"} alt="" />
+                          </OverlayTrigger>
                         </div>
                         <img
                           className="pie-chart"
@@ -1207,7 +1211,7 @@ const tooltip = (
                                         : "not_yet"
                                   }
                                 >
-                                  {item?.training_status_code == "0" ? "Complete" : item?.training_status_code == "1" ? "Started" : item?.training_status_code == "2" ? "Not yet" : null}
+                                  {item?.training_status_code == "0" ? "Completed" : item?.training_status_code == "1" ? "Started" : item?.training_status_code == "2" ? "Not yet" : null}
                                 </td>
                                 <td>{item?.site_name}</td>
 
@@ -1522,8 +1526,8 @@ const tooltip = (
                                                 <td>{data?.binded}</td>
                                                 <td className={
                                                   data?.training_status_code == "0"
-                                                    ? "complete" : "not_yet"}>                               
-                                                {data?.training_status_code == "0" ? "Completed" : data?.training_status_code == "1" ? "Not yet" : null}</td>
+                                                    ? "complete" : "not_yet"}>
+                                                  {data?.training_status_code == "0" ? "Completed" : data?.training_status_code == "1" ? "Not yet" : null}</td>
                                               </tr>
                                             ))}
                                           </tbody>
@@ -1827,11 +1831,14 @@ const tooltip = (
                           </Accordion.Item>
                           <Accordion.Item
                             eventKey="10"
-                            className={isActive ? 'accordion-read active' : 'accordion-read'} onClick={handleClick}
+                          //  className={isActive ? 'accordion-read active' : 'accordion-read'} //onClick={handleClick}
+                          className={activeAccordionKey === "10" ? 'accordion-read active' : 'accordion-read'}
+                          onClick={() => setActiveAccordionKey("10")}
                           >
                             <Accordion.Header
 
                               onClick={() => {
+                                handleClick();
                                 getMostPopularContentSiteData(item?.pdf?.id);
                               }}
                             >
@@ -1857,8 +1864,12 @@ const tooltip = (
                                               <th className="short_value">
                                                 <Button
                                                   // className="sort_btn"
-                                                  className={`sort_btn ${isActive ? 'active' : ''}`}
-                                                  onClick={() => sortContentView(item.pdf?.id)}
+                                                  className={`sort_btn ${isSortButtonActive ? 'active' : ''}`}
+                                                  onClick={() => {
+                                                    setIsSortButtonActive(true);
+                                                    sortContentView(item.pdf?.id);
+                                                  }}
+
                                                 >
                                                   Sort By
                                                   <svg
@@ -1938,7 +1949,7 @@ const tooltip = (
             </div>
           </Row>
         </div>
-   </Col>
+      </Col>
     </>
   );
 };
