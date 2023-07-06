@@ -15,7 +15,7 @@ import { loader } from "../../loader";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
-
+const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
 const RDAnalytics = () => {
   const [show, setShow] = useState();
   const [totalSiteNumber, setTotalSiteNumber] = useState();
@@ -30,7 +30,9 @@ const RDAnalytics = () => {
     site_Engagement: false,
     content: false,
   });
+  const [isSortButtonActive, setIsSortButtonActive] = useState(false);
 
+  const [activeAccordionKey, setActiveAccordionKey] = useState(null);
   const [indidualCompletionTableData, setIndividualCompletionTableData] =
     useState();
   const [individualCompletionShow, setIndividualCompletionShow] = useState();
@@ -62,8 +64,6 @@ const RDAnalytics = () => {
   const [sortDirection, setSortDirection] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [lastSortedPDFId, setLastSortedPDFId] = useState(null);
-  const [isSortButtonActive, setIsSortButtonActive] = useState(false);
-  const [activeAccordionKey, setActiveAccordionKey] = useState(null);
 
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
@@ -138,13 +138,13 @@ const RDAnalytics = () => {
     xAxis: {
       categories: [],
       title: {
-        text: "",
+        text: "Site",
       },
     },
     yAxis: {
       min: 0,
       title: {
-        text: "",
+        text: "Assists",
       },
     },
     tooltip: {
@@ -408,10 +408,14 @@ const RDAnalytics = () => {
         const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
           pdf_id: pdf_id,
         });
+
         const data = result?.data?.data.site_data;
+
         const chart_data = result?.data?.data?.chart_data;
+
         setMostPopularContentSiteData((prevData) => ({
           ...prevData,
+
           [pdf_id]: data,
         }));
 
@@ -421,55 +425,69 @@ const RDAnalytics = () => {
 
         setChartOptions((prevOptions) => ({
           ...prevOptions,
+
           [pdf_id]: {
             chart_data: {
               chart: {
                 type: "pie",
-                size: "80%",
               },
+
               title: {
-                text: "",
+                text: "Device Chart",
               },
+
               subtitle: {
                 text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
+
                 verticalAlign: "middle",
-                y: 20,
+
+                y: 45,
               },
+
               exporting: {
                 enabled: false,
               },
+
               plotOptions: {
                 pie: {
-                  innerSize: "80%",
+                  innerSize: "70%",
+
                   dataLabels: {
                     enabled: true,
+
                     format: "{point.y}",
+
                     style: {
                       fontWeight: "bold",
+
                       color: "white",
+
                       textOutline: "none",
+
                       fontSize: "12px",
                     },
+
                     distance: -20, // Adjust the distance of the data labels from the center
                   },
+
                   animation: {
                     duration: 1000,
                   },
+
                   enableMouseTracking: false, // Disable hover functionality
                 },
               },
+
               series: [
                 {
                   name: "Device Count",
                   data: chart_data.deviceNames.map((name, index) => ({
                     name,
                     y: chart_data.deviceCount[name],
-                    color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
-                      index % 4
-                    ],
+                    color: color[(index % chart_data.deviceNames.length) + 1],
                   })),
-                  size: "90%",
-                  innerSize: "65%",
+                  size: "80%",
+                  innerSize: "75%",
                 },
               ],
             },
@@ -641,59 +659,22 @@ const RDAnalytics = () => {
         const siteNumberA = a.training_status.toLowerCase();
         const siteNumberB = b.training_status.toLowerCase();
 
-        const sortedIndividualCompletion = [
-          ...indidualCompletionTableData,
-        ].sort((a, b) => {
-          const siteNumberA = a.training_status.toLowerCase();
-          const siteNumberB = b.training_status.toLowerCase();
-
-          if (sortDirection === 0) {
-            if (siteNumberA < siteNumberB) return -1;
-            if (siteNumberA > siteNumberB) return 1;
-            return 0;
-          } else {
-            if (siteNumberA > siteNumberB) return -1;
-            if (siteNumberA < siteNumberB) return 1;
-            return 0;
-          }
-        });
-
-        setIndividualCompletionTableData(sortedIndividualCompletion);
-        setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
-        setIsActive(!isActive);
+        if (sortDirection === 0) {
+          if (siteNumberA < siteNumberB) return -1;
+          if (siteNumberA > siteNumberB) return 1;
+          return 0;
+        } else {
+          if (siteNumberA > siteNumberB) return -1;
+          if (siteNumberA < siteNumberB) return 1;
+          return 0;
+        }
       }
     );
+
+    setIndividualCompletionTableData(sortedIndividualCompletion);
+    setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+    setIsActive(!isActive);
   };
-
-  // const sortContentView = (pdfId) => {
-  //   const sortedContentViewObject = { ...mostPopularContentSiteData };
-
-  //   if (!sortedContentViewObject.hasOwnProperty(pdfId)) {
-  //     // Handle the case when the provided ID does not exist in the data
-  //     //  console.error(`Data with ID ${pdfId} does not exist`);
-  //       return;
-  //     }
-
-  //     const sortedArray = sortedContentViewObject[pdfId].sort((a, b) => {
-  //       const siteNumberA = a.count;
-  //       const siteNumberB = b.count;
-
-  //       if (sortDirection === 0) {
-  //         if (siteNumberA < siteNumberB) return -1;
-  //         if (siteNumberA > siteNumberB) return 1;
-  //         return 0;
-  //       } else {
-  //         if (siteNumberA > siteNumberB) return -1;
-  //         if (siteNumberA < siteNumberB) return 1;
-  //         return 0;
-  //       }
-  //     }
-  //   );
-
-  //   setIndividualCompletionTableData(sortedIndividualCompletion);
-  //   setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
-  //   setIsActive(!isActive);
-  // };
 
   const sortContentView = (pdfId) => {
     const sortedContentViewObject = { ...mostPopularContentSiteData };
@@ -1041,10 +1022,14 @@ const RDAnalytics = () => {
                         <h5>Most Popular content</h5>
                         <div className="d-flex">
                           <div className="count-number">
-                            {mostPopularContentData
-                              ? mostPopularContentData[0]?.watched_count +
-                                mostPopularContentData[1]?.watched_count +
-                                mostPopularContentData[2]?.watched_count
+                            {mostPopularContentData &&
+                            mostPopularContentData.length > 0
+                              ? mostPopularContentData
+                                  .map((item) => item?.watched_count)
+                                  .reduce(
+                                    (total, count) => total + (count || 0),
+                                    0
+                                  )
                               : 0}
                           </div>
                           <img src={path_image + "content-view.svg"} alt="" />
@@ -1254,11 +1239,13 @@ const RDAnalytics = () => {
                                       ? "complete"
                                       : item?.training_status_code == 1
                                       ? "started"
+                                      : item?.training_status == "completed"
+                                      ? "complete"
                                       : "not_yet"
                                   }
                                 >
                                   {item?.training_status_code == "0"
-                                    ? "Completed"
+                                    ? "Complete"
                                     : item?.training_status_code == "1"
                                     ? "Started"
                                     : item?.training_status_code == "2"
@@ -1351,8 +1338,8 @@ const RDAnalytics = () => {
                                                             ) : null}
                                                           </div>
                                                           <div className="completed-date">
-                                                            {item?.training_status_code ==
-                                                            0 ? (
+                                                            {item?.training_status ==
+                                                            "complete" ? (
                                                               <>
                                                                 Completed date
                                                                 <span className="complete">
@@ -1984,7 +1971,6 @@ const RDAnalytics = () => {
                           >
                             <Accordion.Header
                               onClick={() => {
-                                handleClick();
                                 getMostPopularContentSiteData(item?.pdf?.id);
                               }}
                             >
@@ -2020,7 +2006,14 @@ const RDAnalytics = () => {
                                                   sortContentView(item.pdf?.id);
                                                 }}
                                               >
-                                                <svg>
+                                                Sort By
+                                                <svg
+                                                  width="20"
+                                                  height="18"
+                                                  viewBox="0 0 20 18"
+                                                  fill="none"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                >
                                                   <path
                                                     d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
                                                     fill="#97B6CF"
@@ -2070,10 +2063,20 @@ const RDAnalytics = () => {
                                             item.pdf?.id
                                           ]?.device_names?.map(
                                             (item, index) => (
-                                              <p key={index}>
-                                                <span></span>
-                                                {item}
-                                              </p>
+                                              <>
+                                                <p key={index}>
+                                                  <span
+                                                    style={{
+                                                      backgroundColor:
+                                                        color[index],
+                                                      borderRadius: "100%",
+                                                      width: "15px",
+                                                      height: "15px",
+                                                    }}
+                                                  ></span>
+                                                  {item}
+                                                </p>
+                                              </>
                                             )
                                           )}
                                         </div>
