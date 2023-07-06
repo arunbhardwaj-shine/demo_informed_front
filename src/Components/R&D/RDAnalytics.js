@@ -1233,9 +1233,7 @@ const RDAnalytics = () => {
                                 </td>
                                 <td>{item?.user_type}</td>
                                 <td>
-                                  {item?.blind_type == "yes"
-                                    ? "Blinded"
-                                    : "UnBlind"}
+                                  {item?.blind_type == "yes" ? "Yes" : "No"}
                                 </td>
                                 <td
                                   className={
