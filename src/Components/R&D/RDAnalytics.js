@@ -33,6 +33,7 @@ const RDAnalytics = () => {
   const [isSortButtonActive, setIsSortButtonActive] = useState(false);
   const [sortingCount, setSortingCount] = useState(0);
   const [sorting, setSorting] = useState(0);
+  const [sortSite, setSortSite] = useState(false);
 
   const [activeAccordionKey, setActiveAccordionKey] = useState(null);
   const [indidualCompletionTableData, setIndividualCompletionTableData] =
@@ -111,7 +112,7 @@ const RDAnalytics = () => {
     plotOptions: {
       pie: {
         size: "80%",
-       // innerSize: "65%",
+        // innerSize: "65%",
         dataLabels: {
           enabled: true,
           format: "{point.y}",
@@ -244,13 +245,6 @@ const RDAnalytics = () => {
         };
       });
 
-      // Sort the newSeries array based on the maximum data
-      newSeries.sort((a, b) => {
-        const maxDataA = Math.max(...a.data);
-        const maxDataB = Math.max(...b.data);
-        return maxDataB - maxDataA;
-      });
-
       const columnCategories = result?.data?.data?.site_numbers;
 
       const newColumnOptions = {
@@ -266,20 +260,45 @@ const RDAnalytics = () => {
     }
   };
 
-  useEffect(() => {
-    const checkboxElement = document.querySelector(
-      '.switch6 input[type="checkbox"]'
-    );
-    checkboxElement.addEventListener("click", handleCheckboxClick);
+ 
+  const handleCheckboxClick = async (sort) => {
+    try {
+      loader("show");
+      const result = await postData(ENDPOINT.SITEREGISTERSORT, { sort: sort });
 
-    return () => {
-      checkboxElement.removeEventListener("click", handleCheckboxClick);
-    };
-  }, []);
-  const handleCheckboxClick = () => {
-    initialFun();
+      if (sortSite) {
+        setSortSite(false);
+      } else {
+        setSortSite(true);
+      }
+      console.log(sort);
+
+      const data = result?.data?.data?.registered_irt;
+      setTotalSiteNumber(result?.data?.total_sites);
+
+      const newSeries = data?.map((item, index) => {
+        return {
+          name: item.name,
+          data: item.data,
+        };
+      });
+
+      const columnCategories = result?.data?.data?.site_numbers;
+
+      const newColumnOptions = {
+        ...columnOptions,
+        xAxis: {
+          categories: columnCategories,
+        },
+        series: newSeries,
+      };
+      setColumnOptions(newColumnOptions);
+    } catch (err) {
+      // console.log("-err", err);
+    }
     loader("hide");
   };
+
 
   const getPieChartData = async () => {
     try {
@@ -413,7 +432,7 @@ const RDAnalytics = () => {
     } catch (err) {
       console.log("--err", err);
     }
-    finally{
+    finally {
       loader("hide");
 
     }
@@ -519,7 +538,7 @@ const RDAnalytics = () => {
     } catch (err) {
       console.log("--err", err);
     }
-    finally{
+    finally {
       loader("hide");
 
     }
@@ -878,7 +897,10 @@ const RDAnalytics = () => {
                               </div>
                               <div className="switch6">
                                 <label className="switch6-light">
-                                  <input type="checkbox" />
+                                  <input type="checkbox" onChange={() => {handleCheckboxClick(!sortSite)
+                                  setSortSite(!sortSite)}
+                                  }
+/>
                                   <span>
                                     <span>
                                       <svg
@@ -1034,13 +1056,13 @@ const RDAnalytics = () => {
                         <div className="d-flex">
                           <div className="count-number">
                             {mostPopularContentData &&
-                            mostPopularContentData.length > 0
+                              mostPopularContentData.length > 0
                               ? mostPopularContentData
-                                  .map((item) => item?.watched_count)
-                                  .reduce(
-                                    (total, count) => total + (count || 0),
-                                    0
-                                  )
+                                .map((item) => item?.watched_count)
+                                .reduce(
+                                  (total, count) => total + (count || 0),
+                                  0
+                                )
                               : 0}
                           </div>
                           <img src={path_image + "content-view.svg"} alt="" />
@@ -1087,12 +1109,12 @@ const RDAnalytics = () => {
                                   <div className="d-flex justify-content-between">
                                     <div className="pages-number">
                                       {item?.total_pages ||
-                                      item?.total_pages == 0
+                                        item?.total_pages == 0
                                         ? "Pages:"
                                         : "Time:"}
                                       <span>
                                         {item?.total_pages ||
-                                        item?.total_pages == 0
+                                          item?.total_pages == 0
                                           ? item.total_pages
                                           : item?.max_time}
                                       </span>
@@ -1207,11 +1229,10 @@ const RDAnalytics = () => {
                           return (
                             <>
                               <tr
-                                className={`view ${
-                                  individualCompletionShow == index
+                                className={`view ${individualCompletionShow == index
                                     ? "show"
                                     : ""
-                                }`}
+                                  }`}
                                 onClick={(e) =>
                                   individualCompletionShowData(
                                     e,
@@ -1224,7 +1245,7 @@ const RDAnalytics = () => {
                                 <td>
                                   {item?.username
                                     ? item?.username?.charAt(0).toUpperCase() +
-                                      item?.username.slice(1)
+                                    item?.username.slice(1)
                                     : "NA"}
                                 </td>
                                 <td>
@@ -1238,19 +1259,19 @@ const RDAnalytics = () => {
                                     item?.training_status_code == 0
                                       ? "complete"
                                       : item?.training_status_code == 1
-                                      ? "started"
-                                      : item?.training_status == "completed"
-                                      ? "complete"
-                                      : "not_yet"
+                                        ? "started"
+                                        : item?.training_status == "completed"
+                                          ? "complete"
+                                          : "not_yet"
                                   }
                                 >
                                   {item?.training_status_code == "0"
                                     ? "Complete"
                                     : item?.training_status_code == "1"
-                                    ? "Started"
-                                    : item?.training_status_code == "2"
-                                    ? "Not yet"
-                                    : null}
+                                      ? "Started"
+                                      : item?.training_status_code == "2"
+                                        ? "Not yet"
+                                        : null}
                                 </td>
                                 <td>
                                   {item?.site_name ? item?.site_name : "NA"}
@@ -1319,7 +1340,7 @@ const RDAnalytics = () => {
                                                         <div className="page-count">
                                                           <div className="time">
                                                             {data?.file_type ==
-                                                            "pdf" ? (
+                                                              "pdf" ? (
                                                               <>
                                                                 Pages{" "}
                                                                 <span>
@@ -1342,7 +1363,7 @@ const RDAnalytics = () => {
                                                           </div>
                                                           <div className="completed-date">
                                                             {item?.training_status_code ==
-                                                            0 ? (
+                                                              0 ? (
                                                               <>
                                                                 Completed date
                                                                 <span className="complete">
@@ -1374,7 +1395,7 @@ const RDAnalytics = () => {
                                                     </div>
                                                   </Accordion.Header>
                                                   {trainingAccordianShow ==
-                                                  i ? (
+                                                    i ? (
                                                     <Accordion.Body>
                                                       <div className="article-pages-details d-flex">
                                                         {trainingDropdownData?.length ? (
@@ -1569,9 +1590,8 @@ const RDAnalytics = () => {
                           return (
                             <>
                               <tr
-                                className={`view ${
-                                  siteCompletionShow == index ? "show" : ""
-                                }`}
+                                className={`view ${siteCompletionShow == index ? "show" : ""
+                                  }`}
                                 onClick={(e) => {
                                   siteCompletionShowData(e, index);
                                 }}
@@ -1623,18 +1643,18 @@ const RDAnalytics = () => {
                                                 <td
                                                   className={
                                                     data?.training_status_code ==
-                                                    "0"
+                                                      "0"
                                                       ? "complete"
                                                       : "not_yet"
                                                   }
                                                 >
                                                   {data?.training_status_code ==
-                                                  "0"
+                                                    "0"
                                                     ? "Completed"
                                                     : data?.training_status_code ==
                                                       "1"
-                                                    ? "Not yet"
-                                                    : null}
+                                                      ? "Not yet"
+                                                      : null}
                                                 </td>
                                               </tr>
                                             ))}
@@ -1714,9 +1734,8 @@ const RDAnalytics = () => {
                             <>
                               <tr
                                 key={index}
-                                className={`view ${
-                                  show == index ? "show" : ""
-                                }`}
+                                className={`view ${show == index ? "show" : ""
+                                  }`}
                                 onClick={(e) => rdShowData(e, index)}
                               >
                                 <td>{item?.site_name}</td>
@@ -1728,9 +1747,9 @@ const RDAnalytics = () => {
                               {show == index ? (
                                 <tr
                                   className="fold show"
-                                  // className={`fold ${
-                                  //   show && show == index ? "show" : ""
-                                  // }`}
+                                // className={`fold ${
+                                //   show && show == index ? "show" : ""
+                                // }`}
                                 >
                                   {item?.pdf_data?.length ? (
                                     <td colspan="5">
@@ -1762,7 +1781,7 @@ const RDAnalytics = () => {
                                                   <div className="page-count">
                                                     <div className="time">
                                                       {data?.file_type ==
-                                                      "pdf" ? (
+                                                        "pdf" ? (
                                                         <>
                                                           Pages{" "}
                                                           <span>
@@ -1859,12 +1878,12 @@ const RDAnalytics = () => {
                                   <div className="page-count">
                                     <div className="time">
                                       {item?.total_pages ||
-                                      item?.total_pages === 0
+                                        item?.total_pages === 0
                                         ? "Pages:"
                                         : "Time:"}
                                       <span>
                                         {item?.total_pages ||
-                                        item?.total_pages === 0
+                                          item?.total_pages === 0
                                           ? item.total_pages
                                           : item?.max_time}
                                       </span>
@@ -1938,92 +1957,91 @@ const RDAnalytics = () => {
                             </Accordion.Header>
                             {mostPopularContentSiteData[item.pdf?.id]?.length >
                               0 && (
-                              <>
-                                <Accordion.Body>
-                                  <div className="contents-block d-flex">
-                                    <div className="contents-block-left">
-                                      <Table>
-                                        <thead>
-                                          <tr>
-                                            <th>Site</th>
-                                            <th>Site Number</th>
-                                            <th className="short_value">
-                                              <Button
-                                                className={`sort_btn ${
-                                                  isActive ? "active" : ""
-                                                }`}
-                                                onClick={() => {
-                                                  sortContentView(item.pdf?.id);
-                                                }}
-                                              >
-                                                Sort By{" "}
-                                                <img
-                                                  src={path_image + "sort.svg"}
-                                                  alt="Shorting"
-                                                />
-                                              </Button>{" "}
-                                            </th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          {mostPopularContentSiteData[
-                                            item.pdf?.id
-                                          ].map((pdf, index) => (
-                                            <tr key={index}>
-                                              {" "}
-                                              {/* Add key prop with a unique value */}
-                                              <td>{pdf.site_name}</td>
-                                              <td>{pdf.site_number}</td>
-                                              <td className="short_value">
-                                                {pdf.count}{" "}
-                                                <img
-                                                  src="componentAssets/images/viewer.svg"
-                                                  alt=""
-                                                />
-                                              </td>
+                                <>
+                                  <Accordion.Body>
+                                    <div className="contents-block d-flex">
+                                      <div className="contents-block-left">
+                                        <Table>
+                                          <thead>
+                                            <tr>
+                                              <th>Site</th>
+                                              <th>Site Number</th>
+                                              <th className="short_value">
+                                                <Button
+                                                  className={`sort_btn ${isActive ? "active" : ""
+                                                    }`}
+                                                  onClick={() => {
+                                                    sortContentView(item.pdf?.id);
+                                                  }}
+                                                >
+                                                  Sort By{" "}
+                                                  <img
+                                                    src={path_image + "sort.svg"}
+                                                    alt="Shorting"
+                                                  />
+                                                </Button>{" "}
+                                              </th>
                                             </tr>
-                                          ))}
-                                        </tbody>
-                                      </Table>
-                                    </div>
-                                    <div className="contents-block-right">
-                                      <h4>Used Devices</h4>
-                                      <div className="used-device-detail">
-                                        <HighchartsReact
-                                          highcharts={Highcharts}
-                                          options={
-                                            chartOptions[item.pdf?.id]
-                                              ?.chart_data
-                                          }
-                                        />
-                                        <div className="used-device-detail d-flex align-items-center">
-                                          {chartOptions[
-                                            item.pdf?.id
-                                          ]?.device_names?.map(
-                                            (item, index) => (
-                                              <>
-                                                <p key={index}>
-                                                  <span
-                                                    style={{
-                                                      backgroundColor:
-                                                        color[index],
-                                                      borderRadius: "100%",
-                                                      width: "15px",
-                                                      height: "15px",
-                                                    }}
-                                                  ></span>
-                                                  {item}
-                                                </p>
-                                              </>
-                                            )
-                                          )}
+                                          </thead>
+                                          <tbody>
+                                            {mostPopularContentSiteData[
+                                              item.pdf?.id
+                                            ].map((pdf, index) => (
+                                              <tr key={index}>
+                                                {" "}
+                                                {/* Add key prop with a unique value */}
+                                                <td>{pdf.site_name}</td>
+                                                <td>{pdf.site_number}</td>
+                                                <td className="short_value">
+                                                  {pdf.count}{" "}
+                                                  <img
+                                                    src="componentAssets/images/viewer.svg"
+                                                    alt=""
+                                                  />
+                                                </td>
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </Table>
+                                      </div>
+                                      <div className="contents-block-right">
+                                        <h4>Used Devices</h4>
+                                        <div className="used-device-detail">
+                                          <HighchartsReact
+                                            highcharts={Highcharts}
+                                            options={
+                                              chartOptions[item.pdf?.id]
+                                                ?.chart_data
+                                            }
+                                          />
+                                          <div className="used-device-detail d-flex align-items-center">
+                                            {chartOptions[
+                                              item.pdf?.id
+                                            ]?.device_names?.map(
+                                              (item, index) => (
+                                                <>
+                                                  <p key={index}>
+                                                    <span
+                                                      style={{
+                                                        backgroundColor:
+                                                          color[index],
+                                                        borderRadius: "100%",
+                                                        width: "15px",
+                                                        height: "15px",
+                                                      }}
+                                                    ></span>
+                                                    {item}
+                                                  </p>
+                                                </>
+                                              )
+                                            )}
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </Accordion.Body>
-                              </>
-                            )}
+                                  </Accordion.Body>
+                                </>
+                              )}
                           </Accordion.Item>
                         </Accordion>
                       </div>
