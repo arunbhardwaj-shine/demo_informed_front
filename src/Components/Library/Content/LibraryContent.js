@@ -72,7 +72,7 @@ const LibraryContent = (props) => {
   const [filterObject, setFilterObject] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
-  
+
   const [filterdata, setFilterData] = useState({
     language: ["English", "Russian"],
   });
@@ -1259,7 +1259,7 @@ const LibraryContent = (props) => {
             />
             {/* {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
-              
+
                 <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
@@ -1535,7 +1535,7 @@ const LibraryContent = (props) => {
                                 deletestatus == false ? (
                                   <div className="data-main-footer-sec">
                                     <div className={`footer-btn-wrapper ${["wW0geGtDPvig5gF 6KbJrg==","B7SHpAc XDXSH NXkN0rdQ==","z2TunmZQf3QwCsICFTLGGQ==","qDgwPdToP05Kgzc g2VjIQ==",
-                                   "UbCJcnLM9fe HsRMgX8c1A=="  
+                                   "UbCJcnLM9fe HsRMgX8c1A=="
                                   ].includes(localStorage.getItem("user_id"))&&
                                       filterObject["Content Owners"] ==
                                         "IBU Owner"?"clone":""}`}>
@@ -2389,7 +2389,7 @@ const LibraryContent = (props) => {
           </Row>
         </div>
       </Col>
-     
+
       <CommonModel
         show={show}
         onClose={setShow}
@@ -2404,7 +2404,7 @@ const LibraryContent = (props) => {
         handleSubmit={resetDataId?saveArticle:downloadQRCode}
         handleQR={resetDataId?handleLanguage:handleQR}
       />
-      
+
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}

@@ -450,80 +450,117 @@ const RDAnalytics = () => {
         });
 
         const data = result?.data?.data.site_data;
-
         const chart_data = result?.data?.data?.chart_data;
+      // Set chart data options for the PDF
+      setChartOptions((prevOptions) => ({
+        ...prevOptions,
 
-        setMostPopularContentSiteData((prevData) => ({
-          ...prevData,
-
-          [pdf_id]: data,
-        }));
-
-        // Set chart data options for the PDF
-
-        setChartOptions((prevOptions) => ({
-          ...prevOptions,
-
-          [pdf_id]: {
-            chart_data: {
-              chart: {
-                type: "pie",
-                height: 300,
-              },
-
-              title: {
-                text: "",
-              },
-
-              subtitle: {
-                text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
-                verticalAlign: "middle",
-                y: 15,
-              },
-
-              exporting: {
-                enabled: false,
-              },
-
-              plotOptions: {
-                pie: {
-                  innerSize: "70%",
-                  dataLabels: {
-                    enabled: true,
-                    format: "{point.y}",
-                    style: {
-                      fontWeight: "bold",
-                      color: "white",
-                      textOutline: "none",
-                      fontSize: "12px",
-                    },
-                    distance: -20, // Adjust the distance of the data labels from the center
-                  },
-
-                  animation: {
-                    duration: 1000,
-                  },
-
-                  enableMouseTracking: false, // Disable hover functionality
-                },
-              },
-
-              series: [
-                {
-                  name: "Device Count",
-                  data: chart_data.deviceNames.map((name, index) => ({
-                    name,
-                    y: chart_data.deviceCount[name],
-                    color: color[(index % chart_data.deviceNames.length) + 1],
-                  })),
-                  size: "80%",
-                  innerSize: "65%",
-                },
-              ],
+        [pdf_id]: {
+          chart_data: {
+            chart: {
+              type: "pie",
+              height: 300,
             },
-            device_names: chart_data.deviceNames,
+            title: {
+              text: "",
+            },
+            subtitle: {
+
+              text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
+
+              verticalAlign: "middle",
+
+              y: 15,
+
+            },
+
+
+
+            exporting: {
+
+              enabled: false,
+
+            },
+
+
+
+            plotOptions: {
+
+              pie: {
+
+                innerSize: "70%",
+
+                dataLabels: {
+
+                  enabled: true,
+
+                  format: "{point.y}",
+
+                  style: {
+
+                    fontWeight: "bold",
+
+                    color: "white",
+
+                    textOutline: "none",
+
+                    fontSize: "12px",
+
+                  },
+
+                  distance: -20, // Adjust the distance of the data labels from the center
+
+                },
+
+
+
+                animation: {
+
+                  duration: 1000,
+
+                },
+
+
+
+                enableMouseTracking: false, // Disable hover functionality
+
+              },
+
+            },
+
+
+
+            series: [
+
+              {
+
+                name: "Device Count",
+
+                data: chart_data.deviceNames.map((name, index) => ({
+
+                  name,
+
+                  y: chart_data.deviceCount[name],
+
+                  color: color[(index % chart_data.deviceNames.length) + 1],
+
+                })),
+
+                size: "80%",
+
+                innerSize: "65%",
+
+              },
+
+            ],
+
           },
-        }));
+
+          device_names: chart_data.deviceNames,
+
+        },
+
+      }));
         setIsContentSiteAccordionOpen({
           ...isContentSiteAccordionOpen,
           [pdf_id]: true,
@@ -816,7 +853,7 @@ const RDAnalytics = () => {
 
   return (
     <>
-      <Col className="right-sidebar col">
+      <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
             <div className="top-header">

@@ -22,7 +22,7 @@ const LoginLayout = ({ component: Component, ...rest }) => {
           </div>
         </div>
       </>
-      : <Navigate to="/informed" />
+      : <Navigate to="/" />
     }
     </>
   );

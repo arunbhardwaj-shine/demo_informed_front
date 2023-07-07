@@ -25,9 +25,18 @@ const ReaderAdd = () => {
   const [irtCountry, setIRTCountry] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
-    { value: "production1", label: "production1222" },
-    { value: "production2", label: "production2" },
-    { value: "production3", label: "production3" },
+    { value: "Anaesthesia & Intensive care", label: "Anaesthesia & Intensive care" },
+    { value: "CIDP and MMN", label: "CIDP and MMN" },
+    { value: "Cardiac surgery", label: "Cardiac surgery" },
+    { value: "GBS", label: "GBS" },
+    { value: "General Haematology", label: "General Haematology" },
+    { value: "Haematological malignancies", label: "Haematological malignancies" },
+    { value: "Haemophilia and VWD", label: "Haemophilia and VWD" },
+    { value: "Immunology", label: "Immunology" },
+    { value: "Neurology", label: "Neurology" },
+    { value: "Transplantation", label: "Transplantation" },
+    { value: "Trauma", label: "Trauma" },
+    { value: "Other", label: "Other" },
   ]);
   const [ibu, setIbu] = useState([
     {
@@ -244,6 +253,7 @@ const ReaderAdd = () => {
       province: hasData?.data?.data?.province,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
+      userType:[{label:"Hcp",value:"Hcp"},{label:"Staff users",value:"Staff users"},{label:"Test users",value:"Test users"}],
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
@@ -599,6 +609,7 @@ const ReaderAdd = () => {
           role: userInputs?.role,
           sub_role: userInputs?.sub_role,
           ibu: userInputs?.ibu,
+          userType:userInputs?.UserType
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");

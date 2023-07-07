@@ -17,6 +17,7 @@ import Spc from "./Components/Library/Spc";
 import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
 import ChangePassword from "./Auth/ChangePassword";
+import WebinarQuestion from "./Components/Firbase/WebinarQuestion";
 
 //Firbase 
 
@@ -240,6 +241,10 @@ const Routing = () => {
          <Route
           path="/change-password"
           element={<LoginLayout component={ChangePassword} />}
+        />
+          <Route
+          path="/webinar-question"
+          element={<WebinarQuestion />}
         />
 
 

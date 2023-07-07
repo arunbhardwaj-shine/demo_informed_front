@@ -32,7 +32,7 @@ instanceAxios.interceptors.response.use(
         break;
       case 401:
         localStorage.clear();
-        window.location.href = "/informed";
+        window.location.href = "/";
         break;
       case 500:
         toast.warning(err?.response.data.message)
