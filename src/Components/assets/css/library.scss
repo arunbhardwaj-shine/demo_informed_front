@@ -9186,7 +9186,7 @@ border-radius: 26px;
                         color: $primary-color;
                         display: inline-flex;
                         align-items: center;
-                        margin: 0 0 0 5px;
+                        margin: 0 0 0 1px;
                         img{
                           margin-left:4px;
                         }
@@ -9247,6 +9247,11 @@ border-radius: 26px;
                 color: rgba(0, 74, 137, 0.55);
                 justify-content: space-between;
                 align-items: center;
+                .time{
+                  span{
+                    margin-left:4px;
+                  }
+                }
                 span {
                   font-weight: 500;
                   color: $dark-blue;
@@ -9260,6 +9265,8 @@ border-radius: 26px;
                   color:$dark-blue;
                   &.complete{
                     color:$secondary-green;
+                    align-items: center;
+                    display: flex;
                   }
                   img{
                     margin-left:3px;
