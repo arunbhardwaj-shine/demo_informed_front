@@ -87,7 +87,8 @@ const RDAnalytics = () => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      // height: 500,
+      //size: "80"
+      height: 250
     },
     title: {
       text: "",
@@ -131,6 +132,7 @@ const RDAnalytics = () => {
   const [columnOptions, setColumnOptions] = useState({
     chart: {
       type: "column",
+      height: 250
     },
     title: {
       text: "",
@@ -138,13 +140,13 @@ const RDAnalytics = () => {
     xAxis: {
       categories: [],
       title: {
-        text: "Site",
+        text: "",
       },
     },
     yAxis: {
       min: 0,
       title: {
-        text: "Assists",
+        text: "",
       },
     },
     tooltip: {
@@ -170,6 +172,7 @@ const RDAnalytics = () => {
   const [rdSiteOptions, setRdSiteOptions] = useState({
     chart: {
       type: "column",
+      height:230
     },
     title: {
       text: "",
@@ -430,18 +433,17 @@ const RDAnalytics = () => {
             chart_data: {
               chart: {
                 type: "pie",
+               height:300
               },
 
               title: {
-                text: "Device Chart",
+                text: "",
               },
 
               subtitle: {
                 text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
-
                 verticalAlign: "middle",
-
-                y: 45,
+                y: 15,
               },
 
               exporting: {
@@ -451,22 +453,15 @@ const RDAnalytics = () => {
               plotOptions: {
                 pie: {
                   innerSize: "70%",
-
                   dataLabels: {
                     enabled: true,
-
                     format: "{point.y}",
-
                     style: {
                       fontWeight: "bold",
-
                       color: "white",
-
                       textOutline: "none",
-
                       fontSize: "12px",
                     },
-
                     distance: -20, // Adjust the distance of the data labels from the center
                   },
 
@@ -487,7 +482,7 @@ const RDAnalytics = () => {
                     color: color[(index % chart_data.deviceNames.length) + 1],
                   })),
                   size: "80%",
-                  innerSize: "75%",
+                  innerSize: "65%",
                 },
               ],
             },
@@ -1039,8 +1034,8 @@ const RDAnalytics = () => {
                       <div className="graph-box">
                         <div className="">
                           <p>
-                            Sites who Read | Watch the <span>1 top</span>{" "}
-                            content
+                            {/* Sites who Read | Watch the <span>1 top</span>{" "} content */}
+                           Sites who Read | Watch The Top Content                          
                           </p>
                           <span>Click on the graph to see more details</span>
                         </div>
@@ -1227,12 +1222,17 @@ const RDAnalytics = () => {
                                 }
                               >
                                 {console.log(item)}
-                                <td>{item?.username}</td>
-                                <td>{item?.user_type}</td>
                                 <td>
-                                  {item?.blind_type == "yes"
-                                    ? "Blinded"
-                                    : "Un-Blinded"}
+                                  {item?.username
+                                    ? item?.username?.charAt(0).toUpperCase() +
+                                      item?.username.slice(1)
+                                    : "NA"}
+                                </td>
+                                <td>
+                                  {item?.user_type ? item?.user_type : "NA"}
+                                </td>
+                                <td>
+                                  {item?.blind_type == "yes" ? "Yes" : "No"}
                                 </td>
                                 <td
                                   className={
@@ -1253,7 +1253,9 @@ const RDAnalytics = () => {
                                     ? "Not yet"
                                     : null}
                                 </td>
-                                <td>{item?.site_name}</td>
+                                <td>
+                                  {item?.site_name ? item?.site_name : "NA"}
+                                </td>
 
                                 <td class="pics">
                                   {item?.training_status_code == 0 ? (
@@ -1545,6 +1547,7 @@ const RDAnalytics = () => {
                         <Button
                           // className="sort_btn"
                           className={`sort_btn ${isActive ? "active" : ""}`}
+                          
                           onClick={sortSiteCompletion}
                         >
                           Sort By
