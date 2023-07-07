@@ -8688,6 +8688,7 @@ border-radius: 26px;
           line-height: 19px;
           color: $light-gray;
           margin:0 0 6px;
+          font-size: 16px;
       }
       .rd-analytics-box-layout{
         background: $white;
@@ -8724,11 +8725,14 @@ border-radius: 26px;
                 line-height: inherit;
               }
             }
+            .graph-box-inside{
+               margin:0 0 10px;
+            }
             span{
               font-weight: 400;
               font-size: 12px;
               line-height: 14px;
-              color: $light-gray
+              color: $light-gray;
             }
             .pie-chart{
                 max-width: 196px;
@@ -8861,8 +8865,15 @@ border-radius: 26px;
             }
         }
         
+        
       }
     } 
+}
+.rd-analytics-box.rd-content {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
 }
 .rd-full-explain{
   .rd-section-title{
@@ -8890,6 +8901,7 @@ border-radius: 26px;
       font-size: 12px;
       line-height: 14px;
       color: $light-gray;
+      margin: 0 0 9px;
     }
     .rd-training-block-right{
       gap: 0 12px;
@@ -8931,7 +8943,7 @@ border-radius: 26px;
       }
     }
     table{
-      margin-top: 12px;
+      margin: 12px 0 0;
       thead{
         tr{
           box-shadow: none;
@@ -9148,7 +9160,7 @@ border-radius: 26px;
           border-radius: 0px 0px 9px 9px;
           .article-pages-details{
           flex-wrap: wrap;
-          gap: 17px 50px;
+          gap: 20px 0px;
           .article-page-show {
               display: flex;
               min-width: 16.6%;
@@ -9312,6 +9324,17 @@ border-radius: 26px;
 }   .rd-full-explain .rd-training-block .accordion .accordion-item .accordion-header {
         padding: 0;
     }
+    .table-responsive {
+    max-height: 500px;
+    padding: 0 5px 0 3px;
+}
+.table-responsive::-webkit-scrollbar {
+    width: 7px;
+}
+.table-responsive::-webkit-scrollbar-thumb{
+    width: 12px;
+    border: 2px solid #dce6ef;
+}
     // .rd-full-explain .rd-training-block .engagement-sec {
     //     margin: 0;
     // }
@@ -9351,7 +9374,7 @@ border-radius: 26px;
         transform: rotate(180deg);
     }
     .rd-full-explain .rd-training-block .contents .accordion .accordion-item .accordion-body {
-        padding: 16px;
+        padding: 16px 4px 4px;
     }
     .accordion-body .contents-block {
         width: 100%;
@@ -9360,7 +9383,7 @@ border-radius: 26px;
     .accordion-body .contents-block .contents-block-right h4 {
         color: $light-gray;
         text-align: left;
-        margin: 0 0 60px;
+        margin: 0 0 14px;
     }
     .contents-block-right .used-device-detail img {
         max-width: 285px;
@@ -9374,7 +9397,7 @@ border-radius: 26px;
     }
     .accordion-body .contents-block .contents-block-left {
         flex: 1 1;
-        padding-right: 18px;
+        padding:0 18px 0 12px;
         border-right: 1px dashed $light-gray;
     }
     .rd-full-explain .rd-training-block .contents-block-left table {
@@ -9397,6 +9420,26 @@ border-radius: 26px;
       padding: 10px;
       min-width: 104px;
       border:0;
+      &.sort_btn{
+          padding:10px 14px;
+          svg{margin-left:14px;}
+          &.active{
+            background: #0066BE;
+            color: #ffffff;
+            svg path {
+              fill: #ffffff;
+            }
+          }
+        }
+        &:hover{
+          background: $primary-color;
+          color:$white;
+          svg{
+            path{
+              fill: $white;
+            }
+          }
+        }
     }
     .rd-full-explain .rd-training-block .contents-block-left table tbody td {
         line-height: 22px;
@@ -9421,17 +9464,30 @@ border-radius: 26px;
     }
   .rd-full-explain .rd-training-block .used-device-detail {
       max-width: 285px;
-      margin: -30px auto 0;
+      margin: 0px auto;
       position: relative;
       z-index: 1;
-      top: -20px;
+      top: 0px;
+      .used-device-detail {
+          margin: -40px 0 20px;
+          flex-wrap: wrap;
+          gap: 13px 0;
+      }
   }
   .rd-full-explain .rd-training-block .used-device-detail p {
       width: 50%;
       text-align: center;
       color: $dark-blue;
       font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      span{
+        display: block;
+        margin-right:6px;
+      }
   }
+
 .highcharts-subtitle tspan {
     color: #70899E!important;
     fill: #70899E!important;

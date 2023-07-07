@@ -855,7 +855,7 @@ const RDAnalytics = () => {
                           </div>
                           <div className="graph-box">
                             <div className="d-flex justify-content-between align-items-center">
-                              <div className="">
+                              <div className="graph-box-inside">
                                 <p>Registered IRTs at each site</p>
                                 <span>
                                   Click on the graph to see more details
@@ -973,7 +973,7 @@ const RDAnalytics = () => {
                             </div>
                           </div>
                           <div className="graph-box">
-                            <div className="">
+                            <div className="graph-box-inside">
                               <p>
                                 Engaging With Non-mandatory Content at each site
                               </p>
@@ -1191,165 +1191,281 @@ const RDAnalytics = () => {
                         </Button>
                       </div>
                     </div>
-                    <Table className="fold-table" id="individual_completion">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Role</th>
-                          <th>Blind type</th>
-                          <th>Training</th>
-                          <th>Site</th>
-                          <th>&nbsp;</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {indidualCompletionTableData?.map((item, index) => {
-                          return (
-                            <>
-                              <tr
-                                className={`view ${
-                                  individualCompletionShow == index
-                                    ? "show"
-                                    : ""
-                                }`}
-                                onClick={(e) =>
-                                  individualCompletionShowData(
-                                    e,
-                                    index,
-                                    item?.user_id,
-                                    item?.training_status_code
-                                  )
-                                }
-                              >
-                                {console.log(item)}
-                                <td>
-                                  {item?.username
-                                    ? item?.username?.charAt(0).toUpperCase() +
-                                      item?.username.slice(1)
-                                    : "NA"}
-                                </td>
-                                <td>
-                                  {item?.user_type ? item?.user_type : "NA"}
-                                </td>
-                                <td>
-                                  {item?.blind_type == "yes" ? "Yes" : "No"}
-                                </td>
-                                <td
-                                  className={
-                                    item?.training_status_code == 0
-                                      ? "complete"
-                                      : item?.training_status_code == 1
-                                      ? "started"
-                                      : item?.training_status == "completed"
-                                      ? "complete"
-                                      : "not_yet"
+                    <div className="table-responsive">
+                      <Table className="fold-table" id="individual_completion">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Blind type</th>
+                            <th>Training</th>
+                            <th>Site</th>
+                            <th>&nbsp;</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {indidualCompletionTableData?.map((item, index) => {
+                            return (
+                              <>
+                                <tr
+                                  className={`view ${
+                                    individualCompletionShow == index
+                                      ? "show"
+                                      : ""
+                                  }`}
+                                  onClick={(e) =>
+                                    individualCompletionShowData(
+                                      e,
+                                      index,
+                                      item?.user_id,
+                                      item?.training_status_code
+                                    )
                                   }
                                 >
-                                  {item?.training_status_code == "0"
-                                    ? "Complete"
-                                    : item?.training_status_code == "1"
-                                    ? "Started"
-                                    : item?.training_status_code == "2"
-                                    ? "Not yet"
-                                    : null}
-                                </td>
-                                <td>
-                                  {item?.site_name ? item?.site_name : "NA"}
-                                </td>
+                                  {console.log(item)}
+                                  <td>
+                                    {item?.username
+                                      ? item?.username?.charAt(0).toUpperCase() +
+                                        item?.username.slice(1)
+                                      : "NA"}
+                                  </td>
+                                  <td>
+                                    {item?.user_type ? item?.user_type : "NA"}
+                                  </td>
+                                  <td>
+                                    {item?.blind_type == "yes" ? "Yes" : "No"}
+                                  </td>
+                                  <td
+                                    className={
+                                      item?.training_status_code == 0
+                                        ? "complete"
+                                        : item?.training_status_code == 1
+                                        ? "started"
+                                        : item?.training_status == "completed"
+                                        ? "complete"
+                                        : "not_yet"
+                                    }
+                                  >
+                                    {item?.training_status_code == "0"
+                                      ? "Complete"
+                                      : item?.training_status_code == "1"
+                                      ? "Started"
+                                      : item?.training_status_code == "2"
+                                      ? "Not yet"
+                                      : null}
+                                  </td>
+                                  <td>
+                                    {item?.site_name ? item?.site_name : "NA"}
+                                  </td>
 
-                                <td class="pics">
-                                  {item?.training_status_code == 0 ? (
-                                    <img
-                                      src={path_image + "certificate.png"}
-                                      alt="Certificate"
-                                    />
-                                  ) : null}
-                                </td>
-                              </tr>
-                              {individualCompletionShow == index ? (
-                                <tr className={"fold show"}>
-                                  <td colspan="6">
-                                    <div className="fold-content">
-                                      <p>
-                                        Completed Contents |{" "}
+                                  <td class="pics">
+                                    {item?.training_status_code == 0 ? (
+                                      <img
+                                        src={path_image + "certificate.png"}
+                                        alt="Certificate"
+                                      />
+                                    ) : null}
+                                  </td>
+                                </tr>
+                                {individualCompletionShow == index ? (
+                                  <tr className={"fold show"}>
+                                    <td colspan="6">
+                                      <div className="fold-content">
+                                        <p>
+                                          Completed Contents |{" "}
+                                          <span>
+                                            {trainingDropdownData?.length}
+                                          </span>
+                                        </p>
                                         <span>
-                                          {trainingDropdownData?.length}
+                                          Click on the content for more details
                                         </span>
-                                      </p>
-                                      <span>
-                                        Click on the content for more details
-                                      </span>
-                                      <Accordion>
-                                        {trainingDropdownData?.map(
-                                          (data, i) => {
-                                            return (
-                                              <>
-                                                <Accordion.Item
-                                                  eventKey={i}
-                                                  onClick={(e) =>
-                                                    individualTrainingDropdown(
-                                                      e,
-                                                      i,
-                                                      item?.user_id,
-                                                      data?.id,
-                                                      data?.file_type
-                                                    )
-                                                  }
-                                                >
-                                                  <Accordion.Header>
-                                                    <div className="d-flex align-items-start">
-                                                      <div className="content-image">
-                                                        <img
-                                                          src={
-                                                            data?.article_image
-                                                          }
-                                                          // src={
-                                                          //   path_image +
-                                                          //   "lex-book-cover.png"
-                                                          // }
-                                                          alt=""
-                                                        />
-                                                      </div>
-                                                      <div className="content-detail">
-                                                        <h6>{data?.title}</h6>
-                                                        <p>
-                                                          {data?.pdf_sub_title
-                                                            ? data?.pdf_sub_title
-                                                            : " "}
-                                                        </p>
-                                                        <div className="page-count">
-                                                          <div className="time">
-                                                            {data?.file_type ==
-                                                            "pdf" ? (
-                                                              <>
-                                                                Pages{" "}
-                                                                <span>
-                                                                  {
-                                                                    data?.total_pages
-                                                                  }
-                                                                </span>
-                                                              </>
-                                                            ) : data?.file_type ==
-                                                              "video" ? (
-                                                              <>
-                                                                Time
-                                                                <span>
-                                                                  {
-                                                                    data?.max_time
-                                                                  }
-                                                                </span>
-                                                              </>
-                                                            ) : null}
+                                        <Accordion>
+                                          {trainingDropdownData?.map(
+                                            (data, i) => {
+                                              return (
+                                                <>
+                                                  <Accordion.Item
+                                                    eventKey={i}
+                                                    onClick={(e) =>
+                                                      individualTrainingDropdown(
+                                                        e,
+                                                        i,
+                                                        item?.user_id,
+                                                        data?.id,
+                                                        data?.file_type
+                                                      )
+                                                    }
+                                                  >
+                                                    <Accordion.Header>
+                                                      <div className="d-flex align-items-start">
+                                                        <div className="content-image">
+                                                          <img
+                                                            src={
+                                                              data?.article_image
+                                                            }
+                                                            // src={
+                                                            //   path_image +
+                                                            //   "lex-book-cover.png"
+                                                            // }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="content-detail">
+                                                          <h6>{data?.title}</h6>
+                                                          <p>
+                                                            {data?.pdf_sub_title
+                                                              ? data?.pdf_sub_title
+                                                              : " "}
+                                                          </p>
+                                                          <div className="page-count">
+                                                            <div className="time">
+                                                              {data?.file_type ==
+                                                              "pdf" ? (
+                                                                <>
+                                                                  Pages{" "}
+                                                                  <span>
+                                                                    {
+                                                                      data?.total_pages
+                                                                    }
+                                                                  </span>
+                                                                </>
+                                                              ) : data?.file_type ==
+                                                                "video" ? (
+                                                                <>
+                                                                  Time
+                                                                  <span>
+                                                                    {
+                                                                      data?.max_time
+                                                                    }
+                                                                  </span>
+                                                                </>
+                                                              ) : null}
+                                                            </div>
+                                                            <div className="completed-date">
+                                                              {item?.training_status_code ==
+                                                              0 ? (
+                                                                <>
+                                                                  Completed date
+                                                                  <span className="complete">
+                                                                    {data?.date
+                                                                      ? data?.date
+                                                                      : "NA"}{" "}
+                                                                    <img
+                                                                      src={
+                                                                        path_image +
+                                                                        "check-complete.svg"
+                                                                      }
+                                                                      alt=""
+                                                                    />
+                                                                  </span>
+                                                                </>
+                                                              ) : (
+                                                                <>
+                                                                  Recent Activity
+                                                                  <span className="started">
+                                                                    {data?.date
+                                                                      ? data?.date
+                                                                      : "NA"}{" "}
+                                                                  </span>
+                                                                </>
+                                                              )}
+                                                            </div>
                                                           </div>
-                                                          <div className="completed-date">
-                                                            {item?.training_status_code ==
-                                                            0 ? (
-                                                              <>
-                                                                Completed date
+                                                        </div>
+                                                      </div>
+                                                    </Accordion.Header>
+                                                    {trainingAccordianShow ==
+                                                    i ? (
+                                                      <Accordion.Body>
+                                                        <div className="article-pages-details d-flex">
+                                                          {trainingDropdownData?.length ? (
+                                                            traingAccordianData?.map(
+                                                              (pageData, e) => {
+                                                                return (
+                                                                  <>
+                                                                    <div className="article-page-show">
+                                                                      <div className="article-cover-img">
+                                                                        <img
+                                                                          src={
+                                                                            path_image +
+                                                                            "article-content-cover.png"
+                                                                          }
+                                                                          alt=""
+                                                                        />
+                                                                      </div>
+                                                                      <div className="article-detail-view">
+                                                                        <div className="article-page-number">
+                                                                          Page{" "}
+                                                                          {
+                                                                            pageData?.page
+                                                                          }
+                                                                        </div>
+                                                                        <div className="article-spanrd-time">
+                                                                          Time
+                                                                          spent |{" "}
+                                                                          <span>
+                                                                            {
+                                                                              pageData?.time
+                                                                            }
+                                                                          </span>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                  </>
+                                                                );
+                                                              }
+                                                            )
+                                                          ) : (
+                                                            <div>No Data</div>
+                                                          )}
+                                                        </div>
+                                                      </Accordion.Body>
+                                                    ) : null}
+                                                  </Accordion.Item>
+                                                </>
+                                              );
+                                            }
+                                          )}
+                                        </Accordion>
+
+                                        {trainingCertificate?.length ? (
+                                          <Accordion>
+                                            {trainingCertificate?.map(
+                                              (item, index) => {
+                                                return (
+                                                  <>
+                                                    <Accordion.Item
+                                                      eventKey={index}
+                                                    >
+                                                      <Accordion.Header>
+                                                        <div className="d-flex align-items-start">
+                                                          <div className="content-image">
+                                                            <img
+                                                              src={
+                                                                item?.certificateImage
+                                                                // path_image +
+                                                                // "article-content.png"
+                                                              }
+                                                              alt=""
+                                                            />
+                                                          </div>
+                                                          <div className="content-detail">
+                                                            <h6>{item?.type}</h6>
+                                                            <p>
+                                                              Lorem sollicitudin
+                                                              faucibus eu molestie
+                                                              sollicitudin gravida
+                                                            </p>
+                                                            <div className="page-count">
+                                                              <div className="time">
+                                                                {" "}
+                                                                <span></span>
+                                                              </div>
+                                                              <div className="completed-date">
+                                                                Issued date
                                                                 <span className="complete">
-                                                                  {data?.date
-                                                                    ? data?.date
-                                                                    : "NA"}{" "}
+                                                                  {item?.date}
                                                                   <img
                                                                     src={
                                                                       path_image +
@@ -1358,148 +1474,34 @@ const RDAnalytics = () => {
                                                                     alt=""
                                                                   />
                                                                 </span>
-                                                              </>
-                                                            ) : (
-                                                              <>
-                                                                Recent Activity
-                                                                <span className="started">
-                                                                  {data?.date
-                                                                    ? data?.date
-                                                                    : "NA"}{" "}
-                                                                </span>
-                                                              </>
-                                                            )}
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </Accordion.Header>
-                                                  {trainingAccordianShow ==
-                                                  i ? (
-                                                    <Accordion.Body>
-                                                      <div className="article-pages-details d-flex">
-                                                        {trainingDropdownData?.length ? (
-                                                          traingAccordianData?.map(
-                                                            (pageData, e) => {
-                                                              return (
-                                                                <>
-                                                                  <div className="article-page-show">
-                                                                    <div className="article-cover-img">
-                                                                      <img
-                                                                        src={
-                                                                          path_image +
-                                                                          "article-content-cover.png"
-                                                                        }
-                                                                        alt=""
-                                                                      />
-                                                                    </div>
-                                                                    <div className="article-detail-view">
-                                                                      <div className="article-page-number">
-                                                                        Page{" "}
-                                                                        {
-                                                                          pageData?.page
-                                                                        }
-                                                                      </div>
-                                                                      <div className="article-spanrd-time">
-                                                                        Time
-                                                                        spent |{" "}
-                                                                        <span>
-                                                                          {
-                                                                            pageData?.time
-                                                                          }
-                                                                        </span>
-                                                                      </div>
-                                                                    </div>
-                                                                  </div>
-                                                                </>
-                                                              );
-                                                            }
-                                                          )
-                                                        ) : (
-                                                          <div>No Data</div>
-                                                        )}
-                                                      </div>
-                                                    </Accordion.Body>
-                                                  ) : null}
-                                                </Accordion.Item>
-                                              </>
-                                            );
-                                          }
-                                        )}
-                                      </Accordion>
-
-                                      {trainingCertificate?.length ? (
-                                        <Accordion>
-                                          {trainingCertificate?.map(
-                                            (item, index) => {
-                                              return (
-                                                <>
-                                                  <Accordion.Item
-                                                    eventKey={index}
-                                                  >
-                                                    <Accordion.Header>
-                                                      <div className="d-flex align-items-start">
-                                                        <div className="content-image">
-                                                          <img
-                                                            src={
-                                                              item?.certificateImage
-                                                              // path_image +
-                                                              // "article-content.png"
-                                                            }
-                                                            alt=""
-                                                          />
-                                                        </div>
-                                                        <div className="content-detail">
-                                                          <h6>{item?.type}</h6>
-                                                          <p>
-                                                            Lorem sollicitudin
-                                                            faucibus eu molestie
-                                                            sollicitudin gravida
-                                                          </p>
-                                                          <div className="page-count">
-                                                            <div className="time">
-                                                              {" "}
-                                                              <span></span>
-                                                            </div>
-                                                            <div className="completed-date">
-                                                              Issued date
-                                                              <span className="complete">
-                                                                {item?.date}
-                                                                <img
-                                                                  src={
-                                                                    path_image +
-                                                                    "check-complete.svg"
-                                                                  }
-                                                                  alt=""
-                                                                />
-                                                              </span>
+                                                              </div>
                                                             </div>
                                                           </div>
                                                         </div>
-                                                      </div>
-                                                    </Accordion.Header>
-                                                    <Accordion.Body></Accordion.Body>
-                                                  </Accordion.Item>
-                                                </>
-                                              );
-                                            }
-                                          )}
-                                        </Accordion>
-                                      ) : null}
-                                    </div>
+                                                      </Accordion.Header>
+                                                      <Accordion.Body></Accordion.Body>
+                                                    </Accordion.Item>
+                                                  </>
+                                                );
+                                              }
+                                            )}
+                                          </Accordion>
+                                        ) : null}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ) : null}
+                                <tr className="blank">
+                                  <td colspan="6" style={{ height: "10px;" }}>
+                                    &nbsp;
                                   </td>
                                 </tr>
-                              ) : null}
-                              <tr className="blank">
-                                <td colspan="6" style={{ height: "10px;" }}>
-                                  &nbsp;
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
-                      </tbody>
-                    </Table>
+                              </>
+                            );
+                          })}
+                        </tbody>
+                      </Table>
+                    </div>
                   </div>
                 </div>
               ) : null}
