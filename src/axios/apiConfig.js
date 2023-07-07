@@ -88,6 +88,8 @@ export const ENDPOINT = {
 
 
   SITEREGISTER: "/site-registration",
+  SITEREGISTERSORT: "/site-registration-sort",
+
   IRT_COUNT_GRAPH: "/find-irt-count",
   // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
   RD_SITE_ENGAGEMENT:
