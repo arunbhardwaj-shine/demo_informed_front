@@ -371,6 +371,8 @@ const RDAnalytics = () => {
     }
   };
   const getMostPopularContentPageData = async (pdf_id) => {
+    loader("show");
+
     try {
       if (
         !isContentPageAccordionOpen[pdf_id] ||
@@ -401,9 +403,15 @@ const RDAnalytics = () => {
     } catch (err) {
       console.log("--err", err);
     }
+    finally{
+      loader("hide");
+
+    }
   };
 
   const getMostPopularContentSiteData = async (pdf_id) => {
+    loader("show");
+
     try {
       if (
         !isContentSiteAccordionOpen[pdf_id] ||
@@ -500,6 +508,10 @@ const RDAnalytics = () => {
       }
     } catch (err) {
       console.log("--err", err);
+    }
+    finally{
+      loader("hide");
+
     }
   };
 
