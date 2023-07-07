@@ -451,7 +451,7 @@ const SetPopup = (props) => {
                                 }
                               : {
                                   label: "Select the Consent type",
-                                  value: "",
+                                  value: (localStorage.getItem("group_id") === 2) ?  "Online" : "Sunshine" ,
                                 }
                           }
                           onChange={(e) => dropDownSelected("consentType", e)}
