@@ -112,7 +112,7 @@ const RDAnalytics = () => {
     },
     plotOptions: {
       pie: {
-        size: "80%",
+        // size: "80%",
         // innerSize: "65%",
         dataLabels: {
           enabled: true,
