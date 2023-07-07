@@ -83,7 +83,7 @@ const SetLayout = () => {
         localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
       ) {
         window.open(
-          "https://informed.pro/Webinar/readers_webinar?rdylr=" +
+          "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
             localStorage.getItem("user_id"),
           "_blank"
         );
