@@ -71,6 +71,7 @@ const RDAnalytics = () => {
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
   const site_Engagement = useRef(null);
+  const content = useRef(null);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handleClick = (event) => {
     setIsActive((current) => !current);
@@ -271,7 +272,7 @@ const RDAnalytics = () => {
       } else {
         setSortSite(true);
       }
-      console.log(sort);
+    
 
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);
@@ -431,10 +432,8 @@ const RDAnalytics = () => {
       // console.log(mostPopularContentPageData)
     } catch (err) {
       console.log("--err", err);
-    }
-    finally {
+    } finally {
       loader("hide");
-
     }
   };
 
@@ -537,10 +536,8 @@ const RDAnalytics = () => {
       }
     } catch (err) {
       console.log("--err", err);
-    }
-    finally {
+    } finally {
       loader("hide");
-
     }
   };
 
@@ -632,9 +629,7 @@ const RDAnalytics = () => {
     if (!siteCompletionTableData) {
       try {
         loader("show");
-
         const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
-
         setSiteCompletionTableData(result?.data?.data);
         loader("hide");
       } catch (err) {
@@ -642,6 +637,15 @@ const RDAnalytics = () => {
       }
     }
     site_Completion?.current?.focus();
+  };
+
+  const mostPopularContent = () => {
+    setTimeout(() => {
+      if (flag?.content) {
+        console.log("i am here--->");
+        content?.current?.focus();
+      }
+    });
   };
 
   const siteEngagementSort = () => {
@@ -1155,7 +1159,7 @@ const RDAnalytics = () => {
                               site_Engagement: false,
                               content: true,
                             });
-                            // individualCompletion();
+                            mostPopularContent();
                           }}
                         />
                       </div>
@@ -1690,7 +1694,11 @@ const RDAnalytics = () => {
                   <div className="rd-section-title">
                     <h4>Non-mandatory Content</h4>
                   </div>
-                  <div className="rd-training-block">
+                  <div
+                    className="rd-training-block"
+                    ref={site_Engagement}
+                    tabIndex={-1}
+                  >
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
                         <h4>
@@ -1843,7 +1851,11 @@ const RDAnalytics = () => {
                   <div className="rd-section-title">
                     <h4>Contents</h4>
                   </div>
-                  <div className="rd-training-block">
+                  <div
+                    className="rd-training-block"
+                    ref={content}
+                    tabIndex={-1}
+                  >
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
                         <h4>
