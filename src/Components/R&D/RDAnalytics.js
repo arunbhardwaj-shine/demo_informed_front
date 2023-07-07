@@ -1,12 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Accordion, Button, Col, Row, Table } from "react-bootstrap";
+import {
+  Accordion,
+  Button,
+  ButtonToolbar,
+  Col,
+  OverlayTrigger,
+  Row,
+  Table,
+  Tooltip,
+} from "react-bootstrap";
 import { getData, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
 const RDAnalytics = () => {
   const [show, setShow] = useState();
   const [totalSiteNumber, setTotalSiteNumber] = useState();
@@ -21,13 +30,19 @@ const RDAnalytics = () => {
     site_Engagement: false,
     content: false,
   });
+  const [isSortButtonActive, setIsSortButtonActive] = useState(false);
+  const [sortingCount, setSortingCount] = useState(0);
+  const [sorting, setSorting] = useState(0);
+  const [sortSite, setSortSite] = useState(false);
 
+  const [activeAccordionKey, setActiveAccordionKey] = useState(null);
   const [indidualCompletionTableData, setIndividualCompletionTableData] =
     useState();
   const [individualCompletionShow, setIndividualCompletionShow] = useState();
   const [trainingDropdownData, setTrainingCompletionDropdownData] = useState();
   const [trainingAccordianShow, setTrainingAccordianShow] = useState();
   const [traingAccordianData, setTrainingAccordianData] = useState();
+  const [trainingCertificate, setTrainingCertificate] = useState();
 
   const [siteCompletionTableData, setSiteCompletionTableData] = useState();
   const [mostPopularContentData, setMostPopularContentData] = useState([]);
@@ -36,13 +51,13 @@ const RDAnalytics = () => {
   );
   const [mostPopularContentSiteData, setMostPopularContentSiteData] = useState(
     []
-  ); 
+  );
   const [isContentSiteAccordionOpen, setIsContentSiteAccordionOpen] = useState(
     []
-  ); 
+  );
   const [isContentPageAccordionOpen, setIsContentPageAccordionOpen] = useState(
     []
-  ); 
+  );
   // const [mostPopularContentSiteData, setMostPopularContentSiteData] = useState(
   //   []
   // );
@@ -56,22 +71,28 @@ const RDAnalytics = () => {
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
   const site_Engagement = useRef(null);
+  const content = useRef(null);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const handleClick = event => {
-    setIsActive(current => !current);
+  const handleClick = (event) => {
+    setIsActive((current) => !current);
   };
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
-
+  const tooltip = (
+    <Tooltip id="tooltip">
+      This chart shows the sites that have users who viewed the 1top content
+    </Tooltip>
+  );
   const [pieOptions, setPieOptions] = useState({
     chart: {
       plotBackgroundColor: null,
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      // height: 500,
+      //size: "80"
+      height: 250,
     },
     title: {
       text: "",
@@ -91,15 +112,25 @@ const handleClick = event => {
     },
     plotOptions: {
       pie: {
-        allowPointSelect: true,
-        cursor: "pointer",
+        // size: "80%",
+        // innerSize: "65%",
         dataLabels: {
-          enabled: false,
-          format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+          enabled: true,
+          format: "{point.y}",
+          style: {
+            fontWeight: "bold",
+            color: "white",
+            textOutline: "none",
+            fontSize: "30px",
+          },
+          distance: -40, // Adjust the distance of the data labels from the center
         },
-        point: {
-          events: {},
+
+        animation: {
+          duration: 1000,
         },
+
+        enableMouseTracking: true,
         showInLegend: true,
       },
     },
@@ -115,6 +146,7 @@ const handleClick = event => {
   const [columnOptions, setColumnOptions] = useState({
     chart: {
       type: "column",
+      height: 250,
     },
     title: {
       text: "",
@@ -122,13 +154,13 @@ const handleClick = event => {
     xAxis: {
       categories: [],
       title: {
-        text: "Site",
+        text: "",
       },
     },
     yAxis: {
       min: 0,
       title: {
-        text: "Assists",
+        text: "",
       },
     },
     tooltip: {
@@ -154,6 +186,7 @@ const handleClick = event => {
   const [rdSiteOptions, setRdSiteOptions] = useState({
     chart: {
       type: "column",
+      height: 230,
     },
     title: {
       text: "",
@@ -205,23 +238,16 @@ const handleClick = event => {
       const result = await getData(ENDPOINT.SITEREGISTER);
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);
-  
+
       const newSeries = data?.map((item, index) => {
         return {
           name: item.name,
           data: item.data,
         };
       });
-  
-      // Sort the newSeries array based on the maximum data
-      newSeries.sort((a, b) => {
-        const maxDataA = Math.max(...a.data);
-        const maxDataB = Math.max(...b.data);
-        return maxDataB - maxDataA;
-      });
-  
+
       const columnCategories = result?.data?.data?.site_numbers;
-  
+
       const newColumnOptions = {
         ...columnOptions,
         xAxis: {
@@ -235,20 +261,45 @@ const handleClick = event => {
     }
   };
 
-  
-  useEffect(() => {
-    const checkboxElement = document.querySelector('.switch6 input[type="checkbox"]');
-    checkboxElement.addEventListener('click', handleCheckboxClick);
+ 
+  const handleCheckboxClick = async (sort) => {
+    try {
+      loader("show");
+      const result = await postData(ENDPOINT.SITEREGISTERSORT, { sort: sort });
 
-    return () => {
-      checkboxElement.removeEventListener('click', handleCheckboxClick);
-    };
-  }, []);
-  const handleCheckboxClick = () => {
-  
-    initialFun();
-    loader("hide")
+      if (sortSite) {
+        setSortSite(false);
+      } else {
+        setSortSite(true);
+      }
+    
+
+      const data = result?.data?.data?.registered_irt;
+      setTotalSiteNumber(result?.data?.total_sites);
+
+      const newSeries = data?.map((item, index) => {
+        return {
+          name: item.name,
+          data: item.data,
+        };
+      });
+
+      const columnCategories = result?.data?.data?.site_numbers;
+
+      const newColumnOptions = {
+        ...columnOptions,
+        xAxis: {
+          categories: columnCategories,
+        },
+        series: newSeries,
+      };
+      setColumnOptions(newColumnOptions);
+    } catch (err) {
+      // console.log("-err", err);
+    }
+    loader("hide");
   };
+
 
   const getPieChartData = async () => {
     try {
@@ -350,112 +401,180 @@ const handleClick = event => {
     }
   };
   const getMostPopularContentPageData = async (pdf_id) => {
-    try {
-      if(!isContentPageAccordionOpen[pdf_id] || isContentPageAccordionOpen[pdf_id]==undefined){
-      const result = await postData(ENDPOINT.MOST_POPULAR_PAGE_CONTENT, {
-        pdf_id: pdf_id,
-      });
-      const data = result?.data?.data;
-      // console.log("drowdown",data);
+    loader("show");
 
-      setMostPopularContentPageData((prevData) => ({
-        ...prevData,
-        [pdf_id]: data.time_spend_on_pdf,
-      }));
-    
-    setIsContentPageAccordionOpen({...isContentPageAccordionOpen,[pdf_id]:true})
-  }
-  else{
-    setIsContentPageAccordionOpen({...isContentPageAccordionOpen,[pdf_id]:false})
-  }
+    try {
+      if (
+        !isContentPageAccordionOpen[pdf_id] ||
+        isContentPageAccordionOpen[pdf_id] == undefined
+      ) {
+        const result = await postData(ENDPOINT.MOST_POPULAR_PAGE_CONTENT, {
+          pdf_id: pdf_id,
+        });
+        const data = result?.data?.data;
+        // console.log("drowdown",data);
+
+        setMostPopularContentPageData((prevData) => ({
+          ...prevData,
+          [pdf_id]: data.time_spend_on_pdf,
+        }));
+
+        setIsContentPageAccordionOpen({
+          ...isContentPageAccordionOpen,
+          [pdf_id]: true,
+        });
+      } else {
+        setIsContentPageAccordionOpen({
+          ...isContentPageAccordionOpen,
+          [pdf_id]: false,
+        });
+      }
       // console.log(mostPopularContentPageData)
     } catch (err) {
       console.log("--err", err);
+    } finally {
+      loader("hide");
     }
   };
 
   const getMostPopularContentSiteData = async (pdf_id) => {
+    loader("show");
+
     try {
-// console.log(isContentSiteAccordionOpen[pdf_id]);
-      if(!isContentSiteAccordionOpen[pdf_id] || isContentSiteAccordionOpen[pdf_id]==undefined){
-      const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
-        pdf_id: pdf_id,
-      });
-      const data = result?.data?.data.site_data;
-      const chart_data = result?.data?.data?.chart_data;
-      setMostPopularContentSiteData((prevData) => ({
-        ...prevData,
-        [pdf_id]: data,
-      }));
+      if (
+        !isContentSiteAccordionOpen[pdf_id] ||
+        isContentSiteAccordionOpen[pdf_id] == undefined
+      ) {
+        const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
+          pdf_id: pdf_id,
+        });
 
-      // console.log("dropdown", data);
-
+        const data = result?.data?.data.site_data;
+        const chart_data = result?.data?.data?.chart_data;
       // Set chart data options for the PDF
       setChartOptions((prevOptions) => ({
         ...prevOptions,
+
         [pdf_id]: {
           chart_data: {
             chart: {
               type: "pie",
+              height: 300,
             },
             title: {
               text: "",
             },
             subtitle: {
-              text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
-              verticalAlign: "middle",
-              y: 45,
-            },
-            exporting: {
-              enabled: false,
-            },
-            plotOptions: {
-              pie: {
-                innerSize: "70%",
-                dataLabels: {
-                  enabled: true,
-                  format: "{point.y}",
-                  style: {
-                    fontWeight: "bold",
-                    color: "white",
-                    textOutline: "none",
-                    fontSize: "12px",
-                  },
-                  distance: -20, // Adjust the distance of the data labels from the center
-                },
-                animation: {
-                  duration: 1000,
-                },
-                enableMouseTracking: false, // Disable hover functionality
-              },
-            },
-            series: [
-              {
-                name: "Device Count",
-                data: chart_data.deviceNames.map((name, index) => ({
-                  name,
-                  y: chart_data.deviceCount[name],
-                  color: ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"][
-                    index % 4
-                  ],
-                })),
-                size: "80%",
-                innerSize: "75%",
-              },
-            ],
-          },
-          device_names: chart_data.deviceNames,
-        },
-      }));
-      setIsContentSiteAccordionOpen({...isContentSiteAccordionOpen,[pdf_id]:true})
-    }
-    else{
-      setIsContentSiteAccordionOpen({...isContentSiteAccordionOpen,[pdf_id]:false})
-    }
 
-      // console.log(chartOptions);
+              text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
+
+              verticalAlign: "middle",
+
+              y: 15,
+
+            },
+
+
+
+            exporting: {
+
+              enabled: false,
+
+            },
+
+
+
+            plotOptions: {
+
+              pie: {
+
+                innerSize: "70%",
+
+                dataLabels: {
+
+                  enabled: true,
+
+                  format: "{point.y}",
+
+                  style: {
+
+                    fontWeight: "bold",
+
+                    color: "white",
+
+                    textOutline: "none",
+
+                    fontSize: "12px",
+
+                  },
+
+                  distance: -20, // Adjust the distance of the data labels from the center
+
+                },
+
+
+
+                animation: {
+
+                  duration: 1000,
+
+                },
+
+
+
+                enableMouseTracking: false, // Disable hover functionality
+
+              },
+
+            },
+
+
+
+            series: [
+
+              {
+
+                name: "Device Count",
+
+                data: chart_data.deviceNames.map((name, index) => ({
+
+                  name,
+
+                  y: chart_data.deviceCount[name],
+
+                  color: color[(index % chart_data.deviceNames.length) + 1],
+
+                })),
+
+                size: "80%",
+
+                innerSize: "65%",
+
+              },
+
+            ],
+
+          },
+
+          device_names: chart_data.deviceNames,
+
+        },
+
+      }));
+        setIsContentSiteAccordionOpen({
+          ...isContentSiteAccordionOpen,
+          [pdf_id]: true,
+        });
+      } else {
+        setIsContentSiteAccordionOpen({
+          ...isContentSiteAccordionOpen,
+          [pdf_id]: false,
+        });
+      }
     } catch (err) {
       console.log("--err", err);
+    } finally {
+      loader("hide");
     }
   };
 
@@ -505,8 +624,9 @@ const handleClick = event => {
           body
         );
         // setTrainingCertificate(result?.data?.certificate);
-        setTrainingCompletionDropdownData(result?.data?.data);
-        // console.log("result--->", result);
+        setTrainingCompletionDropdownData(result?.data?.data?.data);
+        setTrainingCertificate(result?.data?.data?.certificate);
+
         loader("hide");
       } catch (err) {
         loader("hide");
@@ -516,7 +636,7 @@ const handleClick = event => {
     }
   };
 
-  const individualTrainingDropdown = async (e, i, userId, pdfId) => {
+  const individualTrainingDropdown = async (e, i, userId, pdfId, fileType) => {
     try {
       loader("show");
       if (trainingAccordianShow == i) {
@@ -525,6 +645,7 @@ const handleClick = event => {
         let body = {
           user_id: userId,
           pdf_id: pdfId,
+          file_type: fileType,
         };
         const result = await postData(
           ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
@@ -545,9 +666,7 @@ const handleClick = event => {
     if (!siteCompletionTableData) {
       try {
         loader("show");
-
         const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
-
         setSiteCompletionTableData(result?.data?.data);
         loader("hide");
       } catch (err) {
@@ -556,37 +675,21 @@ const handleClick = event => {
     }
     site_Completion?.current?.focus();
   };
-  // const sortSelectedUsers = () => {
-  //   let normalArr = [];
-  //   normalArr = readers;
-  //   if (sorting === 0) {
-  //     normalArr.sort((a, b) =>
-  //       a.first_name.toLowerCase() > b.first_name.toLowerCase()
-  //         ? 1
-  //         : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-  //         ? -1
-  //         : 0
-  //     );
-  //   } else {
-  //     normalArr.sort((a, b) =>
-  //       a.first_name.toLowerCase() < b.first_name.toLowerCase()
-  //         ? 1
-  //         : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-  //         ? -1
-  //         : 0
-  //     );
-  //   }
 
-  //   setReaders(normalArr);
-  //   setSorting(1 - sorting);
-  //   setSortingCount(sortingCount + 1);
-  // };
+  const mostPopularContent = () => {
+    setTimeout(() => {
+      if (flag?.content) {
+        console.log("i am here--->");
+        content?.current?.focus();
+      }
+    });
+  };
 
-  const handleSort = () => {
+  const siteEngagementSort = () => {
     const sortedRdSiteData = [...rdSiteData].sort((a, b) => {
       const siteNumberA = a.site_number.toLowerCase();
       const siteNumberB = b.site_number.toLowerCase();
-  
+
       if (sortDirection === 0) {
         if (siteNumberA < siteNumberB) return -1;
         if (siteNumberA > siteNumberB) return 1;
@@ -602,164 +705,151 @@ const handleClick = event => {
     setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
     setIsActive(!isActive);
   };
-  
+
   const sortSiteCompletion = () => {
-    const sortedSiteCompletionTableData = [...siteCompletionTableData].sort((a, b) => {
-      const siteNumberA = a.site_number.toLowerCase();
-      const siteNumberB = b.site_number.toLowerCase();
-  
-      if (sortDirection === 0) {
-        if (siteNumberA < siteNumberB) return -1;
-        if (siteNumberA > siteNumberB) return 1;
-        return 0;
-      } else {
-        if (siteNumberA > siteNumberB) return -1;
-        if (siteNumberA < siteNumberB) return 1;
-        return 0;
+    const sortedSiteCompletionTableData = [...siteCompletionTableData].sort(
+      (a, b) => {
+        const siteNumberA = a.site_number.toLowerCase();
+        const siteNumberB = b.site_number.toLowerCase();
+
+        if (sortDirection === 0) {
+          if (siteNumberA > siteNumberB) return -1;
+          if (siteNumberA < siteNumberB) return 1;
+          return 0;
+        } else {
+          if (siteNumberA < siteNumberB) return -1;
+          if (siteNumberA > siteNumberB) return 1;
+          return 0;
+        }
       }
-    });
-  
+    );
+
     setSiteCompletionTableData(sortedSiteCompletionTableData);
     setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
     setIsActive(!isActive);
-  }
-  
-  
+  };
+
   const sortIndividualCompletion = () => {
-
-    const sortedIndividualCompletion = [...indidualCompletionTableData].sort((a,b) => {
-          const siteNumberA = a.training_status.toLowerCase();
-          const siteNumberB = b.training_status.toLowerCase();
-    
-          if (sortDirection === 0) {
-            if (siteNumberA < siteNumberB) return -1;
-            if (siteNumberA > siteNumberB) return 1;
-            return 0;
-          } else {
-            if (siteNumberA > siteNumberB) return -1;
-            if (siteNumberA < siteNumberB) return 1;
-            return 0;
-          }
-        });
-      
-
-        setIndividualCompletionTableData(sortedIndividualCompletion);
-        setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
-        setIsActive(!isActive);
-    }
-  
-    const sortContentView = (pdfId) => {
-      const sortedContentViewObject = { ...mostPopularContentSiteData };
-    
-      if (!sortedContentViewObject.hasOwnProperty(pdfId)) {
-        // Handle the case when the provided ID does not exist in the data
-      //  console.error(`Data with ID ${pdfId} does not exist`);
-        return;
-      }
-    
-      const sortedArray = sortedContentViewObject[pdfId].sort((a, b) => {
-        const siteNumberA = a.count;
-        const siteNumberB = b.count;
-    
+    const sortedIndividualCompletion = [...indidualCompletionTableData].sort(
+      (a, b) => {
+        const siteNumberA = a.training_status.toLowerCase();
+        const siteNumberB = b.training_status.toLowerCase();
         if (sortDirection === 0) {
-          return siteNumberA - siteNumberB;
+          if (siteNumberA > siteNumberB) return -1;
+          if (siteNumberA < siteNumberB) return 1;
+          return 0;
         } else {
-          return siteNumberB - siteNumberA;
+          if (siteNumberA < siteNumberB) return -1;
+          if (siteNumberA > siteNumberB) return 1;
+          return 0;
         }
-      });
-    
-      const updatedContentViewObject = { ...sortedContentViewObject, [pdfId]: sortedArray };
-      setMostPopularContentSiteData(updatedContentViewObject); 
-    
-     
-      if (lastSortedPDFId === pdfId) {
-        setSortDirection(sortDirection === 0 ? 1 : 0);
-        setIsActive(!isActive);
       }
-    
-      setLastSortedPDFId(pdfId); 
-    };
-    
-    
-    
-    const handleExport = (tableName) => {
-      const table = document.getElementById(tableName);
-      const rows = table.getElementsByTagName('tr');
-      const base64 = (s) => {
-        return window.btoa(unescape(encodeURIComponent(s)));
-      };
-    
-      const format = (s, c) => {
-        return s.replace(/{(\w+)}/g, function (m, p) {
-          return c[p];
-        });
-      };
-    
+    );
+    setIndividualCompletionTableData(sortedIndividualCompletion);
+    setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
+    setIsActive(!isActive);
+  };
 
-    // console.log(filteredRows);
+  const sortContentView = (pdfId) => {
+    const sortedContentViewObject = { ...mostPopularContentSiteData };
+
+    if (!sortedContentViewObject.hasOwnProperty(pdfId)) {
+      return;
+    }
+
+    const sortedArray = sortedContentViewObject[pdfId].sort((a, b) => {
+      const siteNumberA = a.count;
+      const siteNumberB = b.count;
+
+      if (sortDirection === 0) {
+        return siteNumberA - siteNumberB;
+      } else {
+        return siteNumberB - siteNumberA;
+      }
+    });
+
+    const updatedContentViewObject = {
+      ...sortedContentViewObject,
+      [pdfId]: sortedArray,
+    };
+    setMostPopularContentSiteData(updatedContentViewObject);
+
+    // if (lastSortedPDFId === pdfId) {
+    //   setSortDirection(sortDirection === 0 ? 1 : 0);
+    // }
+    setSortDirection(sortDirection === 0 ? 1 : 0);
+    setLastSortedPDFId(pdfId);
+    setIsActive(!isActive);
+  };
+
+  const handleExport = (tableName) => {
+    const table = document.getElementById(tableName);
+    const rows = table.getElementsByTagName("tr");
+    const base64 = (s) => {
+      return window.btoa(unescape(encodeURIComponent(s)));
+    };
+
+    const format = (s, c) => {
+      return s.replace(/{(\w+)}/g, function (m, p) {
+        return c[p];
+      });
+    };
+
     const filteredRows = Array.from(rows).filter((row, index) => {
-      const classNames = row.className.split(' ');
+      const classNames = row.className.split(" ");
       return (
-        !classNames.includes('fold') &&
-        !classNames.includes('fold-content') &&
-        !classNames.includes('show') &&
-        !classNames.includes('doctor') &&
+        !classNames.includes("fold") &&
+        !classNames.includes("fold-content") &&
+        !classNames.includes("show") &&
+        !classNames.includes("doctor") &&
         index !== 0 // Exclude the first row (header row)
       );
     });
-    
+
     // Create a new table element and copy the header row
-    const exportTable = document.createElement('table');
-    const headerRow = table.getElementsByTagName('thead')[0].cloneNode(true);
+    const exportTable = document.createElement("table");
+    const headerRow = table.getElementsByTagName("thead")[0].cloneNode(true);
     exportTable.appendChild(headerRow);
-    
+
     // Copy the filtered rows to the export table
     filteredRows.forEach((row) => {
       const clonedRow = row.cloneNode(true);
       exportTable.appendChild(clonedRow);
     });
-    
+
     // Remove the empty rows with class "blank"
-    const blankRows = exportTable.getElementsByClassName('blank');
+    const blankRows = exportTable.getElementsByClassName("blank");
     Array.from(blankRows).forEach((blankRow) => {
       blankRow.remove();
     });
-    
+
     // Generate the Excel file
-    const uri = 'data:application/vnd.ms-excel;base64,';
+    const uri = "data:application/vnd.ms-excel;base64,";
     const template =
       '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-mic' +
       'rosoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta cha' +
       'rset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:Exce' +
-      'lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
-      '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></' +
-      'xml><![endif]--></head><body>{table}</body></html>';
-    
+      "lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>" +
+      "</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></" +
+      "xml><![endif]--></head><body>{table}</body></html>";
+
     const context = {
-      worksheet: 'Sheet1',
+      worksheet: "Sheet1",
       table: exportTable.outerHTML,
     };
-    
+
     const randomPrefix = Math.random().toString(36).substring(7); // Generate a random string
-    
-    const element = document.createElement('a');
+
+    const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
     element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
     element.click();
-    
+
     // Insert the removed blank rows after the table generation
     Array.from(blankRows).forEach((blankRow) => {
       exportTable.appendChild(blankRow);
     });
-    };
-    
-    
-    
-    
-    
-
-
-
+  };
 
   return (
     <>
@@ -785,11 +875,15 @@ const handleClick = event => {
                               <div className="count-number">
                                 {pieData.total}
                               </div>
-                              <img src={path_image + "doctor-svg.svg"} alt="" class="doctor" />
+                              <img
+                                src={path_image + "doctor-svg.svg"}
+                                alt=""
+                                class="doctor"
+                              />
                             </div>
                           </div>
                           <div className="graph-box">
-                            <div className="">
+                            <div className="graph-box-inside">
                               <p>Completing the mandatory training</p>
                               <span>
                                 Click on the graph to see more details
@@ -836,7 +930,7 @@ const handleClick = event => {
                           </div>
                           <div className="graph-box">
                             <div className="d-flex justify-content-between align-items-center">
-                              <div className="">
+                              <div className="graph-box-inside">
                                 <p>Registered IRTs at each site</p>
                                 <span>
                                   Click on the graph to see more details
@@ -844,7 +938,10 @@ const handleClick = event => {
                               </div>
                               <div className="switch6">
                                 <label className="switch6-light">
-                                  <input type="checkbox" />
+                                  <input type="checkbox" onChange={() => {handleCheckboxClick(!sortSite)
+                                  setSortSite(!sortSite)}
+                                  }
+/>
                                   <span>
                                     <span>
                                       <svg
@@ -954,7 +1051,7 @@ const handleClick = event => {
                             </div>
                           </div>
                           <div className="graph-box">
-                            <div className="">
+                            <div className="graph-box-inside">
                               <p>
                                 Engaging With Non-mandatory Content at each site
                               </p>
@@ -999,22 +1096,31 @@ const handleClick = event => {
                         <h5>Most Popular content</h5>
                         <div className="d-flex">
                           <div className="count-number">
-                            {mostPopularContentData
-                              ? mostPopularContentData[0]?.watched_count +
-                                mostPopularContentData[1]?.watched_count +
-                                mostPopularContentData[2]?.watched_count
+                            {mostPopularContentData &&
+                              mostPopularContentData.length > 0
+                              ? mostPopularContentData
+                                .map((item) => item?.watched_count)
+                                .reduce(
+                                  (total, count) => total + (count || 0),
+                                  0
+                                )
                               : 0}
                           </div>
                           <img src={path_image + "content-view.svg"} alt="" />
                         </div>
                       </div>
                       <div className="graph-box">
-                      <div className="">
+                        <div className="graph-box-inside">
                           <p>
-                            Sites who Read | Watch the <span>1 top</span>{" "}
-                            content
+                            {/* Sites who Read | Watch the <span>1 top</span>{" "} content */}
+                            Sites who Read | Watch The Top Content
                           </p>
                           <span>Click on the graph to see more details</span>
+                        </div>
+                        <div className="popular-tooltip">
+                          <OverlayTrigger placement="left" overlay={tooltip}>
+                            <img src={path_image + "tooltip-img.svg"} alt="" />
+                          </OverlayTrigger>
                         </div>
                         <img
                           className="pie-chart"
@@ -1034,7 +1140,7 @@ const handleClick = event => {
                               >
                                 <div className="lex-image">
                                   <div className="article-number">
-                                    {item?.pdf.id}
+                                    {index + 1}
                                   </div>
                                   <img src={item?.article_image} alt="" />
                                 </div>
@@ -1044,12 +1150,12 @@ const handleClick = event => {
                                   <div className="d-flex justify-content-between">
                                     <div className="pages-number">
                                       {item?.total_pages ||
-                                      item?.total_pages == 0
+                                        item?.total_pages == 0
                                         ? "Pages:"
                                         : "Time:"}
                                       <span>
                                         {item?.total_pages ||
-                                        item?.total_pages == 0
+                                          item?.total_pages == 0
                                           ? item.total_pages
                                           : item?.max_time}
                                       </span>
@@ -1090,7 +1196,7 @@ const handleClick = event => {
                               site_Engagement: false,
                               content: true,
                             });
-                            // individualCompletion();
+                            mostPopularContent();
                           }}
                         />
                       </div>
@@ -1117,7 +1223,10 @@ const handleClick = event => {
                         <p>Click on the Record to see more details</p>
                       </div>
                       <div className="rd-training-block-right d-flex">
-                        <Button title="Download stats" onClick={() => handleExport('individual_completion')}>
+                        <Button
+                          title="Download stats"
+                          onClick={() => handleExport("individual_completion")}
+                        >
                           <svg
                             width="20"
                             height="20"
@@ -1135,28 +1244,13 @@ const handleClick = event => {
                             ></path>
                           </svg>
                         </Button>
-                        <Button 
-                        //className="sort_btn"
-                        className={`sort_btn ${isActive ? 'active' : ''}`}
-                        onClick={sortIndividualCompletion}
+
+                        <Button
+                          className={`sort_btn ${isActive ? "active" : ""}`}
+                          onClick={sortIndividualCompletion}
                         >
-                          Sort By
-                          <svg
-                            width="20"
-                            height="18"
-                            viewBox="0 0 20 18"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                              fill="#97B6CF"
-                            />
-                            <path
-                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                              fill="#97B6CF"
-                            />
-                          </svg>
+                          Sort By{" "}
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
                         </Button>
                       </div>
                     </div>
@@ -1176,11 +1270,10 @@ const handleClick = event => {
                           return (
                             <>
                               <tr
-                                className={`view ${
-                                  individualCompletionShow == index
+                                className={`view ${individualCompletionShow == index
                                     ? "show"
                                     : ""
-                                }`}
+                                  }`}
                                 onClick={(e) =>
                                   individualCompletionShowData(
                                     e,
@@ -1190,24 +1283,43 @@ const handleClick = event => {
                                   )
                                 }
                               >
-                                <td>{item?.username}</td>
-                                <td>{item?.user_type}</td>
-                                <td>{item?.blind_type}</td>
+                                <td>
+                                  {item?.username
+                                    ? item?.username?.charAt(0).toUpperCase() +
+                                    item?.username.slice(1)
+                                    : "NA"}
+                                </td>
+                                <td>
+                                  {item?.user_type ? item?.user_type : "NA"}
+                                </td>
+                                <td>
+                                  {item?.blind_type == "yes" ? "Yes" : "No"}
+                                </td>
                                 <td
                                   className={
-                                    item?.training_status == "started"
-                                      ? "started"
-                                      : item?.training_status == "complete"
+                                    item?.training_status_code == 0
                                       ? "complete"
-                                      : "not_yet"
+                                      : item?.training_status_code == 1
+                                        ? "started"
+                                        : item?.training_status == "completed"
+                                          ? "complete"
+                                          : "not_yet"
                                   }
                                 >
-                                  {item?.training_status}
+                                  {item?.training_status_code == "0"
+                                    ? "Complete"
+                                    : item?.training_status_code == "1"
+                                      ? "Started"
+                                      : item?.training_status_code == "2"
+                                        ? "Not yet"
+                                        : null}
                                 </td>
-                                <td>{item?.site_name}</td>
+                                <td>
+                                  {item?.site_name ? item?.site_name : "NA"}
+                                </td>
 
                                 <td class="pics">
-                                  {item?.training_status == "complete" ? (
+                                  {item?.training_status_code == 0 ? (
                                     <img
                                       src={path_image + "certificate.png"}
                                       alt="Certificate"
@@ -1240,7 +1352,8 @@ const handleClick = event => {
                                                       e,
                                                       i,
                                                       item?.user_id,
-                                                      data?.id
+                                                      data?.id,
+                                                      data?.file_type
                                                     )
                                                   }
                                                 >
@@ -1248,11 +1361,13 @@ const handleClick = event => {
                                                     <div className="d-flex align-items-start">
                                                       <div className="content-image">
                                                         <img
-                                                          // src={data?.pdf_thumb}
                                                           src={
-                                                            path_image +
-                                                            "lex-book-cover.png"
+                                                            data?.article_image
                                                           }
+                                                          // src={
+                                                          //   path_image +
+                                                          //   "lex-book-cover.png"
+                                                          // }
                                                           alt=""
                                                         />
                                                       </div>
@@ -1266,7 +1381,7 @@ const handleClick = event => {
                                                         <div className="page-count">
                                                           <div className="time">
                                                             {data?.file_type ==
-                                                            "pdf" ? (
+                                                              "pdf" ? (
                                                               <>
                                                                 Pages{" "}
                                                                 <span>
@@ -1288,8 +1403,8 @@ const handleClick = event => {
                                                             ) : null}
                                                           </div>
                                                           <div className="completed-date">
-                                                            {item?.training_status ==
-                                                            "complete" ? (
+                                                            {item?.training_status_code ==
+                                                              0 ? (
                                                               <>
                                                                 Completed date
                                                                 <span className="complete">
@@ -1321,7 +1436,7 @@ const handleClick = event => {
                                                     </div>
                                                   </Accordion.Header>
                                                   {trainingAccordianShow ==
-                                                  i ? (
+                                                    i ? (
                                                     <Accordion.Body>
                                                       <div className="article-pages-details d-flex">
                                                         {trainingDropdownData?.length ? (
@@ -1353,9 +1468,6 @@ const handleClick = event => {
                                                                           {
                                                                             pageData?.time
                                                                           }
-                                                                          {/* <small>
-                                                                            sec
-                                                                          </small> */}
                                                                         </span>
                                                                       </div>
                                                                     </div>
@@ -1376,6 +1488,65 @@ const handleClick = event => {
                                           }
                                         )}
                                       </Accordion>
+
+                                      {trainingCertificate?.length ? (
+                                        <Accordion>
+                                          {trainingCertificate?.map(
+                                            (item, index) => {
+                                              return (
+                                                <>
+                                                  <Accordion.Item
+                                                    eventKey={index}
+                                                  >
+                                                    <Accordion.Header>
+                                                      <div className="d-flex align-items-start">
+                                                        <div className="content-image">
+                                                          <img
+                                                            src={
+                                                              item?.certificateImage
+                                                              // path_image +
+                                                              // "article-content.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="content-detail">
+                                                          <h6>{item?.type}</h6>
+                                                          <p>
+                                                            Lorem sollicitudin
+                                                            faucibus eu molestie
+                                                            sollicitudin gravida
+                                                          </p>
+                                                          <div className="page-count">
+                                                            <div className="time">
+                                                              {" "}
+                                                              <span></span>
+                                                            </div>
+                                                            <div className="completed-date">
+                                                              Issued date
+                                                              <span className="complete">
+                                                                {item?.date}
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "check-complete.svg"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                              </span>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </Accordion.Header>
+                                                    <Accordion.Body></Accordion.Body>
+                                                  </Accordion.Item>
+                                                </>
+                                              );
+                                            }
+                                          )}
+                                        </Accordion>
+                                      ) : null}
                                     </div>
                                   </td>
                                 </tr>
@@ -1413,7 +1584,10 @@ const handleClick = event => {
                         <p></p>
                       </div>
                       <div className="rd-training-block-right d-flex">
-                        <Button title="Download stats" onClick={() => handleExport('site_completion')}>
+                        <Button
+                          title="Download stats"
+                          onClick={() => handleExport("site_completion")}
+                        >
                           <svg
                             width="20"
                             height="20"
@@ -1431,28 +1605,12 @@ const handleClick = event => {
                             ></path>
                           </svg>
                         </Button>
-                        <Button  
-                       // className="sort_btn"
-                        className={`sort_btn ${isActive ? 'active' : ''}`}
-                        onClick={sortSiteCompletion}
+                        <Button
+                          className={`sort_btn ${isActive ? "active" : ""}`}
+                          onClick={sortSiteCompletion}
                         >
-                          Sort By
-                          <svg
-                            width="20"
-                            height="18"
-                            viewBox="0 0 20 18"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                              fill="#97B6CF"
-                            />
-                            <path
-                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                              fill="#97B6CF"
-                            />
-                          </svg>
+                          Sort By{" "}
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
                         </Button>
                       </div>
                     </div>
@@ -1473,9 +1631,8 @@ const handleClick = event => {
                           return (
                             <>
                               <tr
-                                className={`view ${
-                                  siteCompletionShow == index ? "show" : ""
-                                }`}
+                                className={`view ${siteCompletionShow == index ? "show" : ""
+                                  }`}
                                 onClick={(e) => {
                                   siteCompletionShowData(e, index);
                                 }}
@@ -1496,48 +1653,64 @@ const handleClick = event => {
                                 </td>
                               </tr>
 
-                              {siteCompletionShow == index ? (
+                              {siteCompletionShow === index ? (
                                 <>
                                   <tr className="fold show">
-                                   <td colspan="5" className="site_complete">
+                                    <td colspan="5" className="site_complete">
                                       {item?.Users?.length ? (
-                                        item?.Users?.map((data, i) => {
-                                          return (
-                                            <>
-                                              <Table>
-                                                <thead>
-                                                  <tr>
-                                                    <th>Name</th>
-                                                    <th>Role</th>
-                                                    <th>Blind Type</th>
-                                                    <th>Training</th>
-                                                  </tr>
-                                                </thead>
-                                                <tbody>
-                                                  <tr>
-                                                    <td>{data?.first_name}</td>
-                                                    <td>{data?.user_type}</td>
-                                                    <td>{data?.binded}</td>
-                                                    <td className="complete">
-                                                      {data?.training}
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </Table>
-                                            </>
-                                          );
-                                        })
+                                        <Table>
+                                          <thead>
+                                            <tr>
+                                              <th>Name</th>
+                                              <th>Role</th>
+                                              <th>Blind Type</th>
+                                              <th>Training</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            {item?.Users.map((data, i) => (
+                                              <tr key={i}>
+                                                <td>
+                                                  {data?.first_name
+                                                    ? data?.first_name
+                                                    : "NA"}
+                                                </td>
+                                                <td>
+                                                  {data?.user_type
+                                                    ? data?.user_type
+                                                    : "NA"}
+                                                </td>
+                                                <td>{data?.binded}</td>
+                                                <td
+                                                  className={
+                                                    data?.training_status_code ==
+                                                      "0"
+                                                      ? "complete"
+                                                      : "not_yet"
+                                                  }
+                                                >
+                                                  {data?.training_status_code ==
+                                                    "0"
+                                                    ? "Completed"
+                                                    : data?.training_status_code ==
+                                                      "1"
+                                                      ? "Not yet"
+                                                      : null}
+                                                </td>
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </Table>
                                       ) : (
-                                       
-                                    <div className="no_data">
-                                      No Data Found
-                                    </div>
-                                    
+                                        <div className="no_data">
+                                          No Data Found
+                                        </div>
                                       )}
-                                   </td>
+                                    </td>
                                   </tr>
                                 </>
                               ) : null}
+
                               <tr className="blank">
                                 <td colspan="5" style={{ height: "10px;" }}>
                                   &nbsp;
@@ -1558,7 +1731,11 @@ const handleClick = event => {
                   <div className="rd-section-title">
                     <h4>Non-mandatory Content</h4>
                   </div>
-                  <div className="rd-training-block">
+                  <div
+                    className="rd-training-block"
+                    ref={site_Engagement}
+                    tabIndex={-1}
+                  >
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
                         <h4>
@@ -1572,56 +1749,21 @@ const handleClick = event => {
                         tabIndex={-1}
                       >
                         <button
-                    id="test-table-xls-button"
-                    className="download-table-xls-button"
-                   
-    
-                    onClick={() => handleExport('table-to-xls')} // Call your export function here
+                          id="test-table-xls-button"
+                          className="download-table-xls-button"
+                          onClick={() => handleExport("table-to-xls")} // Call your export function here
+                        />
 
-                    />
-                        {/* <Button title="Download stats">
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                              fill="#0066BE"
-                            ></path>
-                            <path
-                              d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                              fill="#0066BE"
-                            ></path>
-                          </svg>
-                        </Button> */}
-                        <Button 
-                        //className="sort_btn"
-                          className={`sort_btn ${isActive ? 'active' : ''}`}
-                        onClick={handleSort}
+                        <Button
+                          className={`sort_btn ${isActive ? "active" : ""}`}
+                          onClick={siteEngagementSort}
                         >
                           Sort By
-                          <svg
-                            width="20"
-                            height="18"
-                            viewBox="0 0 20 18"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                              fill="#97B6CF"
-                            />
-                            <path
-                              d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                              fill="#97B6CF"
-                            />
-                          </svg>
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
                         </Button>
                       </div>
                     </div>
+                    <div className="table-responsive">
                     <Table className="fold-table" id="table-to-xls">
                       <thead>
                         <tr>
@@ -1633,14 +1775,13 @@ const handleClick = event => {
                         </tr>
                       </thead>
                       <tbody>
-                      {rdSiteData?.map((item, index) => {
+                        {rdSiteData?.map((item, index) => {
                           return (
                             <>
                               <tr
                                 key={index}
-                                className={`view ${
-                                  show == index ? "show" : ""
-                                }`}
+                                className={`view ${show == index ? "show" : ""
+                                  }`}
                                 onClick={(e) => rdShowData(e, index)}
                               >
                                 <td>{item?.site_name}</td>
@@ -1652,9 +1793,9 @@ const handleClick = event => {
                               {show == index ? (
                                 <tr
                                   className="fold show"
-                                  // className={`fold ${
-                                  //   show && show == index ? "show" : ""
-                                  // }`}
+                                // className={`fold ${
+                                //   show && show == index ? "show" : ""
+                                // }`}
                                 >
                                   {item?.pdf_data?.length ? (
                                     <td colspan="5">
@@ -1686,7 +1827,7 @@ const handleClick = event => {
                                                   <div className="page-count">
                                                     <div className="time">
                                                       {data?.file_type ==
-                                                      "pdf" ? (
+                                                        "pdf" ? (
                                                         <>
                                                           Pages{" "}
                                                           <span>
@@ -1720,9 +1861,9 @@ const handleClick = event => {
                                     </td>
                                   ) : (
                                     <td colspan="5">
-                                    <div className="no_data">
-                                      No Data Found
-                                    </div>
+                                      <div className="no_data">
+                                        No Data Found
+                                      </div>
                                     </td>
                                   )}
                                 </tr>
@@ -1738,6 +1879,7 @@ const handleClick = event => {
                         })}
                       </tbody>
                     </Table>
+                    </div>
                   </div>
                 </div>
               ) : null}
@@ -1748,7 +1890,11 @@ const handleClick = event => {
                   <div className="rd-section-title">
                     <h4>Contents</h4>
                   </div>
-                  <div className="rd-training-block">
+                  <div
+                    className="rd-training-block"
+                    ref={content}
+                    tabIndex={-1}
+                  >
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
                         <h4>
@@ -1764,11 +1910,12 @@ const handleClick = event => {
                           <Accordion.Item
                             key={index}
                             eventKey={index.toString()}
-                           
                           >
-                            <Accordion.Header  onClick={() =>
-                              getMostPopularContentPageData(item?.pdf?.id)
-                            }>
+                            <Accordion.Header
+                              onClick={() =>
+                                getMostPopularContentPageData(item?.pdf?.id)
+                              }
+                            >
                               <div className="d-flex align-items-start engagement-sec">
                                 <div className="content-image">
                                   <img
@@ -1782,12 +1929,12 @@ const handleClick = event => {
                                   <div className="page-count">
                                     <div className="time">
                                       {item?.total_pages ||
-                                      item?.total_pages === 0
+                                        item?.total_pages === 0
                                         ? "Pages:"
                                         : "Time:"}
                                       <span>
                                         {item?.total_pages ||
-                                        item?.total_pages === 0
+                                          item?.total_pages === 0
                                           ? item.total_pages
                                           : item?.max_time}
                                       </span>
@@ -1819,7 +1966,15 @@ const handleClick = event => {
                                           </div>
                                           <div className="article-spanrd-time">
                                             Read | Watched{" "}
-                                            <span>{pdf.read_watched} <img src={path_image + "eye-watch.svg"} alt="" /></span>
+                                            <span>
+                                              {pdf.read_watched}{" "}
+                                              <img
+                                                src={
+                                                  path_image + "eye-watch.svg"
+                                                }
+                                                alt=""
+                                              />
+                                            </span>
                                           </div>
                                         </div>
                                       </div>
@@ -1830,12 +1985,19 @@ const handleClick = event => {
                           </Accordion.Item>
                           <Accordion.Item
                             eventKey="10"
-                            className={isActive ? 'accordion-read active' : 'accordion-read'} onClick={handleClick}
-                           
+                            //  className={isActive ? 'accordion-read active' : 'accordion-read'} //onClick={handleClick}
+                            className={
+                              activeAccordionKey === "10"
+                                ? "accordion-read active"
+                                : "accordion-read"
+                            }
+                            onClick={() => setActiveAccordionKey("10")}
                           >
-                            <Accordion.Header  onClick={() =>
-                              getMostPopularContentSiteData(item?.pdf?.id)
-                            }>
+                            <Accordion.Header
+                              onClick={() => {
+                                getMostPopularContentSiteData(item?.pdf?.id);
+                              }}
+                            >
                               <div className="d-flex align-items-center justify-content-center">
                                 Who Read | Watched at each site{" "}
                                 <img
@@ -1846,88 +2008,91 @@ const handleClick = event => {
                             </Accordion.Header>
                             {mostPopularContentSiteData[item.pdf?.id]?.length >
                               0 && (
-                              <>
-                                <Accordion.Body>
-                                  <div className="contents-block d-flex">
-                                    <div className="contents-block-left">
-                                      <Table>
-                                        <thead>
-                                          <tr>
-                                            <th>Site</th>
-                                            <th>Site Number</th>
-                                            <th className="short_value">
-                                              <Button 
-                                            // className="sort_btn"
-                                              className={`sort_btn ${isActive ? 'active' : ''}`}
-                                               onClick={()=>sortContentView(item.pdf?.id)}
-                                              >
-                                                Sort By
-                                                <svg
-                                                  width="20"
-                                                  height="18"
-                                                  viewBox="0 0 20 18"
-                                                  fill="none"
-                                                  xmlns="http://www.w3.org/2000/svg"
+                                <>
+                                  <Accordion.Body>
+                                    <div className="contents-block d-flex">
+                                      <div className="contents-block-left">
+                                        <Table>
+                                          <thead>
+                                            <tr>
+                                              <th>Site</th>
+                                              <th>Site Number</th>
+                                              <th className="short_value">
+                                                <Button
+                                                  className={`sort_btn ${isActive ? "active" : ""
+                                                    }`}
+                                                  onClick={() => {
+                                                    sortContentView(item.pdf?.id);
+                                                  }}
                                                 >
-                                                  <path
-                                                    d="M18.9214 11.7442C18.7651 11.588 18.5532 11.5002 18.3322 11.5002C18.1112 11.5002 17.8993 11.588 17.743 11.7442L14.9989 14.4884V1.50002C14.9989 1.27901 14.9111 1.06705 14.7548 0.910765C14.5985 0.754484 14.3866 0.666687 14.1655 0.666687C13.9445 0.666687 13.7326 0.754484 13.5763 0.910765C13.42 1.06705 13.3322 1.27901 13.3322 1.50002V14.4884L10.588 11.7442C10.4309 11.5924 10.2204 11.5084 10.0019 11.5103C9.78338 11.5122 9.57437 11.5998 9.41986 11.7543C9.26535 11.9088 9.17771 12.1179 9.17581 12.3364C9.17391 12.5549 9.25791 12.7654 9.40971 12.9225L13.5764 17.0892C13.6538 17.1668 13.7457 17.2284 13.847 17.2704C13.9482 17.3124 14.0568 17.334 14.1664 17.334C14.276 17.334 14.3845 17.3124 14.4858 17.2704C14.587 17.2284 14.679 17.1668 14.7564 17.0892L18.923 12.9225C19.079 12.766 19.1665 12.554 19.1662 12.333C19.1659 12.112 19.0778 11.9002 18.9214 11.7442Z"
-                                                    fill="#97B6CF"
+                                                  Sort By{" "}
+                                                  <img
+                                                    src={path_image + "sort.svg"}
+                                                    alt="Shorting"
                                                   />
-                                                  <path
-                                                    d="M10.5892 5.0775L6.42251 0.91084C6.34489 0.833074 6.25253 0.771594 6.15084 0.730007C5.94698 0.645743 5.71803 0.645743 5.51417 0.730007C5.41248 0.771594 5.32011 0.833074 5.2425 0.91084L1.07583 5.0775C0.919572 5.23398 0.831875 5.44612 0.832031 5.66726C0.832188 5.88839 0.920184 6.10041 1.07666 6.25667C1.23314 6.41293 1.44528 6.50062 1.66642 6.50047C1.88756 6.50031 2.09957 6.41231 2.25583 6.25584L5 3.51167V16.5C5 16.721 5.0878 16.933 5.24408 17.0892C5.40036 17.2455 5.61232 17.3333 5.83334 17.3333C6.05435 17.3333 6.26631 17.2455 6.4226 17.0892C6.57888 16.933 6.66667 16.721 6.66667 16.5V3.51167L9.41085 6.25584C9.56801 6.40763 9.77852 6.49163 9.99701 6.48973C10.2155 6.48783 10.4245 6.40019 10.579 6.24568C10.7335 6.09118 10.8212 5.88217 10.8231 5.66367C10.825 5.44517 10.741 5.23467 10.5892 5.0775Z"
-                                                    fill="#97B6CF"
-                                                  />
-                                                </svg>
-                                              </Button>{" "}
-                                            </th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          {mostPopularContentSiteData[
-                                            item.pdf?.id
-                                          ].map((pdf, index) => (
-                                            <tr key={index}>
-                                              {" "}
-                                              {/* Add key prop with a unique value */}
-                                              <td>{pdf.site_name}</td>
-                                              <td>{pdf.site_number}</td>
-                                              <td className="short_value">
-                                                {pdf.count}{" "}
-                                                <img
-                                                  src="componentAssets/images/viewer.svg"
-                                                  alt=""
-                                                />
-                                              </td>
+                                                </Button>{" "}
+                                              </th>
                                             </tr>
-                                          ))}
-                                        </tbody>
-                                      </Table>
-                                    </div>
-                                    <div className="contents-block-right">
-                                      <h4>Used Devices</h4>
-                                      <div className="used-device-detail">
-                                        <HighchartsReact
-                                          highcharts={Highcharts}
-                                          options={
-                                            chartOptions[item.pdf?.id]
-                                              ?.chart_data
-                                          }
-                                        />
-                                        <div className="used-device-detail d-flex align-items-center">
-                                          {chartOptions[
-                                            item.pdf?.id
-                                          ]?.device_names?.map(
-                                            (item, index) => (
-                                              <p key={index}><span></span>{item}</p>
-                                            )
-                                          )}
+                                          </thead>
+                                          <tbody>
+                                            {mostPopularContentSiteData[
+                                              item.pdf?.id
+                                            ].map((pdf, index) => (
+                                              <tr key={index}>
+                                                {" "}
+                                                {/* Add key prop with a unique value */}
+                                                <td>{pdf.site_name}</td>
+                                                <td>{pdf.site_number}</td>
+                                                <td className="short_value">
+                                                  {pdf.count}{" "}
+                                                  <img
+                                                    src="componentAssets/images/viewer.svg"
+                                                    alt=""
+                                                  />
+                                                </td>
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </Table>
+                                      </div>
+                                      <div className="contents-block-right">
+                                        <h4>Used Devices</h4>
+                                        <div className="used-device-detail">
+                                          <HighchartsReact
+                                            highcharts={Highcharts}
+                                            options={
+                                              chartOptions[item.pdf?.id]
+                                                ?.chart_data
+                                            }
+                                          />
+                                          <div className="used-device-detail d-flex align-items-center">
+                                            {chartOptions[
+                                              item.pdf?.id
+                                            ]?.device_names?.map(
+                                              (item, index) => (
+                                                <>
+                                                  <p key={index}>
+                                                    <span
+                                                      style={{
+                                                        backgroundColor:
+                                                          color[index],
+                                                        borderRadius: "100%",
+                                                        width: "15px",
+                                                        height: "15px",
+                                                      }}
+                                                    ></span>
+                                                    {item}
+                                                  </p>
+                                                </>
+                                              )
+                                            )}
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </Accordion.Body>
-                              </>
-                            )}
+                                  </Accordion.Body>
+                                </>
+                              )}
                           </Accordion.Item>
                         </Accordion>
                       </div>

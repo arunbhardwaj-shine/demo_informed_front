@@ -87,6 +87,8 @@ export const ENDPOINT = {
   EVENT_ID: `/auth/event-data`,
 
   SITEREGISTER: "/site-registration",
+  SITEREGISTERSORT: "/site-registration-sort",
+
   IRT_COUNT_GRAPH: "/find-irt-count",
   WEBINAR_QUESTION_LISTING:"/auth/webinar-question",
   // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
