@@ -167,7 +167,7 @@ const Informed = () => {
         <Navbar expand="lg" className="informed-nav">
           <Container>
             <Navbar.Brand href="#home">
-              <img src="https://webinar.informed.pro/componentAssets/images/inforMed_Logo_Blue_1.svg" />
+              <img src="https://informed.pro/componentAssets/images/inforMed_Logo_Blue_1.svg" />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="informed-login" />
             <Navbar.Collapse id="informed-login">
@@ -216,14 +216,14 @@ const Informed = () => {
                 <div className="banner-infographic">
                   <div className="infographic text-right ">
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/top-line.png"
+                      src="https://informed.pro/componentAssets/images/top-line.png"
                       className="line-shape text-right"
                       alt=""
                     />
                     <div className="dt-line">
                       <span className="dt-line-dote">
                         <img
-                          src="https://webinar.informed.pro/componentAssets/images/top-dot.png"
+                          src="https://informed.pro/componentAssets/images/top-dot.png"
                           className="line-dot text-right"
                           alt=""
                           id="first-img"
@@ -233,7 +233,7 @@ const Informed = () => {
                   </div>
                   <div className="bnr-img">
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/top-infographic-1.png"
+                      src="https://informed.pro/componentAssets/images/top-infographic-1.png"
                       className="infographic-img"
                       alt=""
                     />
@@ -262,13 +262,13 @@ const Informed = () => {
           <Container>
             <div className="dotted-line">
               <img
-                src="https://webinar.informed.pro/componentAssets/images/bnr2-line-new.png"
+                src="https://informed.pro/componentAssets/images/bnr2-line-new.png"
                 alt=""
               />
               <div className="dt-line r-none">
                 <span className="dt-line-dote">
                   <img
-                    src="https://webinar.informed.pro/componentAssets/images/bnr2-0line-new.png"
+                    src="https://informed.pro/componentAssets/images/bnr2-0line-new.png"
                     className="text-right"
                     alt=""
                   />
@@ -280,7 +280,7 @@ const Informed = () => {
                 <ul className="library-list">
                   <li>
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/librery-icon-new.png"
+                      src="https://informed.pro/componentAssets/images/librery-icon-new.png"
                       alt=""
                     />
                   </li>
@@ -288,13 +288,13 @@ const Informed = () => {
                   <li></li>
                   <li>
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/behaviour.png"
+                      src="https://informed.pro/componentAssets/images/behaviour.png"
                       alt=""
                     />
                   </li>
                   <li>
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/share-icon.png"
+                      src="https://informed.pro/componentAssets/images/share-icon.png"
                       alt=""
                     />
                   </li>
@@ -311,42 +311,42 @@ const Informed = () => {
                   <ul className="feature-list shift_left">
                     <li>
                       <img
-                        src="https://webinar.informed.pro/componentAssets/images/list-icon1.png"
+                        src="https://informed.pro/componentAssets/images/list-icon1.png"
                         alt=""
                       />
                       <p>Articles</p>
                     </li>
                     <li>
                       <img
-                        src="https://webinar.informed.pro/componentAssets/images/list-icon2.png"
+                        src="https://informed.pro/componentAssets/images/list-icon2.png"
                         alt=""
                       />
                       <p>Web pages</p>
                     </li>
                     <li>
                       <img
-                        src="https://webinar.informed.pro/componentAssets/images/list-icon3.png"
+                        src="https://informed.pro/componentAssets/images/list-icon3.png"
                         alt=""
                       />
                       <p>EBooks</p>
                     </li>
                     <li>
                       <img
-                        src="https://webinar.informed.pro/componentAssets/images/list-icon4.png"
+                        src="https://informed.pro/componentAssets/images/list-icon4.png"
                         alt=""
                       />
                       <p>CME/CPD</p>
                     </li>
                     <li>
                       <img
-                        src="https://webinar.informed.pro/componentAssets/images/list-icon5.png"
+                        src="https://informed.pro/componentAssets/images/list-icon5.png"
                         alt=""
                       />
                       <p>Video</p>
                     </li>
                     <li>
                       <img
-                        src="https://webinar.informed.pro/componentAssets/images/list-icon6.png"
+                        src="https://informed.pro/componentAssets/images/list-icon6.png"
                         alt=""
                       />
                       <p>Combinations</p>
@@ -356,13 +356,13 @@ const Informed = () => {
                     <p>
                       <span>
                         <img
-                          src="https://webinar.informed.pro/componentAssets/images/saleforce-plus.png"
+                          src="https://informed.pro/componentAssets/images/saleforce-plus.png"
                           alt=""
                         />
                       </span>
                       <a href="https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000FHBQ4UAP">
                         <img
-                          src="https://webinar.informed.pro/componentAssets/images/sale-icon.png"
+                          src="https://informed.pro/componentAssets/images/sale-icon.png"
                           alt=""
                         />
                       </a>
@@ -404,7 +404,7 @@ const Informed = () => {
                     <ul>
                       <li className="personalisation-right">
                         <img
-                          src="https://webinar.informed.pro/componentAssets/images/personalize.png"
+                          src="https://informed.pro/componentAssets/images/personalize.png"
                           alt=""
                         />
                       </li>
@@ -425,7 +425,7 @@ const Informed = () => {
               <ul className="library-list">
                 <li>
                   <img
-                    src="https://webinar.informed.pro/componentAssets/images/librery-icon-new.png"
+                    src="https://informed.pro/componentAssets/images/librery-icon-new.png"
                     alt=""
                   />
                   <div className="content-part c-p1">
@@ -438,35 +438,35 @@ const Informed = () => {
                     <ul className="feature-list shift_left">
                       <li>
                         <img
-                          src="https://webinar.informed.pro/componentAssets/images/list-icon1.png"
+                          src="https://informed.pro/componentAssets/images/list-icon1.png"
                           alt=""
                         />
                         <p>Web pages</p>
                       </li>
                       <li>
                         <img
-                          src="https://webinar.informed.pro/componentAssets/images/list-icon3.png"
+                          src="https://informed.pro/componentAssets/images/list-icon3.png"
                           alt=""
                         />
                         <p>EBooks</p>
                       </li>
                       <li>
                         <img
-                          src="https://webinar.informed.pro/componentAssets/images/list-icon4.png"
+                          src="https://informed.pro/componentAssets/images/list-icon4.png"
                           alt=""
                         />
                         <p>CME/CPD</p>
                       </li>
                       <li>
                         <img
-                          src="https://webinar.informed.pro/componentAssets/images/list-icon5.png"
+                          src="https://informed.pro/componentAssets/images/list-icon5.png"
                           alt=""
                         />
                         <p>Video</p>
                       </li>
                       <li>
                         <img
-                          src="https://webinar.informed.pro/componentAssets/images/list-icon6.png"
+                          src="https://informed.pro/componentAssets/images/list-icon6.png"
                           alt=""
                         />
                         <p>Combinations</p>
@@ -476,13 +476,13 @@ const Informed = () => {
                       <p>
                         <span>
                           <img
-                            src="https://webinar.informed.pro/componentAssets/images/saleforce-plus.png"
+                            src="https://informed.pro/componentAssets/images/saleforce-plus.png"
                             alt=""
                           />
                         </span>
                         <a href="https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000FHBQ4UAP ">
                           <img
-                            src="https://webinar.informed.pro/componentAssets/images/sale-icon.png"
+                            src="https://informed.pro/componentAssets/images/sale-icon.png"
                             alt=""
                           />
                         </a>
@@ -496,7 +496,7 @@ const Informed = () => {
                 </li>
                 <li>
                   <img
-                    src="https://webinar.informed.pro/componentAssets/images/behaviour.png"
+                    src="https://informed.pro/componentAssets/images/behaviour.png"
                     alt=""
                   />
                   <div className="content-part c-p2 behaviour">
@@ -516,7 +516,7 @@ const Informed = () => {
                 </li>
                 <li>
                   <img
-                    src="https://webinar.informed.pro/componentAssets/images/share-icon.png"
+                    src="https://informed.pro/componentAssets/images/share-icon.png"
                     alt=""
                   />
                   <div className="content-part c-p2 behaviour">
@@ -537,7 +537,7 @@ const Informed = () => {
                 </li>
                 <li className="personalisation-right">
                   <img
-                    src="https://webinar.informed.pro/componentAssets/images/personalize.png"
+                    src="https://informed.pro/componentAssets/images/personalize.png"
                     alt=""
                   />
                   <div className="personalisation-content">
@@ -584,13 +584,13 @@ const Informed = () => {
           <Container>
             <div className="dotted-line">
               <img
-                src="https://webinar.informed.pro/componentAssets/images/bnr3-line.png"
+                src="https://informed.pro/componentAssets/images/bnr3-line.png"
                 alt=""
               />
               <div className="dt-line r-none">
                 <span className="dt-line-dote">
                   <img
-                    src="https://webinar.informed.pro/componentAssets/images/bnr3-0line.png"
+                    src="https://informed.pro/componentAssets/images/bnr3-0line.png"
                     className="text-right"
                     alt=""
                   />
@@ -602,7 +602,7 @@ const Informed = () => {
                 <div className="albert-inside-upper-left">
                   <div className="albert-inside-upper-left-logo">
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/docintel-white-tag.png"
+                      src="https://informed.pro/componentAssets/images/docintel-white-tag.png"
                       alt=""
                     />
                   </div>
@@ -615,7 +615,7 @@ const Informed = () => {
                 </div>
                 <div className="albert-inside-upper-right">
                   <img
-                    src="https://webinar.informed.pro/componentAssets/images/docintel-white-mobile-new.png"
+                    src="https://informed.pro/componentAssets/images/docintel-white-mobile-new.png"
                     alt=""
                   />
                 </div>
@@ -623,7 +623,7 @@ const Informed = () => {
               <Col md={12} className="albert-inside-bottom">
                 <div className="albert-inside-bottom-left">
                   <img
-                    src="https://webinar.informed.pro/componentAssets/images/docintel-white-left-mobile.png"
+                    src="https://informed.pro/componentAssets/images/docintel-white-left-mobile.png"
                     alt=""
                   />
                 </div>
@@ -644,7 +644,7 @@ const Informed = () => {
                   <li className="cr-flow">
                     {" "}
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/rtr-icon1.png"
+                      src="https://informed.pro/componentAssets/images/rtr-icon1.png"
                       alt=""
                     />
                     <div className="separator-line b-c1"></div>
@@ -656,7 +656,7 @@ const Informed = () => {
                   </li>
                   <li>
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/rtr-icon2.png"
+                      src="https://informed.pro/componentAssets/images/rtr-icon2.png"
                       alt=""
                     />
                     <div className="separator-line  b-c2"></div>
@@ -668,7 +668,7 @@ const Informed = () => {
                   </li>
                   <li className="cr-flow c-f2">
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/rtr-icon3.png"
+                      src="https://informed.pro/componentAssets/images/rtr-icon3.png"
                       alt=""
                     />
                     <div className="separator-line  b-c3"></div>
@@ -680,7 +680,7 @@ const Informed = () => {
                   </li>
                   <li>
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/rtr-icon4.png"
+                      src="https://informed.pro/componentAssets/images/rtr-icon4.png"
                       alt=""
                     />
                     <div className="separator-line  b-c4"></div>
@@ -708,13 +708,13 @@ const Informed = () => {
           <Container>
             <div className="dotted-line">
               <img
-                src="https://webinar.informed.pro/componentAssets/images/bnr4-line-new.png"
+                src="https://informed.pro/componentAssets/images/bnr4-line-new.png"
                 alt=""
               />
               <div className="dt-line r-none">
                 <span className="dt-line-dote">
                   <img
-                    src="https://webinar.informed.pro/componentAssets/images/bnr4-0line-new.png"
+                    src="https://informed.pro/componentAssets/images/bnr4-0line-new.png"
                     alt=""
                   />
                 </span>
@@ -797,7 +797,7 @@ const Informed = () => {
                   <div className="start-building-gdpr-content">
                     <div className="start-building-gdpr-left">
                       <img
-                        src="https://webinar.informed.pro/componentAssets/images/build-flag.png"
+                        src="https://informed.pro/componentAssets/images/build-flag.png"
                         alt=""
                       />
                     </div>
@@ -828,7 +828,7 @@ const Informed = () => {
                   </p>
                   <div className="mob-img">
                     <img
-                      src="https://webinar.informed.pro/componentAssets/images/contact-mobile.png"
+                      src="https://informed.pro/componentAssets/images/contact-mobile.png"
                       alt="img-here"
                       className="img-responsive"
                     />

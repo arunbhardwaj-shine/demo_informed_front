@@ -237,6 +237,7 @@ const ReaderEdit = () => {
       speciality: hasData?.data?.data?.speciality,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
+      userType:[{label:"Hcp",value:"Hcp",index:0},{label:"Staff users",value:"Staff users",index:1},{label:"Test users",value:"Test users",index:3}],
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
@@ -251,14 +252,20 @@ const ReaderEdit = () => {
   const initialReaderFun = async () => {
     loader("show");
     try {
+
       const hasData = await getData(
         `${ENDPOINT.READER_GET_READER_USER}/${id} `
       );
       if (hasData?.data?.data?.country == "B&H") {
         hasData.data.data.country = "Bosnia and Herzegovina";
       }
-
-      setAddReaderInputs(hasData?.data?.data);
+      let obj = {
+        0:"Hcp",
+        1:"Staff users",
+        3:"Test users"
+      }
+      setAddReaderInputs({...hasData?.data?.data,userType:obj[hasData?.data?.data.userType]?obj[hasData?.data?.data.userType]:hasData?.data?.data.userType});
+      // setAddReaderInputs({...hasData?.data?.data,"userType":obj[hasData?.data?.data.user_status]?obj[hasData?.data?.data.user_status]:""});
       loader("hide");
     } catch (err) {
       console.log(err);
@@ -571,6 +578,8 @@ const ReaderEdit = () => {
           siteName: userInputs?.siteName,
           irt: userInputs?.irt,
           ibu: userInputs?.ibu,
+          userType: userInputs?.userType,
+
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
@@ -1339,7 +1348,7 @@ const ReaderEdit = () => {
                                 }
                               />
                             </Form.Group>
-                            {groupId == 3 && flag == 0 && pharmaData == 0 ? (
+                            {/* {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                               <Form.Group className="form-group">
                                 <Form.Label htmlFor="">
                                   Select User Type
@@ -1358,7 +1367,7 @@ const ReaderEdit = () => {
                               </Form.Group>
                             ) : (
                               ""
-                            )}
+                            )} */}
 
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Rep contact</Form.Label>
@@ -1382,19 +1391,20 @@ const ReaderEdit = () => {
 
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                       <>
+                      {console.log("dfd",userInputs)}
                         {localStorage.getItem("user_id") !=
                         "iSnEsKu5gB/DRlycxB6G4g==" ? (
                           <Form.Group className="form-group">
                             <Form.Label htmlFor="">Select User Type</Form.Label>
                             <Select
                               options={userDetail?.userType}
-                              defaultValue={userInputs?.userType}
+                              defaultValue={userDetail?.userType?.find(item =>item.label == userInputs?.userType)}
                               placeholder="Select user type"
                               name="userType"
                               className="dropdown-basic-button split-button-dropup"
                               isClearable
                               onChange={(e) =>
-                                handleChange(e?.value, "UserType")
+                                handleChange(e?.value, "userType")
                               }
                             />
                           </Form.Group>

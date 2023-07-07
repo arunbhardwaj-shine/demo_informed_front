@@ -454,7 +454,7 @@ const ReadersPerPageLayout = ({ data }) => {
                 </div>
                 <div className="analytics-reader-detail-box">
                   <div className="analytics-reader-title">
-                    <span>Browser: </span>
+                    <span>Browsed: </span>
                   </div>
                   <div className="analytics-reader-progress browsed">
                     <ProgressBar now={100} label={`${element?.browsed}`} />

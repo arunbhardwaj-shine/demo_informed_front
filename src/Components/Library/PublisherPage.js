@@ -180,7 +180,7 @@ const PublisherPage = () => {
             <Navbar.Toggle aria-controls="informed-login" />
             <Navbar.Collapse id="informed-login">
               <Nav className="ms-auto justify-content-end">
-                <Link to="/informed">Lifescience</Link>
+                <Link to="/">Lifescience</Link>
                 <Link to="/webinar">Webinar</Link>
                 <Link to="/">Contact Us</Link>
                 <NavDropdown title="Login">
@@ -313,7 +313,7 @@ const PublisherPage = () => {
                     <img src={path_image + "Group_1.png"} alt="" />
                     <div className="video_popup_icon">
                       {/* <a
-                        
+
                         href="https://docintel.app/Webinar/Docintel/login.php#Group_1"
                         target="_blank"
                         >  */}
