@@ -108,15 +108,25 @@ const RDAnalytics = () => {
     },
     plotOptions: {
       pie: {
-        allowPointSelect: true,
-        cursor: "pointer",
+        size: "80%",
+       // innerSize: "65%",
         dataLabels: {
-          enabled: false,
-          format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+          enabled: true,
+          format: "{point.y}",
+          style: {
+            fontWeight: "bold",
+            color: "white",
+            textOutline: "none",
+            fontSize: "30px",
+          },
+          distance: -40, // Adjust the distance of the data labels from the center
         },
-        point: {
-          events: {},
+
+        animation: {
+          duration: 1000,
         },
+
+        enableMouseTracking: true,
         showInLegend: true,
       },
     },
