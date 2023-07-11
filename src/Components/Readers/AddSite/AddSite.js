@@ -236,23 +236,23 @@ const AddSite = (props) => {
                                         </div>
                                     </Col>
 
-                                    <Col sm={6} className="form-group">
-                                        <label htmlFor="">Site Postal Code</label>
-                                        <div className="create_site_form">
-                                            <input
-                                                type="text"
-                                                name="sitepostalcode"
-                                                className="form-control"
-                                                placeholder="Enter Site Postal Code"
-                                                value={sitePostal}
-                                                onChange={(e) => {
-                                                    if (e.target.value !== undefined) {
-                                                        setSitePostal(e.target.value)
-                                                    }
-                                                }}
-                                            />
-                                        </div>
-                                    </Col>
+                                    // <Col sm={6} className="form-group">
+                                    //     <label htmlFor="">Site Postal Code</label>
+                                    //     <div className="create_site_form">
+                                    //         <input
+                                    //             type="text"
+                                    //             name="sitepostalcode"
+                                    //             className="form-control"
+                                    //             placeholder="Enter Site Postal Code"
+                                    //             value={sitePostal}
+                                    //             onChange={(e) => {
+                                    //                 if (e.target.value !== undefined) {
+                                    //                     setSitePostal(e.target.value)
+                                    //                 }
+                                    //             }}
+                                    //         />
+                                    //     </div>
+                                    // </Col>
                                     <Col sm={6} className="form-group justify-content-end">
                                         <label htmlFor="sitecategory">Site Country <span>*</span></label>
                                         <div className="create_site_form">
