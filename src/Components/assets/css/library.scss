@@ -8558,7 +8558,6 @@ svg.pencil_icon {
 .submit-button {
   text-align: end;
 }
-// .create-change-content
 img.change-password-image {
   width: 20px;
   right: 10px;
@@ -8575,7 +8574,7 @@ img.change-password-image {
 }
 .switch6-light {
     background: rgba(0, 102, 190, 0.2);
-border-radius: 26px;
+    border-radius: 26px;
     display: block;
     height: 30px;
     margin-left: 0;
@@ -8650,7 +8649,7 @@ border-radius: 26px;
     height: 8px;
 }
 .rd-analytics-content {
-    margin: 14px 0 25px;
+    margin: 40px 0 25px;
     padding: 0;
     .row{
       margin:0 -26px;
@@ -8691,6 +8690,7 @@ border-radius: 26px;
           line-height: 19px;
           color: $light-gray;
           margin:0 0 6px;
+          font-size: 16px;
       }
       .rd-analytics-box-layout{
         background: $white;
@@ -8727,11 +8727,14 @@ border-radius: 26px;
                 line-height: inherit;
               }
             }
+            .graph-box-inside{
+               margin:0 0 10px;
+            }
             span{
               font-weight: 400;
               font-size: 12px;
               line-height: 14px;
-              color: $light-gray
+              color: $light-gray;
             }
             .pie-chart{
                 max-width: 196px;
@@ -8827,28 +8830,26 @@ border-radius: 26px;
                  .lex-article {
                     margin: 20px -9px;
                 }
-                
               }
-              
             }
             .highcharts-container {
               .highcharts-legend{
                 .highcharts-legend-item{
                   text {
-                    color: #70899E!important;
+                    color: $dark-gray!important;
                     font-size: 13px!important;
                     font-family: Roboto;
                     font-style: normal;
                     font-weight: 400!important;
-                    fill: #70899E!important;
+                    fill: $dark-gray!important;
                   }
                 }
               }  
               .highcharts-axis-labels{
                 text {
-                  color: #004A89!important;
+                  color: $dark-blue!important;
                   font-size: 12px!important;
-                  fill: #004A89!important;
+                  fill: $dark-blue!important;
                   font-weight: 400;
                 }
               } 
@@ -8866,6 +8867,12 @@ border-radius: 26px;
         
       }
     } 
+}
+.rd-analytics-box.rd-content {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
 }
 .rd-full-explain{
   .rd-section-title{
@@ -8893,6 +8900,7 @@ border-radius: 26px;
       font-size: 12px;
       line-height: 14px;
       color: $light-gray;
+      margin: 0 0 9px;
     }
     .rd-training-block-right{
       gap: 0 12px;
@@ -8915,10 +8923,10 @@ border-radius: 26px;
           padding:10px 14px;
           svg{margin-left:14px;}
           &.active{
-            background: #0066BE;
-            color: #ffffff;
+            background: $primary-color;
+            color: $white;
             svg path {
-                fill: #ffffff;
+                fill: $white;
             }
           }
         }
@@ -8934,7 +8942,7 @@ border-radius: 26px;
       }
     }
     table{
-      margin-top: 12px;
+      margin: 12px 0 0;
       thead{
         tr{
           box-shadow: none;
@@ -9110,8 +9118,6 @@ border-radius: 26px;
           color: $light-gray;
         }
       }
-      
-     
   }
 
     }
@@ -9151,10 +9157,11 @@ border-radius: 26px;
           border-radius: 0px 0px 9px 9px;
           .article-pages-details{
           flex-wrap: wrap;
-          gap: 17px 50px;
+          gap: 20px 0px;
           .article-page-show {
               display: flex;
               min-width: 16.6%;
+              width:20%;
               .article-cover-img {
                 margin-right: 8px;
                 img {
@@ -9188,7 +9195,7 @@ border-radius: 26px;
                         color: $primary-color;
                         display: inline-flex;
                         align-items: center;
-                        margin: 0 0 0 5px;
+                        margin: 0 0 0 1px;
                         img{
                           margin-left:4px;
                         }
@@ -9249,6 +9256,11 @@ border-radius: 26px;
                 color: rgba(0, 74, 137, 0.55);
                 justify-content: space-between;
                 align-items: center;
+                .time{
+                  span{
+                    margin-left:4px;
+                  }
+                }
                 span {
                   font-weight: 500;
                   color: $dark-blue;
@@ -9262,6 +9274,8 @@ border-radius: 26px;
                   color:$dark-blue;
                   &.complete{
                     color:$secondary-green;
+                    align-items: center;
+                    display: flex;
                   }
                   img{
                     margin-left:3px;
@@ -9307,6 +9321,17 @@ border-radius: 26px;
 }   .rd-full-explain .rd-training-block .accordion .accordion-item .accordion-header {
         padding: 0;
     }
+    .table-responsive {
+    max-height: 500px;
+    padding: 0 5px 0 3px;
+}
+.table-responsive::-webkit-scrollbar {
+    width: 7px;
+}
+.table-responsive::-webkit-scrollbar-thumb{
+    width: 12px;
+    border: 2px solid #dce6ef;
+}
     // .rd-full-explain .rd-training-block .engagement-sec {
     //     margin: 0;
     // }
@@ -9346,7 +9371,7 @@ border-radius: 26px;
         transform: rotate(180deg);
     }
     .rd-full-explain .rd-training-block .contents .accordion .accordion-item .accordion-body {
-        padding: 16px;
+        padding: 16px 4px 4px;
     }
     .accordion-body .contents-block {
         width: 100%;
@@ -9355,7 +9380,7 @@ border-radius: 26px;
     .accordion-body .contents-block .contents-block-right h4 {
         color: $light-gray;
         text-align: left;
-        margin: 0 0 60px;
+        margin: 0 0 14px;
     }
     .contents-block-right .used-device-detail img {
         max-width: 285px;
@@ -9369,7 +9394,7 @@ border-radius: 26px;
     }
     .accordion-body .contents-block .contents-block-left {
         flex: 1 1;
-        padding-right: 18px;
+        padding:0 18px 0 12px;
         border-right: 1px dashed $light-gray;
     }
     .rd-full-explain .rd-training-block .contents-block-left table {
@@ -9392,6 +9417,26 @@ border-radius: 26px;
       padding: 10px;
       min-width: 104px;
       border:0;
+      &.sort_btn{
+          padding:10px 14px;
+          svg{margin-left:14px;}
+          &.active{
+            background: #0066BE;
+            color: #ffffff;
+            svg path {
+              fill: #ffffff;
+            }
+          }
+        }
+        &:hover{
+          background: $primary-color;
+          color:$white;
+          svg{
+            path{
+              fill: $white;
+            }
+          }
+        }
     }
     .rd-full-explain .rd-training-block .contents-block-left table tbody td {
         line-height: 22px;
@@ -9416,17 +9461,30 @@ border-radius: 26px;
     }
   .rd-full-explain .rd-training-block .used-device-detail {
       max-width: 285px;
-      margin: -30px auto 0;
+      margin: 0px auto;
       position: relative;
       z-index: 1;
-      top: -20px;
+      top: 0px;
+      .used-device-detail {
+          margin: -40px 0 20px;
+          flex-wrap: wrap;
+          gap: 13px 0;
+      }
   }
   .rd-full-explain .rd-training-block .used-device-detail p {
       width: 50%;
       text-align: center;
       color: $dark-blue;
       font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      span{
+        display: block;
+        margin-right:6px;
+      }
   }
+
 .highcharts-subtitle tspan {
     color: #70899E!important;
     fill: #70899E!important;
@@ -9440,12 +9498,22 @@ text-align: center;
 font-size: 40px;
 font-weight: 700;
 }
+.popular-tooltip {
+    text-align: right;
+    cursor: pointer;
+}
 /*Responsive for R&D Analytics*/
 @media only screen and (max-width: 1599px) {
    .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top h5 {
     font-size: 17px;
     line-height: 23px;
   }
+  .rd-full-explain .rd-training-block .accordion .accordion-body .article-pages-details .article-page-show {
+    width: 30%;
+}
+.rd-full-explain .rd-training-block .accordion .accordion-body .article-pages-details .article-page-show .article-detail-view .article-spanrd-time span {
+    font-size: 13px;
+}
 .rd-full-explain .rd-training-block table thead tr th.site_name {
     width: 492px;
 }
@@ -9636,6 +9704,12 @@ font-weight: 700;
 @media (max-width: $layout-breakpoint-large) {
   .rd-full-explain .rd-training-block table thead tr th.site_name {
     width: 270px;
+}
+.rd-full-explain .rd-training-block .accordion .accordion-body .article-pages-details .article-page-show {
+    width: 48%;
+}
+.rd-full-explain .rd-training-block .accordion .accordion-body .article-pages-details {
+    gap: 17px 5px;
 }
 .rd-full-explain .rd-training-block .engagement-sec .pages-viewer {
     min-height: 80px;
