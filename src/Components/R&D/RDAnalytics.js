@@ -1495,11 +1495,11 @@ const RDAnalytics = () => {
                                                         </div>
                                                         <div className="content-detail">
                                                           <h6>{item?.type}</h6>
-                                                          // <p>
-                                                          //   Lorem sollicitudin
-                                                          //   faucibus eu molestie
-                                                          //   sollicitudin gravida
-                                                          // </p>
+                                                           {/* <p>
+                                                            Lorem sollicitudin
+                                                            faucibus eu molestie
+                                                            sollicitudin gravida
+                                                           </p> */}
                                                           <div className="page-count">
                                                             <div className="time">
                                                               {" "}
