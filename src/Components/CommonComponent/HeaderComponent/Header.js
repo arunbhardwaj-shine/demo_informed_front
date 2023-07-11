@@ -53,7 +53,7 @@ const Header = () => {
 
   const logout = () => {
     localStorage.clear();
-    navigate("/informed");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -219,10 +219,10 @@ const Header = () => {
                     window.location.pathname == "/octa-country" ||
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
-                    window.location.pathname =="/rd-analytics" ||
+                    window.location.pathname =="/LEX-210-analytics" ||
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
-                      : "nav-item" 
+                      : "nav-item"
                   }
                 >
                   <Link
@@ -315,7 +315,7 @@ const Header = () => {
                       className="nav-link"
                       target="_blank"
                       href={
-                        "https://informed.pro/Webinar/readers_webinar?rdylr=" +
+                        "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
                         localStorage.getItem("user_id")
                       }
                     >
@@ -354,7 +354,7 @@ const Header = () => {
 
                 <Dropdown.Menu>
                   <Dropdown.Item
-                    // href="https://informed.pro/Pages/change_password/"
+                    // href="https://webinar.informed.pro/Pages/change_password/"
                     onClick={() => navigate("/change-password")}
                     className="dropdown-item"
                   >

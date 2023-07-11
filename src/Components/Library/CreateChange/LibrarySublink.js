@@ -88,7 +88,7 @@ const LibrarySublink = () => {
       Object.entries(res?.data?.data?.library).map(([index, item]) => {
         arr.push({
           value: item.id,
-          label: item.title,
+          label: item.title.replace(/(<([^>]+)>)/gi, ''),
         });
         codearr.push({
           value: item.id,

@@ -675,16 +675,7 @@ const LibraryCreateUser = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="">Country</label>
-                <Select
-                  options={userDetail?.country || []}
-                  placeholder="Select country"
-                  onChange={(e) => handleChange(e?.value, "country")}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                />
-              </div>
+
               <div className="form-group margin-added">
                 <label htmlFor="">Client product</label>
                 <Select
@@ -706,6 +697,16 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
               <div className="form-group">
+                <label htmlFor="">Country</label>
+                <Select
+                  options={userDetail?.country || []}
+                  placeholder="Select country"
+                  onChange={(e) => handleChange(e?.value, "country")}
+                  className="dropdown-basic-button split-button-dropup"
+                  isClearable
+                />
+              </div>
+              <div className="form-group">
                 <label htmlFor="">Production</label>
                 <Select
                   options={userDetail?.production}
@@ -715,16 +716,23 @@ const LibraryCreateUser = () => {
                   isClearable
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="">Sales</label>
-                <Select
-                  options={userDetail?.sales}
-                  placeholder="Who made the sale?"
-                  onChange={(e) => handleChange(e?.id, "sales")}
-                  className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
-                  isClearable
-                />
-              </div>
+
+              {
+                localStorage.getItem('user_id') == "rOhdD02MgXkownQqcreqAw==" &&
+                <>
+                  <div className="form-group">
+                    <label htmlFor="">Sales</label>
+                    <Select
+                      options={userDetail?.sales}
+                      placeholder="Who made the sale?"
+                      onChange={(e) => handleChange(e?.id, "sales")}
+                      className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
+                      isClearable
+                    />
+                  </div>
+                </>
+              }
+
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
               <div className="form-group justify-content-end">
