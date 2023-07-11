@@ -138,6 +138,9 @@ import RDRegister from "./Components/R&D/RDRegister";
 import RDAnalytics from "./Components/R&D/RDAnalytics";
 import SetLayout from "./Components/CommonComponent/SetLayout";
 import PreviewArticle from "./Components/Library/PreviewArticle";
+import CommanPage from "./Components/Firbase/CommanPage"
+
+import PollQuestion from "./Components/Firbase/PollQuestion"
 
 let platform = 0;
 let show = 0;
@@ -249,7 +252,16 @@ const Routing = () => {
           path="/webinar-question"
           element={<WebinarQuestion />}
         />
+         <Route
+          path="/poll-question"
+          element={<PollQuestion />}
+        />
+        <Route
+          path="/comman-question"
+          element={<CommanPage />}
+        />
 
+         
 
         <Route
           path="/analytic-delivery-trends"

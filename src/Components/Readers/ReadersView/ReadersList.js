@@ -82,6 +82,7 @@ const NewReaders = () => {
     { value: "3", label: "Test User" },
     { value: "4", label: "Competitor" },
   ]);
+  const [irtData, setIrtData] = useState(['All','Blinded site user','Investigator-Blinded','Site unblinded pharmacist']);
   const [change, setChanges] = useState(null);
   const userTypeValues = {
     0: "HCP",
@@ -96,6 +97,18 @@ const NewReaders = () => {
   const [changeIRTType, setChangeIRTType] = useState([]);
   const [changeSiteNumberType, setChangeSiteNumberType] = useState([]);
   const [changeSiteNameType, setChangeSiteNameType] = useState([]);
+  const [roleData, setRoleData] = useState(
+    [ "All",
+      "Principal Investigator"
+      ,
+      "Sub-Investigator"
+      ,
+      "Study Coordinator"
+      ,
+      "Study Nurse"
+      ,
+      ]);
+
 
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
@@ -119,10 +132,11 @@ const NewReaders = () => {
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-      setAppliedFilter({ status: ["Registered"] });
-      setFilterObject({ status: ["Registered"] });
-      setApifilterObject({ status: ["Registered"] });
-    } else {
+      setAppliedFilter({  });
+      setFilterObject({  });
+      setApifilterObject({ });
+    }
+    else {
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
       setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
       setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
@@ -316,6 +330,21 @@ const NewReaders = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
+    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+     
+      if(key=="IRT"){
+        if(newObj["role"]){
+          delete newObj["role"]
+        }
+
+        if(item == "Yes"){
+          setFilterData({ ...filterdata, role: irtData });
+        }else {
+          setFilterData({ ...filterdata, role: roleData });
+          
+        }
+      }
+    }
 
     if (key == "status") {
       let newData = [];

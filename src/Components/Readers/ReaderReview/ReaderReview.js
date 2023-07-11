@@ -93,6 +93,7 @@ const ReaderReview = () => {
               </Col>
             </Row>
           </div>
+          {console.log("reader--->",readerData)}
           {Object.keys(readerData).length > 0 ? (
             <div className="crm-detail">
               <div className="crm-detail-content">
@@ -126,7 +127,22 @@ const ReaderReview = () => {
                         <th className="tab-content-title">Primary email </th>
                         <td>{readerData?.email ? readerData?.email : "N/A"}</td>
                       </tr>
-                      <tr>
+                      {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
+                      ?(<>
+                       <tr>
+                        <th className="tab-content-title">
+                          IRT{" "}
+                        </th>
+                        <td>
+                          {readerData?.irt
+                            ? readerData?.irt==1||readerData?.irt=="Yes"?"Yes"
+                            :readerData?.irt==0||readerData?.irt=="No"?"No":"N/A"
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr></tr>
+                      </>):(<>
+                        <tr>
                         <th className="tab-content-title">
                           Alternative email{" "}
                         </th>
@@ -157,6 +173,8 @@ const ReaderReview = () => {
                             : "N/A"}
                         </td>
                       </tr>
+                      </>)}
+                      
                     </table>
                   </div>
                   <div className="crm-review-detail">
@@ -167,7 +185,32 @@ const ReaderReview = () => {
                           {readerData?.country ? readerData?.country : "N/A"}
                         </td>
                       </tr>
+                      {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
+                      ?(<>
                       <tr>
+                        <th className="tab-content-title">Role</th>
+                        <td>
+                          {readerData?.role ? readerData?.role : "N/A"}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <th className="tab-content-title">Sub role</th>
+                        <td>
+                          {readerData?.sub_role ? readerData?.sub_role : "N/A"}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <th className="tab-content-title">Blind type</th>
+                        <td>
+                          {readerData?.blind_type ? readerData?.blind_type : "N/A"}
+                        </td>
+                      </tr>
+
+                      </>)
+                      :(<>
+                       <tr>
                         <th className="tab-content-title">Province</th>
                         <td>
                           {readerData?.province ? readerData?.province : "N/A"}
@@ -208,11 +251,31 @@ const ReaderReview = () => {
                       ) : (
                         ""
                       )}
+                      </>)}
+                     
+                    
                     </table>
                   </div>
                   <div className="crm-review-detail">
                     <table className="tab-mail-list">
+                      {
+                        localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
+                        ?(<>
+                        <tr>
+                        <th className="tab-content-title">Site number</th>
+                        <td>
+                          {readerData?.siteNumber ? readerData?.siteNumber : "N/A"}
+                        </td>
+                      </tr>
                       <tr>
+                        <th className="tab-content-title">Site name</th>
+                        <td>
+                          {readerData?.siteName ? readerData?.siteName : "N/A"}
+                        </td>
+                      </tr>
+                        </>)
+                        :(<>
+                         <tr>
                         <th className="tab-content-title">Product</th>
                         <td>
                           {readerData?.product ? readerData?.product : "N/A"}
@@ -276,6 +339,10 @@ const ReaderReview = () => {
                           )}
                         </td>
                       </tr>
+                        
+                        </>)
+                      }
+                     
                     </table>
                   </div>
                 </div>

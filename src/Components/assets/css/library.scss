@@ -8558,7 +8558,6 @@ svg.pencil_icon {
 .submit-button {
   text-align: end;
 }
-// .create-change-content
 img.change-password-image {
   width: 20px;
   right: 10px;
@@ -8575,7 +8574,7 @@ img.change-password-image {
 }
 .switch6-light {
     background: rgba(0, 102, 190, 0.2);
-border-radius: 26px;
+    border-radius: 26px;
     display: block;
     height: 30px;
     margin-left: 0;
@@ -8831,28 +8830,26 @@ border-radius: 26px;
                  .lex-article {
                     margin: 20px -9px;
                 }
-                
               }
-              
             }
             .highcharts-container {
               .highcharts-legend{
                 .highcharts-legend-item{
                   text {
-                    color: #70899E!important;
+                    color: $dark-gray!important;
                     font-size: 13px!important;
                     font-family: Roboto;
                     font-style: normal;
                     font-weight: 400!important;
-                    fill: #70899E!important;
+                    fill: $dark-gray!important;
                   }
                 }
               }  
               .highcharts-axis-labels{
                 text {
-                  color: #004A89!important;
+                  color: $dark-blue!important;
                   font-size: 12px!important;
-                  fill: #004A89!important;
+                  fill: $dark-blue!important;
                   font-weight: 400;
                 }
               } 
@@ -8927,10 +8924,10 @@ border-radius: 26px;
           padding:10px 14px;
           svg{margin-left:14px;}
           &.active{
-            background: #0066BE;
-            color: #ffffff;
+            background: $primary-color;
+            color: $white;
             svg path {
-                fill: #ffffff;
+                fill: $white;
             }
           }
         }
@@ -9122,8 +9119,6 @@ border-radius: 26px;
           color: $light-gray;
         }
       }
-      
-     
   }
 
     }
