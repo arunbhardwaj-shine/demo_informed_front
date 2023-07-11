@@ -826,7 +826,7 @@ const RDAnalytics = () => {
                   <Row>
                     <Col md={6} lg={4}>
                       <div className="rd-analytics-box irt">
-                        <p className="rd-box-small-title">IRT Training</p>
+                        <p className="rd-box-small-title">IRT Mandatory Training</p>
                         <div className="rd-analytics-box-layout">
                           <div className="rd-analytics-top d-flex justify-content-between align-items-center">
                             <h5 className="mr-auto">Individual Completion</h5>
@@ -1169,7 +1169,7 @@ const RDAnalytics = () => {
               {flag.individual_Completion ? (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
-                    <h4>IRT Training</h4>
+                    <h4>IRT Mandatory Training</h4>
                   </div>
                   <div
                     className="rd-training-block"
