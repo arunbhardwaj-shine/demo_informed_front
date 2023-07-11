@@ -135,7 +135,8 @@ const ReaderReview = () => {
                         </th>
                         <td>
                           {readerData?.irt
-                            ? readerData?.irt==1?"Yes":readerData?.irt==0?"No":"N/A"
+                            ? readerData?.irt==1||readerData?.irt=="Yes"?"Yes"
+                            :readerData?.irt==0||readerData?.irt=="No"?"No":"N/A"
                             : "N/A"}
                         </td>
                       </tr>
@@ -242,8 +243,6 @@ const ReaderReview = () => {
                             : "N/A"}
                         </td>
                       </tr>
-                      </>)}
-                     
                       {readerData?.ibu ? (
                         <tr>
                           <th className="tab-content-title">Bussiness Unit</th>
@@ -252,6 +251,9 @@ const ReaderReview = () => {
                       ) : (
                         ""
                       )}
+                      </>)}
+                     
+                    
                     </table>
                   </div>
                   <div className="crm-review-detail">
