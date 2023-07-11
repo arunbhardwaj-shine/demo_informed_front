@@ -236,7 +236,7 @@ const AddSite = (props) => {
                                         </div>
                                     </Col>
 
-                                    <Col sm={6} className="form-group justify-content-end">
+                                   <Col sm={6} className="form-group">
                                         <label htmlFor="sitecategory">Site Country <span>*</span></label>
                                         <div className="create_site_form">
                                             <Select
