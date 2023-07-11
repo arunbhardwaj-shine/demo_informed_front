@@ -132,9 +132,9 @@ const NewReaders = () => {
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-      setAppliedFilter({ status: ["Registered"] });
-      setFilterObject({ status: ["Registered"] });
-      setApifilterObject({ status: ["Registered"] });
+      setAppliedFilter({  });
+      setFilterObject({  });
+      setApifilterObject({ });
     }
     else {
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
