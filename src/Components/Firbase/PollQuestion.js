@@ -7,12 +7,18 @@ import HighchartsReact from "highcharts-react-official";
 import { Col, Container, Row, Table } from "react-bootstrap";
 import {db} from "../../config/firebaseConfig"
 import { Link } from "react-router-dom";
+import { loader } from "../../loader"
 const PollQuestion = ()=>{
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const q = query(collection(db, "chat"),where("event_id","==",136))
     const [data,setData] = useState([])
+    const [showAccordian,setAccordian] = useState(0)
+    const [count,setCount] = useState(0)
+
+
      const initiFun = async () => {
         try {
+          loader("show")
           const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
             companyId: 18207,
             eventId: 136,
@@ -92,10 +98,11 @@ const PollQuestion = ()=>{
                         allowPointSelect: true,
                         cursor: 'pointer',
                         dataLabels: {
-                            enabled: true,
+                            enabled: false,
                             format: '<b>{point.name}</b>: {point.percentage:.1f} %'
                         }
-                    }
+                    },
+                    showInLegend: true
                 },
                 series: [{
                     name: 'Brands',
@@ -103,25 +110,39 @@ const PollQuestion = ()=>{
                     data:graphData
                 }]
              },
-              answer:value?.pollAnswers?.length
+              answer:value?.pollAnswers?.length,
+              speakerName:value?.speakerName
             });
           });
           setData(newData)
+          loader("hide")
         } catch (err) {
+          loader("hide")
           console.log("-err", err);
         }
       };
 
-    // onSnapshot(q, (querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //         if(doc.data()){
-    //             console.log("-df>",doc.data())
-    //         }
-    //     });  
-    //  })
+      const accordianFun = (data) =>{
+
+        let value = 0
+        if(showAccordian != data){
+          value = data
+        }
+        setAccordian(value)
+      }
+
+    onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            if(doc.data()){
+              if(count != doc.data()?.webinar){
+                setCount(doc.data()?.webinar)
+              }
+            }
+        });  
+     })
      useEffect(()=>{
         initiFun()
-     },[])
+     },[count])
     return (
         <>
         
@@ -143,19 +164,19 @@ const PollQuestion = ()=>{
                                 return (
                                     <>
                                 <tr>
-                                    {console.log("ite",item)}
                                     <td>{index+1}</td>
                                     <td>{item?.question}</td>
                                     <td>{item?.speakerName}</td>
                                     <td>{item?.answer}</td>
                                     <td><button type="button" className="btn btn-submit btn-bordered">Submit</button>
                                         <button type="button" className="btn btn-submit btn-bordered btn-voilet disabled">Display Answer</button>                      
-                                        <button type="button" className="btn show_graph"><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
+                                        <button type="button" onClick={()=>accordianFun(index+1)}className="btn show_graph"><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
                                 </tr>
-                                <tr class="poll_graph active-graph"> 
+                              
+                                <tr class={`poll_graph ${showAccordian && showAccordian == (index+1) ? "active-graph":""}`}> 
                                     <td colspan="6">
                                         <div class="highcharts-container">
-                                            asdjashas dmulas mdasd ashgdas dahsiod asdhioasd maieqwe 
+                                        <HighchartsReact highcharts={Highcharts} options={item?.pieChartData} />
                                         </div>
                                     </td>
                                 </tr>

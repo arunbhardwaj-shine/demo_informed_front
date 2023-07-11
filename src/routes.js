@@ -139,6 +139,8 @@ import RDAnalytics from "./Components/R&D/RDAnalytics";
 import SetLayout from "./Components/CommonComponent/SetLayout";
 import PreviewArticle from "./Components/Library/PreviewArticle";
 
+import PollQuestion from "./Components/Firbase/PollQuestion"
+
 let platform = 0;
 let show = 0;
 
@@ -247,6 +249,10 @@ const Routing = () => {
           <Route
           path="/webinar-question"
           element={<WebinarQuestion />}
+        />
+         <Route
+          path="/poll-question"
+          element={<PollQuestion />}
         />
 
 
