@@ -276,7 +276,6 @@ const SiteListing = () => {
                                         <th scope="col">Site Name</th>
                                         <th scope="col">Site Address</th>
                                         <th scope="col">Site City</th>
-                                        
                                         <th scope="col">Site Country</th>
                                         <th scope="col">Action</th>
                                     </tr>
@@ -295,7 +294,6 @@ const SiteListing = () => {
                                                         <td> {item?.site_name}</td>
                                                         <td> {item?.site_address}</td>
                                                         <td> {item?.site_city}</td>
-                                                        
                                                         <td> {item?.site_country}</td>
                                                         <td>
                                                             <Button onClick={() => handleEdit(item)} className="btn-bordered"> Edit </Button>
