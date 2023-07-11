@@ -1519,10 +1519,20 @@ const TemplateBuilder = (props) => {
       '<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
       ""
     );
+
+    var modifiedStringagain =   modifiedContent?.replace(
+      '<p><img style="display: none;" src="https://webinar.informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
+
+    var modifiedStringforsrc =   modifiedContent?.replace(
+      '<p><img style="display: none;" src="Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
     var pattern = /<img[^>]+src="([^"]*)"[^>]*>/g;
 
     // Replace the matching img tags with a new string
-    var modifiedString = modifiedContent?.replace(
+    var modifiedString = modifiedStringforsrc?.replace(
       pattern,
       function (match, src) {
         if (src === "###coverpath###") {
