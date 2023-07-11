@@ -826,7 +826,7 @@ const RDAnalytics = () => {
                   <Row>
                     <Col md={6} lg={4}>
                       <div className="rd-analytics-box irt">
-                        <p className="rd-box-small-title">IRT Training</p>
+                        <p className="rd-box-small-title">IRT Mandatory Training</p>
                         <div className="rd-analytics-box-layout">
                           <div className="rd-analytics-top d-flex justify-content-between align-items-center">
                             <h5 className="mr-auto">Individual Completion</h5>
@@ -1187,7 +1187,7 @@ const RDAnalytics = () => {
               {flag.individual_Completion ? (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
-                    <h4>IRT Training</h4>
+                    <h4>IRT Mandatory Training</h4>
                   </div>
                   <div
                     className="rd-training-block"
@@ -1237,11 +1237,11 @@ const RDAnalytics = () => {
                     <Table className="fold-table" id="individual_completion">
                       <thead>
                         <tr>
+                          <th>Site</th>
                           <th>Name</th>
                           <th>Role</th>
-                          <th>Blind type</th>
                           <th>Training</th>
-                          <th>Site</th>
+                          <th>Last Activity</th>
                           <th>&nbsp;</th>
                         </tr>
                       </thead>
@@ -1264,6 +1264,9 @@ const RDAnalytics = () => {
                                   )
                                 }
                               >
+                             <td>
+                                  {item?.site_name ? item?.site_name : "NA"}
+                                </td>
                                 <td>
                                   {item?.username
                                     ? item?.username?.charAt(0).toUpperCase() +
@@ -1273,9 +1276,7 @@ const RDAnalytics = () => {
                                 <td>
                                   {item?.user_type ? item?.user_type : "NA"}
                                 </td>
-                                <td>
-                                  {item?.blind_type == "yes" ? "Yes" : "No"}
-                                </td>
+                               
                                 <td
                                   className={
                                     item?.training_status_code == 0
@@ -1295,9 +1296,10 @@ const RDAnalytics = () => {
                                     ? "Not yet"
                                     : null}
                                 </td>
-                                <td>
-                                  {item?.site_name ? item?.site_name : "NA"}
-                                </td>
+                               
+ <td>
+  {item?.last_activity ? item.last_activity : "NA"}
+</td>
 
                                 <td class="pics">
                                   {item?.training_status_code == 0 ? (
@@ -1493,11 +1495,11 @@ const RDAnalytics = () => {
                                                         </div>
                                                         <div className="content-detail">
                                                           <h6>{item?.type}</h6>
-                                                          <p>
-                                                            Lorem sollicitudin
-                                                            faucibus eu molestie
-                                                            sollicitudin gravida
-                                                          </p>
+                                                          // <p>
+                                                          //   Lorem sollicitudin
+                                                          //   faucibus eu molestie
+                                                          //   sollicitudin gravida
+                                                          // </p>
                                                           <div className="page-count">
                                                             <div className="time">
                                                               {" "}
