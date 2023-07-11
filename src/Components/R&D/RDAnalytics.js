@@ -16,6 +16,7 @@ import HighchartsReact from "highcharts-react-official";
 import IndividualCompletion from "./IndividualCompletion";
 import SiteCompletion from "./SiteCompletion";
 import SiteEngagement from "./SiteEngagement";
+import PopularContent from "./PopularContent";
 const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
 const RDAnalytics = () => {
   const [show, setShow] = useState();
@@ -76,10 +77,10 @@ const RDAnalytics = () => {
       This chart shows the sites that have users who viewed the 1top content
     </Tooltip>
   );
-
-  useEffect(() => {
-    getMostPopularData();
-  }, []);
+// useEffect(()=>{
+//   getMostPopularData()
+// },[])
+  
 
   // const handleCheckboxClick = async (sort) => {
   //   try {
@@ -118,16 +119,16 @@ const RDAnalytics = () => {
   //   loader("hide");
   // };
 
-  const getMostPopularData = async () => {
-    try {
-      const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT);
-      const data = result?.data?.data;
-      setMostPopularContentData(data.pdf_data);
-    } catch (err) {
-      loader("hide");
-      console.log("--err", err);
-    }
-  };
+  // const getMostPopularData = async () => {
+  //   try {
+  //     const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT);
+  //     const data = result?.data?.data;
+  //     setMostPopularContentData(data.pdf_data);
+  //   } catch (err) {
+  //     loader("hide");
+  //     console.log("--err", err);
+  //   }
+  // };
   const getMostPopularContentPageData = async (pdf_id) => {
     loader("show");
 
@@ -166,18 +167,21 @@ const RDAnalytics = () => {
   };
 
   const getMostPopularContentSiteData = async (pdf_id) => {
+    console.log('pdf id',pdf_id)
     loader("show");
 
     try {
       if (
+       
         !isContentSiteAccordionOpen[pdf_id] ||
         isContentSiteAccordionOpen[pdf_id] == undefined
       ) {
+        console.log("i am here---->")
         const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
           pdf_id: pdf_id,
         });
-
-        const data = result?.data?.data.site_data;
+console.log('result--->',result)
+        const data = result?.data?.data?.site_data;
         const chart_data = result?.data?.data?.chart_data;
         // Set chart data options for the PDF
         setChartOptions((prevOptions) => ({
@@ -256,11 +260,13 @@ const RDAnalytics = () => {
             device_names: chart_data.deviceNames,
           },
         }));
-        setIsContentSiteAccordionOpen({
-          ...isContentSiteAccordionOpen,
-          [pdf_id]: true,
-        });
+        // setIsContentSiteAccordionOpen({
+        //   ...isContentSiteAccordionOpen,
+        //   [pdf_id]: true,
+        // });
+        setIsContentSiteAccordionOpen(true)
       } else {
+        console.log("i am close else section--->")
         setIsContentSiteAccordionOpen({
           ...isContentSiteAccordionOpen,
           [pdf_id]: false,
@@ -384,11 +390,13 @@ const RDAnalytics = () => {
   };
 
   const mostPopularContent = () => {
-    setTimeout(() => {
-      if (flag?.content) {
-        content?.current?.focus();
-      }
-    });
+    setFlag({
+        individual_Completion: false,
+         site_Completion: false,
+         site_Engagement: false,
+         content: true,
+       });
+   
   };
 
   const siteEngagementFun = () => {
@@ -650,7 +658,10 @@ const RDAnalytics = () => {
                 </Col>
 
                 <Col md={12} lg={3}>
-                  <div className="rd-analytics-box rd-content">
+                  <PopularContent mostPopularContentFn={mostPopularContent} 
+                  setMostPopularContentData={setMostPopularContentData}
+                  />
+                  {/* <div className="rd-analytics-box rd-content">
                     <p className="rd-box-small-title">Content</p>
                     <div className="rd-analytics-box-layout">
                       <div className="rd-analytics-top d-flex justify-content-between align-items-center">
@@ -673,7 +684,7 @@ const RDAnalytics = () => {
                       <div className="graph-box">
                         <div className="graph-box-inside">
                           <p>
-                            {/* Sites who Read | Watch the <span>1 top</span>{" "} content */}
+                            
                             Sites who Read | Watch The Top Content
                           </p>
                           <span>Click on the graph to see more details</span>
@@ -733,18 +744,7 @@ const RDAnalytics = () => {
                               </div>
                             ))}
                         </div>
-                        {/* <div className="">
-                          <p>
-                            Sites who Read | Watch the <span>1 top</span>{" "}
-                            content
-                          </p>
-                          <span>Click on the graph to see more details</span>
-                        </div>
-                        <img
-                          className="pie-chart"
-                          src={path_image + "pie-chart2.png"}
-                          alt=""
-                        /> */}
+                       
                       </div>
                       <div className="rd-box-export">
                         <img
@@ -762,7 +762,7 @@ const RDAnalytics = () => {
                         />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </Col>
               </Row>
               {flag.individual_Completion ? (
@@ -880,7 +880,7 @@ const RDAnalytics = () => {
                                   {item?.site_name ? item?.site_name : "NA"}
                                 </td>
 
-                                <td class="pics">
+                                <td className="pics">
                                   {item?.training_status_code == 0 ? (
                                     <img
                                       src={path_image + "certificate.png"}
@@ -1208,7 +1208,7 @@ const RDAnalytics = () => {
                                   <img
                                     src={path_image + "doctor-svg.svg"}
                                     alt=""
-                                    class="doctor"
+                                    className="doctor"
                                   />
                                 </td>
                                 <td className="complete">
@@ -1415,7 +1415,7 @@ const RDAnalytics = () => {
                                                       </div>
                                                     </div>
                                                   </div>
-                                                  <div class="pages-viewer">
+                                                  <div className="pages-viewer">
                                                     {data?.unique_users}{" "}
                                                     <img
                                                       src="componentAssets/images/viewer.svg"
@@ -1510,7 +1510,7 @@ const RDAnalytics = () => {
                                     </div>
                                   </div>
                                 </div>
-                                <div class="pages-viewer">
+                                <div className="pages-viewer">
                                   {item.watched_count}{" "}
                                   <img src={path_image + "viewer.svg"} alt="" />
                                 </div>
@@ -1554,9 +1554,11 @@ const RDAnalytics = () => {
                           </Accordion.Item>
                           <Accordion.Item
                             eventKey="10"
+                            // eventKey={index}
                             //  className={isActive ? 'accordion-read active' : 'accordion-read'} //onClick={handleClick}
                             className={
                               activeAccordionKey === "10"
+                              // activeAccordionKey={index}
                                 ? "accordion-read active"
                                 : "accordion-read"
                             }
