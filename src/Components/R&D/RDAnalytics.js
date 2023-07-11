@@ -844,9 +844,14 @@ const RDAnalytics = () => {
                           <div className="graph-box">
                             <div className="graph-box-inside">
                               <p>Completing the mandatory training</p>
-                              <span>
+							  {
+								  /*
+								  <span>
                                 Click on the graph to see more details
                               </span>
+								  */
+							  }
+                              
                             </div>
 
                             <HighchartsReact
@@ -891,9 +896,12 @@ const RDAnalytics = () => {
                             <div className="d-flex justify-content-between align-items-center">
                               <div className="graph-box-inside">
                                 <p>Registered IRTs at each site</p>
-                                <span>
+								{
+									/*<span>
                                   Click on the graph to see more details
-                                </span>
+                                </span>*/
+								}
+                                
                               </div>
                               <div className="switch6">
                                 <label className="switch6-light">
@@ -1017,9 +1025,12 @@ const RDAnalytics = () => {
                               <p>
                                 Engaging With Non-mandatory Content at each site
                               </p>
-                              <span>
+							  {
+								  /*<span>
                                 Click on the graph to see more details
-                              </span>
+                              </span>*/
+							  }
+                              
                             </div>
 
                             <HighchartsReact
@@ -1054,7 +1065,8 @@ const RDAnalytics = () => {
                   <div className="rd-analytics-box rd-content">
                     <p className="rd-box-small-title">Content</p>
                     <div className="rd-analytics-box-layout">
-                      <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+					{
+						/*<div className="rd-analytics-top d-flex justify-content-between align-items-center">
                         <h5>Most Popular content</h5>
                         <div className="d-flex">
                           <div className="count-number">
@@ -1070,15 +1082,19 @@ const RDAnalytics = () => {
                           </div>
                           <img src={path_image + "content-view.svg"} alt="" />
                         </div>
-                      </div>
+                      </div>*/
+					}
+                      
                       <div className="graph-box">
-                        <div className="graph-box-inside">
+					  {
+						  /*<div className="graph-box-inside">
                           <p>
-                            {/* Sites who Read | Watch the <span>1 top</span>{" "} content */}
+                             Sites who Read | Watch the <span>1 top</span>{" "} content 
                             Sites who Read | Watch The Top Content
                           </p>
-                          <span>Click on the graph to see more details</span>
+						  <span>Click on the graph to see more details</span>
                         </div>
+                        
                         <div className="popular-tooltip">
                           <OverlayTrigger placement="left" overlay={tooltip}>
                             <img src={path_image + "tooltip-img.svg"} alt="" />
@@ -1089,6 +1105,8 @@ const RDAnalytics = () => {
                           src={path_image + "pie-chart2.png"}
                           alt=""
                         />
+						*/
+					  }
                         <div className="">
                           <p>The Top 3 content</p>
                         </div>
