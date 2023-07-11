@@ -1219,11 +1219,11 @@ const RDAnalytics = () => {
                     <Table className="fold-table" id="individual_completion">
                       <thead>
                         <tr>
+                          <th>Site</th>
                           <th>Name</th>
                           <th>Role</th>
-                          <th>Blind type</th>
                           <th>Training</th>
-                          <th>Site</th>
+                          <th>Last Activity</th>
                           <th>&nbsp;</th>
                         </tr>
                       </thead>
@@ -1246,6 +1246,9 @@ const RDAnalytics = () => {
                                   )
                                 }
                               >
+                             <td>
+                                  {item?.site_name ? item?.site_name : "NA"}
+                                </td>
                                 <td>
                                   {item?.username
                                     ? item?.username?.charAt(0).toUpperCase() +
@@ -1255,9 +1258,7 @@ const RDAnalytics = () => {
                                 <td>
                                   {item?.user_type ? item?.user_type : "NA"}
                                 </td>
-                                <td>
-                                  {item?.blind_type == "yes" ? "Yes" : "No"}
-                                </td>
+                               
                                 <td
                                   className={
                                     item?.training_status_code == 0
@@ -1277,9 +1278,10 @@ const RDAnalytics = () => {
                                     ? "Not yet"
                                     : null}
                                 </td>
-                                <td>
-                                  {item?.site_name ? item?.site_name : "NA"}
-                                </td>
+                               
+ <td>
+  {item?.last_activity ? item.last_activity : "NA"}
+</td>
 
                                 <td class="pics">
                                   {item?.training_status_code == 0 ? (
