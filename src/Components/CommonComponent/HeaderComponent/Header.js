@@ -53,7 +53,7 @@ const Header = () => {
 
   const logout = () => {
     localStorage.clear();
-    navigate("/informed");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -219,10 +219,10 @@ const Header = () => {
                     window.location.pathname == "/octa-country" ||
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
-                    window.location.pathname =="/rd-analytics" ||
+                    window.location.pathname =="/LEX-210-analytics" ||
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
-                      : "nav-item" 
+                      : "nav-item"
                   }
                 >
                   <Link
@@ -309,15 +309,13 @@ const Header = () => {
 
                 {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
                 localStorage.getItem("webinar_flag") == 1 &&
-                localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" &&
-                localStorage.getItem("user_id") !=
-                  "qDgwPdToP05Kgzc g2VjIQ==" ? (
+                localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ? (
                   <li className="nav-item">
                     <a
                       className="nav-link"
                       target="_blank"
                       href={
-                        "https://informed.pro/Webinar/readers_webinar?rdylr=" +
+                        "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
                         localStorage.getItem("user_id")
                       }
                     >
@@ -356,13 +354,13 @@ const Header = () => {
 
                 <Dropdown.Menu>
                   <Dropdown.Item
-                    // href="https://informed.pro/Pages/change_password/"
+                    // href="https://webinar.informed.pro/Pages/change_password/"
                     onClick={() => navigate("/change-password")}
                     className="dropdown-item"
                   >
                     Change Password
                   </Dropdown.Item>
-                  <Dropdown.Item
+                  {/* <Dropdown.Item
                     className="dropdown-item"
                     onClick={() =>
                       window.open(
@@ -373,7 +371,7 @@ const Header = () => {
                     }
                   >
                     Raise a ticket
-                  </Dropdown.Item>
+                  </Dropdown.Item> */}
                   <Dropdown.Item
                     className="dropdown-item"
                     onClick={() => logout()}

@@ -261,7 +261,6 @@ const RDAnalytics = () => {
     }
   };
 
- 
   const handleCheckboxClick = async (sort) => {
     try {
       loader("show");
@@ -272,7 +271,6 @@ const RDAnalytics = () => {
       } else {
         setSortSite(true);
       }
-    
 
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);
@@ -299,7 +297,6 @@ const RDAnalytics = () => {
     }
     loader("hide");
   };
-
 
   const getPieChartData = async () => {
     try {
@@ -540,7 +537,6 @@ const RDAnalytics = () => {
       loader("hide");
     }
   };
-
   const rdShowData = (e, index) => {
     if (show == index) {
       setShow();
@@ -816,7 +812,7 @@ const RDAnalytics = () => {
 
   return (
     <>
-      <Col className="right-sidebar col">
+      <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
             <div className="top-header">
@@ -901,10 +897,13 @@ const RDAnalytics = () => {
                               </div>
                               <div className="switch6">
                                 <label className="switch6-light">
-                                  <input type="checkbox" onChange={() => {handleCheckboxClick(!sortSite)
-                                  setSortSite(!sortSite)}
-                                  }
-/>
+                                  <input
+                                    type="checkbox"
+                                    onChange={() => {
+                                      handleCheckboxClick(!sortSite);
+                                      setSortSite(!sortSite);
+                                    }}
+                                  />
                                   <span>
                                     <span>
                                       <svg
@@ -1060,13 +1059,13 @@ const RDAnalytics = () => {
                         <div className="d-flex">
                           <div className="count-number">
                             {mostPopularContentData &&
-                              mostPopularContentData.length > 0
+                            mostPopularContentData.length > 0
                               ? mostPopularContentData
-                                .map((item) => item?.watched_count)
-                                .reduce(
-                                  (total, count) => total + (count || 0),
-                                  0
-                                )
+                                  .map((item) => item?.watched_count)
+                                  .reduce(
+                                    (total, count) => total + (count || 0),
+                                    0
+                                  )
                               : 0}
                           </div>
                           <img src={path_image + "content-view.svg"} alt="" />
@@ -1113,12 +1112,12 @@ const RDAnalytics = () => {
                                   <div className="d-flex justify-content-between">
                                     <div className="pages-number">
                                       {item?.total_pages ||
-                                        item?.total_pages == 0
+                                      item?.total_pages == 0
                                         ? "Pages:"
                                         : "Time:"}
                                       <span>
                                         {item?.total_pages ||
-                                          item?.total_pages == 0
+                                        item?.total_pages == 0
                                           ? item.total_pages
                                           : item?.max_time}
                                       </span>
@@ -1233,10 +1232,11 @@ const RDAnalytics = () => {
                           return (
                             <>
                               <tr
-                                className={`view ${individualCompletionShow == index
+                                className={`view ${
+                                  individualCompletionShow == index
                                     ? "show"
                                     : ""
-                                  }`}
+                                }`}
                                 onClick={(e) =>
                                   individualCompletionShowData(
                                     e,
@@ -1249,7 +1249,7 @@ const RDAnalytics = () => {
                                 <td>
                                   {item?.username
                                     ? item?.username?.charAt(0).toUpperCase() +
-                                    item?.username.slice(1)
+                                      item?.username.slice(1)
                                     : "NA"}
                                 </td>
                                 <td>
@@ -1263,19 +1263,19 @@ const RDAnalytics = () => {
                                     item?.training_status_code == 0
                                       ? "complete"
                                       : item?.training_status_code == 1
-                                        ? "started"
-                                        : item?.training_status == "completed"
-                                          ? "complete"
-                                          : "not_yet"
+                                      ? "started"
+                                      : item?.training_status == "completed"
+                                      ? "complete"
+                                      : "not_yet"
                                   }
                                 >
                                   {item?.training_status_code == "0"
                                     ? "Complete"
                                     : item?.training_status_code == "1"
-                                      ? "Started"
-                                      : item?.training_status_code == "2"
-                                        ? "Not yet"
-                                        : null}
+                                    ? "Started"
+                                    : item?.training_status_code == "2"
+                                    ? "Not yet"
+                                    : null}
                                 </td>
                                 <td>
                                   {item?.site_name ? item?.site_name : "NA"}
@@ -1344,7 +1344,7 @@ const RDAnalytics = () => {
                                                         <div className="page-count">
                                                           <div className="time">
                                                             {data?.file_type ==
-                                                              "pdf" ? (
+                                                            "pdf" ? (
                                                               <>
                                                                 Pages{" "}
                                                                 <span>
@@ -1367,7 +1367,7 @@ const RDAnalytics = () => {
                                                           </div>
                                                           <div className="completed-date">
                                                             {item?.training_status_code ==
-                                                              0 ? (
+                                                            0 ? (
                                                               <>
                                                                 Completed date
                                                                 <span className="complete">
@@ -1399,7 +1399,7 @@ const RDAnalytics = () => {
                                                     </div>
                                                   </Accordion.Header>
                                                   {trainingAccordianShow ==
-                                                    i ? (
+                                                  i ? (
                                                     <Accordion.Body>
                                                       <div className="article-pages-details d-flex">
                                                         {trainingDropdownData?.length ? (
@@ -1594,8 +1594,9 @@ const RDAnalytics = () => {
                           return (
                             <>
                               <tr
-                                className={`view ${siteCompletionShow == index ? "show" : ""
-                                  }`}
+                                className={`view ${
+                                  siteCompletionShow == index ? "show" : ""
+                                }`}
                                 onClick={(e) => {
                                   siteCompletionShowData(e, index);
                                 }}
@@ -1647,18 +1648,18 @@ const RDAnalytics = () => {
                                                 <td
                                                   className={
                                                     data?.training_status_code ==
-                                                      "0"
+                                                    "0"
                                                       ? "complete"
                                                       : "not_yet"
                                                   }
                                                 >
                                                   {data?.training_status_code ==
-                                                    "0"
+                                                  "0"
                                                     ? "Completed"
                                                     : data?.training_status_code ==
                                                       "1"
-                                                      ? "Not yet"
-                                                      : null}
+                                                    ? "Not yet"
+                                                    : null}
                                                 </td>
                                               </tr>
                                             ))}
@@ -1727,121 +1728,127 @@ const RDAnalytics = () => {
                       </div>
                     </div>
                     <div className="table-responsive">
-                    <Table className="fold-table" id="table-to-xls">
-                      <thead>
-                        <tr>
-                          <th>Site</th>
-                          <th>Site Number</th>
-                          <th>Country</th>
-                          <th>Site Users</th>
-                          <th>Content engagement</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rdSiteData?.map((item, index) => {
-                          return (
-                            <>
-                              <tr
-                                key={index}
-                                className={`view ${show == index ? "show" : ""
-                                  }`}
-                                onClick={(e) => rdShowData(e, index)}
-                              >
-                                <td>{item?.site_name}</td>
-                                <td>{item?.site_number}</td>
-                                <td>{item?.site_country}</td>
-                                <td>{item?.site_users}</td>
-                                <td>{item?.content_engagement}</td>
-                              </tr>
-                              {show == index ? (
+                      <Table className="fold-table" id="table-to-xls">
+                        <thead>
+                          <tr>
+                            <th>Site</th>
+                            <th>Site Number</th>
+                            <th>Country</th>
+                            <th>Site Users</th>
+                            <th>Content engagement</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rdSiteData?.map((item, index) => {
+                            return (
+                              <>
                                 <tr
-                                  className="fold show"
-                                // className={`fold ${
-                                //   show && show == index ? "show" : ""
-                                // }`}
+                                  key={index}
+                                  className={`view ${
+                                    show == index ? "show" : ""
+                                  }`}
+                                  onClick={(e) => rdShowData(e, index)}
                                 >
-                                  {item?.pdf_data?.length ? (
-                                    <td colspan="5">
-                                      <div className="fold-content">
-                                        <p>
-                                          Content engagement |{" "}
-                                          <span>{item?.pdf_data?.length}</span>
-                                        </p>
-                                        <span>
-                                          Click on the content for more details
-                                        </span>
-                                        {item?.pdf_data?.map((data, i) => {
-                                          return (
-                                            <>
-                                              <div className="d-flex align-items-start engagement-sec">
-                                                <div className="content-image">
-                                                  <img
-                                                    src={
-                                                      // path_image +
-                                                      // "article-content.png"
-                                                      data?.cover_img
-                                                    }
-                                                    alt="no image"
-                                                  />
-                                                </div>
-                                                <div className="content-detail">
-                                                  <h6>{data?.title}</h6>
-                                                  <p>{data?.pdf_sub_title}</p>
-                                                  <div className="page-count">
-                                                    <div className="time">
-                                                      {data?.file_type ==
+                                  <td>{item?.site_name}</td>
+                                  <td>{item?.site_number}</td>
+                                  <td>{item?.site_country}</td>
+                                  <td>{item?.site_users}</td>
+                                  <td>{item?.content_engagement}</td>
+                                </tr>
+                                {show == index ? (
+                                  <tr
+                                    className="fold show"
+                                    // className={`fold ${
+                                    //   show && show == index ? "show" : ""
+                                    // }`}
+                                  >
+                                    {item?.pdf_data?.length ? (
+                                      <td colspan="5">
+                                        <div className="fold-content">
+                                          <p>
+                                            Content engagement |{" "}
+                                            <span>
+                                              {item?.pdf_data?.length}
+                                            </span>
+                                          </p>
+                                          <span>
+                                            Click on the content for more
+                                            details
+                                          </span>
+                                          {item?.pdf_data?.map((data, i) => {
+                                            return (
+                                              <>
+                                                <div className="d-flex align-items-start engagement-sec">
+                                                  <div className="content-image">
+                                                    <img
+                                                      src={
+                                                        // path_image +
+                                                        // "article-content.png"
+                                                        data?.cover_img
+                                                      }
+                                                      alt="no image"
+                                                    />
+                                                  </div>
+                                                  <div className="content-detail">
+                                                    <h6>{data?.title}</h6>
+                                                    <p>{data?.pdf_sub_title}</p>
+                                                    <div className="page-count">
+                                                      <div className="time">
+                                                        {data?.file_type ==
                                                         "pdf" ? (
-                                                        <>
-                                                          Pages{" "}
-                                                          <span>
-                                                            {data?.total_pages}
-                                                          </span>
-                                                        </>
-                                                      ) : data?.file_type ==
-                                                        "video" ? (
-                                                        <>
-                                                          Time{" "}
-                                                          <span>
-                                                            {data?.max_time}
-                                                          </span>
-                                                        </>
-                                                      ) : null}
+                                                          <>
+                                                            Pages{" "}
+                                                            <span>
+                                                              {
+                                                                data?.total_pages
+                                                              }
+                                                            </span>
+                                                          </>
+                                                        ) : data?.file_type ==
+                                                          "video" ? (
+                                                          <>
+                                                            Time{" "}
+                                                            <span>
+                                                              {data?.max_time}
+                                                            </span>
+                                                          </>
+                                                        ) : null}
+                                                      </div>
                                                     </div>
                                                   </div>
+                                                  <div class="pages-viewer">
+                                                    {data?.unique_users}{" "}
+                                                    <img
+                                                      src="componentAssets/images/viewer.svg"
+                                                      alt=""
+                                                    />
+                                                  </div>
                                                 </div>
-                                                <div class="pages-viewer">
-                                                  {data?.unique_users}{" "}
-                                                  <img
-                                                    src="componentAssets/images/viewer.svg"
-                                                    alt=""
-                                                  />
-                                                </div>
-                                              </div>
-                                            </>
-                                          );
-                                        })}
-                                      </div>
-                                    </td>
-                                  ) : (
-                                    <td colspan="5">
-                                      <div className="no_data">
-                                        No Data Found
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              ) : null}
+                                              </>
+                                            );
+                                          })}
+                                        </div>
+                                      </td>
+                                    ) : (
+                                      <td colspan="5">
+                                        <div className="no_data">
+                                          No Data Found
+                                        </div>
+                                      </td>
+                                    )}
+                                  </tr>
+                                ) : null}
 
-                              <tr className="blank">
-                                <td colspan="5" style={{ height: "10px" }}>
-                                  &nbsp;
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
-                      </tbody>
-                    </Table>
+                                <tr className="blank">
+                                  <td colspan="5" style={{ height: "10px" }}>
+                                    &nbsp;
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })}
+                        </tbody>
+                      </Table>
                     </div>
                   </div>
                 </div>

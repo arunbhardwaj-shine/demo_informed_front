@@ -218,6 +218,15 @@ const ReaderReview = () => {
                           {readerData?.product ? readerData?.product : "N/A"}
                         </td>
                       </tr>
+                      {
+                       readerData?.userType? 
+                        <tr>
+                        <th className="tab-content-title">User Type</th>
+                        <td>
+                        { readerData?.userType ?  readerData?.userType : "N/A"}
+                        </td>
+                      </tr>:null
+                      }
                       <tr>
                         <th className="tab-content-title">Interest area</th>
                         <td>

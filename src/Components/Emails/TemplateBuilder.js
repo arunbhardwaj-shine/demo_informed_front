@@ -11,7 +11,7 @@ import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
-import Select from "react-select";
+
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
@@ -20,6 +20,7 @@ import { toPng } from "html-to-image";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import Select, { createFilter } from "react-select";
 var dxr = 0;
 var state_object = {};
 const TemplateBuilder = (props) => {
@@ -36,7 +37,7 @@ const TemplateBuilder = (props) => {
   const location = useLocation();
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [siteNumberAll, setSiteNumberAll] = useState([]);
-   const [totalData, setTotalData] = useState({});
+  const [totalData, setTotalData] = useState({});
   const [uniqueId, setUniqueId] = useState("");
   const [templateType, setTemplateType] = useState();
   const [showPreogressBar, setShowProgressBar] = useState(false);
@@ -88,6 +89,13 @@ const TemplateBuilder = (props) => {
 
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
+  const [role, setRole] = useState([]);
+  const [irtRole, setIrtRole] = useState([]);
+  const [optIRT, setoptIRT] = useState([
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ]);
   const [message, setMessage] = useState("");
   const [reRender, setReRender] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -139,6 +147,9 @@ const TemplateBuilder = (props) => {
     getSmartListData(0);
   }, []);
 
+  const filterConfig = {
+    matchFrom: "start",
+  };
   const getSmartListData = (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
@@ -163,6 +174,9 @@ const TemplateBuilder = (props) => {
 
   useEffect(() => {
     loader("show");
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
     const getalCountry = async () => {
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -173,8 +187,42 @@ const TemplateBuilder = (props) => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
-          setTotalData(res.data.response.data)
-          setCountryall(res.data.response.data.country);
+          if (res.data.status_code == 200) {
+            let country = res.data.response.data.country;
+
+            let arr = [];
+
+            Object.entries(country).map(([index, item]) => {
+              let label = item;
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
+              });
+            });
+
+            setCountryall(arr);
+
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              let investigator_type =
+                res?.data?.response?.data?.investigator_type;
+              let newType = [];
+              Object.keys(investigator_type)?.map((item, i) => {
+                newType.push({ label: item, value: item });
+              });
+              let irt_inverstigator_type =
+                res?.data?.response?.data?.irt_inverstigator_type;
+              let newIrtType = [];
+              Object.keys(irt_inverstigator_type)?.map((item, i) => {
+                newIrtType.push({ label: item, value: item });
+              });
+              setRole(newType);
+              setIrtRole(newIrtType);
+            }
+            setTotalData(res.data.response.data);
+          }
 
           // setCounter(counter + 1);
         })
@@ -185,6 +233,27 @@ const TemplateBuilder = (props) => {
 
     getalCountry();
   }, []);
+  const axiosFun = async () => {
+    try {
+      const result = await axios.get(`emailapi/get_site`);
+
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+      setIRTCountry(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
+  };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag, lng, ibu) => {
@@ -353,7 +422,6 @@ const TemplateBuilder = (props) => {
       toast.warning("Please input the email atleast");
     }
   };
-  
 
   const onSiteNumberChange = (e, i) => {
     if (e == null) {
@@ -417,8 +485,6 @@ const TemplateBuilder = (props) => {
       setHpc(list);
     }
   };
-
-
 
   const deleteSelected = (index) => {
     let arr = [];
@@ -790,6 +856,46 @@ const TemplateBuilder = (props) => {
     // setEmailData(e.target.value);
   };
 
+  const onRoleChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].role = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].role;
+      list[i].role = value;
+      setHpc(list);
+    }
+  };
+
+  const onIRTChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].optIrt = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].optIrt;
+      list[i].optIrt = value;
+      list[i].role = "";
+      list[i].country = "";
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      setHpc(list);
+    }
+    let arr = [];
+    setSiteNumberAll(arr);
+    setSiteNameAll(arr);
+    setCounterFlag(counterFlag + 1);
+  };
+
   const onContactTypeChange = (e, i) => {
     const value = e;
     const list = [...hpc];
@@ -807,41 +913,81 @@ const TemplateBuilder = (props) => {
     // const list = [...hpc];
   };
 
-  const onCountryChange = (e, i) => {
-    const value = e;
-    const list = [...hpc];
-    const name = hpc[i].country;
-    list[i].country = value;
-    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-      let consetValue = value;
-      if (value == "B&H") {
-        consetValue = "Bosnia and Herzegovina";
-      }
-      const matchingKeys = Object.entries(totalData.site_country_data)
-        .filter(([key, value]) => {
-          return value == consetValue;
-        })
-        .map(([key, value]) => key);
+  // const onCountryChange = (e, i) => {
+  //   const value = e;
+  //   const list = [...hpc];
+  //   const name = hpc[i].country;
+  //   list[i].country = value;
+  //   if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+  //     let consetValue = value;
+  //     if (value == "B&H") {
+  //       consetValue = "Bosnia and Herzegovina";
+  //     }
+  //     const matchingKeys = Object.entries(totalData.site_country_data)
+  //       .filter(([key, value]) => {
+  //         return value == consetValue;
+  //       })
+  //       .map(([key, value]) => key);
 
-      const filteredSiteNames = matchingKeys.map((key) => ({
-        label: totalData.site_data[key],
-        value: totalData.site_data[key],
-      }));
-      const siteNumbers = matchingKeys.map((key) => ({
-        label: key,
-        value: key,
-      }));
+  //     const filteredSiteNames = matchingKeys.map((key) => ({
+  //       label: totalData.site_data[key],
+  //       value: totalData.site_data[key],
+  //     }));
+  //     const siteNumbers = matchingKeys.map((key) => ({
+  //       label: key,
+  //       value: key,
+  //     }));
+  //     list[i].siteNumberIndex = "";
+  //     list[i].siteNameIndex = "";
+  //     list[i].siteName = "";
+  //     list[i].siteNumber = "";
+
+  //     setSiteNumberAll(siteNumbers);
+  //     setSiteNameAll(filteredSiteNames);
+  //   }
+  //   setHpc(list);
+  // };
+
+  const onCountryChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].country = "";
+      list[i].countryIndex = "";
+      setHpc(list);
+    } else {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        let consetValue = e.value;
+        if (e.value == "B&H") {
+          consetValue = "Bosnia and Herzegovina";
+        }
+        const matchingKeys = Object.entries(totalData.site_country_data)
+          .filter(([key, value]) => value === consetValue)
+          .map(([key, value]) => key);
+        const filteredSiteNames = matchingKeys.map((key) => ({
+          label: totalData.site_data[key],
+          value: totalData.site_data[key],
+        }));
+        const siteNumbers = matchingKeys.map((key) => ({
+          label: key,
+          value: key,
+        }));
+        setSiteNumberAll(siteNumbers);
+        setSiteNameAll(filteredSiteNames);
+      }
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].country;
+      list[i].country = value;
+
+      let index = countryall.findIndex((x) => x.value === value);
+      list[i].countryIndex = index;
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
-
-      setSiteNumberAll(siteNumbers);
-      setSiteNameAll(filteredSiteNames);
+      setHpc(list);
     }
-    setHpc(list);
   };
-
   const deleteRecord = (i) => {
     const list = hpc;
     list.splice(i, 1);
@@ -869,21 +1015,19 @@ const TemplateBuilder = (props) => {
   };
 
   const saveClicked = async () => {
-
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        if(localStorage.getItem("user_id") ==
-        "56Ek4feL/1A8mZgIKQWEqg=="){
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
           return {
             first_name: data.firstname,
             last_name: data.lastname,
             email: data.email,
             country: data.country,
             contact_type: data.contact_type,
-           siteNumber: data?.siteNumber ? data.siteNumber : "",
-           siteName: data.siteName ? data.siteName : "",
+            siteNumber: data?.siteNumber ? data.siteNumber : "",
+            siteName: data.siteName ? data.siteName : "",
           };
-        }else{
+        } else {
           return {
             first_name: data.firstname,
             last_name: data.lastname,
@@ -892,14 +1036,13 @@ const TemplateBuilder = (props) => {
             contact_type: data.contact_type,
           };
         }
-        
       });
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
-      console.log("-test",body)
+      console.log("-test", body);
 
       const status = body.data.map((data) => {
         if (data.email == "") {
@@ -1376,10 +1519,20 @@ const TemplateBuilder = (props) => {
       '<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
       ""
     );
+
+    var modifiedStringagain =   modifiedContent?.replace(
+      '<p><img style="display: none;" src="https://webinar.informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
+
+    var modifiedStringforsrc =   modifiedContent?.replace(
+      '<p><img style="display: none;" src="Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
     var pattern = /<img[^>]+src="([^"]*)"[^>]*>/g;
 
     // Replace the matching img tags with a new string
-    var modifiedString = modifiedContent?.replace(
+    var modifiedString = modifiedStringforsrc?.replace(
       pattern,
       function (match, src) {
         if (src === "###coverpath###") {
@@ -2154,55 +2307,185 @@ const TemplateBuilder = (props) => {
                                   ) : null}
                                 </div>
                               </div>
+
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT</label>
+
+                                      <Select
+                                        options={optIRT}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onIRTChange(event, i)
+                                        }
+                                        defaultValue={val?.optIrt}
+                                        placeholder="Select IRT"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Role</label>
+                                      {val?.optIrt == "yes" ? (
+                                        <Select
+                                          options={irtRole}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i)
+                                          }
+                                          value={
+                                            irtRole?.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : irtRole[
+                                                  irtRole?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : val?.optIrt == "no" ? (
+                                        <Select
+                                          options={role}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i)
+                                          }
+                                          value={
+                                            role?.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : role[
+                                                  role?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          placeholder="Select Role"
+                                        />
+                                      )}
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label htmlFor="">Contact Type</label>
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          hpc[i].contact_type != "" &&
+                                          hpc[i].contact_type != "undefined"
+                                            ? hpc[i].contact_type
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onContactTypeChange(event, i)
+                                        }
+                                      >
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          {"HCP"}
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </DropdownButton>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Contact Type</label>
-                                  <DropdownButton
-                                    className="dropdown-basic-button split-button-dropup"
-                                    title={
-                                      hpc[i].contact_type != "" &&
-                                      hpc[i].contact_type != "undefined"
-                                        ? hpc[i].contact_type
-                                        : "Select Type"
-                                    }
-                                    onSelect={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                  >
-                                    <Dropdown.Item
-                                      eventKey="HCP"
-                                      className={
-                                        hpc[i].contact_type == "HCP"
-                                          ? "active"
-                                          : ""
+                                  <label htmlFor="">Country</label>
+                                  {val?.optIrt == "yes" ? (
+                                    <Select
+                                      options={irtCountry}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
                                       }
-                                    >
-                                      {"HCP"}
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Staff"
-                                      className={
-                                        hpc[i].contact_type == "Staff"
-                                          ? "active"
-                                          : ""
+                                      value={
+                                        irtCountry.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : irtCountry[
+                                              irtCountry.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
                                       }
-                                    >
-                                      Staff
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Test Users"
-                                      className={
-                                        hpc[i].contact_type == "Test Users"
-                                          ? "active"
-                                          : ""
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  ) : (
+                                    <Select
+                                      options={countryall}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
                                       }
-                                    >
-                                      Test Users
-                                    </Dropdown.Item>
-                                  </DropdownButton>
+                                      value={
+                                        countryall.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : countryall[
+                                              countryall.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  )}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
+                              {/* <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Country</label>
                                   <DropdownButton
@@ -2245,7 +2528,7 @@ const TemplateBuilder = (props) => {
                                     </div>
                                   </DropdownButton>
                                 </div>
-                              </div>
+                              </div> */}
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
@@ -2260,9 +2543,12 @@ const TemplateBuilder = (props) => {
                                           onSiteNumberChange(event, i)
                                         }
                                         value={
-                                          siteNumberAll[hpc[i].siteNumberIndex]?siteNumberAll[hpc[i].siteNumberIndex]:""
+                                          siteNumberAll[hpc[i].siteNumberIndex]
+                                            ? siteNumberAll[
+                                                hpc[i].siteNumberIndex
+                                              ]
+                                            : ""
                                         }
-                                        
                                         placeholder={
                                           typeof siteNumberAll[
                                             hpc[i].siteNumberIndex
@@ -2279,7 +2565,7 @@ const TemplateBuilder = (props) => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site Name</label>
-                                      
+
                                       <Select
                                         options={siteNameAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2287,7 +2573,9 @@ const TemplateBuilder = (props) => {
                                           onSiteNameChange(event, i)
                                         }
                                         value={
-                                          siteNameAll[hpc[i].siteNameIndex]? siteNameAll[hpc[i].siteNameIndex]:""
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                            : ""
                                         }
                                         placeholder={
                                           typeof siteNameAll[
@@ -2301,7 +2589,6 @@ const TemplateBuilder = (props) => {
                                   </div>
                                 </>
                               ) : null}
-
                             </div>
                           </div>
 
