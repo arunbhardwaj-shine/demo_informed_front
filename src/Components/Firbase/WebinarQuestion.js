@@ -7,6 +7,8 @@ import HighchartsReact from "highcharts-react-official";
 import { Col, Container, Row } from "react-bootstrap";
 import {db} from "../../config/firebaseConfig"
 import { Link } from "react-router-dom";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 const WebinarQuestion = () => {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
@@ -164,16 +166,13 @@ const WebinarQuestion = () => {
 })
 
 useEffect(() => {
-    console.log("-useEffect",countValue)
     if(countValue){
         initiFun();
     }
-   
   }, [countValue]);
  
   return (
     <>
-    {console.log("-cout",countValue)}
     <header
         className="sticky webinar-quest"
       >
