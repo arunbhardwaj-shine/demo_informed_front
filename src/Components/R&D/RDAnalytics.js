@@ -1084,7 +1084,9 @@ const RDAnalytics = () => {
                         </div>
                       </div>*/
 					}
-                      
+                      <div className="rd-analytics-top d-flex align-items-center">
+                        <h5>The Top 3 content</h5>
+                    </div>
                       <div className="graph-box">
 					  {
 						  /*<div className="graph-box-inside">
@@ -1107,9 +1109,7 @@ const RDAnalytics = () => {
                         />
 						*/
 					  }
-                        <div className="">
-                          <p>The Top 3 content</p>
-                        </div>
+                    
                         <div className="lex-article">
                           {mostPopularContentData
                             ?.slice(0, 3)
