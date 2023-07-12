@@ -99,15 +99,12 @@ const NewReaders = () => {
   const [changeSiteNameType, setChangeSiteNameType] = useState([]);
   const [roleData, setRoleData] = useState(
     [ "All",
-      "Principal Investigator"
-      ,
-      "Sub-Investigator"
-      ,
-      "Study Coordinator"
-      ,
-      "Study Nurse"
-      ,
-      ]);
+      "Principal Investigator",
+      "Sub-Investigator",
+      "Study Coordinator",
+      "Study Nurse",
+      'Other',
+  ]);
 
 
   const [showfilter, setShowFilter] = useState(false);
@@ -332,7 +329,7 @@ const NewReaders = () => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
     if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
      
-      if(key=="IRT"){
+      if(key=="IRT mandatory training"){
         if(newObj["role"]){
           delete newObj["role"]
         }
@@ -418,6 +415,7 @@ const NewReaders = () => {
         key == "RTR?" ||
         key == "region" ||
         key == "IRT" ||
+        key == "IRT mandatory training" ||
         key == "Blinded" ||
         key == "Content Owners" ||
         key == "List"
@@ -1355,6 +1353,7 @@ const NewReaders = () => {
                                                           key == "userAction" ||
                                                           key == "Blinded" ||
                                                           key == "IRT" ||
+                                                          key == "IRT mandatory training" ||
                                                           key == "region" ||
                                                           key == "RTR?" ||
                                                           key ==

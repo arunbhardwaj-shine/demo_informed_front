@@ -8701,6 +8701,7 @@ img.change-password-image {
         .rd-analytics-top {
             padding: 13px 16px 11px;
             border-bottom: 0.5px dashed $light-gray;
+            min-height: 63px;
             h5{
               font-weight: 500;
               font-size: 20px;
@@ -9596,11 +9597,13 @@ font-weight: 700;
     margin-left: 5px;
     width: 18px;
 }
-.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top .count-number {
-    font-size: 21px;
-}
 .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top {
     padding: 10px 11px 8px;
+    min-height: 50px;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top .count-number {
+    line-height: 23px;
+     font-size: 21px;
 }
 .rd-full-explain .rd-training-block h4, .rd-full-explain .rd-section-title h4 {
     font-size: 18px;
@@ -9843,8 +9846,9 @@ font-weight: 700;
           font-weight: 500;
           text-transform: uppercase;
           padding: 7px 20px;
-          &.active{
-            border-radius: 0px 15px 0px 15px;
+          border-radius: 0px 15px 0px 15px;
+          cursor: pointer;
+          &.react-tabs__tab--selected{
             color: $white;
             background-color: $dark-blue;
           }
