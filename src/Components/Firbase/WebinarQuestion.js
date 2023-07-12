@@ -173,29 +173,7 @@ useEffect(() => {
  
   return (
     <>
-    <header
-        className="sticky webinar-quest"
-      >
-         <Container>
-        <nav className="navbar navbar-expand-sm navbar-light">
-            <div className="d-flex justify-content-between align-items-center" style={{width:"100%"}}>
-            <Col md={6} lg={6}>
-                <div className="nav nav-fill">
-                    <a className="nav-item nav-link" id="nav-home-tab">Questions<span className="badge btn default-side-buttons">0</span></a>
-                    <a className="nav-item nav-link" id="nav-poll-tab"> Polls</a> 
-                    <a className="nav-item nav-link active" id="nav-profile-tab">All Answers</a> 
-                </div>
-            </Col>
-            <Col md={6} lg={6}>
-              <div className="right-sec d-flex justify-content-end align-items-center">
-                <h6><span>Webinar</span>Speaker Zone</h6>
-                <img src={path_image + "informed_icon.png"} alt="icon"/>
-              </div>
-            </Col>
-            </div>
-        </nav>
-          </Container>
-      </header>
+ 
           <div className="webinar-questions">
             
             <Container>

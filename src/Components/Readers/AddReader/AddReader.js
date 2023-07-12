@@ -645,10 +645,15 @@ const ReaderAdd = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">IRT</Form.Label>
+          <Form.Label htmlFor="">{
+     localStorage.getItem("user_id") ==
+     "56Ek4feL/1A8mZgIKQWEqg=="?"IRT mandatory training":"IRT"           
+          
+  }</Form.Label>
           <Select
             options={userDetail?.irt}
-            placeholder="Select IRT"
+            placeholder={ localStorage.getItem("user_id") ==
+            "56Ek4feL/1A8mZgIKQWEqg=="?"Select IRT mandatory training":"Select IRT"}
             name="irt"
             className={
               error?.irt

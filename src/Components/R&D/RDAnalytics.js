@@ -20,7 +20,63 @@ const RDAnalytics = () => {
   const [show, setShow] = useState();
   const [totalSiteNumber, setTotalSiteNumber] = useState();
   const [totalRdSiteNumber, setTotalRdSiteNumber] = useState();
+  const [popularPieOptions, setPopularPieOptions] = useState({
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: "pie",
+      //size: "80"
+      height: 250,
+    },
+    title: {
+      text: "",
+      align: "left",
+    },
+    tooltip: {
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    },
+    accessibility: {
+      point: {
+        valueSuffix: "%",
+      },
+    },
+    legend: {
+      verticalAlign: "bottom",
+      // reversed: true,
+    },
+    plotOptions: {
+      pie: {
+        size: "80%",
+        // innerSize: "65%",
+        dataLabels: {
+          enabled: false,
+          format: "{point.y}",
+          style: {
+            fontWeight: "bold",
+            color: "white",
+            textOutline: "none",
+            // fontSize: "30px",
+          },
+          distance: -40, // Adjust the distance of the data labels from the center
+        },
 
+        animation: {
+          duration: 1000,
+        },
+
+        enableMouseTracking: true,
+        // showInLegend: true,
+      },
+    },
+    series: [
+      {
+        name: "",
+        colorByPoint: true,
+        data: [],
+      },
+    ],
+  });
   const [chartOptions, setChartOptions] = useState();
   const [rdSiteData, setRdSiteData] = useState();
   const [pieData, setPieData] = useState({});
@@ -388,7 +444,14 @@ const RDAnalytics = () => {
       const data = result?.data?.data;
       // console.log(data);
       setMostPopularContentData(data.pdf_data);
-
+      setPopularPieOptions({
+        ...popularPieOptions,
+        series: [
+          {
+            data: data?.site_graph_data,
+          },
+        ],
+      });
       // setRdSiteOptions(newRdSiteOptions);
 
       // loader("hide");
@@ -747,13 +810,13 @@ const RDAnalytics = () => {
     const base64 = (s) => {
       return window.btoa(unescape(encodeURIComponent(s)));
     };
-
+  
     const format = (s, c) => {
       return s.replace(/{(\w+)}/g, function (m, p) {
         return c[p];
       });
     };
-
+  
     const filteredRows = Array.from(rows).filter((row, index) => {
       const classNames = row.className.split(" ");
       return (
@@ -764,46 +827,58 @@ const RDAnalytics = () => {
         index !== 0 // Exclude the first row (header row)
       );
     });
-
+  
     // Create a new table element and copy the header row
     const exportTable = document.createElement("table");
     const headerRow = table.getElementsByTagName("thead")[0].cloneNode(true);
     exportTable.appendChild(headerRow);
-
+  
     // Copy the filtered rows to the export table
     filteredRows.forEach((row) => {
       const clonedRow = row.cloneNode(true);
       exportTable.appendChild(clonedRow);
     });
-
+  
+    // console.log(exportTable);
     // Remove the empty rows with class "blank"
     const blankRows = exportTable.getElementsByClassName("blank");
     Array.from(blankRows).forEach((blankRow) => {
       blankRow.remove();
     });
-
+  
+    // Remove the td whose class is pics in exportTable
+    const pics = exportTable.getElementsByClassName("pics");
+    Array.from(pics).forEach((pic) => {
+      pic.remove();
+    });
+  
+    // Remove the img element from the td with class="active-irt"
+    const activeIRTRows = exportTable.getElementsByClassName("doctor");
+    Array.from(activeIRTRows).forEach((row) => {
+      row.remove();
+    });
+  
     // Generate the Excel file
     const uri = "data:application/vnd.ms-excel;base64,";
     const template =
       '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-mic' +
       'rosoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta cha' +
       'rset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:Exce' +
-      "lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>" +
-      "</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></" +
-      "xml><![endif]--></head><body>{table}</body></html>";
-
+        "lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>" +
+        "</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></" +
+        "xml><![endif]--></head><body>{table}</body></html>";
+  
     const context = {
       worksheet: "Sheet1",
       table: exportTable.outerHTML,
     };
-
+  
     const randomPrefix = Math.random().toString(36).substring(7); // Generate a random string
-
     const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
     element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
     element.click();
-
+  
     // Insert the removed blank rows after the table generation
     Array.from(blankRows).forEach((blankRow) => {
       exportTable.appendChild(blankRow);
@@ -1065,25 +1140,20 @@ const RDAnalytics = () => {
                   <div className="rd-analytics-box rd-content">
                     <p className="rd-box-small-title">Content</p>
                     <div className="rd-analytics-box-layout">
-					{
-						/*<div className="rd-analytics-top d-flex justify-content-between align-items-center">
+					
+						<div className="rd-analytics-top d-flex justify-content-between align-items-center">
                         <h5>Most Popular content</h5>
                         <div className="d-flex">
                           <div className="count-number">
                             {mostPopularContentData &&
                             mostPopularContentData.length > 0
-                              ? mostPopularContentData
-                                  .map((item) => item?.watched_count)
-                                  .reduce(
-                                    (total, count) => total + (count || 0),
-                                    0
-                                  )
+                              ? mostPopularContentData[0].watched_count
                               : 0}
                           </div>
                           <img src={path_image + "content-view.svg"} alt="" />
                         </div>
-                      </div>*/
-					}
+                      </div>
+				
                       <div className="rd-analytics-top d-flex align-items-center">
                         <h5>The Top 3 content</h5>
                     </div>
@@ -1152,18 +1222,17 @@ const RDAnalytics = () => {
                               </div>
                             ))}
                         </div>
-                        {/* <div className="">
+                        <div className="">
                           <p>
                             Sites who Read | Watch the <span>1 top</span>{" "}
                             content
                           </p>
                           <span>Click on the graph to see more details</span>
                         </div>
-                        <img
-                          className="pie-chart"
-                          src={path_image + "pie-chart2.png"}
-                          alt=""
-                        /> */}
+                        <HighchartsReact
+              highcharts={Highcharts}
+              options={popularPieOptions}
+            />
                       </div>
                       <div className="rd-box-export">
                         <img
@@ -1495,11 +1564,7 @@ const RDAnalytics = () => {
                                                         </div>
                                                         <div className="content-detail">
                                                           <h6>{item?.type}</h6>
-                                                           {/* <p>
-                                                            Lorem sollicitudin
-                                                            faucibus eu molestie
-                                                            sollicitudin gravida
-                                                           </p> */}
+                                                         
                                                           <div className="page-count">
                                                             <div className="time">
                                                               {" "}
@@ -1604,7 +1669,7 @@ const RDAnalytics = () => {
                           <th>Site Number</th>
                           <th>Country</th>
                           <th className="active-irt">
-                            Active IRTs | Pharmacists
+                            Active IRTs 
                           </th>
                           <th>Completed Training</th>
                         </tr>
