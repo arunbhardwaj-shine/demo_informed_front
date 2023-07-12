@@ -810,13 +810,13 @@ const RDAnalytics = () => {
     const base64 = (s) => {
       return window.btoa(unescape(encodeURIComponent(s)));
     };
-
+  
     const format = (s, c) => {
       return s.replace(/{(\w+)}/g, function (m, p) {
         return c[p];
       });
     };
-
+  
     const filteredRows = Array.from(rows).filter((row, index) => {
       const classNames = row.className.split(" ");
       return (
@@ -827,46 +827,58 @@ const RDAnalytics = () => {
         index !== 0 // Exclude the first row (header row)
       );
     });
-
+  
     // Create a new table element and copy the header row
     const exportTable = document.createElement("table");
     const headerRow = table.getElementsByTagName("thead")[0].cloneNode(true);
     exportTable.appendChild(headerRow);
-
+  
     // Copy the filtered rows to the export table
     filteredRows.forEach((row) => {
       const clonedRow = row.cloneNode(true);
       exportTable.appendChild(clonedRow);
     });
-
+  
+    // console.log(exportTable);
     // Remove the empty rows with class "blank"
     const blankRows = exportTable.getElementsByClassName("blank");
     Array.from(blankRows).forEach((blankRow) => {
       blankRow.remove();
     });
-
+  
+    // Remove the td whose class is pics in exportTable
+    const pics = exportTable.getElementsByClassName("pics");
+    Array.from(pics).forEach((pic) => {
+      pic.remove();
+    });
+  
+    // Remove the img element from the td with class="active-irt"
+    const activeIRTRows = exportTable.getElementsByClassName("doctor");
+    Array.from(activeIRTRows).forEach((row) => {
+      row.remove();
+    });
+  
     // Generate the Excel file
     const uri = "data:application/vnd.ms-excel;base64,";
     const template =
       '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-mic' +
       'rosoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta cha' +
       'rset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:Exce' +
-      "lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>" +
-      "</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></" +
-      "xml><![endif]--></head><body>{table}</body></html>";
-
+        "lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>" +
+        "</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></" +
+        "xml><![endif]--></head><body>{table}</body></html>";
+  
     const context = {
       worksheet: "Sheet1",
       table: exportTable.outerHTML,
     };
-
+  
     const randomPrefix = Math.random().toString(36).substring(7); // Generate a random string
-
     const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
     element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
     element.click();
-
+  
     // Insert the removed blank rows after the table generation
     Array.from(blankRows).forEach((blankRow) => {
       exportTable.appendChild(blankRow);
@@ -1141,13 +1153,13 @@ const RDAnalytics = () => {
                           <img src={path_image + "content-view.svg"} alt="" />
                         </div>
                       </div>
-					
+				
                       <div className="rd-analytics-top d-flex align-items-center">
                         <h5>The Top 3 content</h5>
                     </div>
                       <div className="graph-box">
-					  
-						  <div className="graph-box-inside">
+					  {
+						  /*<div className="graph-box-inside">
                           <p>
                              Sites who Read | Watch the <span>1 top</span>{" "} content 
                             Sites who Read | Watch The Top Content
@@ -1160,12 +1172,13 @@ const RDAnalytics = () => {
                             <img src={path_image + "tooltip-img.svg"} alt="" />
                           </OverlayTrigger>
                         </div>
-                        <HighchartsReact
-              highcharts={Highcharts}
-              options={popularPieOptions}
-            />
-						
-					  
+                        <img
+                          className="pie-chart"
+                          src={path_image + "pie-chart2.png"}
+                          alt=""
+                        />
+						*/
+					  }
                     
                         <div className="lex-article">
                           {mostPopularContentData
@@ -1209,18 +1222,17 @@ const RDAnalytics = () => {
                               </div>
                             ))}
                         </div>
-                        {/* <div className="">
+                        <div className="">
                           <p>
                             Sites who Read | Watch the <span>1 top</span>{" "}
                             content
                           </p>
                           <span>Click on the graph to see more details</span>
                         </div>
-                        <img
-                          className="pie-chart"
-                          src={path_image + "pie-chart2.png"}
-                          alt=""
-                        /> */}
+                        <HighchartsReact
+              highcharts={Highcharts}
+              options={popularPieOptions}
+            />
                       </div>
                       <div className="rd-box-export">
                         <img
@@ -1657,7 +1669,7 @@ const RDAnalytics = () => {
                           <th>Site Number</th>
                           <th>Country</th>
                           <th className="active-irt">
-                            Active IRTs | Pharmacists
+                            Active IRTs 
                           </th>
                           <th>Completed Training</th>
                         </tr>
