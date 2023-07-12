@@ -274,6 +274,23 @@ const LibraryContent = (props) => {
       newObj[key] = [];
       otherObj[key] = [];
     }
+    // console.log("-- im herererer",new)
+    // if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+    //   if(key=="IRT mandatory training"){
+
+    //     if(newObj["role"]){
+    //       delete newObj["role"]
+    //     }
+    //     if(item == "Yes"){
+    //       // const [appliedFilter, setAppliedFilter] = useState({});
+    //       // setAppliedFilter({...appliedFilter,role: irtData })
+    //       setFilterData({ ...filterdata, role: irtData });
+    //     }else {
+    //       setFilterData({ ...filterdata, role: roleData });
+    //     }
+    //   }
+    // }
+    // if(key == "IRT")
   //   const [irtData, setIrtData] = useState(['All','Blinded site user','Investigator-Blinded','Site unblinded pharmacist']);
   // const [roleData, setRoleData] = useState(
   //   [ "All",
