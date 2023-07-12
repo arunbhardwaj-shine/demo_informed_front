@@ -139,7 +139,7 @@ import RDAnalytics from "./Components/R&D/RDAnalytics";
 import SetLayout from "./Components/CommonComponent/SetLayout";
 import PreviewArticle from "./Components/Library/PreviewArticle";
 import CommanPage from "./Components/Firbase/CommanPage"
-
+import QuestionTrigger from "./Components/Firbase/QuestionTrigger"
 import PollQuestion from "./Components/Firbase/PollQuestion"
 
 let platform = 0;
@@ -258,6 +258,10 @@ const Routing = () => {
         <Route
           path="/comman-question"
           element={<CommanPage />}
+        />
+         <Route
+          path="/question-list"
+          element={<QuestionTrigger />}
         />
 
          

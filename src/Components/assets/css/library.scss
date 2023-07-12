@@ -9843,8 +9843,9 @@ font-weight: 700;
           font-weight: 500;
           text-transform: uppercase;
           padding: 7px 20px;
-          &.active{
-            border-radius: 0px 15px 0px 15px;
+          border-radius: 0px 15px 0px 15px;
+          cursor: pointer;
+          &.react-tabs__tab--selected{
             color: $white;
             background-color: $dark-blue;
           }
