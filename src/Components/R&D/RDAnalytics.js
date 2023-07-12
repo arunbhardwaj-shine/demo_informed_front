@@ -77,10 +77,9 @@ const RDAnalytics = () => {
       This chart shows the sites that have users who viewed the 1top content
     </Tooltip>
   );
-// useEffect(()=>{
-//   getMostPopularData()
-// },[])
-  
+  // useEffect(()=>{
+  //   getMostPopularData()
+  // },[])
 
   // const handleCheckboxClick = async (sort) => {
   //   try {
@@ -167,22 +166,29 @@ const RDAnalytics = () => {
   };
 
   const getMostPopularContentSiteData = async (pdf_id) => {
-    console.log('pdf id',pdf_id)
     loader("show");
+    setMostPopularContentSiteData((prevData) => ({
+      ...prevData,
+      [pdf_id]: false,
+    }));
 
     try {
       if (
-       
         !isContentSiteAccordionOpen[pdf_id] ||
         isContentSiteAccordionOpen[pdf_id] == undefined
       ) {
-        console.log("i am here---->")
         const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
           pdf_id: pdf_id,
         });
-console.log('result--->',result)
+
         const data = result?.data?.data?.site_data;
         const chart_data = result?.data?.data?.chart_data;
+
+        // set accordian data options //
+        setMostPopularContentSiteData((prevData) => ({
+          ...prevData,
+          [pdf_id]: data,
+        }));
         // Set chart data options for the PDF
         setChartOptions((prevOptions) => ({
           ...prevOptions,
@@ -260,13 +266,12 @@ console.log('result--->',result)
             device_names: chart_data.deviceNames,
           },
         }));
-        // setIsContentSiteAccordionOpen({
-        //   ...isContentSiteAccordionOpen,
-        //   [pdf_id]: true,
-        // });
-        setIsContentSiteAccordionOpen(true)
+        setIsContentSiteAccordionOpen({
+          ...isContentSiteAccordionOpen,
+          [pdf_id]: true,
+        });
+        // setIsContentSiteAccordionOpen(true);
       } else {
-        console.log("i am close else section--->")
         setIsContentSiteAccordionOpen({
           ...isContentSiteAccordionOpen,
           [pdf_id]: false,
@@ -296,10 +301,10 @@ console.log('result--->',result)
 
   const individualCompletion = async () => {
     setFlag({
-      individual_Completion: true,
       site_Completion: false,
       site_Engagement: false,
       content: false,
+      individual_Completion: true,
     });
     if (!indidualCompletionTableData) {
       try {
@@ -372,9 +377,9 @@ console.log('result--->',result)
   const siteCompletion = async () => {
     setFlag({
       individual_Completion: false,
-      site_Completion: true,
       site_Engagement: false,
       content: false,
+      site_Completion: true,
     });
     if (!siteCompletionTableData) {
       try {
@@ -391,20 +396,20 @@ console.log('result--->',result)
 
   const mostPopularContent = () => {
     setFlag({
-        individual_Completion: false,
-         site_Completion: false,
-         site_Engagement: false,
-         content: true,
-       });
-   
+      individual_Completion: false,
+      site_Completion: false,
+      site_Engagement: false,
+      content: true,
+    });
+    content?.current?.focus();
   };
 
   const siteEngagementFun = () => {
     setFlag({
       individual_Completion: false,
       site_Completion: false,
-      site_Engagement: true,
       content: false,
+      site_Engagement: true,
     });
     site_Engagement?.current?.focus();
   };
@@ -498,9 +503,9 @@ console.log('result--->',result)
     };
     setMostPopularContentSiteData(updatedContentViewObject);
 
-    // if (lastSortedPDFId === pdfId) {
-    //   setSortDirection(sortDirection === 0 ? 1 : 0);
-    // }
+    if (lastSortedPDFId === pdfId) {
+      setSortDirection(sortDirection === 0 ? 1 : 0);
+    }
     setSortDirection(sortDirection === 0 ? 1 : 0);
     setLastSortedPDFId(pdfId);
     setIsActive(!isActive);
@@ -658,8 +663,9 @@ console.log('result--->',result)
                 </Col>
 
                 <Col md={12} lg={3}>
-                  <PopularContent mostPopularContentFn={mostPopularContent} 
-                  setMostPopularContentData={setMostPopularContentData}
+                  <PopularContent
+                    mostPopularContentFn={mostPopularContent}
+                    setMostPopularContentData={setMostPopularContentData}
                   />
                   {/* <div className="rd-analytics-box rd-content">
                     <p className="rd-box-small-title">Content</p>
@@ -1558,8 +1564,8 @@ console.log('result--->',result)
                             //  className={isActive ? 'accordion-read active' : 'accordion-read'} //onClick={handleClick}
                             className={
                               activeAccordionKey === "10"
-                              // activeAccordionKey={index}
-                                ? "accordion-read active"
+                                ? // activeAccordionKey={index}
+                                  "accordion-read active"
                                 : "accordion-read"
                             }
                             onClick={() => setActiveAccordionKey("10")}
@@ -1580,6 +1586,9 @@ console.log('result--->',result)
                             {mostPopularContentSiteData[item.pdf?.id]?.length >
                               0 && (
                               <>
+                                {console.log(
+                                  "hello i am here in accordian---->"
+                                )}
                                 <Accordion.Body>
                                   <div className="contents-block d-flex">
                                     <div className="contents-block-left">
