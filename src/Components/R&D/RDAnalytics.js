@@ -167,10 +167,6 @@ const RDAnalytics = () => {
 
   const getMostPopularContentSiteData = async (pdf_id) => {
     loader("show");
-    setMostPopularContentSiteData((prevData) => ({
-      ...prevData,
-      [pdf_id]: false,
-    }));
 
     try {
       if (
@@ -300,25 +296,29 @@ const RDAnalytics = () => {
   };
 
   const individualCompletion = async () => {
-    setFlag({
-      site_Completion: false,
-      site_Engagement: false,
-      content: false,
-      individual_Completion: true,
-    });
-    if (!indidualCompletionTableData) {
-      try {
-        loader("show");
+    try {
+      loader("show");
+      setFlag({
+        site_Completion: false,
+        site_Engagement: false,
+        content: false,
+        individual_Completion: true,
+      });
+      if (!indidualCompletionTableData) {
         const result = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION);
-
         setIndividualCompletionTableData(result?.data?.data);
+        individual_Completion?.current?.focus();
         loader("hide");
-      } catch (err) {
-        loader("hide");
-        console.log("-err", err);
+      } else {
+        setTimeout(() => {
+          individual_Completion?.current?.focus();
+          loader("hide");
+        }, 500);
       }
+    } catch (err) {
+      loader("hide");
+      console.log("-err", err);
     }
-    individual_Completion?.current?.focus();
   };
 
   const individualCompletionShowData = async (e, index, id, statusCode) => {
@@ -375,43 +375,67 @@ const RDAnalytics = () => {
   };
 
   const siteCompletion = async () => {
-    setFlag({
-      individual_Completion: false,
-      site_Engagement: false,
-      content: false,
-      site_Completion: true,
-    });
-    if (!siteCompletionTableData) {
-      try {
-        loader("show");
+    try {
+      loader("show");
+      setFlag({
+        individual_Completion: false,
+        site_Engagement: false,
+        content: false,
+        site_Completion: true,
+      });
+      if (!siteCompletionTableData) {
         const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
         setSiteCompletionTableData(result?.data?.data);
+        site_Completion?.current?.focus();
         loader("hide");
-      } catch (err) {
-        console.log("-err", err);
+      } else {
+        setTimeout(() => {
+          loader("hide");
+          site_Completion?.current?.focus();
+        }, 500);
       }
+    } catch (err) {
+      loader("hide");
+      console.log("-err", err);
     }
-    site_Completion?.current?.focus();
   };
 
   const mostPopularContent = () => {
-    setFlag({
-      individual_Completion: false,
-      site_Completion: false,
-      site_Engagement: false,
-      content: true,
-    });
-    content?.current?.focus();
+    try {
+      loader("show");
+      setFlag({
+        individual_Completion: false,
+        site_Completion: false,
+        site_Engagement: false,
+        content: true,
+      });
+      setTimeout(() => {
+        content?.current?.focus();
+        loader("hide");
+      }, 1000);
+    } catch (err) {
+      console.log("--err", err);
+    }
   };
 
   const siteEngagementFun = () => {
-    setFlag({
-      individual_Completion: false,
-      site_Completion: false,
-      content: false,
-      site_Engagement: true,
-    });
-    site_Engagement?.current?.focus();
+    try {
+      loader("show");
+
+      setFlag({
+        individual_Completion: false,
+        site_Completion: false,
+        content: false,
+        site_Engagement: true,
+      });
+      setTimeout(() => {
+        site_Engagement?.current?.focus();
+        loader("hide");
+      }, 1000);
+    } catch (err) {
+      loader("hide");
+      console.log("--err", err);
+    }
   };
 
   const siteEngagementSort = () => {
@@ -1586,9 +1610,6 @@ const RDAnalytics = () => {
                             {mostPopularContentSiteData[item.pdf?.id]?.length >
                               0 && (
                               <>
-                                {console.log(
-                                  "hello i am here in accordian---->"
-                                )}
                                 <Accordion.Body>
                                   <div className="contents-block d-flex">
                                     <div className="contents-block-left">
