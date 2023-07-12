@@ -153,6 +153,9 @@ const RDAnalytics = () => {
       //size: "80"
       height: 250,
     },
+    exporting: {
+      enabled: false
+    },
     title: {
       text: "",
       align: "left",
@@ -210,6 +213,9 @@ const RDAnalytics = () => {
     title: {
       text: "",
     },
+    exporting: {
+      enabled: false
+    },
     xAxis: {
       categories: [],
       title: {
@@ -249,6 +255,9 @@ const RDAnalytics = () => {
     },
     title: {
       text: "",
+    },
+    exporting: {
+      enabled: false
     },
     xAxis: {
       categories: [],
