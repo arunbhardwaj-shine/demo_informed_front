@@ -53,6 +53,8 @@ const RenderPdf = ({
   const [highlighted, setHighlighted] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
   const [dragging, setDragging] = useState(false);
+  const [error, setError] = useState(false);
+  const [showAddLink, setShowAddLink] = useState(false);
   const parentRef=useRef(null);
   // const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
   let total_pages = 1000;
@@ -239,33 +241,41 @@ useEffect(() => {
 const handleMouseDown = (e) => {
   if (e.target.name === "url") return;
   if (e.target.name === "addurl") return;
-  setHighlighted(false)
-  const viewerRect = parentRef.current.getBoundingClientRect();
-  const textLayer = parentRef.current.querySelector(".viewer-text-layer");
-  const pageHeight = textLayer.getBoundingClientRect().height;
-  const scrollLayer = document.querySelector(".viewer-layout-main");
-  const scrollTop = scrollLayer.scrollTop;
+  if(e.target.className === "viewer-text-layer"){
+	  console.log("AM here0");
+	  setHighlighted(false)
+	  setShowAddLink(true);
+	  const viewerRect = parentRef.current.getBoundingClientRect();
+	  const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+	  const pageHeight = textLayer.getBoundingClientRect().height;
+	  const scrollLayer = document.querySelector(".viewer-layout-main");
+	  const scrollTop = scrollLayer.scrollTop;
 
-  // Calculate the coordinates relative to the viewer
-  const x = e.clientX - viewerRect.left;
-  const y = e.clientY - viewerRect.top + scrollTop;
+	  // Calculate the coordinates relative to the viewer
+	  const x = e.clientX - viewerRect.left;
+	  const y = e.clientY - viewerRect.top + scrollTop;
 
-  // Calculate the page number
-  const newPage = Math.floor((y - textLayer.offsetTop) / pageHeight);
-  setPage(newPage);
-  setStartXCordinate(x);
-  setStartYCordinate(y-(newPage * pageHeight));
-  setEndXCordinate(x);
-  setEndYCordinate(y-(newPage * pageHeight));
-  // Calculate the coordinates relative to the text layer
-  const xInPage = x - textLayer.offsetLeft;
-  const yInPage = y - textLayer.offsetTop-scrollTop ;
-  // console.log("Box1",x ,y,scrollTop,xInPage,yInPage)
-  setDragging(true);
-  setStartX(xInPage);
-  setStartY(yInPage);
-  setEndX(xInPage);
-  setEndY(yInPage);
+	  // Calculate the page number
+	  const newPage = Math.floor((y - textLayer.offsetTop) / pageHeight);
+	  setPage(newPage);
+	  setStartXCordinate(x);
+	  setStartYCordinate(y-(newPage * pageHeight));
+	  setEndXCordinate(x);
+	  setEndYCordinate(y-(newPage * pageHeight));
+	  // Calculate the coordinates relative to the text layer
+	  const xInPage = x - textLayer.offsetLeft;
+	  const yInPage = y - textLayer.offsetTop-scrollTop ;
+	  // console.log("Box1",x ,y,scrollTop,xInPage,yInPage)
+	  setDragging(true);
+	  setStartX(xInPage);
+	  setStartY(yInPage);
+	  setEndX(xInPage);
+	  setEndY(yInPage);
+  }else{
+	  console.log("AM not here");
+	  setShowAddLink(false);
+	  return;
+  }
 };
 
 const handleMouseMove = (e) => {
@@ -303,47 +313,81 @@ const handleMouseUp = (e) => {
 //  console.log("Box2",startX ,startY,startXCordinate,startYCordinate)
 
   window.getSelection().removeAllRanges();
-  console.log(startXCordinate,startYCordinate,endXCordinate,endYCordinate)
+  // console.log(startXCordinate,startYCordinate,endXCordinate,endYCordinate)
   setDragging(false);
-  setHighlighted(true);
+  if(showAddLink){
+	setHighlighted(true);
+  }
 };
 
 
-const handleAddUrl = (url) => {
-  // create a new element that represents the box
-  const viewerRect = parentRef.current.getBoundingClientRect();
-  const textLayer = parentRef.current.querySelector(".viewer-text-layer");
-  const pageHeight = textLayer.getBoundingClientRect().height;
-  const scrollLayer = document.querySelector(".viewer-layout-main");
-  const scrollTop = scrollLayer.scrollTop;
+const handleAddUrl = (e) => {
+	e.preventDefault();
+	let embed_url = inputUrl.trim();
+	if(embed_url.length > 0 && isValidUrl(embed_url)){
+		setError(false);
+	}else{
+		setError(true);
+	}
+	
+	console.log("HandleAddUrlFunction");
+	console.log(startXCordinate,startYCordinate,endXCordinate,endYCordinate);
+	
+	console.log("Add link to pdf");
+	
+	console.log(Math.abs(endXCordinate - startXCordinate),Math.abs(endYCordinate - startYCordinate));
+	
+	console.log("Add box link to pdf");
+	
+	console.log(startXCordinate-7,startYCordinate-53,Math.abs(endXCordinate - startXCordinate),Math.abs(endYCordinate - startYCordinate));
+	
+	
+  // const viewerRect = parentRef.current.getBoundingClientRect();
+  // const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+  // const pageHeight = textLayer.getBoundingClientRect().height;
+  // const scrollLayer = document.querySelector(".viewer-layout-main");
+  // const scrollTop = scrollLayer.scrollTop;
 
-  const box = document.createElement('div');
-  box.style.width = `${Math.abs(endXCordinate - startXCordinate)}px`;
-  box.style.height = `${Math.abs(endYCordinate - startYCordinate)}px`;
-  // box.style.backgroundColor="RED"
+  // const box = document.createElement('div');
+  // box.style.width = `${Math.abs(endXCordinate - startXCordinate)}px`;
+  // box.style.height = `${Math.abs(endYCordinate - startYCordinate)}px`;
+  
 
-  // create a link element to display the URL
-  const link = document.createElement('a');
-  link.href =inputUrl ;
-  link.target = '_blank';
-  link.style.position = 'absolute';
-  link.style.left = `${startXCordinate-7}px`;
-  link.style.top = `${startYCordinate-53}px`;
-  link.style.width = `${Math.abs(endXCordinate - startXCordinate)}px`;
-  link.style.height = `${Math.abs(endYCordinate - startYCordinate)}px`;
+  
+  // const link = document.createElement('a');
+  // link.href =inputUrl ;
+  // link.target = '_blank';
+  // link.style.position = 'absolute';
+  // link.style.left = `${startXCordinate-7}px`;
+  // link.style.top = `${startYCordinate-53}px`;
+  // link.style.width = `${Math.abs(endXCordinate - startXCordinate)}px`;
+  // link.style.height = `${Math.abs(endYCordinate - startYCordinate)}px`;
 
-  // add the box to the link element
-  link.appendChild(box);
+  
+  // link.appendChild(box);
 
-  // add the link element to the parent element
-  const parent = document.querySelectorAll('.viewer-text-layer')[page];
-  parent.appendChild(link);
-  // console.log(`Selected area: (${startX}, ${startY}) - (${endX}, ${endY})`);
-
-  // reset the state
-  setDragging(false);
-  setHighlighted(false);
+  
+  // const parent = document.querySelectorAll('.viewer-text-layer')[page];
+  // parent.appendChild(link);
+  
+	  setDragging(false);
+	  setHighlighted(false);
 };
+
+const closePopup = () => {
+	setDragging(false);
+	setHighlighted(false);
+}
+
+const isValidUrl = (urlString) => {
+	 var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+    '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+  return !!urlPattern.test(urlString);
+}
 
 
     return (
@@ -398,7 +442,7 @@ const handleAddUrl = (url) => {
                               className="link_popup"
                             >
                               <form action="#" id="addLinkForm">
-                                <button type="button" className="close" id="closeLinkPopup">
+                                <button type="button" className="close" id="closeLinkPopup" onClick={() => closePopup()}>
                                   <span aria-hidden="true">×</span>
                                 </button>
                                 <label for="targetURL">Add Link:</label>
@@ -408,8 +452,16 @@ const handleAddUrl = (url) => {
                                   type="text"
                                   onChange={(e)=>setInputUrl(e.target.value)}
                                  />
-                                <p className="err_class"></p>
-                                <input type="submit" value="Add Link" id="addLinkToPdfButton" onClick={() => handleAddUrl("https://example.com")} />
+								 
+								 {
+									 error ? 
+									 <p className="err_class">
+										Please enter a valid link
+									 </p> : null
+								 } 
+                                
+								
+                                <input type="submit" value="Add Link" id="addLinkToPdfButton" onClick={(e) => handleAddUrl(e)} />
                               </form>
                             </div>
                           )}
