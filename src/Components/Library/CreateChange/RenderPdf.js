@@ -242,12 +242,13 @@ const handleMouseDown = (e) => {
   if (e.target.name === "url") return;
   if (e.target.name === "addurl") return;
   if(e.target.className === "viewer-text-layer"){
-	  console.log("AM here0");
 	  setHighlighted(false)
 	  setShowAddLink(true);
 	  const viewerRect = parentRef.current.getBoundingClientRect();
 	  const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+	  console.log(textLayer,"textLayer");
 	  const pageHeight = textLayer.getBoundingClientRect().height;
+	   console.log(pageHeight,"pageHeight");
 	  const scrollLayer = document.querySelector(".viewer-layout-main");
 	  const scrollTop = scrollLayer.scrollTop;
 
@@ -341,35 +342,7 @@ const handleAddUrl = (e) => {
 	
 	console.log(startXCordinate-7,startYCordinate-53,Math.abs(endXCordinate - startXCordinate),Math.abs(endYCordinate - startYCordinate));
 	
-	
-  // const viewerRect = parentRef.current.getBoundingClientRect();
-  // const textLayer = parentRef.current.querySelector(".viewer-text-layer");
-  // const pageHeight = textLayer.getBoundingClientRect().height;
-  // const scrollLayer = document.querySelector(".viewer-layout-main");
-  // const scrollTop = scrollLayer.scrollTop;
-
-  // const box = document.createElement('div');
-  // box.style.width = `${Math.abs(endXCordinate - startXCordinate)}px`;
-  // box.style.height = `${Math.abs(endYCordinate - startYCordinate)}px`;
-  
-
-  
-  // const link = document.createElement('a');
-  // link.href =inputUrl ;
-  // link.target = '_blank';
-  // link.style.position = 'absolute';
-  // link.style.left = `${startXCordinate-7}px`;
-  // link.style.top = `${startYCordinate-53}px`;
-  // link.style.width = `${Math.abs(endXCordinate - startXCordinate)}px`;
-  // link.style.height = `${Math.abs(endYCordinate - startYCordinate)}px`;
-
-  
-  // link.appendChild(box);
-
-  
-  // const parent = document.querySelectorAll('.viewer-text-layer')[page];
-  // parent.appendChild(link);
-  
+ 
 	  setDragging(false);
 	  setHighlighted(false);
 };
