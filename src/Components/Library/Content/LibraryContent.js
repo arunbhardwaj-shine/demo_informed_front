@@ -72,6 +72,15 @@ const LibraryContent = (props) => {
   const [filterObject, setFilterObject] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
+  const [irtData, setIrtData] = useState(['All','Blinded site user','Investigator-Blinded','Site unblinded pharmacist']);
+  const [roleData, setRoleData] = useState(
+    [ "All",
+      "Principal Investigator",
+      "Sub-Investigator",
+      "Study Coordinator",
+      "Study Nurse",
+      'Other',
+  ]);
 
   const [filterdata, setFilterData] = useState({
     language: ["English", "Russian"],
@@ -265,6 +274,15 @@ const LibraryContent = (props) => {
       newObj[key] = [];
       otherObj[key] = [];
     }
+  //   const [irtData, setIrtData] = useState(['All','Blinded site user','Investigator-Blinded','Site unblinded pharmacist']);
+  // const [roleData, setRoleData] = useState(
+  //   [ "All",
+  //     "Principal Investigator",
+  //     "Sub-Investigator",
+  //     "Study Coordinator",
+  //     "Study Nurse",
+  //     'Other',
+  // ]);
 
     if (e?.target?.checked == true) {
       if (
@@ -276,6 +294,7 @@ const LibraryContent = (props) => {
         key == "Mandatory" ||
         key == "List" ||
         key == "Content Owners" ||
+        key == "IRT mandatory training" ||
         key == "language" ||
         key == "Business Unit" ||
         key == "Platform"
@@ -1064,6 +1083,7 @@ const LibraryContent = (props) => {
                                                           key == "Mandatory" ||
                                                           key == "List" ||
                                                           key == "language" ||
+                                                          key == "IRT mandatory training" ||
                                                           key ==
                                                             "Business Unit" ||
                                                           key ==
