@@ -1142,44 +1142,39 @@ const RDAnalytics = () => {
                     <div className="rd-analytics-box-layout">
 					
 						<div className="rd-analytics-top d-flex justify-content-between align-items-center">
-                        <h5>Most Popular content</h5>
-                        <div className="d-flex">
-                          <div className="count-number">
-                            {mostPopularContentData &&
-                            mostPopularContentData.length > 0
-                              ? mostPopularContentData[0].watched_count
-                              : 0}
-                          </div>
-                          <img src={path_image + "content-view.svg"} alt="" />
-                        </div>
-                      </div>
-				
-                      <div className="rd-analytics-top d-flex align-items-center">
-                        <h5>The Top 3 content</h5>
-                    </div>
-                      <div className="graph-box">
-					  {
-						  /*<div className="graph-box-inside">
-                          <p>
-                             Sites who Read | Watch the <span>1 top</span>{" "} content 
-                            Sites who Read | Watch The Top Content
-                          </p>
-						  <span>Click on the graph to see more details</span>
-                        </div>
-                        
-                        <div className="popular-tooltip">
-                          <OverlayTrigger placement="left" overlay={tooltip}>
-                            <img src={path_image + "tooltip-img.svg"} alt="" />
-                          </OverlayTrigger>
-                        </div>
-                        <img
-                          className="pie-chart"
-                          src={path_image + "pie-chart2.png"}
-                          alt=""
-                        />
-						*/
-					  }
-                    
+            <h5>Most Popular content</h5>
+            <div className="d-flex">
+              <div className="count-number">
+                {mostPopularContentData &&
+                mostPopularContentData.length > 0
+                  ? mostPopularContentData[0].watched_count
+                  : 0}
+              </div>
+              <img src={path_image + "content-view.svg"} alt="" />
+            </div>
+          </div>
+          <div className="graph-box">
+            <div className="graph-box-inside">
+              <p>Sites who Read | Watch The Top Content</p>
+              <span>Click on the graph to see more details</span>
+            </div>
+            <div className="popular-tooltip">
+              <OverlayTrigger placement="left" overlay={tooltip}>
+                <img src={path_image + "tooltip-img.svg"} alt="" />
+              </OverlayTrigger>
+            </div>
+            {/* <img
+              className="pie-chart"
+              src={path_image + "pie-chart2.png"}
+              alt=""
+            /> */}
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={popularPieOptions}
+            />
+            <div className="">
+              <p>The Top 3 content</p>
+            </div>
                         <div className="lex-article">
                           {mostPopularContentData
                             ?.slice(0, 3)
@@ -1222,7 +1217,7 @@ const RDAnalytics = () => {
                               </div>
                             ))}
                         </div>
-                        <div className="">
+                        {/* <div className="">
                           <p>
                             Sites who Read | Watch the <span>1 top</span>{" "}
                             content
@@ -1232,7 +1227,7 @@ const RDAnalytics = () => {
                         <HighchartsReact
               highcharts={Highcharts}
               options={popularPieOptions}
-            />
+            /> */}
                       </div>
                       <div className="rd-box-export">
                         <img
