@@ -7,23 +7,44 @@ import {
   } from "react-bootstrap";
   import { postData } from "../../axios/apiHelper";
   import { ENDPOINT } from "../../axios/apiConfig";
+  import {db} from "../../config/firebaseConfig"
+  import { collection, query, where, onSnapshot } from "firebase/firestore";
+
 const QuestionTrigger = () =>{
+    const q = query(collection(db, "chat"),where("event_id","==",136))
     const [data,setData] = useState({
         question:[],
         answer:[],
         ignre:[]
     })
+    const [count,setCount] = useState(0)
+    onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            if(doc.data()){
+              if(count != doc.data()?.questionTrigger){
+                setCount(doc.data()?.questionTrigger)
+              }
+            }
+        });  
+     })
     const initialFun = async() =>{
         try{
-  
-            //  await postData(ENDPOINT.)
+          const result = await postData(ENDPOINT.QUESTION_ANSWER,{
+                "companyId":1506,
+                "eventId":136
+             })
+             setData({
+                question:result?.data?.data?.question,
+                answer:result?.data?.data?.answer,
+                ignre:result?.data?.data?.ignore 
+             })
         }catch(err){
 
         }
     }
     useEffect(()=>{
-
-    },[])
+        initialFun()
+    },[count])
 
     return (
         <Container>
