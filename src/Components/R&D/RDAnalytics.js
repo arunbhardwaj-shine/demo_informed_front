@@ -45,6 +45,9 @@ const RDAnalytics = () => {
       verticalAlign: "bottom",
       // reversed: true,
     },
+    exporting: {
+      enabled: false
+    },
     plotOptions: {
       pie: {
         size: "80%",
