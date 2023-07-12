@@ -600,7 +600,10 @@ const ReaderEdit = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">IRT</Form.Label>
+          <Form.Label htmlFor="">{
+            localStorage.getItem("user_id") ==
+            "56Ek4feL/1A8mZgIKQWEqg=="?"IRT mandatory training":"IRT"     
+          }</Form.Label>
           <Select
             options={userDetail?.irt}
             defaultValue={{
