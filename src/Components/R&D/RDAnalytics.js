@@ -1229,10 +1229,10 @@ const RDAnalytics = () => {
                           </p>
                           <span>Click on the graph to see more details</span>
                         </div>
-                        <HighchartsReact
-              highcharts={Highcharts}
-              options={popularPieOptions}
-            />
+                                <HighchartsReact
+                      highcharts={Highcharts}
+                      options={popularPieOptions}
+                    />
                       </div>
                       <div className="rd-box-export">
                         <img
