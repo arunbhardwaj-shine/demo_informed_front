@@ -20,7 +20,63 @@ const RDAnalytics = () => {
   const [show, setShow] = useState();
   const [totalSiteNumber, setTotalSiteNumber] = useState();
   const [totalRdSiteNumber, setTotalRdSiteNumber] = useState();
+  const [popularPieOptions, setPopularPieOptions] = useState({
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: "pie",
+      //size: "80"
+      height: 250,
+    },
+    title: {
+      text: "",
+      align: "left",
+    },
+    tooltip: {
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    },
+    accessibility: {
+      point: {
+        valueSuffix: "%",
+      },
+    },
+    legend: {
+      verticalAlign: "bottom",
+      // reversed: true,
+    },
+    plotOptions: {
+      pie: {
+        size: "80%",
+        // innerSize: "65%",
+        dataLabels: {
+          enabled: false,
+          format: "{point.y}",
+          style: {
+            fontWeight: "bold",
+            color: "white",
+            textOutline: "none",
+            // fontSize: "30px",
+          },
+          distance: -40, // Adjust the distance of the data labels from the center
+        },
 
+        animation: {
+          duration: 1000,
+        },
+
+        enableMouseTracking: true,
+        // showInLegend: true,
+      },
+    },
+    series: [
+      {
+        name: "",
+        colorByPoint: true,
+        data: [],
+      },
+    ],
+  });
   const [chartOptions, setChartOptions] = useState();
   const [rdSiteData, setRdSiteData] = useState();
   const [pieData, setPieData] = useState({});
@@ -388,7 +444,14 @@ const RDAnalytics = () => {
       const data = result?.data?.data;
       // console.log(data);
       setMostPopularContentData(data.pdf_data);
-
+      setPopularPieOptions({
+        ...popularPieOptions,
+        series: [
+          {
+            data: data?.site_graph_data,
+          },
+        ],
+      });
       // setRdSiteOptions(newRdSiteOptions);
 
       // loader("hide");
@@ -1065,31 +1128,26 @@ const RDAnalytics = () => {
                   <div className="rd-analytics-box rd-content">
                     <p className="rd-box-small-title">Content</p>
                     <div className="rd-analytics-box-layout">
-					{
-						/*<div className="rd-analytics-top d-flex justify-content-between align-items-center">
+					
+						<div className="rd-analytics-top d-flex justify-content-between align-items-center">
                         <h5>Most Popular content</h5>
                         <div className="d-flex">
                           <div className="count-number">
                             {mostPopularContentData &&
                             mostPopularContentData.length > 0
-                              ? mostPopularContentData
-                                  .map((item) => item?.watched_count)
-                                  .reduce(
-                                    (total, count) => total + (count || 0),
-                                    0
-                                  )
+                              ? mostPopularContentData[0].watched_count
                               : 0}
                           </div>
                           <img src={path_image + "content-view.svg"} alt="" />
                         </div>
-                      </div>*/
-					}
+                      </div>
+					
                       <div className="rd-analytics-top d-flex align-items-center">
                         <h5>The Top 3 content</h5>
                     </div>
                       <div className="graph-box">
-					  {
-						  /*<div className="graph-box-inside">
+					  
+						  <div className="graph-box-inside">
                           <p>
                              Sites who Read | Watch the <span>1 top</span>{" "} content 
                             Sites who Read | Watch The Top Content
@@ -1102,13 +1160,12 @@ const RDAnalytics = () => {
                             <img src={path_image + "tooltip-img.svg"} alt="" />
                           </OverlayTrigger>
                         </div>
-                        <img
-                          className="pie-chart"
-                          src={path_image + "pie-chart2.png"}
-                          alt=""
-                        />
-						*/
-					  }
+                        <HighchartsReact
+              highcharts={Highcharts}
+              options={popularPieOptions}
+            />
+						
+					  
                     
                         <div className="lex-article">
                           {mostPopularContentData
@@ -1495,7 +1552,7 @@ const RDAnalytics = () => {
                                                         </div>
                                                         <div className="content-detail">
                                                           <h6>{item?.type}</h6>
-                                                          
+                                                         
                                                           <div className="page-count">
                                                             <div className="time">
                                                               {" "}

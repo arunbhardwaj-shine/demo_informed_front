@@ -199,6 +199,7 @@ const Routing = () => {
         <Route path="/LEX-210-analytics" element={<LoginLayout component={RDAnalytics} />} />
         //LoginLayout for pages after login
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
+        <Route path="/users" element={<SetLayout component={SetLayout} />} />
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}

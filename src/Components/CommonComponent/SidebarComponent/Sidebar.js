@@ -43,36 +43,36 @@ const Sidebar = () => {
 
   if (location.pathname == "/EmailList") {
     title = "Email overview";
-    video_url = "https://informed.pro/react_help/videos/email_page_1.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_1.png";
+    video_url = "https://webinar.informed.pro/react_help/videos/email_page_1.mp4";
+    video_poster = "https://webinar.informed.pro/react_help/poster/email_page_1.png";
   } else if (location.pathname == "/EmailArticleSelect") {
     title = "Selecting content for your email";
-    video_url = "https://informed.pro/react_help/videos/email_page_2.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_2.png";
+    video_url = "https://webinar.informed.pro/react_help/videos/email_page_2.mp4";
+    video_poster = "https://webinar.informed.pro/react_help/poster/email_page_2.png";
   } else if (location.pathname == "/CreateEmail") {
     title = "Writing your email";
-    video_url = "https://informed.pro/react_help/videos/email_page_3.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_3.png";
+    video_url = "https://webinar.informed.pro/react_help/videos/email_page_3.mp4";
+    video_poster = "https://webinar.informed.pro/react_help/poster/email_page_3.png";
   } else if (location.pathname == "/SelectHCP") {
     title = "Select HCPs to mail";
-    video_url = "https://informed.pro/react_help/videos/email_page_4.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_4.png";
+    video_url = "https://webinar.informed.pro/react_help/videos/email_page_4.mp4";
+    video_poster = "https://webinar.informed.pro/react_help/poster/email_page_4.png";
   } else if (location.pathname == "/VerifyHCP") {
     title = "Select HCPs to mail";
-    video_url = "https://informed.pro/react_help/videos/email_page_5.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_5.png";
+    video_url = "https://webinar.informed.pro/react_help/videos/email_page_5.mp4";
+    video_poster = "https://webinar.informed.pro/react_help/poster/email_page_5.png";
   } else if (
     location.pathname == "/verifyMAIL" ||
     location.pathname == "/VerifyMAIL" ||
     location.pathname == "/VerifyHcpMAIL"
   ) {
     title = "Sending your email";
-    video_url = "https://informed.pro/react_help/videos/email_page_8.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_8.png";
+    video_url = "https://webinar.informed.pro/react_help/videos/email_page_8.mp4";
+    video_poster = "https://webinar.informed.pro/react_help/poster/email_page_8.png";
   } else if (location.pathname == "/SelectSmartListUsers") {
     title = "Verify & adjust your SmartList";
-    video_url = "https://informed.pro/react_help/videos/email_page_6.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_6.png";
+    video_url = "https://webinar.informed.pro/react_help/videos/email_page_6.mp4";
+    video_poster = "https://webinar.informed.pro/react_help/poster/email_page_6.png";
   } else if (location.pathname == "/SelectSmartList") {
     title = "Select HCPs to mail";
     video_url = "";
@@ -83,9 +83,9 @@ const Sidebar = () => {
   } else if (location.pathname == "/CreateSmartList") {
     title = "Creating new SmartList";
     video_url =
-      "https://informed.pro/react_help/videos/smart_list_uploading_excel.mp4";
+      "https://webinar.informed.pro/react_help/videos/smart_list_uploading_excel.mp4";
     video_poster =
-      "https://informed.pro/react_help/poster/smart_list_uploading_excel.png";
+      "https://webinar.informed.pro/react_help/poster/smart_list_uploading_excel.png";
     if (localStorage.getItem("sd_i")) {
       c_id = localStorage.getItem("sd_i");
     }
@@ -97,9 +97,9 @@ const Sidebar = () => {
     video_url = "";
   } else if (location.pathname == "/SmartListFilter") {
     title = "Creating new SmartList";
-    video_url = "https://informed.pro/react_help/videos/smart_list_sagment.mp4";
+    video_url = "https://webinar.informed.pro/react_help/videos/smart_list_sagment.mp4";
     video_poster =
-      "https://informed.pro/react_help/poster/smart_list_sagment.png";
+      "https://webinar.informed.pro/react_help/poster/smart_list_sagment.png";
     if (localStorage.getItem("sd_i")) {
       c_id = localStorage.getItem("sd_i");
     }

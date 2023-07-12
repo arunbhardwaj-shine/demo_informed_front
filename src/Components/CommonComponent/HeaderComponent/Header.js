@@ -333,7 +333,7 @@ const Header = () => {
                       className="nav-link"
                       target="_blank"
                       href={
-                        "https://informed.pro/webinar/qa_survey?rdylr=" +
+                        "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
                         localStorage.getItem("user_id")
                       }
                     >
