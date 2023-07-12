@@ -42,6 +42,18 @@ const RenderPdf = ({
   const [wordData, setWordData] = useState([]);
   const [modalMessage, setModalMessage] = useState('');
   const [modalBtn, setModalBtn] = useState('');
+  const [startX, setStartX] = useState(0);
+  const [startY, setStartY] = useState(0);
+  const [endX, setEndX] = useState(0);
+  const [endY, setEndY] = useState(0);
+  const [startXCordinate, setStartXCordinate] = useState(0);
+  const [startYCordinate, setStartYCordinate] = useState(0);
+  const [endXCordinate, setEndXCordinate] = useState(0);
+  const [endYCordinate, setEndYCordinate] = useState(0);
+  const [highlighted, setHighlighted] = useState(false);
+  const [inputUrl, setInputUrl] = useState("");
+  const [dragging, setDragging] = useState(false);
+  const parentRef=useRef(null);
   // const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
   let total_pages = 1000;
   // let url = "https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/1679390009620.pdf";
@@ -210,6 +222,130 @@ const optimizeSinglePagePdf = () => {
   }
 }
 
+
+
+useEffect(() => {
+  parentRef.current.addEventListener("mousedown", handleMouseDown);
+  parentRef.current.addEventListener("mousemove", handleMouseMove);
+  parentRef.current.addEventListener("mouseup", handleMouseUp);
+
+  return () => {
+    parentRef.current.removeEventListener("mousedown", handleMouseDown);
+    parentRef.current.removeEventListener("mousemove", handleMouseMove);
+    parentRef.current.removeEventListener("mouseup", handleMouseUp);
+  };
+}, [dragging, startX, startY, endX, endY]);
+
+const handleMouseDown = (e) => {
+  if (e.target.name === "url") return;
+  if (e.target.name === "addurl") return;
+  setHighlighted(false)
+  const viewerRect = parentRef.current.getBoundingClientRect();
+  const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+  const pageHeight = textLayer.getBoundingClientRect().height;
+  const scrollLayer = document.querySelector(".viewer-layout-main");
+  const scrollTop = scrollLayer.scrollTop;
+
+  // Calculate the coordinates relative to the viewer
+  const x = e.clientX - viewerRect.left;
+  const y = e.clientY - viewerRect.top + scrollTop;
+
+  // Calculate the page number
+  const newPage = Math.floor((y - textLayer.offsetTop) / pageHeight);
+  setPage(newPage);
+  setStartXCordinate(x);
+  setStartYCordinate(y-(newPage * pageHeight));
+  setEndXCordinate(x);
+  setEndYCordinate(y-(newPage * pageHeight));
+  // Calculate the coordinates relative to the text layer
+  const xInPage = x - textLayer.offsetLeft;
+  const yInPage = y - textLayer.offsetTop-scrollTop ;
+  // console.log("Box1",x ,y,scrollTop,xInPage,yInPage)
+  setDragging(true);
+  setStartX(xInPage);
+  setStartY(yInPage);
+  setEndX(xInPage);
+  setEndY(yInPage);
+};
+
+const handleMouseMove = (e) => {
+  if (e.target.name === "url") return;
+  if (e.target.name === "addurl") return;
+  window.getSelection().removeAllRanges();
+  if (!dragging) return;
+
+  const viewerRect = parentRef.current.getBoundingClientRect();
+  const scrollLayer = document.querySelector(".viewer-layout-main");
+  const scrollTop = scrollLayer.scrollTop;
+  const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+  const pageHeight = textLayer.getBoundingClientRect().height;
+
+  // Calculate the coordinates relative to the viewer
+  const x = e.clientX - viewerRect.left;
+  const y = e.clientY - viewerRect.top + scrollTop;
+  setEndXCordinate(x);
+  setEndYCordinate(y-(page * pageHeight));
+
+
+  // Calculate the coordinates relative to the text layer
+  const xInPage = x - textLayer.offsetLeft;
+  const yInPage = y - textLayer.offsetTop  - scrollTop;
+
+  setEndX(xInPage);
+  setEndY(yInPage);
+};
+
+const handleMouseUp = (e) => {
+  if (e.target.name === "url") return;
+  if (e.target.name === "addurl") return;
+  const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+  const pageHeight = textLayer.getBoundingClientRect().height;
+//  console.log("Box2",startX ,startY,startXCordinate,startYCordinate)
+
+  window.getSelection().removeAllRanges();
+  console.log(startXCordinate,startYCordinate,endXCordinate,endYCordinate)
+  setDragging(false);
+  setHighlighted(true);
+};
+
+
+const handleAddUrl = (url) => {
+  // create a new element that represents the box
+  const viewerRect = parentRef.current.getBoundingClientRect();
+  const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+  const pageHeight = textLayer.getBoundingClientRect().height;
+  const scrollLayer = document.querySelector(".viewer-layout-main");
+  const scrollTop = scrollLayer.scrollTop;
+
+  const box = document.createElement('div');
+  box.style.width = `${Math.abs(endXCordinate - startXCordinate)}px`;
+  box.style.height = `${Math.abs(endYCordinate - startYCordinate)}px`;
+  // box.style.backgroundColor="RED"
+
+  // create a link element to display the URL
+  const link = document.createElement('a');
+  link.href =inputUrl ;
+  link.target = '_blank';
+  link.style.position = 'absolute';
+  link.style.left = `${startXCordinate-7}px`;
+  link.style.top = `${startYCordinate-53}px`;
+  link.style.width = `${Math.abs(endXCordinate - startXCordinate)}px`;
+  link.style.height = `${Math.abs(endYCordinate - startYCordinate)}px`;
+
+  // add the box to the link element
+  link.appendChild(box);
+
+  // add the link element to the parent element
+  const parent = document.querySelectorAll('.viewer-text-layer')[page];
+  parent.appendChild(link);
+  // console.log(`Selected area: (${startX}, ${startY}) - (${endX}, ${endY})`);
+
+  // reset the state
+  setDragging(false);
+  setHighlighted(false);
+};
+
+
     return (
       <div className="sublink_right_block">
       {
@@ -218,7 +354,7 @@ const optimizeSinglePagePdf = () => {
               {
                 typeof url !== "undefined" && (
                   <>
-                  
+
                     <MessageModel
                       show={commanShow}
                       onClose={modalClose}
@@ -233,16 +369,52 @@ const optimizeSinglePagePdf = () => {
                     }
 
                         <div style={{ height: '750px' }} id="pdf_view_box">
-                          <div onScroll={scrollEve} className={previewArticle?"scroll_pdf":"scroll_pdf"}>
+                          <div onScroll={scrollEve} className={previewArticle?"scroll_pdf":"scroll_pdf"} ref={parentRef}>
                           <Viewer
                             onPageChange={handlePageChange}
                             onDocumentLoad={handleDocumentLoad}
                             renderMode = "canvas"
                             fileUrl={url}
                           />
-                          </div>
-                        </div>
 
+                          <div
+                            style={{
+                              position: "absolute",
+                              border: "2px dashed rgb(204, 204, 204)",
+                              backgroundColor: "rgba(255, 0, 0, 0)",
+                              display: highlighted || dragging ? "block" : "none",
+                              pointerEvents: "none",
+                              left: `${Math.min(startX, endX)}px`,
+                              top: `${Math.min(startY, endY)}px`,
+                              width: `${Math.abs(startX - endX)}px`,
+                              height: `${Math.abs(startY - endY)}px`,
+                            }}
+                          />
+                          </div>
+
+
+                          {highlighted && (
+                            <div
+                              className="link_popup"
+                            >
+                              <form action="#" id="addLinkForm">
+                                <button type="button" className="close" id="closeLinkPopup">
+                                  <span aria-hidden="true">×</span>
+                                </button>
+                                <label for="targetURL">Add Link:</label>
+                                <input placeholder="https://example.com"
+                                  id="targetURL"
+                                  className="form-control input-xs"
+                                  type="text"
+                                  onChange={(e)=>setInputUrl(e.target.value)}
+                                 />
+                                <p className="err_class"></p>
+                                <input type="submit" value="Add Link" id="addLinkToPdfButton" onClick={() => handleAddUrl("https://example.com")} />
+                              </form>
+                            </div>
+                          )}
+
+                        </div>
                   </>
                 )
               }
