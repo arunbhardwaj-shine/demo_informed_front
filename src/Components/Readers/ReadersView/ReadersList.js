@@ -82,7 +82,12 @@ const NewReaders = () => {
     { value: "3", label: "Test User" },
     { value: "4", label: "Competitor" },
   ]);
-  const [irtData, setIrtData] = useState(['All','Blinded site user','Investigator-Blinded','Site unblinded pharmacist']);
+  const [irtData, setIrtData] = useState([
+    "All",
+    "Blinded site user",
+    "Investigator-Blinded",
+    "Site unblinded pharmacist",
+  ]);
   const [change, setChanges] = useState(null);
   const userTypeValues = {
     0: "HCP",
@@ -97,15 +102,14 @@ const NewReaders = () => {
   const [changeIRTType, setChangeIRTType] = useState([]);
   const [changeSiteNumberType, setChangeSiteNumberType] = useState([]);
   const [changeSiteNameType, setChangeSiteNameType] = useState([]);
-  const [roleData, setRoleData] = useState(
-    [ "All",
-      "Principal Investigator",
-      "Sub-Investigator",
-      "Study Coordinator",
-      "Study Nurse",
-      'Other',
+  const [roleData, setRoleData] = useState([
+    "All",
+    "Principal Investigator",
+    "Sub-Investigator",
+    "Study Coordinator",
+    "Study Nurse",
+    "Other",
   ]);
-
 
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
@@ -129,11 +133,10 @@ const NewReaders = () => {
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-      setAppliedFilter({  });
-      setFilterObject({  });
-      setApifilterObject({ });
-    }
-    else {
+      setAppliedFilter({});
+      setFilterObject({});
+      setApifilterObject({});
+    } else {
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
       setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
       setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
@@ -327,18 +330,16 @@ const NewReaders = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-     
-      if(key=="IRT mandatory training"){
-        if(newObj["role"]){
-          delete newObj["role"]
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (key == "IRT mandatory training") {
+        if (newObj["role"]) {
+          delete newObj["role"];
         }
 
-        if(item == "Yes"){
+        if (item == "Yes") {
           setFilterData({ ...filterdata, role: irtData });
-        }else {
+        } else {
           setFilterData({ ...filterdata, role: roleData });
-          
         }
       }
     }
@@ -1353,7 +1354,8 @@ const NewReaders = () => {
                                                           key == "userAction" ||
                                                           key == "Blinded" ||
                                                           key == "IRT" ||
-                                                          key == "IRT mandatory training" ||
+                                                          key ==
+                                                            "IRT mandatory training" ||
                                                           key == "region" ||
                                                           key == "RTR?" ||
                                                           key ==
@@ -1754,7 +1756,7 @@ const NewReaders = () => {
                                     <>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Role
+                                          IRT Role
                                         </h6>
                                         <h6>
                                           {data?.role
@@ -1767,10 +1769,14 @@ const NewReaders = () => {
 
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Blinded
+                                          Blind Type
                                         </h6>
                                         <h6>
-                                          {data?.binded ? data?.binded : "N/A"}
+                                          {data?.binded == "Yes"
+                                            ? "Blinded"
+                                            : data?.binded == "No"
+                                            ? "Unblinded"
+                                            : "N/A"}
                                         </h6>
                                       </li>
                                       <li>
@@ -2323,7 +2329,7 @@ const NewReaders = () => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Role
+                                            IRT Role
                                           </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
