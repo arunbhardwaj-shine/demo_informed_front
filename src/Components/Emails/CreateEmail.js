@@ -1188,32 +1188,32 @@ const CreateEmail = (props) => {
   const searchHcp = async (e) => {
     e.preventDefault();
 
-    // if (name == "" && email == "") {
-    //   toast.warning("Please enter name or email first");
-    // }
-    // else {
-    //   const body = {
-    //     user_id: localStorage.getItem("user_id"),
-    //     name: name,
-    //     email: email,
-    //   };
-    let error = {};
-    if (name == "") {
-      error.name = "Please enter name";
+    if (name == "" && email == "") {
+      toast.warning("Please enter name or email first");
     }
-    if (email == "") {
-      error.email = "Please enter email";
-    }
-    if (Object.keys(error)?.length) {
-      toast.error(error[Object.keys(error)[0]]);
-      setValidationError(error);
-      return;
-    } else {
+    else {
       const body = {
         user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
       };
+    // let error = {};
+    // if (name == "") {
+    //   error.name = "Please enter name";
+    // }
+    // if (email == "") {
+    //   error.email = "Please enter email";
+    // }
+    // if (Object.keys(error)?.length) {
+    //   toast.error(error[Object.keys(error)[0]]);
+    //   setValidationError(error);
+    //   return;
+    // } else {
+    //   const body = {
+    //     user_id: localStorage.getItem("user_id"),
+    //     name: name,
+    //     email: email,
+    //   };
       //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
@@ -2171,7 +2171,7 @@ const CreateEmail = (props) => {
                       <div className="row justify-content-between align-items-center">
                         <div className="form-group col-sm-5">
                           <label htmlFor="hcp-name">
-                            Name<span>*</span>
+                            Name
                           </label>
                           <input
                             type="text"
@@ -2191,7 +2191,7 @@ const CreateEmail = (props) => {
                         </div>
                         <div className="form-group col-sm-5">
                           <label htmlFor="hcp-email">
-                            Email<span>*</span>{" "}
+                            Email
                           </label>
                           <input
                             type="mail"
