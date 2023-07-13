@@ -132,12 +132,11 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
             </div>
           )}
           <div className="graph-box">
-            {!isHighlightNotLoaded && 
+            {!isHighlightNotLoaded && (
               <div className="graph-box-inside">
                 <p>Engaging With Non-mandatory Content at each site</p>
-                <span>Click on the graph to see more details</span>
               </div>
-            }
+            )}
             {isHighlightNotLoaded ? (
               <div className="article-main-img">
                 {" "}
