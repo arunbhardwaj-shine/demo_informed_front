@@ -1066,15 +1066,17 @@ const CreateEmail = (props) => {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
-      //  console.log(allTags)
       let alltemp_tags = [];
-      Object.entries(allTags).map((data) => {
-        return alltemp_tags.push(...data);
-      });
-      alltemp_tags = alltemp_tags.map((data) => {
-        return data.toLowerCase();
-      });
-      console.log(alltemp_tags);
+
+      if(typeof(allTags) != "undefined"){
+          Object.entries(allTags)?.map((data) => {
+            return alltemp_tags.push(...data);
+          });
+          alltemp_tags = alltemp_tags?.map((data) => {
+            return data.toLowerCase();
+          });
+          // console.log(alltemp_tags);
+      }
 
       if (
         !temp_tags.includes(newTag.toLowerCase()) &&
@@ -1096,6 +1098,7 @@ const CreateEmail = (props) => {
             loader("hide");
           })
           .catch((err) => {
+            loader("hide");
             console.log(err);
           });
       } else {
@@ -1160,7 +1163,9 @@ const CreateEmail = (props) => {
     tags.splice(index, 1);
     //console.log(tags);
     setTagClickedFirst(tags);
+    setFinalTags(tags);
     setTagsReRender(tagsReRender + 1);
+
     // tagClickedFirst.splice(index, 1);
   };
 
