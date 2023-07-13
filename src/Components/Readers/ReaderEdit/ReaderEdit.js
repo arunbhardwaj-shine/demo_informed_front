@@ -582,7 +582,13 @@ const ReaderEdit = () => {
           repContact: userInputs?.repContact,
           notes: userInputs?.notes,
           siteNumber: userInputs?.siteNumber,
-          blind_type: userInputs?.blind_type,
+          blind_type: userInputs?.blind_type
+            ? userInputs?.blind_type
+            : userInputs?.blinded
+            ? userInputs?.blinded
+            : "",
+          role: userInputs?.role,
+          sub_role: userInputs?.sub_role,
           siteName: userInputs?.siteName,
           irt: userInputs?.irt,
           ibu: userInputs?.ibu,
@@ -709,7 +715,9 @@ const ReaderEdit = () => {
           <Select
             options={userDetail?.blind_type}
             defaultValue={{
-              label: userInputs?.blinded?.charAt(0)?.toUpperCase()+userInputs?.blinded?.slice(1),
+              label:
+                userInputs?.blinded?.charAt(0)?.toUpperCase() +
+                userInputs?.blinded?.slice(1),
               value: userInputs?.blinded,
             }}
             placeholder="Select Blind Type"

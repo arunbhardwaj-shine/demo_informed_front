@@ -94,7 +94,7 @@ const ReaderReview = () => {
               </Col>
             </Row>
           </div>
-
+          {console.log("data--->", readerData)}
           {Object.keys(readerData).length > 0 ? (
             <div className="crm-detail">
               <div className="crm-detail-content">
