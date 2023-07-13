@@ -99,21 +99,9 @@ const SiteCompletion = ({ siteCompletionfn }) => {
     }
   };
 
-  // const handleCheckboxClick = () => {
-  //   initialFun();
-  //   loader("hide");
-  // };
-
   const handleCheckboxClick = async (sort) => {
     try {
-      loader("show");
       const result = await postData(ENDPOINT.SITEREGISTERSORT, { sort: sort });
-
-      if (sortSite) {
-        setSortSite(false);
-      } else {
-        setSortSite(true);
-      }
 
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);
@@ -136,9 +124,11 @@ const SiteCompletion = ({ siteCompletionfn }) => {
       };
       setColumnOptions(newColumnOptions);
     } catch (err) {
-      // console.log("-err", err);
+      loader("hide");
+      console.log("--err", err);
+    } finally {
+      setIsHighlightNotLoaded(false);
     }
-    loader("hide");
   };
 
   return (
@@ -168,13 +158,13 @@ const SiteCompletion = ({ siteCompletionfn }) => {
               <div className="d-flex justify-content-between align-items-center">
                 <div className="">
                   <p>Registered IRTs at each site</p>
-                  <span>Click on the graph to see more details</span>
                 </div>
                 <div className="switch6">
                   <label className="switch6-light">
                     <input
                       type="checkbox"
                       onChange={() => {
+                        setIsHighlightNotLoaded(true);
                         handleCheckboxClick(!sortSite);
                         setSortSite(!sortSite);
                       }}

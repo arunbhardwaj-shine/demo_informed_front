@@ -11,6 +11,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 const PopularContent = ({
   mostPopularContentFn,
   setMostPopularContentData,
+  topContentTableFn,
 }) => {
   const [pieData, setPieData] = useState({});
   const [mostPopularContentDataChild, setMostPopularContentDataChild] =
@@ -151,7 +152,6 @@ const PopularContent = ({
               <>
                 <div className="graph-box-inside">
                   <p>Sites who Read | Watch The Top Content</p>
-                  <span>Click on the graph to see more details</span>
                 </div>
                 <div className="popular-tooltip">
                   <OverlayTrigger placement="left" overlay={tooltip}>
@@ -160,11 +160,7 @@ const PopularContent = ({
                 </div>
               </>
             )}
-            {/* <img
-              className="pie-chart"
-              src={path_image + "pie-chart2.png"}
-              alt=""
-            /> */}
+
             {isHighlightNotLoaded ? (
               <div className="article-main-img">
                 {" "}
@@ -174,11 +170,23 @@ const PopularContent = ({
                 </SkeletonTheme>
               </div>
             ) : (
-              <HighchartsReact
-                highcharts={Highcharts}
-                options={popularPieOptions}
-              />
+              <>
+                <HighchartsReact
+                  highcharts={Highcharts}
+                  options={popularPieOptions}
+                />
+                {/* <div className="rd-box-export"> */}
+                <img
+                  src={path_image + "arrow-export.svg"}
+                  alt=""
+                  // onClick={() => {
+                  //   topContentTableFn();
+                  // }}
+                />
+                {/* </div> */}
+              </>
             )}
+
             {!isHighlightNotLoaded && (
               <div className="">
                 <p>The Top 3 content</p>
