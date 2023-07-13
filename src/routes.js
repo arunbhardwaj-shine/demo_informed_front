@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./App";
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes,Outlet } from "react-router-dom";
 
 //Library routes
 import LibraryContent from "./Components/Library/Content/LibraryContent";
@@ -176,6 +176,15 @@ if (
   require("./Components/assets/css/video.css");
 }
 
+const Layout = ()=>{
+  return (
+    <>
+    <CommanPage/>
+    <Outlet />
+    </>
+  )
+}
+
 const Routing = () => {
   return (
     <Router>
@@ -204,6 +213,23 @@ const Routing = () => {
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
         />
+           <Route element={<Layout />}>
+              <Route
+              path="/poll-question"
+              element={<PollQuestion />}
+            />
+            <Route
+              path="/question-list"
+              element={<QuestionTrigger />}
+            />
+             <Route
+              path="/webinar-question"
+              element={<WebinarQuestion />}
+             />
+        
+
+
+           </Route>
         <Route
           path="/cis_stats"
           element={<LoginLayout component={CisStats} />}
@@ -248,23 +274,7 @@ const Routing = () => {
           path="/change-password"
           element={<LoginLayout component={ChangePassword} />}
         />
-          <Route
-          path="/webinar-question"
-          element={<WebinarQuestion />}
-        />
-         <Route
-          path="/poll-question"
-          element={<PollQuestion />}
-        />
-        <Route
-          path="/comman-question"
-          element={<CommanPage />}
-        />
-         <Route
-          path="/question-list"
-          element={<QuestionTrigger />}
-        />
-
+         
          
 
         <Route

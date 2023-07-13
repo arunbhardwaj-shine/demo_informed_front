@@ -5,18 +5,40 @@ import {
     Row,
     Button,
   } from "react-bootstrap";
+  import { useLocation } from 'react-router-dom';
   import { postData } from "../../axios/apiHelper";
   import { ENDPOINT } from "../../axios/apiConfig";
   import {db} from "../../config/firebaseConfig"
   import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { loader } from "../../loader";
 
 const QuestionTrigger = () =>{
-    const q = query(collection(db, "chat"),where("event_id","==",136))
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);  
+    const [eventId,setEvent] = useState(0)
+    const q = query(collection(db, "chat"),where("event_id","==",eventId))
     const [data,setData] = useState({
         question:[],
         answer:[],
         ignre:[]
     })
+
+    const EventDataFun = async() =>{
+        try{
+            loader("show")
+            const result = await postData(ENDPOINT.EVENT_ID,{
+                 eventCode :queryParams.get("evnt")
+            })
+            setEvent(result.data.data)
+            loader("hide")
+        }catch(err){
+            loader("hide")
+            console.log("-err",err)
+        }
+    }
+    useEffect(()=>{
+        EventDataFun()
+    },[])
     const [count,setCount] = useState(0)
     onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -31,7 +53,7 @@ const QuestionTrigger = () =>{
         try{
           const result = await postData(ENDPOINT.QUESTION_ANSWER,{
                 "companyId":1506,
-                "eventId":136
+                "eventId":eventId
              })
              setData({
                 question:result?.data?.data?.question,
@@ -42,9 +64,25 @@ const QuestionTrigger = () =>{
 
         }
     }
+    const submitFun = async(data,id) =>{
+        try{
+            loader("show")
+            const result = await postData(ENDPOINT.QUESTION_UPDATE,{
+                "userAnswer":data,
+                "id":id,
+                "eventId":eventId
+             })
+             console.log("->",result)
+             loader("hide")
+        }catch(err){
+            loader("hide")
+            console.log("-err",err)
+        }
+
+    }
     useEffect(()=>{
         initialFun()
-    },[count])
+    },[count,eventId])
 
     return (
         <Container>
@@ -56,15 +94,13 @@ const QuestionTrigger = () =>{
                         <div>
                          <input type="text" />
                             <div>
-                            <Button>Ignore</Button>
-                            <Button>Answer</Button>
+                            <Button onClick={()=>submitFun(0,item?.id)}>Ignore</Button>
+                            <Button onClick={()=>submitFun(2,item?.id)}>Answer</Button>
                             </div>
                         </div>
                     )
                 }):<h1>No Records Found</h1>
             }
-        
-           
           </Col>
           <Col md={4}>{
                 data?.answer.length?data?.answer.map(item =>{
@@ -72,8 +108,7 @@ const QuestionTrigger = () =>{
                         <div>
                          <input type="text" />
                             <div>
-                            <Button>Ignore</Button>
-                            <Button>Answer</Button>
+                            <Button onClick={()=>submitFun(1,item?.id)}>Undo</Button>
                             </div>
                         </div>
                     )
@@ -85,8 +120,7 @@ const QuestionTrigger = () =>{
                         <div>
                          <input type="text" />
                             <div>
-                            <Button>Ignore</Button>
-                            <Button>Answer</Button>
+                            <Button onClick={()=>submitFun(1,item?.id)}>Undo</Button>
                             </div>
                         </div>
                     )

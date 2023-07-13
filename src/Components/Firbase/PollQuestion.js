@@ -6,22 +6,43 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import HighchartsReact from "highcharts-react-official";
 import { Col, Container, Row, Table } from "react-bootstrap";
 import {db} from "../../config/firebaseConfig"
-import { Link } from "react-router-dom";
 import { loader } from "../../loader"
+import { useLocation } from 'react-router-dom';
+
 const PollQuestion = ()=>{
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-    const q = query(collection(db, "chat"),where("event_id","==",136))
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);   
+    const [eventId,setEvent] = useState(0)
+    const q = query(collection(db, "chat"),where("event_id","==",eventId))
     const [data,setData] = useState([])
     const [showAccordian,setAccordian] = useState(0)
     const [count,setCount] = useState(0)
 
+
+    const EventDataFun = async() =>{
+      try{
+          loader("show")
+          const result = await postData(ENDPOINT.EVENT_ID,{
+               eventCode :queryParams.get("evnt")
+          })
+          setEvent(result.data.data)
+          loader("hide")
+      }catch(err){
+          loader("hide")
+          console.log("-err",err)
+      }
+  }
+  useEffect(()=>{
+      EventDataFun()
+  },[])
 
      const initiFun = async () => {
         try {
           loader("show")
           const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
             companyId: 18207,
-            eventId: 136,
+            eventId: eventId,
           });
           
           let newData = [];
@@ -141,8 +162,9 @@ const PollQuestion = ()=>{
         });  
      })
      useEffect(()=>{
+      console.log("- im hererereeee")
         initiFun()
-     },[count])
+     },[count,eventId])
     return (
         <>
         
