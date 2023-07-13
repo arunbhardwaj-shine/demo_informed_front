@@ -73,7 +73,9 @@ const SetLayout = () => {
         ? navigate("/totalhcp")
         : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
         ? navigate("/octalatch-totalhcp")
-        : navigate("/content-analytics");
+        : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+		? navigate("/LEX-210-analytics")
+		: navigate("/content-analytics");
     } else if (title == "Email") {
       navigate("/EmailList");
     } else if (title == "Webinar") {
