@@ -29,6 +29,7 @@ const RDAnalytics = () => {
     site_Completion: false,
     site_Engagement: false,
     content: false,
+    top_content: false,
   });
   const [sortSite, setSortSite] = useState(false);
   const [activeAccordionKey, setActiveAccordionKey] = useState(null);
@@ -64,11 +65,12 @@ const RDAnalytics = () => {
   const site_Completion = useRef(null);
   const site_Engagement = useRef(null);
   const content = useRef(null);
+  const top_content = useRef(null);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handleClick = (event) => {
     setIsActive((current) => !current);
   };
-  const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
+
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
@@ -242,6 +244,7 @@ const RDAnalytics = () => {
         site_Completion: false,
         site_Engagement: false,
         content: false,
+        top_content: false,
         individual_Completion: true,
       });
       if (!indidualCompletionTableData) {
@@ -321,6 +324,7 @@ const RDAnalytics = () => {
         individual_Completion: false,
         site_Engagement: false,
         content: false,
+        top_content: false,
         site_Completion: true,
       });
       if (!siteCompletionTableData) {
@@ -347,12 +351,29 @@ const RDAnalytics = () => {
         individual_Completion: false,
         site_Completion: false,
         site_Engagement: false,
+        top_content: false,
         content: true,
       });
       setTimeout(() => {
         content?.current?.focus();
         loader("hide");
       }, 1000);
+    } catch (err) {
+      console.log("--err", err);
+    }
+  };
+
+  const topContentTableFn = () => {
+    try {
+      loader("show");
+      setFlag({
+        individual_Completion: false,
+        site_Completion: false,
+        site_Engagement: false,
+        content: false,
+        top_content: true,
+      });
+      top_content?.current?.focus();
     } catch (err) {
       console.log("--err", err);
     }
@@ -366,12 +387,13 @@ const RDAnalytics = () => {
         individual_Completion: false,
         site_Completion: false,
         content: false,
+        top_content: false,
         site_Engagement: true,
       });
       setTimeout(() => {
         site_Engagement?.current?.focus();
         loader("hide");
-      }, 1000);
+      }, 500);
     } catch (err) {
       loader("hide");
       console.log("--err", err);
@@ -596,6 +618,7 @@ const RDAnalytics = () => {
                   <PopularContent
                     mostPopularContentFn={mostPopularContent}
                     setMostPopularContentData={setMostPopularContentData}
+                    topContentTableFn={topContentTableFn}
                   />
                 </Col>
               </Row>

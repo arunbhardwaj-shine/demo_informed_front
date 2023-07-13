@@ -1,10 +1,12 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import WebinarQuestion from './WebinarQuestion';
+import { useNavigate } from "react-router-dom";
 import PollQuestion from './PollQuestion';
 import { Col, Container } from 'react-bootstrap';
 const CommanPage = () =>{
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const navigation = useNavigate();
 
     return (
       <>
@@ -16,19 +18,11 @@ const CommanPage = () =>{
               <Col md={6} lg={6}>
                 <Tabs>
                   <TabList className="nav nav-fill">
-                    <Tab eventKey="webinar" className="nav-item nav-link">Webinar</Tab>
-                    <Tab eventKey="poll-question" className="nav-item nav-link">PollQuestion </Tab>
-                    <Tab eventKey="all-answers" className="nav-item nav-link">Title 3</Tab>
+                  
+                    <Tab eventKey="webinar" className="nav-item nav-link" onClick={()=>navigation(`/question-list?evnt=event-test1`)}>Webinar</Tab>
+                    <Tab eventKey="poll-question" className="nav-item nav-link" onClick={()=>navigation(`/poll-question?evnt=event-test1`)}>PollQuestion </Tab>
+                    <Tab eventKey="all-answers" className="nav-item nav-link" onClick={()=>navigation(`/webinar-question?evnt=event-test1`)}>All Answer</Tab>
                   </TabList>
-                  {/* <TabPanel eventKey="webinar">
-                    <WebinarQuestion />
-                  </TabPanel>
-                  <TabPanel eventKey="poll-question">
-                    <PollQuestion />
-                  </TabPanel>
-                  <TabPanel eventKey="all-answers">
-                      <h2>Any content 2</h2>
-                  </TabPanel> */}
                 </Tabs>
               </Col>
               <Col md={6} lg={6}>
@@ -41,7 +35,7 @@ const CommanPage = () =>{
           </nav>
         </Container>
     </header>
-    <div className=''>
+    {/* <div className=''>
     <Tabs>
       <TabPanel eventKey="webinar">
         <WebinarQuestion />
@@ -53,7 +47,7 @@ const CommanPage = () =>{
           <h2>Any content 2</h2>
       </TabPanel>
     </Tabs>
-     </div>
+     </div> */}
        </>
     )
 }

@@ -11,6 +11,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 const PopularContent = ({
   mostPopularContentFn,
   setMostPopularContentData,
+  topContentTableFn,
 }) => {
   const [pieData, setPieData] = useState({});
   const [mostPopularContentDataChild, setMostPopularContentDataChild] =
@@ -121,37 +122,109 @@ const PopularContent = ({
 
   return (
     <>
-      <div className="rd-analytics-box rd-content">
+     {isHighlightNotLoaded? <div className="rd-analytics-box rd-content">
+      <p className="rd-box-small-title">
+        <Skeleton width={150} height={18} />
+      </p>
+      <div className="rd-analytics-box-layout">
+        <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+          <h5>
+            <Skeleton width={150} height={18} />
+          </h5>
+          <div className="d-flex">
+            <div className="count-number">
+              <Skeleton width={50} height={18} />
+            </div>
+            {/* <img src={path_image + "content-view.svg"} alt="" /> */}
+          </div>
+        </div>
+
+        <div className="graph-box">
+          
+            <>
+              <div className="graph-box-inside">
+                <p>
+                  <Skeleton width={200} height={15} />
+                </p>
+                <span>
+                  <Skeleton width={250} height={8} />
+                </span>
+              </div>
+              {/* <div className="popular-tooltip">
+                <img src={path_image + "tooltip-img.svg"} alt="" />
+              </div> */}
+            </>
+          
+
+          <div style={{ width: "100%", height: 200 }}>
+            <Skeleton  height={200} width={200} circle={true} />
+          </div>
+
+          {/* <div className="">
+            <p>The Top 3 content</p>
+          </div> */}
+
+          <div className="lex-article">
+            {[1, 2, 3].map((item, index) => (
+              <div key={index} className="d-flex lex-article-box">
+                <div className="lex-image">
+                  {/* <div className="article-number">{index + 1}</div> */}
+                  <Skeleton width={50} height={50} circle={true} />
+                </div>
+                <div className="lex-detail">
+                  <p>
+                    <Skeleton width={150} height={14} />
+                  </p>
+                  <span>
+                    <Skeleton width={200} height={10} />
+                  </span>
+                  <div className="d-flex justify-content-between">
+                    <div className="pages-number">
+                      {/* Pages: */}
+                      <span>
+                        <Skeleton width={50} height={5} />
+                      </span>
+                    </div>
+                    <div className="pages-viewer">
+                      <Skeleton width={50} height={15} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="rd-box-export">
+          <img
+            src={path_image + "arrow-export.svg"}
+            alt=""
+            onClick={() => {
+              mostPopularContentFn();
+            }}
+          />
+        </div>
+      </div>
+    </div>:<div className="rd-analytics-box rd-content">
         <p className="rd-box-small-title">Content</p>
         <div className="rd-analytics-box-layout">
-          {isHighlightNotLoaded ? (
-            <div className="article-main-img">
-              {" "}
-              <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
-                {" "}
-                <Skeleton duration={2} height={50} width={"100%"} />{" "}
-              </SkeletonTheme>
-            </div>
-          ) : (
-            <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-              <h5>Most Popular content</h5>
-              <div className="d-flex">
-                <div className="count-number">
-                  {mostPopularContentDataChild &&
-                  mostPopularContentDataChild.length > 0
-                    ? mostPopularContentDataChild[0].watched_count
-                    : 0}
-                </div>
-                <img src={path_image + "content-view.svg"} alt="" />
+          <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+            <h5>Most Popular content</h5>
+            <div className="d-flex">
+              <div className="count-number">
+                {mostPopularContentDataChild &&
+                mostPopularContentDataChild.length > 0
+                  ? mostPopularContentDataChild[0].watched_count
+                  : 0}
               </div>
+              <img src={path_image + "content-view.svg"} alt="" />
             </div>
-          )}
+          </div>
+
           <div className="graph-box">
             {!isHighlightNotLoaded && (
               <>
                 <div className="graph-box-inside">
                   <p>Sites who Read | Watch The Top Content</p>
-                  <span>Click on the graph to see more details</span>
                 </div>
                 <div className="popular-tooltip">
                   <OverlayTrigger placement="left" overlay={tooltip}>
@@ -165,67 +238,46 @@ const PopularContent = ({
               src={path_image + "pie-chart2.png"}
               alt=""
             /> */}
-            {isHighlightNotLoaded ? (
-              <div className="article-main-img">
-                {" "}
-                <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
-                  {" "}
-                  <Skeleton duration={2} height={200} width={"100"} />{" "}
-                </SkeletonTheme>
-              </div>
-            ) : (
-              <HighchartsReact
-                highcharts={Highcharts}
-                options={popularPieOptions}
-              />
-            )}
-            {!isHighlightNotLoaded && (
-              <div className="">
-                <p>The Top 3 content</p>
-              </div>
-            )}
-            {isHighlightNotLoaded ? (
-              <div className="article-main-img">
-                {" "}
-                <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
-                  {" "}
-                  <Skeleton duration={2} height={300} width={"100%"} />{" "}
-                </SkeletonTheme>
-              </div>
-            ) : (
-              <div className="lex-article">
-                {mostPopularContentDataChild
-                  ?.slice(0, 3)
-                  ?.map((item, index) => (
-                    <div key={index} className="d-flex lex-article-box">
-                      <div className="lex-image">
-                        <div className="article-number">{index + 1}</div>
-                        <img src={item?.article_image} alt="" />
+
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={popularPieOptions}
+            />
+
+            <div className="">
+              <p>The Top 3 content</p>
+            </div>
+
+            <div className="lex-article">
+              {mostPopularContentDataChild?.slice(0, 3)?.map((item, index) => (
+                <div key={index} className="d-flex lex-article-box">
+                  <div className="lex-image">
+                    <div className="article-number">{index + 1}</div>
+                    <img src={item?.article_image} alt="" />
+                  </div>
+                  <div className="lex-detail">
+                    <p>{item.pdf.title}</p>
+                    <span>{item?.pdf?.pdf_sub_title}</span>
+                    <div className="d-flex justify-content-between">
+                      <div className="pages-number">
+                        {item?.total_pages || item?.total_pages == 0
+                          ? "Pages:"
+                          : "Time:"}
+                        <span>
+                          {item?.total_pages || item?.total_pages == 0
+                            ? item.total_pages
+                            : item?.max_time}
+                        </span>
                       </div>
-                      <div className="lex-detail">
-                        <p>{item.pdf.title}</p>
-                        <span>{item?.pdf?.pdf_sub_title}</span>
-                        <div className="d-flex justify-content-between">
-                          <div className="pages-number">
-                            {item?.total_pages || item?.total_pages == 0
-                              ? "Pages:"
-                              : "Time:"}
-                            <span>
-                              {item?.total_pages || item?.total_pages == 0
-                                ? item.total_pages
-                                : item?.max_time}
-                            </span>
-                          </div>
-                          <div className="pages-viewer">
-                            {item.watched_count}{" "}
-                            <img src={path_image + "viewer.svg"} alt="" />
-                          </div>
-                        </div>
+                      <div className="pages-viewer">
+                        {item.watched_count}{" "}
+                        <img src={path_image + "viewer.svg"} alt="" />
                       </div>
                     </div>
-                  ))}
-              </div>
-            )}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="rd-box-export">
             <img
@@ -237,7 +289,8 @@ const PopularContent = ({
             />
           </div>
         </div>
-      </div>
+      </div>} 
+     
     </>
   );
 };
