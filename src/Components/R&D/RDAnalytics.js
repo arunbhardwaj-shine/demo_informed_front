@@ -1196,6 +1196,7 @@ const RDAnalytics = () => {
                           {rdSiteData?.map((item, index) => {
                             return (
                               <>
+                              {item?.site_users!=0 &&
                                 <tr
                                   key={index}
                                   className={`view ${
@@ -1208,7 +1209,7 @@ const RDAnalytics = () => {
                                   <td>{item?.site_country}</td>
                                   <td>{item?.site_users}</td>
                                   <td>{item?.content_engagement}</td>
-                                </tr>
+                                </tr>}
                                 {show == index ? (
                                   <tr className="fold show">
                                     {item?.pdf_data?.length ? (
