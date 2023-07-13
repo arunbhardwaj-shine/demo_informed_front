@@ -599,7 +599,7 @@ const RDAnalytics = () => {
                   />
                 </Col>
               </Row>
-              {flag.individual_Completion ? (
+              {flag?.individual_Completion ? (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
                     <h4>IRT Mandatory Training</h4>
@@ -710,9 +710,6 @@ const RDAnalytics = () => {
                                     : item?.training_status_code == "2"
                                     ? "Not yet"
                                     : null}
-                                </td>
-                                <td>
-                                  {item?.site_name ? item?.site_name : "NA"}
                                 </td>
 
                                 <td>
@@ -1200,10 +1197,10 @@ const RDAnalytics = () => {
                                               {item?.pdf_data?.length}
                                             </span>
                                           </p>
-                                          <span>
+                                          {/* <span>
                                             Click on the content for more
                                             details
-                                          </span>
+                                          </span> */}
                                           {item?.pdf_data?.map((data, i) => {
                                             return (
                                               <>
@@ -1289,13 +1286,13 @@ const RDAnalytics = () => {
               {/*Content*/}
               {flag?.content ? (
                 <div className="rd-full-explain">
-                  <div className="rd-section-title">
+                  <div className="rd-section-title" ref={content} tabIndex={-1}>
                     <h4>Contents</h4>
                   </div>
                   <div
                     className="rd-training-block"
-                    ref={content}
-                    tabIndex={-1}
+                    // ref={content}
+                    // tabIndex={-1}
                   >
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
