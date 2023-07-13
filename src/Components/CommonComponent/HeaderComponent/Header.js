@@ -244,6 +244,9 @@ const Header = () => {
                         : localStorage.getItem("user_id") ==
                           "iSnEsKu5gB/DRlycxB6G4g=="
                         ? "/octalatch-totalhcp"
+                        : localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "/LEX-210-analytics"
                         : "/content-analytics"
                     }
                   >

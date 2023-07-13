@@ -335,7 +335,7 @@ const RDRegister = () => {
           <div className="container-sm">
             <div className="header-sec d-flex">
               <div className="header-left">
-                <span>Welcome to </span>
+                <span>Welcome to the</span>
                 <h1>
                   LEX-210 <span>Study</span>
                 </h1>
@@ -348,8 +348,8 @@ const RDRegister = () => {
                     src={path_image + "text-img.png"}
                     alt="text-img"
                   />
-                  in Patients With Acute Major Bleeding on DOAC Therapy With
-                  Factor Xa Inhibitor
+                  in patients with acute major bleeding on DOAC therapy with
+                  factor xa inhibitor
                 </p>
               </div>
             </div>
@@ -361,7 +361,7 @@ const RDRegister = () => {
                 <h3>
                 We provide here study-related training material and contents to healthcare professionals participating in the LEX-210 study.<br/><br/>
                 Please provide your details to register and access the contents.<br/><br/>
-                Octapharma will not track potential engagement on the provided contents on an individual user basis. Please refer to the Octapharma privacy statements in the link below.
+                Octapharma will <u>not</u> track potential engagement on the provided contents on an individual user basis. Please refer to the "Octapharma privacy statement" in the link below.
                 </h3>
               </div>
               <Form className="form" id="myForm">
@@ -596,7 +596,7 @@ const RDRegister = () => {
                       onChange={(e) => handleChange(e, "rdChecheckbox")}
                     /> */}
                     <label for="rdChecheckbox">
-                      I also consent to: receive invitations to participate in surveys and other potential engagement through Docintel, which are study related.
+                      I also consent to receive invitations to participate in surveys and other potential engagement through Docintel, which are study related.
                     </label>
                     {error?.rdChecheckbox ? (
                       <div className="login-validation">
