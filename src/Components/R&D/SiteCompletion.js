@@ -143,18 +143,82 @@ const SiteCompletion = ({ siteCompletionfn }) => {
 
   return (
     <>
+    {isHighlightNotLoaded?  <div className="rd-analytics-box sites">
+      <p className="rd-box-small-title">
+        <Skeleton width={150} height={20} />
+      </p>
+      <div className="rd-analytics-box-layout">
+        <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+          <h5>
+            <Skeleton width={150} height={20} />
+          </h5>
+          <div className="d-flex">
+            <div className="count-number">
+              <Skeleton width={50} height={20} />
+            </div>
+            {/* <img src={path_image + "hospital.svg"} alt="" /> */}
+          </div>
+        </div>
+
+        <div className="graph-box">
+    
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="">
+                <p>
+                  <Skeleton width={200} height={20} />
+                </p>
+                <span>
+                  <Skeleton width={250} height={10} />
+                </span>
+              </div>
+              <div className="switch6">
+                <label className="switch6-light">
+                  <input
+                    type="checkbox"
+                 disabled
+                  />
+                  <span>
+                    <span>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        {/* Switch On Icon */}
+                      </svg>
+                    </span>
+                    <span>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        {/* Switch Off Icon */}
+                      </svg>
+                    </span>
+                  </span>
+                  <a className="btn btn-primary"></a>
+                </label>
+              </div>
+            </div>
+          
+
+          <div style={{ width: "100%", height: 300 }}>
+            <Skeleton width={"100%"} height={300} />
+          </div>
+        </div>
+
+  
+      </div>
+    </div>:
       <div className="rd-analytics-box sites">
         <p className="rd-box-small-title">Sites</p>
         <div className="rd-analytics-box-layout">
-          {isHighlightNotLoaded ? (
-            <div className="article-main-img">
-              {" "}
-              <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
-                {" "}
-                <Skeleton duration={2} height={50} width={"100%"} />{" "}
-              </SkeletonTheme>
-            </div>
-          ) : (
+        
             <div className="rd-analytics-top d-flex justify-content-between align-items-center">
               <h5>Site Completion</h5>
               <div className="d-flex">
@@ -162,9 +226,9 @@ const SiteCompletion = ({ siteCompletionfn }) => {
                 <img src={path_image + "hospital.svg"} alt="" />
               </div>
             </div>
-          )}
+    
           <div className="graph-box">
-            {!isHighlightNotLoaded && (
+            
               <div className="d-flex justify-content-between align-items-center">
                 <div className="">
                   <p>Registered IRTs at each site</p>
@@ -241,21 +305,13 @@ const SiteCompletion = ({ siteCompletionfn }) => {
                   </label>
                 </div>
               </div>
-            )}
-            {isHighlightNotLoaded ? (
-              <div className="article-main-img">
-                {" "}
-                <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
-                  {" "}
-                  <Skeleton duration={2} height={300} width={"100%"} />{" "}
-                </SkeletonTheme>
-              </div>
-            ) : (
+            
+        
               <HighchartsReact
                 highcharts={Highcharts}
                 options={columnOptions}
               />
-            )}
+            
           </div>
           {columnOptions?.series?.length ? (
             <div className="rd-box-export">
@@ -269,7 +325,7 @@ const SiteCompletion = ({ siteCompletionfn }) => {
             </div>
           ) : null}
         </div>
-      </div>
+      </div>}
     </>
   );
 };
