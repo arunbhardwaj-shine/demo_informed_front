@@ -72,11 +72,11 @@ const PopularContent = ({
       },
     },
     series: [
-      {
-        name: "",
-        colorByPoint: true,
-        data: [],
-      },
+      // {
+      //   name: "",
+      //   colorByPoint: true,
+      //   data: [],
+      // },
     ],
   });
 
@@ -105,6 +105,8 @@ const PopularContent = ({
         ...popularPieOptions,
         series: [
           {
+            name: "",
+            colorByPoint: true,
             data: data?.site_graph_data,
           },
         ],
