@@ -5,6 +5,8 @@ import { loader } from "../../loader";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const PopularContent = ({
   mostPopularContentFn,
@@ -16,6 +18,7 @@ const PopularContent = ({
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   // const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
+  const [isHighlightNotLoaded, setIsHighlightNotLoaded] = useState(true);
   const [popularPieOptions, setPopularPieOptions] = useState({
     chart: {
       plotBackgroundColor: null,
@@ -28,6 +31,9 @@ const PopularContent = ({
     title: {
       text: "",
       align: "left",
+    },
+    exporting: {
+      enabled: false,
     },
     tooltip: {
       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
@@ -106,6 +112,8 @@ const PopularContent = ({
     } catch (err) {
       loader("hide");
       console.log("--err", err);
+    } finally {
+      setIsHighlightNotLoaded(false);
     }
   };
 
@@ -114,70 +122,108 @@ const PopularContent = ({
       <div className="rd-analytics-box rd-content">
         <p className="rd-box-small-title">Content</p>
         <div className="rd-analytics-box-layout">
-          <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-            <h5>Most Popular content</h5>
-            <div className="d-flex">
-              <div className="count-number">
-                {mostPopularContentDataChild &&
-                mostPopularContentDataChild.length > 0
-                  ? mostPopularContentDataChild[0].watched_count
-                  : 0}
+          {isHighlightNotLoaded ? (
+            <div className="article-main-img">
+              {" "}
+              <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
+                {" "}
+                <Skeleton duration={2} height={50} width={"100%"} />{" "}
+              </SkeletonTheme>
+            </div>
+          ) : (
+            <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+              <h5>Most Popular content</h5>
+              <div className="d-flex">
+                <div className="count-number">
+                  {mostPopularContentDataChild &&
+                  mostPopularContentDataChild.length > 0
+                    ? mostPopularContentDataChild[0].watched_count
+                    : 0}
+                </div>
+                <img src={path_image + "content-view.svg"} alt="" />
               </div>
-              <img src={path_image + "content-view.svg"} alt="" />
             </div>
-          </div>
+          )}
           <div className="graph-box">
-            <div className="graph-box-inside">
-              <p>Sites who Read | Watch The Top Content</p>
-              <span>Click on the graph to see more details</span>
-            </div>
-            <div className="popular-tooltip">
-              <OverlayTrigger placement="left" overlay={tooltip}>
-                <img src={path_image + "tooltip-img.svg"} alt="" />
-              </OverlayTrigger>
-            </div>
+            {!isHighlightNotLoaded && (
+              <>
+                <div className="graph-box-inside">
+                  <p>Sites who Read | Watch The Top Content</p>
+                  <span>Click on the graph to see more details</span>
+                </div>
+                <div className="popular-tooltip">
+                  <OverlayTrigger placement="left" overlay={tooltip}>
+                    <img src={path_image + "tooltip-img.svg"} alt="" />
+                  </OverlayTrigger>
+                </div>
+              </>
+            )}
             {/* <img
               className="pie-chart"
               src={path_image + "pie-chart2.png"}
               alt=""
             /> */}
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={popularPieOptions}
-            />
-            <div className="">
-              <p>The Top 3 content</p>
-            </div>
-            <div className="lex-article">
-              {mostPopularContentDataChild?.slice(0, 3)?.map((item, index) => (
-                <div key={index} className="d-flex lex-article-box">
-                  <div className="lex-image">
-                    <div className="article-number">{index + 1}</div>
-                    <img src={item?.article_image} alt="" />
-                  </div>
-                  <div className="lex-detail">
-                    <p>{item.pdf.title}</p>
-                    <span>{item?.pdf?.pdf_sub_title}</span>
-                    <div className="d-flex justify-content-between">
-                      <div className="pages-number">
-                        {item?.total_pages || item?.total_pages == 0
-                          ? "Pages:"
-                          : "Time:"}
-                        <span>
-                          {item?.total_pages || item?.total_pages == 0
-                            ? item.total_pages
-                            : item?.max_time}
-                        </span>
+            {isHighlightNotLoaded ? (
+              <div className="article-main-img">
+                {" "}
+                <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
+                  {" "}
+                  <Skeleton duration={2} height={200} width={"100"} />{" "}
+                </SkeletonTheme>
+              </div>
+            ) : (
+              <HighchartsReact
+                highcharts={Highcharts}
+                options={popularPieOptions}
+              />
+            )}
+            {!isHighlightNotLoaded && (
+              <div className="">
+                <p>The Top 3 content</p>
+              </div>
+            )}
+            {isHighlightNotLoaded ? (
+              <div className="article-main-img">
+                {" "}
+                <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
+                  {" "}
+                  <Skeleton duration={2} height={300} width={"100%"} />{" "}
+                </SkeletonTheme>
+              </div>
+            ) : (
+              <div className="lex-article">
+                {mostPopularContentDataChild
+                  ?.slice(0, 3)
+                  ?.map((item, index) => (
+                    <div key={index} className="d-flex lex-article-box">
+                      <div className="lex-image">
+                        <div className="article-number">{index + 1}</div>
+                        <img src={item?.article_image} alt="" />
                       </div>
-                      <div className="pages-viewer">
-                        {item.watched_count}{" "}
-                        <img src={path_image + "viewer.svg"} alt="" />
+                      <div className="lex-detail">
+                        <p>{item.pdf.title}</p>
+                        <span>{item?.pdf?.pdf_sub_title}</span>
+                        <div className="d-flex justify-content-between">
+                          <div className="pages-number">
+                            {item?.total_pages || item?.total_pages == 0
+                              ? "Pages:"
+                              : "Time:"}
+                            <span>
+                              {item?.total_pages || item?.total_pages == 0
+                                ? item.total_pages
+                                : item?.max_time}
+                            </span>
+                          </div>
+                          <div className="pages-viewer">
+                            {item.watched_count}{" "}
+                            <img src={path_image + "viewer.svg"} alt="" />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  ))}
+              </div>
+            )}
           </div>
           <div className="rd-box-export">
             <img

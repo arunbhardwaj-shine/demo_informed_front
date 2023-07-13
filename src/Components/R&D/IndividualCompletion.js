@@ -4,11 +4,14 @@ import HighchartsReact from "highcharts-react-official";
 import { getData, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const IndividualCompletion = ({ individualCompletionfn }) => {
   const [pieData, setPieData] = useState({});
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [isHighlightNotLoaded, setIsHighlightNotLoaded] = useState(true);
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   const [pieOptions, setPieOptions] = useState({
     chart: {
@@ -22,6 +25,9 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
     title: {
       text: "",
       align: "left",
+    },
+    exporting: {
+      enabled: false,
     },
     tooltip: {
       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
@@ -46,7 +52,7 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
             fontWeight: "bold",
             color: "white",
             textOutline: "none",
-            fontSize: "30px",
+            fontSize: "20px",
           },
           distance: -40, // Adjust the distance of the data labels from the center
         },
@@ -100,8 +106,13 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
         series: newValue,
       };
       setPieOptions(newPieOptions);
+      
+    } catch (err) {
       loader("hide");
-    } catch (err) {}
+      console.log("--err", err);
+    } finally {
+      setIsHighlightNotLoaded(false);
+    }
   };
 
   return (
@@ -109,20 +120,45 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
       <div className="rd-analytics-box irt">
         <p className="rd-box-small-title">IRT Training</p>
         <div className="rd-analytics-box-layout">
-          <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-            <h5 className="mr-auto">Individual Completion</h5>
-            <div className="d-flex">
-              <div className="count-number">{pieData.total}</div>
-              <img src={path_image + "doctor-svg.svg"} alt="" class="doctor" />
+          {isHighlightNotLoaded ? (
+            <div className="article-main-img">
+              {" "}
+              <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
+                {" "}
+                <Skeleton duration={2} height={50} width={"100%"} />{" "}
+              </SkeletonTheme>
             </div>
-          </div>
+          ) : (
+            <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+              <h5 className="mr-auto">Individual Completion</h5>
+              <div className="d-flex">
+                <div className="count-number">{pieData.total}</div>
+                <img
+                  src={path_image + "doctor-svg.svg"}
+                  alt=""
+                  class="doctor"
+                />
+              </div>
+            </div>
+          )}
           <div className="graph-box">
-            <div className="">
-              <p>Completing the mandatory training</p>
-              <span>Click on the graph to see more details</span>
-            </div>
-
-            <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+            {!isHighlightNotLoaded && (
+              <div className="">
+                <p>Completing the mandatory training</p>
+                <span>Click on the graph to see more details</span>
+              </div>
+            )}
+            {isHighlightNotLoaded ? (
+              <div className="article-main-img">
+                {" "}
+                <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
+                  {" "}
+                  <Skeleton duration={2} height={200} width={"100%"} />{" "}
+                </SkeletonTheme>
+              </div>
+            ) : (
+              <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+            )}
           </div>
           {pieOptions?.series?.length ? (
             <div className="rd-box-export">

@@ -72,62 +72,7 @@ const RDAnalytics = () => {
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
-  const tooltip = (
-    <Tooltip id="tooltip">
-      This chart shows the sites that have users who viewed the 1top content
-    </Tooltip>
-  );
-  // useEffect(()=>{
-  //   getMostPopularData()
-  // },[])
 
-  // const handleCheckboxClick = async (sort) => {
-  //   try {
-  //     loader("show");
-  //     const result = await postData(ENDPOINT.SITEREGISTERSORT, { sort: sort });
-
-  //     if (sortSite) {
-  //       setSortSite(false);
-  //     } else {
-  //       setSortSite(true);
-  //     }
-
-  //     const data = result?.data?.data?.registered_irt;
-  //     setTotalSiteNumber(result?.data?.total_sites);
-
-  //     const newSeries = data?.map((item, index) => {
-  //       return {
-  //         name: item.name,
-  //         data: item.data,
-  //       };
-  //     });
-
-  //     const columnCategories = result?.data?.data?.site_numbers;
-
-  //     const newColumnOptions = {
-  //       ...columnOptions,
-  //       xAxis: {
-  //         categories: columnCategories,
-  //       },
-  //       series: newSeries,
-  //     };
-  //     setColumnOptions(newColumnOptions);
-  //   } catch (err) {
-  //     // console.log("-err", err);
-  //   }
-  //   loader("hide");
-  // };
-
-  // const getMostPopularData = async () => {
-  //   try {
-  //     const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT);
-  //     const data = result?.data?.data;
-  //     setMostPopularContentData(data.pdf_data);
-  //   } catch (err) {
-  //     loader("hide");
-  //     console.log("--err", err);
-  //   }
-  // };
   const getMostPopularContentPageData = async (pdf_id) => {
     loader("show");
 
@@ -140,8 +85,6 @@ const RDAnalytics = () => {
           pdf_id: pdf_id,
         });
         const data = result?.data?.data;
-        // console.log("drowdown",data);
-
         setMostPopularContentPageData((prevData) => ({
           ...prevData,
           [pdf_id]: data.time_spend_on_pdf,
@@ -157,7 +100,6 @@ const RDAnalytics = () => {
           [pdf_id]: false,
         });
       }
-      // console.log(mostPopularContentPageData)
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -258,7 +200,6 @@ const RDAnalytics = () => {
                 },
               ],
             },
-
             device_names: chart_data.deviceNames,
           },
         }));
@@ -279,7 +220,6 @@ const RDAnalytics = () => {
       loader("hide");
     }
   };
-
   const rdShowData = (e, index) => {
     if (show == index) {
       setShow();
@@ -570,10 +510,23 @@ const RDAnalytics = () => {
       exportTable.appendChild(clonedRow);
     });
 
+    // console.log(exportTable);
     // Remove the empty rows with class "blank"
     const blankRows = exportTable.getElementsByClassName("blank");
     Array.from(blankRows).forEach((blankRow) => {
       blankRow.remove();
+    });
+
+    // Remove the td whose class is pics in exportTable
+    const pics = exportTable.getElementsByClassName("pics");
+    Array.from(pics).forEach((pic) => {
+      pic.remove();
+    });
+
+    // Remove the img element from the td with class="active-irt"
+    const activeIRTRows = exportTable.getElementsByClassName("doctor");
+    Array.from(activeIRTRows).forEach((row) => {
+      row.remove();
     });
 
     // Generate the Excel file
@@ -592,7 +545,6 @@ const RDAnalytics = () => {
     };
 
     const randomPrefix = Math.random().toString(36).substring(7); // Generate a random string
-
     const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
     element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
@@ -603,6 +555,11 @@ const RDAnalytics = () => {
       exportTable.appendChild(blankRow);
     });
   };
+  const tooltip = (
+    <Tooltip id="tooltip">
+      The number of individual users who viewed the content
+    </Tooltip>
+  );
 
   return (
     <>
@@ -631,57 +588,6 @@ const RDAnalytics = () => {
                         siteEngagementfun={siteEngagementFun}
                         setRdSiteData={setRdSiteData}
                       />
-                      {/* <div className="rd-analytics-box non-mandatory">
-                        <p className="rd-box-small-title">
-                          Non-mandatory Content
-                        </p>
-                        <div className="rd-analytics-box-layout">
-                          <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-                            <h5>Site Engagement</h5>
-                            <div className="d-flex">
-                              <div className="count-number">
-                                {totalRdSiteNumber}
-                              </div>
-                              <img
-                                src={path_image + "site-engaged.svg"}
-                                alt=""
-                              />
-                            </div>
-                          </div>
-                          <div className="graph-box">
-                            <div className="graph-box-inside">
-                              <p>
-                                Engaging With Non-mandatory Content at each site
-                              </p>
-                              <span>
-                                Click on the graph to see more details
-                              </span>
-                            </div>
-
-                            <HighchartsReact
-                              highcharts={Highcharts}
-                              options={rdSiteOptions}
-                            />
-                          </div>
-                          {rdSiteOptions?.series?.length ? (
-                            <div className="rd-box-export">
-                              <img
-                                src={path_image + "arrow-export.svg"}
-                                alt=""
-                                onClick={() => {
-                                  setFlag({
-                                    individual_Completion: false,
-                                    site_Completion: false,
-                                    site_Engagement: true,
-                                    content: false,
-                                  });
-                                  site_Engagement?.current?.focus();
-                                }}
-                              />
-                            </div>
-                          ) : null}
-                        </div>
-                      </div> */}
                     </Col>
                   </Row>
                 </Col>
@@ -691,114 +597,12 @@ const RDAnalytics = () => {
                     mostPopularContentFn={mostPopularContent}
                     setMostPopularContentData={setMostPopularContentData}
                   />
-                  {/* <div className="rd-analytics-box rd-content">
-                    <p className="rd-box-small-title">Content</p>
-                    <div className="rd-analytics-box-layout">
-                      <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-                        <h5>Most Popular content</h5>
-                        <div className="d-flex">
-                          <div className="count-number">
-                            {mostPopularContentData &&
-                            mostPopularContentData.length > 0
-                              ? mostPopularContentData
-                                  .map((item) => item?.watched_count)
-                                  .reduce(
-                                    (total, count) => total + (count || 0),
-                                    0
-                                  )
-                              : 0}
-                          </div>
-                          <img src={path_image + "content-view.svg"} alt="" />
-                        </div>
-                      </div>
-                      <div className="graph-box">
-                        <div className="graph-box-inside">
-                          <p>
-                            
-                            Sites who Read | Watch The Top Content
-                          </p>
-                          <span>Click on the graph to see more details</span>
-                        </div>
-                        <div className="popular-tooltip">
-                          <OverlayTrigger placement="left" overlay={tooltip}>
-                            <img src={path_image + "tooltip-img.svg"} alt="" />
-                          </OverlayTrigger>
-                        </div>
-                        <img
-                          className="pie-chart"
-                          src={path_image + "pie-chart2.png"}
-                          alt=""
-                        />
-                        <div className="">
-                          <p>The Top 3 content</p>
-                        </div>
-                        <div className="lex-article">
-                          {mostPopularContentData
-                            ?.slice(0, 3)
-                            ?.map((item, index) => (
-                              <div
-                                key={index}
-                                className="d-flex lex-article-box"
-                              >
-                                <div className="lex-image">
-                                  <div className="article-number">
-                                    {index + 1}
-                                  </div>
-                                  <img src={item?.article_image} alt="" />
-                                </div>
-                                <div className="lex-detail">
-                                  <p>{item.pdf.title}</p>
-                                  <span>{item?.pdf?.pdf_sub_title}</span>
-                                  <div className="d-flex justify-content-between">
-                                    <div className="pages-number">
-                                      {item?.total_pages ||
-                                      item?.total_pages == 0
-                                        ? "Pages:"
-                                        : "Time:"}
-                                      <span>
-                                        {item?.total_pages ||
-                                        item?.total_pages == 0
-                                          ? item.total_pages
-                                          : item?.max_time}
-                                      </span>
-                                    </div>
-                                    <div className="pages-viewer">
-                                      {item.watched_count}{" "}
-                                      <img
-                                        src={path_image + "viewer.svg"}
-                                        alt=""
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                        </div>
-                       
-                      </div>
-                      <div className="rd-box-export">
-                        <img
-                          src={path_image + "arrow-export.svg"}
-                          alt=""
-                          onClick={() => {
-                            setFlag({
-                              individual_Completion: false,
-                              site_Completion: false,
-                              site_Engagement: false,
-                              content: true,
-                            });
-                            mostPopularContent();
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div> */}
                 </Col>
               </Row>
               {flag.individual_Completion ? (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
-                    <h4>IRT Training</h4>
+                    <h4>IRT Mandatory Training</h4>
                   </div>
                   <div
                     className="rd-training-block"
@@ -848,11 +652,11 @@ const RDAnalytics = () => {
                     <Table className="fold-table" id="individual_completion">
                       <thead>
                         <tr>
+                          <th>Site</th>
                           <th>Name</th>
                           <th>Role</th>
-                          <th>Blind type</th>
                           <th>Training</th>
-                          <th>Site</th>
+                          <th>Last Activity</th>
                           <th>&nbsp;</th>
                         </tr>
                       </thead>
@@ -876,6 +680,9 @@ const RDAnalytics = () => {
                                 }
                               >
                                 <td>
+                                  {item?.site_name ? item?.site_name : "NA"}
+                                </td>
+                                <td>
                                   {item?.username
                                     ? item?.username?.charAt(0).toUpperCase() +
                                       item?.username.slice(1)
@@ -884,9 +691,7 @@ const RDAnalytics = () => {
                                 <td>
                                   {item?.user_type ? item?.user_type : "NA"}
                                 </td>
-                                <td>
-                                  {item?.blind_type == "yes" ? "Yes" : "No"}
-                                </td>
+
                                 <td
                                   className={
                                     item?.training_status_code == 0
@@ -910,6 +715,12 @@ const RDAnalytics = () => {
                                   {item?.site_name ? item?.site_name : "NA"}
                                 </td>
 
+                                <td>
+                                  {item?.last_activity
+                                    ? item.last_activity
+                                    : "NA"}
+                                </td>
+
                                 <td className="pics">
                                   {item?.training_status_code == 0 ? (
                                     <img
@@ -929,9 +740,9 @@ const RDAnalytics = () => {
                                           {trainingDropdownData?.length}
                                         </span>
                                       </p>
-                                      <span>
+                                      {/* <span>
                                         Click on the content for more details
-                                      </span>
+                                      </span> */}
                                       <Accordion>
                                         {trainingDropdownData?.map(
                                           (data, i) => {
@@ -1104,11 +915,7 @@ const RDAnalytics = () => {
                                                         </div>
                                                         <div className="content-detail">
                                                           <h6>{item?.type}</h6>
-                                                          <p>
-                                                            Lorem sollicitudin
-                                                            faucibus eu molestie
-                                                            sollicitudin gravida
-                                                          </p>
+
                                                           <div className="page-count">
                                                             <div className="time">
                                                               {" "}
@@ -1212,9 +1019,7 @@ const RDAnalytics = () => {
                           <th className="site_name">Site Name</th>
                           <th>Site Number</th>
                           <th>Country</th>
-                          <th className="active-irt">
-                            Active IRTs | Pharmacists
-                          </th>
+                          <th className="active-irt">Active IRTs</th>
                           <th>Completed Training</th>
                         </tr>
                       </thead>
@@ -1385,12 +1190,7 @@ const RDAnalytics = () => {
                                   <td>{item?.content_engagement}</td>
                                 </tr>
                                 {show == index ? (
-                                  <tr
-                                    className="fold show"
-                                    // className={`fold ${
-                                    //   show && show == index ? "show" : ""
-                                    // }`}
-                                  >
+                                  <tr className="fold show">
                                     {item?.pdf_data?.length ? (
                                       <td colspan="5">
                                         <div className="fold-content">
@@ -1410,11 +1210,7 @@ const RDAnalytics = () => {
                                                 <div className="d-flex align-items-start engagement-sec">
                                                   <div className="content-image">
                                                     <img
-                                                      src={
-                                                        // path_image +
-                                                        // "article-content.png"
-                                                        data?.cover_img
-                                                      }
+                                                      src={data?.cover_img}
                                                       alt="no image"
                                                     />
                                                   </div>
@@ -1447,10 +1243,17 @@ const RDAnalytics = () => {
                                                   </div>
                                                   <div className="pages-viewer">
                                                     {data?.unique_users}{" "}
-                                                    <img
-                                                      src="componentAssets/images/viewer.svg"
-                                                      alt=""
-                                                    />
+                                                    <div className="popular-tooltip">
+                                                      <OverlayTrigger
+                                                        placement="left"
+                                                        overlay={tooltip}
+                                                      >
+                                                        <img
+                                                          src="componentAssets/images/viewer.svg"
+                                                          alt=""
+                                                        />
+                                                      </OverlayTrigger>
+                                                    </div>
                                                   </div>
                                                 </div>
                                               </>
@@ -1584,12 +1387,9 @@ const RDAnalytics = () => {
                           </Accordion.Item>
                           <Accordion.Item
                             eventKey="10"
-                            // eventKey={index}
-                            //  className={isActive ? 'accordion-read active' : 'accordion-read'} //onClick={handleClick}
                             className={
                               activeAccordionKey === "10"
-                                ? // activeAccordionKey={index}
-                                  "accordion-read active"
+                                ? "accordion-read active"
                                 : "accordion-read"
                             }
                             onClick={() => setActiveAccordionKey("10")}
@@ -1642,7 +1442,6 @@ const RDAnalytics = () => {
                                           ].map((pdf, index) => (
                                             <tr key={index}>
                                               {" "}
-                                              {/* Add key prop with a unique value */}
                                               <td>{pdf.site_name}</td>
                                               <td>{pdf.site_number}</td>
                                               <td className="short_value">

@@ -8558,7 +8558,6 @@ svg.pencil_icon {
 .submit-button {
   text-align: end;
 }
-// .create-change-content
 img.change-password-image {
   width: 20px;
   right: 10px;
@@ -8575,7 +8574,7 @@ img.change-password-image {
 }
 .switch6-light {
     background: rgba(0, 102, 190, 0.2);
-border-radius: 26px;
+    border-radius: 26px;
     display: block;
     height: 30px;
     margin-left: 0;
@@ -8702,6 +8701,7 @@ border-radius: 26px;
         .rd-analytics-top {
             padding: 13px 16px 11px;
             border-bottom: 0.5px dashed $light-gray;
+            min-height: 63px;
             h5{
               font-weight: 500;
               font-size: 20px;
@@ -8831,28 +8831,26 @@ border-radius: 26px;
                  .lex-article {
                     margin: 20px -9px;
                 }
-                
               }
-              
             }
             .highcharts-container {
               .highcharts-legend{
                 .highcharts-legend-item{
                   text {
-                    color: #70899E!important;
+                    color: $dark-gray!important;
                     font-size: 13px!important;
                     font-family: Roboto;
                     font-style: normal;
                     font-weight: 400!important;
-                    fill: #70899E!important;
+                    fill: $dark-gray!important;
                   }
                 }
               }  
               .highcharts-axis-labels{
                 text {
-                  color: #004A89!important;
+                  color: $dark-blue!important;
                   font-size: 12px!important;
-                  fill: #004A89!important;
+                  fill: $dark-blue!important;
                   font-weight: 400;
                 }
               } 
@@ -8927,10 +8925,10 @@ border-radius: 26px;
           padding:10px 14px;
           svg{margin-left:14px;}
           &.active{
-            background: #0066BE;
-            color: #ffffff;
+            background: $primary-color;
+            color: $white;
             svg path {
-                fill: #ffffff;
+                fill: $white;
             }
           }
         }
@@ -9122,8 +9120,6 @@ border-radius: 26px;
           color: $light-gray;
         }
       }
-      
-     
   }
 
     }
@@ -9601,11 +9597,13 @@ font-weight: 700;
     margin-left: 5px;
     width: 18px;
 }
-.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top .count-number {
-    font-size: 21px;
-}
 .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top {
     padding: 10px 11px 8px;
+    min-height: 50px;
+}
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top .count-number {
+    line-height: 23px;
+     font-size: 21px;
 }
 .rd-full-explain .rd-training-block h4, .rd-full-explain .rd-section-title h4 {
     font-size: 18px;
@@ -9848,8 +9846,9 @@ font-weight: 700;
           font-weight: 500;
           text-transform: uppercase;
           padding: 7px 20px;
-          &.active{
-            border-radius: 0px 15px 0px 15px;
+          border-radius: 0px 15px 0px 15px;
+          cursor: pointer;
+          &.react-tabs__tab--selected{
             color: $white;
             background-color: $dark-blue;
           }

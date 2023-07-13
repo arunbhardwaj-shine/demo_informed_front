@@ -138,6 +138,9 @@ import RDRegister from "./Components/R&D/RDRegister";
 import RDAnalytics from "./Components/R&D/RDAnalytics";
 import SetLayout from "./Components/CommonComponent/SetLayout";
 import PreviewArticle from "./Components/Library/PreviewArticle";
+import CommanPage from "./Components/Firbase/CommanPage"
+import QuestionTrigger from "./Components/Firbase/QuestionTrigger"
+import PollQuestion from "./Components/Firbase/PollQuestion"
 
 let platform = 0;
 let show = 0;
@@ -156,7 +159,8 @@ if (
   show = 0;
 } else if (
   window.location.pathname == "/webinar" ||
-  window.location.pathname == "/rd-register"
+  window.location.pathname == "/rd-register" ||
+  window.location.pathname =="LEX-210-Registration"
 ) {
   require("./Components/assets/css/webinar.css");
   require("./Components/assets/css/webinar-responsive.css");
@@ -191,9 +195,11 @@ const Routing = () => {
           element={<DefaultLayout component={Webinar} />}
         />
         <Route path="rd-register" element={<RDRegister />} />
-        <Route path="/rd-analytics" element={<LoginLayout component={RDAnalytics} />} />
+        <Route path="LEX-210-Registration" element={<RDRegister />} />
+        <Route path="/LEX-210-analytics" element={<LoginLayout component={RDAnalytics} />} />
         //LoginLayout for pages after login
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
+        <Route path="/users" element={<SetLayout component={SetLayout} />} />
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
@@ -246,7 +252,20 @@ const Routing = () => {
           path="/webinar-question"
           element={<WebinarQuestion />}
         />
+         <Route
+          path="/poll-question"
+          element={<PollQuestion />}
+        />
+        <Route
+          path="/comman-question"
+          element={<CommanPage />}
+        />
+         <Route
+          path="/question-list"
+          element={<QuestionTrigger />}
+        />
 
+         
 
         <Route
           path="/analytic-delivery-trends"

@@ -52,7 +52,7 @@ const RenderPdf = ({
   }, [trigger]);
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
-    // console.log("Asda");
+    console.log("Document Load");
     total_pages = e.doc.numPages;
     setNumPages(e.doc.numPages);
     setModalMessage("");
@@ -172,7 +172,7 @@ const modalClose = (value) => {
 
 const scrollEve = (event) => {
   const target = event.target;
-  if(target.scrollHeight - target.scrollTop === target.clientHeight)
+  if(target.scrollHeight - target.scrollTop - 400  >= target.clientHeight)
    {
      // console.log(numPages);
      // console.log(typeof numPages);

@@ -219,7 +219,7 @@ const Header = () => {
                     window.location.pathname == "/octa-country" ||
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
-                    window.location.pathname =="/rd-analytics" ||
+                    window.location.pathname =="/LEX-210-analytics" ||
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
                       : "nav-item"
@@ -244,6 +244,9 @@ const Header = () => {
                         : localStorage.getItem("user_id") ==
                           "iSnEsKu5gB/DRlycxB6G4g=="
                         ? "/octalatch-totalhcp"
+                        : localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "/LEX-210-analytics"
                         : "/content-analytics"
                     }
                   >
@@ -315,7 +318,7 @@ const Header = () => {
                       className="nav-link"
                       target="_blank"
                       href={
-                        "https://informed.pro/Webinar/readers_webinar?rdylr=" +
+                        "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
                         localStorage.getItem("user_id")
                       }
                     >
@@ -333,7 +336,7 @@ const Header = () => {
                       className="nav-link"
                       target="_blank"
                       href={
-                        "https://informed.pro/webinar/qa_survey?rdylr=" +
+                        "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
                         localStorage.getItem("user_id")
                       }
                     >
@@ -354,7 +357,7 @@ const Header = () => {
 
                 <Dropdown.Menu>
                   <Dropdown.Item
-                    // href="https://informed.pro/Pages/change_password/"
+                    // href="https://webinar.informed.pro/Pages/change_password/"
                     onClick={() => navigate("/change-password")}
                     className="dropdown-item"
                   >
