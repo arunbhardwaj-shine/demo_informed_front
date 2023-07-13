@@ -106,7 +106,6 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
         series: newValue,
       };
       setPieOptions(newPieOptions);
-      
     } catch (err) {
       loader("hide");
       console.log("--err", err);
@@ -172,7 +171,6 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
            
               <div className="">
                 <p>Completing the mandatory training</p>
-                <span>Click on the graph to see more details</span>
               </div>
           
             <HighchartsReact highcharts={Highcharts} options={pieOptions} />
@@ -184,12 +182,6 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
                 src={path_image + "arrow-export.svg"}
                 alt=""
                 onClick={() => {
-                  //   setFlag({
-                  //     individual_Completion: true,
-                  //     site_Completion: false,
-                  //     site_Engagement: false,
-                  //     content: false,
-                  //   });
                   individualCompletionfn();
                 }}
               />

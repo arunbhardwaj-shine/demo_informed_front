@@ -9906,5 +9906,119 @@ font-weight: 700;
       font-weight: 700;
     }
 }
+.webinar-question-results .webinar-top-sec {
+    margin: 0 0 30px;
+}
+.webinar-question-results .reader_list {
+    box-shadow: 0 1px 14px 0 rgba(68, 88, 144, 0.3);
+    padding: 25px 15px 0;
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 0 0 30px;
+}
+.webinar-question-results .reader_list:last-child:not(:first-child) {
+    margin: 0 0px;
+}
+.webinar-question-results .reader_list .reader_list_footer {
+    background: #CBE1F5;
+    margin: 0 -15px;
+    padding: 13px;
+}
+.webinar-question-results .reader_list .reader_list_footer.answer-footer {
+    background: #b6e5e1;
+}
+.webinar-question-results .reader_list .reader_list_footer.ignore-footer {
+    background: #F5D6D8;
+}
+.webinar-question-results .reader_list p.user_name {
+    font-size: 14px;
+    margin: 0 0 4px;
+}
 
+.webinar-question-results .reader_list .user-question {
+    background-color: $white;
+    border: 0.5px solid rgba(0,102,190,.06);
+    border-radius: 9px;
+    box-shadow: 0 0 10px -3px rgba(0,102,190,.32);
+    width: 100%;
+    padding: 10px;
+    margin: 0 0 25px;
+}
+.webinar-question-results .reader_list .user-question p{
+  font-size:15px;
+  font-weight:400;
+  color: #000;
+  margin:0;
+}
+.webinar-top-sec .webinar-top-btn {
+    border-radius: 20px 20px 0px 20px;
+    background: #0066BE;
+    min-width: 38px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+        min-height: 28px;
+}
+.webinar-top-sec .webinar-top-btn.ignored {
+ background: #F58289;
+}
+.webinar-top-sec .webinar-top-btn.answered {
+ background: #00d4c0;
+}
+.webinar-top-sec .webinar-top-btn span.default-side-buttons {
+    padding: 0;
+    line-height: 20px;
+    color: #fff;
+    border: 0;
+    font-size: 17px;
+}
+.webinar-question-results .reader_list .reader_list_footer button {
+    padding: 6px 15px;
+    border-radius: 0px 15px 0px 15px;
+    border:0;
+    font-weight:400;
+}
+.webinar-question-results .reader_list .reader_list_footer.answer-footer button {
+    background: #ffffff;
+    color: #00d3c1;
+}
+.webinar-question-results .reader_list .reader_list_footer.ignore-footer button {
+    background: #ffffff;
+    color: #f58289;
+}
+.webinar-question-results .reader_list .reader_list_footer button.ignored {
+     background: #F58289;
+}
+.webinar-question-results .reader_list .reader_list_footer button.answer {
+     background: #00d4c0;
+}
+.webinar-question-results h6.no-found {
+    margin: 0;
+    text-align: center;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 400;
+}
+.reader_list_footer .reader_list_footer_btns {
+    gap: 0 10px;
+    display: flex;
+}
+.webinar_tabs_show.webinar-question-results .col-md-4 {
+    border-right: 1px dashed #c1c9cd;
+    padding: 0 20px;
+}
+.webinar_tabs_show.webinar-question-results .row{
+margin-left: -20px;
+margin-right: -20px;
+}
+.webinar-question-results .col-md-4:last-child {
+    border-right: 0;
+}
+.webinar-question-results.webinar_tabs_show {
+    padding: 30px 20px;
+}
 /**Speaker Zone Page End**/

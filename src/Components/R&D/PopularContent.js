@@ -11,6 +11,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 const PopularContent = ({
   mostPopularContentFn,
   setMostPopularContentData,
+  topContentTableFn,
 }) => {
   const [pieData, setPieData] = useState({});
   const [mostPopularContentDataChild, setMostPopularContentDataChild] =
@@ -224,7 +225,6 @@ const PopularContent = ({
               <>
                 <div className="graph-box-inside">
                   <p>Sites who Read | Watch The Top Content</p>
-                  <span>Click on the graph to see more details</span>
                 </div>
                 <div className="popular-tooltip">
                   <OverlayTrigger placement="left" overlay={tooltip}>

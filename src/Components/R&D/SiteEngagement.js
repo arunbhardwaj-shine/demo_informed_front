@@ -124,7 +124,7 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
             <div className="count-number">
               <Skeleton width={50} height={20} />
             </div>
-            <img src={path_image + "site-engaged.svg"} alt="" />
+            {/* <img src={path_image + "site-engaged.svg"} alt="" /> */}
           </div>
         </div>
 
@@ -164,7 +164,6 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
            
               <div className="graph-box-inside">
                 <p>Engaging With Non-mandatory Content at each site</p>
-                <span>Click on the graph to see more details</span>
               </div>
             
             
