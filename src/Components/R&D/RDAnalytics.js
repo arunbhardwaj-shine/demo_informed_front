@@ -76,6 +76,12 @@ const RDAnalytics = () => {
   });
 
   const getMostPopularContentPageData = async (pdf_id) => {
+     setIsContentSiteAccordionOpen({
+          ...isContentSiteAccordionOpen,
+          [pdf_id]: false,
+        });
+    setIsContentSiteAccordionOpen([]);
+
     loader("show");
 
     try {
@@ -110,6 +116,11 @@ const RDAnalytics = () => {
   };
 
   const getMostPopularContentSiteData = async (pdf_id) => {
+    setIsContentPageAccordionOpen({
+      ...isContentPageAccordionOpen,
+      [pdf_id]: false,
+    });
+
     loader("show");
 
     try {
@@ -330,6 +341,7 @@ const RDAnalytics = () => {
       if (!siteCompletionTableData) {
         const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
         setSiteCompletionTableData(result?.data?.data);
+        console.log(result?.data?.data);
         site_Completion?.current?.focus();
         loader("hide");
       } else {
@@ -346,6 +358,8 @@ const RDAnalytics = () => {
 
   const mostPopularContent = () => {
     try {
+      setIsContentSiteAccordionOpen([]);
+      setIsContentPageAccordionOpen([]);
       loader("show");
       setFlag({
         individual_Completion: false,
@@ -496,7 +510,126 @@ const RDAnalytics = () => {
     setLastSortedPDFId(pdfId);
     setIsActive(!isActive);
   };
-
+  const handleExportSiteCompletion = (siteCompletionTableData) => {
+    const base64 = (s) => {
+      return window.btoa(unescape(encodeURIComponent(s)));
+    };
+  
+    const format = (s, c) => {
+      return s.replace(/{(\w+)}/g, function (m, p) {
+        return c[p];
+      });
+    };
+  
+    const exportTable = document.createElement("table");
+  
+    // Create headings for the parent table
+    const parentTableHeadings = document.createElement("tr");
+    parentTableHeadings.innerHTML = `
+      <th>No </th>
+      <th class="site_name">Site Name</th>
+      <th>Site Number</th>
+      <th>Country</th>
+      <th class="active-irt">Active IRTs</th>
+      <th>Completed Training</th>
+    `;
+    exportTable.appendChild(parentTableHeadings);
+  
+    siteCompletionTableData.forEach((siteData, index) => {
+      const siteRow = document.createElement("tr");
+  
+      // Create table cells for site data
+      const serialNoCell = document.createElement("td");
+      serialNoCell.textContent = index + 1;
+      siteRow.appendChild(serialNoCell);
+  
+      const siteNameCell = document.createElement("td");
+      siteNameCell.textContent = siteData.site_name;
+      siteRow.appendChild(siteNameCell);
+  
+      const siteNumberCell = document.createElement("td");
+      siteNumberCell.textContent = siteData.site_number;
+      siteRow.appendChild(siteNumberCell);
+  
+      const siteCountryCell = document.createElement("td");
+      siteCountryCell.textContent = siteData.site_country;
+      siteRow.appendChild(siteCountryCell);
+  
+      const totalUserCell = document.createElement("td");
+      totalUserCell.textContent = siteData.total_user;
+      siteRow.appendChild(totalUserCell);
+  
+      const completedTrainingCell = document.createElement("td");
+      completedTrainingCell.textContent = siteData.completed_training;
+      siteRow.appendChild(completedTrainingCell);
+  
+      exportTable.appendChild(siteRow);
+  
+      if (siteData.Users && siteData.Users.length > 0) {
+        const userTableHeadings = document.createElement("tr");
+        userTableHeadings.innerHTML = `
+        <th></th>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Blind Type</th>
+          <th>Training</th>
+        `;
+        exportTable.appendChild(userTableHeadings);
+  
+        siteData.Users.forEach((user) => {
+          const userRow = document.createElement("tr");
+          const EmptyCell = document.createElement("td");
+          EmptyCell.textContent =" ";
+          userRow.appendChild(EmptyCell);
+          // Create table cells for user data
+          const firstNameCell = document.createElement("td");
+          firstNameCell.textContent = user.first_name;
+          userRow.appendChild(firstNameCell);
+  
+          const userTypeCell = document.createElement("td");
+          userTypeCell.textContent = user.user_type;
+          userRow.appendChild(userTypeCell);
+  
+          const bindedCell = document.createElement("td");
+          bindedCell.textContent = user.binded;
+          userRow.appendChild(bindedCell);
+  
+          const trainingCell = document.createElement("td");
+          trainingCell.textContent = user.training;
+          userRow.appendChild(trainingCell);
+  
+          exportTable.appendChild(userRow);
+        });
+      }
+  
+      // Add a blank row after each site
+      const blankRow = document.createElement("tr");
+      exportTable.appendChild(blankRow);
+    });
+  
+    // Generate the Excel file
+    const uri = "data:application/vnd.ms-excel;base64,";
+    const template =
+      '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-mic' +
+      'rosoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta cha' +
+      'rset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:Exce' +
+      "lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>" +
+      "</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></" +
+      "xml><![endif]--></head><body>{table}</body></html>";
+  
+    const context = {
+      worksheet: "Sheet1",
+      table: exportTable.outerHTML,
+    };
+  
+    const randomPrefix = Math.random().toString(36).substring(7);
+    const element = document.createElement("a");
+    element.href = uri + base64(format(template, context));
+    element.download = `${randomPrefix}_export.xls`;
+    element.click();
+  };
+  
+  
   const handleExport = (tableName) => {
     const table = document.getElementById(tableName);
     const rows = table.getElementsByTagName("tr");
@@ -566,7 +699,7 @@ const RDAnalytics = () => {
       table: exportTable.outerHTML,
     };
 
-    const randomPrefix = Math.random().toString(36).substring(7); // Generate a random string
+    const randomPrefix = `site_completion_`+Math.random().toString(36).substring(7); // Generate a random string
     const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
     element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
@@ -1005,7 +1138,7 @@ const RDAnalytics = () => {
                       <div className="rd-training-block-right d-flex">
                         <Button
                           title="Download stats"
-                          onClick={() => handleExport("site_completion")}
+                          onClick={() => handleExportSiteCompletion(siteCompletionTableData)}
                         >
                           <svg
                             width="20"
