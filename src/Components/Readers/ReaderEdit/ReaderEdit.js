@@ -582,7 +582,9 @@ const ReaderEdit = () => {
           repContact: userInputs?.repContact,
           notes: userInputs?.notes,
           siteNumber: userInputs?.siteNumber,
-          blind_type: userInputs?.blind_type,
+          blind_type: userInputs?.blinded,
+          role: userInputs?.role,
+          sub_role: userInputs?.sub_role,
           siteName: userInputs?.siteName,
           irt: userInputs?.irt,
           ibu: userInputs?.ibu,
@@ -704,20 +706,33 @@ const ReaderEdit = () => {
           />
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Blind Type </Form.Label>
+          <Form.Label htmlFor="">
+            Blind Type<span>*</span>{" "}
+          </Form.Label>
 
           <Select
             options={userDetail?.blind_type}
             defaultValue={{
-              label: userInputs?.blinded?.charAt(0)?.toUpperCase()+userInputs?.blinded?.slice(1),
+              label:
+                userInputs?.blinded?.charAt(0)?.toUpperCase() +
+                userInputs?.blinded?.slice(1),
               value: userInputs?.blinded,
             }}
             placeholder="Select Blind Type"
-            name="blind_type"
-            className="dropdown-basic-button split-button-dropup"
+            name="blinded"
+            className={
+              error?.blinded
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
             isClearable
-            onChange={(e) => handleChange(e?.value, "blind_type")}
+            onChange={(e) => handleChange(e?.value, "blinded")}
           />
+          {error?.blinded ? (
+            <div className="login-validation">{error?.blinded}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
@@ -1410,7 +1425,7 @@ const ReaderEdit = () => {
 
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                       <>
-                        {console.log("dfd", userInputs)}
+                       
                         {localStorage.getItem("user_id") !=
                         "iSnEsKu5gB/DRlycxB6G4g==" ? (
                           <Form.Group className="form-group">
