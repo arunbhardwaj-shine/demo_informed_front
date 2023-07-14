@@ -94,7 +94,7 @@ const ReaderReview = () => {
               </Col>
             </Row>
           </div>
-          {console.log("data--->", readerData)}
+        
           {Object.keys(readerData).length > 0 ? (
             <div className="crm-detail">
               <div className="crm-detail-content">
@@ -223,7 +223,8 @@ const ReaderReview = () => {
                                     ?.charAt(0)
                                     ?.toUpperCase() +
                                   readerData?.blind_type?.slice(1)
-                                : "N/A"}
+                                :
+                                 "N/A"}
                             </td>
                           </tr>
                         </>
@@ -292,7 +293,8 @@ const ReaderReview = () => {
                           <tr>
                             <th className="tab-content-title">Site number</th>
                             <td>
-                              {readerData?.siteNumber
+                              {readerData?.siteNumber &&
+                              readerData?.siteNumber != 0
                                 ? readerData?.siteNumber
                                 : "N/A"}
                             </td>
