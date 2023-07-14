@@ -13,6 +13,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
+import { slice } from "@amcharts/amcharts4/.internal/core/utils/Array";
 
 const ReaderReview = () => {
   const { state } = useLocation();
@@ -199,14 +200,14 @@ const ReaderReview = () => {
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                           <tr>
-                            <th className="tab-content-title">Role</th>
+                            <th className="tab-content-title">IRT role</th>
                             <td>
                               {readerData?.role ? readerData?.role : "N/A"}
                             </td>
                           </tr>
 
                           <tr>
-                            <th className="tab-content-title">Sub role</th>
+                            <th className="tab-content-title">Study role</th>
                             <td>
                               {readerData?.sub_role
                                 ? readerData?.sub_role
@@ -219,6 +220,9 @@ const ReaderReview = () => {
                             <td>
                               {readerData?.blind_type
                                 ? readerData?.blind_type
+                                    ?.charAt(0)
+                                    ?.toUpperCase() +
+                                  readerData?.blind_type?.slice(1)
                                 : "N/A"}
                             </td>
                           </tr>
@@ -288,7 +292,8 @@ const ReaderReview = () => {
                           <tr>
                             <th className="tab-content-title">Site number</th>
                             <td>
-                              {readerData?.siteNumber
+                              {readerData?.siteNumber &&
+                              readerData?.siteNumber != 0
                                 ? readerData?.siteNumber
                                 : "N/A"}
                             </td>

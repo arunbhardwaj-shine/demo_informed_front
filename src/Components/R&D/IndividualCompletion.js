@@ -106,29 +106,55 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
         series: newValue,
       };
       setPieOptions(newPieOptions);
-      
     } catch (err) {
       loader("hide");
       console.log("--err", err);
     } finally {
-      setIsHighlightNotLoaded(false);
+       setIsHighlightNotLoaded(false);
     }
   };
 
   return (
     <>
+    {isHighlightNotLoaded?<div className="rd-analytics-box irt">
+      <p className="rd-box-small-title">
+        <Skeleton width={150} height={20} />
+      </p>
+      <div className="rd-analytics-box-layout">
+        <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+          <h5 className="mr-auto">
+            <Skeleton width={150} height={20} />
+          </h5>
+          <div className="d-flex">
+            <div className="count-number">
+              <Skeleton width={50} height={20} />
+            </div>
+            {/* <img src={path_image + "doctor-svg.svg"} alt="" className="doctor" /> */}
+          </div>
+        </div>
+
+        <div className="graph-box">
+          <div className="">
+            <p>
+              <Skeleton width={200} height={20} />
+            </p>
+            <span>
+              <Skeleton width={250} height={10} />
+            </span>
+          </div>
+
+          <div style={{ width: "100%", height: 200 }}>
+            <Skeleton circle={true} height={200} width={200}/>
+          </div>
+        </div>
+
+       
+      </div>
+    </div>:
       <div className="rd-analytics-box irt">
         <p className="rd-box-small-title">IRT Training</p>
         <div className="rd-analytics-box-layout">
-          {isHighlightNotLoaded ? (
-            <div className="article-main-img">
-              {" "}
-              <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
-                {" "}
-                <Skeleton duration={2} height={50} width={"100%"} />{" "}
-              </SkeletonTheme>
-            </div>
-          ) : (
+       
             <div className="rd-analytics-top d-flex justify-content-between align-items-center">
               <h5 className="mr-auto">Individual Completion</h5>
               <div className="d-flex">
@@ -140,25 +166,15 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
                 />
               </div>
             </div>
-          )}
+          
           <div className="graph-box">
-            {!isHighlightNotLoaded && (
+           
               <div className="">
                 <p>Completing the mandatory training</p>
-                <span>Click on the graph to see more details</span>
               </div>
-            )}
-            {isHighlightNotLoaded ? (
-              <div className="article-main-img">
-                {" "}
-                <SkeletonTheme color="#5e6c77" highlightColor="#a9b7c1">
-                  {" "}
-                  <Skeleton duration={2} height={200} width={"100%"} />{" "}
-                </SkeletonTheme>
-              </div>
-            ) : (
-              <HighchartsReact highcharts={Highcharts} options={pieOptions} />
-            )}
+          
+            <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+          
           </div>
           {pieOptions?.series?.length ? (
             <div className="rd-box-export">
@@ -166,19 +182,13 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
                 src={path_image + "arrow-export.svg"}
                 alt=""
                 onClick={() => {
-                  //   setFlag({
-                  //     individual_Completion: true,
-                  //     site_Completion: false,
-                  //     site_Engagement: false,
-                  //     content: false,
-                  //   });
                   individualCompletionfn();
                 }}
               />
             </div>
           ) : null}
         </div>
-      </div>
+      </div>}
     </>
   );
 };

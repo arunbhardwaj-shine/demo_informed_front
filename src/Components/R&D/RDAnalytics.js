@@ -29,6 +29,7 @@ const RDAnalytics = () => {
     site_Completion: false,
     site_Engagement: false,
     content: false,
+    top_content: false,
   });
   const [sortSite, setSortSite] = useState(false);
   const [activeAccordionKey, setActiveAccordionKey] = useState(null);
@@ -64,19 +65,27 @@ const RDAnalytics = () => {
   const site_Completion = useRef(null);
   const site_Engagement = useRef(null);
   const content = useRef(null);
+  const top_content = useRef(null);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handleClick = (event) => {
     setIsActive((current) => !current);
   };
-  const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
+
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
 
   const getMostPopularContentPageData = async (pdf_id) => {
+    setIsContentSiteAccordionOpen({
+      ...isContentSiteAccordionOpen,
+      [pdf_id]: false,
+    });
+    setIsContentSiteAccordionOpen([]);
+
     loader("show");
 
     try {
+      loader("show");
       if (
         !isContentPageAccordionOpen[pdf_id] ||
         isContentPageAccordionOpen[pdf_id] == undefined
@@ -108,9 +117,15 @@ const RDAnalytics = () => {
   };
 
   const getMostPopularContentSiteData = async (pdf_id) => {
+    setIsContentPageAccordionOpen({
+      ...isContentPageAccordionOpen,
+      [pdf_id]: false,
+    });
+
     loader("show");
 
     try {
+      loader("show");
       if (
         !isContentSiteAccordionOpen[pdf_id] ||
         isContentSiteAccordionOpen[pdf_id] == undefined
@@ -207,7 +222,7 @@ const RDAnalytics = () => {
           ...isContentSiteAccordionOpen,
           [pdf_id]: true,
         });
-        // setIsContentSiteAccordionOpen(true);
+        // loader("hide");
       } else {
         setIsContentSiteAccordionOpen({
           ...isContentSiteAccordionOpen,
@@ -215,6 +230,7 @@ const RDAnalytics = () => {
         });
       }
     } catch (err) {
+      // loader("hide");
       console.log("--err", err);
     } finally {
       loader("hide");
@@ -242,6 +258,7 @@ const RDAnalytics = () => {
         site_Completion: false,
         site_Engagement: false,
         content: false,
+        top_content: false,
         individual_Completion: true,
       });
       if (!indidualCompletionTableData) {
@@ -321,11 +338,13 @@ const RDAnalytics = () => {
         individual_Completion: false,
         site_Engagement: false,
         content: false,
+        top_content: false,
         site_Completion: true,
       });
       if (!siteCompletionTableData) {
         const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
         setSiteCompletionTableData(result?.data?.data);
+        console.log(result?.data?.data);
         site_Completion?.current?.focus();
         loader("hide");
       } else {
@@ -342,19 +361,44 @@ const RDAnalytics = () => {
 
   const mostPopularContent = () => {
     try {
+      setIsContentSiteAccordionOpen([]);
+      setIsContentPageAccordionOpen([]);
       loader("show");
       setFlag({
         individual_Completion: false,
         site_Completion: false,
         site_Engagement: false,
+        top_content: false,
         content: true,
       });
+      setIsContentSiteAccordionOpen([]);
+      setIsContentPageAccordionOpen([]);
       setTimeout(() => {
         content?.current?.focus();
         loader("hide");
       }, 1000);
     } catch (err) {
       console.log("--err", err);
+    }
+  };
+
+  const topContentTableFn = () => {
+    try {
+      loader("show");
+      setFlag({
+        individual_Completion: false,
+        site_Completion: false,
+        site_Engagement: false,
+        content: false,
+        top_content: true,
+      });
+      setTimeout(() => {
+        top_content?.current?.focus();
+      }, 1000);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
     }
   };
 
@@ -366,12 +410,13 @@ const RDAnalytics = () => {
         individual_Completion: false,
         site_Completion: false,
         content: false,
+        top_content: false,
         site_Engagement: true,
       });
       setTimeout(() => {
         site_Engagement?.current?.focus();
         loader("hide");
-      }, 1000);
+      }, 500);
     } catch (err) {
       loader("hide");
       console.log("--err", err);
@@ -474,6 +519,124 @@ const RDAnalytics = () => {
     setLastSortedPDFId(pdfId);
     setIsActive(!isActive);
   };
+  const handleExportSiteCompletion = (siteCompletionTableData) => {
+    const base64 = (s) => {
+      return window.btoa(unescape(encodeURIComponent(s)));
+    };
+
+    const format = (s, c) => {
+      return s.replace(/{(\w+)}/g, function (m, p) {
+        return c[p];
+      });
+    };
+
+    const exportTable = document.createElement("table");
+
+    // Create headings for the parent table
+    const parentTableHeadings = document.createElement("tr");
+    parentTableHeadings.innerHTML = `
+      <th>No </th>
+      <th class="site_name">Site Name</th>
+      <th>Site Number</th>
+      <th>Country</th>
+      <th class="active-irt">Active IRTs</th>
+      <th>Completed Training</th>
+    `;
+    exportTable.appendChild(parentTableHeadings);
+
+    siteCompletionTableData.forEach((siteData, index) => {
+      const siteRow = document.createElement("tr");
+
+      // Create table cells for site data
+      const serialNoCell = document.createElement("td");
+      serialNoCell.textContent = index + 1;
+      siteRow.appendChild(serialNoCell);
+
+      const siteNameCell = document.createElement("td");
+      siteNameCell.textContent = siteData.site_name;
+      siteRow.appendChild(siteNameCell);
+
+      const siteNumberCell = document.createElement("td");
+      siteNumberCell.textContent = siteData.site_number;
+      siteRow.appendChild(siteNumberCell);
+
+      const siteCountryCell = document.createElement("td");
+      siteCountryCell.textContent = siteData.site_country;
+      siteRow.appendChild(siteCountryCell);
+
+      const totalUserCell = document.createElement("td");
+      totalUserCell.textContent = siteData.total_user;
+      siteRow.appendChild(totalUserCell);
+
+      const completedTrainingCell = document.createElement("td");
+      completedTrainingCell.textContent = siteData.completed_training;
+      siteRow.appendChild(completedTrainingCell);
+
+      exportTable.appendChild(siteRow);
+
+      if (siteData.Users && siteData.Users.length > 0) {
+        const userTableHeadings = document.createElement("tr");
+        userTableHeadings.innerHTML = `
+        <th></th>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Blind Type</th>
+          <th>Training</th>
+        `;
+        exportTable.appendChild(userTableHeadings);
+
+        siteData.Users.forEach((user) => {
+          const userRow = document.createElement("tr");
+          const EmptyCell = document.createElement("td");
+          EmptyCell.textContent = " ";
+          userRow.appendChild(EmptyCell);
+          // Create table cells for user data
+          const firstNameCell = document.createElement("td");
+          firstNameCell.textContent = user.first_name;
+          userRow.appendChild(firstNameCell);
+
+          const userTypeCell = document.createElement("td");
+          userTypeCell.textContent = user.user_type;
+          userRow.appendChild(userTypeCell);
+
+          const bindedCell = document.createElement("td");
+          bindedCell.textContent = user.binded;
+          userRow.appendChild(bindedCell);
+
+          const trainingCell = document.createElement("td");
+          trainingCell.textContent = user.training;
+          userRow.appendChild(trainingCell);
+
+          exportTable.appendChild(userRow);
+        });
+      }
+
+      // Add a blank row after each site
+      const blankRow = document.createElement("tr");
+      exportTable.appendChild(blankRow);
+    });
+
+    // Generate the Excel file
+    const uri = "data:application/vnd.ms-excel;base64,";
+    const template =
+      '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-mic' +
+      'rosoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta cha' +
+      'rset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:Exce' +
+      "lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>" +
+      "</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></" +
+      "xml><![endif]--></head><body>{table}</body></html>";
+
+    const context = {
+      worksheet: "Sheet1",
+      table: exportTable.outerHTML,
+    };
+
+    const randomPrefix = Math.random().toString(36).substring(7);
+    const element = document.createElement("a");
+    element.href = uri + base64(format(template, context));
+    element.download = `${randomPrefix}_export.xls`;
+    element.click();
+  };
 
   const handleExport = (tableName) => {
     const table = document.getElementById(tableName);
@@ -544,7 +707,8 @@ const RDAnalytics = () => {
       table: exportTable.outerHTML,
     };
 
-    const randomPrefix = Math.random().toString(36).substring(7); // Generate a random string
+    const randomPrefix =
+      `site_completion_` + Math.random().toString(36).substring(7); // Generate a random string
     const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
     element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
@@ -596,6 +760,7 @@ const RDAnalytics = () => {
                   <PopularContent
                     mostPopularContentFn={mostPopularContent}
                     setMostPopularContentData={setMostPopularContentData}
+                    topContentTableFn={topContentTableFn}
                   />
                 </Col>
               </Row>
@@ -982,7 +1147,9 @@ const RDAnalytics = () => {
                       <div className="rd-training-block-right d-flex">
                         <Button
                           title="Download stats"
-                          onClick={() => handleExport("site_completion")}
+                          onClick={() =>
+                            handleExportSiteCompletion(siteCompletionTableData)
+                          }
                         >
                           <svg
                             width="20"
@@ -1173,19 +1340,21 @@ const RDAnalytics = () => {
                           {rdSiteData?.map((item, index) => {
                             return (
                               <>
-                                <tr
-                                  key={index}
-                                  className={`view ${
-                                    show == index ? "show" : ""
-                                  }`}
-                                  onClick={(e) => rdShowData(e, index)}
-                                >
-                                  <td>{item?.site_name}</td>
-                                  <td>{item?.site_number}</td>
-                                  <td>{item?.site_country}</td>
-                                  <td>{item?.site_users}</td>
-                                  <td>{item?.content_engagement}</td>
-                                </tr>
+                                {item?.site_users != 0 && (
+                                  <tr
+                                    key={index}
+                                    className={`view ${
+                                      show == index ? "show" : ""
+                                    }`}
+                                    onClick={(e) => rdShowData(e, index)}
+                                  >
+                                    <td>{item?.site_name}</td>
+                                    <td>{item?.site_number}</td>
+                                    <td>{item?.site_country}</td>
+                                    <td>{item?.site_users}</td>
+                                    <td>{item?.content_engagement}</td>
+                                  </tr>
+                                )}
                                 {show == index ? (
                                   <tr className="fold show">
                                     {item?.pdf_data?.length ? (
@@ -1197,10 +1366,7 @@ const RDAnalytics = () => {
                                               {item?.pdf_data?.length}
                                             </span>
                                           </p>
-                                          {/* <span>
-                                            Click on the content for more
-                                            details
-                                          </span> */}
+
                                           {item?.pdf_data?.map((data, i) => {
                                             return (
                                               <>
@@ -1286,16 +1452,16 @@ const RDAnalytics = () => {
               {/*Content*/}
               {flag?.content ? (
                 <div className="rd-full-explain">
-                  <div className="rd-section-title" ref={content} tabIndex={-1}>
+                  <div className="rd-section-title">
                     <h4>Contents</h4>
                   </div>
-                  <div
-                    className="rd-training-block"
-                    // ref={content}
-                    // tabIndex={-1}
-                  >
+                  <div className="rd-training-block">
                     <div className="d-flex align-items-center justify-content-between">
-                      <div className="rd-training-block-left">
+                      <div
+                        className="rd-training-block-left"
+                        ref={content}
+                        tabIndex={-1}
+                      >
                         <h4>
                           Contents |{" "}
                           <span>{mostPopularContentData?.length + 1}</span>
@@ -1393,7 +1559,10 @@ const RDAnalytics = () => {
                           >
                             <Accordion.Header
                               onClick={() => {
-                                getMostPopularContentSiteData(item?.pdf?.id);
+                                getMostPopularContentSiteData(
+                                  item?.pdf?.id,
+                                  index
+                                );
                               }}
                             >
                               <div className="d-flex align-items-center justify-content-center">
@@ -1499,6 +1668,186 @@ const RDAnalytics = () => {
                 </div>
               ) : null}
               {/*Content End*/}
+              {flag?.top_content ? (
+                <div className="rd-full-explain">
+                  <div className="rd-section-title">
+                    <h4>Top Content</h4>
+                  </div>
+                  <div className="rd-training-block">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div
+                        className="rd-training-block-left"
+                        ref={top_content}
+                        tabIndex={-1}
+                      >
+                        <h4>
+                          Top Content |{" "}
+                          {/* <span>{topContentTableData?.length}</span> */}
+                        </h4>
+                        <p></p>
+                      </div>
+                      <div className="rd-training-block-right d-flex">
+                        <Button
+                          title="Download stats"
+                          onClick={() => handleExport("site_completion")}
+                        >
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                              fill="#0066BE"
+                            ></path>
+                            <path
+                              d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                              fill="#0066BE"
+                            ></path>
+                          </svg>
+                        </Button>
+                        <Button
+                          className={`sort_btn ${isActive ? "active" : ""}`}
+                          onClick={sortSiteCompletion}
+                        >
+                          Sort By{" "}
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
+                        </Button>
+                      </div>
+                    </div>
+                    <Table className="fold-table" id="site_completion">
+                      <thead>
+                        <tr>
+                          <th className="site_name">Site Name</th>
+                          <th>Site Number</th>
+                          <th>Country</th>
+                          <th className="active-irt">Active IRTs</th>
+                          <th>Completed Training</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {/* {siteCompletionTableData?.map((item, index) => {
+                          return (
+                            <> */}
+                        <tr
+                          // className={`view ${
+                          //   siteCompletionShow == index ? "show" : ""
+                          // }`}
+                          // onClick={(e) => {
+                          //   siteCompletionShowData(e, index);
+                          // }}
+                          className={"view"}
+                        >
+                          <td className="site_name">
+                            {/* {item?.site_name} */}
+                            Here site name
+                          </td>
+                          <td>
+                            {/* {item?.site_number} */}
+                            Here Site Number
+                          </td>
+                          <td>
+                            {/* {item?.site_country} */}
+                            Here Country Name
+                          </td>
+                          <td className="active-irt">
+                            <span>
+                              {/* {item?.total_user} */}
+                              Here Total User
+                            </span>{" "}
+                            <img
+                              src={path_image + "doctor-svg.svg"}
+                              alt=""
+                              className="doctor"
+                            />
+                          </td>
+                          <td className="complete">
+                            {/* {item?.completed_training} */}
+                            Here Training Complete
+                          </td>
+                        </tr>
+
+                        {/* {siteCompletionShow === index ? (
+                                <> */}
+                        <tr className="fold show">
+                          <td colspan="5" className="site_complete">
+                            {/* {item?.Users?.length ? ( */}
+                            <Table>
+                              <thead>
+                                <tr>
+                                  <th>Name</th>
+                                  <th>Role</th>
+                                  <th>Blind Type</th>
+                                  <th>Training</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {/* {item?.Users.map((data, i) => ( */}
+                                <tr
+                                // key={i}
+                                >
+                                  <td>
+                                    {/* {data?.first_name
+                                                    ? data?.first_name
+                                                    : "NA"} */}
+                                    FirstName
+                                  </td>
+                                  <td>
+                                    {/* {data?.user_type
+                                                    ? data?.user_type
+                                                    : "NA"} */}
+                                    User Type
+                                  </td>
+                                  <td>
+                                    {/* {data?.binded} */}
+                                    Blind Type
+                                  </td>
+                                  <td
+                                  // className={
+                                  //   data?.training_status_code ==
+                                  //   "0"
+                                  //     ? "complete"
+                                  //     : "not_yet"
+                                  // }
+                                  >
+                                    {/* {data?.training_status_code ==
+                                                  "0"
+                                                    ? "Completed"
+                                                    : data?.training_status_code ==
+                                                      "1"
+                                                    ? "Not yet"
+                                                    : null} */}
+                                    Training Status
+                                  </td>
+                                </tr>
+                                {/* ))} */}
+                              </tbody>
+                            </Table>
+                            {/* ) : (
+                                        <div className="no_data">
+                                          No Data Found
+                                        </div>
+                                      )} */}
+                          </td>
+                        </tr>
+                        {/* </>
+                              ) : null} */}
+
+                        <tr className="blank">
+                          <td colspan="5" style={{ height: "10px;" }}>
+                            &nbsp;
+                          </td>
+                        </tr>
+                        {/* </>
+                          );
+                        })} */}
+                      </tbody>
+                    </Table>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </Row>
         </div>
