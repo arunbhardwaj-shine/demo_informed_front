@@ -229,7 +229,7 @@ const PopularContent = ({
                 highcharts={Highcharts}
                 options={popularPieOptions}
               />
-              <div className="rd-midbox-export">
+              {/* <div className="rd-midbox-export">
               <img
                 src={path_image + "arrow-export.svg"}
                 alt=""
@@ -237,7 +237,7 @@ const PopularContent = ({
                   topContentTableFn();
                 }}
               />
-              </div>
+              </div> */}
               <div className="">
                 <p>The Top 3 content</p>
               </div>
