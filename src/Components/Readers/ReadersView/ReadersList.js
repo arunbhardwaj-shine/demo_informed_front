@@ -923,7 +923,7 @@ const NewReaders = () => {
 
       if (Object.keys(body)?.length !== 0) {
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
-        console.log("user Type--->", userTypeValues?.[type]);
+
         const libDataIndex = readerDataList.findIndex(
           (el) => el?.id === reader_id
         );
@@ -1776,7 +1776,7 @@ const NewReaders = () => {
                                             ? "Blinded"
                                             : data?.binded == "No"
                                             ? "Unblinded"
-                                            : "N/A"}
+                                            : data?.binded?data?.binded?.charAt(0)?.toUpperCase()+data?.binded?.slice(1):"N/A"}
                                         </h6>
                                       </li>
                                       <li>
@@ -1791,7 +1791,7 @@ const NewReaders = () => {
                                         </h6>
                                         <h6>
                                           {data?.siteNumber &&
-                                          data?.siteNumber !== 0
+                                          data?.siteNumber != 0
                                             ? data?.siteNumber
                                             : "N/A"}
                                         </h6>

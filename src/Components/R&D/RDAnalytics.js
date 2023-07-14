@@ -631,10 +631,10 @@ const RDAnalytics = () => {
       table: exportTable.outerHTML,
     };
 
-    const randomPrefix = Math.random().toString(36).substring(7);
+    const randomPrefix = "site_completion_"
     const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
-    element.download = `${randomPrefix}_export.xls`;
+    element.download = `${randomPrefix}_.xls`;
     element.click();
   };
 
@@ -707,11 +707,11 @@ const RDAnalytics = () => {
       table: exportTable.outerHTML,
     };
 
-    const randomPrefix =
-      `site_completion_` + Math.random().toString(36).substring(7); // Generate a random string
+    // const randomPrefix =
+    //   `site_completion_` + Math.random().toString(36).substring(7); // Generate a random string
     const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
-    element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
+    element.download = `${tableName}_.xls`; // Use the random prefix in the file name
     element.click();
 
     // Insert the removed blank rows after the table generation
@@ -1313,7 +1313,7 @@ const RDAnalytics = () => {
                         <button
                           id="test-table-xls-button"
                           className="download-table-xls-button"
-                          onClick={() => handleExport("table-to-xls")} // Call your export function here
+                          onClick={() => handleExport("site_engagement")} // Call your export function here
                         />
 
                         <Button
@@ -1326,7 +1326,7 @@ const RDAnalytics = () => {
                       </div>
                     </div>
                     <div className="table-responsive">
-                      <Table className="fold-table" id="table-to-xls">
+                      <Table className="fold-table" id="site_engagement">
                         <thead>
                           <tr>
                             <th>Site</th>
@@ -1523,12 +1523,15 @@ const RDAnalytics = () => {
                                         key={index}
                                       >
                                         <div className="article-cover-img">
-                                          <img src={pdf.article_image} alt="" />
+                                          {/* <img src={pdf.article_image} alt="" /> */}
+                                          <div className="page-number">
+                                          Page {pdf.page}
+                                            </div>
                                         </div>
                                         <div className="article-detail-view">
-                                          <div className="article-page-number">
+                                          {/* <div className="article-page-number">
                                             Page {pdf.page}
-                                          </div>
+                                          </div> */}
                                           <div className="article-spanrd-time">
                                             Read | Watched{" "}
                                             <span>
