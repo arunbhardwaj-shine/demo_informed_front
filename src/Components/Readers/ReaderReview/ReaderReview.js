@@ -166,7 +166,8 @@ const ReaderReview = () => {
                               Primary phone{" "}
                             </th>
                             <td>
-                              {readerData?.primary_phone !== "-informed-"
+                              {readerData?.primary_phone !== "-informed-" &&
+                              readerData?.primary_phone !== "-informed-null"
                                 ? readerData?.primary_phone.replace(
                                     "-informed-",
                                     "-"
