@@ -26,7 +26,7 @@ const Event = () =>{
     const EventDataFun = async() =>{
         try{
             loader("show")
-           const result = await postData(ENDPOINT.EVENT_ID,{
+            const result = await postData(ENDPOINT.EVENT_ID,{
                  eventCode :queryParams.get("evnt")
             })
             setEvent(result.data.data)
