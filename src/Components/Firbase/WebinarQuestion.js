@@ -6,22 +6,45 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import HighchartsReact from "highcharts-react-official";
 import { Col, Container, Row } from "react-bootstrap";
 import {db} from "../../config/firebaseConfig"
-import { Link } from "react-router-dom";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { loader } from "../../loader";
+import { useLocation } from 'react-router-dom';
+
 import 'react-tabs/style/react-tabs.css';
 const WebinarQuestion = () => {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
+  const [eventId,setEvent] = useState({
+    id:0,
+    companyId:0
+  })
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);   
   const [countValue, setCountvalue] = useState(0);
-  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const q = query(collection(db, "chat"),where("event_id","==",eventId?.id))
 
-  const q = query(collection(db, "chat"),where("event_id","==",136))
+  const EventDataFun = async() =>{
+    try{
+        loader("show")
+        const result = await postData(ENDPOINT.EVENT_ID,{
+             eventCode :queryParams.get("evnt")
+        })
+        setEvent(result.data.data)
+        loader("hide")
 
+    }catch(err){
+        loader("hide")
+        console.log("-err",err)
+    }
+}
+useEffect(()=>{
+    EventDataFun()
+},[])
   const initiFun = async () => {
     try {
+      loader("show")
       const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
-        companyId: 18207,
-        eventId: 136,
+        companyId: eventId?.companyId,
+        eventId: eventId?.id,
       });
       
       let newData = [];
@@ -79,7 +102,9 @@ const WebinarQuestion = () => {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
-                type: 'pie'
+                type: 'pie',
+                height:400
+
             },
             title: {
                 text: 'Answers in percentage',
@@ -143,7 +168,10 @@ const WebinarQuestion = () => {
         });
       });
       setData(newData)
+      loader("hide")
+
     } catch (err) {
+      loader("hide")
       console.log("-err", err);
     }
   };

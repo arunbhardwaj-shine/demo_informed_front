@@ -1790,7 +1790,8 @@ const NewReaders = () => {
                                           Site Number
                                         </h6>
                                         <h6>
-                                          {data?.siteNumber
+                                          {data?.siteNumber &&
+                                          data?.siteNumber !== 0
                                             ? data?.siteNumber
                                             : "N/A"}
                                         </h6>

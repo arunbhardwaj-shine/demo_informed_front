@@ -213,17 +213,20 @@ const Routing = () => {
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
         />
-           <Route element={<Layout />}>
+           <Route exact path="/Webinar"  element={<Layout />}>
               <Route
-              path="/poll-question"
+              exact
+              path="poll-question"
               element={<PollQuestion />}
             />
             <Route
-              path="/question-list"
+              exact
+              path="question-list"
               element={<QuestionTrigger />}
             />
              <Route
-              path="/webinar-question"
+               exact
+              path="webinar-question"
               element={<WebinarQuestion />}
              />
         
