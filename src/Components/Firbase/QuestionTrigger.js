@@ -10,13 +10,22 @@ import {
   import { ENDPOINT } from "../../axios/apiConfig";
   import {db} from "../../config/firebaseConfig"
   import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { loader } from "../../loader";
+ import moment from "moment"
+ import { loader } from "../../loader";
 
 const QuestionTrigger = () =>{
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);  
-    const [eventId,setEvent] = useState(0)
-    const q = query(collection(db, "chat"),where("event_id","==",eventId))
+    const [eventId,setEvent] = useState({
+        id:0,
+        companyId:0
+    })
+    const[userData,setUserData] = useState({
+        
+    })
+    const [count,setCount] = useState(0)
+
+    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id))
     const [data,setData] = useState({
         question:[],
         answer:[],
@@ -31,6 +40,7 @@ const QuestionTrigger = () =>{
             })
             setEvent(result.data.data)
             loader("hide")
+
         }catch(err){
             loader("hide")
             console.log("-err",err)
@@ -39,11 +49,11 @@ const QuestionTrigger = () =>{
     useEffect(()=>{
         EventDataFun()
     },[])
-    const [count,setCount] = useState(0)
     onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
             if(doc.data()){
               if(count != doc.data()?.questionTrigger){
+                setUserData(doc.data())
                 setCount(doc.data()?.questionTrigger)
               }
             }
@@ -51,28 +61,30 @@ const QuestionTrigger = () =>{
      })
     const initialFun = async() =>{
         try{
+           loader("show")
           const result = await postData(ENDPOINT.QUESTION_ANSWER,{
-                "companyId":1506,
-                "eventId":eventId
+                "companyId":eventId?.companyId,
+                "eventId":eventId?.id
              })
              setData({
                 question:result?.data?.data?.question,
                 answer:result?.data?.data?.answer,
                 ignre:result?.data?.data?.ignore 
              })
+             loader("hide")
         }catch(err){
-
+            loader("hide")
+            console.log("-er",err)
         }
     }
     const submitFun = async(data,id) =>{
         try{
             loader("show")
-            const result = await postData(ENDPOINT.QUESTION_UPDATE,{
+            await postData(ENDPOINT.QUESTION_UPDATE,{
                 "userAnswer":data,
                 "id":id,
-                "eventId":eventId
+                "eventId":eventId?.id
              })
-             console.log("->",result)
              loader("hide")
         }catch(err){
             loader("hide")
@@ -81,8 +93,12 @@ const QuestionTrigger = () =>{
 
     }
     useEffect(()=>{
-        initialFun()
-    },[count,eventId])
+        if(count>0){
+            initialFun()
+        }
+           
+        
+    },[count ])
 
     return (
         <Container>
@@ -94,7 +110,7 @@ const QuestionTrigger = () =>{
                         <h4>Questions:</h4>
                     </div>
                     <div class="webinar-top-btn question">
-                        <span class="btn default-side-buttons">1</span>                                                             
+                        <span class="btn default-side-buttons">{data?.question?.length}</span>                                                             
                     </div>
             </div>
             {
@@ -102,13 +118,14 @@ const QuestionTrigger = () =>{
                                         return (
                     <div className="reader_list">
                         <div className="detail-box">  
-                            <p className="user_name">Lorem Ipsum</p>
+                            <p className="user_name">{item?.portal_name}</p>
                             <div className="user-question">
-                                <p>Learn more about our activities and future events</p>
+                                <p>{item?.question}</p>
                             </div>
                             <div className="reader_list_footer d-flex justify-content-between align-items-center" >
                                 <div className="question-post-time">
-                                    <small>09:16 am</small>
+                                    <small>{moment(item?.created).format("YYYY-MM-DD")}</small><br />
+                                    <small>{moment(item?.created).format("HH:mm a")}</small>
                                 </div>
                                 <div className="reader_list_footer_btns">
                                     <Button className="ignored" onClick={()=>submitFun(0,item?.id)}>Ignore</Button>
@@ -128,7 +145,7 @@ const QuestionTrigger = () =>{
                         <h4>Answered:</h4>
                     </div>
                     <div class="webinar-top-btn answered">
-                        <span class="btn default-side-buttons">1</span>                                                             
+                        <span class="btn default-side-buttons">{data?.answer?.length}</span>                                                             
                     </div>
             </div>
             {
@@ -136,13 +153,14 @@ const QuestionTrigger = () =>{
                     return (
                         <div className="reader_list">
                             <div className="detail-box">  
-                                <p className="user_name">Lorem Ipsum</p>
+                                <p className="user_name">{item?.portal_name}</p>
                                 <div className="user-question">
-                                    <p>Learn more about our activities and future events</p>
+                                    <p>{item?.question}</p>
                                 </div>
                                 <div className="reader_list_footer d-flex justify-content-between align-items-center answer-footer" >
                                     <div className="question-post-time">
-                                        <small>09:16 am</small>
+                                       <small>{moment(item?.updated).format("YYYY-MM-DD")}</small><br/>
+                                        <small>{moment(item?.updated).format("HH:mm a")}</small>
                                     </div>
                                     <div className="reader_list_footer_btns">
                                         <Button onClick={()=>submitFun(1,item?.id)}>Undo</Button>
@@ -159,7 +177,7 @@ const QuestionTrigger = () =>{
                         <h4>Ignored:</h4>
                     </div>
                     <div class="webinar-top-btn ignored">
-                        <span class="btn default-side-buttons">1</span>                                                             
+                        <span class="btn default-side-buttons">{data?.ignre?.length}</span>                                                             
                     </div>
             </div>
             {
@@ -167,13 +185,14 @@ const QuestionTrigger = () =>{
                     return (
                         <div className="reader_list">
                             <div className="detail-box">  
-                                <p className="user_name">Lorem Ipsum</p>
+                                <p className="user_name">{item?.portal_name}</p>
                                 <div className="user-question">
-                                    <p>Learn more about our activities and future events</p>
+                                <p>{item?.question}</p>
                                 </div>
                                 <div className="reader_list_footer d-flex justify-content-between align-items-center ignore-footer" >
                                     <div className="question-post-time">
-                                        <small>09:16 am</small>
+                                      <small>{moment(item?.updated).format("YYYY-MM-DD")}</small><br/>
+                                      <small>{moment(item?.updated).format("HH:mm a")}</small>
                                     </div>
                                     <div className="reader_list_footer_btns">
                                         <Button onClick={()=>submitFun(1,item?.id)}>Undo</Button>

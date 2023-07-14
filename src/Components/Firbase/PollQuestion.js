@@ -13,8 +13,11 @@ const PollQuestion = ()=>{
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);   
-    const [eventId,setEvent] = useState(0)
-    const q = query(collection(db, "chat"),where("event_id","==",eventId))
+    const [eventId,setEvent] = useState({
+      id:0,
+      companyId:0
+    })
+    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id))
     const [data,setData] = useState([])
     const [showAccordian,setAccordian] = useState(0)
     const [count,setCount] = useState(0)
@@ -26,6 +29,7 @@ const PollQuestion = ()=>{
           const result = await postData(ENDPOINT.EVENT_ID,{
                eventCode :queryParams.get("evnt")
           })
+          console.log("-imhere",result?.data?.data)
           setEvent(result.data.data)
           loader("hide")
       }catch(err){
@@ -41,8 +45,8 @@ const PollQuestion = ()=>{
         try {
           loader("show")
           const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
-            companyId: 18207,
-            eventId: eventId,
+            companyId: eventId?.companyId,
+            eventId: eventId?.id,
           });
           
           let newData = [];
@@ -162,9 +166,11 @@ const PollQuestion = ()=>{
         });  
      })
      useEffect(()=>{
-      console.log("- im hererereeee")
+      if(count){
         initiFun()
-     },[count,eventId])
+      }
+        
+     },[count])
     return (
         <>
         
