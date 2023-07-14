@@ -72,18 +72,26 @@ const LibraryContent = (props) => {
   const [filterObject, setFilterObject] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
-  const [irtData, setIrtData] = useState(['All','Blinded site user','Investigator-Blinded','Site unblinded pharmacist']);
-  const [roleData, setRoleData] = useState(
-    [ "All",
-      "Principal Investigator",
-      "Sub-Investigator",
-      "Study Coordinator",
-      "Study Nurse",
-      'Other',
+  const [irtData, setIrtData] = useState([
+    "All",
+    "Blinded site user",
+    "Investigator-Blinded",
+    "Site unblinded pharmacist",
+  ]);
+  const [roleData, setRoleData] = useState([
+    "All",
+    "Principal Investigator",
+    "Sub-Investigator",
+    "Study Coordinator",
+    "Study Nurse",
+    "Other",
   ]);
 
   const [filterdata, setFilterData] = useState({
     language: ["English", "Russian"],
+  });
+  const [originalFilterData, setOriginalFilterData] = useState({
+    Role: "",
   });
   const [deletestatus, setDeleteStatus] = useState(false);
   const [page, setPage] = useState(1);
@@ -215,6 +223,11 @@ const LibraryContent = (props) => {
 
       if (res?.data?.data) {
         setFilterData(res?.data?.data);
+        setOriginalFilterData({
+          ...originalFilterData,
+          Role: res?.data?.data?.Role,
+        });
+
         let tagData = res?.data?.data?.tags?.length
           ? res?.data?.data?.tags
           : res?.data?.data?.topic?.length
@@ -272,34 +285,24 @@ const LibraryContent = (props) => {
 
     if (!newObj[key]) {
       newObj[key] = [];
+    }
+    if (!otherObj[key]) {
       otherObj[key] = [];
     }
-    // console.log("-- im herererer",new)
-    // if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-    //   if(key=="IRT mandatory training"){
 
-    //     if(newObj["role"]){
-    //       delete newObj["role"]
-    //     }
-    //     if(item == "Yes"){
-    //       // const [appliedFilter, setAppliedFilter] = useState({});
-    //       // setAppliedFilter({...appliedFilter,role: irtData })
-    //       setFilterData({ ...filterdata, role: irtData });
-    //     }else {
-    //       setFilterData({ ...filterdata, role: roleData });
-    //     }
-    //   }
-    // }
-    // if(key == "IRT")
-  //   const [irtData, setIrtData] = useState(['All','Blinded site user','Investigator-Blinded','Site unblinded pharmacist']);
-  // const [roleData, setRoleData] = useState(
-  //   [ "All",
-  //     "Principal Investigator",
-  //     "Sub-Investigator",
-  //     "Study Coordinator",
-  //     "Study Nurse",
-  //     'Other',
-  // ]);
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (key == "IRT mandatory training") {
+        if (newObj["Role"]) {
+          delete newObj["Role"];
+          delete otherObj["Role"];
+        }
+        if (item == "Yes") {
+          setFilterData({ ...filterdata, Role: irtData });
+        } else {
+          setFilterData({ ...filterdata, Role: roleData });
+        }
+      }
+    }
 
     if (e?.target?.checked == true) {
       if (
@@ -352,6 +355,7 @@ const LibraryContent = (props) => {
           }
         }
       }
+
       const otherIndex = otherObj[key]?.indexOf(item);
       if (otherIndex > -1) {
         otherObj[key]?.splice(otherIndex, 1);
@@ -361,6 +365,7 @@ const LibraryContent = (props) => {
         newObj[key] = otherObj[key];
       }
     }
+
     setOtherFilter(otherObj);
     setAppliedFilter(newObj);
     // setFilterObject(newObj);
@@ -401,10 +406,12 @@ const LibraryContent = (props) => {
     document.querySelectorAll("input")?.forEach((checkbox) => {
       checkbox.checked = false;
     });
+    setOtherFilter({});
+    setAppliedFilter({});
 
     obj = {};
-    if (filterApplyflag > 0) {
-      setOtherFilter({});
+    if (Object.keys(filterObject)?.length) {
+      // setOtherFilter({});
       setFilterObject({});
       setLibraryData([]);
       setAppliedFilter({});
@@ -412,7 +419,12 @@ const LibraryContent = (props) => {
       setPage(1);
       setSearch("");
     }
+    if (originalFilterData?.Role?.length) {
+      setFilterData({ ...filterdata, Role: originalFilterData.Role });
+    }
+
     setShowFilter(false);
+    setForceRender(!forceRender);
   };
 
   const applyFilter = (e) => {
@@ -613,8 +625,7 @@ const LibraryContent = (props) => {
 
       // setHandleSubmit(() => downloadQRCode);
       // setHandleType(() => handleQR);
-    }
-    else if (stateMsg == "clone") {
+    } else if (stateMsg == "clone") {
       setResetDataId(id);
       setHeading("Clone Article");
       setFooterButton("Save");
@@ -724,7 +735,7 @@ const LibraryContent = (props) => {
     }
   };
   const cloneArticle = async (pdf_id) => {
-    console.log("id-->", pdf_id);
+    // console.log("id-->", pdf_id);
   };
 
   const resetCollection = async (pdf_id) => {
@@ -1068,6 +1079,7 @@ const LibraryContent = (props) => {
                         aria-labelledby="dropdownMenuButton2"
                       >
                         <h4>Filter By</h4>
+
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
                             return (
@@ -1100,7 +1112,8 @@ const LibraryContent = (props) => {
                                                           key == "Mandatory" ||
                                                           key == "List" ||
                                                           key == "language" ||
-                                                          key == "IRT mandatory training" ||
+                                                          key ==
+                                                            "IRT mandatory training" ||
                                                           key ==
                                                             "Business Unit" ||
                                                           key ==
@@ -1571,11 +1584,23 @@ const LibraryContent = (props) => {
                                 {location?.state?.data != "edit" &&
                                 deletestatus == false ? (
                                   <div className="data-main-footer-sec">
-                                    <div className={`footer-btn-wrapper ${["wW0geGtDPvig5gF 6KbJrg==","B7SHpAc XDXSH NXkN0rdQ==","z2TunmZQf3QwCsICFTLGGQ==","qDgwPdToP05Kgzc g2VjIQ==",
-                                   "UbCJcnLM9fe HsRMgX8c1A=="
-                                  ].includes(localStorage.getItem("user_id"))&&
-                                      filterObject["Content Owners"] ==
-                                        "IBU Owner"?"clone":""}`}>
+                                    <div
+                                      className={`footer-btn-wrapper ${
+                                        [
+                                          "wW0geGtDPvig5gF 6KbJrg==",
+                                          "B7SHpAc XDXSH NXkN0rdQ==",
+                                          "z2TunmZQf3QwCsICFTLGGQ==",
+                                          "qDgwPdToP05Kgzc g2VjIQ==",
+                                          "UbCJcnLM9fe HsRMgX8c1A==",
+                                        ].includes(
+                                          localStorage.getItem("user_id")
+                                        ) &&
+                                        filterObject["Content Owners"] ==
+                                          "IBU Owner"
+                                          ? "clone"
+                                          : ""
+                                      }`}
+                                    >
                                       {data?.spc_included ? (
                                         <>
                                           <button
@@ -1624,7 +1649,15 @@ const LibraryContent = (props) => {
                                       >
                                         Send in email
                                       </Link>
-                                      {["wW0geGtDPvig5gF 6KbJrg==","B7SHpAc XDXSH NXkN0rdQ==","z2TunmZQf3QwCsICFTLGGQ==","qDgwPdToP05Kgzc g2VjIQ==","UbCJcnLM9fe HsRMgX8c1A=="].includes(localStorage.getItem("user_id")) &&
+                                      {[
+                                        "wW0geGtDPvig5gF 6KbJrg==",
+                                        "B7SHpAc XDXSH NXkN0rdQ==",
+                                        "z2TunmZQf3QwCsICFTLGGQ==",
+                                        "qDgwPdToP05Kgzc g2VjIQ==",
+                                        "UbCJcnLM9fe HsRMgX8c1A==",
+                                      ].includes(
+                                        localStorage.getItem("user_id")
+                                      ) &&
                                       filterObject["Content Owners"] ==
                                         "IBU Owner" ? (
                                         <Button
@@ -2438,8 +2471,8 @@ const LibraryContent = (props) => {
         heading={heading}
         data={modelData}
         footerButton={footerButton}
-        handleSubmit={resetDataId?saveArticle:downloadQRCode}
-        handleQR={resetDataId?handleLanguage:handleQR}
+        handleSubmit={resetDataId ? saveArticle : downloadQRCode}
+        handleQR={resetDataId ? handleLanguage : handleQR}
       />
 
       <CommonConfirmModel
