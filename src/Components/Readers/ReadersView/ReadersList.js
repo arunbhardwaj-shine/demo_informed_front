@@ -72,7 +72,9 @@ const NewReaders = () => {
   const [filterdata, setFilterData] = useState({
     // Status: ["Registered", "Unregistered"],
   });
-  const [originalFilterData, setOriginalFilterData] = useState({});
+  const [originalFilterData, setOriginalFilterData] = useState({
+    role: "",
+  });
 
   const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
@@ -169,7 +171,11 @@ const NewReaders = () => {
       const res = await getData(ENDPOINT.READERSFILTER);
       setCountry(res?.data?.data?.country);
       setFilterData(res?.data?.data);
-      setOriginalFilterData(res?.data?.data);
+      console.log("filter data---->", res?.data?.data);
+      setOriginalFilterData({
+        ...originalFilterData,
+        role: res?.data?.data?.role,
+      });
     } catch (err) {
       loader("hide");
     }
@@ -978,24 +984,20 @@ const NewReaders = () => {
       checkbox.checked = false;
     });
     obj = {};
+    setAppliedFilter({});
 
     if (filterApplyflag > 0) {
-      // setApifilterObject({});
-      let obj = {
-        // status: ["Registered"],
-        // "contact Type": ["HCP"],
-      };
-
+      let obj = {};
       setFilterApplyflag(0);
-      setAppliedFilter(obj);
       setApifilterObject(obj);
       setFilterObject(obj);
       setReaderDataList([]);
-
       getReaderListData(page, obj, search);
       setSearch("");
     }
-
+    if (originalFilterData?.role?.length) {
+      setFilterData({ ...filterdata, role: originalFilterData.role });
+    }
     setShowFilter(false);
   };
 
@@ -1776,7 +1778,12 @@ const NewReaders = () => {
                                             ? "Blinded"
                                             : data?.binded == "No"
                                             ? "Unblinded"
-                                            : data?.binded?data?.binded?.charAt(0)?.toUpperCase()+data?.binded?.slice(1):"N/A"}
+                                            : data?.binded
+                                            ? data?.binded
+                                                ?.charAt(0)
+                                                ?.toUpperCase() +
+                                              data?.binded?.slice(1)
+                                            : "N/A"}
                                         </h6>
                                       </li>
                                       <li>
