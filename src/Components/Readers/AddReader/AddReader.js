@@ -613,7 +613,7 @@ const ReaderAdd = () => {
           repContact: userInputs?.repContact,
           notes: userInputs?.notes,
           siteNumber: userInputs?.siteNumber,
-          blind_type: userInputs?.blind_type,
+          blind_type: userInputs?.blinded,
           siteName: userInputs?.siteName,
           irt: userInputs?.irt,
           role: userInputs?.role,
@@ -748,15 +748,26 @@ const ReaderAdd = () => {
           />
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Blind Type </Form.Label>
+          <Form.Label htmlFor="">
+            Blind Type<span>*</span>{" "}
+          </Form.Label>
           <Select
             options={userDetail?.blind_type}
             placeholder="Select Blind Type"
-            name="blind_type"
-            className="dropdown-basic-button split-button-dropup"
+            name="blinded"
+            className={
+              error?.blinded
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
             isClearable
-            onChange={(e) => handleChange(e?.value, "blind_type")}
+            onChange={(e) => handleChange(e?.value, "blinded")}
           />
+          {error?.blinded ? (
+            <div className="login-validation">{error?.blinded}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
 
         <Form.Group className="form-group">
