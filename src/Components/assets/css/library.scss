@@ -9181,14 +9181,25 @@ img.change-password-image {
             width: 20%;
             .article-cover-img {
               margin-right: 8px;
-              img {
-                max-width: 50px;
-                width: 100%;
-                filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.24));
+              width: 50px;
+              filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.24));
                 border-radius: 4px;
-              }
+                min-height:75px;
+                display: flex;
+                align-items: center;
+                background: #f8f8f8;
+                padding: 3px;
+                text-align: center;
+              // img {
+              //   max-width: 50px;
+              //   width: 100%;
+              //   filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.24));
+              //   border-radius: 4px;
+              // }
             }
             .article-detail-view {
+              display: flex;
+                align-items: center;
               .article-page-number {
                 font-weight: 500;
                 font-size: 13px;
