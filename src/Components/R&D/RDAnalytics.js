@@ -76,9 +76,8 @@ const RDAnalytics = () => {
   });
 
   const getMostPopularContentPageData = async (pdf_id) => {
-    loader("show");
-
     try {
+      loader("show");
       if (
         !isContentPageAccordionOpen[pdf_id] ||
         isContentPageAccordionOpen[pdf_id] == undefined
@@ -109,10 +108,10 @@ const RDAnalytics = () => {
     }
   };
 
-  const getMostPopularContentSiteData = async (pdf_id) => {
-    loader("show");
-
+  const getMostPopularContentSiteData = async (pdf_id, index) => {
+    
     try {
+      loader("show");
       if (
         !isContentSiteAccordionOpen[pdf_id] ||
         isContentSiteAccordionOpen[pdf_id] == undefined
@@ -209,7 +208,7 @@ const RDAnalytics = () => {
           ...isContentSiteAccordionOpen,
           [pdf_id]: true,
         });
-        // setIsContentSiteAccordionOpen(true);
+        // loader("hide");
       } else {
         setIsContentSiteAccordionOpen({
           ...isContentSiteAccordionOpen,
@@ -217,6 +216,7 @@ const RDAnalytics = () => {
         });
       }
     } catch (err) {
+      // loader("hide");
       console.log("--err", err);
     } finally {
       loader("hide");
@@ -354,6 +354,8 @@ const RDAnalytics = () => {
         top_content: false,
         content: true,
       });
+      setIsContentSiteAccordionOpen([]);
+      setIsContentPageAccordionOpen([]);
       setTimeout(() => {
         content?.current?.focus();
         loader("hide");
@@ -1416,7 +1418,10 @@ const RDAnalytics = () => {
                           >
                             <Accordion.Header
                               onClick={() => {
-                                getMostPopularContentSiteData(item?.pdf?.id);
+                                getMostPopularContentSiteData(
+                                  item?.pdf?.id,
+                                  index
+                                );
                               }}
                             >
                               <div className="d-flex align-items-center justify-content-center">
