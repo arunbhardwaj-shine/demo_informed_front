@@ -414,7 +414,7 @@ const LibraryContent = (props) => {
       // setOtherFilter({});
       setFilterObject({});
       setLibraryData([]);
-      setAppliedFilter({});
+      // setAppliedFilter({});
       getLibraryData(1, {}, search);
       setPage(1);
       setSearch("");
