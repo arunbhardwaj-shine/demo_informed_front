@@ -1533,13 +1533,13 @@ const RDAnalytics = () => {
                   <div className="rd-section-title">
                     <h4>Top Content</h4>
                   </div>
-                  <div
-                    className="rd-training-block"
-                    ref={top_content}
-                    tabIndex={-1}
-                  >
+                  <div className="rd-training-block">
                     <div className="d-flex align-items-center justify-content-between">
-                      <div className="rd-training-block-left">
+                      <div
+                        className="rd-training-block-left"
+                        ref={top_content}
+                        tabIndex={-1}
+                      >
                         <h4>
                           Top Content |{" "}
                           {/* <span>{topContentTableData?.length}</span> */}
