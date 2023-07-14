@@ -76,10 +76,10 @@ const RDAnalytics = () => {
   });
 
   const getMostPopularContentPageData = async (pdf_id) => {
-     setIsContentSiteAccordionOpen({
-          ...isContentSiteAccordionOpen,
-          [pdf_id]: false,
-        });
+    setIsContentSiteAccordionOpen({
+      ...isContentSiteAccordionOpen,
+      [pdf_id]: false,
+    });
     setIsContentSiteAccordionOpen([]);
 
     loader("show");
@@ -392,7 +392,9 @@ const RDAnalytics = () => {
         content: false,
         top_content: true,
       });
-      top_content?.current?.focus();
+      setTimeout(() => {
+        top_content?.current?.focus();
+      }, 1000);
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -521,15 +523,15 @@ const RDAnalytics = () => {
     const base64 = (s) => {
       return window.btoa(unescape(encodeURIComponent(s)));
     };
-  
+
     const format = (s, c) => {
       return s.replace(/{(\w+)}/g, function (m, p) {
         return c[p];
       });
     };
-  
+
     const exportTable = document.createElement("table");
-  
+
     // Create headings for the parent table
     const parentTableHeadings = document.createElement("tr");
     parentTableHeadings.innerHTML = `
@@ -541,37 +543,37 @@ const RDAnalytics = () => {
       <th>Completed Training</th>
     `;
     exportTable.appendChild(parentTableHeadings);
-  
+
     siteCompletionTableData.forEach((siteData, index) => {
       const siteRow = document.createElement("tr");
-  
+
       // Create table cells for site data
       const serialNoCell = document.createElement("td");
       serialNoCell.textContent = index + 1;
       siteRow.appendChild(serialNoCell);
-  
+
       const siteNameCell = document.createElement("td");
       siteNameCell.textContent = siteData.site_name;
       siteRow.appendChild(siteNameCell);
-  
+
       const siteNumberCell = document.createElement("td");
       siteNumberCell.textContent = siteData.site_number;
       siteRow.appendChild(siteNumberCell);
-  
+
       const siteCountryCell = document.createElement("td");
       siteCountryCell.textContent = siteData.site_country;
       siteRow.appendChild(siteCountryCell);
-  
+
       const totalUserCell = document.createElement("td");
       totalUserCell.textContent = siteData.total_user;
       siteRow.appendChild(totalUserCell);
-  
+
       const completedTrainingCell = document.createElement("td");
       completedTrainingCell.textContent = siteData.completed_training;
       siteRow.appendChild(completedTrainingCell);
-  
+
       exportTable.appendChild(siteRow);
-  
+
       if (siteData.Users && siteData.Users.length > 0) {
         const userTableHeadings = document.createElement("tr");
         userTableHeadings.innerHTML = `
@@ -582,38 +584,38 @@ const RDAnalytics = () => {
           <th>Training</th>
         `;
         exportTable.appendChild(userTableHeadings);
-  
+
         siteData.Users.forEach((user) => {
           const userRow = document.createElement("tr");
           const EmptyCell = document.createElement("td");
-          EmptyCell.textContent =" ";
+          EmptyCell.textContent = " ";
           userRow.appendChild(EmptyCell);
           // Create table cells for user data
           const firstNameCell = document.createElement("td");
           firstNameCell.textContent = user.first_name;
           userRow.appendChild(firstNameCell);
-  
+
           const userTypeCell = document.createElement("td");
           userTypeCell.textContent = user.user_type;
           userRow.appendChild(userTypeCell);
-  
+
           const bindedCell = document.createElement("td");
           bindedCell.textContent = user.binded;
           userRow.appendChild(bindedCell);
-  
+
           const trainingCell = document.createElement("td");
           trainingCell.textContent = user.training;
           userRow.appendChild(trainingCell);
-  
+
           exportTable.appendChild(userRow);
         });
       }
-  
+
       // Add a blank row after each site
       const blankRow = document.createElement("tr");
       exportTable.appendChild(blankRow);
     });
-  
+
     // Generate the Excel file
     const uri = "data:application/vnd.ms-excel;base64,";
     const template =
@@ -623,20 +625,19 @@ const RDAnalytics = () => {
       "lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>" +
       "</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></" +
       "xml><![endif]--></head><body>{table}</body></html>";
-  
+
     const context = {
       worksheet: "Sheet1",
       table: exportTable.outerHTML,
     };
-  
+
     const randomPrefix = Math.random().toString(36).substring(7);
     const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
     element.download = `${randomPrefix}_export.xls`;
     element.click();
   };
-  
-  
+
   const handleExport = (tableName) => {
     const table = document.getElementById(tableName);
     const rows = table.getElementsByTagName("tr");
@@ -706,7 +707,8 @@ const RDAnalytics = () => {
       table: exportTable.outerHTML,
     };
 
-    const randomPrefix = `site_completion_`+Math.random().toString(36).substring(7); // Generate a random string
+    const randomPrefix =
+      `site_completion_` + Math.random().toString(36).substring(7); // Generate a random string
     const element = document.createElement("a");
     element.href = uri + base64(format(template, context));
     element.download = `${randomPrefix}_site_engagement.xls`; // Use the random prefix in the file name
@@ -1145,7 +1147,9 @@ const RDAnalytics = () => {
                       <div className="rd-training-block-right d-flex">
                         <Button
                           title="Download stats"
-                          onClick={() => handleExportSiteCompletion(siteCompletionTableData)}
+                          onClick={() =>
+                            handleExportSiteCompletion(siteCompletionTableData)
+                          }
                         >
                           <svg
                             width="20"
@@ -1336,20 +1340,21 @@ const RDAnalytics = () => {
                           {rdSiteData?.map((item, index) => {
                             return (
                               <>
-                              {item?.site_users!=0 &&
-                                <tr
-                                  key={index}
-                                  className={`view ${
-                                    show == index ? "show" : ""
-                                  }`}
-                                  onClick={(e) => rdShowData(e, index)}
-                                >
-                                  <td>{item?.site_name}</td>
-                                  <td>{item?.site_number}</td>
-                                  <td>{item?.site_country}</td>
-                                  <td>{item?.site_users}</td>
-                                  <td>{item?.content_engagement}</td>
-                                </tr>}
+                                {item?.site_users != 0 && (
+                                  <tr
+                                    key={index}
+                                    className={`view ${
+                                      show == index ? "show" : ""
+                                    }`}
+                                    onClick={(e) => rdShowData(e, index)}
+                                  >
+                                    <td>{item?.site_name}</td>
+                                    <td>{item?.site_number}</td>
+                                    <td>{item?.site_country}</td>
+                                    <td>{item?.site_users}</td>
+                                    <td>{item?.content_engagement}</td>
+                                  </tr>
+                                )}
                                 {show == index ? (
                                   <tr className="fold show">
                                     {item?.pdf_data?.length ? (
@@ -1361,10 +1366,7 @@ const RDAnalytics = () => {
                                               {item?.pdf_data?.length}
                                             </span>
                                           </p>
-                                          {/* <span>
-                                            Click on the content for more
-                                            details
-                                          </span> */}
+
                                           {item?.pdf_data?.map((data, i) => {
                                             return (
                                               <>
@@ -1450,16 +1452,16 @@ const RDAnalytics = () => {
               {/*Content*/}
               {flag?.content ? (
                 <div className="rd-full-explain">
-                  <div className="rd-section-title" ref={content} tabIndex={-1}>
+                  <div className="rd-section-title">
                     <h4>Contents</h4>
                   </div>
-                  <div
-                    className="rd-training-block"
-                    // ref={content}
-                    // tabIndex={-1}
-                  >
+                  <div className="rd-training-block">
                     <div className="d-flex align-items-center justify-content-between">
-                      <div className="rd-training-block-left">
+                      <div
+                        className="rd-training-block-left"
+                        ref={content}
+                        tabIndex={-1}
+                      >
                         <h4>
                           Contents |{" "}
                           <span>{mostPopularContentData?.length + 1}</span>
