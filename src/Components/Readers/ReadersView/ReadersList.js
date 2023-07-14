@@ -1776,7 +1776,7 @@ const NewReaders = () => {
                                             ? "Blinded"
                                             : data?.binded == "No"
                                             ? "Unblinded"
-                                            : "N/A"}
+                                            : data?.binded?data?.binded?.charAt(0)?.toUpperCase()+data?.binded?.slice(1):"N/A"}
                                         </h6>
                                       </li>
                                       <li>
