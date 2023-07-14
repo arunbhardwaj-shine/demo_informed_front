@@ -292,7 +292,8 @@ const ReaderReview = () => {
                           <tr>
                             <th className="tab-content-title">Site number</th>
                             <td>
-                              {readerData?.siteNumber
+                              {readerData?.siteNumber &&
+                              readerData?.siteNumber != 0
                                 ? readerData?.siteNumber
                                 : "N/A"}
                             </td>
