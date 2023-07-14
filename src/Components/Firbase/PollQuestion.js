@@ -10,7 +10,7 @@ import { loader } from "../../loader"
 import { useLocation } from 'react-router-dom';
 
 const PollQuestion = ()=>{
-    const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const path_image = "/componentAssets/images/";
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);   
     const [eventId,setEvent] = useState({
@@ -29,7 +29,6 @@ const PollQuestion = ()=>{
           const result = await postData(ENDPOINT.EVENT_ID,{
                eventCode :queryParams.get("evnt")
           })
-          console.log("-imhere",result?.data?.data)
           setEvent(result.data.data)
           loader("hide")
       }catch(err){
@@ -191,7 +190,7 @@ const PollQuestion = ()=>{
                             data?.map((item,index) =>{
                                 return (
                                     <>
-                                <tr>
+                                <tr key={index}>
                                     <td>{index+1}</td>
                                     <td>{item?.question}</td>
                                     <td>{item?.speakerName}</td>
@@ -200,7 +199,6 @@ const PollQuestion = ()=>{
                                         <button type="button" className="btn btn-submit btn-bordered btn-voilet disabled">Display Answer</button>                      
                                         <button type="button" onClick={()=>accordianFun(index+1)}className="btn show_graph"><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
                                 </tr>
-                              
                                 <tr class={`poll_graph ${showAccordian && showAccordian == (index+1) ? "active-graph":""}`}> 
                                     <td colspan="6">
                                         <div class="highcharts-container">
@@ -210,7 +208,7 @@ const PollQuestion = ()=>{
                                 </tr>
                                 </>
                                  )
-                                    })
+                                  })
                                 }
                             </tbody>
                         </Table>
