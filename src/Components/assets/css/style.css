@@ -7391,3 +7391,43 @@ section.search-hcp.smart-list-view .header-btn-left {
     transform: rotate(360deg);
   }
 }
+
+
+.link_popup {
+    position: absolute;
+    padding: 17px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #9ecaed;
+    width: 320px;
+    transform: translateY(-50%);
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+	background-color: #fff;
+}
+
+.link_popup button#closeLinkPopup {
+    opacity: 1;
+    line-height: 1;
+}
+.link_popup label {
+    color: #616161;
+    font-weight: 600;
+}
+.link_popup input[type="text"] {
+    background: #fff;
+    border: 1px solid #ccc!important;
+    border-radius: 3px;
+    box-shadow: none;
+    margin: 0;
+    padding: 5px 10px;
+    width: 100%;
+}
+.link_popup input[type="submit"] {
+    background: #0066ba;
+    padding: 10px 14px;
+    line-height: initial;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
