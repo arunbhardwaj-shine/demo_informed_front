@@ -14,7 +14,7 @@ import {
   Col,
   Row,
 } from "react-bootstrap";
-import { postFormData, postData } from "../../../axios/apiHelper";
+import { postFormData, postData, getData } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import CommonModel from "../../../Model/CommonModel";
@@ -132,6 +132,8 @@ const LibraryCreateUser = () => {
   const [finalTags, setFinalTags] = useState([]);
   const [tagsReRender, setTagsReRender] = useState(0);
   const [updateflag, setupdateFlag] = useState(0);
+  const [videoListing, setVideoListing] = useState();
+  const [videoButton, setVideoButton] = useState(false);
 
   const handleClose = () => setShow(false);
 
@@ -203,15 +205,40 @@ const LibraryCreateUser = () => {
     }
   };
 
+  const videoFun = async () => {
+    try {
+      loader("show");
+      const res = await getData(ENDPOINT.LIBRARY_VIDEO_LISTING);
+      console.log("video--->", res?.data?.data);
+      setVideoListing(res?.data?.data);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
+
   useEffect(() => {
     initalFun();
+    videoFun();
   }, []);
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
     }
+    if (isSelectedName == "allowVideo") {
+      if (e == true) {
+        setVideoButton(true);
+      } else {
+        setVideoButton(false);
+      }
+    }
+
     if (isSelectedName == "docintelFormat") {
+      setVideoButton(false);
+
       if (e == "ebook") {
+        setCreateLibraryInputs({ ...userInputs, uploadFile: "" });
         setEbookFile([]);
         setpdfSpcData([
           {
@@ -229,6 +256,16 @@ const LibraryCreateUser = () => {
             fileValue: "",
           },
         ]);
+      } else if (e == "pdf") {
+        setEbookFile([]);
+        setChapter([
+          {
+            chapterTitle: "",
+            uploadFile: "",
+            fileValue: "",
+          },
+        ]);
+        setCreateLibraryInputs({ ...userInputs, uploadFile: "" });
       }
       setCreateLibraryInputs({
         ...userInputs,
@@ -644,7 +681,7 @@ const LibraryCreateUser = () => {
 
   const handleShow = () => {
     setShow(true);
-  }
+  };
 
   const publisherFun = () => {
     return (
@@ -704,8 +741,8 @@ const LibraryCreateUser = () => {
                 />
               </div>
 
-              {
-                localStorage.getItem('user_id') == "rOhdD02MgXkownQqcreqAw==" &&
+              {localStorage.getItem("user_id") ==
+                "rOhdD02MgXkownQqcreqAw==" && (
                 <>
                   <div className="form-group">
                     <label htmlFor="">Sales</label>
@@ -718,8 +755,7 @@ const LibraryCreateUser = () => {
                     />
                   </div>
                 </>
-              }
-
+              )}
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
               <div className="form-group justify-content-end">
@@ -1488,9 +1524,12 @@ const LibraryCreateUser = () => {
                     {userDetail?.user?.[0]?.flag == 1 &&
                     userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
-                        <label htmlFor="setasdraft1">{
-                         localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="?"Irt mandatory training":"Mandatory"   }</label>
+                        <label htmlFor="setasdraft1">
+                          {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg=="
+                            ? "Irt mandatory training"
+                            : "Mandatory"}
+                        </label>
                         <fieldset id="group2">
                           <div className="switch">
                             <label className="switch-light">
@@ -1679,6 +1718,7 @@ const LibraryCreateUser = () => {
                             <label htmlFor="file-6">
                               <span>Choose Your File</span>
                             </label>
+
                             {userInputs?.uploadFile?.[0]?.name ? (
                               <p className="uploaded-file">
                                 {userInputs?.uploadFile?.[0].name}
@@ -1688,6 +1728,7 @@ const LibraryCreateUser = () => {
                             )}
                           </div>
                         </div>
+
                         {error?.uploadFile ? (
                           <div className="login-validation-upload">
                             {error?.uploadFile}
@@ -1799,6 +1840,7 @@ const LibraryCreateUser = () => {
                                   </Button>
                                 ) : null}
                               </div>
+
                               {error?.chapter?.[i] ? (
                                 <div className="login-validation-upload">
                                   {error?.chapter?.[i]}
@@ -1952,14 +1994,18 @@ const LibraryCreateUser = () => {
                       </div>
                     </Col>
                   ) : null}
-
-
+                  {ebookFile?.length ||
+                  Object.keys(userInputs?.uploadFile)?.length ? (
+                    <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>
                         <div className="switch">
                           <label className="switch-light">
                             <input
                               type="checkbox"
+                              onChange={(e) => {
+                                handleChange(e.target?.checked, "allowVideo");
+                              }}
                             />
                             <span>
                               <span className="switch-btn active">No</span>
@@ -1968,13 +2014,18 @@ const LibraryCreateUser = () => {
                             <a className="btn"></a>
                           </label>
                         </div>
+
+                        {videoButton ? (
                           <Button
                             className="btn-bordered btn-voilet"
                             onClick={handleShow}
                           >
                             click to embed your Videos{" "}
                           </Button>
+                        ) : null}
                       </div>
+                    </>
+                  ) : null}
                 </Row>
               </div>
             </div>
@@ -1985,6 +2036,11 @@ const LibraryCreateUser = () => {
       <ClickLinkModel
         show={show}
         onClose={handleClose}
+        videoListing={videoListing}
+        chapterListing={chapter}
+        ebook={ebookFile}
+        type={userInputs.docintelFormat}
+        pdf={userInputs?.uploadFile}
       />
 
       <CommonModel
