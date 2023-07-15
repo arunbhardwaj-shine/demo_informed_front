@@ -114,9 +114,9 @@ const QuestionTrigger = () =>{
                     </div>
             </div>
             {
-                data?.question.length?data.question.map(item =>{
+                data?.question.length?data.question.map((item,index) =>{
                                         return (
-                    <div className="reader_list">
+                    <div className="reader_list" key={index}>
                         <div className="detail-box">  
                             <p className="user_name">{item?.portal_name}</p>
                             <div className="user-question">
@@ -149,9 +149,9 @@ const QuestionTrigger = () =>{
                     </div>
             </div>
             {
-                data?.answer.length?data?.answer.map(item =>{
+                data?.answer.length?data?.answer.map((item,index) =>{
                     return (
-                        <div className="reader_list">
+                        <div className="reader_list" key={index}>
                             <div className="detail-box">  
                                 <p className="user_name">{item?.portal_name}</p>
                                 <div className="user-question">
@@ -181,9 +181,9 @@ const QuestionTrigger = () =>{
                     </div>
             </div>
             {
-                data?.ignre.length?data?.ignre.map(item =>{
+                data?.ignre.length?data?.ignre.map((item,index) =>{
                     return (
-                        <div className="reader_list">
+                        <div className="reader_list"  key={index}>
                             <div className="detail-box">  
                                 <p className="user_name">{item?.portal_name}</p>
                                 <div className="user-question">

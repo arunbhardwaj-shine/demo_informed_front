@@ -35,7 +35,6 @@ const CommanPage = () =>{
       <header
       className="sticky webinar-quest">
        <Container>
-        {console.log("-dim here",index)}
           <nav className="navbar navbar-expand-sm navbar-light">
               <div className="d-flex justify-content-between align-items-center" style={{width:"100%"}}>
               <Col md={6} lg={6}>
@@ -48,7 +47,7 @@ const CommanPage = () =>{
                     <Tab eventKey="poll-question" className="nav-item nav-link" onClick={()=>{
                        handleChange("/Webinar/poll-question")
                       navigation(`/Webinar/poll-question?evnt=event-test1`)
-                     }}>PollQuestion </Tab>
+                     }}>Poll Question </Tab>
                     <Tab eventKey="all-answers" className="nav-item nav-link" onClick={()=>{
                       handleChange("/Webinar/webinar-question")
                       navigation(`/Webinar/webinar-question?evnt=event-test1`)
@@ -60,7 +59,7 @@ const CommanPage = () =>{
               <Col md={6} lg={6}>
                 <div className="right-sec d-flex justify-content-end align-items-center">
                   <h6><span>Webinar</span>Speaker Zone</h6>
-                  <img src={path_image + "informed_icon.png"} alt="icon"/>
+                  <img src={"/componentAssets/images/" + "informed_icon.png"} alt="icon"/>
                 </div>
               </Col>
               </div>
