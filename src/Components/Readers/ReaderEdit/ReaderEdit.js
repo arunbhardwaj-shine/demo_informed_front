@@ -237,7 +237,11 @@ const ReaderEdit = () => {
       speciality: hasData?.data?.data?.speciality,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
-      userType:[{label:"Hcp",value:"Hcp",index:0},{label:"Staff users",value:"Staff users",index:1},{label:"Test users",value:"Test users",index:3}],
+      userType: [
+        { label: "Hcp", value: "Hcp", index: 0 },
+        { label: "Staff users", value: "Staff users", index: 1 },
+        { label: "Test users", value: "Test users", index: 3 },
+      ],
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
@@ -252,7 +256,6 @@ const ReaderEdit = () => {
   const initialReaderFun = async () => {
     loader("show");
     try {
-
       const hasData = await getData(
         `${ENDPOINT.READER_GET_READER_USER}/${id} `
       );
@@ -260,11 +263,16 @@ const ReaderEdit = () => {
         hasData.data.data.country = "Bosnia and Herzegovina";
       }
       let obj = {
-        0:"Hcp",
-        1:"Staff users",
-        3:"Test users"
-      }
-      setAddReaderInputs({...hasData?.data?.data,userType:obj[hasData?.data?.data.userType]?obj[hasData?.data?.data.userType]:hasData?.data?.data.userType});
+        0: "Hcp",
+        1: "Staff users",
+        3: "Test users",
+      };
+      setAddReaderInputs({
+        ...hasData?.data?.data,
+        userType: obj[hasData?.data?.data.userType]
+          ? obj[hasData?.data?.data.userType]
+          : hasData?.data?.data.userType,
+      });
       // setAddReaderInputs({...hasData?.data?.data,"userType":obj[hasData?.data?.data.user_status]?obj[hasData?.data?.data.user_status]:""});
       loader("hide");
     } catch (err) {
@@ -574,12 +582,13 @@ const ReaderEdit = () => {
           repContact: userInputs?.repContact,
           notes: userInputs?.notes,
           siteNumber: userInputs?.siteNumber,
-          blind_type: userInputs?.blind_type,
+          blind_type: userInputs?.blinded,
+          role: userInputs?.role,
+          sub_role: userInputs?.sub_role,
           siteName: userInputs?.siteName,
           irt: userInputs?.irt,
           ibu: userInputs?.ibu,
           userType: userInputs?.userType,
-
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
@@ -600,10 +609,11 @@ const ReaderEdit = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">{
-            localStorage.getItem("user_id") ==
-            "56Ek4feL/1A8mZgIKQWEqg=="?"IRT mandatory training":"IRT"     
-          }</Form.Label>
+          <Form.Label htmlFor="">
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "IRT mandatory training"
+              : "IRT"}
+          </Form.Label>
           <Select
             options={userDetail?.irt}
             defaultValue={{
@@ -627,7 +637,11 @@ const ReaderEdit = () => {
           )}
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Role </Form.Label>
+          <Form.Label htmlFor="">
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "IRT Role"
+              : "Role"}{" "}
+          </Form.Label>
 
           {userInputs?.irt &&
           (userInputs.irt == 1 || userInputs.irt == "Yes") ? (
@@ -673,7 +687,11 @@ const ReaderEdit = () => {
           )}
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Sub Role </Form.Label>
+          <Form.Label htmlFor="">
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "Study Role"
+              : "Sub Role"}{" "}
+          </Form.Label>
           <Select
             options={userDetail?.sub_role}
             defaultValue={{
@@ -688,20 +706,33 @@ const ReaderEdit = () => {
           />
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Blind Type </Form.Label>
+          <Form.Label htmlFor="">
+            Blind Type<span>*</span>{" "}
+          </Form.Label>
 
           <Select
             options={userDetail?.blind_type}
             defaultValue={{
-              label: userInputs?.blinded,
+              label:
+                userInputs?.blinded?.charAt(0)?.toUpperCase() +
+                userInputs?.blinded?.slice(1),
               value: userInputs?.blinded,
             }}
             placeholder="Select Blind Type"
-            name="blind_type"
-            className="dropdown-basic-button split-button-dropup"
+            name="blinded"
+            className={
+              error?.blinded
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
             isClearable
-            onChange={(e) => handleChange(e?.value, "blind_type")}
+            onChange={(e) => handleChange(e?.value, "blinded")}
           />
+          {error?.blinded ? (
+            <div className="login-validation">{error?.blinded}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
@@ -1394,14 +1425,16 @@ const ReaderEdit = () => {
 
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                       <>
-                      {console.log("dfd",userInputs)}
+                       
                         {localStorage.getItem("user_id") !=
                         "iSnEsKu5gB/DRlycxB6G4g==" ? (
                           <Form.Group className="form-group">
                             <Form.Label htmlFor="">Select User Type</Form.Label>
                             <Select
                               options={userDetail?.userType}
-                              defaultValue={userDetail?.userType?.find(item =>item.label == userInputs?.userType)}
+                              defaultValue={userDetail?.userType?.find(
+                                (item) => item.label == userInputs?.userType
+                              )}
                               placeholder="Select user type"
                               name="userType"
                               className="dropdown-basic-button split-button-dropup"

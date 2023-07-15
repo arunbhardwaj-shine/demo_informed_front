@@ -25,12 +25,18 @@ const ReaderAdd = () => {
   const [irtCountry, setIRTCountry] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
-    { value: "Anaesthesia & Intensive care", label: "Anaesthesia & Intensive care" },
+    {
+      value: "Anaesthesia & Intensive care",
+      label: "Anaesthesia & Intensive care",
+    },
     { value: "CIDP and MMN", label: "CIDP and MMN" },
     { value: "Cardiac surgery", label: "Cardiac surgery" },
     { value: "GBS", label: "GBS" },
     { value: "General Haematology", label: "General Haematology" },
-    { value: "Haematological malignancies", label: "Haematological malignancies" },
+    {
+      value: "Haematological malignancies",
+      label: "Haematological malignancies",
+    },
     { value: "Haemophilia and VWD", label: "Haemophilia and VWD" },
     { value: "Immunology", label: "Immunology" },
     { value: "Neurology", label: "Neurology" },
@@ -253,7 +259,11 @@ const ReaderAdd = () => {
       province: hasData?.data?.data?.province,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
-      userType:[{label:"Hcp",value:"Hcp"},{label:"Staff users",value:"Staff users"},{label:"Test users",value:"Test users"}],
+      userType: [
+        { label: "Hcp", value: "Hcp" },
+        { label: "Staff users", value: "Staff users" },
+        { label: "Test users", value: "Test users" },
+      ],
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
@@ -603,13 +613,13 @@ const ReaderAdd = () => {
           repContact: userInputs?.repContact,
           notes: userInputs?.notes,
           siteNumber: userInputs?.siteNumber,
-          blind_type: userInputs?.blind_type,
+          blind_type: userInputs?.blinded,
           siteName: userInputs?.siteName,
           irt: userInputs?.irt,
           role: userInputs?.role,
           sub_role: userInputs?.sub_role,
           ibu: userInputs?.ibu,
-          userType:userInputs?.UserType
+          userType: userInputs?.UserType,
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
@@ -645,15 +655,18 @@ const ReaderAdd = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">{
-     localStorage.getItem("user_id") ==
-     "56Ek4feL/1A8mZgIKQWEqg=="?"IRT mandatory training":"IRT"           
-          
-  }</Form.Label>
+          <Form.Label htmlFor="">
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "IRT mandatory training"
+              : "IRT"}
+          </Form.Label>
           <Select
             options={userDetail?.irt}
-            placeholder={ localStorage.getItem("user_id") ==
-            "56Ek4feL/1A8mZgIKQWEqg=="?"Select IRT mandatory training":"Select IRT"}
+            placeholder={
+              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                ? "Select IRT mandatory training"
+                : "Select IRT"
+            }
             name="irt"
             className={
               error?.irt
@@ -665,7 +678,11 @@ const ReaderAdd = () => {
           />
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Role </Form.Label>
+          <Form.Label htmlFor="">
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "IRT Role"
+              : "Role"}{" "}
+          </Form.Label>
 
           {userInputs?.irt && userInputs.irt == 1 ? (
             <Select
@@ -715,7 +732,12 @@ const ReaderAdd = () => {
           )}
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Sub Role </Form.Label>
+          <Form.Label htmlFor="">
+            {" "}
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "Study Role"
+              : "Sub Role"}{" "}
+          </Form.Label>
           <Select
             options={userDetail?.sub_role}
             placeholder="Select Sub Role"
@@ -726,15 +748,26 @@ const ReaderAdd = () => {
           />
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Blind Type </Form.Label>
+          <Form.Label htmlFor="">
+            Blind Type<span>*</span>{" "}
+          </Form.Label>
           <Select
             options={userDetail?.blind_type}
             placeholder="Select Blind Type"
-            name="blind_type"
-            className="dropdown-basic-button split-button-dropup"
+            name="blinded"
+            className={
+              error?.blinded
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
             isClearable
-            onChange={(e) => handleChange(e?.value, "blind_type")}
+            onChange={(e) => handleChange(e?.value, "blinded")}
           />
+          {error?.blinded ? (
+            <div className="login-validation">{error?.blinded}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
 
         <Form.Group className="form-group">

@@ -103,4 +103,8 @@ export const ENDPOINT = {
   MOST_POPULAR_CONTENT: "/most-popular-content",
   MOST_POPULAR_PAGE_CONTENT: "/most-popular-content_page_wise",
   MOST_POPULAR_SITE_CONTENT: "/most-popular-content_site_wise",
+  QUESTION_ANSWER: "/auth/question-answer",
+  QUESTION_UPDATE: "/auth/question-update",
+
+
 };

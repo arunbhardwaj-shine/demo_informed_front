@@ -6,22 +6,46 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import HighchartsReact from "highcharts-react-official";
 import { Col, Container, Row, Table } from "react-bootstrap";
 import {db} from "../../config/firebaseConfig"
-import { Link } from "react-router-dom";
 import { loader } from "../../loader"
+import { useLocation } from 'react-router-dom';
+
 const PollQuestion = ()=>{
-    const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-    const q = query(collection(db, "chat"),where("event_id","==",136))
+    const path_image = "/componentAssets/images/";
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);   
+    const [eventId,setEvent] = useState({
+      id:0,
+      companyId:0
+    })
+    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id))
     const [data,setData] = useState([])
     const [showAccordian,setAccordian] = useState(0)
     const [count,setCount] = useState(0)
 
 
+    const EventDataFun = async() =>{
+      try{
+          loader("show")
+          const result = await postData(ENDPOINT.EVENT_ID,{
+               eventCode :queryParams.get("evnt")
+          })
+          setEvent(result.data.data)
+          loader("hide")
+      }catch(err){
+          loader("hide")
+          console.log("-err",err)
+      }
+  }
+  useEffect(()=>{
+      EventDataFun()
+  },[])
+
      const initiFun = async () => {
         try {
           loader("show")
           const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
-            companyId: 18207,
-            eventId: 136,
+            companyId: eventId?.companyId,
+            eventId: eventId?.id,
           });
           
           let newData = [];
@@ -141,7 +165,10 @@ const PollQuestion = ()=>{
         });  
      })
      useEffect(()=>{
+      if(count){
         initiFun()
+      }
+        
      },[count])
     return (
         <>
@@ -163,7 +190,7 @@ const PollQuestion = ()=>{
                             data?.map((item,index) =>{
                                 return (
                                     <>
-                                <tr>
+                                <tr key={index}>
                                     <td>{index+1}</td>
                                     <td>{item?.question}</td>
                                     <td>{item?.speakerName}</td>
@@ -172,7 +199,6 @@ const PollQuestion = ()=>{
                                         <button type="button" className="btn btn-submit btn-bordered btn-voilet disabled">Display Answer</button>                      
                                         <button type="button" onClick={()=>accordianFun(index+1)}className="btn show_graph"><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
                                 </tr>
-                              
                                 <tr class={`poll_graph ${showAccordian && showAccordian == (index+1) ? "active-graph":""}`}> 
                                     <td colspan="6">
                                         <div class="highcharts-container">
@@ -182,7 +208,7 @@ const PollQuestion = ()=>{
                                 </tr>
                                 </>
                                  )
-                                    })
+                                  })
                                 }
                             </tbody>
                         </Table>
