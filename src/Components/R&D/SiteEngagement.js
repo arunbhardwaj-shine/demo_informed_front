@@ -111,45 +111,47 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
 
   return (
     <>
-      {isHighlightNotLoaded ? (
-        <div className="rd-analytics-box non-mandatory">
-          <p className="rd-box-small-title">
+    {isHighlightNotLoaded? <div className="rd-analytics-box non-mandatory">
+      <p className="rd-box-small-title">
+        <Skeleton width={150} height={20} />
+      </p>
+      <div className="rd-analytics-box-layout">
+        <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+          <h5>
             <Skeleton width={150} height={20} />
-          </p>
-          <div className="rd-analytics-box-layout">
-            <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-              <h5>
-                <Skeleton width={150} height={20} />
-              </h5>
-              <div className="d-flex">
-                <div className="count-number">
-                  <Skeleton width={50} height={20} />
-                </div>
-                {/* <img src={path_image + "site-engaged.svg"} alt="" /> */}
-              </div>
+          </h5>
+          <div className="d-flex">
+            <div className="count-number">
+              <Skeleton width={50} height={20} />
             </div>
-
-            <div className="graph-box">
-              <>
-                <div className="graph-box-inside">
-                  <p>
-                    <Skeleton width={200} height={20} />
-                  </p>
-                  {/* <span>
-                    <Skeleton width={250} height={10} />
-                  </span> */}
-                </div>
-                <div style={{ width: "100%", height: 230 }}>
-                  <Skeleton width={"100%"} height={230} />
-                </div>
-              </>
-            </div>
+            {/* <img src={path_image + "site-engaged.svg"} alt="" /> */}
           </div>
         </div>
-      ) : (
-        <div className="rd-analytics-box non-mandatory">
-          <p className="rd-box-small-title">Non-mandatory Content</p>
-          <div className="rd-analytics-box-layout">
+
+        <div className="graph-box">
+        
+            <>
+              <div className="graph-box-inside">
+                <p>
+                  <Skeleton width={200} height={20} />
+                </p>
+                <span>
+                  <Skeleton width={250} height={10} />
+                </span>
+              </div>
+              <div style={{ width: "100%", height: 300 }}>
+                <Skeleton width={"100%"} height={300} />
+              </div>
+            </>
+      
+       
+        </div>
+      </div>
+    </div>:
+      <div className="rd-analytics-box non-mandatory">
+        <p className="rd-box-small-title">Non-mandatory Content</p>
+        <div className="rd-analytics-box-layout">
+          
             <div className="rd-analytics-top d-flex justify-content-between align-items-center">
               <h5>Site Engagement</h5>
               <div className="d-flex">
@@ -157,31 +159,33 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
                 <img src={path_image + "site-engaged.svg"} alt="" />
               </div>
             </div>
-
-            <div className="graph-box">
+          
+          <div className="graph-box">
+           
               <div className="graph-box-inside">
                 <p>Engaging With Non-mandatory Content at each site</p>
               </div>
-
+            
+            
               <HighchartsReact
                 highcharts={Highcharts}
                 options={rdSiteOptions}
               />
-            </div>
-            {rdSiteOptions?.series?.length ? (
-              <div className="rd-box-export">
-                <img
-                  src={path_image + "arrow-export.svg"}
-                  alt=""
-                  onClick={() => {
-                    siteEngagementfun();
-                  }}
-                />
-              </div>
-            ) : null}
+            
           </div>
+          {rdSiteOptions?.series?.length ? (
+            <div className="rd-box-export">
+              <img
+                src={path_image + "arrow-export.svg"}
+                alt=""
+                onClick={() => {
+                  siteEngagementfun();
+                }}
+              />
+            </div>
+          ) : null}
         </div>
-      )}
+      </div>}
     </>
   );
 };
