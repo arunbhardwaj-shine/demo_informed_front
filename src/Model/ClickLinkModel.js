@@ -24,6 +24,7 @@ const ClickLinkModel = ({
   const [videoSelect, setVideoSelect] = useState("");
   const [ebookData, setEbookData] = useState(ebook);
   const [file, setFile] = useState();
+  const [selectedVideo, setSelectedVideo] = useState(null);
   const defaultScale = 1.5;
   useEffect(() => {}, []);
   const onUploadNewVideoClicked = () => {
@@ -43,13 +44,15 @@ const ClickLinkModel = ({
       setFile(URL.createObjectURL(pdf?.[0]));
     }
     if (videoListing?.length) {
-      let newVideo = videoListing.map((item) => {
+      let newVideo = videoListing.map((item, index) => {
         return {
           label: item?.title,
           value: item?.title,
+          index: index,
         };
       });
       setVideoListingData(newVideo);
+      console.log("video Listing--->", videoListing);
     }
   }, [chapterListing, pdf]);
   const renderPage = (props: RenderPageProps) => {
@@ -88,17 +91,40 @@ const ClickLinkModel = ({
 
   const onChapterSelect = (e) => {
     setFile(URL.createObjectURL(ebook[e?.index]));
+
     // setChapterSelect(event);
   };
 
-  const onVideoSelect = (event) => {
-    setVideoSelect(event);
+  const onVideoSelect = (e) => {
+    console.log("---e--->", e);
+
+    setVideoSelect(e);
   };
 
   const handleClose = () => {
     setChapterOption([]);
     setFile("");
     onClose();
+  };
+
+  const handleOnVideoChange = (event) => {
+    const file = event.target.files[0];
+    console.log("file--->", file);
+    setSelectedVideo(file);
+    // const value = e.target.files[0]?.name;
+    // const list = [...chapter];
+    // list[i].uploadFile = value;
+    // ebookFile[i] = e.target.files[0];
+    // setEbookFile(ebookFile);
+    // setChapter(list);
+  };
+
+  const onVideoTitleChange = (e) => {
+    console.log("in chapter title change");
+    //  const { value } = e.target;
+    //  const list = [...chapter];
+    //  list[i].chapterTitle = value;
+    //  setChapter(list);
   };
 
   return (
@@ -142,9 +168,10 @@ const ClickLinkModel = ({
                   Videos <span>*</span>
                 </Form.Label>
                 {/* {console.log("-dfdf", videoListingData)} */}
-                <select
+                <Select
                   className="dropdown-basic-button split-button-dropup "
                   options={videoListingData}
+                  onChange={onVideoSelect}
                 />
 
                 <div className="upload-file-box">
@@ -203,7 +230,7 @@ const ClickLinkModel = ({
       <Modal show={uploadNewVideo} className="send-confirm" id="download-qr">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-            Change Embedded Video
+            Upload file
           </h5>
           <button
             type="button"
@@ -216,8 +243,69 @@ const ClickLinkModel = ({
         </Modal.Header>
         <Modal.Body>
           <div className="form-group">
-            <label htmlFor="">Video</label>
-            <DropdownButton
+            <div className="form-group val chapter-title">
+              <div className="ebook-format">
+                <label htmlFor="">Video title</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={(e) => onVideoTitleChange(e)}
+                />
+                <div className="upload-file-box">
+                  <div className="box">
+                    <input
+                      type="file"
+                      name="videoFile"
+                      id="videoInput"
+                      className="inputfile inputfile-6"
+                      // accept="video/*"
+                      accept=".mp4"
+                      onChange={handleOnVideoChange}
+                    />
+                    <label
+                      htmlFor="videoInput"
+                      // htmlFor={`file-${i}`}
+                    >
+                      <span>Choose Your File</span>
+                    </label>
+
+                    <p>
+                      {selectedVideo === null ? (
+                        "Upload your new list file"
+                      ) : (
+                        <p className="uploaded-file">{selectedVideo?.name}</p>
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {/* <div className="chapter-btn-wrapper">
+                {chapter.length - 1 == i ? (
+                  <Button
+                    className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
+                    onClick={addMoreChClicked}
+                  >
+                    Add Ch +
+                  </Button>
+                ) : null}
+
+                {chapter.length > 1 ? (
+                  <Button
+                    className="dlt_btn"
+                    onClick={() => deleteRecord(i, val?.id)}
+                  >
+                    <img src={path_image + "delete.svg"} alt="Delete Row" />
+                  </Button>
+                ) : null}
+              </div> */}
+
+              {/* {error?.chapter?.[i] ? (
+                <div className="login-validation-upload">
+                  {error?.chapter?.[i]}
+                </div>
+              ) : null} */}
+            </div>
+            {/* <DropdownButton
               className="dropdown-basic-button split-button-dropup "
               title={
                 changeEmbeddedVideo != ""
@@ -252,18 +340,18 @@ const ClickLinkModel = ({
                   Change Video 3
                 </Dropdown.Item>
               </div>
-            </DropdownButton>
+            </DropdownButton> */}
           </div>
         </Modal.Body>
 
         <div className="modal-footer">
           <button
             type="button"
-            disabled={changeEmbeddedVideo == "" ? true : false}
+            disabled={selectedVideo === null ? true : false}
             className="btn btn-primary save btn-filled"
             onClick={() => setUploadNewVideo(false)}
           >
-            Apply
+            Upload
           </button>
         </div>
       </Modal>
