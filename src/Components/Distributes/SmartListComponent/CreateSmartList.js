@@ -267,9 +267,9 @@ const CreateSmartList = () => {
       user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
       user_id == "UbCJcnLM9fe HsRMgX8c1A=="
     ) {
-      link.href = "https://informed.pro/sample_st.xls";
+      link.href = "https://webinar.informed.pro/sample_st.xls";
     } else {
-      link.href = "https://informed.pro/sample.xls";
+      link.href = "https://webinar.informed.pro/sample.xls";
     }
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
@@ -427,8 +427,8 @@ const CreateSmartList = () => {
                 <div className="download-sample">
                   <p>
                   {localStorage.getItem("user_id") == userId?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
- 
-                    
+
+
                    </p>
                   <div className="upload-btn" onClick={downloadFile}>
                     Download File

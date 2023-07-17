@@ -58,7 +58,7 @@ const EditConsentOptions = (props) => {
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateSaving, setTemplateSaving] = useState("");
-  
+
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
   const [getConsentType, setConsentType] = useState([
     { value: "Online", label: "Online" },
@@ -993,7 +993,7 @@ const EditConsentOptions = (props) => {
 
   const downloadFile = () => {
     let link = document.createElement("a");
-    link.href = "https://informed.pro/sample.xls";
+    link.href = "https://webinar.informed.pro/sample.xls";
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";
