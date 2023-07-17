@@ -119,7 +119,7 @@ const PopularContent = ({
       {isHighlightNotLoaded ? (
         <div className="rd-analytics-box rd-content">
           <p className="rd-box-small-title">
-            <Skeleton width={150} height={18} />
+            <Skeleton width={150} height={15} />
           </p>
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top d-flex justify-content-between align-items-center">
@@ -140,17 +140,17 @@ const PopularContent = ({
                   <p>
                     <Skeleton width={200} height={15} />
                   </p>
-                  <span>
+                  {/* <span>
                     <Skeleton width={250} height={8} />
-                  </span>
+                  </span> */}
                 </div>
                 {/* <div className="popular-tooltip">
                 <img src={path_image + "tooltip-img.svg"} alt="" />
               </div> */}
               </>
 
-              <div style={{ width: "100%", height: 200 }}>
-                <Skeleton height={200} width={200} circle={true} />
+              <div style={{ width: "100%", height: 220 }}>
+                <Skeleton height={220} width={220} circle={true} />
               </div>
 
               <div className="lex-article">
@@ -158,14 +158,14 @@ const PopularContent = ({
                   <div key={index} className="d-flex lex-article-box">
                     <div className="lex-image">
                       {/* <div className="article-number">{index + 1}</div> */}
-                      <Skeleton width={50} height={50} circle={true} />
+                      <Skeleton width={30} height={30} circle={true} />
                     </div>
                     <div className="lex-detail">
                       <p>
-                        <Skeleton width={150} height={14} />
+                        <Skeleton width={150} height={8} />
                       </p>
                       <span>
-                        <Skeleton width={200} height={10} />
+                        <Skeleton width={200} height={8} />
                       </span>
                       <div className="d-flex justify-content-between">
                         <div className="pages-number">
@@ -175,7 +175,7 @@ const PopularContent = ({
                           </span>
                         </div>
                         <div className="pages-viewer">
-                          <Skeleton width={50} height={15} />
+                          <Skeleton width={50} height={8} />
                         </div>
                       </div>
                     </div>
@@ -184,13 +184,13 @@ const PopularContent = ({
               </div>
             </div>
             <div className="rd-box-export">
-              <img
+              {/* <img
                 src={path_image + "arrow-export.svg"}
                 alt=""
                 onClick={() => {
                   mostPopularContentFn();
                 }}
-              />
+              /> */}
             </div>
           </div>
         </div>
