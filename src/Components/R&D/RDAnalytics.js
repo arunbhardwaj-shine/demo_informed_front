@@ -724,6 +724,23 @@ const RDAnalytics = () => {
       The number of individual users who viewed the content
     </Tooltip>
   );
+  function downloadCertificate(certificate_link,event) {
+    fetch(certificate_link)
+      .then(response => response.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'certificate.pdf';
+        link.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+      event.stopPropagation();
+  }
+  
 
   return (
     <>
@@ -884,12 +901,15 @@ const RDAnalytics = () => {
                                 </td>
 
                                 <td className="pics">
-                                  {item?.training_status_code == 0 ? (
-                                    <img
-                                      src={path_image + "certificate.png"}
-                                      alt="Certificate"
-                                    />
-                                  ) : null}
+                                {item?.training_status_code === 0 ? (
+  <div>
+    <img
+      src={path_image + "certificate.png"}
+      alt="Certificate"
+      onClick={(event)=>downloadCertificate(item?.certificate_link,event)}
+    />
+  </div>
+) : null}
                                 </td>
                               </tr>
                               {individualCompletionShow == index ? (
