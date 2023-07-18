@@ -2752,7 +2752,7 @@ const CreateEmail = (props) => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIRT?{label:val?.optIRT,value:val?.optIRT}:""}
+                                        defaultValue={val?.optIRT?{label:"Yes",value:val?.optIRT}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>

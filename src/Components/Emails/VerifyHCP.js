@@ -85,8 +85,8 @@ const VerifyHCP = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      optIrt: "",
-      role: "",
+      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
     },
   ]);
   const [updateCounter, setUpdateCounter] = useState(0);
@@ -260,6 +260,7 @@ const VerifyHCP = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        
       },
     ]);
     setActiveManual("active");
@@ -284,8 +285,8 @@ const VerifyHCP = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        role: "",
-        optIrt: "",
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
       },
     ]);
     setActiveManual("active");
@@ -686,8 +687,8 @@ const VerifyHCP = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          optIrt: "",
-          role: "",
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
         },
       ]);
     } else {
@@ -1508,7 +1509,7 @@ const VerifyHCP = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
+                                      <label for="">IRT mandatory training</label>
 
                                       <Select
                                         options={optIRT}
@@ -1516,14 +1517,14 @@ const VerifyHCP = (props) => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt}
+                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT Role</label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
