@@ -167,10 +167,11 @@ const CreateEmail = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      role: "",
-      optIRT: "",
+      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
     },
   ]);
+  
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [addListOpen, setAddListOpen] = useState(false);
@@ -461,8 +462,8 @@ const CreateEmail = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          optIRT: "",
-          role: "",
+          optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
         },
       ]);
     } else {
@@ -1149,8 +1150,8 @@ const CreateEmail = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        role: "",
-        optIRT: "",
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
       },
     ]);
     setActiveManual("active");
@@ -2658,8 +2659,8 @@ const CreateEmail = (props) => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
-                    role: "",
-                    optIRT: "",
+                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
                   },
                 ]);
                 if (document.querySelector("#file-4")) {
@@ -2744,22 +2745,21 @@ const CreateEmail = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
-
+                                      <label for="">IRT mandatory training</label>
                                       <Select
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIRT}
+                                        defaultValue={val?.optIRT?{label:val?.optIRT,value:val?.optIRT}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT Role</label>
                                       {val.optIRT == "yes" ? (
                                         <Select
                                           options={irtRole}
