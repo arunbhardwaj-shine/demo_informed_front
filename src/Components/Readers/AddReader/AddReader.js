@@ -640,7 +640,7 @@ const ReaderAdd = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
     if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
-      link.href = "https://webinar.informed.pro/R_D_sample.xls";
+      link.href = "https://webinar.informed.pro/R_D_sample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xls";
     }

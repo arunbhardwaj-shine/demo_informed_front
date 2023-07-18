@@ -277,7 +277,7 @@ const SelectSmartList = (props) => {
       const ws = readedData.Sheets[wsname];
 
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      console.log(dataParse);
+      // console.log(dataParse);
 
       setFileLength(dataParse.length);
     };
@@ -383,8 +383,28 @@ const SelectSmartList = (props) => {
   };
 
   const downloadFile = () => {
+    // let link = document.createElement("a");
+    // link.href = "https://webinar.informed.pro/sample.xls";
+    // link.setAttribute("download", "file.xlsx");
+    // document.body.appendChild(link);
+    // link.download = "";
+    // link.click();
+    // document.body.removeChild(link);
+
+    let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
-    link.href = "https://webinar.informed.pro/sample.xls";
+    if (
+      user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
+      user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||
+      user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
+      user_id == "UbCJcnLM9fe HsRMgX8c1A=="
+    ) {
+      link.href = "https://webinar.informed.pro/sample_st.xls";
+    } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+      link.href = "https://webinar.informed.pro/R_D_sample.xlsx";
+    } else {
+      link.href = "https://webinar.informed.pro/sample.xls";
+    }
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";
