@@ -1676,12 +1676,18 @@ const ViewTable = (props) => {
                   <th scope="col">Email</th>
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
-                  <th scope="col">Business Unit</th>
+
                   {localStorage.getItem("user_id") ==
                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                    <th scope="col"> Role </th>
+                    <>
+                      <th scope="col">IRT mandatory training</th>
+                      <th scope="col">IRT Role</th>
+                    </>
                   ) : (
+                    <>
+                    <th scope="col">Business Unit</th>
                     <th scope="col">Contact Type</th>
+                    </>
                   )}
 
                   {showLessInfo == false ? (
@@ -1758,7 +1764,16 @@ const ViewTable = (props) => {
                         <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    <td>{item.ibu ? item.ibu : "N/A"}</td>
+                    <td>
+                      {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? item?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :item.ibu
+                                  ? item.ibu
+                                  : "N/A"}
+                    </td>
                     <td>
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1867,7 +1882,17 @@ const ViewTable = (props) => {
                         <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    <td id="field_business_unit">{item.ibu}</td>
+                    <td id="field_business_unit">
+                    {/*item.ibu*/}
+                    {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg=="
+                                ? item?.irt
+                                  ? "Yes"
+                                  : "No"
+                                :item.ibu
+                                ? item.ibu
+                                : "N/A"}
+                    </td>
                     <td id="field_interest">
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -2235,7 +2260,7 @@ const ViewTable = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT Role</label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
                                         <Select
