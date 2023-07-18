@@ -2234,7 +2234,7 @@ const ViewTable = (props) => {
                                   <hr />
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
+                                      <label for="">IRT mandatory training</label>
                                       <Select
                                         options={siteIrtAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
