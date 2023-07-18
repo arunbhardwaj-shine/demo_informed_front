@@ -757,13 +757,13 @@ const SelectSmartList = (props) => {
                       <th scope="col">Country</th>
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <th scope="col">Irt</th>
+                        <th scope="col">IRT mandatory training</th>
                       ) : (
                         <th scope="col">Business Unit</th>
                       )}
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <th scope="col">Role</th>
+                        <th scope="col">IRT Role</th>
                       ) : (
                         <th scope="col">Contact Type</th>
                       )}
@@ -794,7 +794,7 @@ const SelectSmartList = (props) => {
                               <td>
                               {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ? rr.irt 
+                                  ? rr.irt
                                     ? "Yes"
                                     : "No"
                                   :rr.ibu

@@ -1089,16 +1089,19 @@ const VerifyHCP = (props) => {
                           <th scope="col">Email</th>
                           <th scope="col">Bounced</th>
                           <th scope="col">Country</th>
-                          <th scope="col">Business Unit</th>
+                          {localStorage.getItem("user_id") ===
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                            <>
+                            <th scope="col">IRT mandatory training</th>
+                            <th scope="col">IRT Role</th>
+                            </>
+                          ) : (
+                            <>
+                            <th scope="col">Business Unit</th>
+                            <th scope="col">Contact Type</th>
+                            </>
+                          )}
 
-                          <th scope="col">
-                            {localStorage.getItem("user_id") ===
-                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                              <th scope="col">Role</th>
-                            ) : (
-                              <th scope="col">Contact Type</th>
-                            )}
-                          </th>
                           <th scope="col">Consent</th>
                           <th scope="col">Email Received</th>
                           <th scope="col">Openings</th>
@@ -1116,7 +1119,16 @@ const VerifyHCP = (props) => {
                                 <td>{users.email}</td>
                                 <td>{users.bounce}</td>
                                 <td>{users.country}</td>
-                                <td>{users.ibu}</td>
+                                <td>
+                                  {localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? users?.irt
+                                        ? "Yes"
+                                        : "No"
+                                      :users.ibu
+                                      ? users.ibu
+                                      : "N/A"}
+                                </td>
                                 <td>
                                   {localStorage.getItem("user_id") ===
                                   "56Ek4feL/1A8mZgIKQWEqg=="
@@ -1272,12 +1284,18 @@ const VerifyHCP = (props) => {
                           <th scope="col">Email</th>
                           <th scope="col">Bounced</th>
                           <th scope="col">Country</th>
-                          <th scope="col">Business Unit</th>
+
                           {localStorage.getItem("user_id") ===
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                            <th scope="col">Role</th>
+                            <>
+                            <th scope="col">IRT mandatory training</th>
+                            <th scope="col">IRT Role</th>
+                            </>
                           ) : (
+                            <>
+                            <th scope="col">Business Unit</th>
                             <th scope="col">Interest</th>
+                            </>
                           )}
                           <th scope="col">Consent</th>
                           <th scope="col">Email Received</th>
@@ -1341,7 +1359,17 @@ const VerifyHCP = (props) => {
                                     </span>
                                   )}
                                 </td>
-                                <td>{data?.ibu ? data?.ibu : "N/A"}</td>
+                                <td>
+                                  {/*data?.ibu ? data?.ibu : "N/A"*/}
+                                  {localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? data.irt
+                                        ? "Yes"
+                                        : "No"
+                                      :data.ibu
+                                      ? data.ibu
+                                      : "N/A"}
+                                  </td>
                                 <td>
                                   {localStorage.getItem("user_id") ===
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (

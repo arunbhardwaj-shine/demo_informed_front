@@ -171,7 +171,7 @@ const CreateEmail = (props) => {
       optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
     },
   ]);
-  
+
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [addListOpen, setAddListOpen] = useState(false);
@@ -3266,12 +3266,18 @@ const CreateEmail = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      <th scope="col">Business Unit</th>
+
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <th scope="col">Role</th>
+                        <>
+                          <th scope="col">IRT mandatory training</th>
+                          <th scope="col">IRT Role</th>
+                        </>
                       ) : (
+                        <>
+                        <th scope="col">Business Unit</th>
                         <th scope="col">Contact Type</th>
+                        </>
                       )}
 
                       {showLessInfo == false ? (
@@ -3296,7 +3302,17 @@ const CreateEmail = (props) => {
                               <td>{rr?.email ? rr?.email : "N/A"}</td>
                               <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                               <td>{rr?.country ? rr?.country : "N/A"}</td>
-                              <td>{rr?.ibu ? rr?.ibu : "N/A"}</td>
+                              <td>
+                              {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :rr.ibu
+                                  ? rr.ibu
+                                  : "N/A"}
+                                {/*rr?.ibu ? rr?.ibu : "N/A"*/}
+                              </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg=="
