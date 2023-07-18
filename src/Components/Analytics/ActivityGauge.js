@@ -104,9 +104,9 @@ export default function ActivityGauge({ series, label, list }) {
   return (
     <Col>
       <HighchartsReact highcharts={Highcharts} options={options} />
-      <div class="stats_precenage">
+      <div className="stats_precenage">
         <ul
-          class={
+          className={
             label == "informed.pro"
               ? "ul_stats_first informed"
               : "ul_stats_first"
