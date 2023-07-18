@@ -8816,6 +8816,14 @@ img.change-password-image {
       }
       .graph-box {
         padding: 16px 16px 14px;
+        .not-found {
+          text-align: center;
+          min-height: 300px;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          height: 100%;
+      }
         p {
           font-weight: 500;
           text-transform: capitalize;
@@ -9387,6 +9395,34 @@ img.change-password-image {
           .completed-date {
             display: flex;
             align-items: center;
+            &.certificate-download{
+              flex-direction: column;
+              align-items: flex-end;
+              button{
+                filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+                border-radius: 30px;
+                background-color: $white;
+                border: 0;
+                min-width: 40px;
+                padding: 10px;
+                font-size: 14px;
+                line-height: 16px;
+                text-transform: capitalize;
+                color: #97B6CF;
+                font-weight: 400;
+                margin:0 0 7px;
+                &:hover{
+                  background: $primary-color;
+                  color: $white;
+                    svg{
+                      path{
+                        fill: $white;
+                      }
+                    }
+                }
+              }
+            }
+            .certificate-issue{display:flex}
             span {
               margin: 0 0px 0 9px;
               color: $dark-blue;
