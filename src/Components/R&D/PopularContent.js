@@ -196,96 +196,114 @@ const PopularContent = ({
         </div>
       ) : (
         <div className="rd-analytics-box rd-content">
-          <p className="rd-box-small-title">Content</p>
-          <div className="rd-analytics-box-layout">
-            <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-              <h5>Most Popular content</h5>
-              <div className="d-flex">
-                <div className="count-number">
-                  {mostPopularContentDataChild &&
-                  mostPopularContentDataChild.length > 0
-                    ? mostPopularContentDataChild[0].watched_count
-                    : 0}
-                </div>
-                <img src={path_image + "content-view.svg"} alt="" />
-              </div>
-            </div>
-
-            <div className="graph-box">
-              {!isHighlightNotLoaded && (
+        <p className="rd-box-small-title">Content</p>
+        <div className="rd-analytics-box-layout">
+          <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+            <h5>Most Popular content</h5>
+            <div className="d-flex">
+              {mostPopularContentDataChild && mostPopularContentDataChild.length > 0 ? (
                 <>
-                  <div className="graph-box-inside">
-                    <p>Sites who Read | Watch The Top Content</p>
+                  <div className="count-number">
+                    {mostPopularContentDataChild[0].watched_count}
                   </div>
-                  <div className="popular-tooltip">
-                    <OverlayTrigger placement="left" overlay={tooltip}>
-                      <img src={path_image + "tooltip-img.svg"} alt="" />
-                    </OverlayTrigger>
-                  </div>
+                  <img src={path_image + "content-view.svg"} alt="" />
                 </>
-              )}
+              ) : (
+                <>
 
-              <HighchartsReact
-                highcharts={Highcharts}
-                options={popularPieOptions}
-              />
-              {/* <div className="rd-midbox-export">
-              <img
-                src={path_image + "arrow-export.svg"}
-                alt=""
-                onClick={() => {
-                  topContentTableFn();
-                }}
-              />
-              </div> */}
-              <div className="">
-                <p>The Top 3 content</p>
+                <div className="count-number">
+                0
               </div>
+              <img src={path_image + "content-view.svg"} alt="" />
+              </>
 
-              <div className="lex-article">
-                {mostPopularContentDataChild
-                  ?.slice(0, 3)
-                  ?.map((item, index) => (
-                    <div key={index} className="d-flex lex-article-box">
-                      <div className="lex-image">
-                        <div className="article-number">{index + 1}</div>
-                        <img src={item?.article_image} alt="" />
-                      </div>
-                      <div className="lex-detail">
-                        <p>{item.pdf.title}</p>
-                        <span>{item?.pdf?.pdf_sub_title}</span>
-                        <div className="d-flex justify-content-between">
-                          <div className="pages-number">
-                            {item?.total_pages || item?.total_pages == 0
-                              ? "Pages:"
-                              : "Time:"}
-                            <span>
-                              {item?.total_pages || item?.total_pages == 0
-                                ? item.total_pages
-                                : item?.max_time}
-                            </span>
-                          </div>
-                          <div className="pages-viewer">
-                            {item.watched_count}{" "}
-                            <img src={path_image + "viewer.svg"} alt="" />
+              )}
+            </div>
+          </div>
+      
+          <div className="graph-box">
+            
+      
+            {mostPopularContentDataChild?.length > 0 ? (
+              <>
+              {!isHighlightNotLoaded && (
+              <>
+                <div className="graph-box-inside">
+                  <p>Sites who Read | Watch The Top Content</p>
+                </div>
+                <div className="popular-tooltip">
+                  <OverlayTrigger placement="left" overlay={tooltip}>
+                    <img src={path_image + "tooltip-img.svg"} alt="" />
+                  </OverlayTrigger>
+                </div>
+              </>
+            )}
+                <HighchartsReact
+                  highcharts={Highcharts}
+                  options={popularPieOptions}
+                />
+                {/* <div className="rd-midbox-export">
+                    <img
+                      src={path_image + "arrow-export.svg"}
+                      alt=""
+                      onClick={() => {
+                        topContentTableFn();
+                      }}
+                    />
+                    </div> */}
+                <div className="">
+                  <p>The Top 3 content</p>
+                </div>
+      
+                <div className="lex-article">
+                  {mostPopularContentDataChild
+                    ?.slice(0, 3)
+                    ?.map((item, index) => (
+                      <div key={index} className="d-flex lex-article-box">
+                        <div className="lex-image">
+                          <div className="article-number">{index + 1}</div>
+                          <img src={item?.article_image} alt="" />
+                        </div>
+                        <div className="lex-detail">
+                          <p>{item.pdf.title}</p>
+                          <span>{item?.pdf?.pdf_sub_title}</span>
+                          <div className="d-flex justify-content-between">
+                            <div className="pages-number">
+                              {item?.total_pages || item?.total_pages === 0
+                                ? "Pages:"
+                                : "Time:"}
+                              <span>
+                                {item?.total_pages || item?.total_pages === 0
+                                  ? item.total_pages
+                                  : item?.max_time}
+                              </span>
+                            </div>
+                            <div className="pages-viewer">
+                              {item.watched_count}{" "}
+                              <img src={path_image + "viewer.svg"} alt="" />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
-            <div className="rd-box-export">
-              <img
-                src={path_image + "arrow-export.svg"}
-                alt=""
-                onClick={() => {
-                  mostPopularContentFn();
-                }}
-              />
-            </div>
+                    ))}
+                </div>
+              </>
+            ) : (
+              <div className="not-found"><p>No data found</p></div>
+            )}
+          </div>
+          <div className="rd-box-export">
+            <img
+              src={path_image + "arrow-export.svg"}
+              alt=""
+              onClick={() => {
+                mostPopularContentFn();
+              }}
+            />
           </div>
         </div>
+      </div>
+      
       )}
     </>
   );
