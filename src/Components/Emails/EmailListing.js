@@ -2037,7 +2037,13 @@ const EmailList = (props) => {
                         <th scope="col">Email</th>
                         {/* <th scope="col">Bounced</th> */}
                         <th scope="col">Country</th>
+                        {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <th scope="col">IRT mandatory training</th>
+                      ) : (
                         <th scope="col">Business Unit</th>
+                      )}
+
                         {/* <th scope="col">Contact Type</th> */}
                         {/* <th scope="col">Opened</th> */}
                         {/* <th scope="col"> Clicked</th> */}
@@ -2064,7 +2070,16 @@ const EmailList = (props) => {
                                 {item?.country ? item.country : "N/A"}
                               </span>{" "}
                             </td>
-                            <td> {item?.ibu}</td>
+                            <td>
+                              {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? item.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :item.ibu
+                                  ? item.ibu
+                                  : "N/A"}
+                            </td>
                             {/* <td> {item?.contact_type} </td> */}
                             {/* <td>{item?.opened ? item?.opened : "N/A"}</td> */}
                             {/* <td>{item?.ctr ? item?.ctr : "N/A"}</td> */}

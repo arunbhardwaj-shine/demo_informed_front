@@ -19,11 +19,11 @@ export const AddReaderValidation = (data, groupId, flag) => {
   //     error.primary_phone = "Phone number required with country code";
   //   }
   // }
-  if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-    if (!data?.blinded) {
-      error.blinded = "Please select blind_type";
-    }
-  }
+  // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+  //   if (!data?.blinded) {
+  //     error.blinded = "Please select blind_type";
+  //   }
+  // }
   if (!data?.country) {
     error.country = "Please select country";
   }
