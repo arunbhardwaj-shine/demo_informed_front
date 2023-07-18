@@ -1170,8 +1170,20 @@ const Table = (props, ref) => {
                   <th scope="col">Email</th>
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
-                  <th scope="col">Business Unit</th>
-                  <th scope="col">Contact Type</th>
+                  {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <>
+                        <th scope="col">IRT mandatory training</th>
+                        <th scope="col">IRT Role</th>
+                        </>
+                      ) : (
+                        <>
+                        <th scope="col">Business Unit</th>
+                        <th scope="col">Contact Type</th>
+                        </>
+                      )}
+
+
                   {showLessInfo == false ? (
                     <>
                       {" "}
@@ -1249,9 +1261,25 @@ const Table = (props, ref) => {
                           <span>{item.country}</span>
                         )}
                       </td>
-                      <td> {item.ibu}</td>
                       <td>
-                        {editable ? (
+                        {/*item.ibu*/}
+                        {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? item?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :item.ibu
+                                  ? item.ibu
+                                  : "N/A"}
+                      </td>
+                      <td>
+                        {
+                          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                          (
+                            <span>
+                              {item.user_type != 0 ? item.user_type : "N/A"}
+                            </span>
+                          ) : editable ? (
                           <EditContactType
                             selected_ibu={item.contact_type}
                             profile_user={item.profile_user_id}
@@ -1353,9 +1381,26 @@ const Table = (props, ref) => {
                       {/*showLessInfo == false ? (
                         <td id="field_readers">NA</td>
                       ) : null*/}
-                      <td id="field_business_unit">{item.ibu}</td>
+                      <td id="field_business_unit">
+                        {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? item?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :item.ibu
+                                  ? item.ibu
+                                  : "N/A"}
+                      </td>
                       <td id="field_interest">
-                        {editable ? (
+
+                        {
+                          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                          (
+                            <span>
+                              {item.user_type != 0 ? item.user_type : "N/A"}
+                            </span>
+                          ) :
+                          editable ? (
                           <EditContactType
                             selected_ibu={item.contact_type}
                             profile_user={item.profile_user_id}

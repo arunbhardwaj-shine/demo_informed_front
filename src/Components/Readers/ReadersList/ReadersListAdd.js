@@ -435,9 +435,11 @@ const ReadersListAdd = () => {
         const edit_index = document.getElementById(
           "field_index" + data.profileIndex
         ).value;
-        const contact_type_edit = document.getElementById(
+        const contactTypeElement = document.getElementById(
           "field_contact_type" + data.profileIndex
-        ).value;
+        );
+        const contact_type_edit = contactTypeElement ? contactTypeElement.value : 0;
+
 
         let prev_obj_index = readersData.findIndex(
           (x) => x.profileIndex === data.profileIndex
@@ -564,9 +566,12 @@ const ReadersListAdd = () => {
       const country_edit = document.getElementById(
         "field_country" + profileIndex
       ).value;
-      const contact_type_edit = document.getElementById(
+
+      const contactTypeElement = document.getElementById(
         "field_contact_type" + profileIndex
-      ).value;
+      );
+      const contact_type_edit = contactTypeElement ? contactTypeElement.value : 0;
+
 
       const arr = [];
       arr.push({
@@ -796,7 +801,7 @@ const ReadersListAdd = () => {
                 <div className="create-reader-form-header table-title">
                   <h4>
                   {localStorage.getItem("user_id") == userId?"  Uploaded Users":"  Uploaded HCPs"}
-                  
+
                     <span> | {readersData.length}</span>
                   </h4>
 
@@ -911,8 +916,20 @@ const ReadersListAdd = () => {
                           <th scope="col">Name</th>
                           <th scope="col">Email</th>
                           <th scope="col">Country</th>
-                          <th scope="col">Business Unit</th>
-                          <th scope="col">Contact Type</th>
+                          {localStorage.getItem("user_id") ==
+                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              <>
+                              <th scope="col">IRT mandatory training</th>
+                              <th scope="col">IRT Role</th>
+                              </>
+                            ) : (
+                              <>
+                              <th scope="col">Business Unit</th>
+                              <th scope="col">Contact Type</th>
+                              </>
+                          )}
+
+
                         </tr>
                       </thead>
                       <tbody>
@@ -964,7 +981,16 @@ const ReadersListAdd = () => {
                                   </span>
                                 )}
                               </td>
-                              <td> {item?.ibu ? item.ibu : "N/A"}</td>
+                              <td>
+                              {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg=="
+                                ? item?.irt
+                                  ? "Yes"
+                                  : "No"
+                                :item.ibu
+                                ? item.ibu
+                                : "N/A"}
+                              </td>
                               <td>
                                 {editable ? (
                                   <EditContactType
@@ -1040,16 +1066,32 @@ const ReadersListAdd = () => {
                                     <span>{data.country}</span>
                                   )}
                                 </td>
-                                <td>{data?.ibu ? data.ibu : "N/A"}</td>
                                 <td>
-                                  {editable ? (
-                                    <EditContactType
-                                      selected_ibu={data.contact_type}
-                                      profile_user={data.profileIndex}
-                                    ></EditContactType>
-                                  ) : (
-                                    <span>{data.contact_type}</span>
-                                  )}
+                                  {
+                                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                     data?.irt
+                                      ? "Yes"
+                                      : "No"
+                                    : data.ibu
+                                    ? data.ibu
+                                    : "N/A"
+                                  }
+                                </td>
+
+                                <td>
+                                  {
+                                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                      <span>{data?.role}</span>
+                                    :
+                                      editable ? (
+                                      <EditContactType
+                                        selected_ibu={data.contact_type}
+                                        profile_user={data.profileIndex}
+                                      ></EditContactType>
+                                    ) : (
+                                      <span>{data.contact_type}</span>
+                                    )
+                                }
                                 </td>
                                 <td className="delete_row" colSpan="12">
                                   <img
