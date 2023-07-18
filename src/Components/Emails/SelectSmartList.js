@@ -735,7 +735,12 @@ const SelectSmartList = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      <th scope="col">Business Unit</th>
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <th scope="col">Irt</th>
+                      ) : (
+                        <th scope="col">Business Unit</th>
+                      )}
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <th scope="col">Role</th>
@@ -766,7 +771,16 @@ const SelectSmartList = (props) => {
                               <td>{rr.email}</td>
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
-                              <td>{rr.ibu}</td>
+                              <td>
+                              {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr.irt 
+                                    ? "Yes"
+                                    : "No"
+                                  :rr.ibu
+                                  ? rr.ibu
+                                  : "N/A"}
+                              </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg=="
