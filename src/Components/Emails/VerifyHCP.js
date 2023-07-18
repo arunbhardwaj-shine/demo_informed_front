@@ -86,7 +86,8 @@ const VerifyHCP = (props) => {
       country: "",
       countryIndex: "",
       role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-      optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
+      optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+
     },
   ]);
   const [updateCounter, setUpdateCounter] = useState(0);
@@ -260,7 +261,6 @@ const VerifyHCP = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        
       },
     ]);
     setActiveManual("active");
@@ -286,7 +286,7 @@ const VerifyHCP = (props) => {
         country: "",
         countryIndex: "",
         role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-      optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
+        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       },
     ]);
     setActiveManual("active");
@@ -688,7 +688,7 @@ const VerifyHCP = (props) => {
           country: "",
           countryIndex: "",
           role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-          optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
+          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
         },
       ]);
     } else {

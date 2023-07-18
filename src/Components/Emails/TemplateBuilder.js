@@ -115,7 +115,10 @@ const TemplateBuilder = (props) => {
   const [getDefaultTemplate, setDefaultTemplate] = useState(0);
 
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "" ,
+    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+  },
   ]);
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -416,6 +419,8 @@ const TemplateBuilder = (props) => {
           email: "",
           contact_type: "",
           country: "",
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
         },
       ]);
     } else {
@@ -774,6 +779,8 @@ const TemplateBuilder = (props) => {
         email: "",
         contact_type: "",
         country: "",
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       },
     ]);
     setActiveManual("active");
@@ -2233,6 +2240,8 @@ const TemplateBuilder = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
                   },
                 ]);
                 setActiveManual("active");
@@ -2322,7 +2331,7 @@ const TemplateBuilder = (props) => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt}
+                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>

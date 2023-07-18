@@ -53,9 +53,7 @@ const AutoEmail = () => {
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
-  const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
-  ]);
+  
   const [getTemplateLanguage, setTemplateLanguage] = useState([
     { value: "0", label: "English" },
     { value: "4", label: "Russian" },
@@ -72,6 +70,13 @@ const AutoEmail = () => {
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
+  ]);
+  const [hpc, setHpc] = useState([
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "" ,
+    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+  
+  },
   ]);
   const [irtCountry, setIRTCountry] = useState([]);
 
@@ -320,6 +325,8 @@ const AutoEmail = () => {
         email: "",
         contact_type: "",
         country: "",
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       },
     ]);
     setActiveManual("active");
@@ -827,6 +834,8 @@ const AutoEmail = () => {
           email: "",
           contact_type: "",
           country: "",
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
         },
       ]);
     } else {
@@ -1494,6 +1503,8 @@ const AutoEmail = () => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
                   },
                 ]);
                 // document.querySelector("#file-4").value = "";
@@ -1574,7 +1585,7 @@ const AutoEmail = () => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt}
+                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>

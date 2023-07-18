@@ -299,6 +299,7 @@ const ViewTable = (props) => {
   const [getlistname, setListName] = useState("");
   const [getlistcount, setListCount] = useState("");
   const [change, setChanges] = useState(null);
+  const [irtRole, setIrtRole] = useState([]);
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
@@ -310,8 +311,8 @@ const ViewTable = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      userType: "",
-      userTypeIndex: "",
+      userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
       subUserType: "",
       siteNumber: "",
       subUserTypeIndex: "",
@@ -326,9 +327,11 @@ const ViewTable = (props) => {
       siteStreetIndex: "",
       siteName: "",
       siteNameIndex: "",
-      siteIrt: "",
-      siteIrtIndex: "",
-
+      siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+      siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
+      // siteIrtAll
+      // role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      // optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       // siteDetails: [
       //   {
       //     siteNumber: "",
@@ -353,7 +356,6 @@ const ViewTable = (props) => {
   const [countryall, setCountryall] = useState([]);
   const [irtCountry, setIRTCountry] = useState([]);
   const [userTypeAll, setUserTypeAll] = useState([]);
-  const [irtRole, setIrtRole] = useState([]);
   const [subUserTypeAll, setSubUserTypeAll] = useState([]);
   const [blindTypeAll, setBlindTypeAll] = useState([]);
   const handleClose = () => {
@@ -371,6 +373,10 @@ const ViewTable = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+        siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+        siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
         siteDetails: [
           {
             siteNumber: "",
@@ -378,6 +384,8 @@ const ViewTable = (props) => {
             siteStreet: "",
             sitePostCode: "",
             siteCity: "",
+
+
           },
         ],
       },
@@ -611,8 +619,8 @@ const ViewTable = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          userType: "",
-          userTypeIndex: "",
+          userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
           subUserType: "",
           subUserTypeIndex: "",
           blindType: "",
@@ -627,8 +635,8 @@ const ViewTable = (props) => {
           siteStreetIndex: "",
           sitePostCodeIndex: "",
           siteCityIndex: "",
-          siteIrt: "",
-          siteIrtIndex: "",
+          siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+          siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
         },
       ]);
     } else {
@@ -2049,7 +2057,11 @@ const ViewTable = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
                     countryIndex: "",
+                    siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+                    siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.indexOf(item =>item?.value == "Yes"):"",
                   },
                 ]);
                 setActiveManual("active");
@@ -2066,6 +2078,9 @@ const ViewTable = (props) => {
             <div className="hcp-add-box">
               <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+                          {console.log("--hpc",hpc)} 
+                          {console.log("--=-=-=-=->>",irtRole)}
+
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
@@ -2227,7 +2242,7 @@ const ViewTable = (props) => {
                                   </div>
                                 </div>
                               ) : null}
-
+                              
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
@@ -2241,7 +2256,6 @@ const ViewTable = (props) => {
                                         onChange={(event) =>
                                           onSiteIrtChange(
                                             event,
-
                                             i
                                           )
                                         }
