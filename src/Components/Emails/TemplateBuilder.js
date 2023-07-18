@@ -2314,7 +2314,7 @@ const TemplateBuilder = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
+                                      <label for="">IRT mandatory training</label>
 
                                       <Select
                                         options={optIRT}
@@ -2329,7 +2329,7 @@ const TemplateBuilder = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT Role</label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
@@ -2771,13 +2771,16 @@ const TemplateBuilder = (props) => {
                               />
                               {data.readers_count}
                             </div>
-                            <div className="smartlist-buttons">
-                              <button className="btn btn-primary btn-bordered view">
-                                <a onClick={() => openSmartListPopup(data.id)}>
-                                  View
-                                </a>
-                              </button>
-                            </div>
+                            {
+                              /*<div className="smartlist-buttons">
+                                <button className="btn btn-primary btn-bordered view">
+                                  <a onClick={() => openSmartListPopup(data.id)}>
+                                    View
+                                  </a>
+                                </button>
+                              </div>*/
+                            }
+
                           </div>
                         </div>
                       </div>

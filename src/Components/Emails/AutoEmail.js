@@ -500,11 +500,20 @@ const AutoEmail = () => {
 
   const handleScroll = (ev) => {
     if (ev.target.scrollTop > 20) {
-      document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
+      const mailViewElement = document.querySelector("#mail-view");
+      if (mailViewElement) {
+          mailViewElement.setAttribute("custom-atr", "scroll");
+      }
+      // document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
     } else {
-      document
-        .querySelector("#mail-view")
-        .setAttribute("custom-atr", "non-scroll");
+      // document
+      //   .querySelector("#mail-view")
+      //   .setAttribute("custom-atr", "non-scroll");
+
+        const mailViewElement = document.querySelector("#mail-view");
+        if (mailViewElement) {
+            mailViewElement.setAttribute("custom-atr", "non-scroll");
+        }
     }
   };
 
@@ -1557,7 +1566,7 @@ const AutoEmail = () => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
+                                      <label for="">IRT mandatory training</label>
 
                                       <Select
                                         options={optIRT}
@@ -1572,7 +1581,7 @@ const AutoEmail = () => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT Role</label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
