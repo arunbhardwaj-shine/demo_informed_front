@@ -1514,7 +1514,11 @@ console.log(body_data);
                                 : "N/A"}
                               </td>
                               <td>
-                                {editable ? (
+
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                  item.role
+                                : editable ? (
                                   <EditContactType
                                     selected_ibu={item?.contact_type}
                                     profile_user={item?.profileIndex}
@@ -1592,7 +1596,7 @@ console.log(body_data);
                                   {
                                     localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
                                      data?.irt
-                                      ? "Yes"
+                                      ? data.irt == "Yes" ? "Yes" : "No"
                                       : "No"
                                     : data.ibu
                                     ? data.ibu
@@ -2751,7 +2755,7 @@ console.log(body_data);
           </div>
         </div>
       </Modal>}
-      
+
 
       <CommonConfirmModel
         show={confirmationpopup}
