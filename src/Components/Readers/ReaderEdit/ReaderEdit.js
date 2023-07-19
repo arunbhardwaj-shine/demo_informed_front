@@ -705,35 +705,38 @@ const ReaderEdit = () => {
             onChange={(e) => handleChange(e?.value, "sub_role")}
           />
         </Form.Group>
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">
-            Blind Type<span>*</span>{" "}
-          </Form.Label>
+        {
+          /*<Form.Group className="form-group">
+            <Form.Label htmlFor="">
+              Blind Type<span>*</span>{" "}
+            </Form.Label>
 
-          <Select
-            options={userDetail?.blind_type}
-            defaultValue={{
-              label:
-                userInputs?.blinded?.charAt(0)?.toUpperCase() +
-                userInputs?.blinded?.slice(1),
-              value: userInputs?.blinded,
-            }}
-            placeholder="Select Blind Type"
-            name="blinded"
-            className={
-              error?.blinded
-                ? "dropdown-basic-button split-button-dropup error"
-                : "dropdown-basic-button split-button-dropup"
-            }
-            isClearable
-            onChange={(e) => handleChange(e?.value, "blinded")}
-          />
-          {error?.blinded ? (
-            <div className="login-validation">{error?.blinded}</div>
-          ) : (
-            ""
-          )}
-        </Form.Group>
+            <Select
+              options={userDetail?.blind_type}
+              defaultValue={{
+                label:
+                  userInputs?.blinded?.charAt(0)?.toUpperCase() +
+                  userInputs?.blinded?.slice(1),
+                value: userInputs?.blinded,
+              }}
+              placeholder="Select Blind Type"
+              name="blinded"
+              className={
+                error?.blinded
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup"
+              }
+              isClearable
+              onChange={(e) => handleChange(e?.value, "blinded")}
+            />
+            {error?.blinded ? (
+              <div className="login-validation">{error?.blinded}</div>
+            ) : (
+              ""
+            )}
+          </Form.Group>*/
+        }
+
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Country <span>*</span>
@@ -1425,7 +1428,7 @@ const ReaderEdit = () => {
 
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                       <>
-                       
+
                         {localStorage.getItem("user_id") !=
                         "iSnEsKu5gB/DRlycxB6G4g==" ? (
                           <Form.Group className="form-group">

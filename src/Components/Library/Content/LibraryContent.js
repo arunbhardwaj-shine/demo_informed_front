@@ -74,8 +74,8 @@ const LibraryContent = (props) => {
   const [show, setShow] = useState(false);
   const [irtData, setIrtData] = useState([
     "All",
-    "Blinded site user",
     "Investigator-Blinded",
+    "Site User-Blinded",
     "Site unblinded pharmacist",
   ]);
   const [roleData, setRoleData] = useState([

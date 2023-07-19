@@ -1586,7 +1586,7 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                        {"blind_type" in filters &&
+                        {/*"blind_type" in filters &&
                           Object.keys(filters.blind_type).length > 0 && (
                             <>
                               <div className="col block-smart-name">
@@ -1622,7 +1622,7 @@ const FilterSegment = (props) => {
                                       )}
                                     </ul>
                                     */}
-
+                                    {/*
                                   <ul>
                                     <li>
                                       <div className="select-multiple-option">
@@ -1688,7 +1688,7 @@ const FilterSegment = (props) => {
                                 </div>
                               </div>
                             </>
-                          )}
+                          )*/}
 
                         {localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" && (
@@ -3098,8 +3098,9 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
+              {console.log(selectedBlindType,"selectedBlindTypess")}
               {updateflag > 0 ? (
-                selectedBlindType?.length ? (
+                selectedBlindType?.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
                       <span>Blind Type |</span>

@@ -48,8 +48,8 @@ const EditLibrary = () => {
   const [hcpIrtClickedFirst, setHcpIrtClickedFirst] = useState([]);
   const [mandatoryRole, setMandatoryRole] = useState([
     "Investigator-Blinded",
+    "Site User-Blinded",
     "Site unblinded pharmacist",
-    "Blinded site user",
   ]);
   const [updateflag, setupdateFlag] = useState(0);
   const [userInputs, setCreateLibraryInputs] = useState({
@@ -1714,7 +1714,7 @@ const EditLibrary = () => {
                         <div className="form-group">
                           <label htmlFor="setasdraft1">{
                             localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg=="?"IRT mandatory training":"Mandatory"                           
+                            "56Ek4feL/1A8mZgIKQWEqg=="?"IRT mandatory training":"Mandatory"
                     }</label>
                           <fieldset id="group2">
                             <div className="switch">
