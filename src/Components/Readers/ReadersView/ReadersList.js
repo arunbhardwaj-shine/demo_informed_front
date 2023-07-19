@@ -1762,9 +1762,15 @@ const NewReaders = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        IRT mandatory training
+                                      </h6>
+                                      <h6>{data?.irt ? data?.irt : "N/A"}</h6>
+                                    </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          IRT Role
+                                          IRT role
                                         </h6>
                                         <h6>
                                           {data?.role
@@ -1795,15 +1801,10 @@ const NewReaders = () => {
                                         </li>*/
                                       }
 
+
                                       <li>
                                         <h6 className="tab-content-title">
-                                          IRT
-                                        </h6>
-                                        <h6>{data?.irt ? data?.irt : "N/A"}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Site Number
+                                          Site number
                                         </h6>
                                         <h6>
                                           {data?.siteNumber &&
@@ -1814,7 +1815,7 @@ const NewReaders = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Site Name
+                                          Site name
                                         </h6>
                                         <h6>
                                           {data?.siteName
@@ -2306,7 +2307,7 @@ const NewReaders = () => {
                                         </li>*/}
                                         <li>
                                           <h6 className="tab-content-title">
-                                            IRT
+                                            IRT mandatory training
                                           </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
@@ -2347,7 +2348,7 @@ const NewReaders = () => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            IRT Role
+                                            IRT role
                                           </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
@@ -2465,7 +2466,7 @@ const NewReaders = () => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Site Number
+                                            Site number
                                           </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
@@ -2513,7 +2514,7 @@ const NewReaders = () => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Site Name
+                                            Site name
                                           </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">

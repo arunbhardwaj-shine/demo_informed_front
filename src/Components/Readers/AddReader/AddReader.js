@@ -147,7 +147,7 @@ const ReaderAdd = () => {
     ibu: "",
     hospitalData: {},
   });
-  
+
   const [uploadShow, setUploadShow] = useState(false);
   const [updateFlag, setUpdateFlag] = useState(0);
 
@@ -643,7 +643,7 @@ const ReaderAdd = () => {
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
-    
+
     if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
       link.href = "https://webinar.informed.pro/R_D_sample.xlsx";
     } else {
@@ -689,7 +689,7 @@ const ReaderAdd = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ? "IRT Role"
+              ? "IRT role"
               : "Role"}
           </Form.Label>
 
@@ -746,12 +746,12 @@ const ReaderAdd = () => {
           <Form.Label htmlFor="">
             {" "}
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ? "Study Role"
+              ? "Study role"
               : "Sub Role"}{" "}
           </Form.Label>
           <Select
             options={userDetail?.sub_role}
-            placeholder="Select Role"
+            placeholder={localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "Select Study Role" : "Select Role"}
             name="sub_role"
             className="dropdown-basic-button split-button-dropup"
             isClearable
@@ -841,7 +841,7 @@ const ReaderAdd = () => {
           )}
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Site Number </Form.Label>
+          <Form.Label htmlFor="">Site number </Form.Label>
           <Select
             options={userDetail?.siteNumber}
             placeholder="Select Site Number"
@@ -868,7 +868,7 @@ const ReaderAdd = () => {
           />
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Site Name </Form.Label>
+          <Form.Label htmlFor="">Site name </Form.Label>
           <Select
             options={userDetail?.siteName}
             placeholder="Select Site Name "

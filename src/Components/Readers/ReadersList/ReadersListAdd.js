@@ -1455,7 +1455,7 @@ console.log(body_data);
                             "56Ek4feL/1A8mZgIKQWEqg==" ? (
                               <>
                               <th scope="col">IRT mandatory training</th>
-                              <th scope="col">IRT Role</th>
+                              <th scope="col">IRT role</th>
                               </>
                             ) : (
                               <>
@@ -1723,7 +1723,13 @@ console.log(body_data);
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">
+                                    {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" ? "First name" : "First Name"
+                                    }
+
+                                  </label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1736,7 +1742,13 @@ console.log(body_data);
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">
+                                    {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" ? "Last name" : "Last Name"
+                                    }
+
+                                    </label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1908,7 +1920,7 @@ console.log(body_data);
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT Role</label>
+                                      <label for="">IRT role</label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
                                         <Select
@@ -1996,7 +2008,7 @@ console.log(body_data);
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Sub Role</label>
+                                      <label for="">Study role</label>
                                       <Select
                                         options={subUserTypeAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2012,7 +2024,7 @@ console.log(body_data);
                                           typeof subUserTypeAll[
                                             hpc[i].subUserTypeIndex
                                           ] === "undefined"
-                                            ? "Select Sub Role"
+                                            ? "Select Study Role"
                                             : subUserTypeAll[
                                                 hpc[i].subUserTypeIndex
                                               ]
@@ -2103,7 +2115,7 @@ console.log(body_data);
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Number</label>
+                                      <label for="">Site number</label>
                                       <Select
                                         options={siteNumberAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2152,7 +2164,7 @@ console.log(body_data);
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Name</label>
+                                      <label for="">Site name</label>
 
                                       <Select
                                         options={siteNameAll}
