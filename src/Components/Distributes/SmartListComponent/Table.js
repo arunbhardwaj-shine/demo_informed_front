@@ -2050,7 +2050,7 @@ const Table = (props, ref) => {
           </button>
         </Modal.Header>{" "}
         <div className="container">
-          {hpc.map((val, i) => {
+        IRT role          {hpc.map((val, i) => {
             const fieldName = `hpc[${i}]`;
             return (
               <>
@@ -2226,7 +2226,7 @@ const Table = (props, ref) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2239,7 +2239,7 @@ const Table = (props, ref) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2411,7 +2411,7 @@ const Table = (props, ref) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT Role</label>
+                                      <label for="">IRT role</label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
                                         <Select
@@ -2499,7 +2499,7 @@ const Table = (props, ref) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Sub Role</label>
+                                      <label for="">Study role</label>
                                       <Select
                                         options={subUserTypeAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2606,7 +2606,7 @@ const Table = (props, ref) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Number</label>
+                                      <label for="">Site number</label>
                                       <Select
                                         options={siteNumberAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2655,7 +2655,7 @@ const Table = (props, ref) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Name</label>
+                                      <label for="">Site name</label>
 
                                       <Select
                                         options={siteNameAll}
