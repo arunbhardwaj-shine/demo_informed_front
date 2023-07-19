@@ -1832,7 +1832,7 @@ const EditLibrary = () => {
                       userInputs?.reader_mandatory == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">
-                          <label htmlFor="">IRT Role</label>
+                          <label htmlFor="">IRT role</label>
                           <div className="input-group w-100">
                             <div className="tags_added">
                               <div className="select-tags">

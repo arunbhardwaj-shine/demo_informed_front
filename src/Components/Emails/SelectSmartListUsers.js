@@ -1132,22 +1132,22 @@ const SelectSmartListUsers = (props) => {
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <>
                           <th scope="col">IRT mandatory training</th>
-                          <th scope="col">IRT Role</th>
+                          <th scope="col">IRT role</th>
                           </>
                         ) : (
                           <>
-                          <th scope="col">Business Unit</th>
-                          <th scope="col">Contact Type</th>
+                          <th scope="col">Business unit</th>
+                          <th scope="col">Contact type</th>
                           </>
                         )}
 
                         {showLessInfo == false ? (
                           <>
                             <th scope="col">Consent</th>
-                            <th scope="col">Email Received</th>
+                            <th scope="col">Email received</th>
                             <th scope="col">Openings</th>
                             <th scope="col">Registrations</th>
-                            <th scope="col">Last Email</th>
+                            <th scope="col">Last email</th>
                           </>
                         ) : null}
                       </tr>
@@ -1629,7 +1629,7 @@ const SelectSmartListUsers = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1642,7 +1642,7 @@ const SelectSmartListUsers = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1701,7 +1701,7 @@ const SelectSmartListUsers = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT Role</label>
+                                      <label for="">IRT role</label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
@@ -1759,7 +1759,7 @@ const SelectSmartListUsers = (props) => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label htmlFor="">Contact Type</label>
+                                      <label htmlFor="">Contact type</label>
                                       <DropdownButton
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
@@ -1899,7 +1899,7 @@ const SelectSmartListUsers = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Number</label>
+                                      <label for="">Site number</label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -1920,7 +1920,7 @@ const SelectSmartListUsers = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Name</label>
+                                      <label for="">Site name</label>
 
                                       <Select
                                         options={siteNameAll}

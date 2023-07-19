@@ -4821,13 +4821,14 @@ h2 {
 
 #add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content,
 #smart_list_popup_id .search-hcp .selected-hcp-list {
-  margin-top: 8px;
+  margin: 8px 0;
   min-height: 229px;
   width: 100%;
   max-height: 64vh;
   overflow-y: auto;
   align-items: flex-start;
   padding-right: 6px;
+  padding-bottom:6px;
 }
 
 .create-smart-list .upload-btn,

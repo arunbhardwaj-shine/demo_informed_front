@@ -2688,7 +2688,7 @@ const CreateEmail = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2701,7 +2701,7 @@ const CreateEmail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2759,7 +2759,7 @@ const CreateEmail = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT Role</label>
+                                      <label for="">IRT role</label>
                                       {val.optIRT == "yes" ? (
                                         <Select
                                           options={irtRole}
@@ -2818,7 +2818,7 @@ const CreateEmail = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label htmlFor="">Contact Type</label>
+                                      <label htmlFor="">Contact type</label>
                                       <DropdownButton
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
@@ -2982,7 +2982,7 @@ const CreateEmail = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Number</label>
+                                      <label for="">Site number</label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -3003,7 +3003,7 @@ const CreateEmail = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Name</label>
+                                      <label for="">Site name</label>
 
                                       <Select
                                         options={siteNameAll}
