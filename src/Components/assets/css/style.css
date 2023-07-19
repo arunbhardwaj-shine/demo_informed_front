@@ -4828,6 +4828,7 @@ h2 {
   overflow-y: auto;
   align-items: flex-start;
   padding-right: 6px;
+  padding-bottom:6px;
 }
 
 .create-smart-list .upload-btn,

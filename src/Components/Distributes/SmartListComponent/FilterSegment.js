@@ -3065,7 +3065,7 @@ const FilterSegment = (props) => {
                 selectedSubRole.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Study role |</span>
+                      <span>Study roles |</span>
                     </div>
                     <div className="filter-div-list">
                       {selectedSubRole?.includes("All") ? (
