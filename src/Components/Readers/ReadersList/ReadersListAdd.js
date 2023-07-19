@@ -349,6 +349,24 @@ const ReadersListAdd = () => {
   const [siteCityAll, setSiteCityAll] = useState([]);
   const [sitePostalCodeAll, setSitePostCodeAll] = useState([]);
   const [change, setChanges] = useState(null);
+  const [validationError, setValidationError] = useState({});
+  const [siteIrtAll, setSiteIrtAll] = useState([]);
+  const [siteNameAll, setSiteNameAll] = useState([]);
+  const [siteNumberAll, setSiteNumberAll] = useState([]);
+  const [irtRole, setIrtRole] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
+  const [userTypeAll, setUserTypeAll] = useState([]);
+  const [subUserTypeAll, setSubUserTypeAll] = useState([]);
+  const [blindTypeAll, setBlindTypeAll] = useState([]);
+  const [forceRender, setForceRender] = useState(false);
+  const [siteData, setSiteData] = useState([]);
+  const [editList, setEditList] = useState([]);
+  const [newData, setNewData] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [showReaders, setShowSaveReader] = useState(false);
+  let combine_data;
+  const [isOpen, setIsOpen] = useState(false);
+  const [getlistid, setListId] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -570,26 +588,13 @@ const ReadersListAdd = () => {
       contact_type: "",
       country: "",
       countryIndex: "",
+      userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+      siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+      siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
     },
   ]);
-  const [validationError, setValidationError] = useState({});
-  const [siteIrtAll, setSiteIrtAll] = useState([]);
-  const [siteNameAll, setSiteNameAll] = useState([]);
-  const [siteNumberAll, setSiteNumberAll] = useState([]);
-  const [irtRole, setIrtRole] = useState([]);
-  const [irtCountry, setIRTCountry] = useState([]);
-  const [userTypeAll, setUserTypeAll] = useState([]);
-  const [subUserTypeAll, setSubUserTypeAll] = useState([]);
-  const [blindTypeAll, setBlindTypeAll] = useState([]);
-  const [forceRender, setForceRender] = useState(false);
-  const [siteData, setSiteData] = useState([]);
-  const [editList, setEditList] = useState([]);
-  const [newData, setNewData] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [showReaders, setShowSaveReader] = useState(false);
-  let combine_data;
-  const [isOpen, setIsOpen] = useState(false);
-  const [getlistid, setListId] = useState("");
+
 
   const onUserTypeChange = (e, i) => {
     if (e == null) {
@@ -752,6 +757,10 @@ const ReadersListAdd = () => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+        siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+        siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
       },
     ]);
     setActiveManual("active");
@@ -1084,6 +1093,10 @@ const ReadersListAdd = () => {
           contact_type: "",
           country: "",
           countryIndex: "",
+          userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+          siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+          siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
         },
       ]);
     } else {
@@ -1681,6 +1694,10 @@ console.log(body_data);
                     contact_type: "",
                     country: "",
                     countryIndex: "",
+                    userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+                    siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+                    siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.indexOf(item =>item?.value == "Yes"):"",
                   },
                 ]);
                 setActiveManual("active");
