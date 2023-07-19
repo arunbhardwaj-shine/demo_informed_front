@@ -171,7 +171,6 @@ const NewReaders = () => {
       const res = await getData(ENDPOINT.READERSFILTER);
       setCountry(res?.data?.data?.country);
       setFilterData(res?.data?.data);
-      console.log("filter data---->", res?.data?.data);
       setOriginalFilterData({
         ...originalFilterData,
         role: res?.data?.data?.role,
@@ -203,8 +202,13 @@ const NewReaders = () => {
         page: page,
         limit: limit,
       };
-
-      let payload = { ...data, ...obj };
+      let payload ={}
+      if( localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+        payload = {...data,...obj,"status":["Registered"],
+        "contact Type":["HCP"]}
+      }else{
+        payload = { ...data, ...obj };
+      }
 
       const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       if (spcFlag == 0) {
@@ -253,7 +257,7 @@ const NewReaders = () => {
       // }
 
       if (
-        res?.data?.data?.total > total_results &&
+        parseInt(res?.data?.data?.total) > total_results &&
         res?.data?.data?.result?.length != 0
       ) {
         setIsLoaded(true);
@@ -1178,19 +1182,21 @@ const NewReaders = () => {
                       Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
                     </h4>
                   )}
-
                   {(Object.keys(filterObject)?.length == 2 &&
                     filterObject["status"] == "Registered" &&
                     filterObject["contact Type"] == "HCP") ||
-                  (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                    ? Object.keys(filterObject)?.length == 1 &&
-                      filterObject["status"] == "Registered"
+                  (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && Object.keys(filterObject)?.length <=0
+                    ? true
                     : false) ? (
                     <div className="refresh-button">
                       <button
                         className={refreshFlag ? "refresh-rotate" : "refresh"}
                         onClick={() => {
-                          Refresh(filterObject);
+                          Refresh({
+                            "status":"Registered",
+                            "contact Type":"HCP"
+
+                          });
                         }}
                       >
                         <svg

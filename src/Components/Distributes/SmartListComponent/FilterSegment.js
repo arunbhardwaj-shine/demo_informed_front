@@ -1694,7 +1694,7 @@ const FilterSegment = (props) => {
                           "56Ek4feL/1A8mZgIKQWEqg==" && (
                           <>
                             <div className="col block-smart-name">
-                              <h6>IRT</h6>
+                              <h6>IRT mandatory training</h6>
                               <div className="smart-name-list">
                                 <ul>
                                   {/* <li>
@@ -1759,7 +1759,7 @@ const FilterSegment = (props) => {
                           (selectedIrt == "no" || selectedIrt == "") && (
                             <>
                               <div className="col block-smart-name">
-                                <h6>Role</h6>
+                                <h6>IRT Role</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {(() => {
@@ -1804,7 +1804,7 @@ const FilterSegment = (props) => {
                           selectedIrt == "yes" && (
                             <>
                               <div className="col block-smart-name">
-                                <h6>Role</h6>
+                                <h6>IRT Role</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {(() => {
@@ -3022,7 +3022,7 @@ const FilterSegment = (props) => {
                 selectedinvestigatorType.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>User Type |</span>
+                      <span>IRT Role |</span>
                     </div>
                     <div className="filter-div-list">
                       {selectedinvestigatorType?.includes("All") ? (
@@ -3381,7 +3381,7 @@ const FilterSegment = (props) => {
                   selectedIrt ? (
                     <div className="filter-div">
                       <div className="filter-div-title">
-                        <span>IRT |</span>
+                        <span>IRT mandatory training |</span>
                       </div>
                       <div className="filter-div-list">
                         <div className="filter-result">

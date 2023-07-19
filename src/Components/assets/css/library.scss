@@ -558,6 +558,9 @@
       font-size: 13px;
       line-height: 15px;
       padding: 3px 7px;
+      &.active{
+        color:$white;
+      }
     }
   }
 }
@@ -1834,7 +1837,7 @@ form.product-unit button {
         background: $white;
         .embedding-video {
           display: flex;
-          justify-content: space-between;
+          justify-content: center;
           width: 100%;
           .side-step-text {
             position: relative;
@@ -1846,7 +1849,25 @@ form.product-unit button {
             &:first-child {
               &:not(:last-child) {
                 width: 45%;
+              }
+            }
+            &.first-step{
+              position: relative;
+              &:after{
+                content:"";
+                position: absolute;
+                right:0;
                 border-right: 1px dashed $dark-blue;
+                top: -22px;
+                width: 1px;
+                height: 134px;
+              }
+            }
+            &:last-child{
+              width: 55%;
+              padding-left: 95px;
+              .embedded-video-step{
+                left:78px;
               }
             }
             p {
@@ -1855,6 +1876,7 @@ form.product-unit button {
               line-height: 25px;
               color: $dark-blue;
               text-align: left;
+              margin:0 0 16px;
             }
             .formgroup {
               display: flex;
@@ -1867,14 +1889,36 @@ form.product-unit button {
                 margin: 0 14px 0 0;
               }
               .split-button-dropup {
-                min-width: 290px;
+                min-width: 294px;
+                button{
+                  width:100%;
+                  @include split-btn;
+                  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+                  padding: 14px 40px 14px 15px;
+                  &:after{
+                    display: none;
+                  }
+                }
+                .dropdown-menu{
+                  .scroll_div{
+                    a{
+                      font-size: 16px;
+                      padding: 5px 10px;
+                      &:focus{color:$white;}
+                    }
+                  }
+                }
               }
               .upload-file-box {
                 align-items: center;
                 display: flex;
                 margin-left: 24px;
-                padding-left: 24px;
+                padding:0 0 0 24px;
+                border-radius: 0;
+                border:0;
                 border-left: 1px solid $light-gray;
+                min-height: initial;
+                width: auto;
                 label {
                   border: 1px solid $voilet;
                   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
@@ -1895,8 +1939,8 @@ form.product-unit button {
             .embedded-video-step {
               transform: rotate(-90deg) scaleX(1);
               transform-origin: bottom left;
-              top: 46px;
-              left: 52px;
+              top: 58px;
+              left: 46px;
               position: absolute;
               h2 {
                 font-size: 40px;
@@ -7015,6 +7059,9 @@ svg.pencil_icon {
     font-size: 11px;
     line-height: 15px;
   }
+  .pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text p {
+    font-size: 17px;
+}
   .custom-change .top-sticky {
     top: 61px;
   }
@@ -7466,6 +7513,13 @@ svg.pencil_icon {
     width: 60px;
     height: 60px;
   }
+  .pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text .formgroup .form-label {
+    font-size: 16px;
+}
+
+  .pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text .formgroup .split-button-dropup {
+    min-width: 270px;
+}
   nav #collapsibleNavbar li.nav-item a {
     padding: 0 28px;
   }
@@ -7573,6 +7627,43 @@ svg.pencil_icon {
     width: auto;
     flex: 0 0 50%;
   }
+.pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text:last-child {
+    padding-left: 70px;
+    width: 59%;
+}
+.pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text .formgroup .split-button-dropup {
+    min-width: 240px;
+}
+.pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text .formgroup .split-button-dropup button {
+    font-size: 15px;
+    padding: 10px 40px 10px 15px;
+}
+.pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text .formgroup .upload-file-box {
+    margin-left: 15px;
+    padding: 0 0 0 15px;
+}
+.pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text:last-child .embedded-video-step {
+    left: 62px;
+}
+  .pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text .embedded-video-step {
+    left: 30px;
+}
+.pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text .formgroup .form-label {
+    font-size: 15px;
+}
+.pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text:first-child:not(:last-child) {
+    width: 41%;
+}
+.pdf-video-link .modal-dialog .modal-content .modal-header {
+    padding: 9px 25px;
+}
+.pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text .embedded-video-step h2 {
+    font-size: 36px;
+}
+.pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text {
+    padding-left: 40px;
+}
+
   .timeline-article-details-overall
     .data-main-box
     .timeline-article-details-boxes
@@ -8725,6 +8816,14 @@ img.change-password-image {
       }
       .graph-box {
         padding: 16px 16px 14px;
+        .not-found {
+          text-align: center;
+          min-height: 300px;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          height: 100%;
+      }
         p {
           font-weight: 500;
           text-transform: capitalize;
@@ -9296,6 +9395,34 @@ img.change-password-image {
           .completed-date {
             display: flex;
             align-items: center;
+            &.certificate-download{
+              flex-direction: column;
+              align-items: flex-start;
+              button{
+                filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+                border-radius: 30px;
+                background-color: $white;
+                border: 0;
+                min-width: 40px;
+                padding: 10px;
+                font-size: 14px;
+                line-height: 16px;
+                text-transform: capitalize;
+                color: #97B6CF;
+                font-weight: 400;
+                margin:0 0 7px;
+                &:hover{
+                  background: $primary-color;
+                  color: $white;
+                    svg{
+                      path{
+                        fill: $white;
+                      }
+                    }
+                }
+              }
+            }
+            .certificate-issue{display:flex}
             span {
               margin: 0 0px 0 9px;
               color: $dark-blue;
@@ -10192,6 +10319,16 @@ img.change-password-image {
   }
 }
 /*Responsive for R&D Analytics End*/
+
+
+
+
+
+
+
+
+
+
 
 /**Speaker Zone Page**/
 .webinar-quest {

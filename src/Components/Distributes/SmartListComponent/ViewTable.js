@@ -299,6 +299,7 @@ const ViewTable = (props) => {
   const [getlistname, setListName] = useState("");
   const [getlistcount, setListCount] = useState("");
   const [change, setChanges] = useState(null);
+  const [irtRole, setIrtRole] = useState([]);
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
@@ -310,8 +311,8 @@ const ViewTable = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      userType: "",
-      userTypeIndex: "",
+      userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
       subUserType: "",
       siteNumber: "",
       subUserTypeIndex: "",
@@ -326,9 +327,11 @@ const ViewTable = (props) => {
       siteStreetIndex: "",
       siteName: "",
       siteNameIndex: "",
-      siteIrt: "",
-      siteIrtIndex: "",
-
+      siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+      siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
+      // siteIrtAll
+      // role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      // optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       // siteDetails: [
       //   {
       //     siteNumber: "",
@@ -353,7 +356,6 @@ const ViewTable = (props) => {
   const [countryall, setCountryall] = useState([]);
   const [irtCountry, setIRTCountry] = useState([]);
   const [userTypeAll, setUserTypeAll] = useState([]);
-  const [irtRole, setIrtRole] = useState([]);
   const [subUserTypeAll, setSubUserTypeAll] = useState([]);
   const [blindTypeAll, setBlindTypeAll] = useState([]);
   const handleClose = () => {
@@ -371,6 +373,10 @@ const ViewTable = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+        siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+        siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
         siteDetails: [
           {
             siteNumber: "",
@@ -378,6 +384,8 @@ const ViewTable = (props) => {
             siteStreet: "",
             sitePostCode: "",
             siteCity: "",
+
+
           },
         ],
       },
@@ -611,8 +619,8 @@ const ViewTable = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          userType: "",
-          userTypeIndex: "",
+          userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
           subUserType: "",
           subUserTypeIndex: "",
           blindType: "",
@@ -627,8 +635,8 @@ const ViewTable = (props) => {
           siteStreetIndex: "",
           sitePostCodeIndex: "",
           siteCityIndex: "",
-          siteIrt: "",
-          siteIrtIndex: "",
+          siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+          siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
         },
       ]);
     } else {
@@ -1676,12 +1684,18 @@ const ViewTable = (props) => {
                   <th scope="col">Email</th>
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
-                  <th scope="col">Business Unit</th>
+
                   {localStorage.getItem("user_id") ==
                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                    <th scope="col"> Role </th>
+                    <>
+                      <th scope="col">IRT mandatory training</th>
+                      <th scope="col">IRT Role</th>
+                    </>
                   ) : (
+                    <>
+                    <th scope="col">Business Unit</th>
                     <th scope="col">Contact Type</th>
+                    </>
                   )}
 
                   {showLessInfo == false ? (
@@ -1758,7 +1772,16 @@ const ViewTable = (props) => {
                         <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    <td>{item.ibu ? item.ibu : "N/A"}</td>
+                    <td>
+                      {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? item?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :item.ibu
+                                  ? item.ibu
+                                  : "N/A"}
+                    </td>
                     <td>
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1867,7 +1890,17 @@ const ViewTable = (props) => {
                         <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    <td id="field_business_unit">{item.ibu}</td>
+                    <td id="field_business_unit">
+                    {/*item.ibu*/}
+                    {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg=="
+                                ? item?.irt
+                                  ? "Yes"
+                                  : "No"
+                                :item.ibu
+                                ? item.ibu
+                                : "N/A"}
+                    </td>
                     <td id="field_interest">
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -2024,7 +2057,11 @@ const ViewTable = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
                     countryIndex: "",
+                    siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+                    siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.indexOf(item =>item?.value == "Yes"):"",
                   },
                 ]);
                 setActiveManual("active");
@@ -2041,6 +2078,9 @@ const ViewTable = (props) => {
             <div className="hcp-add-box">
               <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+                          {console.log("--hpc",hpc)} 
+                          {console.log("--=-=-=-=->>",irtRole)}
+
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
@@ -2202,21 +2242,20 @@ const ViewTable = (props) => {
                                   </div>
                                 </div>
                               ) : null}
-
+                              
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   <hr />
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
+                                      <label for="">IRT mandatory training</label>
                                       <Select
                                         options={siteIrtAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
                                           onSiteIrtChange(
                                             event,
-
                                             i
                                           )
                                         }
@@ -2235,7 +2274,7 @@ const ViewTable = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT Role</label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
                                         <Select

@@ -115,7 +115,10 @@ const TemplateBuilder = (props) => {
   const [getDefaultTemplate, setDefaultTemplate] = useState(0);
 
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "" ,
+    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+  },
   ]);
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -416,6 +419,8 @@ const TemplateBuilder = (props) => {
           email: "",
           contact_type: "",
           country: "",
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
         },
       ]);
     } else {
@@ -774,6 +779,8 @@ const TemplateBuilder = (props) => {
         email: "",
         contact_type: "",
         country: "",
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       },
     ]);
     setActiveManual("active");
@@ -2233,6 +2240,8 @@ const TemplateBuilder = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
                   },
                 ]);
                 setActiveManual("active");
@@ -2314,7 +2323,7 @@ const TemplateBuilder = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
+                                      <label for="">IRT mandatory training</label>
 
                                       <Select
                                         options={optIRT}
@@ -2322,14 +2331,14 @@ const TemplateBuilder = (props) => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt}
+                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT Role</label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
@@ -2771,13 +2780,16 @@ const TemplateBuilder = (props) => {
                               />
                               {data.readers_count}
                             </div>
-                            <div className="smartlist-buttons">
-                              <button className="btn btn-primary btn-bordered view">
-                                <a onClick={() => openSmartListPopup(data.id)}>
-                                  View
-                                </a>
-                              </button>
-                            </div>
+                            {
+                              /*<div className="smartlist-buttons">
+                                <button className="btn btn-primary btn-bordered view">
+                                  <a onClick={() => openSmartListPopup(data.id)}>
+                                    View
+                                  </a>
+                                </button>
+                              </div>*/
+                            }
+
                           </div>
                         </div>
                       </div>

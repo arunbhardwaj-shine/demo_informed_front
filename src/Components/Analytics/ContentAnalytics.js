@@ -434,9 +434,9 @@ const ReadersPerPageLayout = ({ data }) => {
       <Row>
         <Col>Total : data?.length Pages</Col>
       </Row> */}
-      <div class="section-detail-box d-flex">
-        <div class="detail_section_heading">Readers Per Page</div>
-        <div class="detail_section_pages">Total : {data?.length} Pages</div>
+      <div className="section-detail-box d-flex">
+        <div className="detail_section_heading">Readers Per Page</div>
+        <div className="detail_section_pages">Total : {data?.length} Pages</div>
       </div>
       {data?.map((element, index) => {
         return (

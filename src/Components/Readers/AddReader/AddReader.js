@@ -104,36 +104,6 @@ const ReaderAdd = () => {
     label: "",
     value: "",
   });
-
-  const [userInputs, setAddReaderInputs] = useState({
-    alternativeEmail: "",
-    alternativePhone: "",
-    blind_type: "",
-    country: "",
-    countryCode: "",
-    createdBy: "",
-    discipline: "",
-    email: "",
-    firstName: "",
-    hospital: "",
-    interestArea: "",
-    irt: "",
-    lastName: "",
-    middleName: "",
-    notes: "",
-    primary_phone: "",
-    product: "",
-    province: "",
-    repContact: "",
-    role: "",
-    siteName: "",
-    siteNumber: "",
-    speciality: "",
-    sub_role: "",
-    title: "",
-    ibu: "",
-    hospitalData: {},
-  });
   const [userDetail, setUserDetail] = useState({
     speciality: [],
     discipline: [],
@@ -147,6 +117,37 @@ const ReaderAdd = () => {
     siteNumber: [],
     siteName: [],
   });
+
+  const [userInputs, setAddReaderInputs] = useState({
+    alternativeEmail: "",
+    alternativePhone: "",
+    blind_type: "",
+    country: "",
+    countryCode: "",
+    createdBy: "",
+    discipline: "",
+    email: "",
+    firstName: "",
+    hospital: "",
+    interestArea: "",
+    irt:"",
+    lastName: "",
+    middleName: "",
+    notes: "",
+    primary_phone: "",
+    product: "",
+    province: "",
+    repContact: "",
+    role:"",
+    siteName: "",
+    siteNumber: "",
+    speciality: "",
+    sub_role: "",
+    title: "",
+    ibu: "",
+    hospitalData: {},
+  });
+  
   const [uploadShow, setUploadShow] = useState(false);
   const [updateFlag, setUpdateFlag] = useState(0);
 
@@ -251,6 +252,9 @@ const ReaderAdd = () => {
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
     setPharmaData(hasData?.data?.data?.user?.[0]?.pharmaData);
+    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+      setAddReaderInputs({...userInputs,role:hasData?.data?.data?.userIrtRoles?.[0]?.value,irt:1})
+    }
 
     setUserDetail({
       ...userDetail,
@@ -639,8 +643,9 @@ const ReaderAdd = () => {
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
+    
     if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
-      link.href = "https://webinar.informed.pro/R_D_sample.xls";
+      link.href = "https://webinar.informed.pro/R_D_sample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xls";
     }
@@ -662,6 +667,10 @@ const ReaderAdd = () => {
           </Form.Label>
           <Select
             options={userDetail?.irt}
+            defaultValue={{
+              label:"Yes",
+              value:"Yes"
+            }}
             placeholder={
               localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                 ? "Select IRT mandatory training"
@@ -681,7 +690,7 @@ const ReaderAdd = () => {
           <Form.Label htmlFor="">
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
               ? "IRT Role"
-              : "Role"}{" "}
+              : "Role"}
           </Form.Label>
 
           {userInputs?.irt && userInputs.irt == 1 ? (
@@ -689,12 +698,14 @@ const ReaderAdd = () => {
               options={userDetail?.userIrtRoles}
               placeholder="Select Role"
               name="role"
+              // defaultValue={userDetail?.userIrtRoles[0]}
               className="dropdown-basic-button split-button-dropup"
+
               value={
                 userDetail?.userIrtRoles.findIndex(
                   (el) => el.value == userInputs?.role
                 ) == -1
-                  ? ""
+                  ? userDetail?.userIrtRoles[0]
                   : userDetail?.userIrtRoles[
                       userDetail?.userIrtRoles.findIndex(
                         (el) => el.value == userInputs?.role
@@ -740,14 +751,14 @@ const ReaderAdd = () => {
           </Form.Label>
           <Select
             options={userDetail?.sub_role}
-            placeholder="Select Sub Role"
+            placeholder="Select Role"
             name="sub_role"
             className="dropdown-basic-button split-button-dropup"
             isClearable
             onChange={(e) => handleChange(e?.value, "sub_role")}
           />
         </Form.Group>
-        <Form.Group className="form-group">
+        {/* <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Blind Type<span>*</span>{" "}
           </Form.Label>
@@ -768,7 +779,7 @@ const ReaderAdd = () => {
           ) : (
             ""
           )}
-        </Form.Group>
+        </Form.Group> */}
 
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
