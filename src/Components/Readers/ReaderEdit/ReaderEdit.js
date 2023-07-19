@@ -639,7 +639,7 @@ const ReaderEdit = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ? "IRT Role"
+              ? "IRT role"
               : "Role"}{" "}
           </Form.Label>
 
@@ -689,7 +689,7 @@ const ReaderEdit = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ? "Study Role"
+              ? "Study role"
               : "Sub Role"}{" "}
           </Form.Label>
           <Select
@@ -1084,7 +1084,7 @@ const ReaderEdit = () => {
                         {groupId == 3 && flag == 1 ? (
                           <>
                             <Form.Group className="form-group">
-                              <Form.Label htmlFor="">Site Number </Form.Label>
+                              <Form.Label htmlFor="">Site number </Form.Label>
                               <Select
                                 options={userDetail?.siteNumber}
                                 noOptionsMessage={() =>
@@ -1118,7 +1118,7 @@ const ReaderEdit = () => {
                               />
                             </Form.Group>
                             <Form.Group className="form-group">
-                              <Form.Label htmlFor="">Site Name </Form.Label>
+                              <Form.Label htmlFor="">Site name </Form.Label>
                               <Select
                                 options={userDetail?.siteName}
                                 noOptionsMessage={() =>

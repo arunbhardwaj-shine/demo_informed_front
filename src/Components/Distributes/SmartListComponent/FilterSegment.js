@@ -1759,7 +1759,7 @@ const FilterSegment = (props) => {
                           (selectedIrt == "no" || selectedIrt == "") && (
                             <>
                               <div className="col block-smart-name">
-                                <h6>IRT Role</h6>
+                                <h6>IRT role</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {(() => {
@@ -1804,7 +1804,7 @@ const FilterSegment = (props) => {
                           selectedIrt == "yes" && (
                             <>
                               <div className="col block-smart-name">
-                                <h6>IRT Role</h6>
+                                <h6>IRT role</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {(() => {
@@ -1847,7 +1847,7 @@ const FilterSegment = (props) => {
                           Object.keys(filters.sub_role).length > 0 && (
                             <>
                               <div className="col block-smart-name">
-                                <h6>Sub Roles</h6>
+                                <h6>Study roles</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {(() => {
@@ -2053,7 +2053,7 @@ const FilterSegment = (props) => {
                           filters.consent_type.length > 0 && (
                             <>
                               <div className="col block-smart-name consent-type">
-                                <h6>Consent Type</h6>
+                                <h6>Consent type</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {filters.consent_type.map((item, index) => (
@@ -2089,7 +2089,7 @@ const FilterSegment = (props) => {
                           Object.keys(filters.site_number).length > 0 && (
                             <>
                               <div className="col block-smart-name">
-                                <h6>Site Number</h6>
+                                <h6>Site number</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {siteNumber?.length
@@ -2161,7 +2161,7 @@ const FilterSegment = (props) => {
                           Object.keys(filters.site_name).length > 0 && (
                             <>
                               <div className="col block-smart-name">
-                                <h6>Site Name</h6>
+                                <h6>Site name</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {siteName?.length
@@ -2495,7 +2495,7 @@ const FilterSegment = (props) => {
                         localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <div className="col block-smart-name">
-                            <h6>Reading/Viewing Completed</h6>
+                            <h6>Reading/Viewing completed</h6>
                             <div className="smart-name-list">
                               <ul>
                                 <li>
@@ -2547,7 +2547,7 @@ const FilterSegment = (props) => {
                           "56Ek4feL/1A8mZgIKQWEqg==" && (
                           <>
                             <div className="col block-smart-name 21">
-                              <h6>Trial Registered ?</h6>
+                              <h6>Trial registered ?</h6>
                               <ul>
                                 <li>
                                   <div className="select-multiple-option">
@@ -3022,7 +3022,7 @@ const FilterSegment = (props) => {
                 selectedinvestigatorType.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>IRT Role |</span>
+                      <span>IRT role |</span>
                     </div>
                     <div className="filter-div-list">
                       {selectedinvestigatorType?.includes("All") ? (
@@ -3065,7 +3065,7 @@ const FilterSegment = (props) => {
                 selectedSubRole.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Sub Role |</span>
+                      <span>Study role |</span>
                     </div>
                     <div className="filter-div-list">
                       {selectedSubRole?.includes("All") ? (
@@ -3103,7 +3103,7 @@ const FilterSegment = (props) => {
                 selectedBlindType?.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Blind Type |</span>
+                      <span>Blind type |</span>
                     </div>
                     <div className="filter-div-list">
                       <div className="filter-result">
@@ -3181,7 +3181,7 @@ const FilterSegment = (props) => {
                 selectedsitenumber.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Site Number |</span>
+                      <span>Site number |</span>
                     </div>
                     <div className="filter-div-list">
                       {selectedsitenumber?.includes("All") ? (
@@ -3221,7 +3221,7 @@ const FilterSegment = (props) => {
                   selectedArticleCompleted != "" && showhidearticle == 1 ? (
                     <div className="filter-div">
                       <div className="filter-div-title">
-                        <span>Reading/Viewing Completed |</span>
+                        <span>Reading/Viewing completed |</span>
                       </div>
                       <div className="filter-div-list">
                         <div className="filter-result">
@@ -3248,7 +3248,7 @@ const FilterSegment = (props) => {
                 selectedsitename.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Site Name |</span>
+                      <span>Site name |</span>
                     </div>
                     <div className="filter-div-list">
                       {selectedsitename?.includes("All") ? (
@@ -3356,7 +3356,7 @@ const FilterSegment = (props) => {
                 selectedContentRead && selectedIrt == "Training" ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Training Completed |</span>
+                      <span>Training completed |</span>
                     </div>
                     <div className="filter-div-list">
                       <div className="filter-result">
@@ -3406,7 +3406,7 @@ const FilterSegment = (props) => {
                   selectedTrialRegister ? (
                     <div className="filter-div">
                       <div className="filter-div-title">
-                        <span>Trial Register ? |</span>
+                        <span>Trial register ? |</span>
                       </div>
                       <div className="filter-div-list">
                         <div className="filter-result">
