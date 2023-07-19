@@ -19,7 +19,7 @@ import "react-circular-progressbar/dist/styles.css";
 const CreateSmartList = () => {
   const percentage = 98;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
-  const [fileLength, setFileLength] = useState();
+  const [fileLength, setFileLength] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
   const [showPreogressBar, setShowProgressBar] = useState(false);
