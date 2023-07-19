@@ -424,9 +424,16 @@ const LibraryCreateUser = () => {
         loader("hide");
 
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-          navigate("/preview-content", {
-            state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
-          });
+          if(userInputs?.docintelFormat == "video" || userInputs?.docintelFormat == "Video"){
+              navigate("/content-detail", {
+                state: { pdfId: res?.data?.data?.pdfId },
+              });
+          }else{
+              navigate("/preview-content", {
+                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
+              });
+          }
+
         } else {
           navigate("/set-popup", {
             state: {

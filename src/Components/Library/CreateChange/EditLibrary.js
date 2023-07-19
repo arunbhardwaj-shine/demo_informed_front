@@ -599,9 +599,16 @@ const EditLibrary = () => {
         });
         loader("hide");
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-          navigate("/preview-content", {
-            state: { pdfId: state?.pdfid, isEdit: 1 },
-          });
+
+            if(userInputs?.docintelFormat == "video" || userInputs?.docintelFormat == "Video"){
+                navigate("/content-detail", {
+                  state: { pdfId: state?.pdfid },
+                });
+            }else{
+              navigate("/preview-content", {
+                state: { pdfId: state?.pdfid, isEdit: 1 },
+              });
+            }
         } else {
           navigate("/set-popup", {
             state: {
