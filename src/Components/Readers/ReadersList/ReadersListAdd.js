@@ -1112,7 +1112,7 @@ const ReadersListAdd = () => {
           sitePostalCode: data.sitePostCode ? data.sitePostCode : "",
           siteCity: data.siteCity ? data.siteCity : "",
           irt:
-            data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
+            data.siteIrt == "Yes" ? "Yes" : data.siteIrt == "Training" ? 2 : "No",
             "contact_type": "HCP",
         };
       });
@@ -1507,7 +1507,7 @@ console.log(body_data);
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg=="
                                 ? item?.irt
-                                  ? "Yes"
+                                  ? item.irt == "Yes" ? "Yes" : "No"
                                   : "No"
                                 :item.ibu
                                 ? item.ibu
