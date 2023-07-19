@@ -1988,7 +1988,7 @@ form .input-group {
   color: var(--blue);
   font-size: 18px;
   line-height: 21px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 #tagsModal .modal-footer .save.btn {
@@ -2127,7 +2127,7 @@ form .input-group {
 .search-hcp-table table,
 .selected-hcp-list table {
   border-collapse: separate;
-  border-spacing: 0px 26px;
+  border-spacing: 0px 22px;
   padding-left: 5px;
 }
 
@@ -2573,7 +2573,7 @@ form#add_hcp_form .row:not(:first-child) {
   flex: 0 0 114px;
   font-size: 18px;
   line-height: 21px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--blue);
 }
 
@@ -5954,6 +5954,9 @@ table thead.sticky-header:after {
   z-index: 100;
   top: 74px;
   transition: 0.3s linear;
+}
+.search-hcp table thead.sticky-header {
+    top: 0px;
 }
 
 .search-hcp.smart-list-view table thead.sticky-header {
