@@ -30,6 +30,7 @@ const SelectSmartList = (props) => {
   const [PdfSelected, setPdfSelected] = useState(0);
   const [TemplateId, setTemplateId] = useState(0);
   const [getselecedlistid, setselecedlistid] = useState(0);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
   const [smartListSelected, setSmartListSelected] = useState({});
   const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [getpopupopeningstatus, setpopupopeningstatus] = useState(false);
@@ -62,6 +63,7 @@ const SelectSmartList = (props) => {
   }, []);
 
   const getSmartListData = (page = 1) => {
+    setApiCallStatus(false);
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: "",
@@ -74,10 +76,14 @@ const SelectSmartList = (props) => {
       .then((res) => {
         setSendListData(res.data.response.data);
         loader("hide");
+        setApiCallStatus(true);
       })
       .catch((err) => {
+        loader("hide");
+        setApiCallStatus(true);
         console.log(err);
       });
+
   };
 
   const handleClose = () => {
@@ -538,97 +544,105 @@ const SelectSmartList = (props) => {
               */}
 
                 <div className="col smartlist-result-block">
-                  {SendListData.map((template) => {
-                    return (
-                      <div className="smartlist_box_block">
-                        <div className="smartlist-view email_box">
-                          <div className="mail-box-content">
-                            <h5>{template.name}</h5>
-                            <div className="select-mail-option">
-                              <input
-                                onClick={() => handleSelect(template)}
-                                type="radio"
-                                name="radio"
-                                checked={
-                                  template.id == PdfSelected
-                                    ? true
-                                    : template.id == getselecedlistid &&
-                                      !PdfSelected
-                                    ? true
-                                    : false
-                                }
-                              />
-                              <span className="checkmark"></span>
-                            </div>
-                            <div className="mailbox-table">
-                              <table>
-                                <tbody>
-                                  <tr>
-                                    <th>Contact Type</th>
-                                    <td>{template.contact_type}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Speciality</th>
-                                    <td>{template.speciality}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Readers</th>
-                                    <td>{template.reader_selection}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>IBU</th>
-                                    <td>{template.ibu}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Product</th>
-                                    <td>{template.product}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Country</th>
-                                    <td>{template.country}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Registered</th>
-                                    <td>{template.registered}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Created By</th>
-                                    <td>
-                                      <span>{template.creator}</span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-
-                            <div className="mail-time">
-                              <span> {template.created_at}</span>
-                            </div>
-                            <div className="smart-list-added-user">
-                              <img
-                                src={path_image + "smartlist-user.svg"}
-                                alt="User icon"
-                              />
-                              {template.readers_count}
-                            </div>
-
-                            <div className="smartlist-buttons">
-                              <button className="btn view">
-                                <a
-                                  className="color_blue"
-                                  onClick={() =>
-                                    openSmartListPopup(template.id)
+                  {
+                    apiCallStatus && SendListData.length > 0
+                    ?
+                    SendListData.map((template) => {
+                      return (
+                        <div className="smartlist_box_block">
+                          <div className="smartlist-view email_box">
+                            <div className="mail-box-content">
+                              <h5>{template.name}</h5>
+                              <div className="select-mail-option">
+                                <input
+                                  onClick={() => handleSelect(template)}
+                                  type="radio"
+                                  name="radio"
+                                  checked={
+                                    template.id == PdfSelected
+                                      ? true
+                                      : template.id == getselecedlistid &&
+                                        !PdfSelected
+                                      ? true
+                                      : false
                                   }
-                                >
-                                  View
-                                </a>
-                              </button>
+                                />
+                                <span className="checkmark"></span>
+                              </div>
+                              <div className="mailbox-table">
+                                <table>
+                                  <tbody>
+                                    <tr>
+                                      <th>Contact Type</th>
+                                      <td>{template.contact_type}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Speciality</th>
+                                      <td>{template.speciality}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Readers</th>
+                                      <td>{template.reader_selection}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>IBU</th>
+                                      <td>{template.ibu}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Product</th>
+                                      <td>{template.product}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Country</th>
+                                      <td>{template.country}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Registered</th>
+                                      <td>{template.registered}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Created By</th>
+                                      <td>
+                                        <span>{template.creator}</span>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+
+                              <div className="mail-time">
+                                <span> {template.created_at}</span>
+                              </div>
+                              <div className="smart-list-added-user">
+                                <img
+                                  src={path_image + "smartlist-user.svg"}
+                                  alt="User icon"
+                                />
+                                {template.readers_count}
+                              </div>
+
+                              <div className="smartlist-buttons">
+                                <button className="btn view">
+                                  <a
+                                    className="color_blue"
+                                    onClick={() =>
+                                      openSmartListPopup(template.id)
+                                    }
+                                  >
+                                    View
+                                  </a>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  :
+                  apiCallStatus ? (
+                    <div class="no_found"><p>No Data Found</p></div>
+                  ): null
+                }
                 </div>
 
                 {typeof SendListData !== "undefined" &&
