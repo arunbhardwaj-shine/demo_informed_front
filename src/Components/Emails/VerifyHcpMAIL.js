@@ -1020,21 +1020,21 @@ const VerifyHcpMAIL = (props) => {
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                         <th scope="col">IRT mandatory training</th>
-                        <th scope="col">IRT Role</th>
+                        <th scope="col">IRT role</th>
                         </>
                       ) : (
                         <>
-                        <th scope="col">Business Unit</th>
-                        <th scope="col">Contact Type</th>
+                        <th scope="col">Business unit</th>
+                        <th scope="col">Contact type</th>
                         </>
                       )}
                       {showLessInfo == false ? (
                         <>
                           <th scope="col">Consent</th>
-                          <th scope="col">Email Received</th>
+                          <th scope="col">Email received</th>
                           <th scope="col">Openings</th>
                           <th scope="col">Registrations</th>
-                          <th scope="col">Last Email</th>
+                          <th scope="col">Last email</th>
                         </>
                       ) : null}
                     </tr>
