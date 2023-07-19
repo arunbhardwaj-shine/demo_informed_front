@@ -79,7 +79,7 @@ const Table = (props, ref) => {
   const [getStorageState, setStorageState] = useState(false);
   let file_name = useRef("");
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
-  
+
   const [siteStreetAll, setSiteStreetAll] = useState([]);
   const [siteCityAll, setSiteCityAll] = useState([]);
   const [sitePostalCodeAll, setSitePostCodeAll] = useState([]);
@@ -2468,31 +2468,34 @@ const Table = (props, ref) => {
                                       )}
                                     </div>
                                   </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Blind Type</label>
-                                      <Select
-                                        options={blindTypeAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onBlindTypeChange(event, i)
-                                        }
-                                        defaultValue={
-                                          blindTypeAll[hpc[i].blindTypeIndex]
-                                        }
-                                        placeholder={
-                                          typeof blindTypeAll[
-                                            hpc[i].blindTypeIndex
-                                          ] === "undefined"
-                                            ? "Select Blind Type"
-                                            : blindTypeAll[
-                                                hpc[i].blindTypeIndex
-                                              ]
-                                        }
-                                        // filterOption={createFilter(filterConfig)}
-                                      />
-                                    </div>
-                                  </div>
+                                  {
+                                    /*<div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Blind Type</label>
+                                        <Select
+                                          options={blindTypeAll}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onBlindTypeChange(event, i)
+                                          }
+                                          defaultValue={
+                                            blindTypeAll[hpc[i].blindTypeIndex]
+                                          }
+                                          placeholder={
+                                            typeof blindTypeAll[
+                                              hpc[i].blindTypeIndex
+                                            ] === "undefined"
+                                              ? "Select Blind Type"
+                                              : blindTypeAll[
+                                                  hpc[i].blindTypeIndex
+                                                ]
+                                          }
+                                          // filterOption={createFilter(filterConfig)}
+                                        />
+                                      </div>
+                                    </div>*/
+                                  }
+
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
