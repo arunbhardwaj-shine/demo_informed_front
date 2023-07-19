@@ -1689,11 +1689,11 @@ const ViewTable = (props) => {
                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
                     <>
                       <th scope="col">IRT mandatory training</th>
-                      <th scope="col">IRT Role</th>
+                      <th scope="col">IRT role</th>
                     </>
                   ) : (
                     <>
-                    <th scope="col">Business Unit</th>
+                    <th scope="col">Business unit</th>
                     <th scope="col">Contact Type</th>
                     </>
                   )}
@@ -1702,10 +1702,10 @@ const ViewTable = (props) => {
                     <>
                       {" "}
                       <th scope="col">Consent</th>
-                      <th scope="col">Email Received</th>
+                      <th scope="col">Email received</th>
                       <th scope="col">Openings</th>
                       <th scope="col">Registrations</th>
-                      <th scope="col">Last Email</th>
+                      <th scope="col">Last email</th>
                       <th scope="col"></th>{" "}
                     </>
                   ) : null}
@@ -2379,7 +2379,7 @@ const ViewTable = (props) => {
                                           typeof subUserTypeAll[
                                             hpc[i].subUserTypeIndex
                                           ] === "undefined"
-                                            ? "Select Sub Role"
+                                            ? "Select Study Role"
                                             : subUserTypeAll[
                                                 hpc[i].subUserTypeIndex
                                               ]
