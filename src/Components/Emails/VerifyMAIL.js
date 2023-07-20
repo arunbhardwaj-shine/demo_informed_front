@@ -844,7 +844,7 @@ const VerifyMAIL = (props) => {
                                     <table>
                                       <tbody>
                                         <tr>
-                                          <th>Contact Type</th>
+                                          <th>Contact type</th>
                                           <td>
                                             {getSmartListData.contact_type}
                                           </td>

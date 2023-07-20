@@ -443,7 +443,7 @@ const GetDetails = () => {
                         <tr>
                           <>
                             <th scope="col">
-                              First Name
+                              First name
                               <div className="hcp-sort">
                                 {sortingCount == 0 ? (
                                   <>
@@ -484,7 +484,7 @@ const GetDetails = () => {
                                 )}
                               </div>
                             </th>
-                            <th scope="col">Last Name</th>
+                            <th scope="col">Last name</th>
                             <th scope="col">
                               Email
                               <div className="hcp-sort">
@@ -527,8 +527,8 @@ const GetDetails = () => {
                                 )}
                               </div>
                             </th>
-                            <th scope="col">Email Read</th>
-                            <th scope="col">Link Open</th>
+                            <th scope="col">Email read</th>
+                            <th scope="col">Link open</th>
                             <th scope="col">Registered</th>
                             {typeof data != "undefined" && data.length > 0 ? (
                               <>
