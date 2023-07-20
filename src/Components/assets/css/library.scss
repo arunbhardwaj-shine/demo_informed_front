@@ -2217,12 +2217,12 @@ form.product-unit button {
     overflow-y: auto;
     max-height: 61vh;
 }
-.sublink_right.preview-content .viewer-layout-container {
+.sublink_right.preview-content .modal-body-content {
     border: 0.5px solid #97B6CF;
     box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
     border-radius: 15px;
-    min-height: 69vh;
-    padding: 0 20px;
+    min-height: 68vh;
+    padding: 20px;
     margin: 0;
     position: relative;
 }

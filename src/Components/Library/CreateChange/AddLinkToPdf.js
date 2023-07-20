@@ -22,16 +22,44 @@ import packageJson from '../../../../package.json';
 import  Viewer from '@phuocng/react-pdf-viewer';
 import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
 import Select from "react-select";
+import axios from "axios";
 import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps,ProgressBar} from '@react-pdf-viewer/core';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const AddLinkToPdf = () => {
 
-  let url = "https://docintel.s3.eu-west-1.amazonaws.com/pdf/arunp/pdflink_1689849787.pdf";
-  const defaultScale = 1.3347;
+  const [dragging, setDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [startY, setStartY] = useState(0);
+  const [endX, setEndX] = useState(0);
+  const [endY, setEndY] = useState(0);
+  const [file, setFile] = useState();
+  const [startXCordinate, setStartXCordinate] = useState(0);
+  const [startYCordinate, setStartYCordinate] = useState(0);
+  const [endXCordinate, setEndXCordinate] = useState(0);
+  const [endYCordinate, setEndYCordinate] = useState(0);
+  const [mousefirstdown, setMousefirstdown] = useState(0);
+  const [highlighted, setHighlighted] = useState(false);
+  const [showAddLink, setShowAddLink] = useState(false);
+  const [hoveredLink, setHoveredLink] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [hoverUrl, setHoverUrl] = useState("");
+  const [linkonpage, setLinkonpage] = useState(0);
+  const [xcoordinates, setXcoordinates] = useState(0);
+  const [ycoordinates, setYcoordinates] = useState(0);
+  const [inputUrl, setInputUrl] = useState("");
+  const [error, setError] = useState({});
+
+  const [hoveredLinkPosition, setHoveredLinkPosition] = useState({
+    x: 0,
+    y: 0,
+  });
   const [chapterOption,setchapterOption] = useState([
     {"label":"Test","value":"value"}
   ]);
+  let url = "https://docintel.s3.eu-west-1.amazonaws.com/pdf/arunp/pdflink_1689849787.pdf";
+  const defaultScale = 1.3347;
+  const parentRef = useRef(null);
 
   const renderPage = (props: RenderPageProps) => {
     return (
@@ -62,6 +90,228 @@ const AddLinkToPdf = () => {
       sidebar.remove();
     }
   };
+
+  useEffect(() => {
+    parentRef?.current?.addEventListener("mousedown", handleMouseDown);
+    parentRef?.current?.addEventListener("mousemove", handleMouseMove);
+    parentRef?.current?.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      parentRef?.current?.removeEventListener("mousedown", handleMouseDown);
+      parentRef?.current?.removeEventListener("mousemove", handleMouseMove);
+      parentRef?.current?.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragging, startX, startY, endX, endY]);
+
+  const handleMouseDown = (event) => {
+    if (event.target.className === "viewer-text-layer") {
+      setMousefirstdown(event.clientY);
+      setHighlighted(false);
+      setShowAddLink(true);
+      const viewerRect = parentRef.current.getBoundingClientRect();
+      const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+      const scrollLayer = document.querySelector(".modal-body-content");
+      const scrollTop = scrollLayer.scrollTop;
+
+      const x = event.clientX - viewerRect.left;
+      const y = event.clientY - viewerRect.top;
+
+      const xInPage = x - textLayer.offsetLeft + 26;
+      const yInPage = y - textLayer.offsetTop - scrollTop + 26;
+
+      setDragging(true);
+      setStartX(xInPage);
+      setStartY(yInPage);
+      setEndX(xInPage);
+    }
+  };
+
+  const handleMouseMove = (event) => {
+    const targetLink = event.target.closest(".viewer-annotation-link");
+
+    if (targetLink) {
+      const anchorTag = targetLink.querySelector("a");
+      if (anchorTag) {
+        const linkText = anchorTag.getAttribute("href");
+        // console.log("=====-----=-=-->>",linkText)
+
+        const rect = targetLink.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+        const top = rect.top;
+        const left = rect.left;
+        const x2 = left + width;
+        const y2 = top + height;
+
+        const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+        const scrollTop = document.querySelector(
+          ".modal-body-content"
+        ).scrollTop;
+        const x = event.clientX - textLayer.getBoundingClientRect().left;
+        const y =
+          event.clientY -
+          textLayer.getBoundingClientRect().top -
+          scrollTop -
+          20;
+
+        if (hoverUrl != linkText) {
+          setHoverUrl(linkText);
+        }
+        setHoveredLink(linkText);
+        setHoveredLinkPosition({ x, y });
+        setIsPopupOpen(true);
+      }
+    } else {
+      const targetLinkPop = event.target.closest(".link-popup");
+      if (!targetLinkPop) {
+        setIsPopupOpen(false);
+      }
+    }
+
+    if (event.target.closest(".viewer-page-layer")) {
+      window.getSelection().removeAllRanges();
+      if (!dragging) return;
+
+      const viewerRect = parentRef.current.getBoundingClientRect();
+      const scrollLayer = document.querySelector(".modal-body-content");
+      const scrollTop = scrollLayer.scrollTop;
+      const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+      const pageHeight = textLayer.getBoundingClientRect().height;
+
+      getMousePosition(parentRef.current, event, scrollTop);
+
+      // Calculate the coordinates relative to the viewer
+      const x = event.clientX - viewerRect.left;
+      const y = event.clientY - viewerRect.top;
+      setEndXCordinate(x);
+      // setEndYCordinate(y-(page * pageHeight));
+
+      // Calculate the coordinates relative to the text layer
+      const xInPage = x - textLayer.offsetLeft;
+      const yInPage = y - textLayer.offsetTop - scrollTop;
+
+      if (xInPage < startX && yInPage < startX) {
+        setEndX(startX);
+        setEndY(startY);
+      } else {
+        setEndX(xInPage);
+        setEndY(yInPage);
+      }
+    }
+  };
+
+  const handleMouseUp = (event) => {
+    if (event.target.closest(".viewer-page-layer")) {
+      if (event.target.name === "url") return;
+      if (event.target.name === "addurl") return;
+      const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+      const pageHeight = textLayer.getBoundingClientRect().height;
+
+      window.getSelection().removeAllRanges();
+      setDragging(false);
+      if (showAddLink) {
+        setHighlighted(true);
+      }
+    }
+  };
+
+  const getMousePosition = (canvas, event, scrollTop) => {
+    const closestElement = event.target.closest(".pdf_page_class");
+    if (closestElement) {
+      const closestElementId = closestElement.id;
+      const pageNumber = parseInt(closestElementId.slice(5));
+      setLinkonpage(pageNumber);
+      const viewerTextLayer = document.querySelector(
+        `#${closestElementId} .viewer-text-layer`
+      );
+      const rect = viewerTextLayer.getBoundingClientRect();
+      const x = event.clientX - 16 - rect.left;
+      const y = event.clientY - rect.top - scrollTop;
+      // console.log('Coordinate of eveny x: ' + (event.clientX - 16), 'Coordinate of eveny y: ' + event.clientY);
+      // console.log(event.clientY,"clientY");
+      // console.log(rect.top,"TOp");
+      // console.log(scrollTop," - scrollTop");
+      // console.log('Coordinate of rect x: ' + rect.left, 'Coordinate of rect y: ' + rect.top - scrollTop);
+      // console.log('Coordinate of difference x: ' + x, 'Coordinate of difference y: ' + y);
+      // const updatedTop = rect.top  - scrollTop;
+      setXcoordinates(x);
+      setYcoordinates(rect.top);
+    }
+  };
+
+  const handleAddUrl = (e, file) => {
+    e.preventDefault();
+    let embed_url = inputUrl.trim();
+    if (embed_url.length > 0 && isValidUrl(embed_url)) {
+      setError(false);
+    } else {
+      setError(true);
+    }
+
+    // start from new view
+    let difference_width = xcoordinates;
+    let difference_height = ycoordinates;
+    let box = parentRef.current.querySelector(".highlight_box");
+    let box_width = box.getBoundingClientRect().width;
+    let box_height = box.getBoundingClientRect().height;
+    let actual_width = xcoordinates - 11 - box_width;
+    let x_cord = actual_width / 3.8;
+    let actual_height = mousefirstdown + 11 - ycoordinates;
+    let y_cord = actual_height / 3.8;
+    let page_no = linkonpage + 1;
+    let box_width_x = box_width / 3.7;
+    let box_width_y = box_height / 3.7;
+    let cordinates =
+      x_cord + "," + parseInt(y_cord) + "," + box_width_x + "," + box_width_y;
+    addLinkToPdf(cordinates, page_no, embed_url, file);
+    // console.log(x_cord,"x coordinates");
+    // console.log(y_cord,"Y coordinates");
+    // console.log(,"box_accurate_width");
+    // console.log(box_height/3.7,"box_accurate_height");
+    // console.log("page",page_no);
+  };
+
+  const addLinkToPdf = async (cordinates, page_no, embed_url, file) => {
+   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+   const body = {
+     file: file,
+     link: embed_url,
+     page_no: page_no,
+     file_type: "pdf",
+     chapter: 0,
+     cordinates: cordinates,
+   };
+   // axios
+   //   .post(`libraries/addTempLinkToPdf`, body)
+   //   .then((res) => {
+   //     setFile(res?.data?.data);
+   //     setForceRender((forceRender) => !forceRender);
+   //   })
+   //   .catch((err) => {
+   //     console.log(err);
+   //   });
+   setDragging(false);
+   setHighlighted(false);
+ };
+
+  const isValidUrl = (urlString) => {
+    var urlPattern = new RegExp(
+      "^(https?:\\/\\/)?" + // validate protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    ); // validate fragment locator
+    return !!urlPattern.test(urlString);
+  };
+
+  const closePopup = () => {
+    setDragging(false);
+    setHighlighted(false);
+  };
+
 
     return (
       <Col className="right-sidebar custom-change">
@@ -168,14 +418,64 @@ const AddLinkToPdf = () => {
                       </Form.Group>
                     </div>
                   </div>
-                      <Viewer
-                        id="container"
-                        renderPage={renderPage}
-                        defaultScale={defaultScale}
-                        onDocumentLoad={handleDocumentLoad}
-                        renderMode="canvas"
-                        fileUrl={url}
-                      />
+                      <div id="parent_div" ref={parentRef}>
+                        <div class="modal-body-content">
+                            <Viewer
+                              id="container"
+                              renderPage={renderPage}
+                              defaultScale={defaultScale}
+                              onDocumentLoad={handleDocumentLoad}
+                              renderMode="canvas"
+                              fileUrl={url}
+                            />
+                            <div
+                          className="highlight_box"
+                          style={{
+                            position: "absolute",
+                            border: "2px dashed rgb(204, 204, 204)",
+                            backgroundColor: "rgba(255, 0, 0, 0)",
+                            display: highlighted || dragging ? "block" : "none",
+                            pointerEvents: "none",
+                            left: `${Math.min(startX, endX)}px`,
+                            top: `${Math.min(startY, endY)}px`,
+                            width: `${Math.abs(startX - endX)}px`,
+                            height: `${Math.abs(startY - endY)}px`,
+                          }}
+                        />
+                            {highlighted && (
+                            <div className="link_popup">
+                              <form action="#" id="addLinkForm">
+                                <button
+                                  type="button"
+                                  className="close"
+                                  id="closeLinkPopup"
+                                  onClick={() => closePopup()}
+                                >
+                                  <span aria-hidden="true">×</span>
+                                </button>
+                                <label for="targetURL">Add Link:</label>
+                                <input
+                                  placeholder="https://example.com"
+                                  id="targetURL"
+                                  className="form-control input-xs"
+                                  type="text"
+                                  onChange={(e) => setInputUrl(e.target.value)}
+                                />
+                                {error ? (
+                                  <p className="err_class">Please enter a valid link</p>
+                                ) : null}
+                                <input
+                                  type="submit"
+                                  value="Add Link"
+                                  id="addLinkToPdfButton"
+                                  onClick={(e) => handleAddUrl(e, file)}
+                                />
+                              </form>
+                            </div>
+                          )}
+                          </div>
+                      </div>
+
                   </Col>
                 </div>
               </div>
