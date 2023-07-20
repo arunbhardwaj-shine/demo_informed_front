@@ -1693,7 +1693,7 @@ const Sidebar = () => {
             window.location.pathname == "/content-analytics" ||
             window.location.pathname == "/LEX-210-analytics" ? (
               <ul>
-				
+
 				<li
                   className={
                     location.pathname == "/LEX-210-analytics"
@@ -1738,13 +1738,13 @@ const Sidebar = () => {
                     <p>Content Analytics</p>
                   </Link>
                 </li>
-                
-              
+
+
               </ul>
             ) : null
           ) :
-            
-            
+
+
             (
               <ul>
                 <li
@@ -3099,19 +3099,22 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-content-library-inside">
-                      <img src={path_image + "help/creator_name.png"} alt="" />
+                      <img src={path_image + "help/creator_name_t.png"} alt="" />
                       <p>
                         Creator name is automatically what is account name, but
                         you can change it if needed.
                       </p>
                     </div>
 
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        Demo list is the people you frequently email samples to
-                        for review and approval.
-                      </p>
-                    </div>
+                    {
+                      /*<div className="help-popup-content-library-inside">
+                        <p>
+                          Demo list is the people you frequently email samples to
+                          for review and approval.
+                        </p>
+                      </div>*/
+                    }
+
 
                     <div className="help-popup-content-list">
                       <p className="help-popup-title">

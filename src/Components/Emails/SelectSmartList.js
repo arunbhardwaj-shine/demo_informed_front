@@ -962,30 +962,34 @@ const SelectSmartList = (props) => {
                           </div>
                         ) : null}
                       </div>
-                      <div className="form-group col-sm-12">
-                        <div className="form-group-content">
-                          <p>
-                            {" "}
-                            I want this to be a <span>Demo list</span>
-                          </p>
-                          <div className="select-demo-option">
-                            <input type="checkbox" name="checkbox" />
-                            <span className="checkmark"></span>
+
+                      {
+                        /*<div className="form-group col-sm-12">
+                          <div className="form-group-content">
+                            <p>
+                              {" "}
+                              I want this to be a <span>Demo list</span>
+                            </p>
+                            <div className="select-demo-option">
+                              <input type="checkbox" name="checkbox" />
+                              <span className="checkmark"></span>
+                            </div>
+                            <a
+                              href="#"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="Step to create smart list"
+                            >
+                              <img src={path_image + "question.svg"} alt="" />
+                            </a>
+                            <div className="tooltip">
+                              A list that will appeare when you select smart list
+                              to <span>send a sample.</span>
+                            </div>
                           </div>
-                          <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="Step to create smart list"
-                          >
-                            <img src={path_image + "question.svg"} alt="" />
-                          </a>
-                          <div className="tooltip">
-                            A list that will appeare when you select smart list
-                            to <span>send a sample.</span>
-                          </div>
-                        </div>
-                      </div>
+                        </div>*/
+                      }
+
                     </div>
                   </form>
                 </div>
