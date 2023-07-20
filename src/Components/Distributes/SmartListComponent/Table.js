@@ -2281,7 +2281,7 @@ const Table = (props, ref) => {
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label for="">Contact Type</label>
+                                    <label for="">Contact type</label>
                                     <DropdownButton
                                       className="dropdown-basic-button split-button-dropup"
                                       title={

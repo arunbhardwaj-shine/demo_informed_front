@@ -314,7 +314,7 @@ const RenderLayout = ({ data }) => {
                         <span>{element.over_all_opening_readers}</span>
                       </p>
                       <p className="unique_readers">
-                        Unique Readers:{" "}
+                        Unique readers:{" "}
                         <span>{element.over_all_unique_readers}</span>
                       </p>
                       <p className="read_rate">

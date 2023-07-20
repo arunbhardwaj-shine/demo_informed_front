@@ -337,7 +337,7 @@ const GetDetails = () => {
                         <span>{distributeData.subject}</span>
                       </li>
                       <li>
-                        <label>Smart List</label>
+                        <label>Smart list</label>
                         <span>{distributeData.list}</span>
                       </li>
                       <li>
@@ -345,15 +345,15 @@ const GetDetails = () => {
                         <span>{distributeData.total_sent_count}</span>
                       </li>
                       <li>
-                        <label>Email Read:</label>
+                        <label>Email read:</label>
                         <span>{distributeData.total_read_count}</span>
                       </li>
                       <li>
-                        <label>Pending Read Email:</label>
+                        <label>Pending read email:</label>
                         <span>{distributeData.total_pending_count}</span>
                       </li>
                       <li>
-                        <label>Bounce Count:</label>
+                        <label>Bounce count:</label>
                         <span>{distributeData.total_bouns_count}</span>
                       </li>
                     </ul>

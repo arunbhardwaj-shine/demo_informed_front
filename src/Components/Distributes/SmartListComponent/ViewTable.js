@@ -1694,7 +1694,7 @@ const ViewTable = (props) => {
                   ) : (
                     <>
                     <th scope="col">Business unit</th>
-                    <th scope="col">Contact Type</th>
+                    <th scope="col">Contact type</th>
                     </>
                   )}
 

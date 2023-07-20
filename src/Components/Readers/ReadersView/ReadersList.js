@@ -1857,7 +1857,7 @@ const NewReaders = () => {
                                       ) : (
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Last Email
+                                            Last email
                                           </h6>
                                           <h6>
                                             {data?.last_email
@@ -2179,7 +2179,7 @@ const NewReaders = () => {
                                   {!data?.ipFlag ? (
                                     <li className="last-activity">
                                       <h6 className="tab-content-title">
-                                        Last Activity
+                                        Last activity
                                       </h6>
                                       <div className="data-progress content-opening">
                                         <ProgressBar

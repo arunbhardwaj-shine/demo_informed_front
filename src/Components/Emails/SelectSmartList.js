@@ -573,7 +573,7 @@ const SelectSmartList = (props) => {
                                 <table>
                                   <tbody>
                                     <tr>
-                                      <th>Contact Type</th>
+                                      <th>Contact type</th>
                                       <td>{template.contact_type}</td>
                                     </tr>
                                     <tr>
@@ -601,7 +601,7 @@ const SelectSmartList = (props) => {
                                       <td>{template.registered}</td>
                                     </tr>
                                     <tr>
-                                      <th>Created By</th>
+                                      <th>Created by</th>
                                       <td>
                                         <span>{template.creator}</span>
                                       </td>
@@ -944,7 +944,7 @@ const SelectSmartList = (props) => {
                       </div>
                       <div className="form-group col">
                         <label htmlFor="creator-name">
-                          Creator’s Name<span>*</span>
+                          Creator’s name<span>*</span>
                         </label>
                         <input
                           type="text"

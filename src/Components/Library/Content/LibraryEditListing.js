@@ -1415,7 +1415,7 @@ const LibraryEditListing = () => {
 
                                     <li className="d-flex align-center">
                                       <h6 className="tab-content-title">
-                                        Unique Reader (total)
+                                        Unique reader (total)
                                         <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
                                           <img
                                             src={

@@ -536,11 +536,11 @@ const RDAnalytics = () => {
     const parentTableHeadings = document.createElement("tr");
     parentTableHeadings.innerHTML = `
       <th>No </th>
-      <th class="site_name">Site Name</th>
-      <th>Site Number</th>
+      <th class="site_name">Site name</th>
+      <th>Site number</th>
       <th>Country</th>
       <th class="active-irt">Active IRTs</th>
-      <th>Completed Training</th>
+      <th>Completed training</th>
     `;
     exportTable.appendChild(parentTableHeadings);
 
@@ -580,7 +580,7 @@ const RDAnalytics = () => {
         <th></th>
           <th>Name</th>
           <th>Role</th>
-          <th>Blind Type</th>
+          <th>Blind type</th>
           <th>Training</th>
         `;
         exportTable.appendChild(userTableHeadings);
@@ -839,7 +839,7 @@ const RDAnalytics = () => {
                           <th>Name</th>
                           <th>Role</th>
                           <th>Training</th>
-                          <th>Last Activity</th>
+                          <th>Last activity</th>
                           <th>&nbsp;</th>
                         </tr>
                       </thead>
@@ -1225,11 +1225,11 @@ const RDAnalytics = () => {
                     <Table className="fold-table" id="site_completion">
                       <thead>
                         <tr>
-                          <th className="site_name">Site Name</th>
-                          <th>Site Number</th>
+                          <th className="site_name">Site name</th>
+                          <th>Site number</th>
                           <th>Country</th>
                           <th className="active-irt">Active IRTs</th>
-                          <th>Completed Training</th>
+                          <th>Completed training</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1270,7 +1270,7 @@ const RDAnalytics = () => {
                                             <tr>
                                               <th>Name</th>
                                               <th>Role</th>
-                                              <th>Blind Type</th>
+                                              <th>Blind type</th>
                                               <th>Training</th>
                                             </tr>
                                           </thead>
@@ -1375,9 +1375,9 @@ const RDAnalytics = () => {
                         <thead>
                           <tr>
                             <th>Site</th>
-                            <th>Site Number</th>
+                            <th>Site number</th>
                             <th>Country</th>
-                            <th>Site Users</th>
+                            <th>Site users</th>
                             <th>Content engagement</th>
                           </tr>
                         </thead>
@@ -1509,7 +1509,7 @@ const RDAnalytics = () => {
                       >
                         <h4>
                           Contents |{" "}
-                          <span>{mostPopularContentData?.length + 1}</span>
+                          <span>{mostPopularContentData && mostPopularContentData.length > 0 ?mostPopularContentData?.length + 1:0}</span>
                         </h4>
                         <p>Click on the Record to see more details</p>
                       </div>
@@ -1631,7 +1631,7 @@ const RDAnalytics = () => {
                                         <thead>
                                           <tr>
                                             <th>Site</th>
-                                            <th>Site Number</th>
+                                            <th>Site number</th>
                                             <th className="short_value">
                                               <Button
                                                 className={`sort_btn ${
@@ -1768,11 +1768,11 @@ const RDAnalytics = () => {
                     <Table className="fold-table" id="site_completion">
                       <thead>
                         <tr>
-                          <th className="site_name">Site Name</th>
-                          <th>Site Number</th>
+                          <th className="site_name">Site name</th>
+                          <th>Site number</th>
                           <th>Country</th>
                           <th className="active-irt">Active IRTs</th>
-                          <th>Completed Training</th>
+                          <th>Completed training</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1794,16 +1794,16 @@ const RDAnalytics = () => {
                           </td>
                           <td>
                             {/* {item?.site_number} */}
-                            Here Site Number
+                            Here site number
                           </td>
                           <td>
                             {/* {item?.site_country} */}
-                            Here Country Name
+                            Here country name
                           </td>
                           <td className="active-irt">
                             <span>
                               {/* {item?.total_user} */}
-                              Here Total User
+                              Here total user
                             </span>{" "}
                             <img
                               src={path_image + "doctor-svg.svg"}
@@ -1813,7 +1813,7 @@ const RDAnalytics = () => {
                           </td>
                           <td className="complete">
                             {/* {item?.completed_training} */}
-                            Here Training Complete
+                            Here training complete
                           </td>
                         </tr>
 
@@ -1827,7 +1827,7 @@ const RDAnalytics = () => {
                                 <tr>
                                   <th>Name</th>
                                   <th>Role</th>
-                                  <th>Blind Type</th>
+                                  <th>Blind type</th>
                                   <th>Training</th>
                                 </tr>
                               </thead>
@@ -1840,17 +1840,17 @@ const RDAnalytics = () => {
                                     {/* {data?.first_name
                                                     ? data?.first_name
                                                     : "NA"} */}
-                                    FirstName
+                                    First name
                                   </td>
                                   <td>
                                     {/* {data?.user_type
                                                     ? data?.user_type
                                                     : "NA"} */}
-                                    User Type
+                                    User type
                                   </td>
                                   <td>
                                     {/* {data?.binded} */}
-                                    Blind Type
+                                    Blind type
                                   </td>
                                   <td
                                   // className={
@@ -1867,7 +1867,7 @@ const RDAnalytics = () => {
                                                       "1"
                                                     ? "Not yet"
                                                     : null} */}
-                                    Training Status
+                                    Training status
                                   </td>
                                 </tr>
                                 {/* ))} */}

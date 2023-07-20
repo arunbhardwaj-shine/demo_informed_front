@@ -341,7 +341,7 @@ const CreateSmartList = () => {
 
                         <div className="form-group col">
                           <label htmlFor="creator-name">
-                            Creator’s Name <span>*</span>
+                            Creator’s name <span>*</span>
                           </label>
                           <input
                             type="text"
