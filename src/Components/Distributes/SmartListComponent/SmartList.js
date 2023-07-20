@@ -693,7 +693,7 @@ const SmartList = (props) => {
                               <table>
                                 <tbody>
                                   <tr>
-                                    <th>Contact Type</th>
+                                    <th>Contact type</th>
                                     <td>{data.contact_type}</td>
                                   </tr>
                                   <tr>
@@ -721,7 +721,7 @@ const SmartList = (props) => {
                                     <td>{data.registered}</td>
                                   </tr>
                                   <tr>
-                                    <th>Created By</th>
+                                    <th>Created by</th>
                                     <td>
                                       <span>{data.creator}</span>
                                     </td>

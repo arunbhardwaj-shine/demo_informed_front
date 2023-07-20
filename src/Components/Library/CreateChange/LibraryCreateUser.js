@@ -79,8 +79,8 @@ const LibraryCreateUser = () => {
     { value: "unblinded", label: "unblind" },
   ]);
   const [mandatoryRole, setMandatoryRole] = useState([
-    "Investigator-Blinded",
     "Site User-Blinded",
+    "Investigator-Blinded",
     "Site unblinded pharmacist",
   ]);
   const [ebookFile, setEbookFile] = useState([]);

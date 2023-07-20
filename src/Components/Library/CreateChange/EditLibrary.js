@@ -47,8 +47,8 @@ const EditLibrary = () => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [hcpIrtClickedFirst, setHcpIrtClickedFirst] = useState([]);
   const [mandatoryRole, setMandatoryRole] = useState([
-    "Investigator-Blinded",
     "Site User-Blinded",
+    "Investigator-Blinded",
     "Site unblinded pharmacist",
   ]);
   const [updateflag, setupdateFlag] = useState(0);

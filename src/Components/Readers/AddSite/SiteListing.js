@@ -232,7 +232,7 @@ const SiteListing = () => {
                                 <thead className="sticky-header">
                                     <tr>
                                         {/*<th scope="col">ID</th>*/}
-                                        <th scope="col">Site Number
+                                        <th scope="col">Site number
                                             <div className="hcp-sort">
                                                 {sortingCountDate == 0 ? (
                                                     <>
@@ -273,10 +273,10 @@ const SiteListing = () => {
                                                 )}
                                             </div>
                                         </th>
-                                        <th scope="col">Site Name</th>
-                                        <th scope="col">Site Address</th>
-                                        <th scope="col">Site City</th>
-                                        <th scope="col">Site Country</th>
+                                        <th scope="col">Site name</th>
+                                        <th scope="col">Site address</th>
+                                        <th scope="col">Site city</th>
+                                        <th scope="col">Site country</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>

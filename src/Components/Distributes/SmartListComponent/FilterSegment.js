@@ -1391,7 +1391,7 @@ const FilterSegment = (props) => {
                             Object.keys(filters.contact_type).length > 0 && (
                               <>
                                 <div className="col block-smart-name">
-                                  <h6>Contact Type</h6>
+                                  <h6>Contact type</h6>
                                   <div className="smart-name-list">
                                     <ul>
                                       {Object.entries(filters.contact_type).map(
@@ -1549,7 +1549,7 @@ const FilterSegment = (props) => {
                             0 && (
                             <>
                               <div className="col block-smart-name">
-                                <h6>Contact Type</h6>
+                                <h6>Contact type</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {Object.entries(
@@ -2674,7 +2674,7 @@ const FilterSegment = (props) => {
                 selectedmarketingcontacttype.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Contact Type |</span>
+                      <span>Contact type |</span>
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedmarketingcontacttype).map(
@@ -2833,7 +2833,7 @@ const FilterSegment = (props) => {
                 selectedcontacttype.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Contact Type |</span>
+                      <span>Contact type |</span>
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedcontacttype).map(

@@ -769,7 +769,7 @@ const EmailArticleSelect = (props) => {
                             <table>
                               <tbody>
                                 <tr>
-                                  <th>Upload Date</th>
+                                  <th>Upload date</th>
                                   <td>{data.created}</td>
                                 </tr>
                                 <tr>
@@ -783,7 +783,7 @@ const EmailArticleSelect = (props) => {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Last Email</th>
+                                  <th>Last email</th>
                                   <td>
                                     {data.last_sent == ""
                                       ? "N/A"

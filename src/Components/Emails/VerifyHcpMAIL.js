@@ -654,7 +654,7 @@ const VerifyHcpMAIL = (props) => {
                                   <table>
                                     <tbody>
                                       <tr>
-                                        <th>Upload Date</th>
+                                        <th>Upload date</th>
                                         <td>{getpdfdata.pdf_created}</td>
                                       </tr>
                                       <tr>
@@ -670,7 +670,7 @@ const VerifyHcpMAIL = (props) => {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <th>Last Email</th>
+                                        <th>Last email</th>
                                         <td>
                                           {getpdfdata.pdf_last_sent == ""
                                             ? "N/A"

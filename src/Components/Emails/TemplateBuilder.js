@@ -2130,7 +2130,7 @@ const TemplateBuilder = (props) => {
                           Email | <span>{data.email}</span>
                         </p>
                         <p className="send-hcp-box-title">
-                          Contact Type | <span>{data.contact_type}</span>
+                          Contact type | <span>{data.contact_type}</span>
                         </p>
                         <div
                           className="add-new-field"
@@ -2150,7 +2150,7 @@ const TemplateBuilder = (props) => {
             <div className="selected-hcp-table">
               <div className="table-title">
                 <h4>
-                  Selected Contact <span>| {selectedHcp.length}</span>
+                  Selected contact <span>| {selectedHcp.length}</span>
                 </h4>
               </div>
               <div className="selected-hcp-list">
@@ -2171,7 +2171,7 @@ const TemplateBuilder = (props) => {
                               Email | <span>{data.email}</span>
                             </p>
                             <p className="send-hcp-box-title">
-                              Contact Type | <span>{data.contact_type}</span>
+                              Contact type | <span>{data.contact_type}</span>
                             </p>
                             <div className="remove-existing-field">
                               <img
@@ -2733,7 +2733,7 @@ const TemplateBuilder = (props) => {
                               <table>
                                 <tbody>
                                   <tr>
-                                    <th>Contact Type</th>
+                                    <th>Contact type</th>
                                     <td>{data.contact_type}</td>
                                   </tr>
                                   <tr>
@@ -2761,7 +2761,7 @@ const TemplateBuilder = (props) => {
                                     <td>{data.registered}</td>
                                   </tr>
                                   <tr>
-                                    <th>Created By</th>
+                                    <th>Created by</th>
                                     <td>
                                       <span>{data.creator}</span>
                                     </td>

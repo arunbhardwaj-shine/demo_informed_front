@@ -341,7 +341,7 @@ const CreateSmartList = () => {
 
                         <div className="form-group col">
                           <label htmlFor="creator-name">
-                            Creator’s Name <span>*</span>
+                            Creator’s name <span>*</span>
                           </label>
                           <input
                             type="text"
@@ -360,28 +360,32 @@ const CreateSmartList = () => {
                           ) : null}
                         </div>
 
-                        <div className="form-group col-sm-12">
-                          <div className="form-group-content">
-                            <p>
-                              I want this to be a <span>Demo list</span>
-                            </p>
-                            <div className="select-demo-option">
-                              <input type="checkbox" name="cherk" />
-                              <span className="checkmark"></span>
+                        {
+                          /*<div className="form-group col-sm-12">
+                            <div className="form-group-content">
+                              <p>
+                                I want this to be a <span>Demo list</span>
+                              </p>
+                              <div className="select-demo-option">
+                                <input type="checkbox" name="cherk" />
+                                <span className="checkmark"></span>
+                              </div>
+                              <a
+                                href="#"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                              >
+                                <img src={path + "question.svg"} alt="" />
+                              </a>
+                              <div className="tooltip">
+                                A list that will appeare when you select smart
+                                list to <span>send a sample.</span>
+                              </div>
                             </div>
-                            <a
-                              href="#"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                            >
-                              <img src={path + "question.svg"} alt="" />
-                            </a>
-                            <div className="tooltip">
-                              A list that will appeare when you select smart
-                              list to <span>send a sample.</span>
-                            </div>
-                          </div>
-                        </div>
+                          </div>*/
+                        }
+
+
                       </div>
                     </form>
                   </div>

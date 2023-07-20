@@ -328,7 +328,7 @@ const EmailStats = (props) => {
                       </th>
                       <th scope="col">Subject</th>
                       <th scope="col">
-                        Article Title{" "}
+                        Article title{" "}
                         <div className="hcp-sort">
                           {sortingCount == 0 ? (
                             <>
@@ -371,13 +371,13 @@ const EmailStats = (props) => {
                       </th>
 
                       <th className="smartlistth" scope="col">
-                        Smart List
+                        Smart list
                       </th>
                       <th scope="col">Total mail sent</th>
-                      <th scope="col">Email Read</th>
-                      <th scope="col">Pending Read Email</th>
+                      <th scope="col">Email read</th>
+                      <th scope="col">Pending read email</th>
 
-                      <th scope="col">Bounce Count</th>
+                      <th scope="col">Bounce count</th>
                       <th scope="col">Details</th>
                       <th scope="col">Sent to pending</th>
                       <th scope="col">Sent to all</th>

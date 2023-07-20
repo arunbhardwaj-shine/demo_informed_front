@@ -573,7 +573,7 @@ const SelectSmartList = (props) => {
                                 <table>
                                   <tbody>
                                     <tr>
-                                      <th>Contact Type</th>
+                                      <th>Contact type</th>
                                       <td>{template.contact_type}</td>
                                     </tr>
                                     <tr>
@@ -601,7 +601,7 @@ const SelectSmartList = (props) => {
                                       <td>{template.registered}</td>
                                     </tr>
                                     <tr>
-                                      <th>Created By</th>
+                                      <th>Created by</th>
                                       <td>
                                         <span>{template.creator}</span>
                                       </td>
@@ -773,22 +773,22 @@ const SelectSmartList = (props) => {
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <th scope="col">IRT mandatory training</th>
                       ) : (
-                        <th scope="col">Business Unit</th>
+                        <th scope="col">Business unit</th>
                       )}
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <th scope="col">IRT Role</th>
+                        <th scope="col">IRT role</th>
                       ) : (
-                        <th scope="col">Contact Type</th>
+                        <th scope="col">Contact type</th>
                       )}
 
                       {showLessInfo == false ? (
                         <>
                           <th scope="col">Consent</th>
-                          <th scope="col">Email Received</th>
+                          <th scope="col">Email received</th>
                           <th scope="col">Openings</th>
                           <th scope="col">Registrations</th>
-                          <th scope="col">Last Email</th>
+                          <th scope="col">Last email</th>
                         </>
                       ) : null}
                       <th></th>
@@ -944,7 +944,7 @@ const SelectSmartList = (props) => {
                       </div>
                       <div className="form-group col">
                         <label htmlFor="creator-name">
-                          Creator’s Name<span>*</span>
+                          Creator’s name<span>*</span>
                         </label>
                         <input
                           type="text"
@@ -962,30 +962,34 @@ const SelectSmartList = (props) => {
                           </div>
                         ) : null}
                       </div>
-                      <div className="form-group col-sm-12">
-                        <div className="form-group-content">
-                          <p>
-                            {" "}
-                            I want this to be a <span>Demo list</span>
-                          </p>
-                          <div className="select-demo-option">
-                            <input type="checkbox" name="checkbox" />
-                            <span className="checkmark"></span>
+
+                      {
+                        /*<div className="form-group col-sm-12">
+                          <div className="form-group-content">
+                            <p>
+                              {" "}
+                              I want this to be a <span>Demo list</span>
+                            </p>
+                            <div className="select-demo-option">
+                              <input type="checkbox" name="checkbox" />
+                              <span className="checkmark"></span>
+                            </div>
+                            <a
+                              href="#"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="Step to create smart list"
+                            >
+                              <img src={path_image + "question.svg"} alt="" />
+                            </a>
+                            <div className="tooltip">
+                              A list that will appeare when you select smart list
+                              to <span>send a sample.</span>
+                            </div>
                           </div>
-                          <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="Step to create smart list"
-                          >
-                            <img src={path_image + "question.svg"} alt="" />
-                          </a>
-                          <div className="tooltip">
-                            A list that will appeare when you select smart list
-                            to <span>send a sample.</span>
-                          </div>
-                        </div>
-                      </div>
+                        </div>*/
+                      }
+
                     </div>
                   </form>
                 </div>

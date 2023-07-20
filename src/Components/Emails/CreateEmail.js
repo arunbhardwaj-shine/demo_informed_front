@@ -2260,7 +2260,7 @@ const CreateEmail = (props) => {
                             Email | <span>{data.email}</span>
                           </p>
                           <p className="send-hcp-box-title">
-                            Contact Type | <span>{data.contact_type}</span>
+                            Contact type | <span>{data.contact_type}</span>
                           </p>
                           <div
                             className="add-new-field"
@@ -2280,7 +2280,7 @@ const CreateEmail = (props) => {
               <div className="selected-hcp-table">
                 <div className="table-title">
                   <h4>
-                    Selected Contact <span>| {selectedHcp.length}</span>
+                    Selected contact <span>| {selectedHcp.length}</span>
                   </h4>
                 </div>
                 <div className="selected-hcp-list">
@@ -2316,7 +2316,7 @@ const CreateEmail = (props) => {
                               ) : (
                                 <p className="send-hcp-box-title">
                                   {" "}
-                                  Contact Type |{" "}
+                                  Contact type |{" "}
                                   <span>
                                     {data?.contact_type
                                       ? data?.contact_type
@@ -2500,7 +2500,7 @@ const CreateEmail = (props) => {
                               <table>
                                 <tbody>
                                   <tr>
-                                    <th>Contact Type</th>
+                                    <th>Contact type</th>
                                     <td>{data.contact_type}</td>
                                   </tr>
                                   <tr>
@@ -2528,7 +2528,7 @@ const CreateEmail = (props) => {
                                     <td>{data.registered}</td>
                                   </tr>
                                   <tr>
-                                    <th>Created By</th>
+                                    <th>Created by</th>
                                     <td>
                                       <span>{data.creator}</span>
                                     </td>
@@ -3271,22 +3271,22 @@ const CreateEmail = (props) => {
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                           <th scope="col">IRT mandatory training</th>
-                          <th scope="col">IRT Role</th>
+                          <th scope="col">IRT role</th>
                         </>
                       ) : (
                         <>
-                        <th scope="col">Business Unit</th>
-                        <th scope="col">Contact Type</th>
+                        <th scope="col">Business unit</th>
+                        <th scope="col">Contact type</th>
                         </>
                       )}
 
                       {showLessInfo == false ? (
                         <>
                           <th scope="col">Consent</th>
-                          <th scope="col">Email Received</th>
+                          <th scope="col">Email received</th>
                           <th scope="col">Openings</th>
                           <th scope="col">Registrations</th>
-                          <th scope="col">Last Email</th>
+                          <th scope="col">Last email</th>
                         </>
                       ) : null}
                     </tr>
