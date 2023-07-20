@@ -2089,7 +2089,143 @@ form.product-unit button {
 .switch-light input[type="checkbox"]:checked + span span:first-child {
   color: $light-gray;
 }
+.create-change-content.spc-content{
+.embedding-video {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 32px;
+  box-shadow: 0px 0px 13px -3px rgba(0, 102, 190, 0.2);
+  border-radius: 20px;
+  margin-bottom: 40px;
+  .side-step-text {
+    position: relative;
+    padding-left: 58px;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &:first-child {
+      &:not(:last-child) {
+        width: 40%;
+      }
+    }
+    &.first-step{
+      position: relative;
+      &:after{
+        content:"";
+        position: absolute;
+        right:0;
+        border-right: 1px dashed $dark-blue;
+        top: -22px;
+        width: 1px;
+        height: 134px;
+      }
+    }
+    &:last-child{
+      width: 60%;
+      padding-left: 95px;
+      .embedded-video-step{
+        left:78px;
+      }
+    }
+    p {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 25px;
+      color: $dark-blue;
+      text-align: left;
+      margin:0 0 16px;
+    }
+    .formgroup {
+      display: flex;
+      align-items: center;
+      .form-label {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 21px;
+        color: $dark-blue;
+        margin: 0 14px 0 0;
+      }
+      .split-button-dropup {
+        min-width: 294px;
+        button{
+          width:100%;
+          @include split-btn;
+          box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+          padding: 14px 40px 14px 15px;
+          &:after{
+            display: none;
+          }
+        }
+        .dropdown-menu{
+          .scroll_div{
+            a{
+              font-size: 16px;
+              padding: 5px 10px;
+              &:focus{color:$white;}
+            }
+          }
+        }
+      }
+      .upload-file-box {
+        align-items: center;
+        display: flex;
+        margin-left: 24px;
+        padding:0 0 0 24px;
+        border-radius: 0;
+        border:0;
+        border-left: 1px solid $light-gray;
+        min-height: initial;
+        width: auto;
+        label {
+          border: 1px solid $voilet;
+          filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+          border-radius: 30px;
+          white-space: nowrap;
+          cursor: pointer;
+          display: inline-block;
+          overflow: hidden;
+          padding: 9px 12px;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 19px;
+          text-transform: capitalize;
+          color: $voilet;
+        }
+      }
+    }
+    .embedded-video-step {
+      transform: rotate(-90deg) scaleX(1);
+      transform-origin: bottom left;
+      top: 58px;
+      left: 46px;
+      position: absolute;
+      h2 {
+        font-size: 40px;
+        color: rgba(0, 102, 190, 0.09);
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+}
 
+.sublink_right.preview-content .viewer-layout-main {
+    padding: 0;
+    overflow-y: auto;
+    max-height: 61vh;
+}
+.sublink_right.preview-content .viewer-layout-container {
+    border: 0.5px solid #97B6CF;
+    box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
+    border-radius: 15px;
+    min-height: 69vh;
+    padding: 0 20px;
+    margin: 0;
+    position: relative;
+}
 .form-group .add_product span {
   height: 50px;
   border-left: 1px solid $light-gray;
