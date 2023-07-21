@@ -16,6 +16,7 @@ export const ENDPOINT = {
   LIBRARYSAVEPOPUP: `/library/save-pdf-popup`,
   LIBRARYGETARTICLE: `/library/get-pdffile`,
   LIBRARY_VIDEO_LISTING: `/library/video-listing`,
+  LIBRARY_UPLOAD_VIDEO: `/library/upload-video`,
   SPC_PRO_LISTING: `/library/spc-productListing`,
   ADD_SPC_PRODUCT: "/library/add-product",
   LIBRARYGETSPC: `/library/get-spcListing`,
