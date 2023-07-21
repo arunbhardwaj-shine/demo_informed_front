@@ -10,6 +10,7 @@ import {
   Tab,
   Tabs,
 } from "react-bootstrap";
+import CommonConfirmModel from "./CommonConfirmModel";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, postFormData, getData } from "../../../axios/apiHelper";
@@ -796,6 +797,16 @@ const AddLinkToPdf = () => {
           </Row>
         </div>
       </Col>
+      <CommonModel
+        show={commanShow}
+        onClose={setCommanShow}
+        heading={"Change Embedded Video"}
+        data={downloadQRData}
+        footerButton={"Apply"}
+        handleSubmit={handleSubmitModelFun}
+        handleQR={handleFun}
+      />
+
       <Modal
         show={uploadNewVideo}
         className="send-confirm upload-file"
