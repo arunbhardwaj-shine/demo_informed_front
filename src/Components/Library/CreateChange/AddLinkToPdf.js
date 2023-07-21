@@ -860,6 +860,13 @@ const AddLinkToPdf = () => {
         handleSubmit={handleSubmitModelFun}
         handleQR={handleFun}
       />
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={hideConfirmationModal}
+        fun={commonConfirmModelFun}
+        popupMessage={popupMessage}
+        path_image={path_image}
+        />
 
       <Modal
         show={uploadNewVideo}
