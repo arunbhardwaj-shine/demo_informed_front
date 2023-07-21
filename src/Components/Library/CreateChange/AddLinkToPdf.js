@@ -31,6 +31,8 @@ import {
   ProgressBar,
 } from "@react-pdf-viewer/core";
 import { loader } from "../../../loader";
+import CommonModel from "../../../Model/CommonModel";
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const AddLinkToPdf = () => {
@@ -68,8 +70,14 @@ const AddLinkToPdf = () => {
   const [ebookData, setEbookData] = useState();
   const [chapterOption, setChapterOption] = useState([]);
   const [ebookSelectedId, setEbookSelectedId] = useState(0);
-
-
+  const [commanShow, setCommanShow] = useState(false);
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
+  const [newLink, setNewLink] = useState({});
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [hoveredLinkPosition, setHoveredLinkPosition] = useState({
     x: 0,
     y: 0,
@@ -78,7 +86,7 @@ const AddLinkToPdf = () => {
   //   "https://docintel.s3.eu-west-1.amazonaws.com/pdf/arunp/pdflink_1689849787.pdf";
   const defaultScale = 1.3347;
   const parentRef = useRef(null);
-
+  const popupRef = useRef(null);
   const renderPage = (props: RenderPageProps) => {
     return (
       <>
@@ -425,6 +433,72 @@ const AddLinkToPdf = () => {
     setHighlighted(false);
   };
 
+
+  const handleViewClick = () => {
+    if (hoveredLink) {
+      window.open(hoveredLink, "_blank");
+    }
+  };
+
+  const showConfirmationPopup = () => {
+    setPopupMessage({
+      message1:
+        "You are about to remove this content from any reader and every device forever.",
+      message2: "Are you sure you want to do this?",
+      footerButton: "Yes please!",
+    });
+    if (confirmationpopup) {
+      setConfirmationPopup(false);
+    } else {
+      setConfirmationPopup(true);
+    }
+  };
+
+
+  const downloadQRData = [
+    {
+      label: "Video",
+      type: "dropdown",
+      dropdown: videoListingData,
+    },
+  ];
+
+  const handleSubmitModelFun = async (e) => {
+    try {
+      loader("show");
+      const findIndex = file.lastIndexOf("/");
+      let body = {
+        file: file,
+        new_link: newLink?.link,
+        prev_link: hoverUrl,
+        filename:initFunData?.file_type,
+        folder_name:initFunData?.folder_name,
+        pdf_file:file.slice(findIndex+1,file.length),
+        pdf_id:initFunData?.id,
+        file_id:ebookSelectedId
+      };
+
+      const res = await axios.post(`libraries/changePdfLink`, body);
+      setFile(res?.data?.data);
+      loader("hide")
+    } catch (err) {
+      loader("hide")
+      console.log("--err", err);
+    }
+
+    // setPreviousLink(newLink);
+  };
+
+
+  const handleFun = (e) => {
+    const videoData =
+      videoListingData[videoListingData.findIndex((value) => value.key == e)];
+    setNewLink({
+      link: videoData?.link,
+      name: videoData?.key,
+    });
+  };
+
   return (
     <Col className="right-sidebar custom-change">
       <div className="custom-container">
@@ -539,7 +613,41 @@ const AddLinkToPdf = () => {
                   {file ? (
                     <>
                       <div id="parent_div" ref={parentRef}>
+
                         <div class="modal-body-content">
+                        {isPopupOpen ? (
+                  <>
+                    <div
+                      ref={popupRef}
+                      className={`link-popup ${isPopupOpen ? "visible" : ""}`}
+                      style={{
+                        top: hoveredLinkPosition.y,
+                        left: hoveredLinkPosition.x,
+                      }}
+                    >
+                      <div className="link-popup-inner">
+                        <div className="video-title">This is a popup! </div>
+
+                        <div className="link-popup-buttons">
+                          <button onClick={handleViewClick}>View</button>
+
+                          <button onClick={() => setCommanShow(true)}>
+                            Change
+                          </button>
+
+                          <button onClick={() => showConfirmationPopup()}>
+                            Delete
+                          </button>
+                        </div>
+
+                      
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+                          
                           <Viewer
                             id="container"
                             renderPage={renderPage}
@@ -604,6 +712,15 @@ const AddLinkToPdf = () => {
                   ) : (
                     ""
                   )}
+                        <CommonModel
+        show={commanShow}
+        onClose={setCommanShow}
+        heading={"Change Embedded Video"}
+        data={downloadQRData}
+        footerButton={"Apply"}
+        handleSubmit={handleSubmitModelFun}
+        handleQR={handleFun}
+      />
                 </Col>
               </div>
             </div>
