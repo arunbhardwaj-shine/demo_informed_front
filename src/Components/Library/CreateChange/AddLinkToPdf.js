@@ -419,9 +419,9 @@ const AddLinkToPdf = () => {
     let box = parentRef.current.querySelector(".highlight_box");
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
-    let actual_width = xcoordinates - 11 - box_width;
+    let actual_width = xcoordinates - 5 - box_width;
     let x_cord = actual_width / 3.8;
-    let actual_height = mousefirstdown + 11 - ycoordinates;
+    let actual_height = mousefirstdown + 21 - ycoordinates;
     let y_cord = actual_height / 3.8;
     let page_no = linkonpage + 1;
     let box_width_x = box_width / 3.7;
