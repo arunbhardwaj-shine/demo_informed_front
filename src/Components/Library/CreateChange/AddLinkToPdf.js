@@ -767,7 +767,7 @@ const AddLinkToPdf = () => {
                     {file ? (
                       <>
                         <div id="parent_div" ref={parentRef}>
-                          <div class="modal-body-content">
+                          <div className={highlighted ? "modal-body-content no_scroll" : "modal-body-content"}>
                             {isPopupOpen ? (
                               <>
                                 <div

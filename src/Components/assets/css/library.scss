@@ -2217,6 +2217,9 @@ form.product-unit button {
     overflow-y: auto;
     max-height: 61vh;
 }
+.no_scroll.modal-body-content div, .sublink_right.preview-content .no_scroll .viewer-layout-main{
+  overflow: hidden;
+}
 .sublink_right.preview-content .modal-body-content {
     border: 0.5px solid #97B6CF;
     box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
