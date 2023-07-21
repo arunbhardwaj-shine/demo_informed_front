@@ -11,6 +11,7 @@ import {
   Tabs,
 } from "react-bootstrap";
 import { useLocation, Link, useNavigate } from "react-router-dom";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, postFormData, getData } from "../../../axios/apiHelper";
 import MessageModel from "../../../Model/MessageModel";
@@ -146,7 +147,7 @@ const AddLinkToPdf = () => {
           });
           setChapterOption(newData);
           setFile(res?.data?.data?.ebookData[0]?.file_name);
-          setEbookSelectedId(res?.data?.data?.ebookData[0]?.id)
+          setEbookSelectedId(res?.data?.data?.ebookData[0]?.id);
 
           setEbookData(res?.data?.data?.ebookData);
         }
@@ -161,7 +162,7 @@ const AddLinkToPdf = () => {
     }
   };
   const onChapterSelect = (e) => {
-    setEbookSelectedId(ebookData[e?.index]?.id)
+    setEbookSelectedId(ebookData[e?.index]?.id);
     setFile(ebookData[e?.index]?.file_name);
   };
 
@@ -378,39 +379,42 @@ const AddLinkToPdf = () => {
   };
 
   const addLinkToPdf = async (cordinates, page_no, embed_url, file) => {
-    try{
-      loader("show")
+    try {
+      loader("show");
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const findIndex = file.lastIndexOf("/");
-      const res = await axios
-      .post(`libraries/addLinkToPdf`, {
+      const res = await axios.post(`libraries/addLinkToPdf`, {
         link: embed_url,
         file: file,
         cordinates: cordinates,
         page_no: page_no,
-        filename:initFunData?.file_type,
-        folder_name:initFunData?.folder_name,
-        pdf_file:file.slice(findIndex+1,file.length),
-        pdf_id:initFunData?.id,
-        file_id:ebookSelectedId
-      })
-    if(initFunData?.file_type == "ebook"){
-      setEbookData(res?.data?.data?.ebookData);
-      let newEbookData = [...ebookData]
-      const hasFound = ebookData.findIndex(item =>item.id ==ebookSelectedId)
-      if(hasFound>-1){
-        newEbookData[ebookData.findIndex(item =>item.id ==ebookSelectedId)].file_name = res?.data?.data
-        setEbookData(newEbookData)
+        filename: initFunData?.file_type,
+        folder_name: initFunData?.folder_name,
+        pdf_file: file.slice(findIndex + 1, file.length),
+        pdf_id: initFunData?.id,
+        file_id: ebookSelectedId,
+      });
+      if (initFunData?.file_type == "ebook") {
+        setEbookData(res?.data?.data?.ebookData);
+        let newEbookData = [...ebookData];
+        const hasFound = ebookData.findIndex(
+          (item) => item.id == ebookSelectedId
+        );
+        if (hasFound > -1) {
+          newEbookData[
+            ebookData.findIndex((item) => item.id == ebookSelectedId)
+          ].file_name = res?.data?.data;
+          setEbookData(newEbookData);
+        }
       }
-    }
-    setFile(res?.data?.data);
+      setFile(res?.data?.data);
 
-    setDragging(false);
-    setHighlighted(false);
-    loader("hide")
-    }catch(err){
-      loader("hide")
-      console.log("-err",err)
+      setDragging(false);
+      setHighlighted(false);
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log("-err", err);
     }
   };
 
@@ -432,7 +436,6 @@ const AddLinkToPdf = () => {
     setHighlighted(false);
   };
 
-
   const handleViewClick = () => {
     if (hoveredLink) {
       window.open(hoveredLink, "_blank");
@@ -440,11 +443,9 @@ const AddLinkToPdf = () => {
   };
 
   const showConfirmationPopup = () => {
-
-    console.log("- im hererere",confirmationpopup)
     setPopupMessage({
-      message1:"",
-        // "You are about to remove this content from any reader and every device forever.",
+      message1: "",
+      // "You are about to remove this content from any reader and every device forever.",
       message2: "Are you sure you want to do this?",
       footerButton: "Yes please!",
     });
@@ -454,7 +455,6 @@ const AddLinkToPdf = () => {
       setConfirmationPopup(true);
     }
   };
-
 
   const downloadQRData = [
     {
@@ -472,24 +472,73 @@ const AddLinkToPdf = () => {
         file: file,
         new_link: newLink?.link,
         prev_link: hoverUrl,
-        filename:initFunData?.file_type,
-        folder_name:initFunData?.folder_name,
-        pdf_file:file.slice(findIndex+1,file.length),
-        pdf_id:initFunData?.id,
-        file_id:ebookSelectedId
+        filename: initFunData?.file_type,
+        folder_name: initFunData?.folder_name,
+        pdf_file: file.slice(findIndex + 1, file.length),
+        pdf_id: initFunData?.id,
+        file_id: ebookSelectedId,
       };
 
       const res = await axios.post(`libraries/changePdfLink`, body);
+
+      if (initFunData?.file_type == "ebook") {
+        let newEbookData = [...ebookData];
+        const hasFound = ebookData.findIndex(
+          (item) => item.id == ebookSelectedId
+        );
+        if (hasFound > -1) {
+          newEbookData[
+            ebookData.findIndex((item) => item.id == ebookSelectedId)
+          ].file_name = res?.data?.data;
+          setEbookData(newEbookData);
+        }
+      }
+      setFile(res?.data?.data);
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log("--err", err);
+    }
+  };
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+
+  const commonConfirmModelFun = async () => {
+    try {
+      loader("show");
+      const findIndex = file.lastIndexOf("/");
+      let body = {
+        file: file,
+        prev_link: hoverUrl,
+        filename: initFunData?.file_type,
+        folder_name: initFunData?.folder_name,
+        pdf_file: file.slice(findIndex + 1, file.length),
+        pdf_id: initFunData?.id,
+        file_id: ebookSelectedId,
+      };
+      const res = await axios.post(`libraries/deletePdfLink`, body);
+      if (initFunData?.file_type == "ebook") {
+        let newEbookData = [...ebookData];
+        const hasFound = ebookData.findIndex(
+          (item) => item.id == ebookSelectedId
+        );
+        if (hasFound > -1) {
+          newEbookData[
+            ebookData.findIndex((item) => item.id == ebookSelectedId)
+          ].file_name = res?.data?.data;
+          setEbookData(newEbookData);
+        }
+      }
       setFile(res?.data?.data);
       loader("hide")
     } catch (err) {
-      loader("hide")
       console.log("--err", err);
-    }
+    } 
+    setConfirmationPopup(false);
 
-    // setPreviousLink(newLink);
   };
-
 
   const handleFun = (e) => {
     const videoData =
@@ -614,41 +663,46 @@ const AddLinkToPdf = () => {
                   {file ? (
                     <>
                       <div id="parent_div" ref={parentRef}>
-
                         <div class="modal-body-content">
-                        {isPopupOpen ? (
-                  <>
-                    <div
-                      ref={popupRef}
-                      className={`link-popup ${isPopupOpen ? "visible" : ""}`}
-                      style={{
-                        top: hoveredLinkPosition.y,
-                        left: hoveredLinkPosition.x,
-                      }}
-                    >
-                      <div className="link-popup-inner">
-                        <div className="video-title">This is a popup! </div>
+                          {isPopupOpen ? (
+                            <>
+                              <div
+                                ref={popupRef}
+                                className={`link-popup ${
+                                  isPopupOpen ? "visible" : ""
+                                }`}
+                                style={{
+                                  top: hoveredLinkPosition.y,
+                                  left: hoveredLinkPosition.x,
+                                }}
+                              >
+                                <div className="link-popup-inner">
+                                  <div className="video-title">
+                                    This is a popup!{" "}
+                                  </div>
 
-                        <div className="link-popup-buttons">
-                          <button onClick={handleViewClick}>View</button>
+                                  <div className="link-popup-buttons">
+                                    <button onClick={handleViewClick}>
+                                      View
+                                    </button>
 
-                          <button onClick={() => setCommanShow(true)}>
-                            Change
-                          </button>
+                                    <button onClick={() => setCommanShow(true)}>
+                                      Change
+                                    </button>
 
-                          <button onClick={() => showConfirmationPopup()}>
-                            Delete
-                          </button>
-                        </div>
+                                    <button
+                                      onClick={() => showConfirmationPopup()}
+                                    >
+                                      Delete
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            ""
+                          )}
 
-                      
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  ""
-                )}
-                          
                           <Viewer
                             id="container"
                             renderPage={renderPage}
@@ -713,15 +767,22 @@ const AddLinkToPdf = () => {
                   ) : (
                     ""
                   )}
-                        <CommonModel
-        show={commanShow}
-        onClose={setCommanShow}
-        heading={"Change Embedded Video"}
-        data={downloadQRData}
-        footerButton={"Apply"}
-        handleSubmit={handleSubmitModelFun}
-        handleQR={handleFun}
-      />
+                  <CommonModel
+                    show={commanShow}
+                    onClose={setCommanShow}
+                    heading={"Change Embedded Video"}
+                    data={downloadQRData}
+                    footerButton={"Apply"}
+                    handleSubmit={handleSubmitModelFun}
+                    handleQR={handleFun}
+                  />
+                  <CommonConfirmModel
+                    show={confirmationpopup}
+                    onClose={hideConfirmationModal}
+                    fun={commonConfirmModelFun}
+                    popupMessage={popupMessage}
+                    path_image={path_image}
+                  />
                 </Col>
               </div>
             </div>
