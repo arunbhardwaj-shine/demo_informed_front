@@ -65,14 +65,13 @@ const AddLinkToPdf = () => {
   const [initFunData, setInitFunData] = useState();
   const [videoListingData, setVideoListingData] = useState([]);
   const [videoSelect, setVideoSelect] = useState("");
+  const [ebookData, setEbookData] = useState();
+  const [chapterOption, setChapterOption] = useState([]);
 
   const [hoveredLinkPosition, setHoveredLinkPosition] = useState({
     x: 0,
     y: 0,
   });
-  const [chapterOption, setchapterOption] = useState([
-    { label: "Test", value: "value" },
-  ]);
   let url =
     "https://docintel.s3.eu-west-1.amazonaws.com/pdf/arunp/pdflink_1689849787.pdf";
   const defaultScale = 1.3347;
@@ -126,13 +125,35 @@ const AddLinkToPdf = () => {
       };
       const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
       setInitFunData(res?.data?.data);
-      console.log("res--->", res?.data?.data);
+      if (res?.data?.data?.file_type == "pdf") {
+        setFile(res?.data?.data?.file_name);
+      }
+
+      if (res?.data?.data?.file_type == "ebook") {
+        if (res?.data?.data?.ebookData?.length) {
+          const newData = ebookData?.map((item, index) => {
+            return {
+              label: item?.title,
+              value: item?.title,
+              index: index,
+            };
+          });
+          setChapterOption(newData);
+          setFile(res?.data?.data?.ebookData[0]);
+          setEbookData(res?.data?.data?.ebookData);
+        }
+      }
+
+      console.log("res--->", res?.data?.data?.ebookData[0]);
     } catch (err) {
       loader("hide");
       console.log("--err", err);
     } finally {
       loader("hide");
     }
+  };
+  const onChapterSelect = (e) => {
+    setFile(ebookData[e?.index]);
   };
 
   const videoFun = async () => {
@@ -461,6 +482,8 @@ const AddLinkToPdf = () => {
                             <Select
                               className="dropdown-basic-button split-button-dropup "
                               options={chapterOption}
+                              onChange={onChapterSelect}
+                              defaultValue={chapterOption[0]}
                             />
                           </Form.Group>
                         </div>
@@ -498,65 +521,72 @@ const AddLinkToPdf = () => {
                       </Form.Group>
                     </div>
                   </div>
-                  <div id="parent_div" ref={parentRef}>
-                    <div class="modal-body-content">
-                      <Viewer
-                        id="container"
-                        renderPage={renderPage}
-                        defaultScale={defaultScale}
-                        onDocumentLoad={handleDocumentLoad}
-                        renderMode="canvas"
-                        fileUrl={url}
-                      />
-                      <div
-                        className="highlight_box"
-                        style={{
-                          position: "absolute",
-                          border: "2px dashed rgb(204, 204, 204)",
-                          backgroundColor: "rgba(255, 0, 0, 0)",
-                          display: highlighted || dragging ? "block" : "none",
-                          pointerEvents: "none",
-                          left: `${Math.min(startX, endX)}px`,
-                          top: `${Math.min(startY, endY)}px`,
-                          width: `${Math.abs(startX - endX)}px`,
-                          height: `${Math.abs(startY - endY)}px`,
-                        }}
-                      />
-                      {highlighted && (
-                        <div className="link_popup">
-                          <form action="#" id="addLinkForm">
-                            <button
-                              type="button"
-                              className="close"
-                              id="closeLinkPopup"
-                              onClick={() => closePopup()}
-                            >
-                              <span aria-hidden="true">×</span>
-                            </button>
-                            <label for="targetURL">Add Link:</label>
-                            <input
-                              placeholder="https://example.com"
-                              id="targetURL"
-                              className="form-control input-xs"
-                              type="text"
-                              onChange={(e) => setInputUrl(e.target.value)}
-                            />
-                            {error ? (
-                              <p className="err_class">
-                                Please enter a valid link
-                              </p>
-                            ) : null}
-                            <input
-                              type="submit"
-                              value="Add Link"
-                              id="addLinkToPdfButton"
-                              onClick={(e) => handleAddUrl(e, file)}
-                            />
-                          </form>
+                  {file ? (
+                    <>
+                      <div id="parent_div" ref={parentRef}>
+                        <div class="modal-body-content">
+                          <Viewer
+                            id="container"
+                            renderPage={renderPage}
+                            defaultScale={defaultScale}
+                            onDocumentLoad={handleDocumentLoad}
+                            renderMode="canvas"
+                            fileUrl={file}
+                          />
+                          <div
+                            className="highlight_box"
+                            style={{
+                              position: "absolute",
+                              border: "2px dashed rgb(204, 204, 204)",
+                              backgroundColor: "rgba(255, 0, 0, 0)",
+                              display:
+                                highlighted || dragging ? "block" : "none",
+                              pointerEvents: "none",
+                              left: `${Math.min(startX, endX)}px`,
+                              top: `${Math.min(startY, endY)}px`,
+                              width: `${Math.abs(startX - endX)}px`,
+                              height: `${Math.abs(startY - endY)}px`,
+                            }}
+                          />
+                          {highlighted && (
+                            <div className="link_popup">
+                              <form action="#" id="addLinkForm">
+                                <button
+                                  type="button"
+                                  className="close"
+                                  id="closeLinkPopup"
+                                  onClick={() => closePopup()}
+                                >
+                                  <span aria-hidden="true">×</span>
+                                </button>
+                                <label for="targetURL">Add Link:</label>
+                                <input
+                                  placeholder="https://example.com"
+                                  id="targetURL"
+                                  className="form-control input-xs"
+                                  type="text"
+                                  onChange={(e) => setInputUrl(e.target.value)}
+                                />
+                                {error ? (
+                                  <p className="err_class">
+                                    Please enter a valid link
+                                  </p>
+                                ) : null}
+                                <input
+                                  type="submit"
+                                  value="Add Link"
+                                  id="addLinkToPdfButton"
+                                  onClick={(e) => handleAddUrl(e, file)}
+                                />
+                              </form>
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </Col>
               </div>
             </div>
