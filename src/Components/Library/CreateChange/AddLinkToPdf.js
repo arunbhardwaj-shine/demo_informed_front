@@ -66,6 +66,8 @@ const AddLinkToPdf = () => {
   const [ycoordinates, setYcoordinates] = useState(0);
   const [inputUrl, setInputUrl] = useState("");
   const [error, setError] = useState({});
+  const [selectedError, setSelectedError] = useState({});
+
   const [initFunData, setInitFunData] = useState({});
   const [videoListingData, setVideoListingData] = useState([]);
   const [videoSelect, setVideoSelect] = useState("");
@@ -77,6 +79,7 @@ const AddLinkToPdf = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [forceRender, setForceRender] = useState(false);
   const [confirmationModel, setConfirmationModel] = useState(false);
+  const [viewerscroll, setViewerscroll] = useState(0);
   const navigate = useNavigate();
 
   const [commanShow, setCommanShow] = useState(false);
@@ -208,7 +211,9 @@ const AddLinkToPdf = () => {
     setInputUrl(e?.link);
   };
 
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    setInputUrl(e.target.value);
+  };
 
   const onVideoModelClose = () => {
     setVideoTitle();
@@ -325,6 +330,11 @@ const AddLinkToPdf = () => {
         setHoveredLink(linkText);
         setHoveredLinkPosition({ x, y });
         setIsPopupOpen(true);
+
+        const scrollfrominner = document.querySelector(
+          ".viewer-layout-main"
+        ).scrollTop;
+        setViewerscroll(scrollfrominner);
       }
     } else {
       const targetLinkPop = event.target.closest(".link-popup");
@@ -419,9 +429,9 @@ const AddLinkToPdf = () => {
     let box = parentRef.current.querySelector(".highlight_box");
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
-    let actual_width = xcoordinates - 11 - box_width;
+    let actual_width = xcoordinates - 5 - box_width;
     let x_cord = actual_width / 3.8;
-    let actual_height = mousefirstdown + 11 - ycoordinates;
+    let actual_height = mousefirstdown + 21 - ycoordinates;
     let y_cord = actual_height / 3.8;
     let page_no = linkonpage + 1;
     let box_width_x = box_width / 3.7;
@@ -438,6 +448,14 @@ const AddLinkToPdf = () => {
 
   const addLinkToPdf = async (cordinates, page_no, embed_url, file) => {
     try {
+      if (!embed_url) {
+        setSelectedError({
+          fileError: true,
+        });
+        return;
+      } else {
+        setSelectedError({});
+      }
       loader("show");
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const findIndex = file.lastIndexOf("/");
@@ -758,7 +776,8 @@ const AddLinkToPdf = () => {
                                     isPopupOpen ? "visible" : ""
                                   }`}
                                   style={{
-                                    top: hoveredLinkPosition.y,
+                                    top:
+                                      hoveredLinkPosition.y - viewerscroll - 30,
                                     left: hoveredLinkPosition.x,
                                   }}
                                 >
@@ -832,11 +851,12 @@ const AddLinkToPdf = () => {
                                     className="form-control input-xs"
                                     type="text"
                                     value={inputUrl}
-                                    onChange={(e) =>
-                                      setInputUrl(e.target.value)
-                                    }
+                                    onChange={handleChange}
+                                    // onChange={(e) =>
+                                    //   setInputUrl(e.target.value)
+                                    // }
                                   />
-                                  {error ? (
+                                  {selectedError?.fileError ? (
                                     <p className="err_class">
                                       Please enter a valid link
                                     </p>
