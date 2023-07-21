@@ -288,8 +288,8 @@ const AddLinkToPdf = () => {
       const x = event.clientX - viewerRect.left;
       const y = event.clientY - viewerRect.top;
 
-      const xInPage = x - textLayer.offsetLeft + 26;
-      const yInPage = y - textLayer.offsetTop - scrollTop + 26;
+      const xInPage = x - textLayer.offsetLeft;
+      const yInPage = y - textLayer.offsetTop - scrollTop;
 
       setDragging(true);
       setStartX(xInPage);
@@ -448,13 +448,13 @@ const AddLinkToPdf = () => {
 
   const addLinkToPdf = async (cordinates, page_no, embed_url, file) => {
     try {
-      if (!embed_url) {
+      if(!embed_url){
         setSelectedError({
-          fileError: true,
-        });
-        return;
-      } else {
-        setSelectedError({});
+          fileError:true
+        })
+        return
+      }else{
+        setSelectedError({ })
       }
       loader("show");
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
