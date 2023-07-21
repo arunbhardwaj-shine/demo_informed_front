@@ -80,6 +80,8 @@ const AddLinkToPdf = () => {
   const [forceRender, setForceRender] = useState(false);
   const [confirmationModel, setConfirmationModel] = useState(false);
   const [viewerscroll, setViewerscroll] = useState(0);
+
+  const [newObj, setNewObj] = useState({});
   const navigate = useNavigate();
 
   const [commanShow, setCommanShow] = useState(false);
@@ -181,8 +183,10 @@ const AddLinkToPdf = () => {
     try {
       loader("show");
       const res = await getData(ENDPOINT.LIBRARY_VIDEO_LISTING);
+      let obj = {};
       if (res?.data?.data?.length) {
         let newVideo = res?.data?.data?.map((item, index) => {
+          obj[`${item?.videoLink}`] = item?.title;
           return {
             label: item?.title,
             value: item?.title,
@@ -191,6 +195,7 @@ const AddLinkToPdf = () => {
             link: item?.videoLink,
           };
         });
+        setNewObj(obj);
         setVideoListingData(newVideo);
       }
     } catch (err) {
@@ -208,7 +213,6 @@ const AddLinkToPdf = () => {
     document.execCommand("copy");
     textField.remove();
     setVideoSelect(e?.value);
-    console.log("----e--->", e);
     setInputUrl(e?.link);
   };
 
@@ -327,7 +331,20 @@ const AddLinkToPdf = () => {
 
         if (hoverUrl != linkText) {
           setHoverUrl(linkText);
+
+          if (newObj[`${linkText?.split("?")[0]}`] != videoSelect) {
+            setVideoSelect(newObj[`${linkText?.split("?")[0]}`]);
+            console.log("--inside--->", newObj[linkText?.split("?")[0]]);
+          } else {
+            if (!videoSelect) {
+              setVideoSelect("");
+            }
+          }
+        } else {
+          setHoverUrl("");
+          setVideoSelect("");
         }
+
         setHoveredLink(linkText);
         setHoveredLinkPosition({ x, y });
         setIsPopupOpen(true);
@@ -366,7 +383,11 @@ const AddLinkToPdf = () => {
       const xInPage = x - textLayer.offsetLeft;
       const yInPage = y - textLayer.offsetTop - scrollTop;
 
-      if (xInPage < startX && yInPage < startX) {
+      if (
+        (xInPage < startX && yInPage < startY) ||
+        startY > yInPage ||
+        startX > xInPage
+      ) {
         setEndX(startX);
         setEndY(startY);
       } else {
