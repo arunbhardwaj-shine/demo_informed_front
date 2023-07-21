@@ -75,6 +75,7 @@ const AddLinkToPdf = () => {
   const [videoTitle, setVideoTitle] = useState();
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [forceRender, setForceRender] = useState(false);
+  const [viewerscroll, setViewerscroll] = useState(0);
   const navigate = useNavigate();
 
   const [commanShow, setCommanShow] = useState(false);
@@ -325,6 +326,9 @@ const AddLinkToPdf = () => {
         setHoveredLink(linkText);
         setHoveredLinkPosition({ x, y });
         setIsPopupOpen(true);
+
+        const scrollfrominner = document.querySelector(".viewer-layout-main").scrollTop;
+        setViewerscroll(scrollfrominner);
       }
     } else {
       const targetLinkPop = event.target.closest(".link-popup");
@@ -594,7 +598,7 @@ const AddLinkToPdf = () => {
     } catch (err) {
       loader("hide");
       console.log("--err", err);
-    } 
+    }
     setConfirmationPopup(false);
 
   };
@@ -746,7 +750,7 @@ const AddLinkToPdf = () => {
                                     isPopupOpen ? "visible" : ""
                                   }`}
                                   style={{
-                                    top: hoveredLinkPosition.y,
+                                    top: hoveredLinkPosition.y - viewerscroll - 30,
                                     left: hoveredLinkPosition.x,
                                   }}
                                 >
