@@ -62,11 +62,13 @@ const AddLinkToPdf = () => {
   const [ycoordinates, setYcoordinates] = useState(0);
   const [inputUrl, setInputUrl] = useState("");
   const [error, setError] = useState({});
-  const [initFunData, setInitFunData] = useState();
+  const [initFunData, setInitFunData] = useState({});
   const [videoListingData, setVideoListingData] = useState([]);
   const [videoSelect, setVideoSelect] = useState("");
   const [ebookData, setEbookData] = useState();
   const [chapterOption, setChapterOption] = useState([]);
+  const [ebookSelectedId, setEbookSelectedId] = useState(0);
+
 
   const [hoveredLinkPosition, setHoveredLinkPosition] = useState({
     x: 0,
@@ -136,6 +138,8 @@ const AddLinkToPdf = () => {
           });
           setChapterOption(newData);
           setFile(res?.data?.data?.ebookData[0]?.file_name);
+          setEbookSelectedId(res?.data?.data?.ebookData[0]?.id)
+
           setEbookData(res?.data?.data?.ebookData);
         }
       }else if(res?.data?.data?.file_type == "pdf"){
@@ -149,6 +153,7 @@ const AddLinkToPdf = () => {
     }
   };
   const onChapterSelect = (e) => {
+    setEbookSelectedId(ebookData[e?.index]?.id)
     setFile(ebookData[e?.index]?.file_name);
   };
 
@@ -364,26 +369,40 @@ const AddLinkToPdf = () => {
   };
 
   const addLinkToPdf = async (cordinates, page_no, embed_url, file) => {
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    const body = {
-      file: file,
-      link: embed_url,
-      page_no: page_no,
-      file_type: "pdf",
-      chapter: 0,
-      cordinates: cordinates,
-    };
-    // axios
-    //   .post(`libraries/addTempLinkToPdf`, body)
-    //   .then((res) => {
-    //     setFile(res?.data?.data);
-    //     setForceRender((forceRender) => !forceRender);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    try{
+      loader("show")
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      const findIndex = file.lastIndexOf("/");
+      const res = await axios
+      .post(`libraries/addLinkToPdf`, {
+        link: embed_url,
+        file: file,
+        cordinates: cordinates,
+        page_no: page_no,
+        filename:initFunData?.file_type,
+        folder_name:initFunData?.folder_name,
+        pdf_file:file.slice(findIndex+1,file.length),
+        pdf_id:initFunData?.id,
+        file_id:ebookSelectedId
+      })
+    if(initFunData?.file_type == "ebook"){
+      setEbookData(res?.data?.data?.ebookData);
+      let newEbookData = [...ebookData]
+      const hasFound = ebookData.findIndex(item =>item.id ==ebookSelectedId)
+      if(hasFound>-1){
+        newEbookData[ebookData.findIndex(item =>item.id ==ebookSelectedId)].file_name = res?.data?.data
+        setEbookData(newEbookData)
+      }
+    }
+    setFile(res?.data?.data);
+
     setDragging(false);
     setHighlighted(false);
+    loader("hide")
+    }catch(err){
+      loader("hide")
+      console.log("-err",err)
+    }
   };
 
   const isValidUrl = (urlString) => {
