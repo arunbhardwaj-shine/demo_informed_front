@@ -74,6 +74,7 @@ const AddLinkToPdf = () => {
   const [videoTitle, setVideoTitle] = useState();
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [forceRender, setForceRender] = useState(false);
+  const navigate = useNavigate();
 
   const [commanShow, setCommanShow] = useState(false);
   const [popupMessage, setPopupMessage] = useState({
@@ -495,11 +496,10 @@ const AddLinkToPdf = () => {
   };
 
   const showConfirmationPopup = () => {
-
-    console.log("- im hererere",confirmationpopup)
+    console.log("- im hererere", confirmationpopup);
     setPopupMessage({
-      message1:"",
-        // "You are about to remove this content from any reader and every device forever.",
+      message1: "",
+      // "You are about to remove this content from any reader and every device forever.",
       message2: "Are you sure you want to do this?",
       footerButton: "Yes please!",
     });
@@ -602,7 +602,18 @@ const AddLinkToPdf = () => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <Button className="btn btn-primary btn-filled next send_btn">
+                    <Button
+                      className="btn btn-primary btn-filled next send_btn"
+                      onClick={() =>
+                        navigate("/set-popup", {
+                          state: {
+                            pdfId: initFunData?.id,
+                            fileType: initFunData?.file_type,
+                            isEdit: 0,
+                          },
+                        })
+                      }
+                    >
                       Next
                     </Button>
                   </div>
