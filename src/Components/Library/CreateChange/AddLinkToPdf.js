@@ -65,6 +65,8 @@ const AddLinkToPdf = () => {
   const [ycoordinates, setYcoordinates] = useState(0);
   const [inputUrl, setInputUrl] = useState("");
   const [error, setError] = useState({});
+  const [selectedError, setSelectedError] = useState({});
+
   const [initFunData, setInitFunData] = useState({});
   const [videoListingData, setVideoListingData] = useState([]);
   const [videoSelect, setVideoSelect] = useState("");
@@ -207,7 +209,7 @@ const AddLinkToPdf = () => {
   };
 
   const handleChange = (e) =>{
-
+      setInputUrl(e.target.value)
   }
 
   const onVideoModelClose = () => {
@@ -438,6 +440,14 @@ const AddLinkToPdf = () => {
 
   const addLinkToPdf = async (cordinates, page_no, embed_url, file) => {
     try {
+      if(!embed_url){
+        setSelectedError({
+          fileError:true
+        })
+        return 
+      }else{
+        setSelectedError({ })
+      }
       loader("show");
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const findIndex = file.lastIndexOf("/");
@@ -820,11 +830,12 @@ const AddLinkToPdf = () => {
                                     className="form-control input-xs"
                                     type="text"
                                     value={inputUrl}
-                                    onChange={(e) =>
-                                      setInputUrl(e.target.value)
-                                    }
+                                    onChange={handleChange}
+                                    // onChange={(e) =>
+                                    //   setInputUrl(e.target.value)
+                                    // }
                                   />
-                                  {error ? (
+                                  {selectedError?.fileError ? (
                                     <p className="err_class">
                                       Please enter a valid link
                                     </p>
