@@ -33,6 +33,7 @@ import {
 } from "@react-pdf-viewer/core";
 import { loader } from "../../../loader";
 import CommonModel from "../../../Model/CommonModel";
+import ConfirmationModal from "../../../Model/ConfirmationModel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -75,6 +76,7 @@ const AddLinkToPdf = () => {
   const [videoTitle, setVideoTitle] = useState();
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [forceRender, setForceRender] = useState(false);
+  const [confirmationModel, setConfirmationModel] = useState(false);
   const navigate = useNavigate();
 
   const [commanShow, setCommanShow] = useState(false);
@@ -806,7 +808,11 @@ const AddLinkToPdf = () => {
         handleSubmit={handleSubmitModelFun}
         handleQR={handleFun}
       />
-
+      <ConfirmationModal
+        show={confirmationModel}
+        // data={}
+        onClose={setConfirmationModel}
+      />
       <Modal
         show={uploadNewVideo}
         className="send-confirm upload-file"
