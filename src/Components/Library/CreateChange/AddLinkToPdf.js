@@ -12,22 +12,28 @@ import {
 } from "react-bootstrap";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import {postFormData} from "../../../axios/apiHelper";
+import { postData, postFormData, getData } from "../../../axios/apiHelper";
 import MessageModel from "../../../Model/MessageModel";
 import { toast } from "react-toastify";
 import QRCode from "qrcode.react";
-import { usePdf } from '@mikecousins/react-pdf';
+import { usePdf } from "@mikecousins/react-pdf";
 import PDF from "react-pdf-js";
-import packageJson from '../../../../package.json';
-import  Viewer from '@phuocng/react-pdf-viewer';
-import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
+import packageJson from "../../../../package.json";
+import Viewer from "@phuocng/react-pdf-viewer";
+import "@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css";
 import Select from "react-select";
 import axios from "axios";
-import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps,ProgressBar} from '@react-pdf-viewer/core';
+import {
+  RotateEvent,
+  PageChangeEvent,
+  DocumentLoadEvent,
+  RenderPageProps,
+  ProgressBar,
+} from "@react-pdf-viewer/core";
+import { loader } from "../../../loader";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const AddLinkToPdf = () => {
-
   const [dragging, setDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
@@ -49,15 +55,19 @@ const AddLinkToPdf = () => {
   const [ycoordinates, setYcoordinates] = useState(0);
   const [inputUrl, setInputUrl] = useState("");
   const [error, setError] = useState({});
+  const [initFunData, setInitFunData] = useState();
+  const [videoListingData, setVideoListingData] = useState([]);
+  const [videoSelect, setVideoSelect] = useState("");
 
   const [hoveredLinkPosition, setHoveredLinkPosition] = useState({
     x: 0,
     y: 0,
   });
-  const [chapterOption,setchapterOption] = useState([
-    {"label":"Test","value":"value"}
+  const [chapterOption, setchapterOption] = useState([
+    { label: "Test", value: "value" },
   ]);
-  let url = "https://docintel.s3.eu-west-1.amazonaws.com/pdf/arunp/pdflink_1689849787.pdf";
+  let url =
+    "https://docintel.s3.eu-west-1.amazonaws.com/pdf/arunp/pdflink_1689849787.pdf";
   const defaultScale = 1.3347;
   const parentRef = useRef(null);
 
@@ -89,6 +99,58 @@ const AddLinkToPdf = () => {
     if (sidebar) {
       sidebar.remove();
     }
+  };
+  useEffect(() => {
+    initFun();
+    videoFun();
+  }, []);
+
+  const initFun = async () => {
+    try {
+      loader("show");
+      let body = {
+        pdfId: 4224,
+      };
+      const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
+      setInitFunData(res?.data?.data);
+      console.log("res--->", res?.data?.data);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
+
+  const videoFun = async () => {
+    try {
+      loader("show");
+      const res = await getData(ENDPOINT.LIBRARY_VIDEO_LISTING);
+      if (res?.data?.data?.length) {
+        let newVideo = res?.data?.data?.map((item, index) => {
+          return {
+            label: item?.title,
+            value: item?.title,
+            key: item?.title,
+            index: index,
+            link: item?.videoLink,
+          };
+        });
+        setVideoListingData(newVideo);
+      }
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
+  const onVideoSelect = (e) => {
+    var textField = document.createElement("textarea");
+    textField.innerText = e?.link;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand("copy");
+    textField.remove();
+    setVideoSelect(e);
   };
 
   useEffect(() => {
@@ -272,27 +334,27 @@ const AddLinkToPdf = () => {
   };
 
   const addLinkToPdf = async (cordinates, page_no, embed_url, file) => {
-   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-   const body = {
-     file: file,
-     link: embed_url,
-     page_no: page_no,
-     file_type: "pdf",
-     chapter: 0,
-     cordinates: cordinates,
-   };
-   // axios
-   //   .post(`libraries/addTempLinkToPdf`, body)
-   //   .then((res) => {
-   //     setFile(res?.data?.data);
-   //     setForceRender((forceRender) => !forceRender);
-   //   })
-   //   .catch((err) => {
-   //     console.log(err);
-   //   });
-   setDragging(false);
-   setHighlighted(false);
- };
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    const body = {
+      file: file,
+      link: embed_url,
+      page_no: page_no,
+      file_type: "pdf",
+      chapter: 0,
+      cordinates: cordinates,
+    };
+    // axios
+    //   .post(`libraries/addTempLinkToPdf`, body)
+    //   .then((res) => {
+    //     setFile(res?.data?.data);
+    //     setForceRender((forceRender) => !forceRender);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    setDragging(false);
+    setHighlighted(false);
+  };
 
   const isValidUrl = (urlString) => {
     var urlPattern = new RegExp(
@@ -312,91 +374,96 @@ const AddLinkToPdf = () => {
     setHighlighted(false);
   };
 
-
-    return (
-      <Col className="right-sidebar custom-change">
-        <div className="custom-container">
-          <Row>
-            <div className="page-top-nav sticky">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
-                  <div className="header-btn-left">
-                    {
-                      localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="
-                      ?
-                          <Link
-                            className="btn btn-bordered btn btn-primary"
-                            to="/library-create"
-                          >
-                            Back
-                          </Link>
-                      :
-                      <Link
-                        className="btn btn-bordered btn btn-primary"
-                        to="/library-create"
-                      >
-                        Back
-                      </Link>
-                    }
-                  </div>
+  return (
+    <Col className="right-sidebar custom-change">
+      <div className="custom-container">
+        <Row>
+          <div className="page-top-nav sticky">
+            <div className="row justify-content-end align-items-center">
+              <div className="col-12 col-md-1">
+                <div className="header-btn-left">
+                  {localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    <Link
+                      className="btn btn-bordered btn btn-primary"
+                      to="/library-create"
+                    >
+                      Back
+                    </Link>
+                  ) : (
+                    <Link
+                      className="btn btn-bordered btn btn-primary"
+                      to="/library-create"
+                    >
+                      Back
+                    </Link>
+                  )}
                 </div>
-                <div className="col-12 col-md-9">
-                  <ul className="tabnav-link">
-                    {
-                      <>
-                        <li className="">
-                          <a href="">Create Your Content</a>
-                        </li>
-                        {
-                          localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
-                          <li className="active active-main">
+              </div>
+              <div className="col-12 col-md-9">
+                <ul className="tabnav-link">
+                  {
+                    <>
+                      <li className="">
+                        <a href="">Create Your Content</a>
+                      </li>
+                      {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <li className="active active-main">
                           <a href="">Edit Consent Option</a>
-                          </li> : null
-                        }
-                        <li className="">
-                          <a href="">Preview Your Content &amp; Publish</a>
                         </li>
-                      </>
-                    }
-                  </ul>
-                </div>
-                <div className="col-12 col-md-2">
-                  <div className="header-btn">
-                    <Button className="btn btn-primary btn-filled next send_btn">
-                      Next
-                    </Button>
-                  </div>
+                      ) : null}
+                      <li className="">
+                        <a href="">Preview Your Content &amp; Publish</a>
+                      </li>
+                    </>
+                  }
+                </ul>
+              </div>
+              <div className="col-12 col-md-2">
+                <div className="header-btn">
+                  <Button className="btn btn-primary btn-filled next send_btn">
+                    Next
+                  </Button>
                 </div>
               </div>
             </div>
-            <div className="create-change-content spc-content">
-              <div className="form_action">
-                <div className="row">
-                  <Col className="sublink_right preview-content d-flex flex-column">
+          </div>
+          <div className="create-change-content spc-content">
+            <div className="form_action">
+              <div className="row">
+                <Col className="sublink_right preview-content d-flex flex-column">
                   <div className="form_action embedding-video">
-                      <div className="side-step-text first-step">
-                        <div className="embedded-video-step">
-                          <h2>Step1</h2>
+                    {initFunData?.file_type == "ebook" ? (
+                      <>
+                        <div className="side-step-text first-step">
+                          <div className="embedded-video-step">
+                            <h2>Step1</h2>
+                          </div>
+                          <p>Select the Chapter</p>
+                          <Form.Group className="formgroup">
+                            <Form.Label>Chapter</Form.Label>
+                            <Select
+                              className="dropdown-basic-button split-button-dropup "
+                              options={chapterOption}
+                            />
+                          </Form.Group>
                         </div>
-                        <p>Select the Chapter</p>
-                        <Form.Group className="formgroup">
-                          <Form.Label>Chapter</Form.Label>
-                          <Select
-                            className="dropdown-basic-button split-button-dropup "
-                            options={chapterOption}
-
-                          />
-                        </Form.Group>
-                      </div>
-
+                      </>
+                    ) : (
+                      ""
+                    )}
                     <div className="side-step-text second-step">
-
+                      {initFunData?.file_type == "ebook" ? (
                         <div className="embedded-video-step">
                           <h2>Step2</h2>
                         </div>
+                      ) : (
+                        ""
+                      )}
                       <p>
-                        Select the video and highlight the area you want to embed the
-                        video in{" "}
+                        Select the video and highlight the area you want to
+                        embed the video in{" "}
                       </p>
                       <Form.Group className="formgroup">
                         <Form.Label>
@@ -404,87 +471,85 @@ const AddLinkToPdf = () => {
                         </Form.Label>
                         <Select
                           className="dropdown-basic-button split-button-dropup "
-
+                          options={videoListingData}
+                          onChange={onVideoSelect}
                         />
 
                         <div className="upload-file-box">
-                          <Button
-                            className="btn-bordered btn-voilet"
-
-                          >
+                          <Button className="btn-bordered btn-voilet">
                             Upload new Video +
                           </Button>
                         </div>
                       </Form.Group>
                     </div>
                   </div>
-                      <div id="parent_div" ref={parentRef}>
-                        <div class="modal-body-content">
-                            <Viewer
-                              id="container"
-                              renderPage={renderPage}
-                              defaultScale={defaultScale}
-                              onDocumentLoad={handleDocumentLoad}
-                              renderMode="canvas"
-                              fileUrl={url}
+                  <div id="parent_div" ref={parentRef}>
+                    <div class="modal-body-content">
+                      <Viewer
+                        id="container"
+                        renderPage={renderPage}
+                        defaultScale={defaultScale}
+                        onDocumentLoad={handleDocumentLoad}
+                        renderMode="canvas"
+                        fileUrl={url}
+                      />
+                      <div
+                        className="highlight_box"
+                        style={{
+                          position: "absolute",
+                          border: "2px dashed rgb(204, 204, 204)",
+                          backgroundColor: "rgba(255, 0, 0, 0)",
+                          display: highlighted || dragging ? "block" : "none",
+                          pointerEvents: "none",
+                          left: `${Math.min(startX, endX)}px`,
+                          top: `${Math.min(startY, endY)}px`,
+                          width: `${Math.abs(startX - endX)}px`,
+                          height: `${Math.abs(startY - endY)}px`,
+                        }}
+                      />
+                      {highlighted && (
+                        <div className="link_popup">
+                          <form action="#" id="addLinkForm">
+                            <button
+                              type="button"
+                              className="close"
+                              id="closeLinkPopup"
+                              onClick={() => closePopup()}
+                            >
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <label for="targetURL">Add Link:</label>
+                            <input
+                              placeholder="https://example.com"
+                              id="targetURL"
+                              className="form-control input-xs"
+                              type="text"
+                              onChange={(e) => setInputUrl(e.target.value)}
                             />
-                            <div
-                          className="highlight_box"
-                          style={{
-                            position: "absolute",
-                            border: "2px dashed rgb(204, 204, 204)",
-                            backgroundColor: "rgba(255, 0, 0, 0)",
-                            display: highlighted || dragging ? "block" : "none",
-                            pointerEvents: "none",
-                            left: `${Math.min(startX, endX)}px`,
-                            top: `${Math.min(startY, endY)}px`,
-                            width: `${Math.abs(startX - endX)}px`,
-                            height: `${Math.abs(startY - endY)}px`,
-                          }}
-                        />
-                            {highlighted && (
-                            <div className="link_popup">
-                              <form action="#" id="addLinkForm">
-                                <button
-                                  type="button"
-                                  className="close"
-                                  id="closeLinkPopup"
-                                  onClick={() => closePopup()}
-                                >
-                                  <span aria-hidden="true">×</span>
-                                </button>
-                                <label for="targetURL">Add Link:</label>
-                                <input
-                                  placeholder="https://example.com"
-                                  id="targetURL"
-                                  className="form-control input-xs"
-                                  type="text"
-                                  onChange={(e) => setInputUrl(e.target.value)}
-                                />
-                                {error ? (
-                                  <p className="err_class">Please enter a valid link</p>
-                                ) : null}
-                                <input
-                                  type="submit"
-                                  value="Add Link"
-                                  id="addLinkToPdfButton"
-                                  onClick={(e) => handleAddUrl(e, file)}
-                                />
-                              </form>
-                            </div>
-                          )}
-                          </div>
-                      </div>
-
-                  </Col>
-                </div>
+                            {error ? (
+                              <p className="err_class">
+                                Please enter a valid link
+                              </p>
+                            ) : null}
+                            <input
+                              type="submit"
+                              value="Add Link"
+                              id="addLinkToPdfButton"
+                              onClick={(e) => handleAddUrl(e, file)}
+                            />
+                          </form>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </Col>
               </div>
             </div>
-
-          </Row>
-        </div>
-      </Col>
-    )
-}
+          </div>
+        </Row>
+      </div>
+    </Col>
+  );
+};
 
 export default AddLinkToPdf;
