@@ -194,7 +194,6 @@ const AddLinkToPdf = () => {
     }
   };
   const onVideoSelect = (e) => {
-    console.log("link---->", e);
     var textField = document.createElement("textarea");
     textField.innerText = e?.link;
     document.body.appendChild(textField);
@@ -496,9 +495,11 @@ const AddLinkToPdf = () => {
   };
 
   const showConfirmationPopup = () => {
+
+    console.log("- im hererere",confirmationpopup)
     setPopupMessage({
-      message1:
-        "You are about to remove this content from any reader and every device forever.",
+      message1:"",
+        // "You are about to remove this content from any reader and every device forever.",
       message2: "Are you sure you want to do this?",
       footerButton: "Yes please!",
     });
