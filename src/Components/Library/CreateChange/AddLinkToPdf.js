@@ -34,6 +34,13 @@ import { loader } from "../../../loader";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const AddLinkToPdf = () => {
+  const { state } = useLocation();
+  const [articleId, setArticleId] = useState(
+    typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
+  );
+  const [isEdit, setIsEdit] = useState(
+    typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
+  );
   const [dragging, setDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
@@ -106,15 +113,22 @@ const AddLinkToPdf = () => {
   }, []);
 
   const initFun = async () => {
+    loader("show");
     try {
-      loader("show");
+      if (typeof articleId === "undefined") {
+        if (state?.pdfId) {
+          setArticleId(state?.pdfId);
+        }
+      }
+
       let body = {
-        pdfId: 4224,
+        pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
       };
       const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
       setInitFunData(res?.data?.data);
       console.log("res--->", res?.data?.data);
     } catch (err) {
+      loader("hide");
       console.log("--err", err);
     } finally {
       loader("hide");
@@ -138,6 +152,7 @@ const AddLinkToPdf = () => {
         setVideoListingData(newVideo);
       }
     } catch (err) {
+      loader("hide");
       console.log("--err", err);
     } finally {
       loader("hide");
