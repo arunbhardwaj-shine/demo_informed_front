@@ -15,6 +15,7 @@ export const ENDPOINT = {
   LIBRARYDETAIL: `/library/user-detail`,
   LIBRARYSAVEPOPUP: `/library/save-pdf-popup`,
   LIBRARYGETARTICLE: `/library/get-pdffile`,
+  LIBRARY_VIDEO_LISTING: `/library/video-listing`,
   SPC_PRO_LISTING: `/library/spc-productListing`,
   ADD_SPC_PRODUCT: "/library/add-product",
   LIBRARYGETSPC: `/library/get-spcListing`,
@@ -90,7 +91,7 @@ export const ENDPOINT = {
   SITEREGISTERSORT: "/site-registration-sort",
 
   IRT_COUNT_GRAPH: "/find-irt-count",
-  WEBINAR_QUESTION_LISTING:"/auth/webinar-question",
+  WEBINAR_QUESTION_LISTING: "/auth/webinar-question",
   // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
   RD_SITE_ENGAGEMENT:
     "https://webinar.docintel.app/lmn/api/analytics/rd_site_engagement",
@@ -99,12 +100,10 @@ export const ENDPOINT = {
   TRAINING_COMPLETION_DROPDOWN: "/training-completion-dropdown",
   TRAINING_COMPLETION_PAGE_CLICK: "/training-completion-page-click",
 
-  TRAINING_COMPLETION_PAGE_CLICK: "/training-completion-page-click", 
+  TRAINING_COMPLETION_PAGE_CLICK: "/training-completion-page-click",
   MOST_POPULAR_CONTENT: "/most-popular-content",
   MOST_POPULAR_PAGE_CONTENT: "/most-popular-content_page_wise",
   MOST_POPULAR_SITE_CONTENT: "/most-popular-content_site_wise",
   QUESTION_ANSWER: "/auth/question-answer",
   QUESTION_UPDATE: "/auth/question-update",
-
-
 };
