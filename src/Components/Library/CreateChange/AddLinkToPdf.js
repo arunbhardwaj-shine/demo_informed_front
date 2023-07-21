@@ -10,7 +10,7 @@ import {
   Tab,
   Tabs,
 } from "react-bootstrap";
-import CommonConfirmModel from "./CommonConfirmModel";
+
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, postFormData, getData } from "../../../axios/apiHelper";
