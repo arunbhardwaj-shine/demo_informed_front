@@ -484,14 +484,16 @@ const AddLinkToPdf = () => {
         }
       }
       setFile(res?.data?.data);
-      // showConfirmationModel();
+
       setDragging(false);
       setHighlighted(false);
       loader("hide");
     } catch (err) {
       loader("hide");
-      console.log("-err", err);
-      showConfirmationModel();
+      // console.log("-err", err?);
+      if (err?.response?.data?.message.includes("compression")) {
+        showConfirmationModel();
+      }
     }
   };
 
@@ -627,7 +629,7 @@ const AddLinkToPdf = () => {
   };
   const showConfirmationModel = () => {
     setPopupMessage({
-      message1: "Pdf format is not acceptable",
+      message1: "Pdf file is not supported",
       // message2: "Are you sure you want to do this?",
       footerButton: "Close",
     });
