@@ -525,7 +525,7 @@ const AddLinkToPdf = () => {
     setPopupMessage({
       message1: "",
       // "You are about to remove this content from any reader and every device forever.",
-      message2: "Are you sure you want to do this?",
+      message2: "Are you sure you want to delete this link?",
       footerButton: "Yes please!",
     });
     if (confirmationpopup) {
