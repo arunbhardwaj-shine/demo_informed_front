@@ -845,7 +845,7 @@ const AddLinkToPdf = () => {
                                   >
                                     <span aria-hidden="true">×</span>
                                   </button>
-                                  <label for="targetURL">Add Link:</label>
+                                  <label htmlFor="targetURL">Add Link:</label>
 
                                   <input
                                     placeholder="https://example.com"
