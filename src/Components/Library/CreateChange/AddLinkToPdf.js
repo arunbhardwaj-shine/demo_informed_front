@@ -207,7 +207,8 @@ const AddLinkToPdf = () => {
     textField.select();
     document.execCommand("copy");
     textField.remove();
-    setVideoSelect(e);
+    setVideoSelect(e?.value);
+    console.log("----e--->", e);
     setInputUrl(e?.link);
   };
 
@@ -448,13 +449,13 @@ const AddLinkToPdf = () => {
 
   const addLinkToPdf = async (cordinates, page_no, embed_url, file) => {
     try {
-      if(!embed_url){
+      if (!embed_url) {
         setSelectedError({
-          fileError:true
-        })
-        return
-      }else{
-        setSelectedError({ })
+          fileError: true,
+        });
+        return;
+      } else {
+        setSelectedError({});
       }
       loader("show");
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -769,7 +770,13 @@ const AddLinkToPdf = () => {
                     {file ? (
                       <>
                         <div id="parent_div" ref={parentRef}>
-                          <div className={highlighted ? "modal-body-content no_scroll" : "modal-body-content"}>
+                          <div
+                            className={
+                              highlighted
+                                ? "modal-body-content no_scroll"
+                                : "modal-body-content"
+                            }
+                          >
                             {isPopupOpen ? (
                               <>
                                 <div
@@ -785,7 +792,7 @@ const AddLinkToPdf = () => {
                                 >
                                   <div className="link-popup-inner">
                                     <div className="video-title">
-                                      This is a popup!{" "}
+                                      {videoSelect ? videoSelect : "No title"}{" "}
                                     </div>
 
                                     <div className="link-popup-buttons">
