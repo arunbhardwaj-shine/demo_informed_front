@@ -72,8 +72,8 @@ const AddLinkToPdf = () => {
     x: 0,
     y: 0,
   });
-  let url =
-    "https://docintel.s3.eu-west-1.amazonaws.com/pdf/arunp/pdflink_1689849787.pdf";
+  // let url =
+  //   "https://docintel.s3.eu-west-1.amazonaws.com/pdf/arunp/pdflink_1689849787.pdf";
   const defaultScale = 1.3347;
   const parentRef = useRef(null);
 
@@ -112,8 +112,8 @@ const AddLinkToPdf = () => {
   }, []);
 
   const initFun = async () => {
-    loader("show");
     try {
+      loader("show");
       if (typeof articleId === "undefined") {
         if (state?.pdfId) {
           setArticleId(state?.pdfId);
@@ -125,13 +125,9 @@ const AddLinkToPdf = () => {
       };
       const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
       setInitFunData(res?.data?.data);
-      if (res?.data?.data?.file_type == "pdf") {
-        setFile(res?.data?.data?.file_name);
-      }
-
       if (res?.data?.data?.file_type == "ebook") {
         if (res?.data?.data?.ebookData?.length) {
-          const newData = ebookData?.map((item, index) => {
+          const newData = res?.data?.data?.ebookData?.map((item, index) => {
             return {
               label: item?.title,
               value: item?.title,
@@ -139,12 +135,12 @@ const AddLinkToPdf = () => {
             };
           });
           setChapterOption(newData);
-          setFile(res?.data?.data?.ebookData[0]);
+          setFile(res?.data?.data?.ebookData[0]?.file_name);
           setEbookData(res?.data?.data?.ebookData);
         }
+      }else if(res?.data?.data?.file_type == "pdf"){
+        setFile(res?.data?.data?.file_name);
       }
-
-      console.log("res--->", res?.data?.data?.ebookData[0]);
     } catch (err) {
       loader("hide");
       console.log("--err", err);
@@ -153,7 +149,7 @@ const AddLinkToPdf = () => {
     }
   };
   const onChapterSelect = (e) => {
-    setFile(ebookData[e?.index]);
+    setFile(ebookData[e?.index]?.file_name);
   };
 
   const videoFun = async () => {
@@ -199,7 +195,7 @@ const AddLinkToPdf = () => {
       parentRef?.current?.removeEventListener("mousemove", handleMouseMove);
       parentRef?.current?.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [dragging, startX, startY, endX, endY]);
+  }, [dragging, startX, startY, endX, endY,file]);
 
   const handleMouseDown = (event) => {
     if (event.target.className === "viewer-text-layer") {
@@ -231,8 +227,6 @@ const AddLinkToPdf = () => {
       const anchorTag = targetLink.querySelector("a");
       if (anchorTag) {
         const linkText = anchorTag.getAttribute("href");
-        // console.log("=====-----=-=-->>",linkText)
-
         const rect = targetLink.getBoundingClientRect();
         const width = rect.width;
         const height = rect.height;
@@ -483,7 +477,7 @@ const AddLinkToPdf = () => {
                               className="dropdown-basic-button split-button-dropup "
                               options={chapterOption}
                               onChange={onChapterSelect}
-                              defaultValue={chapterOption[0]}
+                              defaultValue={chapterOption?.[0]}
                             />
                           </Form.Group>
                         </div>
