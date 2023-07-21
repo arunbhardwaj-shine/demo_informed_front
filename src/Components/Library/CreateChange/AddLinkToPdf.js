@@ -138,7 +138,7 @@ const AddLinkToPdf = () => {
           setFile(res?.data?.data?.ebookData[0]?.file_name);
           setEbookData(res?.data?.data?.ebookData);
         }
-      }else if(res?.data?.data?.file_type == "pdf"){
+      } else if (res?.data?.data?.file_type == "pdf") {
         setFile(res?.data?.data?.file_name);
       }
     } catch (err) {
@@ -176,6 +176,7 @@ const AddLinkToPdf = () => {
     }
   };
   const onVideoSelect = (e) => {
+    console.log("link---->", e);
     var textField = document.createElement("textarea");
     textField.innerText = e?.link;
     document.body.appendChild(textField);
@@ -183,6 +184,7 @@ const AddLinkToPdf = () => {
     document.execCommand("copy");
     textField.remove();
     setVideoSelect(e);
+    setInputUrl(e?.link);
   };
 
   useEffect(() => {
@@ -195,7 +197,7 @@ const AddLinkToPdf = () => {
       parentRef?.current?.removeEventListener("mousemove", handleMouseMove);
       parentRef?.current?.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [dragging, startX, startY, endX, endY,file]);
+  }, [dragging, startX, startY, endX, endY, file]);
 
   const handleMouseDown = (event) => {
     if (event.target.className === "viewer-text-layer") {
@@ -554,11 +556,13 @@ const AddLinkToPdf = () => {
                                   <span aria-hidden="true">×</span>
                                 </button>
                                 <label for="targetURL">Add Link:</label>
+
                                 <input
                                   placeholder="https://example.com"
                                   id="targetURL"
                                   className="form-control input-xs"
                                   type="text"
+                                  value={inputUrl}
                                   onChange={(e) => setInputUrl(e.target.value)}
                                 />
                                 {error ? (
