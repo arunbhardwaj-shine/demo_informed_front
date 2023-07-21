@@ -33,6 +33,7 @@ import {
 } from "@react-pdf-viewer/core";
 import { loader } from "../../../loader";
 import CommonModel from "../../../Model/CommonModel";
+import ConfirmationModal from "../../../Model/ConfirmationModel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -77,6 +78,7 @@ const AddLinkToPdf = () => {
   const [videoTitle, setVideoTitle] = useState();
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [forceRender, setForceRender] = useState(false);
+  const [confirmationModel, setConfirmationModel] = useState(false);
   const [viewerscroll, setViewerscroll] = useState(0);
   const navigate = useNavigate();
 
@@ -209,9 +211,9 @@ const AddLinkToPdf = () => {
     setInputUrl(e?.link);
   };
 
-  const handleChange = (e) =>{
-      setInputUrl(e.target.value)
-  }
+  const handleChange = (e) => {
+    setInputUrl(e.target.value);
+  };
 
   const onVideoModelClose = () => {
     setVideoTitle();
@@ -329,7 +331,9 @@ const AddLinkToPdf = () => {
         setHoveredLinkPosition({ x, y });
         setIsPopupOpen(true);
 
-        const scrollfrominner = document.querySelector(".viewer-layout-main").scrollTop;
+        const scrollfrominner = document.querySelector(
+          ".viewer-layout-main"
+        ).scrollTop;
         setViewerscroll(scrollfrominner);
       }
     } else {
@@ -480,13 +484,14 @@ const AddLinkToPdf = () => {
         }
       }
       setFile(res?.data?.data);
-
+      // showConfirmationModel();
       setDragging(false);
       setHighlighted(false);
       loader("hide");
     } catch (err) {
       loader("hide");
       console.log("-err", err);
+      showConfirmationModel();
     }
   };
 
@@ -610,7 +615,6 @@ const AddLinkToPdf = () => {
       console.log("--err", err);
     }
     setConfirmationPopup(false);
-
   };
 
   const handleFun = (e) => {
@@ -620,6 +624,18 @@ const AddLinkToPdf = () => {
       link: videoData?.link,
       name: videoData?.key,
     });
+  };
+  const showConfirmationModel = () => {
+    setPopupMessage({
+      message1: "Pdf format is not acceptable",
+      // message2: "Are you sure you want to do this?",
+      footerButton: "Close",
+    });
+    if (confirmationModel) {
+      setConfirmationModel(false);
+    } else {
+      setConfirmationModel(true);
+    }
   };
 
   return (
@@ -760,7 +776,8 @@ const AddLinkToPdf = () => {
                                     isPopupOpen ? "visible" : ""
                                   }`}
                                   style={{
-                                    top: hoveredLinkPosition.y - viewerscroll - 30,
+                                    top:
+                                      hoveredLinkPosition.y - viewerscroll - 30,
                                     left: hoveredLinkPosition.x,
                                   }}
                                 >
@@ -875,13 +892,19 @@ const AddLinkToPdf = () => {
         handleSubmit={handleSubmitModelFun}
         handleQR={handleFun}
       />
+      <ConfirmationModal
+        show={confirmationModel}
+        path_image={path_image}
+        popupMessage={popupMessage}
+        onClose={setConfirmationModel}
+      />
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}
         fun={commonConfirmModelFun}
         popupMessage={popupMessage}
         path_image={path_image}
-        />
+      />
 
       <Modal
         show={uploadNewVideo}
