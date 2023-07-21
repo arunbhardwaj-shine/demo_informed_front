@@ -10,8 +10,8 @@ import {
   Tab,
   Tabs,
 } from "react-bootstrap";
-
 import { useLocation, Link, useNavigate } from "react-router-dom";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, postFormData, getData } from "../../../axios/apiHelper";
 import MessageModel from "../../../Model/MessageModel";
@@ -207,6 +207,8 @@ const AddLinkToPdf = () => {
     setVideoSelect(e);
     setInputUrl(e?.link);
   };
+
+  const handleChange = (e) => {};
 
   const onVideoModelClose = () => {
     setVideoTitle();
@@ -464,13 +466,14 @@ const AddLinkToPdf = () => {
         }
       }
       setFile(res?.data?.data);
-
+      // showConfirmationModel();
       setDragging(false);
       setHighlighted(false);
       loader("hide");
     } catch (err) {
       loader("hide");
       console.log("-err", err);
+      showConfirmationModel();
     }
   };
 
@@ -499,7 +502,6 @@ const AddLinkToPdf = () => {
   };
 
   const showConfirmationPopup = () => {
-    console.log("- im hererere", confirmationpopup);
     setPopupMessage({
       message1: "",
       // "You are about to remove this content from any reader and every device forever.",
@@ -537,14 +539,64 @@ const AddLinkToPdf = () => {
       };
 
       const res = await axios.post(`libraries/changePdfLink`, body);
+
+      if (initFunData?.file_type == "ebook") {
+        let newEbookData = [...ebookData];
+        const hasFound = ebookData.findIndex(
+          (item) => item.id == ebookSelectedId
+        );
+        if (hasFound > -1) {
+          newEbookData[
+            ebookData.findIndex((item) => item.id == ebookSelectedId)
+          ].file_name = res?.data?.data;
+          setEbookData(newEbookData);
+        }
+      }
       setFile(res?.data?.data);
       loader("hide");
     } catch (err) {
       loader("hide");
       console.log("--err", err);
     }
+  };
 
-    // setPreviousLink(newLink);
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+
+  const commonConfirmModelFun = async () => {
+    try {
+      loader("show");
+      const findIndex = file.lastIndexOf("/");
+      let body = {
+        file: file,
+        prev_link: hoverUrl,
+        filename: initFunData?.file_type,
+        folder_name: initFunData?.folder_name,
+        pdf_file: file.slice(findIndex + 1, file.length),
+        pdf_id: initFunData?.id,
+        file_id: ebookSelectedId,
+      };
+      const res = await axios.post(`libraries/deletePdfLink`, body);
+      if (initFunData?.file_type == "ebook") {
+        let newEbookData = [...ebookData];
+        const hasFound = ebookData.findIndex(
+          (item) => item.id == ebookSelectedId
+        );
+        if (hasFound > -1) {
+          newEbookData[
+            ebookData.findIndex((item) => item.id == ebookSelectedId)
+          ].file_name = res?.data?.data;
+          setEbookData(newEbookData);
+        }
+      }
+      setFile(res?.data?.data);
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log("--err", err);
+    }
+    setConfirmationPopup(false);
   };
 
   const handleFun = (e) => {
@@ -554,6 +606,18 @@ const AddLinkToPdf = () => {
       link: videoData?.link,
       name: videoData?.key,
     });
+  };
+  const showConfirmationModel = () => {
+    setPopupMessage({
+      message1: "Pdf format is not acceptable",
+      // message2: "Are you sure you want to do this?",
+      footerButton: "Close",
+    });
+    if (confirmationModel) {
+      setConfirmationModel(false);
+    } else {
+      setConfirmationModel(true);
+    }
   };
 
   return (
@@ -810,9 +874,18 @@ const AddLinkToPdf = () => {
       />
       <ConfirmationModal
         show={confirmationModel}
-        // data={}
+        path_image={path_image}
+        popupMessage={popupMessage}
         onClose={setConfirmationModel}
       />
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={hideConfirmationModal}
+        fun={commonConfirmModelFun}
+        popupMessage={popupMessage}
+        path_image={path_image}
+      />
+
       <Modal
         show={uploadNewVideo}
         className="send-confirm upload-file"

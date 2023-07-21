@@ -1,24 +1,22 @@
-import { useState, useEffect } from "react";
-import Button from "react-bootstrap/Button";
+import React from "react";
 import Modal from "react-bootstrap/Modal";
 
 const ConfirmationModal = ({ show, onClose, popupMessage, path_image }) => {
   return (
     <>
       <Modal
+        className="modal send-confirm"
+        id="delete-confirm"
         show={show}
-        backdrop="static"
         onHide={() => onClose(false)}
-        keyboard={false}
-        id="pollModel1"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            <img
-              src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
-              alt=""
-            />
-          </Modal.Title>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => onClose(false)}
+          ></button>
         </Modal.Header>
         <Modal.Body>
           <>
@@ -43,7 +41,7 @@ const ConfirmationModal = ({ show, onClose, popupMessage, path_image }) => {
                 className="btn btn-primary btn-bordered"
                 onClick={() => onClose(false)}
               >
-                Close
+                {popupMessage?.footerButton}
               </button>
             </div>
           </>
