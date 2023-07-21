@@ -779,7 +779,7 @@ const AddLinkToPdf = () => {
                                   }`}
                                   style={{
                                     top:
-                                      hoveredLinkPosition.y - viewerscroll - 30,
+                                      hoveredLinkPosition.y - viewerscroll - 20,
                                     left: hoveredLinkPosition.x,
                                   }}
                                 >
