@@ -87,6 +87,8 @@ const AddLinkToPdf = () => {
   const [forceRender, setForceRender] = useState(false);
   const [confirmationModel, setConfirmationModel] = useState(false);
   const [viewerscroll, setViewerscroll] = useState(0);
+  const [selectedUrl, setSelectedUrl] = useState("");
+
   const [pageNo, setPageNo] = useState(0);
 
   const [newObj, setNewObj] = useState({});
@@ -232,10 +234,12 @@ const AddLinkToPdf = () => {
                     setPageNo(e.currentPage);
                     setCommanShow(true);
                   });
+                  // selectedUrl,
                 document
                   .getElementById("delete-" + index + "-" + e.currentPage)
                   .addEventListener("click", () => {
                     setPageNo(e.currentPage);
+                    setSelectedUrl(anchorTag.href)
                     showConfirmationPopup();
                   });
               }
@@ -731,7 +735,7 @@ const AddLinkToPdf = () => {
       const findIndex = file.lastIndexOf("/");
       let body = {
         file: file,
-        prev_link: hoverUrl,
+        prev_link: selectedUrl,
         filename: initFunData?.file_type,
         folder_name: initFunData?.folder_name,
         pdf_file: file.slice(findIndex + 1, file.length),
@@ -739,6 +743,7 @@ const AddLinkToPdf = () => {
         file_id: ebookSelectedId,
       };
       const res = await axios.post(`libraries/deletePdfLink`, body);
+      setSelectedUrl("")
       if (initFunData?.file_type == "ebook") {
         let newEbookData = [...ebookData];
         const hasFound = ebookData.findIndex(
