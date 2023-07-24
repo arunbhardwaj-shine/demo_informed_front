@@ -143,7 +143,6 @@ const AddLinkToPdf = () => {
     const divElement = document.querySelector(".modal-body-content");
     const viewPageLayers = divElement?.querySelectorAll(".viewer-inner-page");
 
-    console.log("viewPageLayers");
 
     if (viewPageLayers) {
       setTimeout(() => {
@@ -152,7 +151,6 @@ const AddLinkToPdf = () => {
           ".viewer-annotation-layer"
         );
 
-        console.log("viewAnnotationLayers", viewAnnotationLayers);
 
         if (viewAnnotationLayers.length > 0) {
           viewAnnotationLayers.forEach((viewAnnotationLayer, index) => {
@@ -162,81 +160,87 @@ const AddLinkToPdf = () => {
             if (element) {
               return;
             }
+            let baseStrig = 'https://docintel.app/Clicklinks/video_player';
+            let baseStrigwithoutsecure = 'http://docintel.app/Clicklinks/video_player';
 
             const anchorTag = viewAnnotationLayer.querySelector("a");
-            console.log("-=-=-=->>>", anchorTag);
             if (anchorTag) {
-              const anchorRect = anchorTag.getBoundingClientRect();
-              // console.log("-test",anchorRect)
-              const parentDiv = document.querySelector("#parent_div");
-              const parentRect = viewPageLayer.getBoundingClientRect();
-
-              const topPosition = anchorRect.top - parentRect.top - 50; // Adding 10 to the top position
-              const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
-
-              const popup = document.createElement("div");
-              popup.className = "link-popup-inner";
-              popup.id = `link-popup-inner-${e.currentPage}-${index}`;
-              popup.style.position = "absolute";
-              popup.style.top = `${topPosition}px`;
-              popup.style.left = `${leftPosition}px`;
-              popup.innerHTML = `<div
-                class="link-popup visible"
-                
-              >
-                <div id="link-popup" class="link-popup-inner">
-                 
-                  <div class="link-popup-buttons">
-                    <button id=${"view-" + index + "-" + e.currentPage}>
-                      View
-                    </button>
-
-                    <button id=${"change-" + index + "-" + e.currentPage}
-                    >
-                      Change
-                    </button>
-
-                    <button id=${"delete-" + index + "-" + e.currentPage}
-                    >
-                      Delete
-                    </button>
+              let getVideoUrl =  anchorTag?.href
+              if(getVideoUrl?.includes(baseStrig) || getVideoUrl?.includes(baseStrigwithoutsecure)){
+                const anchorRect = anchorTag.getBoundingClientRect();
+                // console.log("-test",anchorRect)
+                const parentDiv = document.querySelector("#parent_div");
+                const parentRect = viewPageLayer.getBoundingClientRect();
+  
+                const topPosition = anchorRect.top - parentRect.top - 50; // Adding 10 to the top position
+                const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
+  
+                const popup = document.createElement("div");
+                popup.className = "link-popup-inner";
+                popup.id = `link-popup-inner-${e.currentPage}-${index}`;
+                popup.style.position = "absolute";
+                popup.style.top = `${topPosition}px`;
+                popup.style.left = `${leftPosition}px`;
+                popup.innerHTML = `<div
+                  class="link-popup visible"
+                  
+                >
+                  <div id="link-popup" class="link-popup-inner">
+                   
+                    <div class="link-popup-buttons">
+                      <button id=${"view-" + index + "-" + e.currentPage}>
+                        View
+                      </button>
+  
+                      <button id=${"change-" + index + "-" + e.currentPage}
+                      >
+                        Change
+                      </button>
+  
+                      <button id=${"delete-" + index + "-" + e.currentPage}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </div>`;
-
-              // popup.innerHTML = `
-              //   <div id="link-popup" class="link-popup-inner">
-              //     <div class="video-title">
-              //       ${videoSelect ? videoSelect : "No title"}
-              //     </div>
-
-              //     <div class="link-popup-buttons">
-              //       <button onClick={handleViewClick}>View</button>
-              //       <button onClick={() => setCommanShow(true)}>Change</button>
-              //       <button onClick={() => showConfirmationPopup()}>Delete</button>
-              //     </div>
-              //   </div>
-              // `;
-              // console.log(anchorTag.href)
-
-              viewAnnotationLayer.appendChild(popup);
-              document
-                .getElementById("view-" + index + "-" + e.currentPage)
-                .addEventListener("click", () => {
-                  handleViewClick(anchorTag.href);
-                });
-              document
-                .getElementById("change-" + index + "-" + e.currentPage)
-                .addEventListener("click", () => {
-                  setPageNo(e.currentPage);
-                  setCommanShow(true);
-                });
-              document
-                .getElementById("delete-" + index + "-" + e.currentPage)
-                .addEventListener("click", () => {
-                  setPageNo(e.currentPage);
-                  showConfirmationPopup();
-                });
+                </div>`;
+  
+                // popup.innerHTML = `
+                //   <div id="link-popup" class="link-popup-inner">
+                //     <div class="video-title">
+                //       ${videoSelect ? videoSelect : "No title"}
+                //     </div>
+  
+                //     <div class="link-popup-buttons">
+                //       <button onClick={handleViewClick}>View</button>
+                //       <button onClick={() => setCommanShow(true)}>Change</button>
+                //       <button onClick={() => showConfirmationPopup()}>Delete</button>
+                //     </div>
+                //   </div>
+                // `;
+                // console.log(anchorTag.href)
+  
+                viewAnnotationLayer.appendChild(popup);
+                document
+                  .getElementById("view-" + index + "-" + e.currentPage)
+                  .addEventListener("click", () => {
+                    handleViewClick(anchorTag.href);
+                  });
+                document
+                  .getElementById("change-" + index + "-" + e.currentPage)
+                  .addEventListener("click", () => {
+                    setPageNo(e.currentPage);
+                    setCommanShow(true);
+                  });
+                document
+                  .getElementById("delete-" + index + "-" + e.currentPage)
+                  .addEventListener("click", () => {
+                    setPageNo(e.currentPage);
+                    showConfirmationPopup();
+                  });
+              }
+              
+              
             }
           });
         }
@@ -245,7 +249,6 @@ const AddLinkToPdf = () => {
   };
 
   useEffect(() => {
-    console.log("state--->", state);
     initFun();
     videoFun();
   }, []);
@@ -1033,6 +1036,7 @@ const AddLinkToPdf = () => {
                                     className="form-control input-xs"
                                     type="text"
                                     value={inputUrl}
+                                    readOnly
                                     onChange={handleChange}
                                     // onChange={(e) =>
                                     //   setInputUrl(e.target.value)
@@ -1040,7 +1044,7 @@ const AddLinkToPdf = () => {
                                   />
                                   {selectedError?.fileError ? (
                                     <p className="err_class">
-                                      Please enter a valid link
+                                      Please select a video link
                                     </p>
                                   ) : null}
                                   <input
