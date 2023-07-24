@@ -39,6 +39,13 @@ const PreviewContent = () => {
   const [isEdit, setIsEdit] = useState(
     typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
   );
+  const [allowStateVideo, setAllowStateVideo] = useState(
+    typeof state?.allowVideo !== "undefined"
+      ? state?.allowVideo
+        ? true
+        : false
+      : false
+  );
   const [pdfData, setPdfData] = useState([]);
   const [editTitle, setEditTitle] = useState(false);
   const [publishStatus, setPublishStatus] = useState(false);
@@ -68,6 +75,7 @@ const PreviewContent = () => {
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
   useEffect(() => {
+    console.log("state in preview content-->", state);
     getArticleData();
   }, []);
 
@@ -92,15 +100,16 @@ const PreviewContent = () => {
       }
       loader("hide");
 
-      if(res?.data?.data?.file_type != "pdf"){
-          setTimeout(function () {
-            const div_img = document.querySelector(".alice-carousel__wrapper img");
-            if(typeof div_img !== "undefined" || div_img != null){
-              div_img.click();
-            }
-          }, 300);
+      if (res?.data?.data?.file_type != "pdf") {
+        setTimeout(function () {
+          const div_img = document.querySelector(
+            ".alice-carousel__wrapper img"
+          );
+          if (typeof div_img !== "undefined" || div_img != null) {
+            div_img.click();
+          }
+        }, 300);
       }
-
     } catch (err) {
       loader("hide");
     }
@@ -257,6 +266,7 @@ const PreviewContent = () => {
   };
 
   const updatePublish = () => {
+    console.log("- imhere");
     setPublishStatus(true);
   };
 
@@ -316,24 +326,26 @@ const PreviewContent = () => {
             <div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
-                  {
-                    localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="
-                    ?
-                        <Link
-                          className="btn btn-bordered btn btn-primary"
-                          to="/library-create"
-                        >
-                          Back
-                        </Link>
-                    :
+                  {localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    <Link
+                      className="btn btn-bordered btn btn-primary"
+                      to="/library-create"
+                    >
+                      Back
+                    </Link>
+                  ) : (
                     <Link
                       className="btn btn-bordered btn btn-primary"
                       to="/set-popup"
-                      state={{ pdfId: state?.pdfId, isEdit: isEdit }}
+                      state={{
+                        pdfId: state?.pdfId,
+                        isEdit: isEdit,
+                        allowVideo: allowStateVideo,
+                      }}
                     >
                       Back
-                      {
-                        /*
+                      {/*
                         <svg
                         width="14"
                         height="24"
@@ -346,60 +358,65 @@ const PreviewContent = () => {
                         fill="#97B6CF"
                         />
                         </svg>
-                        */
-                      }
+                        */}
                     </Link>
-                  }
-
+                  )}
                 </div>
               </div>
               <div className="col-12 col-md-9">
                 <ul className="tabnav-link">
-                {
-                  isEdit == 1 ?
+                  {isEdit == 1 ? (
                     <>
                       <li className="">
                         <a href="">Edit Your Content</a>
                       </li>
-                      {
-                        localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                      {allowStateVideo ? (
                         <li className="">
-                        <a href="">Edit Consent Option</a>
-                        </li> : null
-                      }
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                      ) : null}
+                      {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <li className="">
+                          <a href="">Edit Consent Option</a>
+                        </li>
+                      ) : null}
                       <li className="active active-main">
                         <a href="">Approve Your Content &amp; Save</a>
                       </li>
                     </>
-                  :
-                  <>
-                    <li className="">
-                      <a href="">Create Your Content</a>
-                    </li>
-                    {
-                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                  ) : (
+                    <>
                       <li className="">
-                      <a href="">Edit Consent Option</a>
-                      </li> : null
-                    }
-                    <li className="active active-main">
-                      <a href="">Preview Your Content &amp; Publish</a>
-                    </li>
-                  </>
-                }
+                        <a href="">Create Your Content</a>
+                      </li>
+                      {allowStateVideo ? (
+                        <li className="">
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                      ) : null}
+                      {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <li className="">
+                          <a href="">Edit Consent Option</a>
+                        </li>
+                      ) : null}
+
+                      <li className="active active-main">
+                        <a href="">Preview Your Content &amp; Publish</a>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
               <div className="col-12 col-md-2">
                 <div className="header-btn">
-                  {
-                    /*<Link
+                  {/*<Link
                       className="btn btn-primary btn-bordered move-draft"
                       to="/library-create"
                     >
                       Cancel
-                    </Link>*/
-                  }
-
+                    </Link>*/}
 
                   <Button
                     onClick={() => {
@@ -411,10 +428,7 @@ const PreviewContent = () => {
                         : "btn btn-primary btn-filled next btn-disabled"
                     }
                   >
-                    {
-                      isEdit == 1 ? "Save" : "Publish"
-                    }
-
+                    {isEdit == 1 ? "Save" : "Publish"}
                   </Button>
                 </div>
               </div>
@@ -564,7 +578,7 @@ const PreviewContent = () => {
                           hidePopup="0"
                           trigger={trigger}
                           updatePublish={updatePublish}
-                          editStatus = {isEdit}
+                          editStatus={isEdit}
                         />
                       ) : (
                         <RenderPdf
@@ -574,7 +588,7 @@ const PreviewContent = () => {
                           hidePopup="0"
                           trigger={trigger}
                           updatePublish={updatePublish}
-                          editStatus = {isEdit}
+                          editStatus={isEdit}
                         />
                       )
                     ) : null}
