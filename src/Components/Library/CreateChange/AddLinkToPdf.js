@@ -690,6 +690,24 @@ const AddLinkToPdf = () => {
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
+                  {/* <ul className="tabnav-link">
+                    {
+                      <>
+                        <li className="">
+                          <a href="">Create Your Content</a>
+                        </li>
+                        {localStorage.getItem("user_id") !=
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          <li className="active active-main">
+                            <a href="">Edit Consent Option</a>
+                          </li>
+                        ) : null}
+                        <li className="">
+                          <a href="">Preview Your Content &amp; Publish</a>
+                        </li>
+                      </>
+                    }
+                  </ul> */}
                   <ul className="tabnav-link">
                     {
                       <>
@@ -700,11 +718,18 @@ const AddLinkToPdf = () => {
                         "rjiGlqA9DXJVH7bDDTX0Lg==" ? (
                           <li className="active active-main">
                             <a href="">[Embedding Video]</a>
-                          </li>)
-                          :null}
+                          </li>
+                        ) : null}
                         {localStorage.getItem("user_id") !=
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <li className={localStorage.getItem("user_id") !=  "rjiGlqA9DXJVH7bDDTX0Lg=="?"active active-main":""}>
+                          <li
+                            className={
+                              localStorage.getItem("user_id") !=
+                              "rjiGlqA9DXJVH7bDDTX0Lg=="
+                                ? "active active-main"
+                                : ""
+                            }
+                          >
                             <a href="">Edit Consent Option</a>
                           </li>
                         ) : null}
@@ -796,7 +821,7 @@ const AddLinkToPdf = () => {
                     </div>
                     {file ? (
                       <>
-                        <div id="parent_div" className="add_link_to_pdf" ref={parentRef}>
+                        <div id="parent_div" ref={parentRef}>
                           <div
                             className={
                               highlighted
