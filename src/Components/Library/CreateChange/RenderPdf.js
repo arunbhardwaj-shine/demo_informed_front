@@ -54,6 +54,7 @@ const RenderPdf = ({
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     // console.log("Asda");
+    console.log("-e",e.doc.numPages)
     total_pages = e.doc.numPages;
     setNumPages(e.doc.numPages);
     setModalMessage("");
@@ -81,8 +82,8 @@ const RenderPdf = ({
   		}
   	}, 300);
     // console.log(e.currentPage);
+
     if(total_pages == '1000'){
-      // console.log('1000',total_pages,e.currentPage,numPages);
         if(e.currentPage === (numPages -1)){
             setModalMessage("");
             let btn_val = "";

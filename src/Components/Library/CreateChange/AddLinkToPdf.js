@@ -790,7 +790,7 @@ const AddLinkToPdf = () => {
                     </div>
                     {file ? (
                       <>
-                        <div id="parent_div" ref={parentRef}>
+                        <div id="parent_div" className="add_link_to_pdf" ref={parentRef}>
                           <div
                             className={
                               highlighted
