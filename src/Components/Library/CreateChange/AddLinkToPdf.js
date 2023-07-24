@@ -89,7 +89,6 @@ const AddLinkToPdf = () => {
   const [viewerscroll, setViewerscroll] = useState(0);
   const [pageNo, setPageNo] = useState(0);
 
-
   const [newObj, setNewObj] = useState({});
   const navigate = useNavigate();
 
@@ -131,7 +130,7 @@ const AddLinkToPdf = () => {
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
-    console.log("-e.currentPage",e.currentPage)
+    console.log("-e.currentPage", e.currentPage);
 
     if (toolbar) {
       toolbar.remove();
@@ -143,60 +142,61 @@ const AddLinkToPdf = () => {
 
     const divElement = document.querySelector(".modal-body-content");
     const viewPageLayers = divElement?.querySelectorAll(".viewer-inner-page");
-  
-    console.log("viewPageLayers",);
+
+    console.log("viewPageLayers");
 
     if (viewPageLayers) {
       setTimeout(() => {
-  let  viewPageLayer=viewPageLayers[e.currentPage]
-          const viewAnnotationLayers = viewPageLayer.querySelectorAll(
-            ".viewer-annotation-layer"
-          );
-         
-          console.log("viewAnnotationLayers", viewAnnotationLayers);
+        let viewPageLayer = viewPageLayers[e.currentPage];
+        const viewAnnotationLayers = viewPageLayer.querySelectorAll(
+          ".viewer-annotation-layer"
+        );
 
-          if (viewAnnotationLayers.length > 0) {
-            viewAnnotationLayers.forEach((viewAnnotationLayer, index) => {
-              const element = document.getElementById(`link-popup-inner-${e.currentPage}-${index}`)
-              if(element){
-                return;
-              }
-              
-              const anchorTag = viewAnnotationLayer.querySelector("a");
-              console.log("-=-=-=->>>",anchorTag)
-          
+        console.log("viewAnnotationLayers", viewAnnotationLayers);
 
-                const anchorRect = anchorTag.getBoundingClientRect();
-                // console.log("-test",anchorRect)
-                const parentDiv = document.querySelector("#parent_div");
-                const parentRect = viewPageLayer.getBoundingClientRect();
+        if (viewAnnotationLayers.length > 0) {
+          viewAnnotationLayers.forEach((viewAnnotationLayer, index) => {
+            const element = document.getElementById(
+              `link-popup-inner-${e.currentPage}-${index}`
+            );
+            if (element) {
+              return;
+            }
 
-                const topPosition = anchorRect.top - parentRect.top - 50; // Adding 10 to the top position
-                const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
+            const anchorTag = viewAnnotationLayer.querySelector("a");
+            console.log("-=-=-=->>>", anchorTag);
+            if (anchorTag) {
+              const anchorRect = anchorTag.getBoundingClientRect();
+              // console.log("-test",anchorRect)
+              const parentDiv = document.querySelector("#parent_div");
+              const parentRect = viewPageLayer.getBoundingClientRect();
 
-                const popup = document.createElement("div");
-                popup.className = "link-popup-inner";
-                popup.id = `link-popup-inner-${e.currentPage}-${index}`
-                popup.style.position = "absolute";
-                popup.style.top = `${topPosition}px`;
-                popup.style.left = `${leftPosition}px`;
-                popup.innerHTML = `<div
+              const topPosition = anchorRect.top - parentRect.top - 50; // Adding 10 to the top position
+              const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
+
+              const popup = document.createElement("div");
+              popup.className = "link-popup-inner";
+              popup.id = `link-popup-inner-${e.currentPage}-${index}`;
+              popup.style.position = "absolute";
+              popup.style.top = `${topPosition}px`;
+              popup.style.left = `${leftPosition}px`;
+              popup.innerHTML = `<div
                 class="link-popup visible"
                 
               >
                 <div id="link-popup" class="link-popup-inner">
                  
                   <div class="link-popup-buttons">
-                    <button id=${"view-" + index +"-"+e.currentPage}>
+                    <button id=${"view-" + index + "-" + e.currentPage}>
                       View
                     </button>
 
-                    <button id=${"change-"+index +"-"+e.currentPage}
+                    <button id=${"change-" + index + "-" + e.currentPage}
                     >
                       Change
                     </button>
 
-                    <button id=${"delete-"+index +"-"+e.currentPage}
+                    <button id=${"delete-" + index + "-" + e.currentPage}
                     >
                       Delete
                     </button>
@@ -204,48 +204,42 @@ const AddLinkToPdf = () => {
                 </div>
               </div>`;
 
-                // popup.innerHTML = `
-                //   <div id="link-popup" class="link-popup-inner">
-                //     <div class="video-title">
-                //       ${videoSelect ? videoSelect : "No title"}
-                //     </div>
+              // popup.innerHTML = `
+              //   <div id="link-popup" class="link-popup-inner">
+              //     <div class="video-title">
+              //       ${videoSelect ? videoSelect : "No title"}
+              //     </div>
 
-                //     <div class="link-popup-buttons">
-                //       <button onClick={handleViewClick}>View</button>
-                //       <button onClick={() => setCommanShow(true)}>Change</button>
-                //       <button onClick={() => showConfirmationPopup()}>Delete</button>
-                //     </div>
-                //   </div>
-                // `;
-                // console.log(anchorTag.href)
-              
-                viewAnnotationLayer.appendChild(popup);
-                document
-                  .getElementById("view-" + index +"-"+e.currentPage)
-                  .addEventListener("click", () =>{
-                    handleViewClick(anchorTag.href)
-                  }
-                  );
-                  document
-                  .getElementById("change-" + index +"-"+e.currentPage)
-                  .addEventListener("click", () =>{
-                    setPageNo(e.currentPage)
-                    setCommanShow(true)
-                  }
-                  
-                  );
-                  document
-                  .getElementById("delete-" + index +"-"+e.currentPage)
-                  .addEventListener("click", () =>{
-                    setPageNo(e.currentPage)
-                    showConfirmationPopup()
-                  }
-                 
-                  );
-              });
-          
-          }
-    
+              //     <div class="link-popup-buttons">
+              //       <button onClick={handleViewClick}>View</button>
+              //       <button onClick={() => setCommanShow(true)}>Change</button>
+              //       <button onClick={() => showConfirmationPopup()}>Delete</button>
+              //     </div>
+              //   </div>
+              // `;
+              // console.log(anchorTag.href)
+
+              viewAnnotationLayer.appendChild(popup);
+              document
+                .getElementById("view-" + index + "-" + e.currentPage)
+                .addEventListener("click", () => {
+                  handleViewClick(anchorTag.href);
+                });
+              document
+                .getElementById("change-" + index + "-" + e.currentPage)
+                .addEventListener("click", () => {
+                  setPageNo(e.currentPage);
+                  setCommanShow(true);
+                });
+              document
+                .getElementById("delete-" + index + "-" + e.currentPage)
+                .addEventListener("click", () => {
+                  setPageNo(e.currentPage);
+                  showConfirmationPopup();
+                });
+            }
+          });
+        }
       }, 1000);
     }
   };
@@ -699,11 +693,11 @@ const AddLinkToPdf = () => {
         pdf_file: file.slice(findIndex + 1, file.length),
         pdf_id: initFunData?.id,
         file_id: ebookSelectedId,
-        page_no:pageNo+1
+        page_no: pageNo + 1,
       };
 
       const res = await axios.post(`libraries/changePdfLink`, body);
-      setPageNo(0)
+      setPageNo(0);
 
       if (initFunData?.file_type == "ebook") {
         let newEbookData = [...ebookData];
