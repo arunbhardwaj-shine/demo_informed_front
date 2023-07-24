@@ -449,7 +449,6 @@ const AddLinkToPdf = () => {
 
           if (newObj[`${linkText?.split("?")[0]}`] != videoSelect) {
             setVideoSelect(newObj[`${linkText?.split("?")[0]}`]);
-            console.log("--inside--->", newObj[linkText?.split("?")[0]]);
           } else {
             if (!videoSelect) {
               setVideoSelect("");
@@ -860,7 +859,7 @@ const AddLinkToPdf = () => {
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
                     <Button
-                      className="btn btn-primary btn-filled next send_btn"
+                      className="btn btn-primary btn-filled next "
                       onClick={() =>
                         navigate("/set-popup", {
                           state: {
