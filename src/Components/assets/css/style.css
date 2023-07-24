@@ -7408,6 +7408,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   right: 0;
   margin: 0 auto;
   background-color: #fff;
+  z-index: 5;
 }
 .link_popup button#closeLinkPopup {
   opacity: 1;
