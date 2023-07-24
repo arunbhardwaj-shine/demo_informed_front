@@ -45,6 +45,13 @@ const AddLinkToPdf = () => {
   const [isEdit, setIsEdit] = useState(
     typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
   );
+  const [allowStateVideo, setAllowStateVideo] = useState(
+    typeof state?.allowVideo !== "undefined"
+      ? state?.allowVideo
+        ? true
+        : false
+      : false
+  );
   const [dragging, setDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
@@ -80,6 +87,7 @@ const AddLinkToPdf = () => {
   const [forceRender, setForceRender] = useState(false);
   const [confirmationModel, setConfirmationModel] = useState(false);
   const [viewerscroll, setViewerscroll] = useState(0);
+  const [pageNo, setPageNo] = useState(0);
 
   const [newObj, setNewObj] = useState({});
   const navigate = useNavigate();
@@ -122,6 +130,8 @@ const AddLinkToPdf = () => {
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
+    console.log("-e.currentPage", e.currentPage);
+
     if (toolbar) {
       toolbar.remove();
     }
@@ -129,8 +139,113 @@ const AddLinkToPdf = () => {
     if (sidebar) {
       sidebar.remove();
     }
+
+    const divElement = document.querySelector(".modal-body-content");
+    const viewPageLayers = divElement?.querySelectorAll(".viewer-inner-page");
+
+    console.log("viewPageLayers");
+
+    if (viewPageLayers) {
+      setTimeout(() => {
+        let viewPageLayer = viewPageLayers[e.currentPage];
+        const viewAnnotationLayers = viewPageLayer.querySelectorAll(
+          ".viewer-annotation-layer"
+        );
+
+        console.log("viewAnnotationLayers", viewAnnotationLayers);
+
+        if (viewAnnotationLayers.length > 0) {
+          viewAnnotationLayers.forEach((viewAnnotationLayer, index) => {
+            const element = document.getElementById(
+              `link-popup-inner-${e.currentPage}-${index}`
+            );
+            if (element) {
+              return;
+            }
+
+            const anchorTag = viewAnnotationLayer.querySelector("a");
+            console.log("-=-=-=->>>", anchorTag);
+            if (anchorTag) {
+              const anchorRect = anchorTag.getBoundingClientRect();
+              // console.log("-test",anchorRect)
+              const parentDiv = document.querySelector("#parent_div");
+              const parentRect = viewPageLayer.getBoundingClientRect();
+
+              const topPosition = anchorRect.top - parentRect.top - 50; // Adding 10 to the top position
+              const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
+
+              const popup = document.createElement("div");
+              popup.className = "link-popup-inner";
+              popup.id = `link-popup-inner-${e.currentPage}-${index}`;
+              popup.style.position = "absolute";
+              popup.style.top = `${topPosition}px`;
+              popup.style.left = `${leftPosition}px`;
+              popup.innerHTML = `<div
+                class="link-popup visible"
+                
+              >
+                <div id="link-popup" class="link-popup-inner">
+                 
+                  <div class="link-popup-buttons">
+                    <button id=${"view-" + index + "-" + e.currentPage}>
+                      View
+                    </button>
+
+                    <button id=${"change-" + index + "-" + e.currentPage}
+                    >
+                      Change
+                    </button>
+
+                    <button id=${"delete-" + index + "-" + e.currentPage}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>`;
+
+              // popup.innerHTML = `
+              //   <div id="link-popup" class="link-popup-inner">
+              //     <div class="video-title">
+              //       ${videoSelect ? videoSelect : "No title"}
+              //     </div>
+
+              //     <div class="link-popup-buttons">
+              //       <button onClick={handleViewClick}>View</button>
+              //       <button onClick={() => setCommanShow(true)}>Change</button>
+              //       <button onClick={() => showConfirmationPopup()}>Delete</button>
+              //     </div>
+              //   </div>
+              // `;
+              // console.log(anchorTag.href)
+
+              viewAnnotationLayer.appendChild(popup);
+              document
+                .getElementById("view-" + index + "-" + e.currentPage)
+                .addEventListener("click", () => {
+                  handleViewClick(anchorTag.href);
+                });
+              document
+                .getElementById("change-" + index + "-" + e.currentPage)
+                .addEventListener("click", () => {
+                  setPageNo(e.currentPage);
+                  setCommanShow(true);
+                });
+              document
+                .getElementById("delete-" + index + "-" + e.currentPage)
+                .addEventListener("click", () => {
+                  setPageNo(e.currentPage);
+                  showConfirmationPopup();
+                });
+            }
+          });
+        }
+      }, 1000);
+    }
   };
+
   useEffect(() => {
+    console.log("state--->", state);
     initFun();
     videoFun();
   }, []);
@@ -347,7 +462,7 @@ const AddLinkToPdf = () => {
 
         setHoveredLink(linkText);
         setHoveredLinkPosition({ x, y });
-        setIsPopupOpen(true);
+        // setIsPopupOpen(true);
 
         const scrollfrominner = document.querySelector(
           ".viewer-layout-main"
@@ -537,9 +652,9 @@ const AddLinkToPdf = () => {
     setHighlighted(false);
   };
 
-  const handleViewClick = () => {
-    if (hoveredLink) {
-      window.open(hoveredLink, "_blank");
+  const handleViewClick = (data) => {
+    if (data) {
+      window.open(data, "_blank");
     }
   };
 
@@ -578,9 +693,11 @@ const AddLinkToPdf = () => {
         pdf_file: file.slice(findIndex + 1, file.length),
         pdf_id: initFunData?.id,
         file_id: ebookSelectedId,
+        page_no: pageNo + 1,
       };
 
       const res = await axios.post(`libraries/changePdfLink`, body);
+      setPageNo(0);
 
       if (initFunData?.file_type == "ebook") {
         let newEbookData = [...ebookData];
@@ -690,7 +807,7 @@ const AddLinkToPdf = () => {
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
-                  <ul className="tabnav-link">
+                  {/* <ul className="tabnav-link">
                     {
                       <>
                         <li className="">
@@ -699,6 +816,37 @@ const AddLinkToPdf = () => {
                         {localStorage.getItem("user_id") !=
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <li className="active active-main">
+                            <a href="">Edit Consent Option</a>
+                          </li>
+                        ) : null}
+                        <li className="">
+                          <a href="">Preview Your Content &amp; Publish</a>
+                        </li>
+                      </>
+                    }
+                  </ul> */}
+                  <ul className="tabnav-link">
+                    {
+                      <>
+                        <li className="">
+                          <a href="">Create Your Content</a>
+                        </li>
+                        {localStorage.getItem("user_id") ==
+                        "rjiGlqA9DXJVH7bDDTX0Lg==" ? (
+                          <li className="active active-main">
+                            <a href="">[Embedding Video]</a>
+                          </li>
+                        ) : null}
+                        {localStorage.getItem("user_id") !=
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          <li
+                            className={
+                              localStorage.getItem("user_id") !=
+                              "rjiGlqA9DXJVH7bDDTX0Lg=="
+                                ? "active active-main"
+                                : ""
+                            }
+                          >
                             <a href="">Edit Consent Option</a>
                           </li>
                         ) : null}
@@ -719,6 +867,7 @@ const AddLinkToPdf = () => {
                             pdfId: initFunData?.id,
                             fileType: initFunData?.file_type,
                             isEdit: 0,
+                            allowVideo: allowStateVideo,
                           },
                         })
                       }
@@ -811,7 +960,10 @@ const AddLinkToPdf = () => {
                                     left: hoveredLinkPosition.x,
                                   }}
                                 >
-                                  <div className="link-popup-inner">
+                                  <div
+                                    id="link-popup"
+                                    className="link-popup-inner"
+                                  >
                                     <div className="video-title">
                                       {videoSelect ? videoSelect : "No title"}{" "}
                                     </div>
@@ -843,7 +995,8 @@ const AddLinkToPdf = () => {
                               id="container"
                               renderPage={renderPage}
                               defaultScale={defaultScale}
-                              onDocumentLoad={handleDocumentLoad}
+                              // onDocumentLoad={handleDocumentLoad}
+                              onPageChange={handleDocumentLoad}
                               renderMode="canvas"
                               fileUrl={file}
                             />
