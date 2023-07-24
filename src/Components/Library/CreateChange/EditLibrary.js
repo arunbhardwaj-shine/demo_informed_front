@@ -431,8 +431,8 @@ const EditLibrary = () => {
             ? e?.target?.files
             : e
           : e?.target?.value,
-          "allow_video":0,
-          "allowVideo":false
+        allow_video: 0,
+        allowVideo: false,
       });
     } else {
       setCreateLibraryInputs({
@@ -2338,13 +2338,14 @@ const EditLibrary = () => {
                         </div>
                       </Col>
                     ) : null}
-  
+
                     {(ebookFile?.length &&
                       userInputs.docintelFormat?.includes("ebook")) ||
-                    ["ebook", "pdf", "pdfSpc"].includes(
+                    (["ebook", "pdf", "pdfSpc"].includes(
                       userInputs.docintelFormat
-                    ) && localStorage.getItem("user_id") ==
-                    "rjiGlqA9DXJVH7bDDTX0Lg==" ? (
+                    ) &&
+                      localStorage.getItem("user_id") ==
+                        "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Include video</label>
@@ -2355,6 +2356,7 @@ const EditLibrary = () => {
                                 defaultChecked={
                                   userInputs?.allow_video ? true : false
                                 }
+                                checked={userInputs?.allowVideo ? true : false}
                                 onChange={(e) => {
                                   handleChange(e.target?.checked, "allowVideo");
                                 }}

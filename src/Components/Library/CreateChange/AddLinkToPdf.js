@@ -87,6 +87,8 @@ const AddLinkToPdf = () => {
   const [forceRender, setForceRender] = useState(false);
   const [confirmationModel, setConfirmationModel] = useState(false);
   const [viewerscroll, setViewerscroll] = useState(0);
+  const [selectedUrl, setSelectedUrl] = useState("");
+
   const [pageNo, setPageNo] = useState(0);
 
   const [newObj, setNewObj] = useState({});
@@ -130,7 +132,7 @@ const AddLinkToPdf = () => {
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
-    console.log("-e.currentPage", e.currentPage);
+   
 
     if (toolbar) {
       toolbar.remove();
@@ -143,16 +145,14 @@ const AddLinkToPdf = () => {
     const divElement = document.querySelector(".modal-body-content");
     const viewPageLayers = divElement?.querySelectorAll(".viewer-inner-page");
 
-    console.log("viewPageLayers");
 
     if (viewPageLayers) {
       setTimeout(() => {
         let viewPageLayer = viewPageLayers[e.currentPage];
         const viewAnnotationLayers = viewPageLayer.querySelectorAll(
-          ".viewer-annotation-layer"
+          ".viewer-annotation-link"
         );
-
-        console.log("viewAnnotationLayers", viewAnnotationLayers);
+        // ".viewer-annotation-layer"
 
         if (viewAnnotationLayers.length > 0) {
           viewAnnotationLayers.forEach((viewAnnotationLayer, index) => {
@@ -162,81 +162,89 @@ const AddLinkToPdf = () => {
             if (element) {
               return;
             }
+            let baseStrig = 'https://docintel.app/Clicklinks/video_player';
+            let baseStrigwithoutsecure = 'http://docintel.app/Clicklinks/video_player';
 
             const anchorTag = viewAnnotationLayer.querySelector("a");
-            console.log("-=-=-=->>>", anchorTag);
             if (anchorTag) {
-              const anchorRect = anchorTag.getBoundingClientRect();
-              // console.log("-test",anchorRect)
-              const parentDiv = document.querySelector("#parent_div");
-              const parentRect = viewPageLayer.getBoundingClientRect();
-
-              const topPosition = anchorRect.top - parentRect.top - 50; // Adding 10 to the top position
-              const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
-
-              const popup = document.createElement("div");
-              popup.className = "link-popup-inner";
-              popup.id = `link-popup-inner-${e.currentPage}-${index}`;
-              popup.style.position = "absolute";
-              popup.style.top = `${topPosition}px`;
-              popup.style.left = `${leftPosition}px`;
-              popup.innerHTML = `<div
-                class="link-popup visible"
-                
-              >
-                <div id="link-popup" class="link-popup-inner">
-                 
-                  <div class="link-popup-buttons">
-                    <button id=${"view-" + index + "-" + e.currentPage}>
-                      View
-                    </button>
-
-                    <button id=${"change-" + index + "-" + e.currentPage}
-                    >
-                      Change
-                    </button>
-
-                    <button id=${"delete-" + index + "-" + e.currentPage}
-                    >
-                      Delete
-                    </button>
+              let getVideoUrl =  anchorTag?.href
+              if(getVideoUrl?.includes(baseStrig) || getVideoUrl?.includes(baseStrigwithoutsecure)){
+                const anchorRect = anchorTag.getBoundingClientRect();
+                // console.log("-test",anchorRect)
+                const parentDiv = document.querySelector("#parent_div");
+                const parentRect = viewPageLayer.getBoundingClientRect();
+  
+                const topPosition = anchorRect.top - parentRect.top - 50; // Adding 10 to the top position
+                const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
+  
+                const popup = document.createElement("div");
+                popup.className = "link-popup-inner";
+                popup.id = `link-popup-inner-${e.currentPage}-${index}`;
+                popup.style.position = "absolute";
+                // popup.style.top = `${topPosition}px`;
+                // popup.style.left = `${leftPosition}px`;
+                popup.innerHTML = `<div
+                  class="link-popup visible"
+                  
+                >
+                  <div id="link-popup" class="link-popup-inner">
+                   
+                    <div class="link-popup-buttons">
+                      <button id=${"view-" + index + "-" + e.currentPage}>
+                        View
+                      </button>
+  
+                      <button id=${"change-" + index + "-" + e.currentPage}
+                      >
+                        Change
+                      </button>
+  
+                      <button id=${"delete-" + index + "-" + e.currentPage}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </div>`;
-
-              // popup.innerHTML = `
-              //   <div id="link-popup" class="link-popup-inner">
-              //     <div class="video-title">
-              //       ${videoSelect ? videoSelect : "No title"}
-              //     </div>
-
-              //     <div class="link-popup-buttons">
-              //       <button onClick={handleViewClick}>View</button>
-              //       <button onClick={() => setCommanShow(true)}>Change</button>
-              //       <button onClick={() => showConfirmationPopup()}>Delete</button>
-              //     </div>
-              //   </div>
-              // `;
-              // console.log(anchorTag.href)
-
-              viewAnnotationLayer.appendChild(popup);
-              document
-                .getElementById("view-" + index + "-" + e.currentPage)
-                .addEventListener("click", () => {
-                  handleViewClick(anchorTag.href);
-                });
-              document
-                .getElementById("change-" + index + "-" + e.currentPage)
-                .addEventListener("click", () => {
-                  setPageNo(e.currentPage);
-                  setCommanShow(true);
-                });
-              document
-                .getElementById("delete-" + index + "-" + e.currentPage)
-                .addEventListener("click", () => {
-                  setPageNo(e.currentPage);
-                  showConfirmationPopup();
-                });
+                </div>`;
+  
+                // popup.innerHTML = `
+                //   <div id="link-popup" class="link-popup-inner">
+                //     <div class="video-title">
+                //       ${videoSelect ? videoSelect : "No title"}
+                //     </div>
+  
+                //     <div class="link-popup-buttons">
+                //       <button onClick={handleViewClick}>View</button>
+                //       <button onClick={() => setCommanShow(true)}>Change</button>
+                //       <button onClick={() => showConfirmationPopup()}>Delete</button>
+                //     </div>
+                //   </div>
+                // `;
+                // console.log(anchorTag.href)
+  
+                viewAnnotationLayer.appendChild(popup);
+                document
+                  .getElementById("view-" + index + "-" + e.currentPage)
+                  .addEventListener("click", () => {
+                    handleViewClick(anchorTag.href);
+                  });
+                document
+                  .getElementById("change-" + index + "-" + e.currentPage)
+                  .addEventListener("click", () => {
+                    setPageNo(e.currentPage);
+                    setCommanShow(true);
+                  });
+                  // selectedUrl,
+                document
+                  .getElementById("delete-" + index + "-" + e.currentPage)
+                  .addEventListener("click", () => {
+                    setPageNo(e.currentPage);
+                    setSelectedUrl(anchorTag.href)
+                    showConfirmationPopup();
+                  });
+              }
+              
+              
             }
           });
         }
@@ -245,7 +253,6 @@ const AddLinkToPdf = () => {
   };
 
   useEffect(() => {
-    console.log("state--->", state);
     initFun();
     videoFun();
   }, []);
@@ -449,7 +456,6 @@ const AddLinkToPdf = () => {
 
           if (newObj[`${linkText?.split("?")[0]}`] != videoSelect) {
             setVideoSelect(newObj[`${linkText?.split("?")[0]}`]);
-            console.log("--inside--->", newObj[linkText?.split("?")[0]]);
           } else {
             if (!videoSelect) {
               setVideoSelect("");
@@ -729,7 +735,7 @@ const AddLinkToPdf = () => {
       const findIndex = file.lastIndexOf("/");
       let body = {
         file: file,
-        prev_link: hoverUrl,
+        prev_link: selectedUrl,
         filename: initFunData?.file_type,
         folder_name: initFunData?.folder_name,
         pdf_file: file.slice(findIndex + 1, file.length),
@@ -737,6 +743,7 @@ const AddLinkToPdf = () => {
         file_id: ebookSelectedId,
       };
       const res = await axios.post(`libraries/deletePdfLink`, body);
+      setSelectedUrl("")
       if (initFunData?.file_type == "ebook") {
         let newEbookData = [...ebookData];
         const hasFound = ebookData.findIndex(
@@ -860,7 +867,7 @@ const AddLinkToPdf = () => {
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
                     <Button
-                      className="btn btn-primary btn-filled next send_btn"
+                      className="btn btn-primary btn-filled next "
                       onClick={() =>
                         navigate("/set-popup", {
                           state: {
@@ -999,6 +1006,7 @@ const AddLinkToPdf = () => {
                               onPageChange={handleDocumentLoad}
                               renderMode="canvas"
                               fileUrl={file}
+                              // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1690198693.pdf"}
                             />
                             <div
                               className="highlight_box"
@@ -1034,6 +1042,7 @@ const AddLinkToPdf = () => {
                                     className="form-control input-xs"
                                     type="text"
                                     value={inputUrl}
+                                    readOnly
                                     onChange={handleChange}
                                     // onChange={(e) =>
                                     //   setInputUrl(e.target.value)
@@ -1041,7 +1050,7 @@ const AddLinkToPdf = () => {
                                   />
                                   {selectedError?.fileError ? (
                                     <p className="err_class">
-                                      Please enter a valid link
+                                      Please select a video link
                                     </p>
                                   ) : null}
                                   <input
