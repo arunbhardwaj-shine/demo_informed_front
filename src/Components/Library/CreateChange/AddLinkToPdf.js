@@ -174,14 +174,14 @@ const AddLinkToPdf = () => {
                 const parentDiv = document.querySelector("#parent_div");
                 const parentRect = viewPageLayer.getBoundingClientRect();
   
-                const topPosition = anchorRect.top - parentRect.top - 50; // Adding 10 to the top position
+                const topPosition = anchorRect.top - parentRect.top // Adding 10 to the top position
                 const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
   
                 const popup = document.createElement("div");
                 popup.className = "link-popup-inner";
                 popup.id = `link-popup-inner-${e.currentPage}-${index}`;
                 popup.style.position = "absolute";
-                // popup.style.top = `${topPosition}px`;
+                popup.style.top = `-${50}px`;
                 // popup.style.left = `${leftPosition}px`;
                 popup.innerHTML = `<div
                   class="link-popup visible"
@@ -206,21 +206,7 @@ const AddLinkToPdf = () => {
                     </div>
                   </div>
                 </div>`;
-  
-                // popup.innerHTML = `
-                //   <div id="link-popup" class="link-popup-inner">
-                //     <div class="video-title">
-                //       ${videoSelect ? videoSelect : "No title"}
-                //     </div>
-  
-                //     <div class="link-popup-buttons">
-                //       <button onClick={handleViewClick}>View</button>
-                //       <button onClick={() => setCommanShow(true)}>Change</button>
-                //       <button onClick={() => showConfirmationPopup()}>Delete</button>
-                //     </div>
-                //   </div>
-                // `;
-                // console.log(anchorTag.href)
+
   
                 viewAnnotationLayer.appendChild(popup);
                 document
@@ -661,6 +647,7 @@ const AddLinkToPdf = () => {
   const handleViewClick = (data) => {
     if (data) {
       window.open(data, "_blank");
+      setHighlighted(false);
     }
   };
 
@@ -954,7 +941,7 @@ const AddLinkToPdf = () => {
                                 : "modal-body-content"
                             }
                           >
-                            {isPopupOpen ? (
+                            {/* {isPopupOpen ? (
                               <>
                                 <div
                                   ref={popupRef}
@@ -997,7 +984,7 @@ const AddLinkToPdf = () => {
                               </>
                             ) : (
                               ""
-                            )}
+                            )} */}
                             <Viewer
                               id="container"
                               renderPage={renderPage}
@@ -1030,7 +1017,8 @@ const AddLinkToPdf = () => {
                                     type="button"
                                     className="close"
                                     id="closeLinkPopup"
-                                    onClick={() => closePopup()}
+                                    onClick={() =>{ closePopup()
+                                    }}
                                   >
                                     <span aria-hidden="true">×</span>
                                   </button>
