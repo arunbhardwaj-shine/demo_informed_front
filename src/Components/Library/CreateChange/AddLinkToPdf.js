@@ -1117,6 +1117,9 @@ const AddLinkToPdf = () => {
                 onChange={(e) => onVideoTitleChange(e)}
                 value={videoTitle}
               />
+			  {error?.videoTitle ? (
+				  <div className="login-validation-upload-error">{error?.videoTitle}</div>
+				) : null}
               <div className="upload-file-box">
                 <div className="box">
                   <input
@@ -1141,10 +1144,6 @@ const AddLinkToPdf = () => {
                 </div>
               </div>
             </div>
-
-            {error?.videoTitle ? (
-              <div className="login-validation-upload">{error?.videoTitle}</div>
-            ) : null}
           </div>
         </Modal.Body>
 
