@@ -5847,7 +5847,7 @@ input:-webkit-autofill {
 
 .dropdown.split-button-dropup .dropdown-menu .scroll_div {
   overflow-y: auto;
-  max-height: 136px;
+  max-height: 116px;
 }
 
 .modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item,
