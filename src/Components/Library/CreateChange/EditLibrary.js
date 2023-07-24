@@ -284,6 +284,7 @@ const EditLibrary = () => {
     }
   };
   useEffect(() => {
+    console.log("state--->", state);
     libraryDetail();
     initalFun();
   }, []);
@@ -586,10 +587,13 @@ const EditLibrary = () => {
         formData.append("allowRequest", JSON.stringify(userInputs?.chat_box));
         formData.append("draft", JSON.stringify(userInputs?.draft));
 
-        if(userInputs?.docintelFormat == "video"){
-            formData.append("allowVideo", 0);
-        }else{
-            formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
+        if (userInputs?.docintelFormat == "video") {
+          formData.append("allowVideo", 0);
+        } else {
+          formData.append(
+            "allowVideo",
+            JSON.stringify(userInputs?.allow_video)
+          );
         }
 
         formData.append("comDatetime", userInputs?.comDatetime);
@@ -605,32 +609,41 @@ const EditLibrary = () => {
         });
         loader("hide");
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-
-            if(userInputs?.docintelFormat == "video" || userInputs?.docintelFormat == "Video"){
-                navigate("/content-detail", {
-                  state: { pdfId: state?.pdfid },
-                });
-            }else{
-              navigate("/preview-content", {
-                state: { pdfId: state?.pdfid, isEdit: 1 },
-              });
-            }
+          if (
+            userInputs?.docintelFormat == "video" ||
+            userInputs?.docintelFormat == "Video"
+          ) {
+            navigate("/content-detail", {
+              state: { pdfId: state?.pdfid },
+            });
+          } else {
+            navigate("/preview-content", {
+              state: { pdfId: state?.pdfid, isEdit: 1 },
+            });
+          }
         } else {
-          if(localStorage.getItem("user_id") =="rjiGlqA9DXJVH7bDDTX0Lg=="){
-            if(userInputs?.docintelFormat == "video" || userInputs?.docintelFormat == "Video"){
-                navigate("/set-popup", {
+          if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
+            if (
+              userInputs?.docintelFormat == "video" ||
+              userInputs?.docintelFormat == "Video"
+            ) {
+              navigate("/set-popup", {
+                state: {
+                  pdfId: state?.pdfid,
+                  fileType: userInputs?.docintelFormat,
+                  isEdit: 1,
+                },
+              });
+            } else {
+              if (userInputs?.allowVideo) {
+                navigate("/library-add-link", {
                   state: {
                     pdfId: state?.pdfid,
-                    fileType: userInputs?.docintelFormat,
                     isEdit: 1,
+                    allowVideo: userInputs?.allowVideo ? true : false,
                   },
                 });
-            }else{
-              if(userInputs?.allowVideo){
-                navigate("/library-add-link", {
-                  state: { pdfId: state?.pdfid, isEdit: 1 },
-                });
-              }else{
+              } else {
                 navigate("/set-popup", {
                   state: {
                     pdfId: state?.pdfid,
@@ -640,7 +653,7 @@ const EditLibrary = () => {
                 });
               }
             }
-          }else{
+          } else {
             navigate("/set-popup", {
               state: {
                 pdfId: state?.pdfid,
@@ -851,8 +864,8 @@ const EditLibrary = () => {
                   isClearable
                 />
               </div>
-              {
-                localStorage.getItem('user_id') == "rOhdD02MgXkownQqcreqAw==" &&
+              {localStorage.getItem("user_id") ==
+                "rOhdD02MgXkownQqcreqAw==" && (
                 <div className="form-group">
                   <label htmlFor="">Sales</label>
                   <Select
@@ -872,8 +885,7 @@ const EditLibrary = () => {
                     isClearable
                   />
                 </div>
-              }
-
+              )}
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
               <div className="form-group justify-content-end">
@@ -1370,6 +1382,11 @@ const EditLibrary = () => {
                       <li className="active active-main">
                         <a href="">Edit Your Content</a>
                       </li>
+                      {userInputs?.allowVideo ? (
+                        <li className="">
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                      ) : null}
                       {localStorage.getItem("user_id") !=
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <li className="">
@@ -1751,18 +1768,24 @@ const EditLibrary = () => {
                       {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">
-                          <label htmlFor="setasdraft1">{
-                            localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg=="?"IRT mandatory training":"Mandatory"
-                    }</label>
+                          <label htmlFor="setasdraft1">
+                            {localStorage.getItem("user_id") ==
+                            "56Ek4feL/1A8mZgIKQWEqg=="
+                              ? "IRT mandatory training"
+                              : "Mandatory"}
+                          </label>
                           <fieldset id="group2">
                             <div className="switch">
                               <label className="switch-light">
                                 <input
                                   type="checkbox"
                                   name="group2"
-                                  placeholder={ localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="?"Select IRT mandatory training":"Select IRT"}
+                                  placeholder={
+                                    localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? "Select IRT mandatory training"
+                                      : "Select IRT"
+                                  }
                                   id="setasdraft1"
                                   defaultChecked={
                                     userInputs?.reader_mandatory ? true : false
@@ -2316,7 +2339,9 @@ const EditLibrary = () => {
 
                     {(ebookFile?.length &&
                       userInputs.docintelFormat?.includes("ebook")) ||
-                      ["ebook", "pdf", "pdfSpc"].includes(userInputs.docintelFormat) ? (
+                    ["ebook", "pdf", "pdfSpc"].includes(
+                      userInputs.docintelFormat
+                    ) ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Include video</label>
@@ -2324,15 +2349,33 @@ const EditLibrary = () => {
                             <label className="switch-light">
                               <input
                                 type="checkbox"
-                                defaultChecked={userInputs?.allow_video ? true : false}
+                                defaultChecked={
+                                  userInputs?.allow_video ? true : false
+                                }
                                 onChange={(e) => {
                                   handleChange(e.target?.checked, "allowVideo");
                                 }}
                               />
                               <span>
-                                <span className={`switch-btn ${userInputs?.allow_video == 0? " Active": ""}`}>No</span>
-                                <span className={`switch-btn ${userInputs?.allow_video == 1 ? " Active" : ""}`}>Yes</span>
-                              </span>  
+                                <span
+                                  className={`switch-btn ${
+                                    userInputs?.allow_video == 0
+                                      ? " Active"
+                                      : ""
+                                  }`}
+                                >
+                                  No
+                                </span>
+                                <span
+                                  className={`switch-btn ${
+                                    userInputs?.allow_video == 1
+                                      ? " Active"
+                                      : ""
+                                  }`}
+                                >
+                                  Yes
+                                </span>
+                              </span>
                               <a className="btn"></a>
                             </label>
                           </div>

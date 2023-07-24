@@ -45,6 +45,13 @@ const AddLinkToPdf = () => {
   const [isEdit, setIsEdit] = useState(
     typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
   );
+  const [allowStateVideo, setAllowStateVideo] = useState(
+    typeof state?.allowVideo !== "undefined"
+      ? state?.allowVideo
+        ? true
+        : false
+      : false
+  );
   const [dragging, setDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
@@ -131,6 +138,7 @@ const AddLinkToPdf = () => {
     }
   };
   useEffect(() => {
+    console.log("state--->", state);
     initFun();
     videoFun();
   }, []);
@@ -750,6 +758,7 @@ const AddLinkToPdf = () => {
                             pdfId: initFunData?.id,
                             fileType: initFunData?.file_type,
                             isEdit: 0,
+                            allowVideo: allowStateVideo,
                           },
                         })
                       }

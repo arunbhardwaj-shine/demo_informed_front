@@ -241,7 +241,7 @@ const LibraryCreateUser = () => {
             ? e?.target?.files
             : e
           : e?.target?.value,
-          "allowVideo":false
+        allowVideo: false,
       });
     } else {
       setCreateLibraryInputs({
@@ -411,10 +411,10 @@ const LibraryCreateUser = () => {
             : JSON.stringify(false)
         );
 
-        if(userInputs?.docintelFormat == "video"){
-            formData.append("allowVideo", 0);
-        }else{
-            formData.append("allowVideo", userInputs?.allowVideo ? 1 : 0);
+        if (userInputs?.docintelFormat == "video") {
+          formData.append("allowVideo", 0);
+        } else {
+          formData.append("allowVideo", userInputs?.allowVideo ? 1 : 0);
         }
 
         formData.append("comDatetime", userInputs?.comDatetime);
@@ -432,32 +432,41 @@ const LibraryCreateUser = () => {
         loader("hide");
 
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-          if(userInputs?.docintelFormat == "video" || userInputs?.docintelFormat == "Video"){
-              navigate("/content-detail", {
-                state: { pdfId: res?.data?.data?.pdfId },
-              });
-          }else{
-              navigate("/preview-content", {
-                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
-              });
+          if (
+            userInputs?.docintelFormat == "video" ||
+            userInputs?.docintelFormat == "Video"
+          ) {
+            navigate("/content-detail", {
+              state: { pdfId: res?.data?.data?.pdfId },
+            });
+          } else {
+            navigate("/preview-content", {
+              state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
+            });
           }
-
         } else {
-          if(localStorage.getItem("user_id") =="rjiGlqA9DXJVH7bDDTX0Lg=="){
-            if(userInputs?.docintelFormat == "video" || userInputs?.docintelFormat == "Video"){
-                navigate("/set-popup", {
+          if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
+            if (
+              userInputs?.docintelFormat == "video" ||
+              userInputs?.docintelFormat == "Video"
+            ) {
+              navigate("/set-popup", {
+                state: {
+                  pdfId: res?.data?.data?.pdfId,
+                  fileType: userInputs?.docintelFormat,
+                  isEdit: 0,
+                },
+              });
+            } else {
+              if (userInputs?.allowVideo) {
+                navigate("/library-add-link", {
                   state: {
                     pdfId: res?.data?.data?.pdfId,
-                    fileType: userInputs?.docintelFormat,
                     isEdit: 0,
+                    allowVideo: userInputs?.allowVideo,
                   },
                 });
-            }else{
-              if(userInputs?.allowVideo){
-                navigate("/library-add-link", {
-                  state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
-                });
-              }else{
+              } else {
                 navigate("/set-popup", {
                   state: {
                     pdfId: res?.data?.data?.pdfId,
@@ -467,7 +476,7 @@ const LibraryCreateUser = () => {
                 });
               }
             }
-          }else{
+          } else {
             navigate("/set-popup", {
               state: {
                 pdfId: res?.data?.data?.pdfId,
@@ -758,8 +767,8 @@ const LibraryCreateUser = () => {
                 />
               </div>
 
-              {
-                localStorage.getItem('user_id') == "rOhdD02MgXkownQqcreqAw==" &&
+              {localStorage.getItem("user_id") ==
+                "rOhdD02MgXkownQqcreqAw==" && (
                 <>
                   <div className="form-group">
                     <label htmlFor="">Sales</label>
@@ -772,8 +781,7 @@ const LibraryCreateUser = () => {
                     />
                   </div>
                 </>
-              }
-
+              )}
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
               <div className="form-group justify-content-end">
@@ -1226,10 +1234,10 @@ const LibraryCreateUser = () => {
                       <a href="">Create Your Content</a>
                     </li>
                     {userInputs?.allowVideo ? (
-                          <li className="">
-                            <a href="">[Embedding Video]</a>
-                          </li>)
-                          :null}
+                      <li className="">
+                        <a href="">[Embedding Video]</a>
+                      </li>
+                    ) : null}
                     {localStorage.getItem("user_id") !=
                     "56Ek4feL/1A8mZgIKQWEqg==" ? (
                       <li className="">
@@ -1547,9 +1555,12 @@ const LibraryCreateUser = () => {
                     {userDetail?.user?.[0]?.flag == 1 &&
                     userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
-                        <label htmlFor="setasdraft1">{
-                         localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="?"Irt mandatory training":"Mandatory"   }</label>
+                        <label htmlFor="setasdraft1">
+                          {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg=="
+                            ? "Irt mandatory training"
+                            : "Mandatory"}
+                        </label>
                         <fieldset id="group2">
                           <div className="switch">
                             <label className="switch-light">
@@ -2014,7 +2025,9 @@ const LibraryCreateUser = () => {
 
                   {(ebookFile?.length &&
                     userInputs.docintelFormat?.includes("ebook")) ||
-                    ["ebook", "pdf", "pdfSpc"].includes(userInputs.docintelFormat) ? (
+                  ["ebook", "pdf", "pdfSpc"].includes(
+                    userInputs.docintelFormat
+                  ) ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>
