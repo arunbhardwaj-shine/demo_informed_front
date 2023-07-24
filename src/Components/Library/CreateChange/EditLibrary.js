@@ -431,6 +431,8 @@ const EditLibrary = () => {
             ? e?.target?.files
             : e
           : e?.target?.value,
+          "allow_video":0,
+          "allowVideo":false
       });
     } else {
       setCreateLibraryInputs({
@@ -2336,7 +2338,7 @@ const EditLibrary = () => {
                         </div>
                       </Col>
                     ) : null}
-
+  
                     {(ebookFile?.length &&
                       userInputs.docintelFormat?.includes("ebook")) ||
                     ["ebook", "pdf", "pdfSpc"].includes(
