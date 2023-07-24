@@ -411,6 +411,11 @@ const SetPopup = (props) => {
                               <li className="">
                                 <a href="">Edit Your Content</a>
                               </li>
+                              {allowStateVideo ? (
+                                <li className="">
+                                  <a href="">[Embedding Video]</a>
+                                </li>
+                              ) : null}
                               <li className="active active-main">
                                 <a href="">Edit Consent Option</a>
                               </li>

@@ -370,6 +370,11 @@ const PreviewContent = () => {
                       <li className="">
                         <a href="">Edit Your Content</a>
                       </li>
+                      {allowStateVideo ? (
+                        <li className="">
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                      ) : null}
                       {localStorage.getItem("user_id") !=
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <li className="">
