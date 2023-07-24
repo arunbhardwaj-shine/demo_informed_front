@@ -232,6 +232,7 @@ const LibraryCreateUser = () => {
           },
         ]);
       }
+
       setCreateLibraryInputs({
         ...userInputs,
         uploadFile: "",
@@ -240,6 +241,7 @@ const LibraryCreateUser = () => {
             ? e?.target?.files
             : e
           : e?.target?.value,
+          "allowVideo":false
       });
     } else {
       setCreateLibraryInputs({
@@ -1223,6 +1225,11 @@ const LibraryCreateUser = () => {
                     <li className="active active-main">
                       <a href="">Create Your Content</a>
                     </li>
+                    {userInputs?.allowVideo ? (
+                          <li className="">
+                            <a href="">[Embedding Video]</a>
+                          </li>)
+                          :null}
                     {localStorage.getItem("user_id") !=
                     "56Ek4feL/1A8mZgIKQWEqg==" ? (
                       <li className="">

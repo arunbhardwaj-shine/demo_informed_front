@@ -696,9 +696,15 @@ const AddLinkToPdf = () => {
                         <li className="">
                           <a href="">Create Your Content</a>
                         </li>
+                        {localStorage.getItem("user_id") ==
+                        "rjiGlqA9DXJVH7bDDTX0Lg==" ? (
+                          <li className="active active-main">
+                            <a href="">[Embedding Video]</a>
+                          </li>)
+                          :null}
                         {localStorage.getItem("user_id") !=
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <li className="active active-main">
+                          <li className={localStorage.getItem("user_id") !=  "rjiGlqA9DXJVH7bDDTX0Lg=="?"active active-main":""}>
                             <a href="">Edit Consent Option</a>
                           </li>
                         ) : null}
