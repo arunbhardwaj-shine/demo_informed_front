@@ -81,7 +81,6 @@ const RenderPdf = ({
   		}
   	}, 300);
     // console.log(e.currentPage);
-
     if(total_pages == '1000'){
       // console.log('1000',total_pages,e.currentPage,numPages);
         if(e.currentPage === (numPages -1)){
@@ -232,7 +231,7 @@ const optimizeSinglePagePdf = () => {
                       /*<Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}></Worker>*/
                     }
 
-                        <div style={{ height: '750px' }} id="pdf_view_box">
+                        <div id="pdf_view_box">
                           <div onScroll={scrollEve} className={previewArticle?"scroll_pdf":"scroll_pdf"}>
                           <Viewer
                             onPageChange={handlePageChange}
