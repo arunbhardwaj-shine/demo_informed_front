@@ -130,7 +130,7 @@ const AddLinkToPdf = () => {
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
-    console.log("-e.currentPage", e.currentPage);
+   
 
     if (toolbar) {
       toolbar.remove();
@@ -148,9 +148,9 @@ const AddLinkToPdf = () => {
       setTimeout(() => {
         let viewPageLayer = viewPageLayers[e.currentPage];
         const viewAnnotationLayers = viewPageLayer.querySelectorAll(
-          ".viewer-annotation-layer"
+          ".viewer-annotation-link"
         );
-
+        // ".viewer-annotation-layer"
 
         if (viewAnnotationLayers.length > 0) {
           viewAnnotationLayers.forEach((viewAnnotationLayer, index) => {
@@ -179,8 +179,8 @@ const AddLinkToPdf = () => {
                 popup.className = "link-popup-inner";
                 popup.id = `link-popup-inner-${e.currentPage}-${index}`;
                 popup.style.position = "absolute";
-                popup.style.top = `${topPosition}px`;
-                popup.style.left = `${leftPosition}px`;
+                // popup.style.top = `${topPosition}px`;
+                // popup.style.left = `${leftPosition}px`;
                 popup.innerHTML = `<div
                   class="link-popup visible"
                   
@@ -1000,7 +1000,8 @@ const AddLinkToPdf = () => {
                               // onDocumentLoad={handleDocumentLoad}
                               onPageChange={handleDocumentLoad}
                               renderMode="canvas"
-                              fileUrl={file}
+                              // fileUrl={file}
+                              fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1690198693.pdf"}
                             />
                             <div
                               className="highlight_box"
