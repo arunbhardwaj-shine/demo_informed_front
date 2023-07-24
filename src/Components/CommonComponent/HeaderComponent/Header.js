@@ -149,6 +149,7 @@ const Header = () => {
                     window.location.pathname == "/set-popup" ||
                     window.location.pathname == "/preview-content" ||
                     window.location.pathname == "/library-create-user" ||
+                    window.location.pathname == "/library-add-link" ||
                     window.location.pathname == "/edit-Consent-Options" ||
                     window.location.pathname == "/auto_popup" ||
                     window.location.pathname == "/create-docintel-link" ||

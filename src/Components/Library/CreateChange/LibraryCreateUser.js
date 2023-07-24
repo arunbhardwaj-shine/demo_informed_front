@@ -408,7 +408,13 @@ const LibraryCreateUser = () => {
             ? JSON.stringify(userInputs?.draft)
             : JSON.stringify(false)
         );
-        formData.append("allowVideo", userInputs?.allowVideo ? 1 : 0);
+
+        if(userInputs?.docintelFormat == "video"){
+            formData.append("allowVideo", 0);
+        }else{
+            formData.append("allowVideo", userInputs?.allowVideo ? 1 : 0);
+        }
+
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append(
@@ -435,13 +441,39 @@ const LibraryCreateUser = () => {
           }
 
         } else {
-          navigate("/set-popup", {
-            state: {
-              pdfId: res?.data?.data?.pdfId,
-              fileType: userInputs?.docintelFormat,
-              isEdit: 0,
-            },
-          });
+          if(localStorage.getItem("user_id") =="rjiGlqA9DXJVH7bDDTX0Lg=="){
+            if(userInputs?.docintelFormat == "video" || userInputs?.docintelFormat == "Video"){
+                navigate("/set-popup", {
+                  state: {
+                    pdfId: res?.data?.data?.pdfId,
+                    fileType: userInputs?.docintelFormat,
+                    isEdit: 0,
+                  },
+                });
+            }else{
+              if(userInputs?.allowVideo){
+                navigate("/library-add-link", {
+                  state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
+                });
+              }else{
+                navigate("/set-popup", {
+                  state: {
+                    pdfId: res?.data?.data?.pdfId,
+                    fileType: userInputs?.docintelFormat,
+                    isEdit: 0,
+                  },
+                });
+              }
+            }
+          }else{
+            navigate("/set-popup", {
+              state: {
+                pdfId: res?.data?.data?.pdfId,
+                fileType: userInputs?.docintelFormat,
+                isEdit: 0,
+              },
+            });
+          }
         }
       } catch (err) {
         loader("hide");
@@ -1971,6 +2003,32 @@ const LibraryCreateUser = () => {
                         ></textarea>
                       </div>
                     </Col>
+                  ) : null}
+
+                  {(ebookFile?.length &&
+                    userInputs.docintelFormat?.includes("ebook")) ||
+                    ["ebook", "pdf", "pdfSpc"].includes(userInputs.docintelFormat) ? (
+                    <>
+                      <div className="form-group">
+                        <label htmlFor="">Include video</label>
+                        <div className="switch">
+                          <label className="switch-light">
+                            <input
+                              type="checkbox"
+                              checked={userInputs?.allowVideo ? true : false}
+                              onChange={(e) => {
+                                handleChange(e.target?.checked, "allowVideo");
+                              }}
+                            />
+                            <span>
+                              <span className="switch-btn active">No</span>
+                              <span className="switch-btn">Yes</span>
+                            </span>
+                            <a className="btn"></a>
+                          </label>
+                        </div>
+                      </div>
+                    </>
                   ) : null}
                 </Row>
               </div>

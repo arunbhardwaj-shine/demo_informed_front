@@ -585,7 +585,13 @@ const EditLibrary = () => {
         formData.append("allowLibrary", userInputs?.allowLibrary);
         formData.append("allowRequest", JSON.stringify(userInputs?.chat_box));
         formData.append("draft", JSON.stringify(userInputs?.draft));
-        formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
+
+        if(userInputs?.docintelFormat == "video"){
+            formData.append("allowVideo", 0);
+        }else{
+            formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
+        }
+
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append(
@@ -610,13 +616,39 @@ const EditLibrary = () => {
               });
             }
         } else {
-          navigate("/set-popup", {
-            state: {
-              pdfId: state?.pdfid,
-              fileType: userInputs?.docintelFormat,
-              isEdit: 1,
-            },
-          });
+          if(localStorage.getItem("user_id") =="rjiGlqA9DXJVH7bDDTX0Lg=="){
+            if(userInputs?.docintelFormat == "video" || userInputs?.docintelFormat == "Video"){
+                navigate("/set-popup", {
+                  state: {
+                    pdfId: state?.pdfid,
+                    fileType: userInputs?.docintelFormat,
+                    isEdit: 1,
+                  },
+                });
+            }else{
+              if(userInputs?.allowVideo){
+                navigate("/library-add-link", {
+                  state: { pdfId: state?.pdfid, isEdit: 1 },
+                });
+              }else{
+                navigate("/set-popup", {
+                  state: {
+                    pdfId: state?.pdfid,
+                    fileType: userInputs?.docintelFormat,
+                    isEdit: 1,
+                  },
+                });
+              }
+            }
+          }else{
+            navigate("/set-popup", {
+              state: {
+                pdfId: state?.pdfid,
+                fileType: userInputs?.docintelFormat,
+                isEdit: 1,
+              },
+            });
+          }
         }
       } catch (err) {
         loader("hide");
@@ -2280,6 +2312,32 @@ const EditLibrary = () => {
                           ></textarea>
                         </div>
                       </Col>
+                    ) : null}
+
+                    {(ebookFile?.length &&
+                      userInputs.docintelFormat?.includes("ebook")) ||
+                      ["ebook", "pdf", "pdfSpc"].includes(userInputs.docintelFormat) ? (
+                      <>
+                        <div className="form-group">
+                          <label htmlFor="">Include video</label>
+                          <div className="switch">
+                            <label className="switch-light">
+                              <input
+                                type="checkbox"
+                                defaultChecked={userInputs?.allow_video ? true : false}
+                                onChange={(e) => {
+                                  handleChange(e.target?.checked, "allowVideo");
+                                }}
+                              />
+                              <span>
+                                <span className={`switch-btn ${userInputs?.allow_video == 0? " Active": ""}`}>No</span>
+                                <span className={`switch-btn ${userInputs?.allow_video == 1 ? " Active" : ""}`}>Yes</span>
+                              </span>  
+                              <a className="btn"></a>
+                            </label>
+                          </div>
+                        </div>
+                      </>
                     ) : null}
                   </Row>
                 </div>

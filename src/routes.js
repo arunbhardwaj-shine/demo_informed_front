@@ -19,7 +19,7 @@ import Products from "./Components/Library/Products";
 import ChangePassword from "./Auth/ChangePassword";
 import WebinarQuestion from "./Components/Firbase/WebinarQuestion";
 
-//Firbase 
+//Firbase
 
 import Event from "./Components/Firbase/Event";
 
@@ -112,6 +112,7 @@ import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
 import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
 import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
+import AddLinkToPdf from "./Components/Library/CreateChange/AddLinkToPdf";
 import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintelLink";
 import SpcView from "./Components/Library/SpcView";
 import CanadaContentType from "./Components/Analytics/CanadaContentType";
@@ -229,7 +230,7 @@ const Routing = () => {
               path="webinar-question"
               element={<WebinarQuestion />}
              />
-        
+
 
 
            </Route>
@@ -277,8 +278,8 @@ const Routing = () => {
           path="/change-password"
           element={<LoginLayout component={ChangePassword} />}
         />
-         
-         
+
+
 
         <Route
           path="/analytic-delivery-trends"
@@ -414,6 +415,10 @@ const Routing = () => {
         <Route
           path="/library-create-user"
           element={<LoginLayout component={LibraryCreateUser} />}
+        />
+        <Route
+          path="/library-add-link"
+          element={<LoginLayout component={AddLinkToPdf} />}
         />
         <Route
           path="/edit-Consent-Options"
