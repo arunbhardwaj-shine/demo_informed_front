@@ -54,6 +54,7 @@ const RenderPdf = ({
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     // console.log("Asda");
+    console.log("-e",e.doc.numPages)
     total_pages = e.doc.numPages;
     setNumPages(e.doc.numPages);
     setModalMessage("");
@@ -83,7 +84,6 @@ const RenderPdf = ({
     // console.log(e.currentPage);
 
     if(total_pages == '1000'){
-      // console.log('1000',total_pages,e.currentPage,numPages);
         if(e.currentPage === (numPages -1)){
             setModalMessage("");
             let btn_val = "";
@@ -232,7 +232,7 @@ const optimizeSinglePagePdf = () => {
                       /*<Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}></Worker>*/
                     }
 
-                        <div style={{ height: '750px' }} id="pdf_view_box">
+                        <div id="pdf_view_box">
                           <div onScroll={scrollEve} className={previewArticle?"scroll_pdf":"scroll_pdf"}>
                           <Viewer
                             onPageChange={handlePageChange}

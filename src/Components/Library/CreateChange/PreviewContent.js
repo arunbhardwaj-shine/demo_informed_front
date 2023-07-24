@@ -257,6 +257,7 @@ const PreviewContent = () => {
   };
 
   const updatePublish = () => {
+    console.log("- imhere")
     setPublishStatus(true);
   };
 
