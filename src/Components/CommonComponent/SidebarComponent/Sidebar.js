@@ -423,6 +423,7 @@ const Sidebar = () => {
             window.location.pathname == "/products" ||
             window.location.pathname == "/library-delete" ||
             window.location.pathname == "/library-create-user" ||
+            window.location.pathname == "/library-add-link" ||
             window.location.pathname == "/edit-Consent-Options" ||
             window.location.pathname == "/library-create-pharma" ||
             window.location.pathname == "/library-edit-listing" ||
@@ -459,6 +460,7 @@ const Sidebar = () => {
                     location.pathname == "/set-popup" ||
                     location.pathname == "/preview-content" ||
                     location.pathname == "/library-create-user" ||
+                    location.pathname == "/library-add-link" ||
                     location.pathname == "/edit-Consent-Options" ||
                     location.pathname == "/auto_popup" ||
                     location.pathname == "/create-docintel-link" ||
