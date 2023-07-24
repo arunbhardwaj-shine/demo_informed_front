@@ -2212,14 +2212,24 @@ form.product-unit button {
 }
 }
 
-.sublink_right.preview-content .viewer-layout-main {
-    padding: 0;
-    overflow-y: auto;
-    max-height: 61vh;
+.sublink_right.preview-content  .add_link_to_pdf .viewer-layout-main{
+  padding: 0;
+  overflow-y: auto;
+  max-height: 61vh;
+  overflow-x: hidden;
 }
-.no_scroll.modal-body-content div, .sublink_right.preview-content .no_scroll .viewer-layout-main{
-  overflow: hidden;
+.sublink_right.preview-content #pdf_view_box .viewer-layout-main {
+  padding: 0;
+  max-height: 61vh;
 }
+// .sublink_right.preview-content .viewer-layout-main {
+//     padding: 0;
+//     overflow-y: auto;
+//     max-height: 61vh;
+// }
+// .no_scroll.modal-body-content div, .sublink_right.preview-content .no_scroll .viewer-layout-main{
+//   overflow: hidden;
+// }
 .viewer-annotation-link a:hover {
     background: transparent !important;
 }
