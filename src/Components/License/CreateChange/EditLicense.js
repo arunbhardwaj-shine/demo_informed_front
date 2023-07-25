@@ -394,7 +394,14 @@ const EditLicense = () => {
         );
         formData.append("allowRequest", JSON.stringify(userInputs?.chat_box));
         formData.append("draft", JSON.stringify(userInputs?.draft));
-        formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
+
+        if (userInputs?.docintelFormat == "video") {
+          formData.append("allowVideo", 0);
+        } else {
+          formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
+        }
+
+
 
         formData.append("trial", userInputs?.trial);
         formData.append("blindType", userInputs?.blindType);
@@ -418,7 +425,7 @@ const EditLicense = () => {
             userInputs?.docintelFormat == "video" ||
             userInputs?.docintelFormat == "Video"
           ) {
-            navigate("/set-popup", {
+            navigate("/license-set-popup", {
               state: {
                 pdfId: state?.pdfid,
                 fileType: userInputs?.docintelFormat,
@@ -435,7 +442,7 @@ const EditLicense = () => {
                 },
               });
             } else {
-              navigate("/set-popup", {
+              navigate("/license-set-popup", {
                 state: {
                   pdfId: state?.pdfid,
                   fileType: userInputs?.docintelFormat,

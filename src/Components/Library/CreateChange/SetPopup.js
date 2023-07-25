@@ -374,7 +374,7 @@ const SetPopup = (props) => {
                                 navigate("/library-add-link", {
                                   state: {
                                     pdfId: state?.pdfId,
-                                    isEdit: 0,
+                                    isEdit: isEdit,
                                     allowVideo: allowStateVideo,
                                   },
                                 });

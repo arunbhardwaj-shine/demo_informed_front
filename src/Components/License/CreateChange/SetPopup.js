@@ -332,7 +332,7 @@ const SetPopup = (props) => {
 
   return (
     <>
-      <Col className="right-sidebar">
+      <Col className="right-sidebar custom-change col">
         {popupData ? (
           <div className="custom-container">
             <Row>

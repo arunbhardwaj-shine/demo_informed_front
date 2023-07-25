@@ -351,13 +351,14 @@ const LicenseCreateUser = () => {
               });
             }
           }
-        } else
+        } else {
           navigate("/license-set-popup", {
             state: {
               pdfId: res?.data?.data?.pdfId,
               fileType: userInputs?.docintelFormat,
             },
           });
+        }
       } catch (err) {
         loader("hide");
       }
