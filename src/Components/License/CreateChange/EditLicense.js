@@ -281,7 +281,6 @@ const EditLicense = () => {
             : e
           : e?.target?.value,
         allow_video: 0,
-        allowVideo: false,
       });
     } else {
       setCreateLibraryInputs({
@@ -413,7 +412,6 @@ const EditLicense = () => {
         );
         formData.append("licensed", 1);
         formData.append("spcInc", 0);
-
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
           header: {
             "Content-Type": "multipart/form-data",
@@ -433,12 +431,12 @@ const EditLicense = () => {
               },
             });
           } else {
-            if (userInputs?.allowVideo) {
+            if (userInputs?.allow_video) {
               navigate("/license-add-link", {
                 state: {
                   pdfId: state?.pdfid,
                   isEdit: 1,
-                  allowVideo: userInputs?.allowVideo ? true : false,
+                  allowVideo: userInputs?.allow_video ? true : false,
                 },
               });
             } else {
@@ -1203,7 +1201,7 @@ const EditLicense = () => {
                         <a href="">Edit Your Content</a>
                       </li>
                       {localStorage.getItem("user_id") ==
-                        "rjiGlqA9DXJVH7bDDTX0Lg==" && userInputs?.allowVideo ? (
+                        "rjiGlqA9DXJVH7bDDTX0Lg==" && userInputs?.allow_video ? (
                         <li className="">
                           <a href="">[Embedding Video]</a>
                         </li>
@@ -1743,12 +1741,12 @@ const EditLicense = () => {
                                     userInputs?.allow_video ? true : false
                                   }
                                   checked={
-                                    userInputs?.allowVideo ? true : false
+                                    userInputs?.allow_video ? true : false
                                   }
                                   onChange={(e) => {
                                     handleChange(
                                       e.target?.checked,
-                                      "allowVideo"
+                                      "allow_video"
                                     );
                                   }}
                                 />
