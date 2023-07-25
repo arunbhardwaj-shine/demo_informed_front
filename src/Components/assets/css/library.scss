@@ -7217,14 +7217,60 @@ svg.pencil_icon {
   .content_analytics .circle_graph .col:after {
     left: 3px;
   }
+  .create-change-content.spc-content .embedding-video .side-step-text p {
+    font-size: 18px;
+    line-height: 25px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text .embedded-video-step h2 {
+    font-size: 34px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text .embedded-video-step {
+    top: 42px;
+    left: 36px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text {
+    padding-left: 35px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text:last-child {
+    padding-left: 60px;
+}
+.create-change-content.spc-content .embedding-video {
+    padding: 32px 25px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text.first-step:after {
+    right: -2px;
+    top: -27px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text:last-child .embedded-video-step {
+    left: 58px;
+}
 }
 @media (max-width: $layout-breakpoint-extraLarge) {
   .timeline-time-view {
     font-size: 11px;
     line-height: 15px;
   }
+  .dropdown.split-button-dropup .dropdown-menu .scroll_div {
+    max-height: 100px;
+}
+  .create-change-content.spc-content .embedding-video .side-step-text p {
+    font-size: 16px;
+    line-height: 23px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text .formgroup .upload-file-box {
+    margin-left: 19px;
+    padding: 0 0 0 19px;
+}
   .pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text p {
     font-size: 17px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text .formgroup .form-label {
+    font-size: 15px;
+    line-height: 21px;
+    margin: 0 10px 0 0;
+}
+.create-change-content.spc-content .embedding-video .side-step-text .formgroup .split-button-dropup {
+    min-width: 274px;
 }
   .custom-change .top-sticky {
     top: 61px;
@@ -7785,12 +7831,66 @@ svg.pencil_icon {
   .form-check-group {
     padding: 9px 16px;
   }
+  .template_builder-option.library-cosent .template_language {
+    margin-right: 25px;
+}
 }
 @media (max-width: $layout-breakpoint-large) {
   form.product-unit .form-group {
     width: auto;
     flex: 0 0 50%;
   }
+  .template_builder-option.library-cosent .template_language span {
+    margin-bottom: 7px;
+}
+.template_builder-option.library-cosent .form-group {
+    width: 100%;
+}
+  .template_builder-option.library-cosent .template_language {
+    flex-direction: column;
+    align-items: flex-start;
+}
+.create-change-content.spc-content .embedding-video .side-step-text .embedded-video-step h2 {
+    font-size: 26px;
+    line-height: 33px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text p {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text .formgroup .split-button-dropup {
+    min-width: 180px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text .embedded-video-step {
+    top: 42px;
+    left: 36px;
+    position: static;
+    transform: rotate(0deg);
+}
+.create-change-content.spc-content .embedding-video .side-step-text {
+    padding-left: 0;
+}
+.create-change-content.spc-content .embedding-video .side-step-text:last-child {
+    padding-left: 0px;
+}
+.create-change-content.spc-content .embedding-video {
+    padding: 20px 15px;
+    align-items: flex-start;
+}
+.create-change-content.spc-content .embedding-video .side-step-text:first-child:not(:last-child) {
+    width: 38%;
+}
+.create-change-content.spc-content .embedding-video .side-step-text:last-child {
+    width: 62%;
+}
+.create-change-content.spc-content .embedding-video .side-step-text .formgroup .upload-file-box {
+    margin-left: 13px;
+    padding: 0 0 0 13px;
+}
+.create-change-content.spc-content .embedding-video .side-step-text.first-step:after {
+    right: 18px;
+    top: -15px;
+}
 .pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text:last-child {
     padding-left: 70px;
     width: 59%;
