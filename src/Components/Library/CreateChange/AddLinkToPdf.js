@@ -418,6 +418,8 @@ const AddLinkToPdf = () => {
     }
   };
 
+    
+
   const handleMouseMove = (event) => {
     const targetLink = event.target.closest(".viewer-annotation-link");
 

@@ -13,13 +13,15 @@ import {db} from "../../config/firebaseConfig"
 const Event = () =>{
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);   
-    
-    const [eventId,setEvent] = useState(0)
-    const q = query(collection(db, "chat"), where("triggered", '!=', 0),where("event_id","==",eventId));
+    const [eventId,setEvent] = useState({
+        id:0
+    })
+    const q = query(collection(db, "chat"), where("triggered", '!=', 0),where("event_id","==",eventId?.id));
     const [data,setData] = useState(0)
     const [show,setShow] = useState(false)
     const [apiData,setApiData] = useState([])
     const [answerPop,setAnswerPopup] = useState(false)
+
     useEffect(()=>{
         EventDataFun()
     },[])
@@ -56,8 +58,6 @@ const Event = () =>{
         }else if(!eventQuestion?.includes(newData?.question_id) && newData?.triggered == 2){
             return 
         }
-
-        ////////
 
         if(newData?.triggered == 1 ){
             if(Object.keys(value)?.length){

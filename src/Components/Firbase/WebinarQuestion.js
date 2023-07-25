@@ -185,6 +185,7 @@ useEffect(()=>{
        if(doc.data()){
            newData = doc.data()
            if(countValue != doc.data()?.webinar){
+            console.log("- imherer",doc.data()?.webinar)
               setCountvalue(doc.data()?.webinar)
            }
            
