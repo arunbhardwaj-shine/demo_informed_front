@@ -68,6 +68,14 @@ const EditLicense = () => {
     cpdValue: "",
   });
 
+  const [pdfSpcData, setpdfSpcData] = useState([
+    {
+      chapterTitle: "",
+      uploadFile: "",
+      fileValue: "",
+    },
+  ]);
+
   const [blindType, setBlindType] = useState([
     { value: "blind", label: "Blind" },
     { value: "unblind", label: "UnBlind" },
@@ -253,14 +261,38 @@ const EditLicense = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-    setCreateLibraryInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-        ? e?.target?.files
+    if (isSelectedName == "docintelFormat") {
+      if (e == "ebook") {
+        setEbookFile([]);
+        setpdfSpcData([
+          {
+            chapterTitle: "",
+            uploadFile: "",
+            fileValue: "",
+          },
+        ]);
+      }
+      setCreateLibraryInputs({
+        ...userInputs,
+        uploadFile: "",
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e?.target?.files
-          : e
-        : e?.target?.value,
-    });
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+        allow_video: 0,
+        allowVideo: false,
+      });
+    } else {
+      setCreateLibraryInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e?.target?.files
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    }
   };
 
   const nextButtonClicked = async (e) => {
@@ -362,7 +394,14 @@ const EditLicense = () => {
         );
         formData.append("allowRequest", JSON.stringify(userInputs?.chat_box));
         formData.append("draft", JSON.stringify(userInputs?.draft));
-        formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
+
+        if (userInputs?.docintelFormat == "video") {
+          formData.append("allowVideo", 0);
+        } else {
+          formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
+        }
+
+
 
         formData.append("trial", userInputs?.trial);
         formData.append("blindType", userInputs?.blindType);
@@ -373,6 +412,7 @@ const EditLicense = () => {
           tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
         );
         formData.append("licensed", 1);
+        formData.append("spcInc", 0);
 
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
           header: {
@@ -380,13 +420,46 @@ const EditLicense = () => {
           },
         });
         loader("hide");
-        navigate("/license-set-popup", {
-          state: {
-            pdfId: state?.pdfid,
-            fileType: userInputs?.docintelFormat,
-            isEdit: 1,
-          },
-        });
+        if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
+          if (
+            userInputs?.docintelFormat == "video" ||
+            userInputs?.docintelFormat == "Video"
+          ) {
+            navigate("/license-set-popup", {
+              state: {
+                pdfId: state?.pdfid,
+                fileType: userInputs?.docintelFormat,
+                isEdit: 1,
+              },
+            });
+          } else {
+            if (userInputs?.allowVideo) {
+              navigate("/license-add-link", {
+                state: {
+                  pdfId: state?.pdfid,
+                  isEdit: 1,
+                  allowVideo: userInputs?.allowVideo ? true : false,
+                },
+              });
+            } else {
+              navigate("/license-set-popup", {
+                state: {
+                  pdfId: state?.pdfid,
+                  fileType: userInputs?.docintelFormat,
+                  isEdit: 1,
+                },
+              });
+            }
+          }
+        } else {
+          navigate("/license-set-popup", {
+            state: {
+              pdfId: state?.pdfid,
+              fileType: userInputs?.docintelFormat,
+              isEdit: 1,
+            },
+          });
+        }
       } catch (err) {
         console.log(err);
       }
@@ -557,7 +630,7 @@ const EditLicense = () => {
                   isClearable
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="">Production</label>
                 <Select
@@ -576,9 +649,8 @@ const EditLicense = () => {
                 />
               </div>
 
-              {
-                localStorage.getItem('user_id') == "rOhdD02MgXkownQqcreqAw==" &&
-
+              {localStorage.getItem("user_id") ==
+                "rOhdD02MgXkownQqcreqAw==" && (
                 <div className="form-group">
                   <label htmlFor="">Sales</label>
                   <Select
@@ -596,8 +668,7 @@ const EditLicense = () => {
                     isClearable
                   />
                 </div>
-              }
-
+              )}
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
               <div className="form-group justify-content-end">
@@ -1099,11 +1170,11 @@ const EditLicense = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <div className="col right-sidebar custom-change ">
         {showFlag ? (
           <div className="custom-container">
             <div className="row">
-              <div className="page-top-nav">
+              <div className="page-top-nav sticky">
                 <div className="row justify-content-end align-items-center">
                   <div className="col-12 col-md-1">
                     <div className="header-btn-left">
@@ -1131,9 +1202,16 @@ const EditLicense = () => {
                       <li className="active active-main">
                         <a href="">Edit Your Content</a>
                       </li>
+                      {localStorage.getItem("user_id") ==
+                        "rjiGlqA9DXJVH7bDDTX0Lg==" && userInputs?.allowVideo ? (
+                        <li className="">
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                      ) : null}
                       <li className="">
                         <a href="">Edit Consent Option</a>
                       </li>
+
                       <li className="">
                         <a href="">Approve Your Content &amp; Save</a>
                       </li>
@@ -1569,7 +1647,8 @@ const EditLicense = () => {
                         userDetail?.user?.[0]?.group_id == 3) ||
                       (userDetail?.user?.[0]?.flag == 1 &&
                         userDetail?.user?.[0]?.group_id == 3) ? (
-                        <div className="form-group">
+                        <>
+                          {/* <div className="form-group">
                           <label htmlFor="">Include video</label>
                           <div className="switch">
                             <label className="switch-light">
@@ -1590,7 +1669,7 @@ const EditLicense = () => {
                               </span>
                               <a className="btn"></a>
                             </label>
-                          </div>
+                          </div> */}
                           {/* {checked == false ? ( */}
                           {/* <Button
                         className="btn-bordered btn-voilet"
@@ -1601,8 +1680,10 @@ const EditLicense = () => {
                           {/* ) : (
                         false
                       )} */}
-                        </div>
+                          {/* </div> */}
+                        </>
                       ) : null}
+
                       <div className="form-group val">
                         <label htmlFor="">Content cover</label>
                         <div className="upload-file-box">
@@ -1643,6 +1724,60 @@ const EditLicense = () => {
                         </div>
                       ) : null} */}
                       </div>
+
+                      {(ebookFile?.length &&
+                        userInputs.docintelFormat?.includes("ebook")) ||
+                      (["ebook", "pdf", "pdfSpc"].includes(
+                        userInputs.docintelFormat
+                      ) &&
+                        localStorage.getItem("user_id") ==
+                          "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
+                        <>
+                          <div className="form-group">
+                            <label htmlFor="">Include video</label>
+                            <div className="switch">
+                              <label className="switch-light">
+                                <input
+                                  type="checkbox"
+                                  defaultChecked={
+                                    userInputs?.allow_video ? true : false
+                                  }
+                                  checked={
+                                    userInputs?.allowVideo ? true : false
+                                  }
+                                  onChange={(e) => {
+                                    handleChange(
+                                      e.target?.checked,
+                                      "allowVideo"
+                                    );
+                                  }}
+                                />
+                                <span>
+                                  <span
+                                    className={`switch-btn ${
+                                      userInputs?.allow_video == 0
+                                        ? " Active"
+                                        : ""
+                                    }`}
+                                  >
+                                    No
+                                  </span>
+                                  <span
+                                    className={`switch-btn ${
+                                      userInputs?.allow_video == 1
+                                        ? " Active"
+                                        : ""
+                                    }`}
+                                  >
+                                    Yes
+                                  </span>
+                                </span>
+                                <a className="btn"></a>
+                              </label>
+                            </div>
+                          </div>
+                        </>
+                      ) : null}
                     </div>
                     <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
                       <div className="form-group justify-content-end">

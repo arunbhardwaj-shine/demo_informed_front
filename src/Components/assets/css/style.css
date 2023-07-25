@@ -7484,8 +7484,11 @@ section.search-hcp.smart-list-view .header-btn-left {
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-top: 12px solid #004A89;
-  right: 20px;
+  right: 0px;
   bottom: -11px;
+  left: 0;
+width: 6px;
+margin: 0 auto;
 }
 .link-popup .link-popup-inner div button {
   background: transparent;
@@ -7529,6 +7532,9 @@ section.search-hcp.smart-list-view .header-btn-left {
   color: #fff;
   font-weight: 400;
   font-size: 20px;
+}
+.viewer-annotation-layer  a[href*="Clicklinks/video_player"] {
+  background: rgba(255, 255, 0, 0.2);
 }
 .upload-file #download-qr .modal-body {
   padding-bottom: 7px;

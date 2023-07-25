@@ -210,6 +210,7 @@ const LicenseCreateUser = () => {
   };
 
   const nextButtonClicked = async (e) => {
+    console.log("file type-->", userInputs);
     if (userInputs.docintelFormat == "ebook") {
       userInputs.chapter = chapter;
     }
@@ -350,13 +351,14 @@ const LicenseCreateUser = () => {
               });
             }
           }
-        } else
+        } else {
           navigate("/license-set-popup", {
             state: {
               pdfId: res?.data?.data?.pdfId,
               fileType: userInputs?.docintelFormat,
             },
           });
+        }
       } catch (err) {
         loader("hide");
       }

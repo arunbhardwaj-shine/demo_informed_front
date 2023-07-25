@@ -245,6 +245,7 @@ const EditLibrary = () => {
       const hadData = await getData(
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
+     
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
       if (
         hadData?.data?.data?.pdfData?.tags?.length &&
@@ -594,7 +595,7 @@ const EditLibrary = () => {
         } else {
           formData.append(
             "allowVideo",
-            JSON.stringify(userInputs?.allow_video)
+            JSON.stringify(userInputs?.allowVideo)
           );
         }
 
@@ -1353,6 +1354,7 @@ const EditLibrary = () => {
   return (
     <>
       <Col className="right-sidebar custom-change">
+        {        console.log("-df=-d=f-df?",userInputs?.allowVideo)}
         {showFlag ? (
           <div className="custom-container">
             <Row>
@@ -2354,7 +2356,7 @@ const EditLibrary = () => {
                               <input
                                 type="checkbox"
                                 defaultChecked={
-                                  userInputs?.allow_video ? true : false
+                                  userInputs?.allowVideo ? true : false
                                 }
                                 checked={userInputs?.allowVideo ? true : false}
                                 onChange={(e) => {
