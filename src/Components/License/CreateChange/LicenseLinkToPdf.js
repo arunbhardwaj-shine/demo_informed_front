@@ -37,7 +37,7 @@ import ConfirmationModal from "../../../Model/ConfirmationModel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const AddLinkToPdf = () => {
+const LicenseLinkToPdf = () => {
   const { state } = useLocation();
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
@@ -807,100 +807,60 @@ const AddLinkToPdf = () => {
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="page-top-nav sticky">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
-                  <div className="header-btn-left">
-                    {localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                      <Link
-                        className="btn btn-bordered btn btn-primary"
-                        to="/library-create"
-                      >
-                        Back
-                      </Link>
-                    ) : (
-                      <Link
-                        className="btn btn-bordered btn btn-primary"
-                        to="/library-create"
-                      >
-                        Back
-                      </Link>
-                    )}
-                  </div>
+          <div className="page-top-nav sticky">
+            <div className="row justify-content-end align-items-center">
+              <div className="col-12 col-md-1">
+                <div className="header-btn-left">
+                  <Link
+                    className="btn btn-bordered btn btn-primary"
+                    to="/license-create"
+                  >
+                    Back
+                  </Link>
                 </div>
-                <div className="col-12 col-md-10">
-                  {/* <ul className="tabnav-link">
-                    {
-                      <>
-                        <li className="">
-                          <a href="">Create Your Content</a>
-                        </li>
-                        {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <li className="active active-main">
-                            <a href="">Edit Consent Option</a>
-                          </li>
-                        ) : null}
-                        <li className="">
-                          <a href="">Preview Your Content &amp; Publish</a>
-                        </li>
-                      </>
+              </div>
+              <div className="col-12 col-md-9">
+                <ul className="tabnav-link">
+                  {
+                    <>
+                      <li className="">
+                        <a href="">Create Your Content</a>
+                      </li>
+                      <li className="active active-main">
+                          <a href="">[Embedding Video]</a>
+                      </li>
+                      <li className="">
+                        <a href="">Edit Consent Option</a>
+                      </li>
+
+                      <li className="">
+                        <a href="">Preview Your Content &amp; Publish</a>
+                      </li>
+                    </>
+                  }
+                </ul>
+              </div>
+              <div className="col-12 col-md-2">
+                <div className="header-btn">
+                  <Button
+                    className="btn btn-primary btn-filled next "
+                    onClick={() =>
+                      navigate("/license-set-popup", {
+                        state: {
+                          pdfId: initFunData?.id,
+                          fileType: initFunData?.file_type,
+                          isEdit: isEdit,
+                          allowVideo: allowStateVideo,
+                        },
+                      })
                     }
-                  </ul> */}
-                  <ul className="tabnav-link">
-                    {
-                      <>
-                        <li className="">
-                          <a href="">Create Your Content</a>
-                        </li>
-                        {localStorage.getItem("user_id") ==
-                        "rjiGlqA9DXJVH7bDDTX0Lg==" ? (
-                          <li className="active active-main">
-                            <a href="">[Embedding Video]</a>
-                          </li>
-                        ) : null}
-                        {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <li
-                            className={
-                              localStorage.getItem("user_id") !=
-                              "rjiGlqA9DXJVH7bDDTX0Lg=="
-                                ? "active active-main"
-                                : ""
-                            }
-                          >
-                            <a href="">Edit Consent Option</a>
-                          </li>
-                        ) : null}
-                        <li className="">
-                          <a href="">Preview Your Content &amp; Publish</a>
-                        </li>
-                      </>
-                    }
-                  </ul>
-                </div>
-                <div className="col-12 col-md-1">
-                  <div className="header-btn">
-                    <Button
-                      className="btn btn-primary btn-filled next "
-                      onClick={() =>
-                        navigate("/set-popup", {
-                          state: {
-                            pdfId: initFunData?.id,
-                            fileType: initFunData?.file_type,
-                            isEdit: isEdit,
-                            allowVideo: allowStateVideo,
-                          },
-                        })
-                      }
-                    >
-                      Next
-                    </Button>
-                  </div>
+                  >
+                    Next
+                  </Button>
                 </div>
               </div>
             </div>
+          </div>
             <div className="create-change-content spc-content">
               <div className="form_action">
                 <div className="row">
@@ -1193,4 +1153,4 @@ const AddLinkToPdf = () => {
   );
 };
 
-export default AddLinkToPdf;
+export default LicenseLinkToPdf;

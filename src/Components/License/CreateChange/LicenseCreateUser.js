@@ -27,7 +27,7 @@ const LicenseCreateUser = () => {
   const limitFieldRef = useRef(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [reseller, setReseller] = useState([]);
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
   const [id, setId] = useState(localStorage.getItem("user_id"));
@@ -112,6 +112,13 @@ const LicenseCreateUser = () => {
   const [finalTags, setFinalTags] = useState([]);
   const [tagsReRender, setTagsReRender] = useState(0);
   const [updateflag, setupdateFlag] = useState(0);
+  const [pdfSpcData, setpdfSpcData] = useState([
+    {
+      chapterTitle: "",
+      uploadFile: "",
+      fileValue: "",
+    },
+  ]);
 
   const initalFun = async () => {
     loader("show");
@@ -168,17 +175,42 @@ const LicenseCreateUser = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-    setCreateLibraryInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-        ? e?.target?.files
+    if (isSelectedName == "docintelFormat") {
+      if (e == "ebook") {
+        setEbookFile([]);
+        setpdfSpcData([
+          {
+            chapterTitle: "",
+            uploadFile: "",
+            fileValue: "",
+          },
+        ]);
+      }
+
+      setCreateLibraryInputs({
+        ...userInputs,
+        uploadFile: "",
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e?.target?.files
-          : e
-        : e?.target?.value,
-    });
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+        allowVideo: false,
+      });
+    } else {
+      setCreateLibraryInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e?.target?.files
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    }
   };
 
   const nextButtonClicked = async (e) => {
+    console.log("file type-->", userInputs);
     if (userInputs.docintelFormat == "ebook") {
       userInputs.chapter = chapter;
     }
@@ -288,12 +320,45 @@ const LicenseCreateUser = () => {
           },
         });
         loader("hide");
-        navigate("/license-set-popup", {
-          state: {
-            pdfId: res?.data?.data?.pdfId,
-            fileType: userInputs?.docintelFormat,
-          },
-        });
+        if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
+          if (
+            userInputs?.docintelFormat == "video" ||
+            userInputs?.docintelFormat == "Video"
+          ) {
+            navigate("/license-set-popup", {
+              state: {
+                pdfId: res?.data?.data?.pdfId,
+                fileType: userInputs?.docintelFormat,
+                isEdit: 0,
+              },
+            });
+          } else {
+            if (userInputs?.allowVideo) {
+              navigate("/license-add-link", {
+                state: {
+                  pdfId: res?.data?.data?.pdfId,
+                  isEdit: 0,
+                  allowVideo: userInputs?.allowVideo,
+                },
+              });
+            } else {
+              navigate("/license-set-popup", {
+                state: {
+                  pdfId: res?.data?.data?.pdfId,
+                  fileType: userInputs?.docintelFormat,
+                  isEdit: 0,
+                },
+              });
+            }
+          }
+        } else {
+          navigate("/license-set-popup", {
+            state: {
+              pdfId: res?.data?.data?.pdfId,
+              fileType: userInputs?.docintelFormat,
+            },
+          });
+        }
       } catch (err) {
         loader("hide");
       }
@@ -506,7 +571,7 @@ const LicenseCreateUser = () => {
                   isClearable
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="">Production</label>
                 <Select
@@ -518,8 +583,8 @@ const LicenseCreateUser = () => {
                 />
               </div>
 
-              {
-                localStorage.getItem('user_id') == "rOhdD02MgXkownQqcreqAw==" &&
+              {localStorage.getItem("user_id") ==
+                "rOhdD02MgXkownQqcreqAw==" && (
                 <div className="form-group">
                   <label htmlFor="">Sales</label>
                   <Select
@@ -530,8 +595,7 @@ const LicenseCreateUser = () => {
                     isClearable
                   />
                 </div>
-              }
-
+              )}
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
               <div className="form-group justify-content-end">
@@ -769,7 +833,9 @@ const LicenseCreateUser = () => {
                           topicButtonClicked(userDetail?.user[0]?.group_id)
                         }
                       >
-                      {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
+                        {localStorage.getItem("user_id") == userId
+                          ? "Add User +"
+                          : "Add HCP +"}
                       </button>
                     </div>
                     <div className="tags_added">
@@ -1000,6 +1066,12 @@ const LicenseCreateUser = () => {
                     <li className="active active-main">
                       <a href="">Create Your Content</a>
                     </li>
+                    {localStorage.getItem("user_id") ==
+                      "rjiGlqA9DXJVH7bDDTX0Lg==" && userInputs?.allowVideo ? (
+                      <li className="">
+                        <a href="">[Embedding Video]</a>
+                      </li>
+                    ) : null}
                     <li className="">
                       <a href="">Edit Consent Option</a>
                     </li>
@@ -1373,7 +1445,7 @@ const LicenseCreateUser = () => {
                     // </div>
                     null}
 
-                    {(userDetail?.user?.[0]?.flag == 0 &&
+                    {/* {(userDetail?.user?.[0]?.flag == 0 &&
                       userDetail?.user?.[0]?.group_id == 3) ||
                     (userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3) ? (
@@ -1396,7 +1468,7 @@ const LicenseCreateUser = () => {
                           </label>
                         </div>
                       </div>
-                    ) : null}
+                    ) : null} */}
                     <div className="form-group val">
                       <label htmlFor="">Content cover</label>
                       <div className="upload-file-box">
@@ -1427,6 +1499,35 @@ const LicenseCreateUser = () => {
                         </div>
                       </div>
                     </div>
+                    {(ebookFile?.length &&
+                      userInputs.docintelFormat?.includes("ebook")) ||
+                    (["ebook", "pdf", "pdfSpc"].includes(
+                      userInputs.docintelFormat
+                    ) &&
+                      localStorage.getItem("user_id") ==
+                        "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
+                      <>
+                        <div className="form-group">
+                          <label htmlFor="">Include video</label>
+                          <div className="switch">
+                            <label className="switch-light">
+                              <input
+                                type="checkbox"
+                                checked={userInputs?.allowVideo ? true : false}
+                                onChange={(e) => {
+                                  handleChange(e.target?.checked, "allowVideo");
+                                }}
+                              />
+                              <span>
+                                <span className="switch-btn active">No</span>
+                                <span className="switch-btn">Yes</span>
+                              </span>
+                              <a className="btn"></a>
+                            </label>
+                          </div>
+                        </div>
+                      </>
+                    ) : null}
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
                     <div className="form-group justify-content-end">

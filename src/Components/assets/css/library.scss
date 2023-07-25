@@ -900,6 +900,12 @@ input:-webkit-autofill {
   align-items: center;
   padding: 12px 40px;
 }
+#pdf_view_box .scroll_pdf{
+    min-height: 61vh;
+}
+#pdf_view_box .viewer-layout-container .viewer-layout-toolbar {
+    position: relative;
+}
 .create-change-content .input-group {
   border: 1px dashed var(--light-blue);
   box-sizing: border-box;
