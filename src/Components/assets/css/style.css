@@ -7529,6 +7529,9 @@ margin: 0 auto;
   font-weight: 400;
   font-size: 20px;
 }
+.viewer-annotation-layer a {
+  background: rgba(255, 255, 0, 0.2);
+}
 .upload-file #download-qr .modal-body {
   padding-bottom: 7px;
 }

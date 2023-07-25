@@ -132,7 +132,7 @@ const AddLinkToPdf = () => {
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
-   
+
 
     if (toolbar) {
       toolbar.remove();
@@ -173,10 +173,10 @@ const AddLinkToPdf = () => {
                 // console.log("-test",anchorRect)
                 const parentDiv = document.querySelector("#parent_div");
                 const parentRect = viewPageLayer.getBoundingClientRect();
-  
+
                 const topPosition = anchorRect.top - parentRect.top // Adding 10 to the top position
                 const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
-  
+
                 const popup = document.createElement("div");
                 popup.className = "link-popup-inner";
                 popup.id = `link-popup-inner-${e.currentPage}-${index}`;
@@ -185,20 +185,20 @@ const AddLinkToPdf = () => {
                 popup.style.left = `-${50}px`;
                 popup.innerHTML = `<div
                   class="link-popup visible"
-                  
+
                 >
                   <div id="link-popup" class="link-popup-inner">
-                   
+
                     <div class="link-popup-buttons">
                       <button id=${"view-" + index + "-" + e.currentPage}>
                         View
                       </button>
-  
+
                       <button id=${"change-" + index + "-" + e.currentPage}
                       >
                         Change
                       </button>
-  
+
                       <button id=${"delete-" + index + "-" + e.currentPage}
                       >
                         Delete
@@ -230,8 +230,8 @@ const AddLinkToPdf = () => {
                     showConfirmationPopup();
                   });
               }
-              
-              
+
+
             }
           });
         }
@@ -347,7 +347,7 @@ const AddLinkToPdf = () => {
       return
     }
     setSelectedVideo(null);
-    
+
   };
   const uploadClinkLinkModelVideo = async (e) => {
     e.preventDefault();
@@ -383,15 +383,26 @@ const AddLinkToPdf = () => {
     setForceRender(!forceRender);
   };
 
+  const handleDragStart = (e) => {
+    e.preventDefault();
+  };
+
   useEffect(() => {
     parentRef?.current?.addEventListener("mousedown", handleMouseDown);
     parentRef?.current?.addEventListener("mousemove", handleMouseMove);
     parentRef?.current?.addEventListener("mouseup", handleMouseUp);
+    if (parentRef.current) {
+     parentRef?.current?.setAttribute('draggable', 'false'); // Disable dragging
+     parentRef?.current?.addEventListener('dragstart', handleDragStart); // Attach the event listener
+   }
 
     return () => {
       parentRef?.current?.removeEventListener("mousedown", handleMouseDown);
       parentRef?.current?.removeEventListener("mousemove", handleMouseMove);
       parentRef?.current?.removeEventListener("mouseup", handleMouseUp);
+      if (parentRef?.current) {
+        parentRef?.current.removeEventListener('dragstart', handleDragStart);
+      }
     };
   }, [dragging, startX, startY, endX, endY, file]);
 
@@ -567,7 +578,7 @@ const AddLinkToPdf = () => {
     let box_height = box.getBoundingClientRect().height;
     let actual_width = xcoordinates +15 - box_width;
     let x_cord = actual_width / 3.8;
-    let actual_height = mousefirstdown + 21 - ycoordinates;
+    let actual_height = mousefirstdown + 11 - ycoordinates;
     let y_cord = actual_height / 3.8;
     let page_no = linkonpage + 1;
     let box_width_x = box_width / 3.7;
