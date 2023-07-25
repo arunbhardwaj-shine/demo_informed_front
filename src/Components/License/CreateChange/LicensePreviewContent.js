@@ -459,7 +459,7 @@ const LicensePreviewContent = () => {
                                     : ""
                                 }
                               />
-                              <p>{template.title}</p>
+                              <p>{template?.title}</p>
                             </div>
                           </>
                         );
@@ -490,7 +490,7 @@ const LicensePreviewContent = () => {
                             templateName != "" ? (
                               templateName
                             ) : (
-                              pdfData?.ebookData[0].title
+                              pdfData?.ebookData[0]?.title
                             )
                           ) : titleChange != "" ? (
                             titleChange

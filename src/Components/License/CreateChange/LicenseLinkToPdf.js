@@ -258,6 +258,7 @@ const LicenseLinkToPdf = () => {
       };
       const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
       setInitFunData(res?.data?.data);
+      console.log("res-->", res?.data?.data);
       if (res?.data?.data?.file_type == "ebook") {
         if (res?.data?.data?.ebookData?.length) {
           const newData = res?.data?.data?.ebookData?.map((item, index) => {
