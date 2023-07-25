@@ -130,6 +130,9 @@ const AddLinkToPdf = () => {
   };
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
+    try{
+
+    
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
    
@@ -173,7 +176,8 @@ const AddLinkToPdf = () => {
                 // console.log("-test",anchorRect)
                 const parentDiv = document.querySelector("#parent_div");
                 const parentRect = viewPageLayer.getBoundingClientRect();
-  
+               
+
                 const topPosition = anchorRect.top - parentRect.top // Adding 10 to the top position
                 const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
   
@@ -182,7 +186,7 @@ const AddLinkToPdf = () => {
                 popup.id = `link-popup-inner-${e.currentPage}-${index}`;
                 popup.style.position = "absolute";
                 popup.style.top = `-${50}px`;
-                // popup.style.left = `${leftPosition}px`;
+                popup.style.left = `-${50}px`;
                 popup.innerHTML = `<div
                   class="link-popup visible"
                   
@@ -236,6 +240,9 @@ const AddLinkToPdf = () => {
         }
       }, 1000);
     }
+  }catch(err){
+    console.log("err",err)
+  }
   };
 
   useEffect(() => {
@@ -997,8 +1004,8 @@ const AddLinkToPdf = () => {
                               // onDocumentLoad={handleDocumentLoad}
                               onPageChange={handleDocumentLoad}
                               renderMode="canvas"
-                              fileUrl={file}
-                              // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1690198693.pdf"}
+                              // fileUrl={file}
+                              fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/pdflink_1690265146.pdf"}
                             />
                             <div
                               className="highlight_box"
