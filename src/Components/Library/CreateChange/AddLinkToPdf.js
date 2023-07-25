@@ -181,8 +181,8 @@ const AddLinkToPdf = () => {
                 popup.className = "link-popup-inner";
                 popup.id = `link-popup-inner-${e.currentPage}-${index}`;
                 popup.style.position = "absolute";
-                popup.style.top = `-${50}px`;
-                // popup.style.left = `${leftPosition}px`;
+                popup.style.top = `-${45}px`;
+                popup.style.left = `-${50}px`;
                 popup.innerHTML = `<div
                   class="link-popup visible"
                   
@@ -219,6 +219,7 @@ const AddLinkToPdf = () => {
                   .addEventListener("click", () => {
                     setPageNo(e.currentPage);
                     setCommanShow(true);
+                    closePopup()
                   });
                   // selectedUrl,
                 document
@@ -283,6 +284,7 @@ const AddLinkToPdf = () => {
     }
   };
   const onChapterSelect = (e) => {
+    closePopup()
     setEbookSelectedId(ebookData[e?.index]?.id);
     setFile(ebookData[e?.index]?.file_name);
   };
@@ -563,7 +565,7 @@ const AddLinkToPdf = () => {
     let box = parentRef.current.querySelector(".highlight_box");
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
-    let actual_width = xcoordinates - 5 - box_width;
+    let actual_width = xcoordinates +15 - box_width;
     let x_cord = actual_width / 3.8;
     let actual_height = mousefirstdown + 21 - ycoordinates;
     let y_cord = actual_height / 3.8;
@@ -657,6 +659,7 @@ const AddLinkToPdf = () => {
   };
 
   const showConfirmationPopup = () => {
+    closePopup()
     setPopupMessage({
       message1: "",
       // "You are about to remove this content from any reader and every device forever.",
