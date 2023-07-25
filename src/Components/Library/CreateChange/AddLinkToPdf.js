@@ -207,7 +207,7 @@ const AddLinkToPdf = () => {
                   </div>
                 </div>`;
 
-  
+                // viewAnnotationLayer.parentNode.insertBefore(popup, anchorTag);
                 viewAnnotationLayer.appendChild(popup);
                 document
                   .getElementById("view-" + index + "-" + e.currentPage)
@@ -339,8 +339,13 @@ const AddLinkToPdf = () => {
     setVideoTitle(value);
   };
   const handleOnVideoChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedVideo(file);
+    if(event.target.files?.length){
+      const file = event.target.files[0];
+      setSelectedVideo(file);
+      return
+    }
+    setSelectedVideo(null);
+    
   };
   const uploadClinkLinkModelVideo = async (e) => {
     e.preventDefault();
