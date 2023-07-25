@@ -39,6 +39,13 @@ const LicensePreviewContent = () => {
   const [isEdit, setIsEdit] = useState(
     typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
   );
+  const [allowStateVideo, setAllowStateVideo] = useState(
+    typeof state?.allowVideo !== "undefined"
+      ? state?.allowVideo
+        ? true
+        : false
+      : false
+  );
   const [pdfData, setPdfData] = useState([]);
   const [editTitle, setEditTitle] = useState(false);
   const [publishStatus, setPublishStatus] = useState(false);
@@ -91,21 +98,22 @@ const LicensePreviewContent = () => {
       }
       loader("hide");
 
-      if(res?.data?.data?.file_type != "pdf"){
-          setTimeout(function () {
-            const div_img = document.querySelector(".alice-carousel__wrapper img");
-            if(typeof div_img !== "undefined" || div_img != null){
-              div_img.click();
-            }
-          }, 300);
+      if (res?.data?.data?.file_type != "pdf") {
+        setTimeout(function () {
+          const div_img = document.querySelector(
+            ".alice-carousel__wrapper img"
+          );
+          if (typeof div_img !== "undefined" || div_img != null) {
+            div_img.click();
+          }
+        }, 300);
       }
-
     } catch (err) {
       loader("hide");
     }
   };
 
-  const updateArticleTitle = async(title) => {
+  const updateArticleTitle = async (title) => {
     try {
       loader("show");
       let formData = new FormData();
@@ -114,7 +122,7 @@ const LicensePreviewContent = () => {
       formData.append("userId", localStorage.getItem("user_id"));
       formData.append("title", title);
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
-          formData.append("fileId", pdfFileId);
+        formData.append("fileId", pdfFileId);
       }
       await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
         header: {
@@ -122,12 +130,12 @@ const LicensePreviewContent = () => {
         },
       });
 
-      if(pdfData?.file_type && pdfData.file_type == "ebook") {
-      	let pdfIndex = pdfData.ebookData.findIndex(el => el.id === pdfFileId);
-      	pdfData.ebookData[pdfIndex].title = title;
-      	setPdfData(pdfData);
-      	setTemplateName(title);
-      }else{
+      if (pdfData?.file_type && pdfData.file_type == "ebook") {
+        let pdfIndex = pdfData.ebookData.findIndex((el) => el.id === pdfFileId);
+        pdfData.ebookData[pdfIndex].title = title;
+        setPdfData(pdfData);
+        setTemplateName(title);
+      } else {
         pdfData.title = title;
       }
       loader("hide");
@@ -206,25 +214,25 @@ const LicensePreviewContent = () => {
       formData.append("file", userInputs?.uploadFile?.[0]);
 
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
-        if(typeof userInputs?.title != "undefined"){
-            formData.append("title", userInputs?.title);
+        if (typeof userInputs?.title != "undefined") {
+          formData.append("title", userInputs?.title);
         }
-          // if(typeof userInputs?.title == "undefined"){
-          //   formData.append("title", templateName);
-          // }
-          // else{
-          //   formData.append("title", userInputs?.title);
-          // }
+        // if(typeof userInputs?.title == "undefined"){
+        //   formData.append("title", templateName);
+        // }
+        // else{
+        //   formData.append("title", userInputs?.title);
+        // }
         formData.append("fileId", pdfFileId);
       }
-     const res = await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
+      const res = await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
         header: {
           "Content-Type": "multipart/form-data",
         },
       });
       // getArticleData();
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
-        setUserInputs({ ...userInputs, title: "", uploadFile: ""});
+        setUserInputs({ ...userInputs, title: "", uploadFile: "" });
       }
 
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
@@ -232,7 +240,7 @@ const LicensePreviewContent = () => {
         pdfData.ebookData[pdfIndex].title = res?.data?.data?.title;
         pdfData.ebookData[pdfIndex].file_name = res?.data?.data?.pdf;
         setTemplatePdf(res?.data?.data?.pdf);
-      }else{
+      } else {
         pdfData.file_name = res?.data?.data?.pdf;
         pdfData.title = res?.data?.data?.title;
         setTemplatePdf(res?.data?.data?.pdf);
@@ -254,7 +262,7 @@ const LicensePreviewContent = () => {
 
   const updatePublish = () => {
     setPublishStatus(true);
-  }
+  };
 
   const handleNext = async (obj) => {
     loader("show");
@@ -290,7 +298,6 @@ const LicensePreviewContent = () => {
           });
         }
         setPdfData(pdfData);
-
       } else {
         setPublishStatus(true);
         navigate("/license-content-detail", {
@@ -314,11 +321,17 @@ const LicensePreviewContent = () => {
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                   <Link
-                  to="/license-set-popup"
-                  state={{ pdfId: state?.pdfId, isEdit: isEdit }}
-                  className="btn btn-bordered btn btn-primary">Back</Link>
-                  {
-                    /*
+                    to="/license-set-popup"
+                    state={{
+                      pdfId: state?.pdfId,
+                      isEdit: isEdit,
+                      allowVideo: allowStateVideo,
+                    }}
+                    className="btn btn-bordered btn btn-primary"
+                  >
+                    Back
+                  </Link>
+                  {/*
                     <Link
                     className="btn btn-primary btn-bordered back-btn"
                     to="/license-set-popup"
@@ -337,18 +350,21 @@ const LicensePreviewContent = () => {
                     />
                     </svg>
                     </Link>
-                    */
-                  }
+                    */}
                 </div>
               </div>
               <div className="col-12 col-md-9">
                 <ul className="tabnav-link">
-                {
-                  isEdit == 1 ?
+                  {isEdit == 1 ? (
                     <>
                       <li className="">
                         <a href="">Edit Your Content</a>
                       </li>
+                      {allowStateVideo ? (
+                        <li className="">
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                      ) : null}
                       <li className="">
                         <a href="">Edit Consent Option</a>
                       </li>
@@ -356,45 +372,46 @@ const LicensePreviewContent = () => {
                         <a href="">Approve Your Content &amp; Save</a>
                       </li>
                     </>
-                  :
-                  <>
-                    <li className="">
-                      <a href="">Create Your Content</a>
-                    </li>
-                    <li className="">
-                      <a href="">Edit Consent Option</a>
-                    </li>
-                    <li className="active active-main">
-                      <a href="">Preview Your Content &amp; Publish</a>
-                    </li>
-                  </>
-                }
+                  ) : (
+                    <>
+                      <li className="">
+                        <a href="">Create Your Content</a>
+                      </li>
+                      {allowStateVideo ? (
+                        <li className="">
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                      ) : null}
+                      <li className="">
+                        <a href="">Edit Consent Option</a>
+                      </li>
+                      <li className="active active-main">
+                        <a href="">Preview Your Content &amp; Publish</a>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
               <div className="col-12 col-md-2">
                 <div className="header-btn">
-                  {
-                    /*<Link
+                  {/*<Link
                       className="btn btn-primary btn-bordered move-draft"
                       to="/license-create"
                     >
                       Cancel
-                    </Link>*/
-                  }
+                    </Link>*/}
 
                   <Button
                     onClick={() => {
-                       setTrigger((trigger) => trigger + 1);
-                     }}
+                      setTrigger((trigger) => trigger + 1);
+                    }}
                     className={
                       publishStatus
                         ? "btn btn-primary btn-filled next"
                         : "btn btn-primary btn-filled next btn-disabled"
                     }
                   >
-                    {
-                      isEdit == 1 ? "Save" : "Publish"
-                    }
+                    {isEdit == 1 ? "Save" : "Publish"}
                   </Button>
                 </div>
               </div>
@@ -468,11 +485,17 @@ const LicensePreviewContent = () => {
                               value={titleChange}
                               onChange={(e) => setTitleChange(e.target.value)}
                             />
+                          ) : pdfData?.file_type &&
+                            pdfData.file_type == "ebook" ? (
+                            templateName != "" ? (
+                              templateName
+                            ) : (
+                              pdfData?.ebookData[0].title
+                            )
+                          ) : titleChange != "" ? (
+                            titleChange
                           ) : (
-                            pdfData?.file_type && pdfData.file_type == "ebook" ?
-                             templateName != '' ? templateName : pdfData?.ebookData[0].title
-                             :
-                            titleChange != "" ? titleChange : pdfData?.title
+                            pdfData?.title
                           )}
 
                           {editTitle ? (
@@ -502,11 +525,13 @@ const LicensePreviewContent = () => {
                               onClick={(e) => {
                                 setEditTitle(true);
                                 setTitleChange(
-                  								pdfData?.file_type && pdfData.file_type == "ebook" ?
-                  								templateName != '' ? templateName : pdfData?.title
-                  								  :
-                  								pdfData?.title
-                							  )
+                                  pdfData?.file_type &&
+                                    pdfData.file_type == "ebook"
+                                    ? templateName != ""
+                                      ? templateName
+                                      : pdfData?.title
+                                    : pdfData?.title
+                                );
                               }}
                             >
                               <img
@@ -536,7 +561,7 @@ const LicensePreviewContent = () => {
                           hidePopup="0"
                           trigger={trigger}
                           updatePublish={updatePublish}
-                          editStatus = {isEdit}
+                          editStatus={isEdit}
                         />
                       ) : (
                         <RenderPdf
@@ -546,7 +571,7 @@ const LicensePreviewContent = () => {
                           hidePopup="0"
                           trigger={trigger}
                           updatePublish={updatePublish}
-                          editStatus = {isEdit}
+                          editStatus={isEdit}
                         />
                       )
                     ) : null}

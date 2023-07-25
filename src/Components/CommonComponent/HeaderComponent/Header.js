@@ -220,7 +220,7 @@ const Header = () => {
                     window.location.pathname == "/octa-country" ||
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
-                    window.location.pathname =="/LEX-210-analytics" ||
+                    window.location.pathname == "/LEX-210-analytics" ||
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
                       : "nav-item"
@@ -300,7 +300,8 @@ const Header = () => {
                       window.location.pathname == "/license-create-user" ||
                       window.location.pathname == "/license-content-detail" ||
                       window.location.pathname == "/license-edit-listing" ||
-                      window.location.pathname == "/license-create"
+                      window.location.pathname == "/license-create" ||
+                      window.location.pathname == "/license-add-link"
                         ? "nav-item active active-main"
                         : "nav-item"
                     }
@@ -313,7 +314,8 @@ const Header = () => {
 
                 {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
                 localStorage.getItem("webinar_flag") == 1 &&
-                localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                localStorage.getItem("user_id") !=
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
                   <li className="nav-item">
                     <a
                       className="nav-link"
