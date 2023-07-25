@@ -836,7 +836,7 @@ const LicenseLinkToPdf = () => {
                           state: {
                             pdfId: initFunData?.id,
                             fileType: initFunData?.file_type,
-                            isEdit: 0,
+                            isEdit: isEdit,
                             allowVideo: allowStateVideo,
                           },
                         })

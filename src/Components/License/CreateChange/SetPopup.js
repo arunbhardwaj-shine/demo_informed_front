@@ -62,6 +62,13 @@ const SetPopup = (props) => {
   const [isEdit, setIsEdit] = useState(
     typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
   );
+  const [allowStateVideo, setAllowStateVideo] = useState(
+    typeof state?.allowVideo !== "undefined"
+      ? state?.allowVideo
+        ? true
+        : false
+      : false
+  );
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",
     language: "",
@@ -92,11 +99,10 @@ const SetPopup = (props) => {
   };
 
   useEffect(() => {
-    console.log("license pop up state-->",state)
-    getTemplateListData(0, "All", "",1);
+    console.log("license pop up state-->", state);
+    getTemplateListData(0, "All", "", 1);
 
-
-   // div_img.click();
+    // div_img.click();
   }, []);
 
   const dropDownSelected = (label, e) => {
@@ -115,129 +121,128 @@ const SetPopup = (props) => {
     // getTemplateListData(2, e.value, selectedIbu);
   };
 
-  const getTemplateListData = async (flag = 1, lng, consent,firstFlag = 0) => {
-      // console.log(flag);
-      // console.log(lng);
-      // console.log(consent);
-      loader("show");
+  const getTemplateListData = async (flag = 1, lng, consent, firstFlag = 0) => {
+    // console.log(flag);
+    // console.log(lng);
+    // console.log(consent);
+    loader("show");
 
-      try {
-        let first_consent = "";
-        setTemplateClicked(false);
-        let check_lng_index = 10;
-        if (lng == "All") {
-          check_lng_index = 10;
-        } else if (lng == "English") {
-          check_lng_index = 0;
-        } else if (lng == "Italian") {
-          check_lng_index = 1;
-        } else if (lng == "Germany") {
-          check_lng_index = 2;
-        } else if (lng == "Spanish") {
-          check_lng_index = 3;
-        } else if (lng == "Russian") {
-          check_lng_index = 4;
+    try {
+      let first_consent = "";
+      setTemplateClicked(false);
+      let check_lng_index = 10;
+      if (lng == "All") {
+        check_lng_index = 10;
+      } else if (lng == "English") {
+        check_lng_index = 0;
+      } else if (lng == "Italian") {
+        check_lng_index = 1;
+      } else if (lng == "Germany") {
+        check_lng_index = 2;
+      } else if (lng == "Spanish") {
+        check_lng_index = 3;
+      } else if (lng == "Russian") {
+        check_lng_index = 4;
+      }
+
+      if (typeof articleId === "undefined") {
+        if (state?.pdfId) {
+          setArticleId(state?.pdfId);
         }
+      }
 
-        if (typeof articleId === "undefined") {
-          if (state?.pdfId) {
-            setArticleId(state?.pdfId);
-          }
-        }
-
-        let res;
-        if (flag === 1 || flag === 0) {
-          if (isTemplateData) {
-            // Fetch the template data from the server
-            const body = {
-              userId: localStorage.getItem("user_id"),
-              language: check_lng_index,
-              consentType: consent,
-              pdfId:
-                typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
-            };
-            res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
-            if(firstFlag === 1){
-              first_consent = res?.data?.data?.linkType;
-            }
-            setActualTemplateData(res);
-            setPopupData(res?.data?.data);
-            setIsTemplateData(false);
-            setSelectOptions({
-              consentType: res?.data?.data?.linkType,
-              language: res?.data?.data?.selectedLanguage,
-              time: res?.data?.data?.time,
-            });
-
-            if (res?.data?.data) {
-              let lang = res?.data?.data?.language;
-              let lng_arr = [];
-              Object.entries(lang).map(([index, item]) => {
-                let label = item;
-                lng_arr.push({
-                  value: item,
-                  label: label.toUpperCase(),
-                });
-              });
-              setTemplateLanguage(lng_arr);
-            }
-            setTemplateId(res?.data?.data?.popupTempId);
-          } else {
-            res = actualTemplateData;
-          }
-
-          let data = [];
-          if (consent == "Online" || first_consent == "Online") {
-            setIsOnline(true);
-            data = [];
-          } else if (consent == "Offline" || first_consent == "Offline") {
-            setIsOnline(false);
-
-            data.push(res?.data?.data?.popupData[0]);
-            data.push(res?.data?.data?.popupData[3]);
-          } else {
-            setIsOnline(false);
-
-            data = res?.data?.data?.popupData;
-          }
-          setTemplateList(data);
-          loader("hide");
-
-          setTimeout(function () {
-            const div_img = document.querySelector("#template_dyn1");
-            if(div_img !== null && typeof div_img != "undefined"){
-              div_img.click()
-            }
-          }, 400);
-
-        } else if (flag === 2) {
+      let res;
+      if (flag === 1 || flag === 0) {
+        if (isTemplateData) {
+          // Fetch the template data from the server
           const body = {
             userId: localStorage.getItem("user_id"),
-
             language: check_lng_index,
-
             consentType: consent,
-
-            pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
+            pdfId:
+              typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
           };
+          res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
+          if (firstFlag === 1) {
+            first_consent = res?.data?.data?.linkType;
+          }
+          setActualTemplateData(res);
+          setPopupData(res?.data?.data);
+          setIsTemplateData(false);
+          setSelectOptions({
+            consentType: res?.data?.data?.linkType,
+            language: res?.data?.data?.selectedLanguage,
+            time: res?.data?.data?.time,
+          });
 
-          const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
-
-          setTemplateList(res?.data?.data?.popupData);
-          loader("hide");
+          if (res?.data?.data) {
+            let lang = res?.data?.data?.language;
+            let lng_arr = [];
+            Object.entries(lang).map(([index, item]) => {
+              let label = item;
+              lng_arr.push({
+                value: item,
+                label: label.toUpperCase(),
+              });
+            });
+            setTemplateLanguage(lng_arr);
+          }
           setTemplateId(res?.data?.data?.popupTempId);
-
-          setTimeout(function () {
-            const div_img = document.querySelector("#template_dyn1");
-            if(div_img !== null && typeof div_img != "undefined"){
-              div_img.click()
-            }
-          }, 400);
+        } else {
+          res = actualTemplateData;
         }
-      } catch (err) {
+
+        let data = [];
+        if (consent == "Online" || first_consent == "Online") {
+          setIsOnline(true);
+          data = [];
+        } else if (consent == "Offline" || first_consent == "Offline") {
+          setIsOnline(false);
+
+          data.push(res?.data?.data?.popupData[0]);
+          data.push(res?.data?.data?.popupData[3]);
+        } else {
+          setIsOnline(false);
+
+          data = res?.data?.data?.popupData;
+        }
+        setTemplateList(data);
         loader("hide");
+
+        setTimeout(function () {
+          const div_img = document.querySelector("#template_dyn1");
+          if (div_img !== null && typeof div_img != "undefined") {
+            div_img.click();
+          }
+        }, 400);
+      } else if (flag === 2) {
+        const body = {
+          userId: localStorage.getItem("user_id"),
+
+          language: check_lng_index,
+
+          consentType: consent,
+
+          pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
+        };
+
+        const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
+
+        setTemplateList(res?.data?.data?.popupData);
+        loader("hide");
+        setTemplateId(res?.data?.data?.popupTempId);
+
+        setTimeout(function () {
+          const div_img = document.querySelector("#template_dyn1");
+          if (div_img !== null && typeof div_img != "undefined") {
+            div_img.click();
+          }
+        }, 400);
       }
-    };
+    } catch (err) {
+      loader("hide");
+    }
+  };
 
   const saveTemplateEdit = (e) => {
     console.log(e);
@@ -294,7 +299,11 @@ const SetPopup = (props) => {
       loader("hide");
       if (state?.fileType != "video") {
         navigate("/license-preview-content", {
-          state: { pdfId: articleId, isEdit: isEdit },
+          state: {
+            pdfId: articleId,
+            isEdit: isEdit,
+            allowVideo: allowStateVideo,
+          },
         });
       } else {
         navigate("/license-content-detail", {
@@ -333,16 +342,34 @@ const SetPopup = (props) => {
                     <Row className="justify-content-end align-items-center">
                       <Col md="1">
                         <div className="header-btn-left">
-                          <Link className="btn btn-bordered btn btn-primary" to="/license-create">
-                            {
-                              /*
-                              <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
-                              </svg>
-                              */
-                            }
+                          <Button
+                            className="btn btn-bordered btn btn-primary"
+                            onClick={() => {
+                              if (
+                                localStorage.getItem("user_id") ==
+                                  "rjiGlqA9DXJVH7bDDTX0Lg==" &&
+                                allowStateVideo
+                              ) {
+                                navigate("/license-add-link", {
+                                  state: {
+                                    pdfId: state?.pdfId,
+                                    isEdit: isEdit,
+                                    allowVideo: allowStateVideo,
+                                  },
+                                });
+                              } else {
+                                navigate("/license-create");
+                              }
+                            }}
+                          >
                             Back
-                          </Link>
+                          </Button>
+                          {/* <Link
+                            className="btn btn-bordered btn btn-primary"
+                            to="/license-create"
+                          >
+                            Back
+                          </Link> */}
                           {/* <Link
                             className="btn btn-primary btn-bordered back"
                             to="/license-create-user"
@@ -353,12 +380,16 @@ const SetPopup = (props) => {
                       </Col>
                       <Col md="9">
                         <ul className="tabnav-link">
-                        {
-                          isEdit == 1 ?
+                          {isEdit == 1 ? (
                             <>
                               <li className="">
                                 <a href="">Edit Your Content</a>
                               </li>
+                              {allowStateVideo ? (
+                                <li className="">
+                                  <a href="">[Embedding Video]</a>
+                                </li>
+                              ) : null}
                               <li className="active active-main">
                                 <a href="">Edit Consent Option</a>
                               </li>
@@ -366,31 +397,36 @@ const SetPopup = (props) => {
                                 <a href="">Approve Your Content &amp; Save</a>
                               </li>
                             </>
-                          :
-                          <>
-                            <li className="">
-                              <a href="">Create Your Content</a>
-                            </li>
-                            <li className="active active-main">
-                              <a href="">Edit Consent Option</a>
-                            </li>
-                            <li className="">
-                              <a href="">Preview Your Content &amp; Publish</a>
-                            </li>
-                          </>
-                        }
+                          ) : (
+                            <>
+                              <li className="">
+                                <a href="">Create Your Content</a>
+                              </li>
+                              {allowStateVideo ? (
+                                <li className="">
+                                  <a href="">[Embedding Video]</a>
+                                </li>
+                              ) : null}
+                              <li className="active active-main">
+                                <a href="">Edit Consent Option</a>
+                              </li>
+                              <li className="">
+                                <a href="">
+                                  Preview Your Content &amp; Publish
+                                </a>
+                              </li>
+                            </>
+                          )}
                         </ul>
                       </Col>
                       <Col md="2">
                         <div className="header-btn">
-                          {
-                            /*<Link
+                          {/*<Link
                               className="btn btn-primary btn-bordered move-draft"
                               to="/license-content"
                             >
                               Cancel
-                            </Link>*/
-                          }
+                            </Link>*/}
                           <Button
                             className="btn btn-primary btn-filled next"
                             onClick={nextButtonClicked}
@@ -405,15 +441,26 @@ const SetPopup = (props) => {
               ) : (
                 <div className="top-header">
                   <div className="page-title d-flex">
-                    <Link className="btn btn-primary btn-bordered back-btn" to="/license-create">
-                      <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
+                    <Link
+                      className="btn btn-primary btn-bordered back-btn"
+                      to="/license-create"
+                    >
+                      <svg
+                        width="14"
+                        height="24"
+                        viewBox="0 0 14 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                          fill="#97B6CF"
+                        />
                       </svg>
                     </Link>
                     <h2>Set Pop-up</h2>
                   </div>
-                  {
-                    /*<div className="top-right-action">
+                  {/*<div className="top-right-action">
                       <div className="header-btn">
                         <Button
                           className="btn-bordered cancel"
@@ -422,9 +469,7 @@ const SetPopup = (props) => {
                           Close
                         </Button>
                       </div>
-                    </div>*/
-                  }
-
+                    </div>*/}
                 </div>
               )}
               <div className="template_builder-option library-cosent sticky-view">
@@ -452,7 +497,10 @@ const SetPopup = (props) => {
                                 }
                               : {
                                   label: "Select the Consent type",
-                                  value: (localStorage.getItem("group_id") === 2) ?  "Online" : "Sunshine" ,
+                                  value:
+                                    localStorage.getItem("group_id") === 2
+                                      ? "Online"
+                                      : "Sunshine",
                                 }
                           }
                           onChange={(e) => dropDownSelected("consentType", e)}
@@ -466,9 +514,7 @@ const SetPopup = (props) => {
                     <div className="template_language">
                       <span>
                         Language
-                        <LinkWithTooltip
-                          tooltip="Select Popup Language."
-                        >
+                        <LinkWithTooltip tooltip="Select Popup Language.">
                           <img
                             src={path_image + "info_circle_icon.svg"}
                             alt="refresh-btn"
@@ -588,9 +634,15 @@ const SetPopup = (props) => {
                           })}
                         </AliceCarousel>
                       </>
-                    ) : <div className="online_default_msg">
-                            <h4>The link can be opened and read by anybody in their browser, but can not be saved into the Docintel app for offline reading.</h4>
-                          </div>}
+                    ) : (
+                      <div className="online_default_msg">
+                        <h4>
+                          The link can be opened and read by anybody in their
+                          browser, but can not be saved into the Docintel app
+                          for offline reading.
+                        </h4>
+                      </div>
+                    )}
                     <input
                       type="hidden"
                       id="mail_template"
@@ -605,42 +657,42 @@ const SetPopup = (props) => {
                               <>
                                 {isOnline == false && (
                                   <>
-                                  <div className="template_name">
-                                    <h4>{templateName}</h4>
-                                  </div>
+                                    <div className="template_name">
+                                      <h4>{templateName}</h4>
+                                    </div>
 
-                                  {editableTemplate ? (
-                                    <div className="form-buttons form-buttons-template right-sided">
-                                      <Button
-                                        className="btn btn-primary btn-filled"
-                                        onClick={(e) => saveTemplateEdit(e)}
-                                      >
-                                        Save
-                                      </Button>
-                                      <Button
-                                        className="btn btn-primary btn-bordered"
-                                        onClick={(e) => closeTemplateEdit(e)}
-                                      >
-                                        Cancel
-                                      </Button>
-                                    </div>
-                                  ) : (
-                                    <div className="form-buttons form-buttons-template right-side">
-                                      {templateClickedd ? (
-                                        <>
-                                          <Button
-                                            className="btn btn-primary btn-filled"
-                                            onClick={(e) => {
-                                              updateTemplate(e);
-                                              e.preventDefault();
-                                            }}
-                                          >
-                                            Save
-                                          </Button>
-                                        </>
-                                      ) : null}
-                                    </div>
-                                  )}
+                                    {editableTemplate ? (
+                                      <div className="form-buttons form-buttons-template right-sided">
+                                        <Button
+                                          className="btn btn-primary btn-filled"
+                                          onClick={(e) => saveTemplateEdit(e)}
+                                        >
+                                          Save
+                                        </Button>
+                                        <Button
+                                          className="btn btn-primary btn-bordered"
+                                          onClick={(e) => closeTemplateEdit(e)}
+                                        >
+                                          Cancel
+                                        </Button>
+                                      </div>
+                                    ) : (
+                                      <div className="form-buttons form-buttons-template right-side">
+                                        {templateClickedd ? (
+                                          <>
+                                            <Button
+                                              className="btn btn-primary btn-filled"
+                                              onClick={(e) => {
+                                                updateTemplate(e);
+                                                e.preventDefault();
+                                              }}
+                                            >
+                                              Save
+                                            </Button>
+                                          </>
+                                        ) : null}
+                                      </div>
+                                    )}
                                   </>
                                 )}
                               </>
@@ -671,7 +723,6 @@ const SetPopup = (props) => {
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
                         }}
-
                         onEditorChange={(content) => {
                           setTemplateSaving(content);
                         }}
