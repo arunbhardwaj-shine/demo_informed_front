@@ -146,6 +146,7 @@ import PreviewArticle from "./Components/Library/PreviewArticle";
 import CommanPage from "./Components/Firbase/CommanPage";
 import QuestionTrigger from "./Components/Firbase/QuestionTrigger";
 import PollQuestion from "./Components/Firbase/PollQuestion";
+import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf";
 
 let platform = 0;
 let show = 0;
@@ -595,6 +596,10 @@ const Routing = () => {
         <Route
           path="/license-create-user"
           element={<LoginLayout component={LicenseCreateUser} />}
+        />
+        <Route
+          path="/license-add-link"
+          element={<LoginLayout component={LicenseLinkToPdf} />}
         />
         <Route
           path="/license-sublink"
