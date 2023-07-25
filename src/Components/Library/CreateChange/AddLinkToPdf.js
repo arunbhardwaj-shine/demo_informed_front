@@ -812,7 +812,7 @@ const AddLinkToPdf = () => {
                     )}
                   </div>
                 </div>
-                <div className="col-12 col-md-9">
+                <div className="col-12 col-md-10">
                   {/* <ul className="tabnav-link">
                     {
                       <>
@@ -863,7 +863,7 @@ const AddLinkToPdf = () => {
                     }
                   </ul>
                 </div>
-                <div className="col-12 col-md-2">
+                <div className="col-12 col-md-1">
                   <div className="header-btn">
                     <Button
                       className="btn btn-primary btn-filled next "
