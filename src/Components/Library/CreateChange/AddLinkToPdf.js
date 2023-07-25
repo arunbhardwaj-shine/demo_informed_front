@@ -207,7 +207,7 @@ const AddLinkToPdf = () => {
                   </div>
                 </div>`;
 
-  
+                // viewAnnotationLayer.parentNode.insertBefore(popup, anchorTag);
                 viewAnnotationLayer.appendChild(popup);
                 document
                   .getElementById("view-" + index + "-" + e.currentPage)
@@ -339,8 +339,13 @@ const AddLinkToPdf = () => {
     setVideoTitle(value);
   };
   const handleOnVideoChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedVideo(file);
+    if(event.target.files?.length){
+      const file = event.target.files[0];
+      setSelectedVideo(file);
+      return
+    }
+    setSelectedVideo(null);
+    
   };
   const uploadClinkLinkModelVideo = async (e) => {
     e.preventDefault();
@@ -992,8 +997,8 @@ const AddLinkToPdf = () => {
                               // onDocumentLoad={handleDocumentLoad}
                               onPageChange={handleDocumentLoad}
                               renderMode="canvas"
-                              fileUrl={file}
-                              // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1690198693.pdf"}
+                              // fileUrl={file}
+                              fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1690198693.pdf"}
                             />
                             <div
                               className="highlight_box"
