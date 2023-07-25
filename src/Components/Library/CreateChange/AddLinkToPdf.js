@@ -176,31 +176,31 @@ const AddLinkToPdf = () => {
                 const parentDiv = document.querySelector("#parent_div");
                 const parentRect = viewPageLayer.getBoundingClientRect();
 
-                const topPosition = anchorRect.top - parentRect.top; // Adding 10 to the top position
+                const topPosition = anchorRect.top - parentRect.top // Adding 10 to the top position
                 const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
 
                 const popup = document.createElement("div");
                 popup.className = "link-popup-inner";
                 popup.id = `link-popup-inner-${e.currentPage}-${index}`;
                 popup.style.position = "absolute";
-                popup.style.top = `-${50}px`;
-                // popup.style.left = `${leftPosition}px`;
+                popup.style.top = `-${45}px`;
+                popup.style.left = `-${50}px`;
                 popup.innerHTML = `<div
                   class="link-popup visible"
-                  
+
                 >
                   <div id="link-popup" class="link-popup-inner">
-                   
+
                     <div class="link-popup-buttons">
                       <button id=${"view-" + index + "-" + e.currentPage}>
                         View
                       </button>
-  
+
                       <button id=${"change-" + index + "-" + e.currentPage}
                       >
                         Change
                       </button>
-  
+
                       <button id=${"delete-" + index + "-" + e.currentPage}
                       >
                         Delete
@@ -221,6 +221,7 @@ const AddLinkToPdf = () => {
                   .addEventListener("click", () => {
                     setPageNo(e.currentPage);
                     setCommanShow(true);
+                    closePopup()
                   });
                 // selectedUrl,
                 document
@@ -231,6 +232,8 @@ const AddLinkToPdf = () => {
                     showConfirmationPopup();
                   });
               }
+
+
             }
           });
         }
@@ -284,6 +287,7 @@ const AddLinkToPdf = () => {
     }
   };
   const onChapterSelect = (e) => {
+    closePopup()
     setEbookSelectedId(ebookData[e?.index]?.id);
     setFile(ebookData[e?.index]?.file_name);
   };
@@ -381,15 +385,26 @@ const AddLinkToPdf = () => {
     setForceRender(!forceRender);
   };
 
+  const handleDragStart = (e) => {
+    e.preventDefault();
+  };
+
   useEffect(() => {
     parentRef?.current?.addEventListener("mousedown", handleMouseDown);
     parentRef?.current?.addEventListener("mousemove", handleMouseMove);
     parentRef?.current?.addEventListener("mouseup", handleMouseUp);
+    if (parentRef.current) {
+     parentRef?.current?.setAttribute('draggable', 'false'); // Disable dragging
+     parentRef?.current?.addEventListener('dragstart', handleDragStart); // Attach the event listener
+   }
 
     return () => {
       parentRef?.current?.removeEventListener("mousedown", handleMouseDown);
       parentRef?.current?.removeEventListener("mousemove", handleMouseMove);
       parentRef?.current?.removeEventListener("mouseup", handleMouseUp);
+      if (parentRef?.current) {
+        parentRef?.current.removeEventListener('dragstart', handleDragStart);
+      }
     };
   }, [dragging, startX, startY, endX, endY, file]);
 
@@ -563,9 +578,9 @@ const AddLinkToPdf = () => {
     let box = parentRef.current.querySelector(".highlight_box");
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
-    let actual_width = xcoordinates - 5 - box_width;
+    let actual_width = xcoordinates +15 - box_width;
     let x_cord = actual_width / 3.8;
-    let actual_height = mousefirstdown + 21 - ycoordinates;
+    let actual_height = mousefirstdown + 11 - ycoordinates;
     let y_cord = actual_height / 3.8;
     let page_no = linkonpage + 1;
     let box_width_x = box_width / 3.7;
@@ -626,6 +641,20 @@ const AddLinkToPdf = () => {
       loader("hide");
       // console.log("-err", err?);
       if (err?.response?.data?.message.includes("compression")) {
+        setDragging(false);
+        setHighlighted(false);
+        setPopupMessage({
+          message1: "Pdf file is not supported",
+          footerButton: "Close",
+        });
+        showConfirmationModel();
+      }else if(err?.response?.data?.message.includes("encrypted")){
+        setDragging(false);
+        setHighlighted(false);
+        setPopupMessage({
+          message1: "PDF document is encrypted and cannot be processed",
+          footerButton: "Close",
+        });
         showConfirmationModel();
       }
     }
@@ -657,6 +686,7 @@ const AddLinkToPdf = () => {
   };
 
   const showConfirmationPopup = () => {
+    closePopup()
     setPopupMessage({
       message1: "",
       // "You are about to remove this content from any reader and every device forever.",
@@ -766,11 +796,7 @@ const AddLinkToPdf = () => {
     });
   };
   const showConfirmationModel = () => {
-    setPopupMessage({
-      message1: "Pdf file is not supported",
-      // message2: "Are you sure you want to do this?",
-      footerButton: "Close",
-    });
+
     if (confirmationModel) {
       setConfirmationModel(false);
     } else {
@@ -805,7 +831,7 @@ const AddLinkToPdf = () => {
                     )}
                   </div>
                 </div>
-                <div className="col-12 col-md-9">
+                <div className="col-12 col-md-10">
                   {/* <ul className="tabnav-link">
                     {
                       <>
@@ -856,7 +882,7 @@ const AddLinkToPdf = () => {
                     }
                   </ul>
                 </div>
-                <div className="col-12 col-md-2">
+                <div className="col-12 col-md-1">
                   <div className="header-btn">
                     <Button
                       className="btn btn-primary btn-filled next "
