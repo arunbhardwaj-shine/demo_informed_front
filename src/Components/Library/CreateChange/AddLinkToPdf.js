@@ -639,6 +639,20 @@ const AddLinkToPdf = () => {
       loader("hide");
       // console.log("-err", err?);
       if (err?.response?.data?.message.includes("compression")) {
+        setDragging(false);
+        setHighlighted(false);
+        setPopupMessage({
+          message1: "Pdf file is not supported",
+          footerButton: "Close",
+        });
+        showConfirmationModel();
+      }else if(err?.response?.data?.message.includes("encrypted")){
+        setDragging(false);
+        setHighlighted(false);
+        setPopupMessage({
+          message1: "PDF document is encrypted and cannot be processed",
+          footerButton: "Close",
+        });
         showConfirmationModel();
       }
     }
@@ -780,11 +794,7 @@ const AddLinkToPdf = () => {
     });
   };
   const showConfirmationModel = () => {
-    setPopupMessage({
-      message1: "Pdf file is not supported",
-      // message2: "Are you sure you want to do this?",
-      footerButton: "Close",
-    });
+
     if (confirmationModel) {
       setConfirmationModel(false);
     } else {
