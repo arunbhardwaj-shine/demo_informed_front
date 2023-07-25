@@ -92,6 +92,7 @@ const SetPopup = (props) => {
   };
 
   useEffect(() => {
+    console.log("license pop up state-->",state)
     getTemplateListData(0, "All", "",1);
 
 

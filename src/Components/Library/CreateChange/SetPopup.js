@@ -101,7 +101,7 @@ const SetPopup = (props) => {
   };
 
   useEffect(() => {
-    console.log("set pop up state--->", state);
+    console.log("library pop up state--->", state);
     getTemplateListData(0, "All", "", 1);
 
     // div_img.click();

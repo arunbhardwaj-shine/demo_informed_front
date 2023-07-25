@@ -37,7 +37,7 @@ import ConfirmationModal from "../../../Model/ConfirmationModel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const AddLinkToPdf = () => {
+const LicenseLinkToPdf = () => {
   const { state } = useLocation();
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
@@ -130,9 +130,6 @@ const AddLinkToPdf = () => {
   };
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
-    try{
-
-    
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
 
@@ -178,9 +175,8 @@ const AddLinkToPdf = () => {
                 // console.log("-test",anchorRect)
                 const parentDiv = document.querySelector("#parent_div");
                 const parentRect = viewPageLayer.getBoundingClientRect();
-               
 
-                const topPosition = anchorRect.top - parentRect.top // Adding 10 to the top position
+                const topPosition = anchorRect.top - parentRect.top; // Adding 10 to the top position
                 const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
 
                 const popup = document.createElement("div");
@@ -188,7 +184,7 @@ const AddLinkToPdf = () => {
                 popup.id = `link-popup-inner-${e.currentPage}-${index}`;
                 popup.style.position = "absolute";
                 popup.style.top = `-${50}px`;
-                popup.style.left = `-${50}px`;
+                // popup.style.left = `${leftPosition}px`;
                 popup.innerHTML = `<div
                   class="link-popup visible"
                   
@@ -240,13 +236,10 @@ const AddLinkToPdf = () => {
         }
       }, 1000);
     }
-  }catch(err){
-    console.log("err",err)
-  }
   };
 
   useEffect(() => {
-    console.log("state--->", state);
+    console.log("state-->", state);
     initFun();
     videoFun();
   }, []);
@@ -794,43 +787,15 @@ const AddLinkToPdf = () => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                    {localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                      <Link
-                        className="btn btn-bordered btn btn-primary"
-                        to="/library-create"
-                      >
-                        Back
-                      </Link>
-                    ) : (
-                      <Link
-                        className="btn btn-bordered btn btn-primary"
-                        to="/library-create"
-                      >
-                        Back
-                      </Link>
-                    )}
+                    <Link
+                      className="btn btn-bordered btn btn-primary"
+                      to="/license-create"
+                    >
+                      Back
+                    </Link>
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
-                  {/* <ul className="tabnav-link">
-                    {
-                      <>
-                        <li className="">
-                          <a href="">Create Your Content</a>
-                        </li>
-                        {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <li className="active active-main">
-                            <a href="">Edit Consent Option</a>
-                          </li>
-                        ) : null}
-                        <li className="">
-                          <a href="">Preview Your Content &amp; Publish</a>
-                        </li>
-                      </>
-                    }
-                  </ul> */}
                   <ul className="tabnav-link">
                     {
                       <>
@@ -843,19 +808,18 @@ const AddLinkToPdf = () => {
                             <a href="">[Embedding Video]</a>
                           </li>
                         ) : null}
-                        {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <li
-                            className={
-                              localStorage.getItem("user_id") !=
-                              "rjiGlqA9DXJVH7bDDTX0Lg=="
-                                ? "active active-main"
-                                : ""
-                            }
-                          >
-                            <a href="">Edit Consent Option</a>
-                          </li>
-                        ) : null}
+
+                        <li
+                          className={
+                            localStorage.getItem("user_id") !=
+                            "rjiGlqA9DXJVH7bDDTX0Lg=="
+                              ? "active active-main"
+                              : ""
+                          }
+                        >
+                          <a href="">Edit Consent Option</a>
+                        </li>
+
                         <li className="">
                           <a href="">Preview Your Content &amp; Publish</a>
                         </li>
@@ -868,7 +832,7 @@ const AddLinkToPdf = () => {
                     <Button
                       className="btn btn-primary btn-filled next "
                       onClick={() =>
-                        navigate("/set-popup", {
+                        navigate("/license-set-popup", {
                           state: {
                             pdfId: initFunData?.id,
                             fileType: initFunData?.file_type,
@@ -1008,8 +972,8 @@ const AddLinkToPdf = () => {
                               // onDocumentLoad={handleDocumentLoad}
                               onPageChange={handleDocumentLoad}
                               renderMode="canvas"
-                              // fileUrl={file}
-                              fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/pdflink_1690265146.pdf"}
+                              fileUrl={file}
+                              // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1690198693.pdf"}
                             />
                             <div
                               className="highlight_box"
@@ -1183,4 +1147,4 @@ const AddLinkToPdf = () => {
   );
 };
 
-export default AddLinkToPdf;
+export default LicenseLinkToPdf;
