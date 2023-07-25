@@ -133,6 +133,7 @@ const AddLinkToPdf = () => {
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
 
+
     if (toolbar) {
       toolbar.remove();
     }
@@ -143,6 +144,7 @@ const AddLinkToPdf = () => {
 
     const divElement = document.querySelector(".modal-body-content");
     const viewPageLayers = divElement?.querySelectorAll(".viewer-inner-page");
+
 
     if (viewPageLayers) {
       setTimeout(() => {
@@ -160,17 +162,13 @@ const AddLinkToPdf = () => {
             if (element) {
               return;
             }
-            let baseStrig = "https://docintel.app/Clicklinks/video_player";
-            let baseStrigwithoutsecure =
-              "http://docintel.app/Clicklinks/video_player";
+            let baseStrig = 'https://docintel.app/Clicklinks/video_player';
+            let baseStrigwithoutsecure = 'http://docintel.app/Clicklinks/video_player';
 
             const anchorTag = viewAnnotationLayer.querySelector("a");
             if (anchorTag) {
-              let getVideoUrl = anchorTag?.href;
-              if (
-                getVideoUrl?.includes(baseStrig) ||
-                getVideoUrl?.includes(baseStrigwithoutsecure)
-              ) {
+              let getVideoUrl =  anchorTag?.href
+              if(getVideoUrl?.includes(baseStrig) || getVideoUrl?.includes(baseStrigwithoutsecure)){
                 const anchorRect = anchorTag.getBoundingClientRect();
                 // console.log("-test",anchorRect)
                 const parentDiv = document.querySelector("#parent_div");
@@ -223,12 +221,12 @@ const AddLinkToPdf = () => {
                     setCommanShow(true);
                     closePopup()
                   });
-                // selectedUrl,
+                  // selectedUrl,
                 document
                   .getElementById("delete-" + index + "-" + e.currentPage)
                   .addEventListener("click", () => {
                     setPageNo(e.currentPage);
-                    setSelectedUrl(anchorTag.href);
+                    setSelectedUrl(anchorTag.href)
                     showConfirmationPopup();
                   });
               }
@@ -242,7 +240,6 @@ const AddLinkToPdf = () => {
   };
 
   useEffect(() => {
-    console.log("state--->", state);
     initFun();
     videoFun();
   }, []);
@@ -344,12 +341,13 @@ const AddLinkToPdf = () => {
     setVideoTitle(value);
   };
   const handleOnVideoChange = (event) => {
-    if (event.target.files?.length) {
+    if(event.target.files?.length){
       const file = event.target.files[0];
       setSelectedVideo(file);
-      return;
+      return
     }
     setSelectedVideo(null);
+
   };
   const uploadClinkLinkModelVideo = async (e) => {
     e.preventDefault();
@@ -765,7 +763,7 @@ const AddLinkToPdf = () => {
         file_id: ebookSelectedId,
       };
       const res = await axios.post(`libraries/deletePdfLink`, body);
-      setSelectedUrl("");
+      setSelectedUrl("")
       if (initFunData?.file_type == "ebook") {
         let newEbookData = [...ebookData];
         const hasFound = ebookData.findIndex(
@@ -964,11 +962,7 @@ const AddLinkToPdf = () => {
                     </div>
                     {file ? (
                       <>
-                        <div
-                          id="parent_div"
-                          className="add_link_to_pdf"
-                          ref={parentRef}
-                        >
+                        <div id="parent_div" className="add_link_to_pdf" ref={parentRef}>
                           <div
                             className={
                               highlighted
@@ -1052,8 +1046,7 @@ const AddLinkToPdf = () => {
                                     type="button"
                                     className="close"
                                     id="closeLinkPopup"
-                                    onClick={() => {
-                                      closePopup();
+                                    onClick={() =>{ closePopup()
                                     }}
                                   >
                                     <span aria-hidden="true">×</span>
@@ -1153,11 +1146,9 @@ const AddLinkToPdf = () => {
                 onChange={(e) => onVideoTitleChange(e)}
                 value={videoTitle}
               />
-              {error?.videoTitle ? (
-                <div className="login-validation-upload-error">
-                  {error?.videoTitle}
-                </div>
-              ) : null}
+			  {error?.videoTitle ? (
+				  <div className="login-validation-upload-error">{error?.videoTitle}</div>
+				) : null}
               <div className="upload-file-box">
                 <div className="box">
                   <input
