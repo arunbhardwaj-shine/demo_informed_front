@@ -133,7 +133,6 @@ const LicenseLinkToPdf = () => {
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
 
-
     if (toolbar) {
       toolbar.remove();
     }
@@ -144,7 +143,6 @@ const LicenseLinkToPdf = () => {
 
     const divElement = document.querySelector(".modal-body-content");
     const viewPageLayers = divElement?.querySelectorAll(".viewer-inner-page");
-
 
     if (viewPageLayers) {
       setTimeout(() => {
@@ -162,19 +160,23 @@ const LicenseLinkToPdf = () => {
             if (element) {
               return;
             }
-            let baseStrig = 'https://docintel.app/Clicklinks/video_player';
-            let baseStrigwithoutsecure = 'http://docintel.app/Clicklinks/video_player';
+            let baseStrig = "https://docintel.app/Clicklinks/video_player";
+            let baseStrigwithoutsecure =
+              "http://docintel.app/Clicklinks/video_player";
 
             const anchorTag = viewAnnotationLayer.querySelector("a");
             if (anchorTag) {
-              let getVideoUrl =  anchorTag?.href
-              if(getVideoUrl?.includes(baseStrig) || getVideoUrl?.includes(baseStrigwithoutsecure)){
+              let getVideoUrl = anchorTag?.href;
+              if (
+                getVideoUrl?.includes(baseStrig) ||
+                getVideoUrl?.includes(baseStrigwithoutsecure)
+              ) {
                 const anchorRect = anchorTag.getBoundingClientRect();
-                // console.log("-test",anchorRect)
+
                 const parentDiv = document.querySelector("#parent_div");
                 const parentRect = viewPageLayer.getBoundingClientRect();
 
-                const topPosition = anchorRect.top - parentRect.top // Adding 10 to the top position
+                const topPosition = anchorRect.top - parentRect.top; // Adding 10 to the top position
                 const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
 
                 const popup = document.createElement("div");
@@ -219,19 +221,17 @@ const LicenseLinkToPdf = () => {
                   .addEventListener("click", () => {
                     setPageNo(e.currentPage);
                     setCommanShow(true);
-                    closePopup()
+                    closePopup();
                   });
-                  // selectedUrl,
+                // selectedUrl,
                 document
                   .getElementById("delete-" + index + "-" + e.currentPage)
                   .addEventListener("click", () => {
                     setPageNo(e.currentPage);
-                    setSelectedUrl(anchorTag.href)
+                    setSelectedUrl(anchorTag.href);
                     showConfirmationPopup();
                   });
               }
-
-
             }
           });
         }
@@ -284,7 +284,7 @@ const LicenseLinkToPdf = () => {
     }
   };
   const onChapterSelect = (e) => {
-    closePopup()
+    closePopup();
     setEbookSelectedId(ebookData[e?.index]?.id);
     setFile(ebookData[e?.index]?.file_name);
   };
@@ -341,13 +341,12 @@ const LicenseLinkToPdf = () => {
     setVideoTitle(value);
   };
   const handleOnVideoChange = (event) => {
-    if(event.target.files?.length){
+    if (event.target.files?.length) {
       const file = event.target.files[0];
       setSelectedVideo(file);
-      return
+      return;
     }
     setSelectedVideo(null);
-
   };
   const uploadClinkLinkModelVideo = async (e) => {
     e.preventDefault();
@@ -392,16 +391,16 @@ const LicenseLinkToPdf = () => {
     parentRef?.current?.addEventListener("mousemove", handleMouseMove);
     parentRef?.current?.addEventListener("mouseup", handleMouseUp);
     if (parentRef.current) {
-     parentRef?.current?.setAttribute('draggable', 'false'); // Disable dragging
-     parentRef?.current?.addEventListener('dragstart', handleDragStart); // Attach the event listener
-   }
+      parentRef?.current?.setAttribute("draggable", "false"); // Disable dragging
+      parentRef?.current?.addEventListener("dragstart", handleDragStart); // Attach the event listener
+    }
 
     return () => {
       parentRef?.current?.removeEventListener("mousedown", handleMouseDown);
       parentRef?.current?.removeEventListener("mousemove", handleMouseMove);
       parentRef?.current?.removeEventListener("mouseup", handleMouseUp);
       if (parentRef?.current) {
-        parentRef?.current.removeEventListener('dragstart', handleDragStart);
+        parentRef?.current.removeEventListener("dragstart", handleDragStart);
       }
     };
   }, [dragging, startX, startY, endX, endY, file]);
@@ -576,7 +575,7 @@ const LicenseLinkToPdf = () => {
     let box = parentRef.current.querySelector(".highlight_box");
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
-    let actual_width = xcoordinates +15 - box_width;
+    let actual_width = xcoordinates + 15 - box_width;
     let x_cord = actual_width / 3.8;
     let actual_height = mousefirstdown + 11 - ycoordinates;
     let y_cord = actual_height / 3.8;
@@ -646,7 +645,7 @@ const LicenseLinkToPdf = () => {
           footerButton: "Close",
         });
         showConfirmationModel();
-      }else if(err?.response?.data?.message.includes("encrypted")){
+      } else if (err?.response?.data?.message.includes("encrypted")) {
         setDragging(false);
         setHighlighted(false);
         setPopupMessage({
@@ -684,7 +683,7 @@ const LicenseLinkToPdf = () => {
   };
 
   const showConfirmationPopup = () => {
-    closePopup()
+    closePopup();
     setPopupMessage({
       message1: "",
       // "You are about to remove this content from any reader and every device forever.",
@@ -763,7 +762,7 @@ const LicenseLinkToPdf = () => {
         file_id: ebookSelectedId,
       };
       const res = await axios.post(`libraries/deletePdfLink`, body);
-      setSelectedUrl("")
+      setSelectedUrl("");
       if (initFunData?.file_type == "ebook") {
         let newEbookData = [...ebookData];
         const hasFound = ebookData.findIndex(
@@ -794,7 +793,6 @@ const LicenseLinkToPdf = () => {
     });
   };
   const showConfirmationModel = () => {
-
     if (confirmationModel) {
       setConfirmationModel(false);
     } else {
@@ -807,60 +805,60 @@ const LicenseLinkToPdf = () => {
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-          <div className="page-top-nav sticky">
-            <div className="row justify-content-end align-items-center">
-              <div className="col-12 col-md-1">
-                <div className="header-btn-left">
-                  <Link
-                    className="btn btn-bordered btn btn-primary"
-                    to="/license-create"
-                  >
-                    Back
-                  </Link>
+            <div className="page-top-nav sticky">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left">
+                    <Link
+                      className="btn btn-bordered btn btn-primary"
+                      to="/license-create"
+                    >
+                      Back
+                    </Link>
+                  </div>
                 </div>
-              </div>
-              <div className="col-12 col-md-9">
-                <ul className="tabnav-link">
-                  {
-                    <>
-                      <li className="">
-                        <a href="">Create Your Content</a>
-                      </li>
-                      <li className="active active-main">
+                <div className="col-12 col-md-9">
+                  <ul className="tabnav-link">
+                    {
+                      <>
+                        <li className="">
+                          <a href="">Create Your Content</a>
+                        </li>
+                        <li className="active active-main">
                           <a href="">[Embedding Video]</a>
-                      </li>
-                      <li className="">
-                        <a href="">Edit Consent Option</a>
-                      </li>
+                        </li>
+                        <li className="">
+                          <a href="">Edit Consent Option</a>
+                        </li>
 
-                      <li className="">
-                        <a href="">Preview Your Content &amp; Publish</a>
-                      </li>
-                    </>
-                  }
-                </ul>
-              </div>
-              <div className="col-12 col-md-2">
-                <div className="header-btn">
-                  <Button
-                    className="btn btn-primary btn-filled next "
-                    onClick={() =>
-                      navigate("/license-set-popup", {
-                        state: {
-                          pdfId: initFunData?.id,
-                          fileType: initFunData?.file_type,
-                          isEdit: isEdit,
-                          allowVideo: allowStateVideo,
-                        },
-                      })
+                        <li className="">
+                          <a href="">Preview Your Content &amp; Publish</a>
+                        </li>
+                      </>
                     }
-                  >
-                    Next
-                  </Button>
+                  </ul>
+                </div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <Button
+                      className="btn btn-primary btn-filled next "
+                      onClick={() =>
+                        navigate("/license-set-popup", {
+                          state: {
+                            pdfId: initFunData?.id,
+                            fileType: initFunData?.file_type,
+                            isEdit: isEdit,
+                            allowVideo: allowStateVideo,
+                          },
+                        })
+                      }
+                    >
+                      Next
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
             <div className="create-change-content spc-content">
               <div className="form_action">
                 <div className="row">
@@ -922,7 +920,11 @@ const LicenseLinkToPdf = () => {
                     </div>
                     {file ? (
                       <>
-                        <div id="parent_div" className="add_link_to_pdf" ref={parentRef}>
+                        <div
+                          id="parent_div"
+                          className="add_link_to_pdf"
+                          ref={parentRef}
+                        >
                           <div
                             className={
                               highlighted
@@ -1006,7 +1008,8 @@ const LicenseLinkToPdf = () => {
                                     type="button"
                                     className="close"
                                     id="closeLinkPopup"
-                                    onClick={() =>{ closePopup()
+                                    onClick={() => {
+                                      closePopup();
                                     }}
                                   >
                                     <span aria-hidden="true">×</span>
@@ -1106,9 +1109,11 @@ const LicenseLinkToPdf = () => {
                 onChange={(e) => onVideoTitleChange(e)}
                 value={videoTitle}
               />
-			  {error?.videoTitle ? (
-				  <div className="login-validation-upload-error">{error?.videoTitle}</div>
-				) : null}
+              {error?.videoTitle ? (
+                <div className="login-validation-upload-error">
+                  {error?.videoTitle}
+                </div>
+              ) : null}
               <div className="upload-file-box">
                 <div className="box">
                   <input

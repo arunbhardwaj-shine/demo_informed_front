@@ -210,7 +210,6 @@ const LicenseCreateUser = () => {
   };
 
   const nextButtonClicked = async (e) => {
-    console.log("file type-->", userInputs);
     if (userInputs.docintelFormat == "ebook") {
       userInputs.chapter = chapter;
     }
@@ -1349,7 +1348,9 @@ const LicenseCreateUser = () => {
                           <>
                             <div className="form-group val chapter-title">
                               <div className="ebook-format">
-                                <label htmlFor="">Chapter {i + 1} title</label>
+                                <label htmlFor="">
+                                  Chapter {i + 1} title<span>*</span>
+                                </label>
                                 <input
                                   type="text"
                                   className="form-control"

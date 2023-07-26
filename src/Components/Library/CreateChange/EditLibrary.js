@@ -245,6 +245,7 @@ const EditLibrary = () => {
       const hadData = await getData(
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
+
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
       if (
         hadData?.data?.data?.pdfData?.tags?.length &&
@@ -284,7 +285,6 @@ const EditLibrary = () => {
     }
   };
   useEffect(() => {
-    console.log("state--->", state);
     libraryDetail();
     initalFun();
   }, []);
@@ -591,10 +591,7 @@ const EditLibrary = () => {
         if (userInputs?.docintelFormat == "video") {
           formData.append("allowVideo", 0);
         } else {
-          formData.append(
-            "allowVideo",
-            JSON.stringify(userInputs?.allow_video)
-          );
+          formData.append("allowVideo", JSON.stringify(userInputs?.allowVideo));
         }
 
         formData.append("comDatetime", userInputs?.comDatetime);
@@ -1981,8 +1978,9 @@ const EditLibrary = () => {
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
                               <label htmlFor="file-6">
-                                <span>Choose Your File</span>
+                                <span>Change Your File</span>
                               </label>
+
                               {userInputs?.uploadFile?.[0]?.name ? (
                                 <p className="uploaded-file">
                                   {userInputs?.uploadFile?.[0].name}
@@ -2007,12 +2005,16 @@ const EditLibrary = () => {
                                 type="file"
                                 name="file-6[]"
                                 id="file-6"
-                                className="inputfile inputfile-6"
+                                className={
+                                  error?.uploadFile
+                                    ? "inputfile inputfile-6 error"
+                                    : "inputfile inputfile-6"
+                                }
                                 accept="video/mp4"
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
                               <label htmlFor="file-6">
-                                <span>Choose Your File</span>
+                                <span>Change Your File</span>
                               </label>
                               {userInputs?.uploadFile?.[0]?.name ? (
                                 <p className="uploaded-file">
@@ -2030,6 +2032,7 @@ const EditLibrary = () => {
                           ) : null}
                         </div>
                       ) : // ePrint == "eBook" ? (
+
                       userInputs.docintelFormat == "ebook" ? (
                         chapter.map((val, i) => {
                           return (
@@ -2041,8 +2044,9 @@ const EditLibrary = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg=="
                                       ? "Chapter "
                                       : "File "}{" "}
-                                    {i + 1} title
+                                    {i + 1} title<span>*</span>
                                   </label>
+
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2353,11 +2357,14 @@ const EditLibrary = () => {
                               <input
                                 type="checkbox"
                                 defaultChecked={
-                                  userInputs?.allow_video ? true : false
+                                  userInputs?.allowVideo ? true : false
                                 }
                                 checked={userInputs?.allow_video ? true : false}
                                 onChange={(e) => {
-                                  handleChange(e.target?.checked, "allow_video");
+                                  handleChange(
+                                    e.target?.checked,
+                                    "allow_video"
+                                  );
                                 }}
                               />
                               <span>

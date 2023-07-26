@@ -75,6 +75,7 @@ const NewReaders = () => {
   const [originalFilterData, setOriginalFilterData] = useState({
     role: "",
   });
+  const [apiFilterData, setApiFilterData] = useState({});
 
   const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
@@ -171,6 +172,7 @@ const NewReaders = () => {
       const res = await getData(ENDPOINT.READERSFILTER);
       setCountry(res?.data?.data?.country);
       setFilterData(res?.data?.data);
+      setApiFilterData(res?.data?.data);
       setOriginalFilterData({
         ...originalFilterData,
         role: res?.data?.data?.role,
@@ -202,11 +204,15 @@ const NewReaders = () => {
         page: page,
         limit: limit,
       };
-      let payload ={}
-      if( localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-        payload = {...data,...obj,"status":["Registered"],
-        "contact Type":["HCP"]}
-      }else{
+      let payload = {};
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        payload = {
+          ...data,
+          ...obj,
+          status: ["Registered"],
+          "contact Type": ["HCP"],
+        };
+      } else {
         payload = { ...data, ...obj };
       }
 
@@ -385,7 +391,7 @@ const NewReaders = () => {
           topic: newData,
         });
       } else {
-        setFilterData(originalFilterData);
+        setFilterData(apiFilterData);
       }
     }
 
@@ -1185,7 +1191,9 @@ const NewReaders = () => {
                   {(Object.keys(filterObject)?.length == 2 &&
                     filterObject["status"] == "Registered" &&
                     filterObject["contact Type"] == "HCP") ||
-                  (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && Object.keys(filterObject)?.length <=0
+                  (localStorage.getItem("user_id") ==
+                    "56Ek4feL/1A8mZgIKQWEqg==" &&
+                  Object.keys(filterObject)?.length <= 0
                     ? true
                     : false) ? (
                     <div className="refresh-button">
@@ -1193,9 +1201,8 @@ const NewReaders = () => {
                         className={refreshFlag ? "refresh-rotate" : "refresh"}
                         onClick={() => {
                           Refresh({
-                            "status":"Registered",
-                            "contact Type":"HCP"
-
+                            status: "Registered",
+                            "contact Type": "HCP",
                           });
                         }}
                       >
@@ -1762,12 +1769,12 @@ const NewReaders = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        IRT mandatory training
-                                      </h6>
-                                      <h6>{data?.irt ? data?.irt : "N/A"}</h6>
-                                    </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          IRT mandatory training
+                                        </h6>
+                                        <h6>{data?.irt ? data?.irt : "N/A"}</h6>
+                                      </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           IRT role
@@ -1781,8 +1788,7 @@ const NewReaders = () => {
                                         </h6>
                                       </li>
 
-                                      {
-                                        /*<li>
+                                      {/*<li>
                                           <h6 className="tab-content-title">
                                             Blind Type
                                           </h6>
@@ -1798,9 +1804,7 @@ const NewReaders = () => {
                                                 data?.binded?.slice(1)
                                               : "N/A"}
                                           </h6>
-                                        </li>*/
-                                      }
-
+                                        </li>*/}
 
                                       <li>
                                         <h6 className="tab-content-title">
