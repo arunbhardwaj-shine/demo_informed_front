@@ -7565,3 +7565,10 @@ margin: 0 auto;
   padding: 0px;
   max-height: 110px;
 }
+.viewer-doc-loading {
+    align-items: center;
+    display: flex;
+    height: 63vh;
+    justify-content: center;
+    width: 100%;
+}
