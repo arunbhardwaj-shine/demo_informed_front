@@ -130,6 +130,9 @@ const AddLinkToPdf = () => {
   };
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
+    try{
+
+    
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
 
@@ -170,9 +173,10 @@ const AddLinkToPdf = () => {
               let getVideoUrl =  anchorTag?.href
               if(getVideoUrl?.includes(baseStrig) || getVideoUrl?.includes(baseStrigwithoutsecure)){
                 const anchorRect = anchorTag.getBoundingClientRect();
-                // console.log("-test",anchorRect)
+               
                 const parentDiv = document.querySelector("#parent_div");
                 const parentRect = viewPageLayer.getBoundingClientRect();
+               
 
                 const topPosition = anchorRect.top - parentRect.top // Adding 10 to the top position
                 const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
@@ -237,6 +241,9 @@ const AddLinkToPdf = () => {
         }
       }, 1000);
     }
+  }catch(err){
+    console.log("err",err)
+  }
   };
 
   useEffect(() => {
@@ -257,7 +264,7 @@ const AddLinkToPdf = () => {
         pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
       };
       const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
-      setInitFunData(res?.data?.data);
+        setInitFunData(res?.data?.data);
       if (res?.data?.data?.file_type == "ebook") {
         if (res?.data?.data?.ebookData?.length) {
           const newData = res?.data?.data?.ebookData?.map((item, index) => {
@@ -1021,8 +1028,8 @@ const AddLinkToPdf = () => {
                               // onDocumentLoad={handleDocumentLoad}
                               onPageChange={handleDocumentLoad}
                               renderMode="canvas"
-                              fileUrl={file}
-                              // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1690198693.pdf"}
+                              // fileUrl={file}
+                              fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/pdflink_1690265146.pdf"}
                             />
                             <div
                               className="highlight_box"

@@ -7471,8 +7471,12 @@ section.search-hcp.smart-list-view .header-btn-left {
   filter: drop-shadow(0px 0px 10px rgba(0, 102, 190, 0.20));
   border-radius: 50px;
   display: flex;
-  padding: 5px 8px;
+  padding: 5px 7px;
   position: relative;
+}
+
+.viewer-annotation-link a {
+  background: #efef4c40;
 }
 .link-popup .link-popup-inner:after {
   content: "";
@@ -7495,7 +7499,7 @@ margin: 0 auto;
 .link-popup .link-popup-buttons {
   display: flex;
   gap: 0 10px;
-  padding: 0 8px;
+  padding: 0 7px;
 }
 .link-popup .link-popup-inner .video-title {
   font-size: 12px;

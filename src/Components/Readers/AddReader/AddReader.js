@@ -130,7 +130,7 @@ const ReaderAdd = () => {
     firstName: "",
     hospital: "",
     interestArea: "",
-    irt:"",
+    irt: "",
     lastName: "",
     middleName: "",
     notes: "",
@@ -138,7 +138,7 @@ const ReaderAdd = () => {
     product: "",
     province: "",
     repContact: "",
-    role:"",
+    role: "",
     siteName: "",
     siteNumber: "",
     speciality: "",
@@ -252,8 +252,12 @@ const ReaderAdd = () => {
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
     setPharmaData(hasData?.data?.data?.user?.[0]?.pharmaData);
-    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-      setAddReaderInputs({...userInputs,role:hasData?.data?.data?.userIrtRoles?.[0]?.value,irt:1})
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      setAddReaderInputs({
+        ...userInputs,
+        role: hasData?.data?.data?.userIrtRoles?.[0]?.value,
+        irt: 1,
+      });
     }
 
     setUserDetail({
@@ -524,10 +528,21 @@ const ReaderAdd = () => {
       });
     } else if (isSelectedName == "irt") {
       let country = "";
+      let newSiteName = [],
+        newSiteNumber = [];
+
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName]: e,
         ["country"]: country,
+        ["siteName"]: "",
+        ["siteNumber"]: "",
+      });
+      setUserDetail({
+        ...userDetail,
+        flag: 1,
+        siteName: newSiteName,
+        siteNumber: newSiteNumber,
       });
     } else {
       setAddReaderInputs({
@@ -668,8 +683,8 @@ const ReaderAdd = () => {
           <Select
             options={userDetail?.irt}
             defaultValue={{
-              label:"Yes",
-              value:"Yes"
+              label: "Yes",
+              value: "Yes",
             }}
             placeholder={
               localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -700,7 +715,6 @@ const ReaderAdd = () => {
               name="role"
               // defaultValue={userDetail?.userIrtRoles[0]}
               className="dropdown-basic-button split-button-dropup"
-
               value={
                 userDetail?.userIrtRoles.findIndex(
                   (el) => el.value == userInputs?.role
@@ -751,7 +765,11 @@ const ReaderAdd = () => {
           </Form.Label>
           <Select
             options={userDetail?.sub_role}
-            placeholder={localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "Select Study Role" : "Select Role"}
+            placeholder={
+              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                ? "Select Study Role"
+                : "Select Role"
+            }
             name="sub_role"
             className="dropdown-basic-button split-button-dropup"
             isClearable
@@ -840,6 +858,7 @@ const ReaderAdd = () => {
             ""
           )}
         </Form.Group>
+
         <Form.Group className="form-group">
           <Form.Label htmlFor="">Site number </Form.Label>
           <Select
