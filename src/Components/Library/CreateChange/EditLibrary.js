@@ -432,7 +432,6 @@ const EditLibrary = () => {
             : e
           : e?.target?.value,
         allow_video: 0,
-        allowVideo: false,
       });
     } else {
       setCreateLibraryInputs({
@@ -637,12 +636,12 @@ const EditLibrary = () => {
                 },
               });
             } else {
-              if (userInputs?.allowVideo) {
+              if (userInputs?.allow_video) {
                 navigate("/library-add-link", {
                   state: {
                     pdfId: state?.pdfid,
                     isEdit: 1,
-                    allowVideo: userInputs?.allowVideo ? true : false,
+                    allowVideo: userInputs?.allow_video ? true : false,
                   },
                 });
               } else {
@@ -1384,7 +1383,7 @@ const EditLibrary = () => {
                       <li className="active active-main">
                         <a href="">Edit Your Content</a>
                       </li>
-                      {userInputs?.allowVideo ? (
+                      {userInputs?.allow_video ? (
                         <li className="">
                           <a href="">[Embedding Video]</a>
                         </li>
@@ -2356,9 +2355,9 @@ const EditLibrary = () => {
                                 defaultChecked={
                                   userInputs?.allow_video ? true : false
                                 }
-                                checked={userInputs?.allowVideo ? true : false}
+                                checked={userInputs?.allow_video ? true : false}
                                 onChange={(e) => {
-                                  handleChange(e.target?.checked, "allowVideo");
+                                  handleChange(e.target?.checked, "allow_video");
                                 }}
                               />
                               <span>
