@@ -510,10 +510,21 @@ const ReaderEdit = () => {
       });
     } else if (isSelectedName == "irt") {
       let country = "";
+      let newSiteName = [];
+      let newSiteNumber = [];
+
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName]: e,
         ["country"]: country,
+        ["siteName"]: "",
+        ["siteNumber"]: "",
+      });
+      setUserDetail({
+        ...userDetail,
+        flag: 1,
+        siteName: newSiteName,
+        siteNumber: newSiteNumber,
       });
     } else {
       setAddReaderInputs({
@@ -705,8 +716,7 @@ const ReaderEdit = () => {
             onChange={(e) => handleChange(e?.value, "sub_role")}
           />
         </Form.Group>
-        {
-          /*<Form.Group className="form-group">
+        {/*<Form.Group className="form-group">
             <Form.Label htmlFor="">
               Blind Type<span>*</span>{" "}
             </Form.Label>
@@ -734,8 +744,7 @@ const ReaderEdit = () => {
             ) : (
               ""
             )}
-          </Form.Group>*/
-        }
+          </Form.Group>*/}
 
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
@@ -1428,7 +1437,6 @@ const ReaderEdit = () => {
 
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                       <>
-
                         {localStorage.getItem("user_id") !=
                         "iSnEsKu5gB/DRlycxB6G4g==" ? (
                           <Form.Group className="form-group">
