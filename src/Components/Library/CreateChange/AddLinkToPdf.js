@@ -173,7 +173,7 @@ const AddLinkToPdf = () => {
               let getVideoUrl =  anchorTag?.href
               if(getVideoUrl?.includes(baseStrig) || getVideoUrl?.includes(baseStrigwithoutsecure)){
                 const anchorRect = anchorTag.getBoundingClientRect();
-                // console.log("-test",anchorRect)
+               
                 const parentDiv = document.querySelector("#parent_div");
                 const parentRect = viewPageLayer.getBoundingClientRect();
                

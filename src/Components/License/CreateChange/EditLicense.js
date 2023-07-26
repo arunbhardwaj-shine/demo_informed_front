@@ -397,10 +397,11 @@ const EditLicense = () => {
         if (userInputs?.docintelFormat == "video") {
           formData.append("allowVideo", 0);
         } else {
-          formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
+          formData.append(
+            "allowVideo",
+            JSON.stringify(userInputs?.allow_video)
+          );
         }
-
-
 
         formData.append("trial", userInputs?.trial);
         formData.append("blindType", userInputs?.blindType);
@@ -1201,7 +1202,8 @@ const EditLicense = () => {
                         <a href="">Edit Your Content</a>
                       </li>
                       {localStorage.getItem("user_id") ==
-                        "rjiGlqA9DXJVH7bDDTX0Lg==" && userInputs?.allow_video ? (
+                        "rjiGlqA9DXJVH7bDDTX0Lg==" &&
+                      userInputs?.allow_video ? (
                         <li className="">
                           <a href="">[Embedding Video]</a>
                         </li>
@@ -1465,7 +1467,7 @@ const EditLicense = () => {
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
                               <label htmlFor="file-6">
-                                <span>Choose Your File</span>
+                                <span>Change Your File</span>
                               </label>
                               {userInputs?.uploadFile?.[0]?.name ? (
                                 <p>{userInputs?.uploadFile?.[0].name}</p>
@@ -1494,7 +1496,7 @@ const EditLicense = () => {
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
                               <label htmlFor="file-6">
-                                <span>Choose Your File</span>
+                                <span>Change Your File</span>
                               </label>
                               {userInputs?.uploadFile?.[0]?.name ? (
                                 <p>{userInputs?.uploadFile?.[0]?.name}</p>
