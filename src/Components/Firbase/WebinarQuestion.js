@@ -2,7 +2,7 @@ import React, { useEffect, useState,useMemo  } from "react";
 import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import Highcharts from "highcharts";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { collection, query, where, onSnapshot,orderBy,limit } from "firebase/firestore";
 import HighchartsReact from "highcharts-react-official";
 import { Col, Container, Row } from "react-bootstrap";
 import {db} from "../../config/firebaseConfig"
@@ -20,7 +20,7 @@ const WebinarQuestion = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);   
   const [countValue, setCountvalue] = useState(0);
-  const q = query(collection(db, "chat"),where("event_id","==",eventId?.id))
+  const q = query(collection(db, "chat"),where("event_id","==",eventId?.id),orderBy("date","desc"),limit(1))
 
   const EventDataFun = async() =>{
     try{

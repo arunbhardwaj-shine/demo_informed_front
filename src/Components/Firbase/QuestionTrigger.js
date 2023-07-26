@@ -9,9 +9,9 @@ import {
   import { postData } from "../../axios/apiHelper";
   import { ENDPOINT } from "../../axios/apiConfig";
   import {db} from "../../config/firebaseConfig"
-  import { collection, query, where, onSnapshot } from "firebase/firestore";
- import moment from "moment"
- import { loader } from "../../loader";
+  import { collection, query, where, onSnapshot,orderBy,limit } from "firebase/firestore";
+  import moment from "moment"
+  import { loader } from "../../loader";
 
 const QuestionTrigger = () =>{
     const location = useLocation();
@@ -20,12 +20,12 @@ const QuestionTrigger = () =>{
         id:0,
         companyId:0
     })
-    const[userData,setUserData] = useState({
+    // const[userData,setUserData] = useState({
         
-    })
+    // })
     const [count,setCount] = useState(0)
 
-    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id))
+    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id),orderBy("date","desc"),limit(1))
     const [data,setData] = useState({
         question:[],
         answer:[],
@@ -53,7 +53,7 @@ const QuestionTrigger = () =>{
         querySnapshot.forEach((doc) => {
             if(doc.data()){
               if(count != doc.data()?.questionTrigger){
-                setUserData(doc.data())
+                // setUserData(doc.data())
                 setCount(doc.data()?.questionTrigger)
               }
             }
@@ -98,7 +98,7 @@ const QuestionTrigger = () =>{
         }
            
         
-    },[count ])
+    },[count])
 
     return (
         <Container>

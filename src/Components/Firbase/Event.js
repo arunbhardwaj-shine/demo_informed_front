@@ -236,6 +236,7 @@ const Event = () =>{
  show={show}
  onClose={setShow}
  data={apiData}
+ eventId={eventId}
 />
 
 <DisplayAnswer
