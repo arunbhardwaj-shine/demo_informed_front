@@ -264,7 +264,7 @@ const AddLinkToPdf = () => {
         pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
       };
       const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
-      setInitFunData(res?.data?.data);
+        setInitFunData(res?.data?.data);
       if (res?.data?.data?.file_type == "ebook") {
         if (res?.data?.data?.ebookData?.length) {
           const newData = res?.data?.data?.ebookData?.map((item, index) => {

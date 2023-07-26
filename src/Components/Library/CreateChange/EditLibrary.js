@@ -2043,7 +2043,7 @@ const EditLibrary = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg=="
                                       ? "Chapter "
                                       : "File "}{" "}
-                                    {i + 1} title
+                                    {i + 1} title<span>*</span>
                                   </label>
                                   <input
                                     type="text"
