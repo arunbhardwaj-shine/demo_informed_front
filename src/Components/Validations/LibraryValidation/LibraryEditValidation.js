@@ -1,5 +1,4 @@
 export const LibraryEditValidation = (data) => {
-  console.log("validation data", data);
   let error = {};
 
   if (!data?.limit?.toString()) {
@@ -58,6 +57,9 @@ export const LibraryEditValidation = (data) => {
   } else if (data?.docintelFormat) {
     if (data?.docintelFormat == "pdf" && !data?.uploadFile) {
       error.uploadFile = "Please upload pdf file!";
+    }
+    if (data?.docintelFormat == "video" && !data?.uploadFile) {
+      error.uploadVideo = "Please upload video file!";
     }
   }
   // if (!data?.docintelFormat) {
