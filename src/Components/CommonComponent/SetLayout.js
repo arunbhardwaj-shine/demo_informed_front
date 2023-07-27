@@ -41,9 +41,9 @@ const SetLayout = () => {
     }
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       newdata.push({
-        image: `${path_image}license-icon.svg`,
-        title: "Q&A/SURVEY",
-        subtitle: "Manage your polls and survey here",
+        image: `${path_image}q-polling.svg`,
+        title: "Q & Poll  ",
+        subtitle: "Engage your audience and make them part of the presentation",
       });
     }
     if (

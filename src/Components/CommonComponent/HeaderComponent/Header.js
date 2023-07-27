@@ -350,7 +350,7 @@ const Header = () => {
                         localStorage.getItem("user_id")
                       }
                     >
-                      Q&A/SURVEY
+                      Q & POLL
                     </a>
                   </li>
                 ) : (
@@ -360,31 +360,31 @@ const Header = () => {
                 {localStorage.getItem("user_id") ==
                 "iSnEsKu5gB/DRlycxB6G4g==" ? (
                   <li className="nav-item user-login">
-                      <Dropdown>
-                        <Dropdown.Toggle id="dropdown-basic">
-                          <span>CONGRESS</span>
-                        </Dropdown.Toggle>
+                    <Dropdown>
+                      <Dropdown.Toggle id="dropdown-basic">
+                        <span>CONGRESS</span>
+                      </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                          {congressOptions.map((item) => {
-                            return (
-                              <Dropdown.Item
-                                onClick={(e) =>
-                                  window.open(
-                                    "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
-                                      item?.value,
-                                    "_blank",
-                                    "noreferrer"
-                                  )
-                                }
-                                className="dropdown-item"
-                              >
-                                {item.label}
-                              </Dropdown.Item>
-                            );
-                          })}
-                        </Dropdown.Menu>
-                      </Dropdown>
+                      <Dropdown.Menu>
+                        {congressOptions.map((item) => {
+                          return (
+                            <Dropdown.Item
+                              onClick={(e) =>
+                                window.open(
+                                  "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
+                                    item?.value,
+                                  "_blank",
+                                  "noreferrer"
+                                )
+                              }
+                              className="dropdown-item"
+                            >
+                              {item.label}
+                            </Dropdown.Item>
+                          );
+                        })}
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </li>
                 ) : (
                   ""
