@@ -2,7 +2,7 @@ import React, { useEffect, useState,useMemo  } from "react";
 import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import Highcharts from "highcharts";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { collection, query, where, onSnapshot,orderBy,limit } from "firebase/firestore";
 import HighchartsReact from "highcharts-react-official";
 import { Col, Container, Row, Table } from "react-bootstrap";
 import {db} from "../../config/firebaseConfig"
@@ -17,7 +17,7 @@ const PollQuestion = ()=>{
       id:0,
       companyId:0
     })
-    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id))
+    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id),orderBy("date","desc"),limit(1))
     const [data,setData] = useState([])
     const [showAccordian,setAccordian] = useState(0)
     const [count,setCount] = useState(0)
@@ -44,8 +44,10 @@ const PollQuestion = ()=>{
         try {
           loader("show")
           const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
-            companyId: eventId?.companyId,
-            eventId: eventId?.id,
+            companyId: 18207,
+            eventId: 136,
+            // companyId: eventId?.companyId,
+            // eventId: eventId?.id,
           });
           
           let newData = [];
@@ -98,6 +100,8 @@ const PollQuestion = ()=>{
                   },
                 ],
               },
+              eventId:value?.eventId,
+              questionId:value?.questionId,
               pieChartData:{
                 chart: {
                     plotBackgroundColor: null,
@@ -145,6 +149,22 @@ const PollQuestion = ()=>{
           console.log("-err", err);
         }
       };
+
+      const handleSubmit = async(data,type) =>{
+        try{
+
+           loader("show")
+          await postData(ENDPOINT.EVENT_SUBMIT,{
+            eventId:eventId?.id,
+            questionId:data?.questionId,
+            type:type
+          })
+          loader("hide")
+        }catch(err){
+          loader("hide")
+          console.log("-err",err)
+        }
+      }
 
       const accordianFun = (data) =>{
 
@@ -195,8 +215,8 @@ const PollQuestion = ()=>{
                                     <td>{item?.question}</td>
                                     <td>{item?.speakerName}</td>
                                     <td>{item?.answer}</td>
-                                    <td><button type="button" className="btn btn-submit btn-bordered">Submit</button>
-                                        <button type="button" className="btn btn-submit btn-bordered btn-voilet disabled">Display Answer</button>                      
+                                    <td><button type="button" onClick={()=>handleSubmit(item,"submit")} className="btn btn-submit btn-bordered">Submit</button>
+                                        <button type="button" onClick={()=>handleSubmit(item,"answer")}  className="btn btn-submit btn-bordered btn-voilet ">Display Answer</button>                      
                                         <button type="button" onClick={()=>accordianFun(index+1)}className="btn show_graph"><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
                                 </tr>
                                 <tr class={`poll_graph ${showAccordian && showAccordian == (index+1) ? "active-graph":""}`}> 
