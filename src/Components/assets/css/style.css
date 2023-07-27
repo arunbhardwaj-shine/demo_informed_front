@@ -124,8 +124,32 @@ header {
   padding-right: 5px;
 }
 
+.nav-item.user-login .dropdown #dropdown-basic span {
+  font-weight: 400;
+  padding-right: 0px;
+  color: var(--light-blue);
+}
+
+.nav-item.user-login .dropdown #dropdown-basic {
+  padding: 0 51px;
+}
+
+nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a {
+  padding: 6px 15px;
+  font-weight: 300;
+  color: #97b6cf;
+}
+
+nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
+  color: #0066be;
+}
+
 .navbar-expand-sm .navbar-collapse {
   justify-content: center;
+}
+
+.nav-item.user-login .dropdown .dropdown-menu {
+  min-width: 205px;
 }
 
 .sidebar-menu {
@@ -4828,7 +4852,7 @@ h2 {
   overflow-y: auto;
   align-items: flex-start;
   padding-right: 6px;
-  padding-bottom:6px;
+  padding-bottom: 6px;
 }
 
 .create-smart-list .upload-btn,
@@ -5956,8 +5980,9 @@ table thead.sticky-header:after {
   top: 74px;
   transition: 0.3s linear;
 }
+
 .search-hcp table thead.sticky-header {
-    top: 0px;
+  top: 0px;
 }
 
 .search-hcp.smart-list-view table thead.sticky-header {
@@ -7410,6 +7435,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   background-color: #fff;
   z-index: 5;
 }
+
 .link_popup button#closeLinkPopup {
   opacity: 1;
   line-height: 12px;
@@ -7424,15 +7450,18 @@ section.search-hcp.smart-list-view .header-btn-left {
   font-size: 21px;
   font-weight: 700;
 }
+
 .link_popup label {
   color: #616161;
   font-weight: 600;
   margin-bottom: 5px;
   font-size: 14px;
 }
+
 .link_popup button#closeLinkPopup span {
   line-height: 12px;
 }
+
 .link_popup input[type="text"] {
   background: #fff;
   border: 1px solid #ccc !important;
@@ -7444,6 +7473,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   font-size: 14px;
   line-height: 1.42857143;
 }
+
 .link_popup input[type="submit"] {
   background: #0066ba;
   padding: 10px 14px;
@@ -7458,22 +7488,30 @@ section.search-hcp.smart-list-view .header-btn-left {
   font-size: 13px;
   float: right;
 }
+
 .modal-body-content .viewer-layout-container {
   grid-template-rows: 0px;
 }
+
 .link-popup {
   position: absolute;
   z-index: 4;
   padding: 10px;
 }
+
 .link-popup .link-popup-inner {
   background: #004A89;
   filter: drop-shadow(0px 0px 10px rgba(0, 102, 190, 0.20));
   border-radius: 50px;
   display: flex;
-  padding: 5px 8px;
+  padding: 5px 7px;
   position: relative;
 }
+
+.viewer-annotation-link a {
+  background: #efef4c40;
+}
+
 .link-popup .link-popup-inner:after {
   content: "";
   position: absolute;
@@ -7483,20 +7521,23 @@ section.search-hcp.smart-list-view .header-btn-left {
   right: 0px;
   bottom: -11px;
   left: 0;
-width: 6px;
-margin: 0 auto;
+  width: 6px;
+  margin: 0 auto;
 }
+
 .link-popup .link-popup-inner div button {
   background: transparent;
   color: var(--white);
   font-size: 10px;
   font-weight: 300;
 }
+
 .link-popup .link-popup-buttons {
   display: flex;
   gap: 0 10px;
-  padding: 0 8px;
+  padding: 0 7px;
 }
+
 .link-popup .link-popup-inner .video-title {
   font-size: 12px;
   font-weight: 300;
@@ -7508,6 +7549,7 @@ margin: 0 auto;
   padding-right: 10px;
   position: relative;
 }
+
 .link-popup .link-popup-inner .video-title:after {
   content: "";
   position: absolute;
@@ -7517,6 +7559,7 @@ margin: 0 auto;
   border-right: 1px solid var(--skyblue);
   height: 40px;
 }
+
 .link-popup .link-popup-inner button.close {
   background: transparent;
   position: absolute;
@@ -7524,37 +7567,58 @@ margin: 0 auto;
   top: 8px;
   line-height: 1;
 }
+
 .link-popup .link-popup-inner button.close span {
   color: #fff;
   font-weight: 400;
   font-size: 20px;
 }
+
+.viewer-annotation-layer a[href*="Clicklinks/video_player"] {
+  background: rgba(255, 255, 0, 0.2);
+}
+
 .upload-file #download-qr .modal-body {
   padding-bottom: 7px;
 }
+
 .upload-file #download-qr .modal-body .form-group {
   margin: 0;
 }
+
 .upload-file #download-qr .modal-body .form-group .ebook-format {
   width: 100%;
 }
+
 .upload-file #download-qr .modal-body .form-group .ebook-format input.form-control {
   max-width: initial;
 }
+
 .upload-file #download-qr .modal-body .form-group .ebook-format .upload-file-box {
   width: 100%;
   max-width: 100%;
   margin: 26px 0 0;
 }
+
 .upload-file #download-qr .modal-body .form-group .ebook-format .upload-file-box label {
   margin: 0;
   font-size: 16px;
   flex: 0 0 171px;
 }
+
 #download-qr .dropdown-menu .scroll_div_inset {
   padding: 5px 8px 5px 5px;
 }
+
 #download-qr .dropdown-menu .scroll_div_inset .scroll_div {
   padding: 0px;
   max-height: 110px;
+}
+
+.viewer-doc-loading {
+  align-items: center;
+  display: flex;
+  height: 63vh;
+  justify-content: center;
+  width: 100%;
 }

@@ -39,6 +39,13 @@ const SetLayout = () => {
         subtitle: "All your licensed content in one place",
       });
     }
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      newdata.push({
+        image: `${path_image}q-polling.svg`,
+        title: "Q & Poll  ",
+        subtitle: "Engage your audience and make them part of the presentation",
+      });
+    }
     if (
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
       localStorage.getItem("webinar_flag") == 1 &&
@@ -74,8 +81,8 @@ const SetLayout = () => {
         : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
         ? navigate("/octalatch-totalhcp")
         : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-		? navigate("/LEX-210-analytics")
-		: navigate("/content-analytics");
+        ? navigate("/LEX-210-analytics")
+        : navigate("/content-analytics");
     } else if (title == "Email") {
       navigate("/EmailList");
     } else if (title == "Webinar") {
@@ -94,6 +101,14 @@ const SetLayout = () => {
       // navigate("/license-content");
       // navigate("/license-content");
       navigate("/license-content");
+    } else if (title == "Q&A/SURVEY") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        window.open(
+          "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
+            localStorage.getItem("user_id"),
+          "_blank"
+        );
+      }
     }
   };
 

@@ -22,7 +22,7 @@ export const createContent = (data, fileCheck, groupId = 2) => {
 
   if (data.hasOwnProperty("chapter")) {
     data.chapter?.forEach((item, index) => {
-      if (!item.uploadFile) {
+      if (!item.uploadFile || !item.chapterTitle) {
         if (!error?.chapter?.[index]) {
           if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
             error.chapter = {
@@ -46,7 +46,10 @@ export const createContent = (data, fileCheck, groupId = 2) => {
               [index]: "Chapter is required",
             };
           } else {
-            error.pdfChapter = { ...error.chapter, [index]: "File is required" };
+            error.pdfChapter = {
+              ...error.chapter,
+              [index]: "File is required",
+            };
           }
         }
       }
@@ -73,7 +76,7 @@ export const createContent = (data, fileCheck, groupId = 2) => {
       error.uploadVideo = "Please upload video !";
     } else if (data?.docintelFormat == "ebook" && !fileCheck.length) {
       error.ebookErr = "Please upload pdf file !";
-    }else if (data?.docintelFormat == "pdfspc" && !fileCheck.length) {
+    } else if (data?.docintelFormat == "pdfspc" && !fileCheck.length) {
       error.ebookErr = "Please upload pdf file !";
     }
   }

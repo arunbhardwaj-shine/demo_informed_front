@@ -37,7 +37,7 @@ import ConfirmationModal from "../../../Model/ConfirmationModel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const AddLinkToPdf = () => {
+const LicenseLinkToPdf = () => {
   const { state } = useLocation();
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
@@ -130,12 +130,8 @@ const AddLinkToPdf = () => {
   };
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
-    try{
-
-    
     const toolbar = document.querySelector(".viewer-layout-toolbar");
     const sidebar = document.querySelector(".viewer-layout-sidebar");
-
 
     if (toolbar) {
       toolbar.remove();
@@ -147,7 +143,6 @@ const AddLinkToPdf = () => {
 
     const divElement = document.querySelector(".modal-body-content");
     const viewPageLayers = divElement?.querySelectorAll(".viewer-inner-page");
-
 
     if (viewPageLayers) {
       setTimeout(() => {
@@ -165,20 +160,23 @@ const AddLinkToPdf = () => {
             if (element) {
               return;
             }
-            let baseStrig = 'https://docintel.app/Clicklinks/video_player';
-            let baseStrigwithoutsecure = 'http://docintel.app/Clicklinks/video_player';
+            let baseStrig = "https://docintel.app/Clicklinks/video_player";
+            let baseStrigwithoutsecure =
+              "http://docintel.app/Clicklinks/video_player";
 
             const anchorTag = viewAnnotationLayer.querySelector("a");
             if (anchorTag) {
-              let getVideoUrl =  anchorTag?.href
-              if(getVideoUrl?.includes(baseStrig) || getVideoUrl?.includes(baseStrigwithoutsecure)){
+              let getVideoUrl = anchorTag?.href;
+              if (
+                getVideoUrl?.includes(baseStrig) ||
+                getVideoUrl?.includes(baseStrigwithoutsecure)
+              ) {
                 const anchorRect = anchorTag.getBoundingClientRect();
-               
+
                 const parentDiv = document.querySelector("#parent_div");
                 const parentRect = viewPageLayer.getBoundingClientRect();
-               
 
-                const topPosition = anchorRect.top - parentRect.top // Adding 10 to the top position
+                const topPosition = anchorRect.top - parentRect.top; // Adding 10 to the top position
                 const leftPosition = anchorRect.left - parentRect.left + 20; // Adding 10 to the left position
 
                 const popup = document.createElement("div");
@@ -223,27 +221,22 @@ const AddLinkToPdf = () => {
                   .addEventListener("click", () => {
                     setPageNo(e.currentPage);
                     setCommanShow(true);
-                    closePopup()
+                    closePopup();
                   });
-                  // selectedUrl,
+                // selectedUrl,
                 document
                   .getElementById("delete-" + index + "-" + e.currentPage)
                   .addEventListener("click", () => {
                     setPageNo(e.currentPage);
-                    setSelectedUrl(anchorTag.href)
+                    setSelectedUrl(anchorTag.href);
                     showConfirmationPopup();
                   });
               }
-
-
             }
           });
         }
       }, 1000);
     }
-  }catch(err){
-    console.log("err",err)
-  }
   };
 
   useEffect(() => {
@@ -264,7 +257,7 @@ const AddLinkToPdf = () => {
         pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
       };
       const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
-        setInitFunData(res?.data?.data);
+      setInitFunData(res?.data?.data);
       if (res?.data?.data?.file_type == "ebook") {
         if (res?.data?.data?.ebookData?.length) {
           const newData = res?.data?.data?.ebookData?.map((item, index) => {
@@ -291,7 +284,7 @@ const AddLinkToPdf = () => {
     }
   };
   const onChapterSelect = (e) => {
-    closePopup()
+    closePopup();
     setEbookSelectedId(ebookData[e?.index]?.id);
     setFile(ebookData[e?.index]?.file_name);
   };
@@ -348,13 +341,12 @@ const AddLinkToPdf = () => {
     setVideoTitle(value);
   };
   const handleOnVideoChange = (event) => {
-    if(event.target.files?.length){
+    if (event.target.files?.length) {
       const file = event.target.files[0];
       setSelectedVideo(file);
-      return
+      return;
     }
     setSelectedVideo(null);
-
   };
   const uploadClinkLinkModelVideo = async (e) => {
     e.preventDefault();
@@ -399,16 +391,16 @@ const AddLinkToPdf = () => {
     parentRef?.current?.addEventListener("mousemove", handleMouseMove);
     parentRef?.current?.addEventListener("mouseup", handleMouseUp);
     if (parentRef.current) {
-     parentRef?.current?.setAttribute('draggable', 'false'); // Disable dragging
-     parentRef?.current?.addEventListener('dragstart', handleDragStart); // Attach the event listener
-   }
+      parentRef?.current?.setAttribute("draggable", "false"); // Disable dragging
+      parentRef?.current?.addEventListener("dragstart", handleDragStart); // Attach the event listener
+    }
 
     return () => {
       parentRef?.current?.removeEventListener("mousedown", handleMouseDown);
       parentRef?.current?.removeEventListener("mousemove", handleMouseMove);
       parentRef?.current?.removeEventListener("mouseup", handleMouseUp);
       if (parentRef?.current) {
-        parentRef?.current.removeEventListener('dragstart', handleDragStart);
+        parentRef?.current.removeEventListener("dragstart", handleDragStart);
       }
     };
   }, [dragging, startX, startY, endX, endY, file]);
@@ -435,8 +427,6 @@ const AddLinkToPdf = () => {
       setEndX(xInPage);
     }
   };
-
-    
 
   const handleMouseMove = (event) => {
     const targetLink = event.target.closest(".viewer-annotation-link");
@@ -585,7 +575,7 @@ const AddLinkToPdf = () => {
     let box = parentRef.current.querySelector(".highlight_box");
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
-    let actual_width = xcoordinates +15 - box_width;
+    let actual_width = xcoordinates + 15 - box_width;
     let x_cord = actual_width / 3.8;
     let actual_height = mousefirstdown + 11 - ycoordinates;
     let y_cord = actual_height / 3.8;
@@ -655,7 +645,7 @@ const AddLinkToPdf = () => {
           footerButton: "Close",
         });
         showConfirmationModel();
-      }else if(err?.response?.data?.message.includes("encrypted")){
+      } else if (err?.response?.data?.message.includes("encrypted")) {
         setDragging(false);
         setHighlighted(false);
         setPopupMessage({
@@ -693,7 +683,7 @@ const AddLinkToPdf = () => {
   };
 
   const showConfirmationPopup = () => {
-    closePopup()
+    closePopup();
     setPopupMessage({
       message1: "",
       // "You are about to remove this content from any reader and every device forever.",
@@ -772,7 +762,7 @@ const AddLinkToPdf = () => {
         file_id: ebookSelectedId,
       };
       const res = await axios.post(`libraries/deletePdfLink`, body);
-      setSelectedUrl("")
+      setSelectedUrl("");
       if (initFunData?.file_type == "ebook") {
         let newEbookData = [...ebookData];
         const hasFound = ebookData.findIndex(
@@ -803,7 +793,6 @@ const AddLinkToPdf = () => {
     });
   };
   const showConfirmationModel = () => {
-
     if (confirmationModel) {
       setConfirmationModel(false);
     } else {
@@ -820,68 +809,28 @@ const AddLinkToPdf = () => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                    {localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                      <Link
-                        className="btn btn-bordered btn btn-primary"
-                        to="/library-create"
-                      >
-                        Back
-                      </Link>
-                    ) : (
-                      <Link
-                        className="btn btn-bordered btn btn-primary"
-                        to="/library-create"
-                      >
-                        Back
-                      </Link>
-                    )}
+                    <Link
+                      className="btn btn-bordered btn btn-primary"
+                      to="/license-create"
+                    >
+                      Back
+                    </Link>
                   </div>
                 </div>
-                <div className="col-12 col-md-10">
-                  {/* <ul className="tabnav-link">
-                    {
-                      <>
-                        <li className="">
-                          <a href="">Create Your Content</a>
-                        </li>
-                        {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <li className="active active-main">
-                            <a href="">Edit Consent Option</a>
-                          </li>
-                        ) : null}
-                        <li className="">
-                          <a href="">Preview Your Content &amp; Publish</a>
-                        </li>
-                      </>
-                    }
-                  </ul> */}
+                <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
                     {
                       <>
                         <li className="">
                           <a href="">Create Your Content</a>
                         </li>
-                        {localStorage.getItem("user_id") ==
-                        "rjiGlqA9DXJVH7bDDTX0Lg==" ? (
-                          <li className="active active-main">
-                            <a href="">[Embedding Video]</a>
-                          </li>
-                        ) : null}
-                        {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <li
-                            className={
-                              localStorage.getItem("user_id") !=
-                              "rjiGlqA9DXJVH7bDDTX0Lg=="
-                                ? "active active-main"
-                                : ""
-                            }
-                          >
-                            <a href="">Edit Consent Option</a>
-                          </li>
-                        ) : null}
+                        <li className="active active-main">
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                        <li className="">
+                          <a href="">Edit Consent Option</a>
+                        </li>
+
                         <li className="">
                           <a href="">Preview Your Content &amp; Publish</a>
                         </li>
@@ -889,12 +838,12 @@ const AddLinkToPdf = () => {
                     }
                   </ul>
                 </div>
-                <div className="col-12 col-md-1">
+                <div className="col-12 col-md-2">
                   <div className="header-btn">
                     <Button
                       className="btn btn-primary btn-filled next "
                       onClick={() =>
-                        navigate("/set-popup", {
+                        navigate("/license-set-popup", {
                           state: {
                             pdfId: initFunData?.id,
                             fileType: initFunData?.file_type,
@@ -971,7 +920,11 @@ const AddLinkToPdf = () => {
                     </div>
                     {file ? (
                       <>
-                        <div id="parent_div" className="add_link_to_pdf" ref={parentRef}>
+                        <div
+                          id="parent_div"
+                          className="add_link_to_pdf"
+                          ref={parentRef}
+                        >
                           <div
                             className={
                               highlighted
@@ -1030,8 +983,8 @@ const AddLinkToPdf = () => {
                               // onDocumentLoad={handleDocumentLoad}
                               onPageChange={handleDocumentLoad}
                               renderMode="canvas"
-                              // fileUrl={file}
-                              fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/pdflink_1690265146.pdf"}
+                              fileUrl={file}
+                              // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1690198693.pdf"}
                             />
                             <div
                               className="highlight_box"
@@ -1055,7 +1008,8 @@ const AddLinkToPdf = () => {
                                     type="button"
                                     className="close"
                                     id="closeLinkPopup"
-                                    onClick={() =>{ closePopup()
+                                    onClick={() => {
+                                      closePopup();
                                     }}
                                   >
                                     <span aria-hidden="true">×</span>
@@ -1155,9 +1109,11 @@ const AddLinkToPdf = () => {
                 onChange={(e) => onVideoTitleChange(e)}
                 value={videoTitle}
               />
-			  {error?.videoTitle ? (
-				  <div className="login-validation-upload-error">{error?.videoTitle}</div>
-				) : null}
+              {error?.videoTitle ? (
+                <div className="login-validation-upload-error">
+                  {error?.videoTitle}
+                </div>
+              ) : null}
               <div className="upload-file-box">
                 <div className="box">
                   <input
@@ -1202,4 +1158,4 @@ const AddLinkToPdf = () => {
   );
 };
 
-export default AddLinkToPdf;
+export default LicenseLinkToPdf;
