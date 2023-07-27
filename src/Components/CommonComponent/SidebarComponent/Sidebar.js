@@ -1874,7 +1874,8 @@ const Sidebar = () => {
                   </li>
                 </ul>
               ) : null
-            ) : (
+            ) : localStorage.getItem("user_id") !==
+              "ref9i5kQrBab/lRKV9H1JA==" ? (
               <ul>
                 <li
                   className={
@@ -1903,7 +1904,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
               </ul>
-            )
+            ) : null
           ) : null}
         </div>
 
