@@ -150,18 +150,16 @@ const PollQuestion = ()=>{
         }
       };
 
-      const handleSubmit = async(data) =>{
+      const handleSubmit = async(data,type) =>{
         try{
 
-          console.log("data",data)
            loader("show")
-          const result = await postData(ENDPOINT.EVENT_SUBMIT,{
+          await postData(ENDPOINT.EVENT_SUBMIT,{
             eventId:eventId?.id,
-            questionId:data?.questionId
+            questionId:data?.questionId,
+            type:type
           })
           loader("hide")
-
-
         }catch(err){
           loader("hide")
           console.log("-err",err)
@@ -217,8 +215,8 @@ const PollQuestion = ()=>{
                                     <td>{item?.question}</td>
                                     <td>{item?.speakerName}</td>
                                     <td>{item?.answer}</td>
-                                    <td><button type="button" onClick={()=>handleSubmit(item)} className="btn btn-submit btn-bordered">Submit</button>
-                                        <button type="button" className="btn btn-submit btn-bordered btn-voilet disabled">Display Answer</button>                      
+                                    <td><button type="button" onClick={()=>handleSubmit(item,"submit")} className="btn btn-submit btn-bordered">Submit</button>
+                                        <button type="button" onClick={()=>handleSubmit(item,"answer")}  className="btn btn-submit btn-bordered btn-voilet ">Display Answer</button>                      
                                         <button type="button" onClick={()=>accordianFun(index+1)}className="btn show_graph"><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
                                 </tr>
                                 <tr class={`poll_graph ${showAccordian && showAccordian == (index+1) ? "active-graph":""}`}> 

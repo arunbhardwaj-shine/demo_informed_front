@@ -185,7 +185,6 @@ useEffect(()=>{
        if(doc.data()){
            newData = doc.data()
            if(countValue != doc.data()?.webinar){
-            console.log("- imherer",doc.data()?.webinar)
               setCountvalue(doc.data()?.webinar)
            }
            
@@ -202,7 +201,6 @@ useEffect(() => {
  
   return (
     <>
- 
           <div className="webinar-questions">
             
             <Container>
@@ -213,7 +211,6 @@ useEffect(() => {
                     <p>{index+1}. {item?.question}</p>
                     {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.highchartData} />: <h6>This question hasn't been answered yet.</h6>}
                     {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.pieChartData} />: <h6>This question hasn't been answered yet.</h6>}
-
                     {item?.answer? <h6>Total user: 1 </h6>:null}
                     </>
                     )

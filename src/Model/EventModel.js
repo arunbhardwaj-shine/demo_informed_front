@@ -46,7 +46,10 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
   };
   const handleSubmit = async () => {
     try {
-      if (!user?.poll_answer_id || !user?.poll_answer_id?.length) {
+
+      if(typeof user?.poll_answer_id == "number" && !user?.poll_answer_id){
+        setError({ msg: "This field is required" });
+      }else if(typeof user?.poll_answer_id == "object" && !user?.poll_answer_id?.length){
         setError({ msg: "This field is required" });
         return;
       } else {
@@ -61,17 +64,6 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
           user_answer: user?.user_answer,
           guest_id: user?.guest_id,
         })
-
-      // await axios.post(
-      //   `https://webinar.docintel.app/flow/webinar/submit_poll_answer_guest`,
-      //   {
-      //     speakerName: user?.speakerName,
-      //     poll_question_id: user?.poll_question_id,
-      //     poll_answer_id: user?.poll_answer_id.toString(),
-      //     user_answer: user?.user_answer,
-      //     guest_id: user?.guest_id,
-      //   }
-      // );
 
       const eventQuestion = Cookies.get("eventQuestion");
       if (!eventQuestion?.includes(user?.poll_question_id)) {

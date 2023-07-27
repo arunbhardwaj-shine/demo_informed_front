@@ -9,15 +9,22 @@ import DisplayAnswer from "../../Model/DisplayAnswer";
 import "./custom.css"
 import { loader } from "../../loader";
 import "./style.css"
+import axios from "axios"
 import {db} from "../../config/firebaseConfig"
 const Event = () =>{
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);   
     const [eventId,setEvent] = useState({
-        id:0
+        id:0,
+        companyId:0
     })
+    const [error,setError] = useState({})
+
+    
     const q = query(collection(db, "chat"), where("triggered", '!=', 0),where("event_id","==",eventId?.id));
     const [data,setData] = useState(0)
+    const [user,setUser] = useState({})
+
     const [show,setShow] = useState(false)
     const [apiData,setApiData] = useState([])
     const [answerPop,setAnswerPopup] = useState(false)
@@ -37,6 +44,42 @@ const Event = () =>{
             loader("hide")
             console.log("-err",err)
         }
+    }
+
+    const handleChange = (e)=>{
+        setUser({...user,[e.target.name]:e.target.value})
+    }
+    const handleSubmit = async(e) =>{
+        try{
+            e.preventDefault();
+            if(!user.question){
+              setError({"question": "Please enter your question"})
+              return
+            }else{
+                setError({})  
+            }
+            loader("show")
+            let events =  Cookies.get('events');
+
+            let body = {
+                "company_id" : eventId?.companyId,
+                "event_id"   : eventId?.id,
+                "user_id"    :  events,
+                "question"   : user?.question,
+                "portal"     : "web",
+                "name": user?.name
+             };
+            await axios({
+                method:"post",
+                data:body,
+                baseURL: `${process.env.REACT_APP_API_KEY}save_contact`
+               });
+             loader("hide")
+        }catch(err){
+            loader("hide")
+            console.log("-err",err)
+        }
+
     }
   
     const [value,setValue] = useState({})
@@ -165,23 +208,26 @@ const Event = () =>{
             </div>
 
         </div>
-        <form >
+        <form onSubmit={handleSubmit} >
             <input type="hidden" class="form-control" id="guest_id" name="guest_id" value="lji3sjpsdc21tux2st" />
                                     
             <div class="row">
                 <div class="col-md-12">
                     <label for="fname" class="form-label">Nombre <i><small>(Opcional)</small></i></label>
-                    <input type="text" id="name" class="form-control" placeholder='Escriba su nombre' name="name" />
-                    <input type="hidden" class="form-control" value = "387" name="eventId" />
-                    <input type="hidden" class="form-control" value = "2147494217" name="companyId" />
+                    <input type="text" id="name" onChange={handleChange} class="form-control" placeholder='Escriba su nombre' name="name" />
+                    {/* <input type="hidden" class="form-control" value = "387" name="eventId" />
+                    <input type="hidden" class="form-control" value = "2147494217" name="companyId" /> */}
                     <input type="hidden" class="form-control" value = "Pregunta enviada con éxito" name="succ_message" />
                     <input type="hidden" class="form-control" value = "Por favor ingrese el mensaje" name="err_message" />
                     <input type="hidden" class="form-control" value = "index.php?evnt=octa-academy-2023" name="page" />
                 </div>
                      <div class="col-md-12">
                     <label for="question" class="form-label">Tu pregunta<sup>*</sup></label>
-                    <textarea name="question" id="question" class="form-control" placeholder="Escriba su pregunta"  cols="40" rows="4"></textarea>
+                     <textarea name="question" id="question" onChange={handleChange} class="form-control" placeholder="Escriba su pregunta"  cols="40" rows="4"></textarea>
+                     {error?.question?<span className="event-validation">{error?.question}</span>:""}
+
                       </div>
+
                 <div class="col-md-12">
                     <input type="submit" class="btn btn-success" value="ENVIAR" />
                 </div>
