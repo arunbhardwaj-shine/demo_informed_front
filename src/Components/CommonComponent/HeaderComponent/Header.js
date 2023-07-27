@@ -359,8 +359,7 @@ const Header = () => {
 
                 {localStorage.getItem("user_id") ==
                 "iSnEsKu5gB/DRlycxB6G4g==" ? (
-                  <li className="nav-item">
-                    <div className="user-login">
+                  <li className="nav-item user-login">
                       <Dropdown>
                         <Dropdown.Toggle id="dropdown-basic">
                           <span>CONGRESS</span>
@@ -386,7 +385,6 @@ const Header = () => {
                           })}
                         </Dropdown.Menu>
                       </Dropdown>
-                    </div>
                   </li>
                 ) : (
                   ""
