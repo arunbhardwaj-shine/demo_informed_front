@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Select from "react-select";
 
 import { Button, Dropdown, Modal } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -38,6 +39,12 @@ const Header = () => {
   const queryParams = queryString.parse(window.location.search);
   const scrollDirection = useScrollDirection();
   const [getUserName, setUserName] = useState("");
+  const [congressOptions, setCongressOptions] = useState([
+    { value: "I3yCIhnPAd0Ma6sNY4augA==", label: "THSNA" },
+    { value: "5EdDBhVCQm08iLJwBENCWw==", label: "WFH" },
+    { value: "Y/I8/x8K0syk/ulWyKwKhg==", label: "ISTH" },
+    { value: "MpEPwXLqTPveAfumxT/KXw==", label: "EAHAD" },
+  ]);
   const navigate = useNavigate();
 
   const removed_pop = () => {
@@ -105,6 +112,7 @@ const Header = () => {
   }, []);
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -345,6 +353,41 @@ const Header = () => {
                     >
                       Q&A/SURVEY
                     </a>
+                  </li>
+                ) : (
+                  ""
+                )}
+
+                {localStorage.getItem("user_id") ==
+                "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                  <li className="nav-item">
+                    <div className="user-login">
+                      <Dropdown>
+                        <Dropdown.Toggle id="dropdown-basic">
+                          <span>CONGRESS</span>
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                          {congressOptions.map((item) => {
+                            return (
+                              <Dropdown.Item
+                                onClick={(e) =>
+                                  window.open(
+                                    "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
+                                      item?.value,
+                                    "_blank",
+                                    "noreferrer"
+                                  )
+                                }
+                                className="dropdown-item"
+                              >
+                                {item.label}
+                              </Dropdown.Item>
+                            );
+                          })}
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </div>
                   </li>
                 ) : (
                   ""
