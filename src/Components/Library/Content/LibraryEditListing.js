@@ -1,13 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { popup_alert } from "../../../popup_alert";
-import {
-  deleteData,
-  postData,
-  updateConsent,
-  resetStats,
-  updateTags,
-} from "../../../axios/apiHelper";
+import { postData, updateConsent, updateTags } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
@@ -42,7 +36,6 @@ const LibraryEditListing = () => {
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
@@ -81,7 +74,6 @@ const LibraryEditListing = () => {
   const [qrSize, setQrSize] = useState(290);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [modalCounter, setModalCounter] = useState(0);
   const [allTags, setAllTags] = useState({});
   const [resetDataId, setResetDataId] = useState();
   const [popupMessage, setPopupMessage] = useState({
@@ -162,7 +154,6 @@ const LibraryEditListing = () => {
         setAllTags(res?.data?.data?.tags);
       }
     } catch (err) {
-      // loader("hide");
       console.log("err");
     }
   };
@@ -336,9 +327,9 @@ const LibraryEditListing = () => {
       setLibraryData(apiData);
       setPageAll(false);
       setApiCallStatus(true);
-      loader("hide");
     } catch (err) {
       console.log("err");
+    } finally {
       loader("hide");
     }
   };
@@ -353,62 +344,6 @@ const LibraryEditListing = () => {
 
       getLibraryData(page, filterObject, "");
     }
-  };
-
-  const showConfirmationPopup = (stateMsg, e, id) => {
-    if (stateMsg == "delete") {
-      setResetDataId(id);
-      setCommonConfirmModelFun(() => deleteUser);
-      setPopupMessage({
-        message1:
-          "You are about to remove this content from any reader and every device forever.",
-        message2: "Are you sure you want to do this?",
-        footerButton: "Yes Please  !",
-      });
-      if (confirmationpopup) {
-        setConfirmationPopup(false);
-      } else {
-        setConfirmationPopup(true);
-      }
-    } else {
-      // setDeleteStatus(false);
-      setResetDataId(id);
-      setCommonConfirmModelFun(() => resetCollection);
-      setPopupMessage({
-        message1: " You are about to reset the collected data.",
-        message2: "Are you sure you want to do this?",
-        footerButton: "Delete all data",
-      });
-      if (confirmationpopup) {
-        setConfirmationPopup(false);
-      } else {
-        setConfirmationPopup(true);
-      }
-    }
-  };
-
-  const deleteUser = async (id) => {
-    loader("show");
-    try {
-      const res = await deleteData(ENDPOINT.DELETE, id);
-      if (res?.data?.message == "Library deleted successfully") {
-        loader("hide");
-        popup_alert({
-          visible: "show",
-          message: "Your content has been deleted <br />successfully !",
-          type: "success",
-          redirect: "",
-        });
-        const updatedRes = libraryData.filter((item) => item.id !== id);
-        setLibraryData(updatedRes);
-      }
-
-      loader("hide");
-    } catch (err) {
-      loader("hide");
-    }
-
-    hideConfirmationModal();
   };
 
   const commonModelFun = () => {
@@ -475,8 +410,8 @@ const LibraryEditListing = () => {
   };
 
   const updateConset = async (pdf_id, index) => {
-    loader("show");
     try {
+      loader("show");
       const index = changeConsent.findIndex((el) => el.index === pdf_id);
       let consent_value = changeConsent[index].value;
 
@@ -502,55 +437,6 @@ const LibraryEditListing = () => {
       console.log("err", err);
       loader("hide");
     }
-  };
-
-  const resetCollection = async (pdf_id) => {
-    loader("show");
-    try {
-      let body = {
-        user_id: localStorage.getItem("user_id"),
-        pdfId: pdf_id,
-      };
-      const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
-      let normal_data = opening_details;
-      const lib_data_index = normal_data.findIndex(
-        (el) => el.pdf_id === pdf_id
-      );
-      normal_data[lib_data_index].uniqueReader = 0;
-      normal_data[lib_data_index].opening = 0;
-      normal_data[lib_data_index].registeredReader = 0;
-
-      setOpeningDetails(normal_data);
-      setFlag(1);
-      setUpdate(update + 1);
-
-      loader("hide");
-      popup_alert({
-        visible: "show",
-        message: "Your stats has been reset <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
-    } catch (err) {
-      console.log("err", err);
-      loader("hide");
-    }
-    hideConfirmationModal();
-  };
-
-  const tagButtonClicked = (pdf_id) => {
-    const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
-    let get_tags = libraryData[lib_data_index]?.tags;
-    if (get_tags != "") {
-      let parsed_tag = JSON.parse(get_tags);
-      setTagClickedFirst(parsed_tag);
-    } else {
-      setTagClickedFirst([]);
-    }
-    setFinalTags([]);
-    setpdftagsid(pdf_id);
-    setIsOpen(true);
-    setModalCounter(modalCounter + 1);
   };
 
   const closeModal = () => {
@@ -674,7 +560,6 @@ const LibraryEditListing = () => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
     document.body.appendChild(textArea);
-    // textArea.focus();
     textArea.select();
     try {
       document.execCommand("copy");
@@ -700,7 +585,6 @@ const LibraryEditListing = () => {
       data += "Request | ";
     }
     if (data) {
-      // data = data.replace(/^,|,$/g, "");
       data = data.trim().slice(0, -1);
     } else {
       data = "N/A";
@@ -2004,113 +1888,6 @@ const LibraryEditListing = () => {
           </Row>
         </div>
       </Col>
-
-      <CommonModel
-        show={show}
-        onClose={setShow}
-        heading={"Download QR"}
-        data={downloadQRData}
-        footerButton={"Download"}
-        handleSubmit={downloadQRCode}
-        handleQR={handleQR}
-      />
-
-      <CommonConfirmModel
-        show={confirmationpopup}
-        onClose={hideConfirmationModal}
-        fun={commonConfirmModelFun}
-        popupMessage={popupMessage}
-        path_image={path_image}
-        resetDataId={resetDataId}
-      />
-
-      <Modal id="tagsModal" show={isOpen}>
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={closeModal}
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="select-tags">
-            <h6>Select Tag :</h6>
-            <div className="tag-lists">
-              <div className="tag-lists-view">
-                {allTags?.length
-                  ? Object.values(allTags).map((data) => {
-                      return (
-                        <>
-                          <div onClick={(event) => tagClicked(data)}>
-                            {data}{" "}
-                          </div>
-                        </>
-                      );
-                    })
-                  : null}
-              </div>
-            </div>
-          </div>
-          <div className="selected-tags">
-            <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
-            </h6>
-
-            <div className="total-selected">
-              {tagClickedFirst?.length
-                ? tagClickedFirst?.map((data, index) => {
-                    return (
-                      <>
-                        <div className="tag-cross">
-                          {data.innerHTML || data}
-                          <img
-                            src={path_image + "filter-close.svg"}
-                            alt="Close-filter"
-                            onClick={() => removeTagFinal(index)}
-                          />
-                        </div>
-                      </>
-                    );
-                  })
-                : null}
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <form>
-            <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
-              <input
-                type="text"
-                className="form-control"
-                id="new-tag"
-                value={newTag}
-                onChange={(e) => newTagChanged(e)}
-              />
-
-              <button
-                onClick={addTag}
-                type="button"
-                className="btn btn-primary add btn-bordered"
-              >
-                Add
-              </button>
-            </div>
-          </form>
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            onClick={saveButtonClicked}
-          >
-            Save
-          </button>
-        </Modal.Footer>
-      </Modal>
     </>
   );
 };
