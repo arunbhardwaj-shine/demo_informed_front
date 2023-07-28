@@ -59,9 +59,9 @@ const SpcView = () => {
   }, []);
 
   const getSpcData = async (searchVal) => {
-    loader("show");
     setApiCallStatus(false);
     try {
+      loader("show");
       const body = {
         user_id: localStorage.getItem("user_id"),
         search: searchVal,
@@ -70,8 +70,9 @@ const SpcView = () => {
       const res = await postData(ENDPOINT.LIBRARYGETSPC, body);
       setSpcData(res?.data?.data);
       setSuperSpcData(res?.data?.data);
-      loader("hide");
     } catch (err) {
+      console.log("--err", err);
+    } finally {
       loader("hide");
     }
     setApiCallStatus(true);
@@ -84,7 +85,7 @@ const SpcView = () => {
         setFilterData(res?.data?.data);
       }
     } catch (err) {
-      console.log("err");
+      console.log("--err", err);
     }
   };
 
@@ -97,15 +98,15 @@ const SpcView = () => {
   };
 
   const submitHandler = (event) => {
+    event.preventDefault();
     setSpcData([]);
     getSpcData(search);
-    event.preventDefault();
     return false;
   };
 
   const deleteSpc = async () => {
-    loader("show");
     try {
+      loader("show");
       const res = await deleteData(ENDPOINT.LIBRARYSPCDELETE, spcDeletedId);
       popup_alert({
         visible: "show",
@@ -117,10 +118,11 @@ const SpcView = () => {
       setSpcData([]);
       getSpcData(search);
     } catch (err) {
-      console.log(err);
+      console.log("--err", err);
+    } finally {
+      loader("hide");
     }
     setConfirmationPopup(false);
-    loader("hide");
   };
 
   const isJson = (str) => {
@@ -155,8 +157,6 @@ const SpcView = () => {
         }
       }
     }
-    console.log(filterObject);
-
     setFilterObject(filterObject);
   };
   const clearFilter = () => {
@@ -181,20 +181,14 @@ const SpcView = () => {
         delete old_object[key];
       }
     }
-
     setFilterObject(old_object);
-    // setLibraryData([]);
-    // getLibraryData(page, old_object);
     applyFilter();
   };
 
   const applyFilter = (e) => {
     e?.preventDefault();
     setFilterApplyflag(1);
-    // setSpcData([]);
     setFilterObject(filterObject);
-    // alert("je;;");
-    // console.log(filterObject);
 
     const filteredData = superSpcData.filter((item) => {
       for (const key in filterObject) {
@@ -213,11 +207,7 @@ const SpcView = () => {
       }
       return true;
     });
-    // console.log(superSpcData);
-
-    // console.log(filteredData);
     setSpcData(filteredData);
-
     setShowFilter(false);
   };
   return (
@@ -408,7 +398,6 @@ const SpcView = () => {
 
                                   <Accordion.Body className="card-body">
                                     <ul>
-                                      {/* {console.log("---dfdf", filterObject)} */}
                                       {filterdata[key]?.length
                                         ? filterdata[key]?.map(
                                             (item, index) => (

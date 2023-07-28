@@ -49,16 +49,17 @@ function Products() {
   ]);
   const [productData, setProductData] = useState({});
   const initFun = async () => {
-    loader("show");
     try {
+      loader("show");
       const resp = await postData(ENDPOINT.SPC_PRO_LISTING, {
         user_id: localStorage.getItem("user_id"),
         type: content?.value,
         category: newValue?.category,
       });
       setProductData(resp?.data?.data);
-      loader("hide");
     } catch (err) {
+      console.log("--err", err);
+    } finally {
       loader("hide");
     }
   };
@@ -69,8 +70,8 @@ function Products() {
 
   const handleSubmit = async (e) => {
     if (!topicId) {
-      loader("show");
       try {
+        loader("show");
         await postData(ENDPOINT.ADD_SPC_PRODUCT, {
           user_id: localStorage.getItem("user_id"),
           product: newValue?.newProductValue?.trim(),
@@ -84,8 +85,8 @@ function Products() {
       }
     } else {
       if (newValue?.newProductValue) {
-        loader("show");
         try {
+          loader("show");
           await postData(`${ENDPOINT.UPDATE_TOPIC}${topicId}`, {
             product: newValue?.newProductValue?.trim(),
             type: content?.value,
@@ -102,8 +103,9 @@ function Products() {
   };
   const handleConfirmModel = async (id) => {
     setConfirmationPopup(false);
-    loader("show");
+
     try {
+      loader("show");
       await deleteMethod(`${ENDPOINT.SPC_PRO_DELETE}${id}`);
       loader("hide");
       setClickData(0);
@@ -115,6 +117,7 @@ function Products() {
         redirect: "",
       });
     } catch (err) {
+      console.log("--err", err);
       loader("hide");
     }
   };
@@ -207,7 +210,6 @@ function Products() {
                 <Button
                   className="btn-bordered btn-voilet"
                   onClick={() => {
-                    // setShow(true);
                     setCommonModel("Add");
                   }}
                 >

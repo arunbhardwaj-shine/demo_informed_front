@@ -50,6 +50,7 @@ const LibrarySublink = () => {
     { value: "Online ", label: "Online Offer" },
   ]);
   const [activeTab, setActiveTab] = useState("docintel-link");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -68,8 +69,8 @@ const LibrarySublink = () => {
   }, [selectedArticle]);
 
   const getLibraryData = async () => {
-    loader("show");
     try {
+      loader("show");
       let selectedValue = [];
       let data = {
         user_id: localStorage.getItem("user_id"),
@@ -95,7 +96,6 @@ const LibrarySublink = () => {
           label: item.code,
         });
         setallContents(arr);
-        // setAllCodes(codearr);
       });
       codearr.sort((a, b) => {
         let x = a.label.toLowerCase();
@@ -116,9 +116,9 @@ const LibrarySublink = () => {
           setSelectedArticle(state.pdfid);
         }
       }
-      loader("hide");
     } catch (err) {
       console.log("err");
+    } finally {
       loader("hide");
     }
   };
@@ -135,8 +135,8 @@ const LibrarySublink = () => {
   };
 
   const handleSubmit = async () => {
-    loader("show");
     try {
+      loader("show");
       let body = {
         pdfId: selectedArticle,
         campaignId: newLink.delivery,
@@ -151,9 +151,9 @@ const LibrarySublink = () => {
 
       setshowSubLinkList(true);
       setLinkRenderCount(linkRenderCount + 1);
-      loader("hide");
     } catch (err) {
       console.log("err", err);
+    } finally {
       loader("hide");
     }
     setCreateNewLink(false);
@@ -218,10 +218,9 @@ const LibrarySublink = () => {
           setFlag(1);
 
           setUpdate(update + 1);
-
-          loader("hide");
         } catch (err) {
           console.log("err");
+        } finally {
           loader("hide");
         }
       }
@@ -246,8 +245,8 @@ const LibrarySublink = () => {
   };
 
   const updateConset = async (pdf_id) => {
-    loader("show");
     try {
+      loader("show");
       const index = changeConsent.findIndex((el) => el.index === pdf_id);
       let consent_value = changeConsent[index].value;
 
@@ -255,13 +254,10 @@ const LibrarySublink = () => {
         pdfId: pdf_id,
         consentType: consent_value,
       };
-
-      // const res = await updateConsent(ENDPOINT.LIBRARYCHANGECONSENT, body);
       const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
       libraryData[lib_data_index].linkType = consent_value;
       const new_data = libraryData;
       setLibraryData(new_data);
-
       articleData.linkType = consent_value;
       setreRenderFlag(reRenderFlag + 1);
       loader("hide");
@@ -339,7 +335,6 @@ const LibrarySublink = () => {
     return data;
   };
 
-  const navigate = useNavigate();
   return (
     <>
       <Col className="right-sidebar">
@@ -446,9 +441,7 @@ const LibrarySublink = () => {
                                       dangerouslySetInnerHTML={{
                                         __html: articleData?.title,
                                       }}
-                                    >
-                                      {/* {articleData?.title} */}
-                                    </h5>
+                                    ></h5>
                                     <h6>{articleData?.pdf_sub_title}</h6>
                                     <p>{articleData?.key_author}</p>
                                     <div className="select-tags">

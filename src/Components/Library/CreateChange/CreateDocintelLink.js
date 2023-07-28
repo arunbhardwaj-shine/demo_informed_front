@@ -7,7 +7,6 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const CreateDocintelLink = () => {
   const [startDate, setStartDate] = useState(new Date());
-  console.log("in create docintel link");
   return (
     <>
       <div className="col right-sidebar">

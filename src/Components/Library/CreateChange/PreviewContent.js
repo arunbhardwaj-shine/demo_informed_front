@@ -75,13 +75,12 @@ const PreviewContent = () => {
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
   useEffect(() => {
-    console.log("state in preview content-->", state);
     getArticleData();
   }, []);
 
   const getArticleData = async () => {
-    loader("show");
     try {
+      loader("show");
       if (typeof articleId === "undefined") {
         if (state?.pdfId) {
           setArticleId(state?.pdfId);
@@ -111,6 +110,7 @@ const PreviewContent = () => {
         }, 300);
       }
     } catch (err) {
+      console.log("--err", err);
       loader("hide");
     }
   };
@@ -141,9 +141,9 @@ const PreviewContent = () => {
       } else {
         pdfData.title = title;
       }
-      loader("hide");
     } catch (err) {
       console.log(err);
+    } finally {
       loader("hide");
     }
   };
@@ -209,8 +209,9 @@ const PreviewContent = () => {
 
   const uploadPdf = async (e) => {
     e.preventDefault();
-    loader("show");
+
     try {
+      loader("show");
       let formData = new FormData();
       formData.append("pdfId", articleId);
       formData.append("type", pdfData.file_type);
@@ -222,12 +223,7 @@ const PreviewContent = () => {
           setTemplateName(userInputs?.title);
           formData.append("title", userInputs?.title);
         }
-        // if(typeof userInputs?.title == "undefined"){
-        //   formData.append("title", templateName);
-        // }
-        // else{
-        //   formData.append("title", userInputs?.title);
-        // }
+
         formData.append("fileId", pdfFileId);
       }
       const res = await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
@@ -235,7 +231,6 @@ const PreviewContent = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      // getArticleData();
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
         setUserInputs({ ...userInputs, title: "", uploadFile: "" });
       }
@@ -250,14 +245,14 @@ const PreviewContent = () => {
         pdfData.title = res?.data?.data?.title;
         setTemplatePdf(res?.data?.data?.pdf);
       }
-      loader("hide");
     } catch (err) {
+      console.log("--err", err);
+    } finally {
       loader("hide");
     }
     handleClose();
     setUpdateFlag(0);
     setPublishStatus(false);
-    // setNewTemplateClicked(false);
   };
 
   const imageOnError = (event) => {
@@ -266,7 +261,6 @@ const PreviewContent = () => {
   };
 
   const updatePublish = () => {
-    console.log("- imhere");
     setPublishStatus(true);
   };
 
@@ -287,7 +281,6 @@ const PreviewContent = () => {
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
         let pdfIndex = pdfData.ebookData.findIndex((el) => el.id === pdfFileId);
         pdfData.ebookData[pdfIndex].processed = 1;
-        // pdfData.ebookData[pdfIndex].image = res?.data?.data?.image?.file;
         pdfData.ebookData[pdfIndex].image = res?.data?.data?.image;
 
         let nextItem = pdfData.ebookData[pdfIndex + 1];
@@ -311,10 +304,10 @@ const PreviewContent = () => {
         });
       }
       setApiCallBackFlag(apiCallBackFlag + 1);
-      loader("hide");
     } catch (err) {
-      loader("hide");
       console.log(err);
+    } finally {
+      loader("hide");
     }
   };
 

@@ -106,8 +106,8 @@ const PublisherPage = () => {
     } else if (!emailRegex.test(email)) {
       setErrorMsg("Please enter a valid email address.");
     } else {
-      loader("show");
       try {
+        loader("show");
         const res = await postData(ENDPOINT.FORGET, {
           email: email,
         });
@@ -117,7 +117,6 @@ const PublisherPage = () => {
         setSuccessMsg(res?.data?.message);
         // setShow(false)
       } catch (err) {
-        // console.log(err);
         setSuccessMsg(null);
         setErrorMsg(err?.response?.data?.message);
         loader("hide");
@@ -143,8 +142,8 @@ const PublisherPage = () => {
       setContactError(err);
       return;
     } else {
-      loader("show");
       try {
+        loader("show");
         const res = await postData(ENDPOINT.INFORMED_USER_FORM, {
           name: contactFormInputs?.name?.trim(),
           email: contactFormInputs?.email?.trim(),

@@ -25,7 +25,6 @@ function LibraryTopics() {
     value: 2,
   });
   const [isDelete, setDelete] = useState(false);
-
   const [SelectType, setSelectType] = useState([{ value: 2, label: "Topics" }]);
   const [BusinessUnitAll, setBusinessUnitAll] = useState([
     { value: 3, label: "Critical Care" },
@@ -36,15 +35,21 @@ function LibraryTopics() {
   const [heading, setHeading] = useState();
   const [footerButton, setFooterButton] = useState();
   const [topicId, setTopicId] = useState();
+
   const initFun = async () => {
-    loader("show");
-    const resp = await postData(ENDPOINT.SPC_PRO_LISTING, {
-      user_id: localStorage.getItem("user_id"),
-      type: content?.value,
-      category: newValue?.category,
-    });
-    setProductData(resp?.data?.data);
-    loader("hide");
+    try {
+      loader("show");
+      const resp = await postData(ENDPOINT.SPC_PRO_LISTING, {
+        user_id: localStorage.getItem("user_id"),
+        type: content?.value,
+        category: newValue?.category,
+      });
+      setProductData(resp?.data?.data);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
   };
   useEffect(() => {
     initFun();
@@ -52,8 +57,8 @@ function LibraryTopics() {
 
   const handleSubmit = async (e) => {
     if (!topicId) {
-      loader("show");
       try {
+        loader("show");
         await postData(ENDPOINT.ADD_SPC_PRODUCT, {
           user_id: localStorage.getItem("user_id"),
           product: newValue?.newProductValue?.trim(),
@@ -67,8 +72,8 @@ function LibraryTopics() {
       }
     } else {
       if (newValue?.newProductValue) {
-        loader("show");
         try {
+          loader("show");
           await postData(`${ENDPOINT.UPDATE_TOPIC}${topicId}`, {
             product: newValue?.newProductValue?.trim(),
             type: content?.value,
@@ -77,6 +82,7 @@ function LibraryTopics() {
 
           initFun();
         } catch (err) {
+          console.log("--err", err);
           loader("hide");
         }
       }
@@ -85,19 +91,21 @@ function LibraryTopics() {
   };
   const handleConfirmModel = async (id) => {
     setConfirmationPopup(false);
-    loader("show");
+
     try {
+      loader("show");
       await deleteMethod(`${ENDPOINT.SPC_PRO_DELETE}${id}`);
       loader("hide");
       setClickData(0);
       initFun();
       popup_alert({
         visible: "show",
-        message: "Your Topics has been deleted <br />successfully !",
+        message: "Your topics has been deleted <br />successfully !",
         type: "success",
         redirect: "",
       });
     } catch (err) {
+      console.log("--err", err);
       loader("hide");
     }
   };
@@ -199,7 +207,6 @@ function LibraryTopics() {
                 <Button
                   className="btn-bordered btn-voilet"
                   onClick={() => {
-                    // setShow(true);
                     setCommonModel("Add");
                   }}
                 >
@@ -326,7 +333,7 @@ function LibraryTopics() {
         popupMessage={{
           message1: "You are about to remove this topic forever.",
           message2: " Are you sure you want to do this?",
-          footerButton: " Yes Please!",
+          footerButton: " Yes please!",
         }}
         path_image={path_image}
       />

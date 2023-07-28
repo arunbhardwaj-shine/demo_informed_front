@@ -29,10 +29,17 @@ const SubLinkListing = ({ pdfid, render, count }) => {
 
   const getSubLinkListingData = async () => {
     if (typeof pdfid !== "undefined") {
-      setSectionLoader(true);
-      const res = await getData(ENDPOINT.LIBRARYRESUBLINKLISTING + "/" + pdfid);
-      setSubLinkData(res?.data?.data);
-      setSectionLoader(false);
+     
+      try{
+         setSectionLoader(true);
+        const res = await getData(ENDPOINT.LIBRARYRESUBLINKLISTING + "/" + pdfid);
+        setSubLinkData(res?.data?.data);
+        setSectionLoader(false);
+      }catch(err){
+        console.log("--err",err)
+        setSectionLoader(false);
+      }
+     
     }
   };
 
