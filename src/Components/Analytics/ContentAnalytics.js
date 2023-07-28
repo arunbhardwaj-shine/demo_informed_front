@@ -4,7 +4,7 @@ import { useLocation, Link } from "react-router-dom";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { postData, postFormData } from "../../axios/apiHelper";
+import { postData, postFormData, getData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
@@ -30,6 +30,7 @@ const ContentAnalytics = () => {
   const [readerData, setReaderData] = useState([]);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [isReaderAccordionOpen, setIsReaderAccordionOpen] = useState(false);
+  const [sublinkData, setSublinkData] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -67,12 +68,34 @@ const ContentAnalytics = () => {
       // alert(pdfObj[0].value)
       setSelectedPdf(pdfObj[0].value);
       setIsDataFound(true);
+      if (pdfObj[0].value) {
+        getSublink(pdfObj[0].value);
+      }
     } catch (err) {
       loader("hide");
       setIsDataFound(false);
       console.log(err);
     }
   }
+
+  const getSublink = async (pdfId) => {
+    try {
+      const res = await getData(ENDPOINT.LIBRARYRESUBLINKLISTING + "/" + pdfId);
+      const data = res?.data?.data;
+      console.log("data--->", data);
+      const subLinkObj = data
+        ?.map((item) => ({
+          label: item.name.trim(),
+          value: item.uniqueCode,
+        }))
+        .sort((a, b) =>
+          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+        );
+      setSublinkData(subLinkObj);
+    } catch (err) {
+      console.log("--err", err);
+    }
+  };
 
   async function filterPdfData(pdfId) {
     setIsLoaded(false);
@@ -89,9 +112,13 @@ const ContentAnalytics = () => {
       };
       const response = await postData(ENDPOINT.CONTENTANALYTICS, requestBody);
       const hadData = response?.data?.data || [];
+
       setIsDataFound(hadData);
       setIsLoaded(true);
       setIsPdfData(true);
+      if (hadData) {
+        getSublink(pdfId.value);
+      }
     } catch (err) {
       setIsDataFound(false);
       console.log(err);
@@ -99,6 +126,10 @@ const ContentAnalytics = () => {
       loader("hide");
     }
   }
+
+  const filterSublinkData = async (sublinkId) => {
+    console.log("sublink id--->", sublinkId);
+  };
 
   useEffect(() => {
     if (pdfOptions.length > 0) {
@@ -238,12 +269,14 @@ const ContentAnalytics = () => {
                   <Form className="product-unit d-flex justify-content-between align-items-center">
                     <div className="form-group d-flex align-items-center">
                       <label htmlFor="">Filter By</label>
+
                       <Select
                         options={pdfOptions}
                         onChange={(selectedOption) => {
                           filterPdfData(selectedOption); // call the function when an option is selected
                         }}
                         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+                        // className="dropdown-basic-button split-button-dropup mr-2 "
                         isClearable
                         defaultValue={
                           state?.pdfId
@@ -253,6 +286,7 @@ const ContentAnalytics = () => {
                             : pdfOptions?.[0]
                         } // pass the first object as the default value
                       />
+
                       <Select
                         options={urlOptions}
                         onChange={(selectedOption) => {
@@ -261,6 +295,17 @@ const ContentAnalytics = () => {
                         className="dropdown-basic-button split-button-dropup mr-2"
                         isClearable
                         defaultValue={urlOptions[0]}
+                      />
+                      {console.log("sub link---->", sublinkData)}
+                      <Select
+                        options={sublinkData}
+                        onChange={(selectedOption) => {
+                          filterSublinkData(selectedOption); // call the function when an option is selected
+                        }}
+                        className="dropdown-basic-button split-button-dropup mr-2"
+                        isClearable
+                        value={sublinkData[0] ? sublinkData[0] : ""}
+                        placeholder="Select sublink"
                       />
                     </div>
                   </Form>

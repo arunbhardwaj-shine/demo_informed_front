@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
 import { popup_alert } from "../../../popup_alert";
 import {
   deleteData,
@@ -29,18 +28,13 @@ import {
 
 import "react-toastify/dist/ReactToastify.css";
 import "react-activity/dist/library.css";
-
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-// import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
-
-const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryEditListing = () => {
   const limit = 24;
-  const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
@@ -48,7 +42,6 @@ const LibraryEditListing = () => {
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [totalCount, setCount] = useState(0);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
@@ -101,6 +94,8 @@ const LibraryEditListing = () => {
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
+
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const downloadQRData = [
     {
@@ -166,7 +161,6 @@ const LibraryEditListing = () => {
         setFilterData(res?.data?.data);
         setAllTags(res?.data?.data?.tags);
       }
-      // loader("hide");
     } catch (err) {
       // loader("hide");
       console.log("err");
@@ -174,9 +168,7 @@ const LibraryEditListing = () => {
   };
 
   const loadMoreClicked = () => {
-    // getLibraryData(sp, filterObject, search, 1);
     loader("show");
-
     let sp = page + 1;
     let totalRecord = loadData.limit * sp;
     let newData = [];
@@ -191,7 +183,6 @@ const LibraryEditListing = () => {
 
     setLibraryData((oldArray) => [...oldArray, ...newData]);
     setPage(sp);
-
     loader("hide");
   };
 
@@ -238,7 +229,6 @@ const LibraryEditListing = () => {
     setUserId(id);
 
     if (event == "data-tab") {
-      // setOpeningDetails(normal_data);
       let index = opening_details.findIndex((el) => el.pdfId == id);
       if (index === -1) {
         let normal_data = opening_details;
@@ -344,42 +334,9 @@ const LibraryEditListing = () => {
         }
       }
       setLibraryData(apiData);
-
-      // if (totalCount != res?.data?.data?.total) {
-      //   setCount(res?.data?.data?.total);
-      // }
-
-      // let total_results = 0;
-      // if (libraryData?.length) {
-      //   total_results = res?.data?.data?.library.length + libraryData.length;
-      //   if (res?.data?.data?.library) {
-      //     setLibraryData((oldArray) => [
-      //       ...oldArray,
-      //       ...res?.data?.data?.library,
-      //     ]);
-      //   }
-      // } else {
-      //   total_results = res?.data?.data?.library.length;
-      //   setLibraryData(res?.data?.data?.library);
-      // }
-
-      // if (res?.data?.data?.total > total_results) {
-      //   setIsLoaded(true);
-      // } else {
-      //   setIsLoaded(false);
-      // }
-
       setPageAll(false);
       setApiCallStatus(true);
       loader("hide");
-      // setPageAllClicked(false);
-      // if((res?.data?.data?.library).length>0){
-      //   setIsLoaded(true);
-      //   setNoData(false)
-      // }
-      // else{
-      //   setNoData(true)
-      // }
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -400,7 +357,6 @@ const LibraryEditListing = () => {
 
   const showConfirmationPopup = (stateMsg, e, id) => {
     if (stateMsg == "delete") {
-      // setUserId(id);
       setResetDataId(id);
       setCommonConfirmModelFun(() => deleteUser);
       setPopupMessage({
@@ -445,8 +401,6 @@ const LibraryEditListing = () => {
         });
         const updatedRes = libraryData.filter((item) => item.id !== id);
         setLibraryData(updatedRes);
-        // setLibraryData([]);
-        // getLibraryData(page, filterObject, search);
       }
 
       loader("hide");

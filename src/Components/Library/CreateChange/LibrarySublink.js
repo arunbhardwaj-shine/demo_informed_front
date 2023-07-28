@@ -88,7 +88,7 @@ const LibrarySublink = () => {
       Object.entries(res?.data?.data?.library).map(([index, item]) => {
         arr.push({
           value: item.id,
-          label: item.title.replace(/(<([^>]+)>)/gi, ''),
+          label: item.title.replace(/(<([^>]+)>)/gi, ""),
         });
         codearr.push({
           value: item.id,
@@ -142,6 +142,7 @@ const LibrarySublink = () => {
         campaignId: newLink.delivery,
         name: identifier,
       };
+
       const res = await postData(ENDPOINT.LIBRARYREADDSUBLINK, body);
       setLink({
         ...newLink,
@@ -156,8 +157,6 @@ const LibrarySublink = () => {
       loader("hide");
     }
     setCreateNewLink(false);
-
-    // console.log(newLink.delivery);
   };
 
   const getArticleData = () => {
@@ -1288,9 +1287,6 @@ const LibrarySublink = () => {
                       render={showSubLinkList}
                       count={linkRenderCount}
                     />
-                    {
-                      // <div className="sublink_right_block"></div>
-                    }
                   </Col>
                 </div>
               </div>

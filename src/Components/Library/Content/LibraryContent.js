@@ -40,20 +40,17 @@ import {
   getDraftData,
   getSelectedSmartListData,
 } from "../../../actions";
-const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryContent = (props) => {
   //-----All States-----//
 
   const [flag, setFlag] = useState(0);
-  const [clone, setClone] = useState(false);
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [totalCount, setCount] = useState(0);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
@@ -107,10 +104,7 @@ const LibraryContent = (props) => {
   });
   const [heading, setHeading] = useState("");
   const [footerButton, setFooterButton] = useState("");
-  const [handleSubmit, setHandleSubmit] = useState(() => {});
   const [modelData, setModelData] = useState();
-  const [handleType, setHandleType] = useState(() => {});
-  const [articleDataId, setArticleDataId] = useState();
   const [articleLanguage, setArticleLanguage] = useState();
   const [qrSize, setQrSize] = useState(290);
   const [isOpen, setIsOpen] = useState(false);
@@ -131,6 +125,8 @@ const LibraryContent = (props) => {
   const navigate = useNavigate();
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
+
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   let obj = {};
   const limit = 24;
@@ -243,7 +239,6 @@ const LibraryContent = (props) => {
 
         getLibraryData(page, obj, search);
       }
-      // loader("hide");
     } catch (err) {
       loader("hide");
       console.log("err");
@@ -252,7 +247,6 @@ const LibraryContent = (props) => {
 
   const loadMoreClicked = () => {
     loader("show");
-
     let sp = page + 1;
     let totalRecord = loadData.limit * sp;
     let newData = [];
@@ -368,7 +362,6 @@ const LibraryContent = (props) => {
 
     setOtherFilter(otherObj);
     setAppliedFilter(newObj);
-    // setFilterObject(newObj);
     setForceRender(!forceRender);
   };
 
@@ -411,10 +404,8 @@ const LibraryContent = (props) => {
 
     obj = {};
     if (Object.keys(filterObject)?.length) {
-      // setOtherFilter({});
       setFilterObject({});
       setLibraryData([]);
-      // setAppliedFilter({});
       getLibraryData(1, {}, search);
       setPage(1);
       setSearch("");
@@ -508,37 +499,6 @@ const LibraryContent = (props) => {
         }
       }
       setLibraryData(apiData);
-      // if (totalCount != res?.data?.data?.total && page == 1) {
-      //   setCount(res?.data?.data?.total);
-      // }
-
-      // let total_results = 0;
-      // if (page != 1) {
-      //   total_results = res?.data?.data?.library.length + libraryData.length;
-      //   if (res?.data?.data?.library) {
-      //     setLibraryData((oldArray) => [
-      //       ...oldArray,
-      //       ...res?.data?.data?.library,
-      //     ]);
-      //   }
-      // } else {
-      //   total_results = res?.data?.data?.library.length;
-      //   setLibraryData(res?.data?.data?.library);
-      // }
-
-      // if (page == 1) {
-      //   if (res?.data?.data?.total > total_results) {
-      //     setIsLoaded(true);
-      //   } else {
-      //     setIsLoaded(false);
-      //   }
-      // } else {
-      //   if (totalCount > total_results) {
-      //     setIsLoaded(true);
-      //   } else {
-      //     setIsLoaded(false);
-      //   }
-      // }
 
       setPageAll(false);
       setApiCallStatus(true);
@@ -577,7 +537,6 @@ const LibraryContent = (props) => {
         setConfirmationPopup(true);
       }
     } else if (stateMsg == "reset") {
-      // setDeleteStatus(false);
       setResetDataId(id);
       setCommonConfirmModelFun(() => resetCollection);
       setPopupMessage({
@@ -622,16 +581,11 @@ const LibraryContent = (props) => {
       setFooterButton("Download");
       setModelData(downloadQRData);
       setResetDataId("");
-
-      // setHandleSubmit(() => downloadQRCode);
-      // setHandleType(() => handleQR);
     } else if (stateMsg == "clone") {
       setResetDataId(id);
       setHeading("Clone Article");
       setFooterButton("Save");
       setModelData(articleLanguages);
-      // setHandleSubmit(() => saveArticle);
-      // setHandleType(() => handleLanguage);
     }
     setShow(true);
   };
@@ -652,9 +606,7 @@ const LibraryContent = (props) => {
   const removeindividualfilter = (key, item) => {
     let old_object = filterObject;
     let otherFilterObj = otherFilter;
-
     const index = old_object[key]?.indexOf(item);
-
     if (index > -1) {
       if (old_object[key].includes("All")) {
         const allIndex = old_object[key]?.indexOf("All");
@@ -734,18 +686,15 @@ const LibraryContent = (props) => {
       loader("hide");
     }
   };
-  const cloneArticle = async (pdf_id) => {
-    // console.log("id-->", pdf_id);
-  };
 
   const resetCollection = async (pdf_id) => {
-    loader("show");
     try {
-      let body = {
+      loader("show");
+
+      await resetStats(ENDPOINT.LIBRARYRESETSTATS, {
         user_id: localStorage.getItem("user_id"),
         pdfId: pdf_id,
-      };
-      await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
+      });
       let normal_data = opening_details;
       const lib_data_index = normal_data.findIndex((el) => el.pdfId === pdf_id);
       if (lib_data_index != -1) {
@@ -1379,9 +1328,7 @@ const LibraryContent = (props) => {
                                 dangerouslySetInnerHTML={{
                                   __html: data?.title,
                                 }}
-                              >
-                                {/* {data?.title} */}
-                              </h5>
+                              ></h5>
                               <h6>
                                 {data?.pdf_sub_title
                                   ? data.pdf_sub_title
@@ -2463,11 +2410,6 @@ const LibraryContent = (props) => {
       <CommonModel
         show={show}
         onClose={setShow}
-        // heading={"Download QR"}
-        // data={downloadQRData}
-        // footerButton={"Download"}
-        // handleSubmit={downloadQRCode}
-        // handleQR={handleQR}
         heading={heading}
         data={modelData}
         footerButton={footerButton}
