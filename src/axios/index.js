@@ -12,6 +12,7 @@ const requestHelper = axios.create({
 
 requestHelper.interceptors.request.use(
   (req) => {
+    req.timeout = 600000;
     const token = localStorage.getItem("user_id");
     const jt    = localStorage.getItem("decrypted_token");
     req.headers["token"] = token;
