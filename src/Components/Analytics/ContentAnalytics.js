@@ -12,6 +12,7 @@ import HighchartsReact from "highcharts-react-official";
 import ContentAnalyticsComponent from "./ContentAnalyticsComponent";
 import MapComponent from "./MapComponent";
 import domtoimage from "dom-to-image";
+import axios from "axios"
 
 exporting(Highcharts);
 exportData(Highcharts);
@@ -205,28 +206,56 @@ const ContentAnalytics = () => {
       console.log(err);
     }
   };
-
-  const downloadUniqueStats = async () => {
+  const downloadUniqueStats = async() => {
     try {
       loader("show");
-      const res = await postFormData(
-        ENDPOINT.DOWNLOADARTICLEREADERS,
-        { pdfId: selectedPdf },
-        {
-          responseType: "blob",
-        }
-      );
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(res?.data);
-      link.href = url;
-      link.download = "readers.xlsx";
-      link.click();
+      let durl = "https://webinar.informed.pro/Analytics/download_excel_new/"+selectedPdf;
+     const response =  await  axios.get(durl, { responseType: 'blob' })
+      // .then((response) => {
+        // Create a Blob from the response data
+        const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(blob);
+        // Create a link and click it to trigger the download
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'readers.xlsx';
+        link.click();
+        // Clean up the temporary URL
+        window.URL.revokeObjectURL(url);
+      // })
+      // .catch((error) => {
+      //   console.error('Error downloading the Excel file:', error);
+      // });
       loader("hide");
     } catch (err) {
       console.log(err);
       loader("hide");
     }
-  };
+  }
+
+  // const downloadUniqueStats = async () => {
+  //   try {
+  //     loader("show");
+  //    const result =  await axios.get(`https://webinar.informed.pro/Analytics/download_excel/${selectedPdf}`)
+  //     // const res = await postFormData(
+  //     //   ENDPOINT.DOWNLOADARTICLEREADERS,
+  //     //   { pdfId: selectedPdf },
+  //     //   {
+  //     //     responseType: "blob",
+  //     //   }
+  //     // );
+  //     // const link = document.createElement("a");
+  //     // const url = URL.createObjectURL(res?.data);
+  //     // link.href = url;
+  //     // link.download = "readers.xlsx";
+  //     // link.click();
+  //     loader("hide");
+  //   } catch (err) {
+  //     console.log(err);
+  //     loader("hide");
+  //   }
+  // };
   return (
     <>
       <Col className="right-sidebar">
