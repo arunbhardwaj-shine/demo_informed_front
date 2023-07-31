@@ -333,14 +333,6 @@ const ContentDetail = () => {
                                                     "group_id"
                                                   ) == "3" ? (
                                                     <>
-                                                      {/*<tr>
-                                                          <th>Trial</th>
-                                                          <td>
-                                                            {data?.trial_name
-                                                              ? data?.trial_name
-                                                              : "N/A"}
-                                                          </td>
-                                                        </tr>*/}
                                                       <tr>
                                                         <th>User Role</th>
                                                         <td>
@@ -620,9 +612,6 @@ const ContentDetail = () => {
                                                           "video"
                                                         ? "Video"
                                                         : "PDF"}
-                                                      {/*data?.linkType
-                                                          ? data?.linkType
-                                                          : "N/A"*/}
                                                     </td>
                                                   </tr>
                                                 ) : null}

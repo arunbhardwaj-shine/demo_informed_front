@@ -1234,7 +1234,7 @@ const LibraryCreateUser = () => {
                       <a href="">Create Your Content</a>
                     </li>
                     {localStorage.getItem("user_id") ==
-                    "rjiGlqA9DXJVH7bDDTX0Lg=="  && userInputs?.allowVideo ? (
+                      "rjiGlqA9DXJVH7bDDTX0Lg==" && userInputs?.allowVideo ? (
                       <li className="">
                         <a href="">[Embedding Video]</a>
                       </li>
@@ -1796,8 +1796,7 @@ const LibraryCreateUser = () => {
                           </div>
                         ) : null}
                       </div>
-                    ) : // ePrint == "eBook" ? (
-                    userInputs.docintelFormat == "ebook" ? (
+                    ) : userInputs.docintelFormat == "ebook" ? (
                       chapter.map((val, i) => {
                         return (
                           <>
@@ -2026,10 +2025,11 @@ const LibraryCreateUser = () => {
 
                   {(ebookFile?.length &&
                     userInputs.docintelFormat?.includes("ebook")) ||
-                  ["ebook", "pdf", "pdfSpc"].includes(
+                  (["ebook", "pdf", "pdfSpc"].includes(
                     userInputs.docintelFormat
-                  ) && localStorage.getItem("user_id") ==
-                  "rjiGlqA9DXJVH7bDDTX0Lg==" ? (
+                  ) &&
+                    localStorage.getItem("user_id") ==
+                      "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>
@@ -2068,12 +2068,7 @@ const LibraryCreateUser = () => {
               <p>Select the chapter </p>
               <Form.Group className="formgroup">
                 <Form.Label>Chapters</Form.Label>
-                {/* <ReactSelect
-                  placeholder="Select your chapter"
-                  options={types}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                /> */}
+
                 <DropdownButton
                   className="dropdown-basic-button split-button-dropup "
                   title={
@@ -2171,7 +2166,6 @@ const LibraryCreateUser = () => {
           <Button
             className="btn-filled"
             variant="primary"
-            // onClick={handleClose}
             onClick={() => navigate("/edit-Consent-Options")}
           >
             Save

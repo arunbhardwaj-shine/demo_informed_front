@@ -36,7 +36,6 @@ const LibraryCreate = () => {
         },
       ];
       data = data.concat(newObj);
-      // console.log(data.concat(newObj),"concat");
   }
 
   if (

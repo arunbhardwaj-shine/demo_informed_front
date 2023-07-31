@@ -179,33 +179,37 @@ const SpcEdit = () => {
   };
 
   const publishClicked = async (event) => {
-    loader("show");
     event.preventDefault();
+    try {
+      loader("show");
+      const result = SPCValidation(userInputs);
 
-    const result = SPCValidation(userInputs);
+      if (Object.keys(result)?.length) {
+        toast.error(result[Object.keys(result)[0]]);
+        setError(result);
+        loader("hide");
+        return;
+      }
 
-    if (Object.keys(result)?.length) {
-      toast.error(result[Object.keys(result)[0]]);
-      setError(result);
+      const data = new FormData(event.target);
+      data.append("id", state?.spcId);
+      data.append("createdBy", localStorage.getItem("user_id"));
+      await postFormData(ENDPOINT.SPC_UPDATE, data, {
+        header: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       loader("hide");
-      return;
+      popup_alert({
+        visible: "show",
+        message: "Your SPC has been published <br />successfully !",
+        type: "success",
+        redirect: "/spc-view",
+      });
+    } catch (err) {
+      console.log("--err", err);
+      loader("hide");
     }
-
-    const data = new FormData(event.target);
-    data.append("id", state?.spcId);
-    data.append("createdBy", localStorage.getItem("user_id"));
-    await postFormData(ENDPOINT.SPC_UPDATE, data, {
-      header: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    loader("hide");
-    popup_alert({
-      visible: "show",
-      message: "Your SPC has been published <br />successfully !",
-      type: "success",
-      redirect: "/spc-view",
-    });
   };
 
   const isJson = (str) => {
@@ -441,48 +445,6 @@ const SpcEdit = () => {
         handleSubmit={addProductClicked}
         inputValue
       />
-      {/* <Modal show={show} className="send-confirm spc-create" id="download-qr">
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Add New Product
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            onClick={() => {
-              setShow(false);
-              setNewProduct("");
-            }}
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="row">
-            <div className="col-12">
-              <Form>
-                <div className="form-group">
-                  <label htmlFor="">Product Name</label>
-                  <input
-                    type="text"
-                    placeholder="Type your product name"
-                    className="form-control"
-                    onChange={(e) => addNewProductChanged(e)}
-                  />
-                </div>
-              </Form>
-            </div>
-          </div>
-        </Modal.Body>
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            onClick={addProductClicked}
-          >
-            Add
-          </button>
-        </div>
-      </Modal> */}
     </>
   );
 };

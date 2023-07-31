@@ -31,8 +31,8 @@ const SpcCreate = () => {
   }, []);
 
   const getSpcData = async () => {
-    loader("show");
     try {
+      loader("show");
       let body = {
         user_id: localStorage.getItem("user_id"),
       };
@@ -64,8 +64,9 @@ const SpcCreate = () => {
         });
         setLanguage(lng);
       });
-      loader("hide");
     } catch (err) {
+      console.log("--err", err);
+    } finally {
       loader("hide");
     }
   };
@@ -93,18 +94,6 @@ const SpcCreate = () => {
           : e?.target?.value,
       });
     }
-    // const result = SPCValidation({
-    //   ...userInputs,
-    //   [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-    //     ? e?.target?.files
-    //       ? e?.target?.files
-    //       : e
-    //     : e?.target?.value,
-    // });
-    // if (Object.keys(result)?.length) {
-    //   setError(result);
-    //   return;
-    // }
     setError({});
   };
 
@@ -115,9 +104,9 @@ const SpcCreate = () => {
   };
 
   const addProductClicked = async () => {
-    loader("show");
     if (newProduct.trim() != "") {
       try {
+        loader("show");
         let body = {
           user_id: localStorage.getItem("user_id"),
           product: newProduct,
@@ -131,10 +120,12 @@ const SpcCreate = () => {
         ]);
         toast.success(res?.data?.message);
       } catch (err) {
+        console.log("--err", err);
+      } finally {
         loader("hide");
       }
     }
-    loader("hide");
+
     setShow(false);
   };
 
@@ -151,20 +142,19 @@ const SpcCreate = () => {
   };
 
   const publishClicked = async (event) => {
-    loader("show");
     event.preventDefault();
-
-    const result = SPCValidation(userInputs);
-
-    if (Object.keys(result)?.length) {
-      toast.error(result[Object.keys(result)[0]]);
-      setError(result);
-      loader("hide");
-      return;
-    }
-    const data = new FormData(event.target);
-    data.append("createdBy", localStorage.getItem("user_id"));
     try {
+      loader("show");
+      const result = SPCValidation(userInputs);
+
+      if (Object.keys(result)?.length) {
+        toast.error(result[Object.keys(result)[0]]);
+        setError(result);
+        loader("hide");
+        return;
+      }
+      const data = new FormData(event.target);
+      data.append("createdBy", localStorage.getItem("user_id"));
       await postFormData(ENDPOINT.SPCCREATE, data, {
         header: {
           "Content-Type": "multipart/form-data",
@@ -176,10 +166,10 @@ const SpcCreate = () => {
         type: "success",
         redirect: "/spc-view",
       });
-      loader("hide");
     } catch (err) {
+      console.log("--err", err);
+    } finally {
       loader("hide");
-      console.log(err);
     }
   };
 
@@ -417,48 +407,6 @@ const SpcCreate = () => {
         handleSubmit={addProductClicked}
         inputValue
       />
-      {/* <Modal show={show} className="send-confirm spc-create" id="download-qr">
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Add New Product
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            onClick={() => {
-              setShow(false);
-              setNewProduct("");
-            }}
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="row">
-            <div className="col-12">
-              <Form>
-                <div className="form-group">
-                  <label htmlFor="">Product Name</label>
-                  <input
-                    type="text"
-                    placeholder="Type your product name"
-                    className="form-control"
-                    onChange={(e) => addNewProductChanged(e)}
-                  />
-                </div>
-              </Form>
-            </div>
-          </div>
-        </Modal.Body>
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            onClick={addProductClicked}
-          >
-            Add
-          </button>
-        </div>
-      </Modal> */}
     </>
   );
 };
