@@ -38,8 +38,8 @@ const ContentAnalytics = () => {
   }, []);
 
   async function getDataFromApi() {
-    loader("show");
     try {
+      loader("show");
       const requestBody = {
         selectValue: JSON.stringify(["id", "title", "code"]),
         type: "rest",
@@ -82,7 +82,6 @@ const ContentAnalytics = () => {
     try {
       const res = await getData(ENDPOINT.LIBRARYRESUBLINKLISTING + "/" + pdfId);
       const data = res?.data?.data;
-      console.log("data--->", data);
       const subLinkObj = data
         ?.map((item) => ({
           label: item.name.trim(),
@@ -104,8 +103,9 @@ const ContentAnalytics = () => {
     setIsReaderAccordionOpen(false);
 
     setSelectedPdf(pdfId.value);
-    loader("show");
+
     try {
+      loader("show");
       setIsPdfData(false);
       const requestBody = {
         pdfId: pdfId.value,
@@ -296,17 +296,16 @@ const ContentAnalytics = () => {
                         isClearable
                         defaultValue={urlOptions[0]}
                       />
-                      {console.log("sub link---->", sublinkData)}
-                      <Select
+                      {/* <Select
                         options={sublinkData}
                         onChange={(selectedOption) => {
-                          filterSublinkData(selectedOption); // call the function when an option is selected
+                          filterSublinkData(selectedOption); 
                         }}
                         className="dropdown-basic-button split-button-dropup mr-2"
                         isClearable
                         value={sublinkData[0] ? sublinkData[0] : ""}
                         placeholder="Select sublink"
-                      />
+                      /> */}
                     </div>
                   </Form>
                   <div className="clear-search d-flex">
