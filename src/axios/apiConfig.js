@@ -107,5 +107,6 @@ export const ENDPOINT = {
   QUESTION_UPDATE: "/auth/question-update",
   ADD_EVENT_DATA: "/auth/add-event-data",
   EVENT_SUBMIT: "/auth/event-submit",
+  EVENT_CLOSE: "/auth/close-submit",
 
 };
