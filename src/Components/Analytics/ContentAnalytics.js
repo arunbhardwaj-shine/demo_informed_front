@@ -20,17 +20,20 @@ const ContentAnalytics = () => {
   const { state } = useLocation();
   const [pdfData, setPdfData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
+  const [filterPdfLinkData, setFilterPdfLinkData] = useState();
+  const [sublinkData, setSublinkData] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [pdfOptions, setPdfOptions] = useState([]);
   const [urlOptions, setUrlOptions] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(0);
+  const [selectedSublink, setSelectedSublink] = useState("");
   const [isPdfData, setIsPdfData] = useState(false);
   const [sectionLoader, setSectionLoader] = useState(false);
   const [mapData, setMapData] = useState([]);
   const [readerData, setReaderData] = useState([]);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [isReaderAccordionOpen, setIsReaderAccordionOpen] = useState(false);
-  const [sublinkData, setSublinkData] = useState([]);
+  const [sublinkOptions, setSublinkOptions] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -90,7 +93,7 @@ const ContentAnalytics = () => {
         .sort((a, b) =>
           a.label.toLowerCase().localeCompare(b.label.toLowerCase())
         );
-      setSublinkData(subLinkObj);
+      setSublinkOptions(subLinkObj);
     } catch (err) {
       console.log("--err", err);
     }
@@ -99,9 +102,11 @@ const ContentAnalytics = () => {
   async function filterPdfData(pdfId) {
     setIsLoaded(false);
     setReaderData([]);
+    setSublinkOptions([]);
     setIsAccordionOpen(false);
     setIsReaderAccordionOpen(false);
-
+    setSelectedSublink("");
+    setSublinkData("");
     setSelectedPdf(pdfId.value);
 
     try {
@@ -113,7 +118,7 @@ const ContentAnalytics = () => {
       const response = await postData(ENDPOINT.CONTENTANALYTICS, requestBody);
       const hadData = response?.data?.data || [];
 
-      setIsDataFound(hadData);
+      setFilterPdfLinkData(hadData);
       setIsLoaded(true);
       setIsPdfData(true);
       if (hadData) {
@@ -128,7 +133,25 @@ const ContentAnalytics = () => {
   }
 
   const filterSublinkData = async (sublinkId) => {
-    console.log("sublink id--->", sublinkId);
+    try {
+      loader("show");
+      setIsPdfData(false);
+      setIsAccordionOpen(false);
+      setSelectedSublink(sublinkId?.value);
+      const body = {
+        pdfId: selectedPdf,
+        userpdf_unique_code: sublinkId?.value,
+        flag: 1,
+      };
+      const res = await postData(ENDPOINT.LIBRARY_SUBLINK_ANALYTICS, body);
+      const hadData = res?.data?.data || [];
+      setSublinkData(hadData);
+      setIsPdfData(true);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
   };
 
   useEffect(() => {
@@ -137,16 +160,25 @@ const ContentAnalytics = () => {
       filterPdfData(pdfId);
     }
   }, [pdfOptions]);
+
   const handleAccordionOpen = async () => {
     try {
       if (!isAccordionOpen) {
         setSectionLoader(true);
-
-        const requestBody = { pdfId: selectedPdf };
-        const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
-        const hadMapData = response?.data || [];
-
-        setMapData(hadMapData);
+        if (selectedSublink) {
+          const response = await postData(ENDPOINT.SUBLINK_MAPLOCATION, {
+            userpdf_unique_code: selectedSublink,
+            pdfId: selectedPdf,
+          });
+          const hadMapData = response?.data || [];
+          setMapData(hadMapData);
+        } else {
+          const response = await postData(ENDPOINT.MAPLOCATION, {
+            pdfId: selectedPdf,
+          });
+          const hadMapData = response?.data || [];
+          setMapData(hadMapData);
+        }
 
         setIsAccordionOpen(true);
       } else {
@@ -273,10 +305,9 @@ const ContentAnalytics = () => {
                       <Select
                         options={pdfOptions}
                         onChange={(selectedOption) => {
-                          filterPdfData(selectedOption); // call the function when an option is selected
+                          filterPdfData(selectedOption);
                         }}
                         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
-                        // className="dropdown-basic-button split-button-dropup mr-2 "
                         isClearable
                         defaultValue={
                           state?.pdfId
@@ -284,28 +315,55 @@ const ContentAnalytics = () => {
                                 (item) => item?.value == state?.pdfId
                               )
                             : pdfOptions?.[0]
-                        } // pass the first object as the default value
+                        }
+                        value={
+                          selectedPdf != ""
+                            ? pdfOptions[
+                                pdfOptions?.findIndex(
+                                  (el) => el?.value === selectedPdf
+                                )
+                              ]
+                            : ""
+                        }
                       />
 
                       <Select
                         options={urlOptions}
                         onChange={(selectedOption) => {
-                          filterPdfData(selectedOption); // call the function when an option is selected
+                          filterPdfData(selectedOption);
                         }}
                         className="dropdown-basic-button split-button-dropup mr-2"
                         isClearable
                         defaultValue={urlOptions[0]}
+                        value={
+                          selectedPdf != ""
+                            ? urlOptions[
+                                urlOptions?.findIndex(
+                                  (el) => el?.value === selectedPdf
+                                )
+                              ]
+                            : ""
+                        }
                       />
-                      {/* <Select
-                        options={sublinkData}
+
+                      <Select
+                        options={sublinkOptions}
                         onChange={(selectedOption) => {
-                          filterSublinkData(selectedOption); 
+                          filterSublinkData(selectedOption);
                         }}
                         className="dropdown-basic-button split-button-dropup mr-2"
                         isClearable
-                        value={sublinkData[0] ? sublinkData[0] : ""}
                         placeholder="Select sublink"
-                      /> */}
+                        value={
+                          selectedSublink != ""
+                            ? sublinkOptions[
+                                sublinkOptions?.findIndex(
+                                  (el) => el?.value === selectedSublink
+                                )
+                              ]
+                            : ""
+                        }
+                      />
                     </div>
                   </Form>
                   <div className="clear-search d-flex">
@@ -359,7 +417,10 @@ const ContentAnalytics = () => {
 
               {isPdfData ? (
                 <div id="parent">
-                  <ContentAnalyticsComponent data={isDataFound} />
+                  <ContentAnalyticsComponent
+                    data={filterPdfLinkData}
+                    sublinkData={sublinkData}
+                  />
                   <div className="content_analytics">
                     <Row>
                       <Col>
@@ -389,17 +450,25 @@ const ContentAnalytics = () => {
                                 </div>
                               ) : null}
                               {isAccordionOpen ? (
-                                <>
-                                  <MapComponent
-                                    data={mapData?.data}
-                                    status={false}
-                                  />
-                                  <Row>
-                                    <Col>
-                                      <BarComponent data={mapData} />
-                                    </Col>
-                                  </Row>
-                                </>
+                                Object.keys(mapData?.data)?.length ? (
+                                  <>
+                                    <MapComponent
+                                      data={mapData?.data}
+                                      status={false}
+                                    />
+                                    <Row>
+                                      <Col>
+                                        <BarComponent data={mapData} />
+                                      </Col>
+                                    </Row>
+                                  </>
+                                ) : (
+                                  <>
+                                    <div className="no_found">
+                                      <p align="center">No Data Available</p>
+                                    </div>
+                                  </>
+                                )
                               ) : null}
                             </Accordion.Body>
                           </Accordion.Item>

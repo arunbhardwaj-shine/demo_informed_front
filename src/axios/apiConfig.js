@@ -45,6 +45,7 @@ export const ENDPOINT = {
   ANALYTICS: "/analytics/graph",
   OPENING_BY_COUNTRY: "/analytics/reader-country",
   CONTENTANALYTICS: "/analytics/content-analytics",
+  LIBRARY_SUBLINK_ANALYTICS: "/library/sublink-analtyics",
   READERANALYTICS: "/analytics/reader-analytics",
   OCTALATCH_TOTAL_HCP:
     "https://webinar.docintel.app/lmn/api/analytics/octo_lach_stats",
@@ -55,6 +56,7 @@ export const ENDPOINT = {
   CAMPAINGSTAT: "analytics/campaign-stats",
 
   MAPLOCATION: `analytics/map-location`,
+  SUBLINK_MAPLOCATION: `library/Sublink-country`,
   REPORTS: "analytics/reports",
   CONTENTTYPE: "analytics/content-type",
   CIS_CONTENT_TYPE: "analytics/contentTypeData",
