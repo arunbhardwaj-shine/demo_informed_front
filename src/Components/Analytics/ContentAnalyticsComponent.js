@@ -179,6 +179,7 @@ export default function ContentAnalyticsComponent({ data }) {
               value={data.opening}
               color="#57cabd"
               limit={agreed_limit}
+              pdf_id={data?.id}
             />
             <ContentAnalyticsComponentActivityGauge
               value={data.uniqueReader}
@@ -186,6 +187,7 @@ export default function ContentAnalyticsComponent({ data }) {
               limit={agreed_limit}
               label={`Unique Reader (total) Agreed Limit | ${data?.limit == 0 ? "Unlimited" : data?.limit
                 }`}
+              pdf_id={data?.id}
             />
 
             <ContentAnalyticsComponentActivityGauge
@@ -193,19 +195,23 @@ export default function ContentAnalyticsComponent({ data }) {
               color="#ed9ba0"
               limit={agreed_limit}
               label=" Registered Reader (total)"
+              pdf_id={data?.id}
             />
             <ContentAnalyticsComponentActivityGauge
               value={data.rtr}
               color="#956ca7"
               limit={agreed_limit}
               label="User With RTR"
+              pdf_id={data?.id}
             />
             <ContentAnalyticsComponentActivityGauge
               value={data.download}
               color="#2466c0"
               limit={agreed_limit}
               label="Downloads"
+              pdf_id={data?.id}
             />
+
           </div>
         </Row>
 
@@ -326,7 +332,7 @@ export default function ContentAnalyticsComponent({ data }) {
                             Highcharts.numberFormat(this.y, 0) +
                             "</strong></div>"
                           );
-                          
+
                         },
                       },
                     },
