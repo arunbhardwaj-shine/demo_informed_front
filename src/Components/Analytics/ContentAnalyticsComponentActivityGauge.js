@@ -92,8 +92,8 @@ export default function ContentAnalyticsComponentActivityGauge({
       loader("show");
       let durl = "https://webinar.informed.pro/Analytics/country_downloads_new/"+pdf_id;
 
-      axios.get(durl, { responseType: 'blob' })
-      .then((response) => {
+      const response = await axios.get(durl, { responseType: 'blob' })
+      // .then((response) => {
         // Create a Blob from the response data
         const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
@@ -108,10 +108,10 @@ export default function ContentAnalyticsComponentActivityGauge({
 
         // Clean up the temporary URL
         window.URL.revokeObjectURL(url);
-      })
-      .catch((error) => {
-        console.error('Error downloading the Excel file:', error);
-      });
+      // })
+      // .catch((error) => {
+      //   console.error('Error downloading the Excel file:', error);
+      // });
       loader("hide");
     } catch (err) {
       console.log(err);
