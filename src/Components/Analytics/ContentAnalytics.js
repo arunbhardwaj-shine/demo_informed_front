@@ -467,7 +467,7 @@ const ContentAnalytics = () => {
                                   </div>
                                 </div>
                               ) : null}
-                              {console.log("map data--->", mapData)}
+
                               {isAccordionOpen ? (
                                 Object.keys(mapData?.data?.countryname)
                                   ?.length ? (
