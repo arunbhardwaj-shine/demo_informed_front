@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row, Image, ProgressBar } from "react-bootstrap";
 import ContentAnalyticsComponentActivityGauge from "./ContentAnalyticsComponentActivityGauge";
 import Highcharts, { color } from "highcharts";
@@ -8,7 +8,16 @@ import solidGauge from "highcharts/modules/solid-gauge";
 highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
-export default function ContentAnalyticsComponent({ data }) {
+export default function ContentAnalyticsComponent({ data, sublinkData }) {
+  const [selectedData, setSelectedData] = useState();
+  useEffect(() => {
+    if (sublinkData) {
+      setSelectedData(sublinkData);
+    } else {
+      setSelectedData(data);
+    }
+  }, [selectedData]);
+
   let client = "";
   if (data.country == "" && data.company == "" && data.product == "") {
     client = "NA";
@@ -52,14 +61,21 @@ export default function ContentAnalyticsComponent({ data }) {
     get_precentage = 100;
   }
 
-  let agreed_limit = data.limit != "" && data.limit != 0 ? data.limit : 1000;
-  const arr = ["Openings", "Unique Readers"];
-  var categories_data = Object.keys(data?.graph?.openig);
-  var series_data = Object.entries(data.graph).map(([name, values], index) => ({
-    name: arr[index],
-    data: Object.values(values),
-  }));
+  let agreed_limit =
+    selectedData?.limit != "" && selectedData?.limit != 0
+      ? selectedData?.limit
+      : 1000;
 
+  if (selectedData) {
+    const arr = ["Openings", "Unique Readers"];
+    var categories_data = Object.keys(selectedData?.graph?.openig);
+    var series_data = Object.entries(selectedData?.graph)?.map(
+      ([name, values], index) => ({
+        name: arr[index],
+        data: Object.values(values),
+      })
+    );
+  }
 
   // Get the categories from the first series data
   let categories = Object.keys(data[Object.keys(data)[0]]);
@@ -142,15 +158,6 @@ export default function ContentAnalyticsComponent({ data }) {
                         </div>
                       </>
                     )}
-
-                    {/* <div>
-                      <ProgressBar>
-                        <ProgressBar
-                          now={get_precentage}
-                          label={`${get_precentage}% Complete`}
-                        />
-                      </ProgressBar>
-                    </div> */}
                   </div>
                   <div className="reparkive-box">
                     <p>
@@ -176,94 +183,42 @@ export default function ContentAnalyticsComponent({ data }) {
           <div className="circle_graph d-flex">
             <ContentAnalyticsComponentActivityGauge
               label="Openings(total)"
-              value={data.opening}
+              value={selectedData?.opening}
               color="#57cabd"
               limit={agreed_limit}
               pdf_id={data?.id}
             />
             <ContentAnalyticsComponentActivityGauge
-              value={data.uniqueReader}
+              value={selectedData?.uniqueReader}
               color="#f4c64b"
               limit={agreed_limit}
-              label={`Unique Reader (total) Agreed Limit | ${data?.limit == 0 ? "Unlimited" : data?.limit
-                }`}
+              label={`Unique Reader (total) Agreed Limit | ${
+                data?.limit == 0 ? "Unlimited" : data?.limit
+              }`}
               pdf_id={data?.id}
             />
 
             <ContentAnalyticsComponentActivityGauge
-              value={data.registerReader}
+              value={selectedData?.registerReader}
               color="#ed9ba0"
               limit={agreed_limit}
               label=" Registered Reader (total)"
               pdf_id={data?.id}
             />
             <ContentAnalyticsComponentActivityGauge
-              value={data.rtr}
+              value={selectedData?.rtr}
               color="#956ca7"
               limit={agreed_limit}
               label="User With RTR"
               pdf_id={data?.id}
             />
             <ContentAnalyticsComponentActivityGauge
-              value={data.download}
+              value={selectedData?.download}
               color="#2466c0"
               limit={agreed_limit}
               label="Downloads"
               pdf_id={data?.id}
             />
-
-          </div>
-        </Row>
-
-        <Row>
-          <div>
-            <Row>
-              {/* <Col>
-                  <p>Openings (total)</p>
-                </Col>
-                <Col>
-                  <p>Unique Reader (total)</p>
-                  <p>Agreed Limit | {agreed_limit}</p>
-                </Col> */}
-              {/* <Col>
-                  <p> Registered Reader (total)</p>
-                </Col>
-                <Col>
-                  <p> User With Rtr </p>
-                </Col>
-                <Col>
-                  <p> Downloads </p>
-                </Col> */}
-            </Row>
-
-            {/* <Row>
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.opening}
-                  color="#57cabd"
-                  limit={agreed_limit}
-                />
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.opening}
-                  color="#f4c64b"
-                  limit={agreed_limit}
-                />
-
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.registerReader}
-                  color="#ed9ba0"
-                  limit={agreed_limit}
-                />
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.rtr}
-                  color="#956ca7"
-                  limit={agreed_limit}
-                />
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.download}
-                  color="#2466c0"
-                  limit={agreed_limit}
-                />
-              </Row> */}
           </div>
         </Row>
 
@@ -332,7 +287,6 @@ export default function ContentAnalyticsComponent({ data }) {
                             Highcharts.numberFormat(this.y, 0) +
                             "</strong></div>"
                           );
-
                         },
                       },
                     },
@@ -352,207 +306,6 @@ export default function ContentAnalyticsComponent({ data }) {
             </Row>
           </div>
         </Row>
-        {/* <Col>
-          <Row>
-            <Col>
-              <Row>
-                <Col>
-                  <Image src={data.coverImage} alt="Image not availble" fluid />
-                </Col>
-                <Col>
-                  <div>{data.title}</div>
-                  <div>{data.pdf_sub_title}</div>
-                  <div>
-                    {" "}
-                    <span>{data.key_author ? data.key_author : "NA"}</span>
-                  </div>
-                  <div>{data.docintelLink}</div>
-                </Col>
-                <Col>
-                  <div>
-                    Consent type :<span>{data.linkType}</span>
-                  </div>
-                  <div>
-                    Client :<span>{client}</span>
-                  </div>
-                  <div>
-                    Agreed Limit: <span>{data.limit}</span>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <div>
-                    Upload Date :{" "}
-                    <p>
-                      {new Date(data.created).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
-                </Col>
-
-                <Col>
-                  <div>
-                    <span>{data.daysLeft}</span> days Left{" "}
-                    <div>
-                      <ProgressBar>
-                        <ProgressBar
-                          now={get_precentage}
-                          label={`${get_precentage}% Complete`}
-
-                        />
-                      </ProgressBar>
-                    </div>
-                  </div>
-                </Col>
-                <Col>
-                  <div>
-                    Exp Date :
-                    <p>
-                      {new Date(data.exp_datetime).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
-                </Col>
-              </Row>
-                    </Col>
-          </Row>
-
-          <Row>
-            <div>
-              <Row>
-                <Col>
-                  <p>Openings (total)</p>
-                </Col>
-                <Col>
-                  <p>Unique Reader (total)</p>
-                  <p>Agreed Limit | {agreed_limit}</p>
-                </Col>
-                <Col>
-                  <p> Registered Reader (total)</p>
-                </Col>
-                <Col>
-                  <p> User With Rtr </p>
-                </Col>
-                <Col>
-                  <p> Downloads </p>
-                </Col>
-
-              </Row>
-              <Row>
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.opening}
-                  color="#57cabd"
-                  limit={agreed_limit}
-                />
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.opening}
-                  color="#f4c64b"
-                  limit={agreed_limit}
-                />
-
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.registerReader}
-                  color="#ed9ba0"
-                  limit={agreed_limit}
-                />
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.rtr}
-                  color="#956ca7"
-                  limit={agreed_limit}
-                />
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.download}
-                  color="#2466c0"
-                  limit={agreed_limit}
-                />
-              </Row>
-            </div>
-          </Row>
-
-          <Row>
-            <div>
-              <Row>
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={{
-                    chart: {
-                      type: "line",
-                    },
-                    credits: {
-                      enabled: false,
-                    },
-                    yAxis: {
-                      min: 0,
-                      tickInterval: 1,
-                      title: {
-                        text: "",
-                      },
-                    },
-                    xAxis: {
-                      categories: categories_data,
-                    },
-                    title: {
-                      text: "",
-                    },
-                    plotOptions: {
-                      series: {
-                        dataLabels: {
-                          allowOverlap: true,
-                          enabled: true,
-                          inside: false,
-                          overflow: "justify",
-                          crop: true,
-                          shape: "callout",
-                          backgroundColor: "rgba(255,255,255)",
-                          borderColor: "rgba(0,0,0,0.9)",
-                          color: "rgba(0,0,0)",
-                          borderWidth: 0.5,
-                          borderRadius: 5,
-                          style: {
-                            fontFamily: "Helvetica, sans-serif",
-                            fontSize: "8px",
-                            fontWeight: "normal",
-                            textShadow: "none",
-                          },
-                          formatter: function () {
-                            return (
-                              "<div className=" +
-                              this.series.name +
-                              '><span style="font-weight: bold;">' +
-                              this.x +
-                              "</span><br/><strong>" +
-                              this.series.name +
-                              "</strong> <strong>" +
-                              Highcharts.numberFormat(this.y, 0) +
-                              "</strong></div>"
-                            );
-                          },
-                        },
-                      },
-                    },
-                    tooltip: {
-                      enabled: false,
-                    },
-                    column: {
-                      colorByPoint: true,
-                    },
-                    exporting: {
-                      enabled: true,
-                    },
-                    series: series_data,
-                  }}
-                />
-              </Row>
-            </div>
-          </Row>
-        </Col> */}
       </div>
     </>
   );
