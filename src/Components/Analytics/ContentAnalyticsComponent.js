@@ -192,8 +192,9 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               value={selectedData?.uniqueReader}
               color="#f4c64b"
               limit={agreed_limit}
-              label={`Unique Reader (total) Agreed Limit | ${data?.limit == 0 ? "Unlimited" : data?.limit
-                }`}
+              label={`Unique Reader (total) Agreed Limit | ${
+                data?.limit == 0 ? "Unlimited" : data?.limit
+              }`}
               pdf_id={data?.id}
             />
 
@@ -218,7 +219,6 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               label="Downloads"
               pdf_id={data?.id}
             />
-
           </div>
         </Row>
 
@@ -306,207 +306,6 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
             </Row>
           </div>
         </Row>
-        {/* <Col>
-          <Row>
-            <Col>
-              <Row>
-                <Col>
-                  <Image src={data.coverImage} alt="Image not availble" fluid />
-                </Col>
-                <Col>
-                  <div>{data.title}</div>
-                  <div>{data.pdf_sub_title}</div>
-                  <div>
-                    {" "}
-                    <span>{data.key_author ? data.key_author : "NA"}</span>
-                  </div>
-                  <div>{data.docintelLink}</div>
-                </Col>
-                <Col>
-                  <div>
-                    Consent type :<span>{data.linkType}</span>
-                  </div>
-                  <div>
-                    Client :<span>{client}</span>
-                  </div>
-                  <div>
-                    Agreed Limit: <span>{data.limit}</span>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <div>
-                    Upload Date :{" "}
-                    <p>
-                      {new Date(data.created).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
-                </Col>
-
-                <Col>
-                  <div>
-                    <span>{data.daysLeft}</span> days Left{" "}
-                    <div>
-                      <ProgressBar>
-                        <ProgressBar
-                          now={get_precentage}
-                          label={`${get_precentage}% Complete`}
-
-                        />
-                      </ProgressBar>
-                    </div>
-                  </div>
-                </Col>
-                <Col>
-                  <div>
-                    Exp Date :
-                    <p>
-                      {new Date(data.exp_datetime).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
-                </Col>
-              </Row>
-                    </Col>
-          </Row>
-
-          <Row>
-            <div>
-              <Row>
-                <Col>
-                  <p>Openings (total)</p>
-                </Col>
-                <Col>
-                  <p>Unique Reader (total)</p>
-                  <p>Agreed Limit | {agreed_limit}</p>
-                </Col>
-                <Col>
-                  <p> Registered Reader (total)</p>
-                </Col>
-                <Col>
-                  <p> User With Rtr </p>
-                </Col>
-                <Col>
-                  <p> Downloads </p>
-                </Col>
-
-              </Row>
-              <Row>
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.opening}
-                  color="#57cabd"
-                  limit={agreed_limit}
-                />
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.opening}
-                  color="#f4c64b"
-                  limit={agreed_limit}
-                />
-
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.registerReader}
-                  color="#ed9ba0"
-                  limit={agreed_limit}
-                />
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.rtr}
-                  color="#956ca7"
-                  limit={agreed_limit}
-                />
-                <ContentAnalyticsComponentActivityGauge
-                  value={data.download}
-                  color="#2466c0"
-                  limit={agreed_limit}
-                />
-              </Row>
-            </div>
-          </Row>
-
-          <Row>
-            <div>
-              <Row>
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={{
-                    chart: {
-                      type: "line",
-                    },
-                    credits: {
-                      enabled: false,
-                    },
-                    yAxis: {
-                      min: 0,
-                      tickInterval: 1,
-                      title: {
-                        text: "",
-                      },
-                    },
-                    xAxis: {
-                      categories: categories_data,
-                    },
-                    title: {
-                      text: "",
-                    },
-                    plotOptions: {
-                      series: {
-                        dataLabels: {
-                          allowOverlap: true,
-                          enabled: true,
-                          inside: false,
-                          overflow: "justify",
-                          crop: true,
-                          shape: "callout",
-                          backgroundColor: "rgba(255,255,255)",
-                          borderColor: "rgba(0,0,0,0.9)",
-                          color: "rgba(0,0,0)",
-                          borderWidth: 0.5,
-                          borderRadius: 5,
-                          style: {
-                            fontFamily: "Helvetica, sans-serif",
-                            fontSize: "8px",
-                            fontWeight: "normal",
-                            textShadow: "none",
-                          },
-                          formatter: function () {
-                            return (
-                              "<div className=" +
-                              this.series.name +
-                              '><span style="font-weight: bold;">' +
-                              this.x +
-                              "</span><br/><strong>" +
-                              this.series.name +
-                              "</strong> <strong>" +
-                              Highcharts.numberFormat(this.y, 0) +
-                              "</strong></div>"
-                            );
-                          },
-                        },
-                      },
-                    },
-                    tooltip: {
-                      enabled: false,
-                    },
-                    column: {
-                      colorByPoint: true,
-                    },
-                    exporting: {
-                      enabled: true,
-                    },
-                    series: series_data,
-                  }}
-                />
-              </Row>
-            </div>
-          </Row>
-        </Col> */}
       </div>
     </>
   );

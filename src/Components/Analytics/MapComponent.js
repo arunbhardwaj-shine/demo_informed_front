@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getData, postData, postFormData } from "../../axios/apiHelper";
-import { Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { ENDPOINT } from "../../axios/apiConfig";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import highchartsMap from "highcharts/modules/map";
 import MapModule from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import proj4 from "proj4";
@@ -111,36 +106,6 @@ const MapComponent = ({ data, status }) => {
     const getDataFromApi = async () => {
       try {
         if (!status) {
-          // const countryData = data?.data?.map((item, index) => {
-          //   const latlongParts = item?.latlong.split("~");
-          //   const lat = parseFloat(latlongParts[0]) || 0;
-          //   const lon = parseFloat(latlongParts[1]) || 0;
-          //   const viewedOnDates = item?.dated
-          //     .map((date) => `viewed on: ${date}` + "<br> ")
-          //     .join("");
-          //   const indexVal = data?.countryname.indexOf(item.country);
-          //   const open = data?.opening[indexVal];
-          //   const readers = data?.reader[indexVal];
-          //   let matchedCountry = data?.countryname?.filter((name) => name === item.country)[0];
-
-          //   if (matchedCountry === "United States") {
-          //     matchedCountry = "United States of America";
-          //   }
-
-          //   return {
-          //     opening: open,
-          //     reader: readers,
-          //     name: matchedCountry,
-          //     lat: lat,
-          //     lon: lon,
-          //     city: item.city,
-          //     country: item.country,
-          //     address: item.address,
-          //     pdfTitle: item.pdftitle,
-          //     dated: viewedOnDates,
-          //   };
-          // });
-
           const coordinate = data?.coordinations;
           const countryNames = data?.countryname;
           let countryData = [];

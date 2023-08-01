@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Form, Row, Accordion, ProgressBar } from "react-bootstrap";
 import { useLocation, Link } from "react-router-dom";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { postData, postFormData, getData } from "../../axios/apiHelper";
+import { postData, getData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
@@ -277,28 +277,6 @@ const ContentAnalytics = () => {
     }
   };
 
-  // const downloadUniqueStats = async () => {
-  //   try {
-  //     loader("show");
-  //    const result =  await axios.get(`https://webinar.informed.pro/Analytics/download_excel/${selectedPdf}`)
-  //     // const res = await postFormData(
-  //     //   ENDPOINT.DOWNLOADARTICLEREADERS,
-  //     //   { pdfId: selectedPdf },
-  //     //   {
-  //     //     responseType: "blob",
-  //     //   }
-  //     // );
-  //     // const link = document.createElement("a");
-  //     // const url = URL.createObjectURL(res?.data);
-  //     // link.href = url;
-  //     // link.download = "readers.xlsx";
-  //     // link.click();
-  //     loader("hide");
-  //   } catch (err) {
-  //     console.log(err);
-  //     loader("hide");
-  //   }
-  // };
   return (
     <>
       <Col className="right-sidebar">
@@ -489,7 +467,6 @@ const ContentAnalytics = () => {
                                   </div>
                                 </div>
                               ) : null}
-                              {console.log("map--data", mapData)}
                               {isAccordionOpen ? (
                                 Object.keys(mapData?.data?.data)?.length ? (
                                   <>
