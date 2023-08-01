@@ -87,7 +87,7 @@ const ContentAnalytics = () => {
       const subLinkObj = data
         ?.map((item) => ({
           label: item.name.trim(),
-          value: item.uniqueCode,
+          value: item.unique_code,
         }))
         .sort((a, b) =>
           a.label.toLowerCase().localeCompare(b.label.toLowerCase())
@@ -132,6 +132,7 @@ const ContentAnalytics = () => {
   }
 
   const filterSublinkData = async (sublinkId) => {
+    console.log("id--->", sublinkId);
     try {
       loader("show");
       setIsLoaded(false);
