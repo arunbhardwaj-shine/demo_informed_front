@@ -12,7 +12,7 @@ import HighchartsReact from "highcharts-react-official";
 import ContentAnalyticsComponent from "./ContentAnalyticsComponent";
 import MapComponent from "./MapComponent";
 import domtoimage from "dom-to-image";
-import axios from "axios"
+import axios from "axios";
 
 exporting(Highcharts);
 exportData(Highcharts);
@@ -206,14 +206,12 @@ const ContentAnalytics = () => {
             });
             const hadData = response?.data?.data || [];
             setReaderData(hadData);
-            console.log("sublink reader--->", hadData);
           } else {
             const response = await postData(ENDPOINT.READERANALYTICS, {
               pdfId: selectedPdf,
             });
             const hadData = response?.data?.data || [];
             setReaderData(hadData);
-            console.log("reader--->", hadData);
           }
         }
         setIsReaderAccordionOpen(true);
@@ -247,23 +245,27 @@ const ContentAnalytics = () => {
       console.log(err);
     }
   };
-  const downloadUniqueStats = async() => {
+  const downloadUniqueStats = async () => {
     try {
       loader("show");
-      let durl = "https://webinar.informed.pro/Analytics/download_excel_new/"+selectedPdf;
-     const response =  await  axios.get(durl, { responseType: 'blob' })
+      let durl =
+        "https://webinar.informed.pro/Analytics/download_excel_new/" +
+        selectedPdf;
+      const response = await axios.get(durl, { responseType: "blob" });
       // .then((response) => {
-        // Create a Blob from the response data
-        const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(blob);
-        // Create a link and click it to trigger the download
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'readers.xlsx';
-        link.click();
-        // Clean up the temporary URL
-        window.URL.revokeObjectURL(url);
+      // Create a Blob from the response data
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      // Create a temporary URL for the Blob
+      const url = window.URL.createObjectURL(blob);
+      // Create a link and click it to trigger the download
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "readers.xlsx";
+      link.click();
+      // Clean up the temporary URL
+      window.URL.revokeObjectURL(url);
       // })
       // .catch((error) => {
       //   console.error('Error downloading the Excel file:', error);
@@ -273,7 +275,7 @@ const ContentAnalytics = () => {
       console.log(err);
       loader("hide");
     }
-  }
+  };
 
   // const downloadUniqueStats = async () => {
   //   try {
@@ -487,8 +489,9 @@ const ContentAnalytics = () => {
                                   </div>
                                 </div>
                               ) : null}
+                              {console.log("map--data", mapData)}
                               {isAccordionOpen ? (
-                                Object.keys(mapData?.data)?.length ? (
+                                Object.keys(mapData?.data?.data)?.length ? (
                                   <>
                                     <MapComponent
                                       data={mapData?.data}
