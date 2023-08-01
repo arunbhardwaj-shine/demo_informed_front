@@ -18,7 +18,6 @@ exportData(Highcharts);
 
 const ContentAnalytics = () => {
   const { state } = useLocation();
-  const [pdfData, setPdfData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
   const [filterPdfLinkData, setFilterPdfLinkData] = useState();
   const [sublinkData, setSublinkData] = useState("");
@@ -68,7 +67,6 @@ const ContentAnalytics = () => {
         );
       setPdfOptions(pdfObj);
       setUrlOptions(urlObj);
-      // alert(pdfObj[0].value)
       setSelectedPdf(pdfObj[0].value);
       setIsDataFound(true);
       if (pdfObj[0].value) {
@@ -135,8 +133,11 @@ const ContentAnalytics = () => {
   const filterSublinkData = async (sublinkId) => {
     try {
       loader("show");
+      setIsLoaded(false);
       setIsPdfData(false);
+      setReaderData([]);
       setIsAccordionOpen(false);
+      setIsReaderAccordionOpen(false);
       setSelectedSublink(sublinkId?.value);
       const body = {
         pdfId: selectedPdf,
@@ -197,14 +198,22 @@ const ContentAnalytics = () => {
       if (!isReaderAccordionOpen) {
         setSectionLoader(true);
         if (!readerData?.length) {
-          const requestBody = { pdfId: selectedPdf };
-          const response = await postData(
-            ENDPOINT.READERANALYTICS,
-            requestBody
-          );
-          const hadData = response?.data?.data || [];
-
-          setReaderData(hadData);
+          if (selectedSublink) {
+            const response = await postData(ENDPOINT.SUBLINK_READER_ANALYTICS, {
+              userpdf_unique_code: selectedSublink,
+              pdfId: selectedPdf,
+            });
+            const hadData = response?.data?.data || [];
+            setReaderData(hadData);
+            console.log("sublink reader--->", hadData);
+          } else {
+            const response = await postData(ENDPOINT.READERANALYTICS, {
+              pdfId: selectedPdf,
+            });
+            const hadData = response?.data?.data || [];
+            setReaderData(hadData);
+            console.log("reader--->", hadData);
+          }
         }
         setIsReaderAccordionOpen(true);
       } else {

@@ -47,6 +47,7 @@ export const ENDPOINT = {
   CONTENTANALYTICS: "/analytics/content-analytics",
   LIBRARY_SUBLINK_ANALYTICS: "/library/sublink-analtyics",
   READERANALYTICS: "/analytics/reader-analytics",
+  SUBLINK_READER_ANALYTICS: "library/sublink-reader",
   OCTALATCH_TOTAL_HCP:
     "https://webinar.docintel.app/lmn/api/analytics/octo_lach_stats",
   OCTALATCH_DELIVERY_REGISTRATION:
