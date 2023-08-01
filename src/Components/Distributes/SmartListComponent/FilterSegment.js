@@ -174,7 +174,9 @@ const FilterSegment = (props) => {
       //Register Unregister
       if (typeof props.selectedFilter.registered_users !== "undefined") {
         let register_val =
-          props.selectedFilter.registered_users == 1 ? "yes" : "no";
+          props.selectedFilter.registered_users == 1 ? "yes" :
+          props.selectedFilter.registered_users == 2 ? "all" :
+           "no";
         setShowHideArticle(props.selectedFilter.registered_users);
         setSelectedRegister(register_val);
       }
@@ -386,7 +388,8 @@ const FilterSegment = (props) => {
     if (contact_index !== -1) {
       selectedcontacttype.splice(contact_index, 1);
     } else {
-      selectedcontacttype.push(contact_type);
+      selectedcontacttype[0] = contact_type;
+      // selectedcontacttype.push(contact_type);
     }
     setSelectedContactType(selectedcontacttype);
     let up = updateflag + 1;
@@ -712,9 +715,11 @@ const FilterSegment = (props) => {
   };
 
   const handleRegister = (register_val) => {
-    if (register_val == "yes") {
+    if (register_val == "yes" || register_val == "all") {
       setShowHideArticle(1);
     } else {
+      setSelectedIbu("");
+      setSelectedReaderSelection("");
       setSelectedArticles([]);
       setSelectedArticleCompleted([]);
       setShowHideArticle(0);
@@ -1077,6 +1082,8 @@ const FilterSegment = (props) => {
     if (selectedregister) {
       if (selectedregister == "yes") {
         Object.assign(payload, { registered_users: 1 });
+      }else if (selectedregister == "all") {
+        Object.assign(payload, { registered_users: 2 });
       } else {
         Object.assign(payload, { registered_users: 0 });
       }
@@ -1237,9 +1244,12 @@ const FilterSegment = (props) => {
     } else if (src == "ibu") {
       handleOnIbuChange(item);
     } else if (src == "register") {
+      setSelectedReaderSelection("");
+      setSelectedIbu("");
       setSelectedRegister();
       setSelectedArticles([]);
       setSelectedArticleCompleted([]);
+      setShowHideArticle(0);
     } else if (src == "bounce") {
       setSelectedBounce();
     } else if (src == "selectedContentRead") {
@@ -1466,39 +1476,6 @@ const FilterSegment = (props) => {
                                         </li>
                                       ));
                                     })()}
-                                  </ul>
-                                </div>
-                              </div>
-                            </>
-                          )}
-
-                        {"ibu" in filters &&
-                          Object.keys(filters.ibu).length > 0 && (
-                            <>
-                              <div className="col block-smart-name">
-                                <h6>IBU</h6>
-                                <div className="smart-name-list">
-                                  <ul>
-                                    {Object.entries(filters.ibu).map(
-                                      ([index, item]) => (
-                                        <li>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="radio"
-                                              id={`custom-checkbox-ibu-${index}`}
-                                              name="ibu[]"
-                                              value={item}
-                                              checked={selectedibu == item}
-                                              onChange={() =>
-                                                handleOnIbuChange(item)
-                                              }
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      )
-                                    )}
                                   </ul>
                                 </div>
                               </div>
@@ -2229,44 +2206,6 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                        {"reader_selection" in filters &&
-                          Object.keys(filters.reader_selection).length > 0 &&
-                          showhidearticle == 1 && (
-                            <>
-                              <div className="col block-smart-name">
-                                <h6>Reader Selection</h6>
-                                <div className="smart-name-list">
-                                  <ul>
-                                    {Object.entries(
-                                      filters.reader_selection
-                                    ).map(([index, item]) => (
-                                      <li>
-                                        <div className="select-multiple-option">
-                                          <input
-                                            type="radio"
-                                            id={`custom-checkbox-reader_selection-${index}`}
-                                            name="reader_selection[]"
-                                            value={item}
-                                            checked={
-                                              selectedreaderselection == item
-                                            }
-                                            onChange={() =>
-                                              handleOnReaderSelectionChange(
-                                                item
-                                              )
-                                            }
-                                          />
-                                          <span className="checkmark"></span>
-                                        </div>
-                                        {item}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              </div>
-                            </>
-                          )}
-
                         {"campaign_listing" in filters &&
                           Object.keys(filters.campaign_listing).length > 0 && (
                             <>
@@ -2362,16 +2301,33 @@ const FilterSegment = (props) => {
                           )}
 
                           <ul>
+                          <li>
+                            <div className="select-multiple-option">
+                              <input
+                                type="checkbox"
+                                id="register_all"
+                                name="register"
+                                value="all"
+                                checked={
+                                  typeof selectedregister !== "undefined" &&
+                                  selectedregister == "all"
+                                }
+                                onChange={() => handleRegister("all")}
+                              />
+                              <span className="checkmark"></span>
+                            </div>
+                            All
+                          </li>
                             <li>
                               <div className="select-multiple-option">
                                 <input
-                                  type="radio"
+                                  type="checkbox"
                                   id="register_yes"
                                   name="register"
                                   value="yes"
                                   checked={
                                     typeof selectedregister !== "undefined" &&
-                                    selectedregister == "yes"
+                                    selectedregister == "yes" || selectedregister == "all"
                                   }
                                   onChange={() => handleRegister("yes")}
                                 />
@@ -2382,13 +2338,13 @@ const FilterSegment = (props) => {
                             <li>
                               <div className="select-multiple-option">
                                 <input
-                                  type="radio"
+                                  type="checkbox"
                                   id="register_no"
                                   name="register"
                                   value="no"
                                   checked={
                                     typeof selectedregister !== "undefined" &&
-                                    selectedregister == "no"
+                                    selectedregister == "no" || selectedregister == "all"
                                   }
                                   onChange={() => handleRegister("no")}
                                 />
@@ -2490,6 +2446,79 @@ const FilterSegment = (props) => {
                               </div>
                             </>
                           )}
+
+
+
+                            {"reader_selection" in filters &&
+                              Object.keys(filters.reader_selection).length > 0 &&
+                              showhidearticle == 1 && (
+                                <>
+                                  <div className="col block-smart-name">
+                                    <h6>Reader Selection</h6>
+                                    <div className="smart-name-list">
+                                      <ul>
+                                        {Object.entries(
+                                          filters.reader_selection
+                                        ).map(([index, item]) => (
+                                          <li>
+                                            <div className="select-multiple-option">
+                                              <input
+                                                type="radio"
+                                                id={`custom-checkbox-reader_selection-${index}`}
+                                                name="reader_selection[]"
+                                                value={item}
+                                                checked={
+                                                  selectedreaderselection == item
+                                                }
+                                                onChange={() =>
+                                                  handleOnReaderSelectionChange(
+                                                    item
+                                                  )
+                                                }
+                                              />
+                                              <span className="checkmark"></span>
+                                            </div>
+                                            {item}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+
+                              {"ibu" in filters &&
+                                Object.keys(filters.ibu).length > 0 && selectedreaderselection == "CIS Reader" && (
+                                  <>
+                                    <div className="col block-smart-name">
+                                      <h6>IBU</h6>
+                                      <div className="smart-name-list">
+                                        <ul>
+                                          {Object.entries(filters.ibu).map(
+                                            ([index, item]) => (
+                                              <li>
+                                                <div className="select-multiple-option">
+                                                  <input
+                                                    type="radio"
+                                                    id={`custom-checkbox-ibu-${index}`}
+                                                    name="ibu[]"
+                                                    value={item}
+                                                    checked={selectedibu == item}
+                                                    onChange={() =>
+                                                      handleOnIbuChange(item)
+                                                    }
+                                                  />
+                                                  <span className="checkmark"></span>
+                                                </div>
+                                                {item}
+                                              </li>
+                                            )
+                                          )}
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </>
+                                )}
 
                         {showhidearticle == 1 &&
                         localStorage.getItem("user_id") ==
@@ -3098,7 +3127,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {console.log(selectedBlindType,"selectedBlindTypess")}
+
               {updateflag > 0 ? (
                 selectedBlindType?.length > 0 ? (
                   <div className="filter-div">
