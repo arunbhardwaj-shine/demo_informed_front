@@ -3,8 +3,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { postData } from "../axios/apiHelper";
+import { ENDPOINT } from "../axios/apiConfig";
 
-const EventModel = ({ show, onClose, data }) => {
+const EventModel = ({ show, onClose, data ,eventId}) => {
   const [user, setUser] = useState({
     speakerName: "",
     poll_question_id: "",
@@ -44,23 +46,24 @@ const EventModel = ({ show, onClose, data }) => {
   };
   const handleSubmit = async () => {
     try {
-      if (!user?.poll_answer_id || !user?.poll_answer_id?.length) {
+
+      if(typeof user?.poll_answer_id == "number" && !user?.poll_answer_id){
+        setError({ msg: "This field is required" });
+      }else if(typeof user?.poll_answer_id == "object" && !user?.poll_answer_id?.length){
         setError({ msg: "This field is required" });
         return;
       } else {
         setError({});
       }
 
-      await axios.post(
-        `https://webinar.docintel.app/flow/webinar/submit_poll_answer_guest`,
-        {
+       await postData(ENDPOINT.ADD_EVENT_DATA, {
           speakerName: user?.speakerName,
+          eventId:eventId?.id,
           poll_question_id: user?.poll_question_id,
           poll_answer_id: user?.poll_answer_id.toString(),
           user_answer: user?.user_answer,
           guest_id: user?.guest_id,
-        }
-      );
+        })
 
       const eventQuestion = Cookies.get("eventQuestion");
       if (!eventQuestion?.includes(user?.poll_question_id)) {
@@ -82,6 +85,7 @@ const EventModel = ({ show, onClose, data }) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
+      {console.log("-->",data)}
       <Modal.Header >
         <Modal.Title id="contained-modal-title-vcenter">
           <img

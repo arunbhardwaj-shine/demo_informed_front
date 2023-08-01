@@ -186,14 +186,15 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               value={selectedData?.opening}
               color="#57cabd"
               limit={agreed_limit}
+              pdf_id={data?.id}
             />
             <ContentAnalyticsComponentActivityGauge
               value={selectedData?.uniqueReader}
               color="#f4c64b"
               limit={agreed_limit}
-              label={`Unique Reader (total) Agreed Limit | ${
-                data?.limit == 0 ? "Unlimited" : data?.limit
-              }`}
+              label={`Unique Reader (total) Agreed Limit | ${data?.limit == 0 ? "Unlimited" : data?.limit
+                }`}
+              pdf_id={data?.id}
             />
 
             <ContentAnalyticsComponentActivityGauge
@@ -201,19 +202,23 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               color="#ed9ba0"
               limit={agreed_limit}
               label=" Registered Reader (total)"
+              pdf_id={data?.id}
             />
             <ContentAnalyticsComponentActivityGauge
               value={selectedData?.rtr}
               color="#956ca7"
               limit={agreed_limit}
               label="User With RTR"
+              pdf_id={data?.id}
             />
             <ContentAnalyticsComponentActivityGauge
               value={selectedData?.download}
               color="#2466c0"
               limit={agreed_limit}
               label="Downloads"
+              pdf_id={data?.id}
             />
+
           </div>
         </Row>
 

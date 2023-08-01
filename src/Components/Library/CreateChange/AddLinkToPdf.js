@@ -403,6 +403,8 @@ const AddLinkToPdf = () => {
     }
   };
 
+    
+
   const handleMouseMove = (event) => {
     const targetLink = event.target.closest(".viewer-annotation-link");
 
@@ -968,6 +970,7 @@ const AddLinkToPdf = () => {
                               onPageChange={handleDocumentLoad}
                               renderMode="canvas"
                               fileUrl={file}
+                              // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/pdflink_1690265146.pdf"}
                             />
                             <div
                               className="highlight_box"
