@@ -360,6 +360,24 @@ const NewReaders = () => {
       }
     }
 
+
+    if(key =="Content Owners"){
+      if(item == "IBU Owner" || item == "All"){
+        let newData = [];
+
+        delete apifilterObject?.["Business Unit"];
+        delete newObj?.["Business Unit"];
+
+        setFilterData({
+          ...filterdata,
+          "Business Unit": newData,
+        });
+      }else{
+        setFilterData(apiFilterData);
+      }
+    }
+    
+
     if (key == "status") {
       let newData = [];
 
@@ -368,7 +386,10 @@ const NewReaders = () => {
         delete apifilterObject?.["RTR?"];
         delete apifilterObject?.["Registered For Webinar"];
         delete apifilterObject?.["Registered For Title"];
+        delete apifilterObject?.["Business Unit"];
+        delete apifilterObject?.["Content Owners"];
         delete apifilterObject?.topic;
+
 
         delete filterObject.tags;
         delete filterObject?.["RTR?"];
@@ -378,6 +399,10 @@ const NewReaders = () => {
 
         delete newObj.tags;
         delete newObj?.["RTR?"];
+        delete newObj?.["Content Owners"];
+
+        delete newObj?.["Business Unit"];
+
         delete newObj?.["Registered For Webinar"];
         delete newObj?.["Registered For Title"];
         delete newObj?.topic;
@@ -386,7 +411,9 @@ const NewReaders = () => {
           ...filterdata,
           tags: newData,
           "RTR?": newData,
+          "Content Owners":newData,
           "Registered For Webinar": newData,
+          "Business Unit":newData,
           "Registered For Title": newData,
           topic: newData,
         });
