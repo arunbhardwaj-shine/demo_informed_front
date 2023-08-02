@@ -41,11 +41,11 @@ const NewReaders = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const [totalCount, setCount] = useState(0);
-  // const [appliedFilter, setAppliedFilter] = useState({
-  //   status: ["Registered"],
-  //   "contact Type": ["HCP"],
-  // });
-  const [appliedFilter, setAppliedFilter] = useState();
+  const [appliedFilter, setAppliedFilter] = useState({
+    status: ["Registered"],
+    "contact Type": ["HCP"],
+  });
+  // const [appliedFilter, setAppliedFilter] = useState();
   const [filterObject, setFilterObject] = useState({
     status: ["Registered"],
     "contact Type": ["HCP"],
@@ -133,6 +133,9 @@ const NewReaders = () => {
   const filterRef = useRef(null);
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [refreshButton, setRefreshButton] = useState(false);
+  const [defaultOwner, setDefaultOwner] = useState("");
+
+  
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -170,12 +173,22 @@ const NewReaders = () => {
     try {
       loader("show");
       const res = await getData(ENDPOINT.READERSFILTER);
-      setCountry(res?.data?.data?.country);
-      setFilterData(res?.data?.data);
-      setApiFilterData(res?.data?.data);
+      setCountry(res?.data?.data?.data?.country);
+      setFilterData(res?.data?.data?.data);
+      setApiFilterData(res?.data?.data?.data);
+
+      if(res?.data?.data?.data["Content Owners"]?.length && res?.data?.data?.defaultOwner){
+       setAppliedFilter({...appliedFilter,["Content Owners"]: [res?.data?.data?.defaultOwner]  });
+       setFilterObject({...filterObject, ["Content Owners"]: [res?.data?.data?.defaultOwner] });
+       setApifilterObject({...apifilterObject, ["Content Owners"]: [res?.data?.data?.defaultOwner]});
+       setDefaultOwner(res?.data?.data?.defaultOwner)
+      }
+
+      
+
       setOriginalFilterData({
         ...originalFilterData,
-        role: res?.data?.data?.role,
+        role: res?.data?.data?.data?.role,
       });
     } catch (err) {
       loader("hide");
@@ -1215,12 +1228,16 @@ const NewReaders = () => {
                       Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
                     </h4>
                   )}
-                  {(Object.keys(filterObject)?.length == 2 &&
+
+                  
+                  {((Object.keys(filterObject)?.length == 2 &&
                     filterObject["status"] == "Registered" &&
-                    filterObject["contact Type"] == "HCP") ||
+                    filterObject["contact Type"] == "HCP") || (Object.keys(filterObject)?.length == 3 &&
+                    filterObject["status"].includes("Registered") &&
+                    filterObject["contact Type"].includes("HCP")  && filterObject?.["Content Owners"]?.includes(defaultOwner)) ||
                   (localStorage.getItem("user_id") ==
                     "56Ek4feL/1A8mZgIKQWEqg==" &&
-                  Object.keys(filterObject)?.length <= 0
+                  Object.keys(filterObject)?.length <= 0)
                     ? true
                     : false) ? (
                     <div className="refresh-button">
