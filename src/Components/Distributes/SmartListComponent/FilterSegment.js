@@ -688,6 +688,7 @@ const FilterSegment = (props) => {
     } else {
       setSelectedReaderSelection(reader_selection);
     }
+    setSelectedIbu("");
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
