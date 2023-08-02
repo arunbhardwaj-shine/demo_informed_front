@@ -1231,10 +1231,10 @@ const NewReaders = () => {
 
                   
                   {((Object.keys(filterObject)?.length == 2 &&
-                    filterObject["status"] == "Registered" &&
-                    filterObject["contact Type"] == "HCP") || (Object.keys(filterObject)?.length == 3 &&
-                    filterObject["status"].includes("Registered") &&
-                    filterObject["contact Type"].includes("HCP")  && filterObject?.["Content Owners"]?.includes(defaultOwner)) ||
+                    filterObject?.["status"] == "Registered" &&
+                    filterObject?.["contact Type"] == "HCP") || (Object.keys(filterObject)?.length == 3 &&
+                    filterObject?.["status"]?.includes("Registered") &&
+                    filterObject?.["contact Type"]?.includes("HCP")  && filterObject?.["Content Owners"]?.includes(defaultOwner)) ||
                   (localStorage.getItem("user_id") ==
                     "56Ek4feL/1A8mZgIKQWEqg==" &&
                   Object.keys(filterObject)?.length <= 0)
