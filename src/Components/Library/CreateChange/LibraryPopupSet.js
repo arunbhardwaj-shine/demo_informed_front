@@ -3,12 +3,14 @@ import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ReactSelect from "react-select";
-let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
 
 const LibraryPopupSet = () => {
   const [show, setShow] = useState(false);
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
   return (
     <>
       <Col className="right-sidebar">

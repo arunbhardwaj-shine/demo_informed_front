@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Form, Row, Accordion, ProgressBar } from "react-bootstrap";
 import { useLocation, Link } from "react-router-dom";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { postData, postFormData } from "../../axios/apiHelper";
+import { postData, getData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
@@ -12,24 +12,28 @@ import HighchartsReact from "highcharts-react-official";
 import ContentAnalyticsComponent from "./ContentAnalyticsComponent";
 import MapComponent from "./MapComponent";
 import domtoimage from "dom-to-image";
+import axios from "axios";
 
 exporting(Highcharts);
 exportData(Highcharts);
 
 const ContentAnalytics = () => {
   const { state } = useLocation();
-  const [pdfData, setPdfData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
+  const [filterPdfLinkData, setFilterPdfLinkData] = useState();
+  const [sublinkData, setSublinkData] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [pdfOptions, setPdfOptions] = useState([]);
   const [urlOptions, setUrlOptions] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(0);
+  const [selectedSublink, setSelectedSublink] = useState("");
   const [isPdfData, setIsPdfData] = useState(false);
   const [sectionLoader, setSectionLoader] = useState(false);
   const [mapData, setMapData] = useState([]);
   const [readerData, setReaderData] = useState([]);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [isReaderAccordionOpen, setIsReaderAccordionOpen] = useState(false);
+  const [sublinkOptions, setSublinkOptions] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -37,8 +41,8 @@ const ContentAnalytics = () => {
   }, []);
 
   async function getDataFromApi() {
-    loader("show");
     try {
+      loader("show");
       const requestBody = {
         selectValue: JSON.stringify(["id", "title", "code"]),
         type: "rest",
@@ -64,9 +68,11 @@ const ContentAnalytics = () => {
         );
       setPdfOptions(pdfObj);
       setUrlOptions(urlObj);
-      // alert(pdfObj[0].value)
       setSelectedPdf(pdfObj[0].value);
       setIsDataFound(true);
+      if (pdfObj[0].value) {
+        getSublink(pdfObj[0].value);
+      }
     } catch (err) {
       loader("hide");
       setIsDataFound(false);
@@ -74,24 +80,49 @@ const ContentAnalytics = () => {
     }
   }
 
+  const getSublink = async (pdfId) => {
+    try {
+      const res = await getData(ENDPOINT.LIBRARYRESUBLINKLISTING + "/" + pdfId);
+      const data = res?.data?.data;
+      const subLinkObj = data
+        ?.map((item) => ({
+          label: item.name.trim(),
+          value: item.unique_code,
+        }))
+        .sort((a, b) =>
+          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+        );
+      setSublinkOptions(subLinkObj);
+    } catch (err) {
+      console.log("--err", err);
+    }
+  };
+
   async function filterPdfData(pdfId) {
     setIsLoaded(false);
     setReaderData([]);
+    setSublinkOptions([]);
     setIsAccordionOpen(false);
     setIsReaderAccordionOpen(false);
-
+    setSelectedSublink("");
+    setSublinkData("");
     setSelectedPdf(pdfId.value);
-    loader("show");
+
     try {
+      loader("show");
       setIsPdfData(false);
       const requestBody = {
         pdfId: pdfId.value,
       };
       const response = await postData(ENDPOINT.CONTENTANALYTICS, requestBody);
       const hadData = response?.data?.data || [];
-      setIsDataFound(hadData);
+
+      setFilterPdfLinkData(hadData);
       setIsLoaded(true);
       setIsPdfData(true);
+      if (hadData) {
+        getSublink(pdfId.value);
+      }
     } catch (err) {
       setIsDataFound(false);
       console.log(err);
@@ -100,22 +131,57 @@ const ContentAnalytics = () => {
     }
   }
 
+  const filterSublinkData = async (sublinkId) => {
+    console.log("id--->", sublinkId);
+    try {
+      loader("show");
+      setIsLoaded(false);
+      setIsPdfData(false);
+      setReaderData([]);
+      setIsAccordionOpen(false);
+      setIsReaderAccordionOpen(false);
+      setSelectedSublink(sublinkId?.value);
+      const body = {
+        pdfId: selectedPdf,
+        userpdf_unique_code: sublinkId?.value,
+        flag: 1,
+      };
+      const res = await postData(ENDPOINT.LIBRARY_SUBLINK_ANALYTICS, body);
+      const hadData = res?.data?.data || [];
+      setSublinkData(hadData);
+      setIsPdfData(true);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
+
   useEffect(() => {
     if (pdfOptions.length > 0) {
       let pdfId = state?.pdfId ? { value: state?.pdfId } : pdfOptions[0];
       filterPdfData(pdfId);
     }
   }, [pdfOptions]);
+
   const handleAccordionOpen = async () => {
     try {
       if (!isAccordionOpen) {
         setSectionLoader(true);
-
-        const requestBody = { pdfId: selectedPdf };
-        const response = await postData(ENDPOINT.MAPLOCATION, requestBody);
-        const hadMapData = response?.data || [];
-
-        setMapData(hadMapData);
+        if (selectedSublink) {
+          const response = await postData(ENDPOINT.SUBLINK_MAPLOCATION, {
+            userpdf_unique_code: selectedSublink,
+            pdfId: selectedPdf,
+          });
+          const hadMapData = response?.data || [];
+          setMapData(hadMapData);
+        } else {
+          const response = await postData(ENDPOINT.MAPLOCATION, {
+            pdfId: selectedPdf,
+          });
+          const hadMapData = response?.data || [];
+          setMapData(hadMapData);
+        }
 
         setIsAccordionOpen(true);
       } else {
@@ -134,14 +200,20 @@ const ContentAnalytics = () => {
       if (!isReaderAccordionOpen) {
         setSectionLoader(true);
         if (!readerData?.length) {
-          const requestBody = { pdfId: selectedPdf };
-          const response = await postData(
-            ENDPOINT.READERANALYTICS,
-            requestBody
-          );
-          const hadData = response?.data?.data || [];
-
-          setReaderData(hadData);
+          if (selectedSublink) {
+            const response = await postData(ENDPOINT.SUBLINK_READER_ANALYTICS, {
+              userpdf_unique_code: selectedSublink,
+              pdfId: selectedPdf,
+            });
+            const hadData = response?.data?.data || [];
+            setReaderData(hadData);
+          } else {
+            const response = await postData(ENDPOINT.READERANALYTICS, {
+              pdfId: selectedPdf,
+            });
+            const hadData = response?.data?.data || [];
+            setReaderData(hadData);
+          }
         }
         setIsReaderAccordionOpen(true);
       } else {
@@ -174,28 +246,38 @@ const ContentAnalytics = () => {
       console.log(err);
     }
   };
-
   const downloadUniqueStats = async () => {
     try {
       loader("show");
-      const res = await postFormData(
-        ENDPOINT.DOWNLOADARTICLEREADERS,
-        { pdfId: selectedPdf },
-        {
-          responseType: "blob",
-        }
-      );
+      let durl =
+        "https://webinar.informed.pro/Analytics/download_excel_new/" +
+        selectedPdf;
+      const response = await axios.get(durl, { responseType: "blob" });
+      // .then((response) => {
+      // Create a Blob from the response data
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      // Create a temporary URL for the Blob
+      const url = window.URL.createObjectURL(blob);
+      // Create a link and click it to trigger the download
       const link = document.createElement("a");
-      const url = URL.createObjectURL(res?.data);
       link.href = url;
       link.download = "readers.xlsx";
       link.click();
+      // Clean up the temporary URL
+      window.URL.revokeObjectURL(url);
+      // })
+      // .catch((error) => {
+      //   console.error('Error downloading the Excel file:', error);
+      // });
       loader("hide");
     } catch (err) {
       console.log(err);
       loader("hide");
     }
   };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -238,10 +320,11 @@ const ContentAnalytics = () => {
                   <Form className="product-unit d-flex justify-content-between align-items-center">
                     <div className="form-group d-flex align-items-center">
                       <label htmlFor="">Filter By</label>
+
                       <Select
                         options={pdfOptions}
                         onChange={(selectedOption) => {
-                          filterPdfData(selectedOption); // call the function when an option is selected
+                          filterPdfData(selectedOption);
                         }}
                         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
                         isClearable
@@ -251,16 +334,54 @@ const ContentAnalytics = () => {
                                 (item) => item?.value == state?.pdfId
                               )
                             : pdfOptions?.[0]
-                        } // pass the first object as the default value
+                        }
+                        value={
+                          selectedPdf != ""
+                            ? pdfOptions[
+                                pdfOptions?.findIndex(
+                                  (el) => el?.value === selectedPdf
+                                )
+                              ]
+                            : ""
+                        }
                       />
+
                       <Select
                         options={urlOptions}
                         onChange={(selectedOption) => {
-                          filterPdfData(selectedOption); // call the function when an option is selected
+                          filterPdfData(selectedOption);
                         }}
                         className="dropdown-basic-button split-button-dropup mr-2"
                         isClearable
                         defaultValue={urlOptions[0]}
+                        value={
+                          selectedPdf != ""
+                            ? urlOptions[
+                                urlOptions?.findIndex(
+                                  (el) => el?.value === selectedPdf
+                                )
+                              ]
+                            : ""
+                        }
+                      />
+
+                      <Select
+                        options={sublinkOptions}
+                        onChange={(selectedOption) => {
+                          filterSublinkData(selectedOption);
+                        }}
+                        className="dropdown-basic-button split-button-dropup mr-2"
+                        isClearable
+                        placeholder="Select sublink"
+                        value={
+                          selectedSublink != ""
+                            ? sublinkOptions[
+                                sublinkOptions?.findIndex(
+                                  (el) => el?.value === selectedSublink
+                                )
+                              ]
+                            : ""
+                        }
                       />
                     </div>
                   </Form>
@@ -315,7 +436,10 @@ const ContentAnalytics = () => {
 
               {isPdfData ? (
                 <div id="parent">
-                  <ContentAnalyticsComponent data={isDataFound} />
+                  <ContentAnalyticsComponent
+                    data={filterPdfLinkData}
+                    sublinkData={sublinkData}
+                  />
                   <div className="content_analytics">
                     <Row>
                       <Col>
@@ -344,18 +468,28 @@ const ContentAnalytics = () => {
                                   </div>
                                 </div>
                               ) : null}
+
                               {isAccordionOpen ? (
-                                <>
-                                  <MapComponent
-                                    data={mapData?.data}
-                                    status={false}
-                                  />
-                                  <Row>
-                                    <Col>
-                                      <BarComponent data={mapData} />
-                                    </Col>
-                                  </Row>
-                                </>
+                                Object.keys(mapData?.data?.countryname)
+                                  ?.length ? (
+                                  <>
+                                    <MapComponent
+                                      data={mapData?.data}
+                                      status={false}
+                                    />
+                                    <Row>
+                                      <Col>
+                                        <BarComponent data={mapData} />
+                                      </Col>
+                                    </Row>
+                                  </>
+                                ) : (
+                                  <>
+                                    <div className="no_found">
+                                      <p align="center">No Data Available</p>
+                                    </div>
+                                  </>
+                                )
                               ) : null}
                             </Accordion.Body>
                           </Accordion.Item>

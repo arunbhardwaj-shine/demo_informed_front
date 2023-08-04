@@ -984,7 +984,6 @@ const LicenseLinkToPdf = () => {
                               onPageChange={handleDocumentLoad}
                               renderMode="canvas"
                               fileUrl={file}
-                              // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1690198693.pdf"}
                             />
                             <div
                               className="highlight_box"

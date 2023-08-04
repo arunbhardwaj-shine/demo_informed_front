@@ -35,7 +35,6 @@ const SetPopup = (props) => {
   const [actualTemplateData, setActualTemplateData] = useState([]);
   const [isTemplateData, setIsTemplateData] = useState(true);
   const [isOnline, setIsOnline] = useState(false);
-
   const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [countryOption, setCountryOption] = useState(0);
   const [templateSaving, setTemplateSaving] = useState("");
@@ -101,10 +100,7 @@ const SetPopup = (props) => {
   };
 
   useEffect(() => {
-    console.log("library pop up state--->", state);
     getTemplateListData(0, "All", "", 1);
-
-    // div_img.click();
   }, []);
 
   const dropDownSelected = (label, e) => {
@@ -324,7 +320,6 @@ const SetPopup = (props) => {
         });
       }
 
-      // navigate("/preview-content")
     } catch (err) {
       loader("hide");
     }

@@ -251,7 +251,7 @@ const PollQuestion = ()=>{
                             <tfoot >
                             <tr>
                             <td colspan={5}>
-                            <button type="button"  onClick={handleClose}  className={`btn btn-submit btn-bordered `}>Close</button>
+                            <button type="button"  onClick={handleClose}  className={`btn btn-submit btn-filled `}>Close</button>
                             </td>
                           </tr>
                             </tfoot>

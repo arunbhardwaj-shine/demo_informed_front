@@ -84,8 +84,6 @@ const Informed = () => {
         } else {
           navigate("/home");
         }
-
-        console.log("res--->", res);
       } catch (err) {
         console.log(err);
         setShowError(err?.response?.data?.message);

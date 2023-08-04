@@ -167,8 +167,8 @@ const EditLibrary = () => {
   }
 
   const initalFun = async () => {
-    loader("show");
     try {
+      loader("show");
       const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
         user_id: id,
       });
@@ -232,16 +232,15 @@ const EditLibrary = () => {
         product: hadData?.data?.data?.product,
         reseller: hadData?.data?.data?.reseller,
       });
-
-      loader("hide");
     } catch (err) {
-      // console.log(err);
+      console.log(err);
+    } finally {
       loader("hide");
     }
   };
   const libraryDetail = async () => {
-    loader("show");
     try {
+      loader("show");
       const hadData = await getData(
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
@@ -277,11 +276,10 @@ const EditLibrary = () => {
         setChapter(hadData?.data?.data?.ebookData);
       }
       setShowFlag(true);
-
-      loader("hide");
     } catch (err) {
-      loader("hide");
       console.log("-err", err);
+    } finally {
+      loader("hide");
     }
   };
   useEffect(() => {
@@ -318,7 +316,6 @@ const EditLibrary = () => {
       } else {
         const newArray = [dd];
         setHcpIrtClickedFirst(newArray);
-        // setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
       }
     } else {
       toast.error("Role already Selected.");
@@ -395,7 +392,7 @@ const EditLibrary = () => {
         setTagsCounter(tagsCounter + 1);
       } catch (err) {
         loader("hide");
-        // console.log(err);
+        console.log(err);
       }
     }
   };
@@ -663,7 +660,7 @@ const EditLibrary = () => {
         }
       } catch (err) {
         loader("hide");
-        // console.log(err);
+        console.log(err);
       }
     }
   };
@@ -695,19 +692,17 @@ const EditLibrary = () => {
 
   const deleteRecord = async (i, id) => {
     if (id) {
-      loader("show");
       try {
+        loader("show");
         await deleteFormData(`${ENDPOINT.DELETE_PDF_FILE}/${id}`);
-        loader("hide");
       } catch (err) {
-        // console.log(err);
+        console.log(err);
+      } finally {
         loader("hide");
       }
     }
     const list = chapter;
-
     list.splice(i, 1);
-
     setChapter(list);
     setCounterFlag(counterFlag + 1);
   };
@@ -720,7 +715,6 @@ const EditLibrary = () => {
   };
 
   const removeTagFinal = (index, status = "") => {
-    // console.log("RemoveFinal Tags",status);
     if (status == "") {
       const tags = finalTags;
       tags.splice(index, 1);
@@ -738,7 +732,6 @@ const EditLibrary = () => {
 
   const saveButtonClicked = async () => {
     loader("show");
-    // console.log("PHuncha");
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
       if (typeof tagClickedFirst != "undefined" && tagClickedFirst.length > 0) {
         let prev_tags = finalTags;
@@ -899,7 +892,6 @@ const EditLibrary = () => {
                               value=""
                               id="flexCheckDefault"
                               type="checkbox"
-                              // userInputs
                               defaultChecked={reseller.includes(item?.id)}
                               onClick={(e) => handleReseller(e, item)}
                             />
