@@ -232,7 +232,7 @@ const PollQuestion = ()=>{
                                     <td>{item?.question}</td>
                                     <td>{item?.speakerName}</td>
                                     <td>{item?.answer}</td>
-                                    <td><button type="button" onClick={()=>handleSubmit(item,"submit")} className={`btn btn-submit btn-bordered ${item?.triggered == 1?"disabled":""}`}>Submit</button>
+                                    <td><button type="button" onClick={()=>handleSubmit(item,"submit")} className={`btn btn-submit btn-bordered ${item?.triggered == 1?"disabled active":""}`}>Submit</button>
                                         <button type="button" onClick={()=>handleSubmit(item,"answer")}  className={`btn btn-submit btn-bordered btn-voilet ${item?.showAnswerToUser == 1?"disabled":""}`}>Display Answer</button>                      
                                         <button type="button" onClick={()=>accordianFun(index+1)}className="btn show_graph"><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
                                 </tr>
@@ -250,9 +250,12 @@ const PollQuestion = ()=>{
                             </tbody>
                             <tfoot >
                             <tr>
-                            <td colspan={5}>
-                            <button type="button"  onClick={handleClose}  className={`btn btn-submit btn-filled `}>Close</button>
-                            </td>
+                              {
+                                data?.length?<td colspan={5}>
+                              
+                                <button type="button"  onClick={handleClose}  className={`btn btn-submit btn-filled `}>Close</button>
+                              </td>:null
+                              }
                           </tr>
                             </tfoot>
                         </Table>
