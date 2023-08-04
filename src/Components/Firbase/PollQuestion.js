@@ -38,7 +38,11 @@ const PollQuestion = ()=>{
   }
   useEffect(()=>{
       EventDataFun()
+      
   },[])
+  useEffect(()=>{
+    initiFun()
+  },[eventId?.id])
 
      const initiFun = async () => {
         try {
@@ -202,7 +206,6 @@ const PollQuestion = ()=>{
       if(count){
         initiFun()
       }
-        
      },[count])
     return (
         <>
