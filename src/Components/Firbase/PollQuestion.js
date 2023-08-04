@@ -345,7 +345,7 @@ const PollQuestion = ()=>{
                                     <td>{item?.answer}</td>
                                     <td><button type="button" onClick={()=>handleSubmit(item,"submit")} className={`btn btn-submit btn-bordered ${item?.triggered == 1?"disabled active":""}`}>Submit</button>
                                         <button type="button" onClick={()=>handleSubmit(item,"answer")}  className={`btn btn-submit btn-bordered btn-voilet ${item?.showAnswerToUser == 1?"disabled":""}`}>Display Answer</button>                      
-                                        <button type="button" onClick={()=>accordianFun(index+1)}className="btn show_graph"><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
+                                        <button type="button" onClick={()=>accordianFun(index+1)}className={`btn show_graph ${showAccordian && showAccordian == (index+1)?"open":""}`}><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
                                 </tr>
                                 <tr class={`poll_graph ${showAccordian && showAccordian == (index+1) ? "active-graph":""}`}> 
                                     <td colspan="6">
