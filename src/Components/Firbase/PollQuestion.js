@@ -44,10 +44,10 @@ const PollQuestion = ()=>{
         try {
           loader("show")
           const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
-            companyId: 18207,
-            eventId: 136,
-            // companyId: eventId?.companyId,
-            // eventId: eventId?.id,
+            // companyId: 18207,
+            // eventId: 136,
+            companyId: eventId?.companyId,
+            eventId: eventId?.id,
           });
           
           let newData = [];
@@ -138,6 +138,8 @@ const PollQuestion = ()=>{
                     data:graphData
                 }]
              },
+              triggered:value?.triggered,
+               showAnswerToUser:value?.showAnswerToUser,
               answer:value?.pollAnswers?.length,
               speakerName:value?.speakerName
             });
@@ -152,7 +154,6 @@ const PollQuestion = ()=>{
 
       const handleSubmit = async(data,type) =>{
         try{
-
            loader("show")
           await postData(ENDPOINT.EVENT_SUBMIT,{
             eventId:eventId?.id,
@@ -161,6 +162,7 @@ const PollQuestion = ()=>{
           })
           loader("hide")
         }catch(err){
+
           loader("hide")
           console.log("-err",err)
         }
@@ -173,6 +175,18 @@ const PollQuestion = ()=>{
           value = data
         }
         setAccordian(value)
+      }
+      const handleClose = async()=>{
+        try{
+          loader("show")
+          await postData(ENDPOINT.EVENT_CLOSE,{
+            eventId:eventId?.id,
+          })
+        }catch(err){
+          console.log("-err",err)
+        }finally{
+          loader("hide")
+        }
       }
 
     onSnapshot(q, (querySnapshot) => {
@@ -215,8 +229,8 @@ const PollQuestion = ()=>{
                                     <td>{item?.question}</td>
                                     <td>{item?.speakerName}</td>
                                     <td>{item?.answer}</td>
-                                    <td><button type="button" onClick={()=>handleSubmit(item,"submit")} className="btn btn-submit btn-bordered">Submit</button>
-                                        <button type="button" onClick={()=>handleSubmit(item,"answer")}  className="btn btn-submit btn-bordered btn-voilet ">Display Answer</button>                      
+                                    <td><button type="button" onClick={()=>handleSubmit(item,"submit")} className={`btn btn-submit btn-bordered ${item?.triggered == 1?"disabled":""}`}>Submit</button>
+                                        <button type="button" onClick={()=>handleSubmit(item,"answer")}  className={`btn btn-submit btn-bordered btn-voilet ${item?.showAnswerToUser == 1?"disabled":""}`}>Display Answer</button>                      
                                         <button type="button" onClick={()=>accordianFun(index+1)}className="btn show_graph"><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
                                 </tr>
                                 <tr class={`poll_graph ${showAccordian && showAccordian == (index+1) ? "active-graph":""}`}> 
@@ -231,6 +245,13 @@ const PollQuestion = ()=>{
                                   })
                                 }
                             </tbody>
+                            <tfoot >
+                            <tr>
+                            <td colspan={5}>
+                            <button type="button"  onClick={handleClose}  className={`btn btn-submit btn-bordered `}>Close</button>
+                            </td>
+                          </tr>
+                            </tfoot>
                         </Table>
                         </div>
                     </Container>
