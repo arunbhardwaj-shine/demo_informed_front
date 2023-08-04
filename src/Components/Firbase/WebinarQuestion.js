@@ -202,7 +202,6 @@ useEffect(() => {
   return (
     <>
           <div className="webinar-questions">
-            
             <Container>
               <div className="webinar-question-results">
                  {data?.map((item,index)=>{
@@ -211,7 +210,7 @@ useEffect(() => {
                     <p>{index+1}. {item?.question}</p>
                     {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.highchartData} />: <h6>This question hasn't been answered yet.</h6>}
                     {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.pieChartData} />: <h6>This question hasn't been answered yet.</h6>}
-                    {item?.answer? <h6>Total user: 1 </h6>:null}
+                    {item?.answer? <h6>Total user: {item?.answer} </h6>:null}
                     </>
                     )
               })}
