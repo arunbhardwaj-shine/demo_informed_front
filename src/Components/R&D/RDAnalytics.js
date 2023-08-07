@@ -78,11 +78,7 @@ const RDAnalytics = () => {
   const getMostPopularContentPageData = async (pdf_id) => {
     try {
       loader("show");
-      setIsContentSiteAccordionOpen({
-        ...isContentSiteAccordionOpen,
-        [pdf_id]: false,
-      });
-      // setIsContentSiteAccordionOpen([]);
+
       if (
         !isContentPageAccordionOpen[pdf_id] ||
         isContentPageAccordionOpen[pdf_id] == undefined
@@ -100,13 +96,7 @@ const RDAnalytics = () => {
           ...isContentPageAccordionOpen,
           [pdf_id]: true,
         });
-      } 
-      // else {
-      //   setIsContentPageAccordionOpen({
-      //     ...isContentPageAccordionOpen,
-      //     [pdf_id]: false,
-      //   });
-      // }
+      }
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -117,11 +107,7 @@ const RDAnalytics = () => {
   const getMostPopularContentSiteData = async (pdf_id) => {
     try {
       loader("show");
-      setIsContentPageAccordionOpen({
-        ...isContentPageAccordionOpen,
-        [pdf_id]: false,
-      });
-      // setIsContentPageAccordionOpen([]);
+
       if (
         !isContentSiteAccordionOpen[pdf_id] ||
         isContentSiteAccordionOpen[pdf_id] == undefined
@@ -218,15 +204,8 @@ const RDAnalytics = () => {
           ...isContentSiteAccordionOpen,
           [pdf_id]: true,
         });
-        // loader("hide");
-      } else {
-        setIsContentSiteAccordionOpen({
-          ...isContentSiteAccordionOpen,
-          [pdf_id]: false,
-        });
       }
     } catch (err) {
-      // loader("hide");
       console.log("--err", err);
     } finally {
       loader("hide");
@@ -1610,6 +1589,10 @@ const RDAnalytics = () => {
                               </div>
                             </Accordion.Body>
                           </Accordion.Item>
+                          {console.log(
+                            "data--->",
+                            mostPopularContentSiteData[item.pdf?.id]
+                          )}
                           <Accordion.Item
                             eventKey="10"
                             className={
@@ -1635,6 +1618,7 @@ const RDAnalytics = () => {
                                 />
                               </div>
                             </Accordion.Header>
+                            {}
                             {mostPopularContentSiteData[item.pdf?.id]?.length >
                               0 && (
                               <>
