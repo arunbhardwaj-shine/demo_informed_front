@@ -76,16 +76,13 @@ const RDAnalytics = () => {
   });
 
   const getMostPopularContentPageData = async (pdf_id) => {
-    setIsContentSiteAccordionOpen({
-      ...isContentSiteAccordionOpen,
-      [pdf_id]: false,
-    });
-    setIsContentSiteAccordionOpen([]);
-
-    loader("show");
-
     try {
       loader("show");
+      setIsContentSiteAccordionOpen({
+        ...isContentSiteAccordionOpen,
+        [pdf_id]: false,
+      });
+      // setIsContentSiteAccordionOpen([]);
       if (
         !isContentPageAccordionOpen[pdf_id] ||
         isContentPageAccordionOpen[pdf_id] == undefined
@@ -103,12 +100,13 @@ const RDAnalytics = () => {
           ...isContentPageAccordionOpen,
           [pdf_id]: true,
         });
-      } else {
-        setIsContentPageAccordionOpen({
-          ...isContentPageAccordionOpen,
-          [pdf_id]: false,
-        });
-      }
+      } 
+      // else {
+      //   setIsContentPageAccordionOpen({
+      //     ...isContentPageAccordionOpen,
+      //     [pdf_id]: false,
+      //   });
+      // }
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -117,15 +115,13 @@ const RDAnalytics = () => {
   };
 
   const getMostPopularContentSiteData = async (pdf_id) => {
-    setIsContentPageAccordionOpen({
-      ...isContentPageAccordionOpen,
-      [pdf_id]: false,
-    });
-
-    loader("show");
-
     try {
       loader("show");
+      setIsContentPageAccordionOpen({
+        ...isContentPageAccordionOpen,
+        [pdf_id]: false,
+      });
+      // setIsContentPageAccordionOpen([]);
       if (
         !isContentSiteAccordionOpen[pdf_id] ||
         isContentSiteAccordionOpen[pdf_id] == undefined
@@ -1525,7 +1521,7 @@ const RDAnalytics = () => {
                           <span>
                             {mostPopularContentData &&
                             mostPopularContentData.length > 0
-                              ? mostPopularContentData?.length + 1
+                              ? mostPopularContentData?.length
                               : 0}
                           </span>
                         </h4>
