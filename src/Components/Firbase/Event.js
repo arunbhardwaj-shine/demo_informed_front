@@ -24,6 +24,7 @@ const Event = () =>{
     const q = query(collection(db, "chat"), where("triggered", '!=', 0),where("event_id","==",eventId?.id));
     const [data,setData] = useState(0)
     const [user,setUser] = useState({})
+    const [value,setValue] = useState({})
 
     const [show,setShow] = useState(false)
     const [apiData,setApiData] = useState([])
@@ -82,7 +83,6 @@ const Event = () =>{
 
     }
   
-    const [value,setValue] = useState({})
        onSnapshot(q, (querySnapshot) => {
          let newData ={}
         querySnapshot.forEach((doc) => {
@@ -99,6 +99,16 @@ const Event = () =>{
         if(eventQuestion?.includes(newData?.question_id) && newData?.triggered == 1){
             return 
         }else if(!eventQuestion?.includes(newData?.question_id) && newData?.triggered == 2){
+            if(data){
+              setData(0)
+            }
+            setShow(false)
+            if(show){
+                setShow(false)
+             }
+             if(Object.keys(value)?.length){
+                setValue({})
+             }
             return 
         }
 

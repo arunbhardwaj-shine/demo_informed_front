@@ -275,12 +275,15 @@ const PollQuestion = ()=>{
             questionId:data?.questionId,
             type:type
           })
-          loader("hide")
         }catch(err){
-
-          loader("hide")
           console.log("-err",err)
+        }finally{
+          setTimeout(()=>{
+            loader("hide")
+          },2000)
+         
         }
+        
       }
 
       const accordianFun = (data) =>{
@@ -300,7 +303,10 @@ const PollQuestion = ()=>{
         }catch(err){
           console.log("-err",err)
         }finally{
-          loader("hide")
+          setTimeout(()=>{
+            loader("hide")
+          },3000)
+         
         }
       }
 
