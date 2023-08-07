@@ -551,11 +551,18 @@ const RDAnalytics = () => {
 
       if (siteData.Users && siteData.Users.length > 0) {
         const userTableHeadings = document.createElement("tr");
+        // userTableHeadings.innerHTML = `
+        // <th></th>
+        //   <th>Name</th>
+        //   <th>Role</th>
+        //   <th>Blind type</th>
+        //   <th>Training</th>
+        // `;
         userTableHeadings.innerHTML = `
         <th></th>
           <th>Name</th>
           <th>Role</th>
-          <th>Blind type</th>
+          
           <th>Training</th>
         `;
         exportTable.appendChild(userTableHeadings);
@@ -574,9 +581,9 @@ const RDAnalytics = () => {
           userTypeCell.textContent = user.user_type;
           userRow.appendChild(userTypeCell);
 
-          const bindedCell = document.createElement("td");
-          bindedCell.textContent = user.binded;
-          userRow.appendChild(bindedCell);
+          // const bindedCell = document.createElement("td");
+          // bindedCell.textContent = user.binded;
+          // userRow.appendChild(bindedCell);
 
           const trainingCell = document.createElement("td");
           trainingCell.textContent = user.training;
