@@ -1381,6 +1381,7 @@ const NewReaders = () => {
                         aria-labelledby="dropdownMenuButton2"
                       >
                         <h4>Filter By</h4>
+                        {console.log("-dfdf",filterdata)}
 
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
