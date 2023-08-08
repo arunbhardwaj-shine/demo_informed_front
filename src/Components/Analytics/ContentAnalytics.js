@@ -132,7 +132,6 @@ const ContentAnalytics = () => {
   }
 
   const filterSublinkData = async (sublinkId) => {
-    console.log("id--->", sublinkId);
     try {
       loader("show");
       setIsLoaded(false);
