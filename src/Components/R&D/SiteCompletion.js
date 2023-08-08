@@ -51,7 +51,7 @@ const SiteCompletion = ({ siteCompletionfn }) => {
     plotOptions: {
       series: {
         stacking: "normal",
-        pointWidth: 20,
+        pointWidth: 10,
       },
     },
     series: [],

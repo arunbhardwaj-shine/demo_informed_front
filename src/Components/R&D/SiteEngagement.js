@@ -54,8 +54,8 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
       plotOptions: {},
       series: {
         // stacking: "normal",
-        pointWidth: 20,
-        groupPadding: 0.4,
+        pointWidth: 10,
+        groupPadding: 0.45,
       },
     },
     series: [],
