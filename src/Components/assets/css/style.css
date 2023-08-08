@@ -7531,6 +7531,11 @@ section.search-hcp.smart-list-view .header-btn-left {
   margin: 0 auto;
 }
 
+.question-block-form span.event-validation {
+  color: #f00;
+  font-size: 14px;
+}
+
 .link-popup .link-popup-inner div button {
   background: transparent;
   color: var(--white);
