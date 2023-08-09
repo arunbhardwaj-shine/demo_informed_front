@@ -46,13 +46,17 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
   };
   const handleSubmit = async () => {
     try {
-
       if(typeof user?.poll_answer_id == "number" && !user?.poll_answer_id){
-        setError({ msg: "This field is required" });
+        setError({ msg: "Please select above options" });
+        return
       }else if(typeof user?.poll_answer_id == "object" && !user?.poll_answer_id?.length){
-        setError({ msg: "This field is required" });
+        setError({ msg: "Please select above options" });
         return;
-      } else {
+      }else if(!user?.poll_answer_id){
+        setError({ msg: "Please select above options" });
+        return
+      }
+       else {
         setError({});
       }
 
@@ -85,7 +89,6 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      {console.log("-->",data)}
       <Modal.Header >
         <Modal.Title id="contained-modal-title-vcenter">
           <img

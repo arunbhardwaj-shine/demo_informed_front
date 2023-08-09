@@ -289,7 +289,7 @@ const PopularContent = ({
                 </div>
               </>
             ) : (
-              <div className="not-found"><p>No data found</p></div>
+              <div className="no_found"><p>No data found</p></div>
             )}
           </div>
           <div className="rd-box-export">
