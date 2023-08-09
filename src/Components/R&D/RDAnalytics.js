@@ -1416,7 +1416,7 @@ const RDAnalytics = () => {
                                           <p>
                                             Content engagement |{" "}
                                             <span>
-                                              {item?.pdf_data?.length}
+                                              {item?.content_engagement}
                                             </span>
                                           </p>
 
