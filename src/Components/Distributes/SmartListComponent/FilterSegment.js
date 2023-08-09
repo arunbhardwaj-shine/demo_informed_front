@@ -2489,7 +2489,7 @@ const FilterSegment = (props) => {
                               )}
 
                               {"ibu" in filters &&
-                                Object.keys(filters.ibu).length > 0 && selectedreaderselection == "CIS Reader" && (
+                                Object.keys(filters.ibu).length > 0 && (selectedreaderselection == "CIS Reader" || selectedreaderselection =="All User") && (
                                   <>
                                     <div className="col block-smart-name">
                                       <h6>IBU</h6>
