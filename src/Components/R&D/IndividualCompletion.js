@@ -63,6 +63,7 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
 
         enableMouseTracking: true,
         showInLegend: true,
+        borderWidth: 0,
       },
     },
     series: [],
@@ -87,13 +88,17 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
           data: [
             {
               name: "Completed",
-              y: result?.data?.data?.completed,
+              y: result?.data?.data?.completed
+                ? result?.data?.data?.completed
+                : "",
 
               color: colors[0],
             },
             {
               name: "Not Completed",
-              y: result?.data?.data?.notcompleted,
+              y: result?.data?.data?.notcompleted
+                ? result?.data?.data?.notcompleted
+                : "",
 
               color: colors[1],
             },

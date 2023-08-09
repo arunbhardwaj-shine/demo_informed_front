@@ -285,24 +285,28 @@ const RDAnalytics = () => {
 
   const individualTrainingDropdown = async (e, i, userId, pdfId, fileType) => {
     try {
-      loader("show");
-      if (trainingAccordianShow == i) {
-        setTrainingAccordianShow();
-      } else {
-        let body = {
-          user_id: userId,
-          pdf_id: pdfId,
-          file_type: fileType,
-        };
-        const result = await postData(
-          ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
-          body
-        );
+      setIsApiStatus(false);
+      if (fileType != "video") {
+        loader("show");
+        if (trainingAccordianShow == i) {
+          setTrainingAccordianShow();
+        } else {
+          let body = {
+            user_id: userId,
+            pdf_id: pdfId,
+            file_type: fileType,
+          };
+          const result = await postData(
+            ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
+            body
+          );
 
-        setTrainingAccordianData(result?.data?.data?.time_spend_on_pdf);
-        setTrainingAccordianShow(i);
+          setTrainingAccordianData(result?.data?.data?.time_spend_on_pdf);
+          setTrainingAccordianShow(i);
+          setIsApiStatus(true);
+        }
+        loader("hide");
       }
-      loader("hide");
     } catch (err) {
       loader("hide");
       console.log("-err", err);
@@ -322,7 +326,7 @@ const RDAnalytics = () => {
       if (!siteCompletionTableData) {
         const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
         setSiteCompletionTableData(result?.data?.data);
-     
+
         site_Completion?.current?.focus();
         loader("hide");
       } else {
@@ -1050,16 +1054,21 @@ const RDAnalytics = () => {
                                                               );
                                                             }
                                                           )
-                                                        ) : (
-                                                          <div className="no_found">
-                                                            <p>No Data Found</p>
-                                                          </div>
-                                                        )}
+                                                        ) : isApiStatus ? (
+                                                          <>
+                                                            <div className="no_found">
+                                                              <p>
+                                                                No Data Found
+                                                              </p>
+                                                            </div>
+                                                          </>
+                                                        ) : null}
                                                       </div>
                                                     </Accordion.Body>
-                                                  ) : (
-                                                    <div>No Data</div>
-                                                  )}
+                                                  ) : // (
+                                                  //   <div>No Data</div>
+                                                  // )
+                                                  null}
                                                 </Accordion.Item>
                                               </>
                                             );
@@ -1601,7 +1610,9 @@ const RDAnalytics = () => {
                                   )
                                 ) : isApiStatus ? (
                                   <>
-                                    <p className="no-data-found">No Data Found</p>
+                                    <p className="no-data-found">
+                                      No Data Found
+                                    </p>
                                   </>
                                 ) : null}
                               </div>
