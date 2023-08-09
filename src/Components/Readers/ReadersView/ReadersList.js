@@ -375,7 +375,7 @@ const NewReaders = () => {
 
 
     if(key =="Content Owners"){
-      if(item == "IBU Owner" || item == "All"){
+      if(item == "IBU Owner" ){
         let newData = [];
 
         delete apifilterObject?.["Business Unit"];
