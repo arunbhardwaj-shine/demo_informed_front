@@ -9094,6 +9094,12 @@ img.change-password-image {
           justify-content: center;
           height: 100%;
       }
+        .no_found{
+          p{
+             color: $dark-blue;
+             font-weight: bold;
+          }
+        }
         p {
           font-weight: 500;
           text-transform: capitalize;
@@ -9607,6 +9613,14 @@ img.change-password-image {
               }
             }
           }
+          .no-data-found{
+            display: block;
+            text-align: center;
+            width: 100%;
+            font-size: 16px;
+            color:$pink;
+            font-weight: 700;
+          }
         }
       }
     }
@@ -9828,7 +9842,7 @@ img.change-password-image {
   .accordion
   .accordion-item
   .accordion-body {
-  padding: 16px 4px 4px;
+  padding: 16px 4px 6px;
 }
 .accordion-body .contents-block {
   width: 100%;
@@ -9998,6 +10012,9 @@ img.change-password-image {
     font-size: 17px;
     line-height: 23px;
   }
+    .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .no_found p {
+     font-size: 25px;
+}
   .rd-full-explain
     .rd-training-block
     .accordion
@@ -10483,6 +10500,7 @@ img.change-password-image {
     p {
     font-size: 15px;
   }
+
   .rd-analytics-content
     .rd-analytics-box
     .rd-analytics-box-layout
@@ -10564,6 +10582,12 @@ img.change-password-image {
   }
 }
 @media (min-width: 768px) and (max-width: $layout-breakpoint-medium) {
+ .rd-analytics-content .no_found {
+    min-height: 250px;
+}
+.email_box_block.no_found p, .not_found p, .no_found p, .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .no_found p {
+    font-size: 20px;
+}
   .rd-full-explain .rd-training-block table thead tr th.site_name {
     min-width: initial;
     width: 235px;

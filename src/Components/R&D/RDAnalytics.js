@@ -46,6 +46,7 @@ const RDAnalytics = () => {
   const [mostPopularContentPageData, setMostPopularContentPageData] = useState(
     []
   );
+  const [isApiStatus, setIsApiStatus] = useState(false);
   const [mostPopularContentSiteData, setMostPopularContentSiteData] = useState(
     []
   );
@@ -78,6 +79,7 @@ const RDAnalytics = () => {
   const getMostPopularContentPageData = async (pdf_id) => {
     try {
       loader("show");
+      setIsApiStatus(false);
 
       if (
         !isContentPageAccordionOpen[pdf_id] ||
@@ -97,6 +99,7 @@ const RDAnalytics = () => {
           [pdf_id]: true,
         });
       }
+      setIsApiStatus(true);
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -282,24 +285,28 @@ const RDAnalytics = () => {
 
   const individualTrainingDropdown = async (e, i, userId, pdfId, fileType) => {
     try {
-      loader("show");
-      if (trainingAccordianShow == i) {
-        setTrainingAccordianShow();
-      } else {
-        let body = {
-          user_id: userId,
-          pdf_id: pdfId,
-          file_type: fileType,
-        };
-        const result = await postData(
-          ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
-          body
-        );
+      setIsApiStatus(false);
+      if (fileType != "video") {
+        loader("show");
+        if (trainingAccordianShow == i) {
+          setTrainingAccordianShow();
+        } else {
+          let body = {
+            user_id: userId,
+            pdf_id: pdfId,
+            file_type: fileType,
+          };
+          const result = await postData(
+            ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
+            body
+          );
 
-        setTrainingAccordianData(result?.data?.data?.time_spend_on_pdf);
-        setTrainingAccordianShow(i);
+          setTrainingAccordianData(result?.data?.data?.time_spend_on_pdf);
+          setTrainingAccordianShow(i);
+          setIsApiStatus(true);
+        }
+        loader("hide");
       }
-      loader("hide");
     } catch (err) {
       loader("hide");
       console.log("-err", err);
@@ -319,7 +326,7 @@ const RDAnalytics = () => {
       if (!siteCompletionTableData) {
         const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
         setSiteCompletionTableData(result?.data?.data);
-        console.log(result?.data?.data);
+
         site_Completion?.current?.focus();
         loader("hide");
       } else {
@@ -707,7 +714,6 @@ const RDAnalytics = () => {
     </Tooltip>
   );
   function downloadCertificate(certificate_link, event) {
-    console.log(certificate_link);
     fetch(certificate_link)
       .then((response) => response.blob())
       .then((blob) => {
@@ -1048,12 +1054,21 @@ const RDAnalytics = () => {
                                                               );
                                                             }
                                                           )
-                                                        ) : (
-                                                          <div>No Data</div>
-                                                        )}
+                                                        ) : isApiStatus ? (
+                                                          <>
+                                                            <div className="no_found">
+                                                              <p>
+                                                                No Data Found
+                                                              </p>
+                                                            </div>
+                                                          </>
+                                                        ) : null}
                                                       </div>
                                                     </Accordion.Body>
-                                                  ) : null}
+                                                  ) : // (
+                                                  //   <div>No Data</div>
+                                                  // )
+                                                  null}
                                                 </Accordion.Item>
                                               </>
                                             );
@@ -1560,7 +1575,7 @@ const RDAnalytics = () => {
                             <Accordion.Body>
                               <div className="article-pages-details d-flex">
                                 {mostPopularContentPageData[item.pdf?.id]
-                                  ?.length > 0 &&
+                                  ?.length ? (
                                   mostPopularContentPageData[item.pdf?.id].map(
                                     (pdf, index) => (
                                       <div
@@ -1592,14 +1607,18 @@ const RDAnalytics = () => {
                                         </div>
                                       </div>
                                     )
-                                  )}
+                                  )
+                                ) : isApiStatus ? (
+                                  <>
+                                    <p className="no-data-found">
+                                      No Data Found
+                                    </p>
+                                  </>
+                                ) : null}
                               </div>
                             </Accordion.Body>
                           </Accordion.Item>
-                          {console.log(
-                            "data--->",
-                            mostPopularContentSiteData[item.pdf?.id]
-                          )}
+
                           <Accordion.Item
                             eventKey="10"
                             className={
