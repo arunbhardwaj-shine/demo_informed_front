@@ -3,6 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { getData, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { loader } from "../../loader";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -64,6 +65,12 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
   useEffect(() => {
     getRdSiteChartData();
   }, []);
+
+  const tooltip = (
+    <Tooltip id="tooltip">
+    This chart shows the total number of non-mandatory content
+    </Tooltip>
+  );
 
   const getRdSiteChartData = async () => {
     try {
@@ -159,7 +166,9 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
                 <div className="count-number">
                   {totalRdSiteNumber ? totalRdSiteNumber : ""}
                 </div>
+                <OverlayTrigger placement="left" overlay={tooltip}>
                 <img src={path_image + "site-engaged.svg"} alt="" />
+</OverlayTrigger>
               </div>
             </div>
 

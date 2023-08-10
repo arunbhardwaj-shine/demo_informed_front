@@ -3,6 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { getData, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { loader } from "../../loader";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -72,6 +73,12 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
   useEffect(() => {
     getPieChartData();
   }, []);
+
+  const tooltip = (
+    <Tooltip id="tooltip">
+     This chart shows the sites that have IRTs who didn't complete the training and complete the training
+    </Tooltip>
+  );
 
   const getPieChartData = async () => {
     try {
@@ -165,11 +172,13 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
                 <div className="count-number">
                   {pieData.total ? pieData.total : ""}
                 </div>
+                <OverlayTrigger placement="left" overlay={tooltip}>
                 <img
                   src={path_image + "doctor-svg.svg"}
                   alt=""
                   class="doctor"
                 />
+                </OverlayTrigger>
               </div>
             </div>
 

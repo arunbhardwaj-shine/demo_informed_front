@@ -3,6 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { getData, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { loader } from "../../loader";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -60,6 +61,12 @@ const SiteCompletion = ({ siteCompletionfn }) => {
   useEffect(() => {
     initialFun();
   }, []);
+
+  const tooltip = (
+    <Tooltip id="tooltip">
+     This chart shows the total number of sites who participated in the trial
+    </Tooltip>
+  );
 
   const initialFun = async () => {
     try {
@@ -208,7 +215,9 @@ const SiteCompletion = ({ siteCompletionfn }) => {
               <h5>Site Completion</h5>
               <div className="d-flex">
                 <div className="count-number">{totalSiteNumber}</div>
+                <OverlayTrigger placement="left" overlay={tooltip}>
                 <img src={path_image + "hospital.svg"} alt="" />
+                </OverlayTrigger>
               </div>
             </div>
 

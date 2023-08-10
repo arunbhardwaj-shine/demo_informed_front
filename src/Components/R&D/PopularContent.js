@@ -84,6 +84,14 @@ const PopularContent = ({
     </Tooltip>
   );
 
+
+  const tooltips = (
+    <Tooltip id="tooltip">
+      This chart shows the total number of all content view for the non-mandatory content
+    </Tooltip>
+  );
+
+
   const getMostPopularData = async () => {
     try {
       const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT);
@@ -192,7 +200,7 @@ const PopularContent = ({
         </div>
       ) : (
         <div className="rd-analytics-box rd-content">
-          <p className="rd-box-small-title">Content</p>
+          <p className="rd-box-small-title">contents</p>
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top d-flex justify-content-between align-items-center">
               <h5>Most Popular content</h5>
@@ -203,7 +211,9 @@ const PopularContent = ({
                     <div className="count-number">
                       {mostPopularContentDataChild[0].watched_count}
                     </div>
+                    <OverlayTrigger placement="left" overlay={tooltips}>
                     <img src={path_image + "content-view.svg"} alt="" />
+                    </OverlayTrigger>
                   </>
                 ) : (
                   <>
