@@ -1681,44 +1681,70 @@ const RDAnalytics = () => {
                                 </div>
                               </div>
                             </Accordion.Header>
-                            <Accordion.Body>
+                            <Accordion.Body
+                              className={`${
+                                item?.pdf?.file_type == "video"
+                                  ? "accordian_video"
+                                  : ""
+                              }`}
+                            >
                               <div className="article-pages-details d-flex">
                                 {mostPopularContentPageData[item.pdf?.id]
                                   ?.length ? (
-                                  mostPopularContentPageData[item.pdf?.id].map(
-                                    (pdf, index) => (
-                                      <div
-                                        className="article-page-show"
-                                        key={index}
-                                      >
-                                        <div className="article-cover-img">
-                                          {/* <img src={pdf.article_image} alt="" /> */}
-                                          <div className="page-number">
-                                            Page {pdf.page}
-                                          </div>
-                                        </div>
-                                        <div className="article-detail-view">
-                                          {/* <div className="article-page-number">
-                                            Page {pdf.page}
-                                          </div> */}
-                                          <div className="article-spanrd-time">
-                                            Read | Watched{" "}
-                                            <span>
-                                              {index == 0
-                                                ? item.watched_count
-                                                : pdf.read_watched}{" "}
-                                              <img
-                                                src={
-                                                  path_image + "eye-watch.svg"
-                                                }
-                                                alt=""
-                                              />
-                                            </span>
-                                          </div>
+                                  <>
+                                    <div
+                                      className="article-page-show"
+                                      key={index}
+                                    >
+                                      <div className="article-cover-img">
+                                        <div className="page-number">
+                                          Page 1
                                         </div>
                                       </div>
-                                    )
-                                  )
+                                      <div className="article-detail-view">
+                                        <div className="article-spanrd-time">
+                                          Read | Watched{" "}
+                                          <span>
+                                            {item.watched_count}{" "}
+                                            <img
+                                              src={path_image + "eye-watch.svg"}
+                                              alt=""
+                                            />
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    {mostPopularContentPageData[
+                                      item.pdf?.id
+                                    ].map((pdf, index) =>
+                                      pdf?.page != 1 ? (
+                                        <div
+                                          className="article-page-show"
+                                          key={index}
+                                        >
+                                          <div className="article-cover-img">
+                                            <div className="page-number">
+                                              Page {pdf.page}
+                                            </div>
+                                          </div>
+                                          <div className="article-detail-view">
+                                            <div className="article-spanrd-time">
+                                              Read | Watched{" "}
+                                              <span>
+                                                {pdf.read_watched}{" "}
+                                                <img
+                                                  src={
+                                                    path_image + "eye-watch.svg"
+                                                  }
+                                                  alt=""
+                                                />
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ) : null
+                                    )}
+                                  </>
                                 ) : isApiStatus ? (
                                   <>
                                     <p className="no-data-found">
