@@ -72,6 +72,14 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
     </Tooltip>
   );
 
+// Set your color here
+const entering = (e) => {
+  e.children[0].style.borderTopColor = '#E1EEFA';
+  e.children[1].style.backgroundColor = '#E1EEFA';
+  e.children[1].style.color = 'black'; 
+};
+
+
   const getRdSiteChartData = async () => {
     try {
       const result = await getData(ENDPOINT.RD_SITE_ENGAGEMENT);
@@ -166,9 +174,9 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
                 <div className="count-number">
                   {totalRdSiteNumber ? totalRdSiteNumber : ""}
                 </div>
-                <OverlayTrigger placement="left" overlay={tooltip}>
+                <OverlayTrigger placement="left" overlay={tooltip} onEntering={entering}>
                 <img src={path_image + "site-engaged.svg"} alt="" />
-</OverlayTrigger>
+                    </OverlayTrigger>
               </div>
             </div>
 

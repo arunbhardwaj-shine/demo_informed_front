@@ -68,6 +68,14 @@ const SiteCompletion = ({ siteCompletionfn }) => {
     </Tooltip>
   );
 
+
+// Set your color here
+const entering = (e) => {
+  e.children[0].style.borderTopColor = '#E1EEFA';
+  e.children[1].style.backgroundColor = '#E1EEFA';
+  e.children[1].style.color = 'black'; 
+};
+
   const initialFun = async () => {
     try {
       const result = await getData(ENDPOINT.SITEREGISTER);
@@ -215,7 +223,7 @@ const SiteCompletion = ({ siteCompletionfn }) => {
               <h5>Site Completion</h5>
               <div className="d-flex">
                 <div className="count-number">{totalSiteNumber}</div>
-                <OverlayTrigger placement="left" overlay={tooltip}>
+                <OverlayTrigger placement="left" overlay={tooltip} onEntering={entering}>
                 <img src={path_image + "hospital.svg"} alt="" />
                 </OverlayTrigger>
               </div>
