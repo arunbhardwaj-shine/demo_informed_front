@@ -2925,6 +2925,8 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
 }
 
 /**Library Style End**/
@@ -9904,11 +9906,11 @@ img.change-password-image {
       width: 612px;
     }
     .site_complete table.table thead th:nth-child(2) {
-      width: 193px;
+      width: 250px;
     }
-    .site_complete table.table thead th:nth-child(3) {
-      width: 185px;
-    }
+    // .site_complete table.table thead th:nth-child(3) {
+    //   width: 185px;
+    // }
   }
 }
 .sort_btn {
@@ -10184,6 +10186,7 @@ img.change-password-image {
   text-align: right;
   cursor: pointer;
 }
+
 /*Responsive for R&D Analytics*/
 @media only screen and (max-width: 1599px) {
   .rd-analytics-content
@@ -10270,16 +10273,16 @@ img.change-password-image {
     table.table
     thead
     th:nth-child(2) {
-    width: 178px;
+    width: 202px;
   }
-  .rd-full-explain
-    .rd-training-block
-    .site_complete
-    table.table
-    thead
-    th:nth-child(3) {
-    width: 207px;
-  }
+  // .rd-full-explain
+  //   .rd-training-block
+  //   .site_complete
+  //   table.table
+  //   thead
+  //   th:nth-child(3) {
+  //   width: 207px;
+  // }
 }
 @media only screen and (max-width: 1500px) {
   .rd-analytics-content .row {
@@ -10312,16 +10315,16 @@ img.change-password-image {
     table.table
     thead
     th:nth-child(2) {
-    width: 127px;
+    width: 165px;
   }
-  .rd-full-explain
-    .rd-training-block
-    .site_complete
-    table.table
-    thead
-    th:nth-child(3) {
-    width: 150px;
-  }
+  // .rd-full-explain
+  //   .rd-training-block
+  //   .site_complete
+  //   table.table
+  //   thead
+  //   th:nth-child(3) {
+  //   width: 150px;
+  // }
   .rd-full-explain .rd-training-block .rd-training-block-right button svg {
     width: 18px;
   }
@@ -10414,22 +10417,22 @@ img.change-password-image {
     th:first-child {
     width: 413px;
   }
-  .rd-full-explain
-    .rd-training-block
-    .site_complete
-    table.table
-    thead
-    th:nth-child(2) {
-    width: 128px;
-  }
-  .rd-full-explain
-    .rd-training-block
-    .site_complete
-    table.table
-    thead
-    th:nth-child(3) {
-    width: 140px;
-  }
+  // .rd-full-explain
+  //   .rd-training-block
+  //   .site_complete
+  //   table.table
+  //   thead
+  //   th:nth-child(2) {
+  //   width: 128px;
+  // }
+  // .rd-full-explain
+  //   .rd-training-block
+  //   .site_complete
+  //   table.table
+  //   thead
+  //   th:nth-child(3) {
+  //   width: 140px;
+  // }
   .rd-analytics-content
     .rd-analytics-box
     .rd-analytics-box-layout
@@ -10544,16 +10547,16 @@ img.change-password-image {
     table.table
     thead
     th:nth-child(2) {
-    width: 117px;
+    width: 150px;
   }
-  .rd-full-explain
-    .rd-training-block
-    .site_complete
-    table.table
-    thead
-    th:nth-child(3) {
-    width: 125px;
-  }
+  // .rd-full-explain
+  //   .rd-training-block
+  //   .site_complete
+  //   table.table
+  //   thead
+  //   th:nth-child(3) {
+  //   width: 125px;
+  // }
   .contents-block-right .used-device-detail img {
     max-width: 250px;
   }
