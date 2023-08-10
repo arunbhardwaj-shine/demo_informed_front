@@ -2920,6 +2920,8 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   margin: 0;
 }
 
@@ -9489,6 +9491,9 @@ img.change-password-image {
         //     }
         //   }
         // }
+        &:hover {
+          color: $primary-color;
+        }
       }
     }
     table {
@@ -9935,6 +9940,9 @@ img.change-password-image {
               fill: $primary-color;
             }
           }
+        &:hover {
+          color: #97B6CF;
+        }
         }
 .rd-full-explain
   .rd-training-block
