@@ -220,7 +220,6 @@ const SiteCompletion = ({ siteCompletionfn }) => {
                       <p>Registered IRTs at each site</p>
                     </div>
                     <div className="switch6">
-                      {/* <label className="switch6-light "> */}
                       <label
                         className={`switch6-light${sortSite ? " active" : ""}`}
                       >
