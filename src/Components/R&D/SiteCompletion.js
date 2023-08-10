@@ -101,6 +101,7 @@ const SiteCompletion = ({ siteCompletionfn }) => {
 
   const handleCheckboxClick = async (sort) => {
     try {
+      console.log("--->", sort);
       const result = await postData(ENDPOINT.SITEREGISTERSORT, { sort: sort });
 
       const data = result?.data?.data?.registered_irt;
@@ -219,7 +220,10 @@ const SiteCompletion = ({ siteCompletionfn }) => {
                       <p>Registered IRTs at each site</p>
                     </div>
                     <div className="switch6">
-                      <label className="switch6-light">
+                      {/* <label className="switch6-light "> */}
+                      <label
+                        className={`switch6-light${sortSite ? " active" : ""}`}
+                      >
                         <input
                           type="checkbox"
                           onChange={() => {
