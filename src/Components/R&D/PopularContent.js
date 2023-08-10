@@ -87,9 +87,17 @@ const PopularContent = ({
 
   const tooltips = (
     <Tooltip id="tooltip">
-      This chart shows the total number of all content view for the non-mandatory content
+      This chart shows the total number of view on most popular content for the non-mandatory content
     </Tooltip>
   );
+
+
+// Set your color here
+const entering = (e) => {
+  e.children[0].style.borderTopColor = '#E1EEFA';
+  e.children[1].style.backgroundColor = '#E1EEFA';
+  e.children[1].style.color = 'black'; 
+};
 
 
   const getMostPopularData = async () => {
@@ -211,7 +219,7 @@ const PopularContent = ({
                     <div className="count-number">
                       {mostPopularContentDataChild[0].watched_count}
                     </div>
-                    <OverlayTrigger placement="left" overlay={tooltips}>
+                    <OverlayTrigger placement="left" overlay={tooltips} onEntering={entering}>
                     <img src={path_image + "content-view.svg"} alt="" />
                     </OverlayTrigger>
                   </>
@@ -233,7 +241,7 @@ const PopularContent = ({
                         <p>Sites who Read | Watch The Top Content</p>
                       </div>
                       <div className="popular-tooltip">
-                        <OverlayTrigger placement="left" overlay={tooltip}>
+                        <OverlayTrigger placement="left" overlay={tooltip} onEntering={entering}>
                           <img src={path_image + "tooltip-img.svg"} alt="" />
                         </OverlayTrigger>
                       </div>

@@ -80,6 +80,13 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
     </Tooltip>
   );
 
+// Set your color here
+const entering = (e) => {
+  e.children[0].style.borderTopColor = '#E1EEFA';
+  e.children[1].style.backgroundColor = '#E1EEFA';
+  e.children[1].style.color = 'black'; 
+};
+
   const getPieChartData = async () => {
     try {
       const result = await getData(ENDPOINT.IRT_COUNT_GRAPH);
@@ -172,7 +179,7 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
                 <div className="count-number">
                   {pieData.total ? pieData.total : ""}
                 </div>
-                <OverlayTrigger placement="left" overlay={tooltip}>
+                <OverlayTrigger placement="left" overlay={tooltip} onEntering={entering}>
                 <img
                   src={path_image + "doctor-svg.svg"}
                   alt=""

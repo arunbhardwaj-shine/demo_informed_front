@@ -234,6 +234,7 @@ const RDAnalytics = () => {
     try {
       loader("show");
       setIsActive("");
+      setIndividualCompletionShow();
       setFlag({
         site_Completion: false,
         site_Engagement: false,
@@ -321,6 +322,7 @@ const RDAnalytics = () => {
     try {
       loader("show");
       setIsActive("");
+      setSiteCompletionShow();
       setFlag({
         individual_Completion: false,
         site_Engagement: false,
@@ -400,6 +402,7 @@ const RDAnalytics = () => {
     try {
       loader("show");
       setIsActive("");
+      setShow();
       setFlag({
         individual_Completion: false,
         site_Completion: false,
@@ -854,7 +857,6 @@ const RDAnalytics = () => {
                           onClick={sortIndividualCompletion}
                         >
                           Sort By{" "}
-                          {/* <img src={path_image + "sort.svg"} alt="Shorting" /> */}
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -999,10 +1001,6 @@ const RDAnalytics = () => {
                                                           src={
                                                             data?.article_image
                                                           }
-                                                          // src={
-                                                          //   path_image +
-                                                          //   "lex-book-cover.png"
-                                                          // }
                                                           alt=""
                                                         />
                                                       </div>
@@ -1148,8 +1146,6 @@ const RDAnalytics = () => {
                                                           <img
                                                             src={
                                                               item?.certificateImage
-                                                              // path_image +
-                                                              // "article-content.png"
                                                             }
                                                             alt=""
                                                           />
@@ -1289,7 +1285,6 @@ const RDAnalytics = () => {
                           onClick={sortSiteCompletion}
                         >
                           Sort By{" "}
-                          {/* <img src={path_image + "sort.svg"} alt="Shorting" /> */}
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -1651,7 +1646,14 @@ const RDAnalytics = () => {
                               <div className="d-flex align-items-start engagement-sec">
                                 <div className="content-image">
                                   <img
-                                    src={path_image + "article-content.png"}
+                                    src={
+                                      path_image +
+                                      `${
+                                        item?.pdf?.file_type == "video"
+                                          ? "article-video-cover.png"
+                                          : "article-content.png"
+                                      }`
+                                    }
                                     alt=""
                                   />
                                 </div>
@@ -1702,7 +1704,7 @@ const RDAnalytics = () => {
                                           <div className="article-spanrd-time">
                                             Read | Watched{" "}
                                             <span>
-                                              {pdf.page == 1
+                                              {index == 0
                                                 ? item.watched_count
                                                 : pdf.read_watched}{" "}
                                               <img
@@ -1779,10 +1781,6 @@ const RDAnalytics = () => {
                                                 }}
                                               >
                                                 Sort By{" "}
-                                                {/* <img
-                                                  src={path_image + "sort.svg"}
-                                                  alt="Shorting"
-                                                /> */}
                                                 <svg
                                                   xmlns="http://www.w3.org/2000/svg"
                                                   width="20"
