@@ -8,10 +8,7 @@ import HighchartsReact from "highcharts-react-official";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const PopularContent = ({
-  mostPopularContentFn,
-  topContentTableFn,
-}) => {
+const PopularContent = ({ mostPopularContentFn, topContentTableFn }) => {
   const [pieData, setPieData] = useState({});
   const [mostPopularContentDataChild, setMostPopularContentDataChild] =
     useState([]);
@@ -84,21 +81,19 @@ const PopularContent = ({
     </Tooltip>
   );
 
-
   const tooltips = (
     <Tooltip id="tooltip">
-      This chart shows the total number of view on most popular content for the non-mandatory content
+      This chart shows the total number of view on most popular content for the
+      non-mandatory content
     </Tooltip>
   );
 
-
-// Set your color here
-const entering = (e) => {
-  e.children[0].style.borderTopColor = '#E1EEFA';
-  e.children[1].style.backgroundColor = '#E1EEFA';
-  e.children[1].style.color = 'black'; 
-};
-
+  // Set your color here
+  const entering = (e) => {
+    e.children[0].style.borderTopColor = "#E1EEFA";
+    e.children[1].style.backgroundColor = "#E1EEFA";
+    e.children[1].style.color = "black";
+  };
 
   const getMostPopularData = async () => {
     try {
@@ -208,7 +203,7 @@ const entering = (e) => {
         </div>
       ) : (
         <div className="rd-analytics-box rd-content">
-          <p className="rd-box-small-title">contents</p>
+          <p className="rd-box-small-title">Contents</p>
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top d-flex justify-content-between align-items-center">
               <h5>Most Popular content</h5>
@@ -219,8 +214,12 @@ const entering = (e) => {
                     <div className="count-number">
                       {mostPopularContentDataChild[0].watched_count}
                     </div>
-                    <OverlayTrigger placement="left" overlay={tooltips} onEntering={entering}>
-                    <img src={path_image + "content-view.svg"} alt="" />
+                    <OverlayTrigger
+                      placement="left"
+                      overlay={tooltips}
+                      onEntering={entering}
+                    >
+                      <img src={path_image + "content-view.svg"} alt="" />
                     </OverlayTrigger>
                   </>
                 ) : (
@@ -241,7 +240,11 @@ const entering = (e) => {
                         <p>Sites who Read | Watch The Top Content</p>
                       </div>
                       <div className="popular-tooltip">
-                        <OverlayTrigger placement="left" overlay={tooltip} onEntering={entering}>
+                        <OverlayTrigger
+                          placement="left"
+                          overlay={tooltip}
+                          onEntering={entering}
+                        >
                           <img src={path_image + "tooltip-img.svg"} alt="" />
                         </OverlayTrigger>
                       </div>
