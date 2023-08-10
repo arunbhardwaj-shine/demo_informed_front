@@ -9455,29 +9455,29 @@ img.change-password-image {
         &#test-table-xls-button {
           margin: 0;
         }
-        &.sort_btn {
-          padding: 10px 14px;
-          svg {
-            margin-left: 14px;
-          }
-          &.active {
-            background: $primary-color;
-            color: $white;
-            svg path {
-              fill: $white;
-            }
-          }
-          &.svg_active {
-            #dsc {
-              fill: $primary-color;
-            }
-          }
-          &.svg_asc {
-            #asc {
-              fill: $primary-color;
-            }
-          }
-        }
+        // &.sort_btn {
+        //   padding: 10px 14px;
+        //   svg {
+        //     margin-left: 14px;
+        //   }
+        //   &.active {
+        //     background: $primary-color;
+        //     color: $white;
+        //     svg path {
+        //       fill: $white;
+        //     }
+        //   }
+        //   &.svg_active {
+        //     #dsc {
+        //       fill: $primary-color;
+        //     }
+        //   }
+        //   &.svg_asc {
+        //     #asc {
+        //       fill: $primary-color;
+        //     }
+        //   }
+        // }
         // &:hover {
         //   background: $primary-color;
         //   color: $white;
@@ -9911,6 +9911,29 @@ img.change-password-image {
     }
   }
 }
+.sort_btn {
+          padding: 10px 14px;
+          svg {
+            margin-left: 14px;
+          }
+          &.active {
+            background: $primary-color;
+            color: $white;
+            svg path {
+              fill: $white;
+            }
+          }
+          &.svg_active {
+            #dsc {
+              fill: $primary-color;
+            }
+          }
+          &.svg_asc {
+            #asc {
+              fill: $primary-color;
+            }
+          }
+        }
 .rd-full-explain
   .rd-training-block
   .accordion
@@ -10068,15 +10091,19 @@ img.change-password-image {
         fill: #ffffff;
       }
     }
+    &:hover {
+    background: $white;
+    color: $primary-color;
   }
+}
   &:hover {
     background: $primary-color;
     color: $white;
-    svg {
-      path {
-        fill: $white;
-      }
-    }
+    // svg {
+    //   path {
+    //     fill: $white;
+    //   }
+    // }
   }
 }
 .rd-full-explain .rd-training-block .contents-block-left table tbody td {
