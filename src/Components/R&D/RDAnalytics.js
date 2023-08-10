@@ -1153,7 +1153,7 @@ const RDAnalytics = () => {
                                                         </div>
                                                       </div>
                                                     </Accordion.Header>
-                                                    <Accordion.Body></Accordion.Body>
+                                                    {/* <Accordion.Body></Accordion.Body> */}
                                                   </Accordion.Item>
                                                 </>
                                               );
