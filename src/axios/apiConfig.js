@@ -104,12 +104,12 @@ export const ENDPOINT = {
   TRAINING_COMPLETION_DROPDOWN: "/training-completion-dropdown",
   TRAINING_COMPLETION_PAGE_CLICK: "/training-completion-page-click",
   MOST_POPULAR_CONTENT: "/most-popular-content",
+  MOST_POPULAR_CONTENT_DROPDOWN: "/most-popular-content-dropdown",
   MOST_POPULAR_PAGE_CONTENT: "/most-popular-content_page_wise",
   MOST_POPULAR_SITE_CONTENT: "/most-popular-content_site_wise",
-  QUESTION_ANSWER: "/auth/question-answer", 
+  QUESTION_ANSWER: "/auth/question-answer",
   QUESTION_UPDATE: "/auth/question-update",
   ADD_EVENT_DATA: "/auth/add-event-data",
   EVENT_SUBMIT: "/auth/event-submit",
   EVENT_CLOSE: "/auth/close-submit",
-
 };

@@ -9466,16 +9466,26 @@ img.change-password-image {
               fill: $white;
             }
           }
-        }
-        &:hover {
-          background: $primary-color;
-          color: $white;
-          svg {
-            path {
-              fill: $white;
+          &.svg_active {
+            #dsc {
+              fill: $primary-color;
+            }
+          }
+          &.svg_asc {
+            #asc {
+              fill: $primary-color;
             }
           }
         }
+        // &:hover {
+        //   background: $primary-color;
+        //   color: $white;
+        //   svg {
+        //     path {
+        //       fill: $white;
+        //     }
+        //   }
+        // }
       }
     }
     table {
@@ -9760,7 +9770,7 @@ img.change-password-image {
             text-align: center;
             width: 100%;
             font-size: 16px;
-            color: $pink;
+            color: $dark-blue;
             font-weight: 700;
           }
         }
