@@ -216,6 +216,7 @@ const RDAnalytics = () => {
     }
   };
   const rdShowData = (e, index) => {
+    console.log("i am here---->");
     if (show == index) {
       setShow();
     } else {
@@ -234,6 +235,7 @@ const RDAnalytics = () => {
     try {
       loader("show");
       setIsActive("");
+      setIndividualCompletionShow();
       setFlag({
         site_Completion: false,
         site_Engagement: false,
@@ -321,6 +323,7 @@ const RDAnalytics = () => {
     try {
       loader("show");
       setIsActive("");
+      setSiteCompletionShow();
       setFlag({
         individual_Completion: false,
         site_Engagement: false,
@@ -400,6 +403,7 @@ const RDAnalytics = () => {
     try {
       loader("show");
       setIsActive("");
+      setShow();
       setFlag({
         individual_Completion: false,
         site_Completion: false,
