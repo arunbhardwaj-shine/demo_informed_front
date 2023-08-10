@@ -216,7 +216,6 @@ const RDAnalytics = () => {
     }
   };
   const rdShowData = (e, index) => {
-    console.log("i am here---->");
     if (show == index) {
       setShow();
     } else {

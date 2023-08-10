@@ -64,17 +64,16 @@ const SiteCompletion = ({ siteCompletionfn }) => {
 
   const tooltip = (
     <Tooltip id="tooltip">
-     This chart shows the total number of sites who participated in the trial
+      This chart shows the total number of sites who participated in the trial
     </Tooltip>
   );
 
-
-// Set your color here
-const entering = (e) => {
-  e.children[0].style.borderTopColor = '#E1EEFA';
-  e.children[1].style.backgroundColor = '#E1EEFA';
-  e.children[1].style.color = 'black'; 
-};
+  // Set your color here
+  const entering = (e) => {
+    e.children[0].style.borderTopColor = "#E1EEFA";
+    e.children[1].style.backgroundColor = "#E1EEFA";
+    e.children[1].style.color = "black";
+  };
 
   const initialFun = async () => {
     try {
@@ -116,7 +115,6 @@ const entering = (e) => {
 
   const handleCheckboxClick = async (sort) => {
     try {
-      console.log("--->", sort);
       const result = await postData(ENDPOINT.SITEREGISTERSORT, { sort: sort });
 
       const data = result?.data?.data?.registered_irt;
@@ -223,8 +221,12 @@ const entering = (e) => {
               <h5>Site Completion</h5>
               <div className="d-flex">
                 <div className="count-number">{totalSiteNumber}</div>
-                <OverlayTrigger placement="left" overlay={tooltip} onEntering={entering}>
-                <img src={path_image + "hospital.svg"} alt="" />
+                <OverlayTrigger
+                  placement="left"
+                  overlay={tooltip}
+                  onEntering={entering}
+                >
+                  <img src={path_image + "hospital.svg"} alt="" />
                 </OverlayTrigger>
               </div>
             </div>
