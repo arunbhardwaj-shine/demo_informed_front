@@ -2925,6 +2925,8 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
 }
 
 /**Library Style End**/
@@ -9455,29 +9457,29 @@ img.change-password-image {
         &#test-table-xls-button {
           margin: 0;
         }
-        &.sort_btn {
-          padding: 10px 14px;
-          svg {
-            margin-left: 14px;
-          }
-          &.active {
-            background: $primary-color;
-            color: $white;
-            svg path {
-              fill: $white;
-            }
-          }
-          &.svg_active {
-            #dsc {
-              fill: $primary-color;
-            }
-          }
-          &.svg_asc {
-            #asc {
-              fill: $primary-color;
-            }
-          }
-        }
+        // &.sort_btn {
+        //   padding: 10px 14px;
+        //   svg {
+        //     margin-left: 14px;
+        //   }
+        //   &.active {
+        //     background: $primary-color;
+        //     color: $white;
+        //     svg path {
+        //       fill: $white;
+        //     }
+        //   }
+        //   &.svg_active {
+        //     #dsc {
+        //       fill: $primary-color;
+        //     }
+        //   }
+        //   &.svg_asc {
+        //     #asc {
+        //       fill: $primary-color;
+        //     }
+        //   }
+        // }
         // &:hover {
         //   background: $primary-color;
         //   color: $white;
@@ -9904,13 +9906,36 @@ img.change-password-image {
       width: 612px;
     }
     .site_complete table.table thead th:nth-child(2) {
-      width: 193px;
+      width: 250px;
     }
-    .site_complete table.table thead th:nth-child(3) {
-      width: 185px;
-    }
+    // .site_complete table.table thead th:nth-child(3) {
+    //   width: 185px;
+    // }
   }
 }
+.sort_btn {
+          padding: 10px 14px;
+          svg {
+            margin-left: 14px;
+          }
+          &.active {
+            background: $primary-color;
+            color: $white;
+            svg path {
+              fill: $white;
+            }
+          }
+          &.svg_active {
+            #dsc {
+              fill: $primary-color;
+            }
+          }
+          &.svg_asc {
+            #asc {
+              fill: $primary-color;
+            }
+          }
+        }
 .rd-full-explain
   .rd-training-block
   .accordion
@@ -10068,15 +10093,19 @@ img.change-password-image {
         fill: #ffffff;
       }
     }
+    &:hover {
+    background: $white;
+    color: $primary-color;
   }
+}
   &:hover {
     background: $primary-color;
     color: $white;
-    svg {
-      path {
-        fill: $white;
-      }
-    }
+    // svg {
+    //   path {
+    //     fill: $white;
+    //   }
+    // }
   }
 }
 .rd-full-explain .rd-training-block .contents-block-left table tbody td {
@@ -10157,6 +10186,7 @@ img.change-password-image {
   text-align: right;
   cursor: pointer;
 }
+
 /*Responsive for R&D Analytics*/
 @media only screen and (max-width: 1599px) {
   .rd-analytics-content
@@ -10243,16 +10273,16 @@ img.change-password-image {
     table.table
     thead
     th:nth-child(2) {
-    width: 178px;
+    width: 202px;
   }
-  .rd-full-explain
-    .rd-training-block
-    .site_complete
-    table.table
-    thead
-    th:nth-child(3) {
-    width: 207px;
-  }
+  // .rd-full-explain
+  //   .rd-training-block
+  //   .site_complete
+  //   table.table
+  //   thead
+  //   th:nth-child(3) {
+  //   width: 207px;
+  // }
 }
 @media only screen and (max-width: 1500px) {
   .rd-analytics-content .row {
@@ -10285,16 +10315,16 @@ img.change-password-image {
     table.table
     thead
     th:nth-child(2) {
-    width: 127px;
+    width: 165px;
   }
-  .rd-full-explain
-    .rd-training-block
-    .site_complete
-    table.table
-    thead
-    th:nth-child(3) {
-    width: 150px;
-  }
+  // .rd-full-explain
+  //   .rd-training-block
+  //   .site_complete
+  //   table.table
+  //   thead
+  //   th:nth-child(3) {
+  //   width: 150px;
+  // }
   .rd-full-explain .rd-training-block .rd-training-block-right button svg {
     width: 18px;
   }
@@ -10387,22 +10417,22 @@ img.change-password-image {
     th:first-child {
     width: 413px;
   }
-  .rd-full-explain
-    .rd-training-block
-    .site_complete
-    table.table
-    thead
-    th:nth-child(2) {
-    width: 128px;
-  }
-  .rd-full-explain
-    .rd-training-block
-    .site_complete
-    table.table
-    thead
-    th:nth-child(3) {
-    width: 140px;
-  }
+  // .rd-full-explain
+  //   .rd-training-block
+  //   .site_complete
+  //   table.table
+  //   thead
+  //   th:nth-child(2) {
+  //   width: 128px;
+  // }
+  // .rd-full-explain
+  //   .rd-training-block
+  //   .site_complete
+  //   table.table
+  //   thead
+  //   th:nth-child(3) {
+  //   width: 140px;
+  // }
   .rd-analytics-content
     .rd-analytics-box
     .rd-analytics-box-layout
@@ -10517,16 +10547,16 @@ img.change-password-image {
     table.table
     thead
     th:nth-child(2) {
-    width: 117px;
+    width: 150px;
   }
-  .rd-full-explain
-    .rd-training-block
-    .site_complete
-    table.table
-    thead
-    th:nth-child(3) {
-    width: 125px;
-  }
+  // .rd-full-explain
+  //   .rd-training-block
+  //   .site_complete
+  //   table.table
+  //   thead
+  //   th:nth-child(3) {
+  //   width: 125px;
+  // }
   .contents-block-right .used-device-detail img {
     max-width: 250px;
   }
