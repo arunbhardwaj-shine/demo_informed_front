@@ -1689,10 +1689,27 @@ const RDAnalytics = () => {
                               }`}
                             >
                               <div className="article-pages-details d-flex">
+                                <div className="article-page-show" key={index}>
+                                  <div className="article-cover-img">
+                                    <div className="page-number">Page 1</div>
+                                  </div>
+                                  <div className="article-detail-view">
+                                    <div className="article-spanrd-time">
+                                      Read | Watched{" "}
+                                      <span>
+                                        {item.watched_count}{" "}
+                                        <img
+                                          src={path_image + "eye-watch.svg"}
+                                          alt=""
+                                        />
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
                                 {mostPopularContentPageData[item.pdf?.id]
                                   ?.length ? (
                                   <>
-                                    <div
+                                    {/* <div
                                       className="article-page-show"
                                       key={index}
                                     >
@@ -1713,7 +1730,7 @@ const RDAnalytics = () => {
                                           </span>
                                         </div>
                                       </div>
-                                    </div>
+                                    </div> */}
                                     {mostPopularContentPageData[
                                       item.pdf?.id
                                     ].map((pdf, index) =>
@@ -1745,13 +1762,14 @@ const RDAnalytics = () => {
                                       ) : null
                                     )}
                                   </>
-                                ) : isApiStatus ? (
-                                  <>
-                                    <p className="no-data-found">
-                                      No Data Found
-                                    </p>
-                                  </>
-                                ) : null}
+                                ) : // isApiStatus ? (
+                                //   <>
+                                //     <p className="no-data-found">
+                                //       No Data Found
+                                //     </p>
+                                //   </>
+                                // ) :
+                                null}
                               </div>
                             </Accordion.Body>
                           </Accordion.Item>
