@@ -111,6 +111,7 @@ const RDAnalytics = () => {
   const getMostPopularContentSiteData = async (pdf_id) => {
     try {
       loader("show");
+      setIsActive("");
 
       if (
         !isContentSiteAccordionOpen[pdf_id] ||
@@ -529,14 +530,14 @@ const RDAnalytics = () => {
     }
     setSortDirection(sortDirection === 0 ? 1 : 0);
     setLastSortedPDFId(pdfId);
-   // setIsActive(!isActive);
+    // setIsActive(!isActive);
     if (isActive == "asc") {
       setIsActive("dec");
     } else {
       setIsActive("asc");
     }
   };
-  
+
   const handleExportSiteCompletion = (siteCompletionTableData) => {
     const base64 = (s) => {
       return window.btoa(unescape(encodeURIComponent(s)));
@@ -1813,7 +1814,7 @@ const RDAnalytics = () => {
                                             <th>Site</th>
                                             <th>Site Number</th>
                                             <th className="short_value">
-                                             <Button
+                                              <Button
                                                 className={`sort_btn ${
                                                   isActive == "dec"
                                                     ? "svg_active"
