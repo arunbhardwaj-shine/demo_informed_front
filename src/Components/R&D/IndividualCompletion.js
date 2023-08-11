@@ -76,7 +76,7 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
 
   const tooltip = (
     <Tooltip id="tooltip">
-     This chart shows the sites that have IRTs who didn't complete the training and complete the training
+     This chart shows the total number of IRTs who participated in the training
     </Tooltip>
   );
 
