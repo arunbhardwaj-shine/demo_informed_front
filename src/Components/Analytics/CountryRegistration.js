@@ -29,7 +29,7 @@ const CountryRegistration = () => {
   // let startMonth = new Date("March 2022");
   let endMonth = new Date();
   let startMonth = new Date();  
-  startMonth.setMonth(startMonth.getMonth() - 11);  
+  startMonth.setMonth(startMonth.getMonth() - 12);  
   let months = [{ value: "All", label: "All" }];
 
   while (startMonth <= endMonth) {
@@ -41,7 +41,7 @@ const CountryRegistration = () => {
     });
     startMonth.setMonth(startMonth.getMonth() + 1);
   }
-
+console.log("months",months);
   months.reverse();
   const [monthYear, setMonthYear] = useState(months[0]?.value);
 
