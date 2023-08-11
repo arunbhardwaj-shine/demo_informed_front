@@ -111,6 +111,7 @@ const RDAnalytics = () => {
   const getMostPopularContentSiteData = async (pdf_id) => {
     try {
       loader("show");
+      setIsActive("");
 
       if (
         !isContentSiteAccordionOpen[pdf_id] ||
@@ -142,7 +143,7 @@ const RDAnalytics = () => {
                 text: "",
               },
               subtitle: {
-                text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
+                text: `<p>Device</p></br></br></br><span >${chart_data.totalDevices}</span>`,
 
                 verticalAlign: "middle",
 
@@ -536,6 +537,7 @@ const RDAnalytics = () => {
       setIsActive("asc");
     }
   };
+
   const handleExportSiteCompletion = (siteCompletionTableData) => {
     const base64 = (s) => {
       return window.btoa(unescape(encodeURIComponent(s)));
@@ -1309,11 +1311,11 @@ const RDAnalytics = () => {
                     <Table className="fold-table" id="site_completion">
                       <thead>
                         <tr>
-                          <th className="site_name">Site name</th>
-                          <th>Site number</th>
+                          <th className="site_name">Site Name</th>
+                          <th>Site Number</th>
                           <th>Country</th>
                           <th className="active-irt">Active IRTs</th>
-                          <th>Completed training</th>
+                          <th>Completed Training</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1482,9 +1484,9 @@ const RDAnalytics = () => {
                         <thead>
                           <tr>
                             <th>Site</th>
-                            <th>Site number</th>
+                            <th>Site Number</th>
                             <th>Country</th>
-                            <th>Site users</th>
+                            <th>Site Users</th>
                             <th>Content engagement</th>
                           </tr>
                         </thead>
@@ -1810,7 +1812,7 @@ const RDAnalytics = () => {
                                         <thead>
                                           <tr>
                                             <th>Site</th>
-                                            <th>Site number</th>
+                                            <th>Site Number</th>
                                             <th className="short_value">
                                               <Button
                                                 className={`sort_btn ${
