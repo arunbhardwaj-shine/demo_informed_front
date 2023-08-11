@@ -230,7 +230,9 @@ const ContentDetail = () => {
                                         </>
                                       </h6>
                                       {localStorage.getItem("user_id") !=
-                                      "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                                        "iSnEsKu5gB/DRlycxB6G4g==" &&
+                                      localStorage.getItem("user_id") !=
+                                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                         <h6>
                                           <strong>Author | </strong>
                                           {data?.key_author
