@@ -9703,6 +9703,9 @@ img.change-password-image {
         }
       }
       .accordion-body {
+        &.accordian_video {
+          display: none;
+        }
         padding: 12px 4px 4px;
         border-top: 0.5px dashed $light-gray;
         background: rgba(0, 102, 190, 0.05);
@@ -9919,31 +9922,31 @@ img.change-password-image {
   }
 }
 .sort_btn {
-          padding: 10px 14px;
-          svg {
-            margin-left: 14px;
-          }
-          &.active {
-            background: $primary-color;
-            color: $white;
-            svg path {
-              fill: $white;
-            }
-          }
-          &.svg_active {
-            #dsc {
-              fill: $primary-color;
-            }
-          }
-          &.svg_asc {
-            #asc {
-              fill: $primary-color;
-            }
-          }
-        &:hover {
-          color: #97B6CF;
-        }
-        }
+  padding: 10px 14px;
+  svg {
+    margin-left: 14px;
+  }
+  &.active {
+    background: $primary-color;
+    color: $white;
+    svg path {
+      fill: $white;
+    }
+  }
+  &.svg_active {
+    #dsc {
+      fill: $primary-color;
+    }
+  }
+  &.svg_asc {
+    #asc {
+      fill: $primary-color;
+    }
+  }
+  &:hover {
+    color: #97b6cf;
+  }
+}
 .rd-full-explain
   .rd-training-block
   .accordion
@@ -10102,10 +10105,10 @@ img.change-password-image {
       }
     }
     &:hover {
-    background: $white;
-    color: $primary-color;
+      background: $white;
+      color: $primary-color;
+    }
   }
-}
   &:hover {
     background: $primary-color;
     color: $white;
