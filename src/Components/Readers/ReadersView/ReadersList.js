@@ -375,7 +375,7 @@ const NewReaders = () => {
 
 
     if(key =="Content Owners"){
-      if(item == "IBU Owner" || item == "All"){
+      if(item == "IBU Owner" ){
         let newData = [];
 
         delete apifilterObject?.["Business Unit"];
@@ -2642,8 +2642,16 @@ const NewReaders = () => {
                                             <div className="select">
                                               <Select
                                                 options={countryAll}
+                                                
                                                 defaultValue={
                                                   countryAll[
+                                                    data?.country == "B&H"?(
+                                                      countryAll.findIndex(
+                                                        (el) =>
+                                                          el.value ==
+                                                           "Bosnia and Herzegovina"
+                                                      )
+                                                    ):
                                                     countryAll.findIndex(
                                                       (el) =>
                                                         el.value ==
