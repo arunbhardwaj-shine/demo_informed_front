@@ -55,13 +55,18 @@ export const LibraryEditValidation = (data) => {
   if (!data?.docintelFormat) {
     error.docintelFormat = "Docintel format is required!";
   } else if (data?.docintelFormat) {
-    if (data?.docintelFormat == "pdf" && !data?.uploadFile) {
+    if (data?.docintelFormat == "pdf" && !data?.uploadFile && !data?.pdf_file) {
       error.uploadFile = "Please upload pdf file!";
     }
-    if (data?.docintelFormat == "video" && !data?.uploadFile) {
+    if (
+      data?.docintelFormat == "video" &&
+      !data?.uploadFile &&
+      !data?.pdf_file
+    ) {
       error.uploadVideo = "Please upload video file!";
     }
   }
+
   // if (!data?.docintelFormat) {
   //   error.docintelFormat = "Docintel format is required!";
   // } else if (data?.docintelFormat) {

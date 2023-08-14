@@ -3,6 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { getData, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { loader } from "../../loader";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -63,6 +64,7 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
 
         enableMouseTracking: true,
         showInLegend: true,
+        borderWidth: 0,
       },
     },
     series: [],
@@ -71,6 +73,19 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
   useEffect(() => {
     getPieChartData();
   }, []);
+
+  const tooltip = (
+    <Tooltip id="tooltip">
+     This chart shows the total number of IRTs who participated in the training
+    </Tooltip>
+  );
+
+// Set your color here
+const entering = (e) => {
+  e.children[0].style.borderTopColor = '#E1EEFA';
+  e.children[1].style.backgroundColor = '#E1EEFA';
+  e.children[1].style.color = 'black'; 
+};
 
   const getPieChartData = async () => {
     try {
@@ -87,13 +102,17 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
           data: [
             {
               name: "Completed",
-              y: result?.data?.data?.completed,
+              y: result?.data?.data?.completed
+                ? result?.data?.data?.completed
+                : "",
 
               color: colors[0],
             },
             {
               name: "Not Completed",
-              y: result?.data?.data?.notcompleted,
+              y: result?.data?.data?.notcompleted
+                ? result?.data?.data?.notcompleted
+                : "",
 
               color: colors[1],
             },
@@ -160,11 +179,13 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
                 <div className="count-number">
                   {pieData.total ? pieData.total : ""}
                 </div>
+                <OverlayTrigger placement="left" overlay={tooltip} onEntering={entering}>
                 <img
                   src={path_image + "doctor-svg.svg"}
                   alt=""
                   class="doctor"
                 />
+                </OverlayTrigger>
               </div>
             </div>
 

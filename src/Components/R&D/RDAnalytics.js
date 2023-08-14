@@ -46,6 +46,7 @@ const RDAnalytics = () => {
   const [mostPopularContentPageData, setMostPopularContentPageData] = useState(
     []
   );
+  const [isApiStatus, setIsApiStatus] = useState(false);
   const [mostPopularContentSiteData, setMostPopularContentSiteData] = useState(
     []
   );
@@ -58,9 +59,8 @@ const RDAnalytics = () => {
 
   const [siteCompletionShow, setSiteCompletionShow] = useState();
   const [sortDirection, setSortDirection] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState("");
   const [lastSortedPDFId, setLastSortedPDFId] = useState(null);
-
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
   const site_Engagement = useRef(null);
@@ -75,27 +75,31 @@ const RDAnalytics = () => {
     colors: ["#FFCACD", "#39CABC"],
   });
 
-  const getMostPopularContentPageData = async (pdf_id) => {
+  const getMostPopularContentPageData = async (file_type, pdf_id) => {
     try {
-      loader("show");
+      if (file_type != "video") {
+        loader("show");
+        setIsApiStatus(false);
 
-      if (
-        !isContentPageAccordionOpen[pdf_id] ||
-        isContentPageAccordionOpen[pdf_id] == undefined
-      ) {
-        const result = await postData(ENDPOINT.MOST_POPULAR_PAGE_CONTENT, {
-          pdf_id: pdf_id,
-        });
-        const data = result?.data?.data;
-        setMostPopularContentPageData((prevData) => ({
-          ...prevData,
-          [pdf_id]: data.time_spend_on_pdf,
-        }));
+        if (
+          !isContentPageAccordionOpen[pdf_id] ||
+          isContentPageAccordionOpen[pdf_id] == undefined
+        ) {
+          const result = await postData(ENDPOINT.MOST_POPULAR_PAGE_CONTENT, {
+            pdf_id: pdf_id,
+          });
+          const data = result?.data?.data;
+          setMostPopularContentPageData((prevData) => ({
+            ...prevData,
+            [pdf_id]: data.time_spend_on_pdf,
+          }));
 
-        setIsContentPageAccordionOpen({
-          ...isContentPageAccordionOpen,
-          [pdf_id]: true,
-        });
+          setIsContentPageAccordionOpen({
+            ...isContentPageAccordionOpen,
+            [pdf_id]: true,
+          });
+        }
+        setIsApiStatus(true);
       }
     } catch (err) {
       console.log("--err", err);
@@ -107,6 +111,7 @@ const RDAnalytics = () => {
   const getMostPopularContentSiteData = async (pdf_id) => {
     try {
       loader("show");
+      setIsActive("");
 
       if (
         !isContentSiteAccordionOpen[pdf_id] ||
@@ -138,7 +143,7 @@ const RDAnalytics = () => {
                 text: "",
               },
               subtitle: {
-                text: `<p>Devices</p></br></br></br><span >${chart_data.totalDevices}</span>`,
+                text: `<p>Device</p></br></br></br><span >${chart_data.totalDevices}</span>`,
 
                 verticalAlign: "middle",
 
@@ -229,6 +234,8 @@ const RDAnalytics = () => {
   const individualCompletion = async () => {
     try {
       loader("show");
+      setIsActive("");
+      setIndividualCompletionShow();
       setFlag({
         site_Completion: false,
         site_Engagement: false,
@@ -236,6 +243,8 @@ const RDAnalytics = () => {
         top_content: false,
         individual_Completion: true,
       });
+      // setTrainingCompletionDropdownData("");
+      // setTrainingCertificate("");
       if (!indidualCompletionTableData) {
         const result = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION);
         setIndividualCompletionTableData(result?.data?.data);
@@ -267,7 +276,7 @@ const RDAnalytics = () => {
           ENDPOINT.TRAINING_COMPLETION_DROPDOWN,
           body
         );
-        // setTrainingCertificate(result?.data?.certificate);
+
         setTrainingCompletionDropdownData(result?.data?.data?.data);
         setTrainingCertificate(result?.data?.data?.certificate);
 
@@ -282,24 +291,28 @@ const RDAnalytics = () => {
 
   const individualTrainingDropdown = async (e, i, userId, pdfId, fileType) => {
     try {
-      loader("show");
-      if (trainingAccordianShow == i) {
-        setTrainingAccordianShow();
-      } else {
-        let body = {
-          user_id: userId,
-          pdf_id: pdfId,
-          file_type: fileType,
-        };
-        const result = await postData(
-          ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
-          body
-        );
+      setIsApiStatus(false);
+      if (fileType != "video") {
+        loader("show");
+        if (trainingAccordianShow == i) {
+          setTrainingAccordianShow();
+        } else {
+          let body = {
+            user_id: userId,
+            pdf_id: pdfId,
+            file_type: fileType,
+          };
+          const result = await postData(
+            ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
+            body
+          );
 
-        setTrainingAccordianData(result?.data?.data?.time_spend_on_pdf);
-        setTrainingAccordianShow(i);
+          setTrainingAccordianData(result?.data?.data?.time_spend_on_pdf);
+          setTrainingAccordianShow(i);
+          setIsApiStatus(true);
+        }
+        loader("hide");
       }
-      loader("hide");
     } catch (err) {
       loader("hide");
       console.log("-err", err);
@@ -309,6 +322,8 @@ const RDAnalytics = () => {
   const siteCompletion = async () => {
     try {
       loader("show");
+      setIsActive("");
+      setSiteCompletionShow();
       setFlag({
         individual_Completion: false,
         site_Engagement: false,
@@ -319,7 +334,7 @@ const RDAnalytics = () => {
       if (!siteCompletionTableData) {
         const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
         setSiteCompletionTableData(result?.data?.data);
-        console.log(result?.data?.data);
+
         site_Completion?.current?.focus();
         loader("hide");
       } else {
@@ -334,11 +349,13 @@ const RDAnalytics = () => {
     }
   };
 
-  const mostPopularContent = () => {
+  const mostPopularContent = async () => {
     try {
+      loader("show");
       setIsContentSiteAccordionOpen([]);
       setIsContentPageAccordionOpen([]);
-      loader("show");
+      setIsActive("");
+
       setFlag({
         individual_Completion: false,
         site_Completion: false,
@@ -346,8 +363,12 @@ const RDAnalytics = () => {
         top_content: false,
         content: true,
       });
+
       setIsContentSiteAccordionOpen([]);
       setIsContentPageAccordionOpen([]);
+      const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT_DROPDOWN);
+      const data = result?.data?.data;
+      setMostPopularContentData(data.pdf_data);
       setTimeout(() => {
         content?.current?.focus();
         loader("hide");
@@ -367,6 +388,7 @@ const RDAnalytics = () => {
         content: false,
         top_content: true,
       });
+
       setTimeout(() => {
         top_content?.current?.focus();
       }, 1000);
@@ -380,7 +402,8 @@ const RDAnalytics = () => {
   const siteEngagementFun = () => {
     try {
       loader("show");
-
+      setIsActive("");
+      setShow();
       setFlag({
         individual_Completion: false,
         site_Completion: false,
@@ -416,7 +439,12 @@ const RDAnalytics = () => {
 
     setRdSiteData(sortedRdSiteData);
     setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
-    setIsActive(!isActive);
+    // setIsActive(!isActive);
+    if (isActive == "asc") {
+      setIsActive("dec");
+    } else {
+      setIsActive("asc");
+    }
   };
 
   const sortSiteCompletion = () => {
@@ -439,7 +467,12 @@ const RDAnalytics = () => {
 
     setSiteCompletionTableData(sortedSiteCompletionTableData);
     setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
-    setIsActive(!isActive);
+    // setIsActive(!isActive);
+    if (isActive == "asc") {
+      setIsActive("dec");
+    } else {
+      setIsActive("asc");
+    }
   };
 
   const sortIndividualCompletion = () => {
@@ -460,7 +493,12 @@ const RDAnalytics = () => {
     );
     setIndividualCompletionTableData(sortedIndividualCompletion);
     setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
-    setIsActive(!isActive);
+    // setIsActive(!isActive);
+    if (isActive == "asc") {
+      setIsActive("dec");
+    } else {
+      setIsActive("asc");
+    }
   };
 
   const sortContentView = (pdfId) => {
@@ -492,8 +530,14 @@ const RDAnalytics = () => {
     }
     setSortDirection(sortDirection === 0 ? 1 : 0);
     setLastSortedPDFId(pdfId);
-    setIsActive(!isActive);
+    // setIsActive(!isActive);
+    if (isActive == "asc") {
+      setIsActive("dec");
+    } else {
+      setIsActive("asc");
+    }
   };
+
   const handleExportSiteCompletion = (siteCompletionTableData) => {
     const base64 = (s) => {
       return window.btoa(unescape(encodeURIComponent(s)));
@@ -707,7 +751,6 @@ const RDAnalytics = () => {
     </Tooltip>
   );
   function downloadCertificate(certificate_link, event) {
-    console.log(certificate_link);
     fetch(certificate_link)
       .then((response) => response.blob())
       .then((blob) => {
@@ -758,7 +801,7 @@ const RDAnalytics = () => {
                 <Col md={12} lg={3}>
                   <PopularContent
                     mostPopularContentFn={mostPopularContent}
-                    setMostPopularContentData={setMostPopularContentData}
+                    // setMostPopularContentData={setMostPopularContentData}
                     topContentTableFn={topContentTableFn}
                   />
                 </Col>
@@ -805,11 +848,35 @@ const RDAnalytics = () => {
                         </Button>
 
                         <Button
-                          className={`sort_btn ${isActive ? "active" : ""}`}
+                          // className={`sort_btn ${isActive ? "active" : ""}`}
+                          className={`sort_btn ${
+                            isActive == "dec"
+                              ? "svg_active"
+                              : isActive == "asc"
+                              ? "svg_asc"
+                              : ""
+                          }`}
                           onClick={sortIndividualCompletion}
                         >
                           Sort By{" "}
-                          <img src={path_image + "sort.svg"} alt="Shorting" />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                          >
+                            <path
+                              id="asc"
+                              d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
+                              fill="#97B6CF"
+                            />
+                            <path
+                              id="dsc"
+                              d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
+                              fill="#97B6CF"
+                            />
+                          </svg>
                         </Button>
                       </div>
                     </div>
@@ -936,10 +1003,6 @@ const RDAnalytics = () => {
                                                           src={
                                                             data?.article_image
                                                           }
-                                                          // src={
-                                                          //   path_image +
-                                                          //   "lex-book-cover.png"
-                                                          // }
                                                           alt=""
                                                         />
                                                       </div>
@@ -1048,12 +1111,21 @@ const RDAnalytics = () => {
                                                               );
                                                             }
                                                           )
-                                                        ) : (
-                                                          <div>No Data</div>
-                                                        )}
+                                                        ) : isApiStatus ? (
+                                                          <>
+                                                            <div className="no_found">
+                                                              <p>
+                                                                No Data Found
+                                                              </p>
+                                                            </div>
+                                                          </>
+                                                        ) : null}
                                                       </div>
                                                     </Accordion.Body>
-                                                  ) : null}
+                                                  ) : // (
+                                                  //   <div>No Data</div>
+                                                  // )
+                                                  null}
                                                 </Accordion.Item>
                                               </>
                                             );
@@ -1076,8 +1148,6 @@ const RDAnalytics = () => {
                                                           <img
                                                             src={
                                                               item?.certificateImage
-                                                              // path_image +
-                                                              // "article-content.png"
                                                             }
                                                             alt=""
                                                           />
@@ -1138,7 +1208,7 @@ const RDAnalytics = () => {
                                                         </div>
                                                       </div>
                                                     </Accordion.Header>
-                                                    <Accordion.Body></Accordion.Body>
+                                                    {/* <Accordion.Body></Accordion.Body> */}
                                                   </Accordion.Item>
                                                 </>
                                               );
@@ -1207,22 +1277,45 @@ const RDAnalytics = () => {
                           </svg>
                         </Button>
                         <Button
-                          className={`sort_btn ${isActive ? "active" : ""}`}
+                          className={`sort_btn ${
+                            isActive == "dec"
+                              ? "svg_active"
+                              : isActive == "asc"
+                              ? "svg_asc"
+                              : ""
+                          }`}
                           onClick={sortSiteCompletion}
                         >
                           Sort By{" "}
-                          <img src={path_image + "sort.svg"} alt="Shorting" />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                          >
+                            <path
+                              id="asc"
+                              d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
+                              fill="#97B6CF"
+                            />
+                            <path
+                              id="dsc"
+                              d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
+                              fill="#97B6CF"
+                            />
+                          </svg>
                         </Button>
                       </div>
                     </div>
                     <Table className="fold-table" id="site_completion">
                       <thead>
                         <tr>
-                          <th className="site_name">Site name</th>
-                          <th>Site number</th>
+                          <th className="site_name">Site Name</th>
+                          <th>Site Number</th>
                           <th>Country</th>
                           <th className="active-irt">Active IRTs</th>
-                          <th>Completed training</th>
+                          <th>Completed Training</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1355,11 +1448,34 @@ const RDAnalytics = () => {
                         />
 
                         <Button
-                          className={`sort_btn ${isActive ? "active" : ""}`}
+                          className={`sort_btn ${
+                            isActive == "dec"
+                              ? "svg_active"
+                              : isActive == "asc"
+                              ? "svg_asc"
+                              : ""
+                          }`}
                           onClick={siteEngagementSort}
                         >
                           Sort By
-                          <img src={path_image + "sort.svg"} alt="Shorting" />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                          >
+                            <path
+                              id="asc"
+                              d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
+                              fill="#97B6CF"
+                            />
+                            <path
+                              id="dsc"
+                              d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
+                              fill="#97B6CF"
+                            />
+                          </svg>
                         </Button>
                       </div>
                     </div>
@@ -1368,9 +1484,9 @@ const RDAnalytics = () => {
                         <thead>
                           <tr>
                             <th>Site</th>
-                            <th>Site number</th>
+                            <th>Site Number</th>
                             <th>Country</th>
-                            <th>Site users</th>
+                            <th>Site Users</th>
                             <th>Content engagement</th>
                           </tr>
                         </thead>
@@ -1401,7 +1517,7 @@ const RDAnalytics = () => {
                                           <p>
                                             Content engagement |{" "}
                                             <span>
-                                              {item?.pdf_data?.length}
+                                              {item?.content_engagement}
                                             </span>
                                           </p>
 
@@ -1523,13 +1639,23 @@ const RDAnalytics = () => {
                           >
                             <Accordion.Header
                               onClick={() =>
-                                getMostPopularContentPageData(item?.pdf?.id)
+                                getMostPopularContentPageData(
+                                  item?.pdf?.file_type,
+                                  item?.pdf?.id
+                                )
                               }
                             >
                               <div className="d-flex align-items-start engagement-sec">
                                 <div className="content-image">
                                   <img
-                                    src={path_image + "article-content.png"}
+                                    src={
+                                      path_image +
+                                      `${
+                                        item?.pdf?.file_type == "video"
+                                          ? "article-video-cover.png"
+                                          : "article-content.png"
+                                      }`
+                                    }
                                     alt=""
                                   />
                                 </div>
@@ -1557,49 +1683,99 @@ const RDAnalytics = () => {
                                 </div>
                               </div>
                             </Accordion.Header>
-                            <Accordion.Body>
+                            <Accordion.Body
+                              className={`${
+                                item?.pdf?.file_type == "video"
+                                  ? "accordian_video"
+                                  : ""
+                              }`}
+                            >
                               <div className="article-pages-details d-flex">
+                                <div className="article-page-show" key={index}>
+                                  <div className="article-cover-img">
+                                    <div className="page-number">Page 1</div>
+                                  </div>
+                                  <div className="article-detail-view">
+                                    <div className="article-spanrd-time">
+                                      Read | Watched{" "}
+                                      <span>
+                                        {item.watched_count}{" "}
+                                        <img
+                                          src={path_image + "eye-watch.svg"}
+                                          alt=""
+                                        />
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
                                 {mostPopularContentPageData[item.pdf?.id]
-                                  ?.length > 0 &&
-                                  mostPopularContentPageData[item.pdf?.id].map(
-                                    (pdf, index) => (
-                                      <div
-                                        className="article-page-show"
-                                        key={index}
-                                      >
-                                        <div className="article-cover-img">
-                                          {/* <img src={pdf.article_image} alt="" /> */}
-                                          <div className="page-number">
-                                            Page {pdf.page}
-                                          </div>
-                                        </div>
-                                        <div className="article-detail-view">
-                                          {/* <div className="article-page-number">
-                                            Page {pdf.page}
-                                          </div> */}
-                                          <div className="article-spanrd-time">
-                                            Read | Watched{" "}
-                                            <span>
-                                              {pdf.read_watched}{" "}
-                                              <img
-                                                src={
-                                                  path_image + "eye-watch.svg"
-                                                }
-                                                alt=""
-                                              />
-                                            </span>
-                                          </div>
+                                  ?.length ? (
+                                  <>
+                                    {/* <div
+                                      className="article-page-show"
+                                      key={index}
+                                    >
+                                      <div className="article-cover-img">
+                                        <div className="page-number">
+                                          Page 1
                                         </div>
                                       </div>
-                                    )
-                                  )}
+                                      <div className="article-detail-view">
+                                        <div className="article-spanrd-time">
+                                          Read | Watched{" "}
+                                          <span>
+                                            {item.watched_count}{" "}
+                                            <img
+                                              src={path_image + "eye-watch.svg"}
+                                              alt=""
+                                            />
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div> */}
+                                    {mostPopularContentPageData[
+                                      item.pdf?.id
+                                    ].map((pdf, index) =>
+                                      pdf?.page != 1 ? (
+                                        <div
+                                          className="article-page-show"
+                                          key={index}
+                                        >
+                                          <div className="article-cover-img">
+                                            <div className="page-number">
+                                              Page {pdf.page}
+                                            </div>
+                                          </div>
+                                          <div className="article-detail-view">
+                                            <div className="article-spanrd-time">
+                                              Read | Watched{" "}
+                                              <span>
+                                                {pdf.read_watched}{" "}
+                                                <img
+                                                  src={
+                                                    path_image + "eye-watch.svg"
+                                                  }
+                                                  alt=""
+                                                />
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ) : null
+                                    )}
+                                  </>
+                                ) : // isApiStatus ? (
+                                //   <>
+                                //     <p className="no-data-found">
+                                //       No Data Found
+                                //     </p>
+                                //   </>
+                                // ) :
+                                null}
                               </div>
                             </Accordion.Body>
                           </Accordion.Item>
-                          {console.log(
-                            "data--->",
-                            mostPopularContentSiteData[item.pdf?.id]
-                          )}
+
                           <Accordion.Item
                             eventKey="10"
                             className={
@@ -1636,21 +1812,39 @@ const RDAnalytics = () => {
                                         <thead>
                                           <tr>
                                             <th>Site</th>
-                                            <th>Site number</th>
+                                            <th>Site Number</th>
                                             <th className="short_value">
                                               <Button
                                                 className={`sort_btn ${
-                                                  isActive ? "active" : ""
+                                                  isActive == "dec"
+                                                    ? "svg_active"
+                                                    : isActive == "asc"
+                                                    ? "svg_asc"
+                                                    : ""
                                                 }`}
                                                 onClick={() => {
                                                   sortContentView(item.pdf?.id);
                                                 }}
                                               >
                                                 Sort By{" "}
-                                                <img
-                                                  src={path_image + "sort.svg"}
-                                                  alt="Shorting"
-                                                />
+                                                <svg
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  width="20"
+                                                  height="20"
+                                                  viewBox="0 0 20 20"
+                                                  fill="none"
+                                                >
+                                                  <path
+                                                    id="asc"
+                                                    d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
+                                                    fill="#97B6CF"
+                                                  />
+                                                  <path
+                                                    id="dsc"
+                                                    d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
+                                                    fill="#97B6CF"
+                                                  />
+                                                </svg>
                                               </Button>{" "}
                                             </th>
                                           </tr>

@@ -3,6 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { getData, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { loader } from "../../loader";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -51,7 +52,7 @@ const SiteCompletion = ({ siteCompletionfn }) => {
     plotOptions: {
       series: {
         stacking: "normal",
-        pointWidth: 20,
+        pointWidth: 10,
       },
     },
     series: [],
@@ -60,6 +61,19 @@ const SiteCompletion = ({ siteCompletionfn }) => {
   useEffect(() => {
     initialFun();
   }, []);
+
+  const tooltip = (
+    <Tooltip id="tooltip">
+      This chart shows the total number of sites who participated in the trial
+    </Tooltip>
+  );
+
+  // Set your color here
+  const entering = (e) => {
+    e.children[0].style.borderTopColor = "#E1EEFA";
+    e.children[1].style.backgroundColor = "#E1EEFA";
+    e.children[1].style.color = "black";
+  };
 
   const initialFun = async () => {
     try {
@@ -207,7 +221,13 @@ const SiteCompletion = ({ siteCompletionfn }) => {
               <h5>Site Completion</h5>
               <div className="d-flex">
                 <div className="count-number">{totalSiteNumber}</div>
-                <img src={path_image + "hospital.svg"} alt="" />
+                <OverlayTrigger
+                  placement="left"
+                  overlay={tooltip}
+                  onEntering={entering}
+                >
+                  <img src={path_image + "hospital.svg"} alt="" />
+                </OverlayTrigger>
               </div>
             </div>
 
@@ -219,7 +239,9 @@ const SiteCompletion = ({ siteCompletionfn }) => {
                       <p>Registered IRTs at each site</p>
                     </div>
                     <div className="switch6">
-                      <label className="switch6-light">
+                      <label
+                        className={`switch6-light${sortSite ? " active" : ""}`}
+                      >
                         <input
                           type="checkbox"
                           onChange={() => {

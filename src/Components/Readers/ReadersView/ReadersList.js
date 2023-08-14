@@ -375,7 +375,7 @@ const NewReaders = () => {
 
 
     if(key =="Content Owners"){
-      if(item == "IBU Owner" || item == "All"){
+      if(item == "IBU Owner" ){
         let newData = [];
 
         delete apifilterObject?.["Business Unit"];
@@ -1381,7 +1381,6 @@ const NewReaders = () => {
                         aria-labelledby="dropdownMenuButton2"
                       >
                         <h4>Filter By</h4>
-                        {console.log("-dfdf",filterdata)}
 
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
@@ -2643,8 +2642,16 @@ const NewReaders = () => {
                                             <div className="select">
                                               <Select
                                                 options={countryAll}
+                                                
                                                 defaultValue={
                                                   countryAll[
+                                                    data?.country == "B&H"?(
+                                                      countryAll.findIndex(
+                                                        (el) =>
+                                                          el.value ==
+                                                           "Bosnia and Herzegovina"
+                                                      )
+                                                    ):
                                                     countryAll.findIndex(
                                                       (el) =>
                                                         el.value ==
