@@ -75,6 +75,15 @@ const Event = () =>{
                 data:body,
                 baseURL: `${process.env.REACT_APP_API_KEY}save_contact`
                });
+              if(data){
+                setData(0)
+              }
+              if(show){
+                  setShow(false)
+               }
+               if(Object.keys(value)?.length){
+                  setValue({})
+               }
              loader("hide")
         }catch(err){
             loader("hide")
@@ -102,7 +111,6 @@ const Event = () =>{
             if(data){
               setData(0)
             }
-            setShow(false)
             if(show){
                 setShow(false)
              }
@@ -197,6 +205,11 @@ const Event = () =>{
 
     return (
         <>
+        <div className="loader" id="custom_loader">
+                <div className="loader_show">
+                <span className="loader-view"> </span>
+                </div>
+       </div>
  <meta name="viewport" content="width=device-width, initial-scale=1" />
  <div className="octa_events">
       <div class="container">
