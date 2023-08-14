@@ -71,6 +71,7 @@ console.log("months",months);
         type: "map",
         proj4,
         height: "60%",
+        plotBackgroundColor: '#aad3df',      
         events: {
           load: function () {
             const lat = zoomCoordinates.lat;
@@ -104,8 +105,8 @@ console.log("months",months);
       series: [
         {
           name: "Basemap",
-          borderColor: "#A0A0A0",
-          nullColor: "rgba(200, 200, 200, 0.3)",
+          borderColor: "grey",
+          nullColor: "#93d38c",
           showInLegend: false,
           mapData: worldMap,
         },
@@ -292,7 +293,7 @@ console.log("months",months);
 
       let newSeries = [
         {
-          name: `Critical_care`,
+          name: `Critical Care`,
           data: apiData.data?.critical_care,
           color: Highcharts?.getOptions()?.colors[2],
         },
