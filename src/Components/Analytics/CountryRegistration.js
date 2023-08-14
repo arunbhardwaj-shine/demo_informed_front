@@ -293,7 +293,7 @@ console.log("months",months);
 
       let newSeries = [
         {
-          name: `Critical_care`,
+          name: `Critical Care`,
           data: apiData.data?.critical_care,
           color: Highcharts?.getOptions()?.colors[2],
         },
