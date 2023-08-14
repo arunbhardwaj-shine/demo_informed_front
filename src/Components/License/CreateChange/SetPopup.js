@@ -99,7 +99,11 @@ const SetPopup = (props) => {
   };
 
   useEffect(() => {
-    console.log("license pop up state-->", state);
+    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ=='){
+      const newObj = {value: "Sunshine USA", label: "Sunshine USA"};
+      const updatedArray = [...types, newObj];
+      setTypes(updatedArray);
+    }
     getTemplateListData(0, "All", "", 1);
 
     // div_img.click();
@@ -201,6 +205,9 @@ const SetPopup = (props) => {
 
           data.push(res?.data?.data?.popupData[0]);
           data.push(res?.data?.data?.popupData[3]);
+        } else if(consent == "Sunshine USA" || first_consent == "Sunshine USA"){
+          setIsOnline(false);
+          data = res?.data?.data?.usaPopup;
         } else {
           setIsOnline(false);
 
