@@ -67,6 +67,7 @@ const CountryRegistration = () => {
         type: "map",
         proj4,
         height: "60%",
+        plotBackgroundColor: '#aad3df',      
         events: {
           load: function () {
             const lat = zoomCoordinates.lat;
@@ -100,8 +101,8 @@ const CountryRegistration = () => {
       series: [
         {
           name: "Basemap",
-          borderColor: "#A0A0A0",
-          nullColor: "rgba(200, 200, 200, 0.3)",
+          borderColor: "grey",
+          nullColor: "#93d38c",
           showInLegend: false,
           mapData: worldMap,
         },
