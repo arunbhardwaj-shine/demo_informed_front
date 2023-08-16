@@ -94,12 +94,24 @@ const Event = () =>{
                 newData = doc.data()
             }
         });
-
       if(Object.keys(newData)?.length){
 
         /* Check already submit question  */
         const eventQuestion = Cookies.get('eventQuestion');
         if(eventQuestion?.includes(newData?.question_id) && newData?.triggered == 1){
+            if(data){
+                setData(0)
+            }
+            if(show){
+                  setShow(false)
+             }
+             if(answerPop){
+                setAnswerPopup(false)
+             }
+         
+             if(Object.keys(value)?.length){
+                  setValue({})
+            }
             return 
         }else if(!eventQuestion?.includes(newData?.question_id) && newData?.triggered == 2){
             if(data){
@@ -107,6 +119,9 @@ const Event = () =>{
             }
             if(show){
                 setShow(false)
+             }
+             if(answerPop){
+                setAnswerPopup(false)
              }
              if(Object.keys(value)?.length){
                 setValue({})
