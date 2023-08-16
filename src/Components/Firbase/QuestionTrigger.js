@@ -20,12 +20,9 @@ const QuestionTrigger = () =>{
         id:0,
         companyId:0
     })
-    // const[userData,setUserData] = useState({
-        
-    // })
     const [count,setCount] = useState(0)
 
-    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id),orderBy("date","desc"),limit(1))
+    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id),where("company_id","==",eventId?.companyId),where("webinar","!=",0))
     const [data,setData] = useState({
         question:[],
         answer:[],
@@ -52,9 +49,8 @@ const QuestionTrigger = () =>{
     onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
             if(doc.data()){
-              if(count != doc.data()?.questionTrigger){
-                // setUserData(doc.data())
-                setCount(doc.data()?.questionTrigger)
+              if(count != doc.data()?.webinar){
+                setCount(doc.data()?.webinar)
               }
             }
         });  
@@ -83,7 +79,8 @@ const QuestionTrigger = () =>{
             await postData(ENDPOINT.QUESTION_UPDATE,{
                 "userAnswer":data,
                 "id":id,
-                "eventId":eventId?.id
+                "eventId":eventId?.id,
+                "companyId":eventId?.companyId
              })
              loader("hide")
         }catch(err){

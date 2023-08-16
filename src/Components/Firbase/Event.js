@@ -70,11 +70,7 @@ const Event = () =>{
                 "portal"     : "web",
                 "name": user?.name
              };
-            await axios({
-                method:"post",
-                data:body,
-                baseURL: `${process.env.REACT_APP_API_KEY}save_contact`
-               });
+             await postData(ENDPOINT.ADD_WEBINAR_QUESTION,body)
               if(data){
                 setData(0)
               }
