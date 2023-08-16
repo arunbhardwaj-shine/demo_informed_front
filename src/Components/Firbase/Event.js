@@ -89,7 +89,6 @@ const Event = () =>{
             loader("hide")
             console.log("-err",err)
         }
-
     }
   
        onSnapshot(q, (querySnapshot) => {
@@ -99,7 +98,6 @@ const Event = () =>{
                 newData = doc.data()
             }
         });
-        
 
       if(Object.keys(newData)?.length){
 
@@ -166,6 +164,9 @@ const Event = () =>{
     const handleEvent = async() =>{
         try{
             if(data == 1){
+                console.log("-che11ck here")
+
+
                 if(Object.keys(value)?.length){
                     const result = await postData(ENDPOINT.WEBINAR_QUESTION,{
                           eventId:value?.event_id,
@@ -174,6 +175,7 @@ const Event = () =>{
                       setApiData(result?.data?.data)
                       setShow(true)
                       setAnswerPopup(false)
+                      setData(0)
       
                   }
             }else if(data == 2){
@@ -184,6 +186,7 @@ const Event = () =>{
                       setApiData(result?.data?.data)
                       setAnswerPopup(true)
                       setShow(false)
+                      setData(0)
             }
            
        
@@ -192,6 +195,7 @@ const Event = () =>{
         }
     }
     useEffect(()=>{
+
     let events =  Cookies.get('events');
         if(!events){
             const random = Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
@@ -200,7 +204,10 @@ const Event = () =>{
             expirationDate.setFullYear(expirationDate.getFullYear() + 1);
             Cookies.set('events', `${timestamp}${random}`, { expires: expirationDate  });
         }
-      handleEvent()
+        if(data){
+            handleEvent()
+        }
+   
     },[data])
 
     return (
