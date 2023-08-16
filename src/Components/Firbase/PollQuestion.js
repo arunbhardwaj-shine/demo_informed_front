@@ -144,6 +144,7 @@ const PollQuestion = ()=>{
                     data:graphData
                 }]
              },
+             totalUser:value?.totalUser,
               triggered:value?.triggered,
                showAnswerToUser:value?.showAnswerToUser,
               answer:value?.pollAnswers?.length,
@@ -255,6 +256,7 @@ const PollQuestion = ()=>{
                     data:graphData
                 }]
              },
+             totalUser:value?.totalUser,
               triggered:value?.triggered,
                showAnswerToUser:value?.showAnswerToUser,
               answer:value?.pollAnswers?.length,
@@ -348,7 +350,7 @@ const PollQuestion = ()=>{
                                     <td>{index+1}</td>
                                     <td>{item?.question}</td>
                                     <td>{item?.speakerName}</td>
-                                    <td>{item?.answer}</td>
+                                    <td>{item?.totalUser}</td>
                                     <td><button type="button" onClick={()=>handleSubmit(item,"submit")} className={`btn btn-submit btn-bordered ${item?.triggered == 1?"disabled active":""}`}>Submit</button>
                                         <button type="button" onClick={()=>handleSubmit(item,"answer")}  className={`btn btn-submit btn-bordered btn-voilet ${item?.showAnswerToUser == 1?"disabled":""}`}>Display Answer</button>                      
                                         <button type="button" onClick={()=>accordianFun(index+1)}className={`btn show_graph ${showAccordian && showAccordian == (index+1)?"open":""}`}><img src={path_image + "accordian_arrow.svg"} alt="" /></button></td>
