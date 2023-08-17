@@ -113,7 +113,9 @@ const PollQuestion = ()=>{
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    type: 'pie'
+                    type: 'pie',
+                    width:1000,
+                    height:400
                 },
                 title: {
                     text: 'Answers in percentage',
@@ -121,6 +123,9 @@ const PollQuestion = ()=>{
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                legend: {
+                  verticalAlign: "bottom",
                 },
                 accessibility: {
                     point: {
@@ -134,9 +139,10 @@ const PollQuestion = ()=>{
                         dataLabels: {
                             enabled: false,
                             format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                        }
+                        },
+                        showInLegend: true
                     },
-                    showInLegend: true
+                    
                 },
                 series: [{
                     name: 'Brands',

@@ -19,40 +19,83 @@ function DisplayAnswer({ show, data, onClose }) {
       };
       graphData.push(foundObj);
     });
-
-    const chart = {
+    const chart  = {
       chart: {
-        type: "column",
-      },
-      yAxis: {
-        min: 0,
-        tickInterval: 1,
-      },
-      xAxis: {
-        categories: line_v,
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: 'pie',
+          // width: 400,
+          height:300
+
       },
       title: {
-        text: "",
+          text: 'Answers in percentage',
+          align: 'center'
+      },
+      legend: {
+        verticalAlign: "bottom",
+      },
+      tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      },
+      accessibility: {
+          point: {
+              valueSuffix: '%'
+          }
       },
       plotOptions: {
-        series: {
-          pointWidth: 20,
-        },
+          pie: {
+              size:"80%",
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                  enabled: true,
+                  format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+              },
+              showInLegend: true,
+          }
       },
-      column: {
-        colorByPoint: true,
-      },
-      exporting: {
-        enabled: false,
-      },
+      series: [{
+          name: 'Brands',
+          colorByPoint: true,
+          data:graphData
+      }]
+   }
 
-      series: [
-        {
-          data: graphData,
-          showInLegend: false,
-        },
-      ],
-    };
+    // const chart = {
+    //   chart: {
+    //     type: "column",
+    //   },
+    //   yAxis: {
+    //     min: 0,
+    //     tickInterval: 1,
+    //   },
+    //   xAxis: {
+    //     categories: line_v,
+    //   },
+    //   title: {
+    //     text: "",
+    //   },
+    //   plotOptions: {
+    //     series: {
+    //       pointWidth: 20,
+    //     },
+    //   },
+    //   column: {
+    //     colorByPoint: true,
+    //   },
+    //   exporting: {
+    //     enabled: false,
+    //   },
+
+    //   series: [
+    //     {
+    //       data: graphData,
+    //       showInLegend: false,
+    //     },
+    //   ],
+    // };
     setUserCount(totalAnswer)
     setHighChartData(chart);
   }, [data]);

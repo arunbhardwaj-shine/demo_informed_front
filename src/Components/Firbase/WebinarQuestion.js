@@ -41,7 +41,6 @@ useEffect(()=>{
 },[])
   const initiFun = async () => {
     try {
-      loader("show")
       const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
         companyId: eventId?.companyId,
         eventId: eventId?.id,
@@ -103,8 +102,7 @@ useEffect(()=>{
                 plotBorderWidth: null,
                 plotShadow: false,
                 type: 'pie',
-                height:400
-
+                height:500
             },
             title: {
                 text: 'Answers in percentage',
@@ -118,6 +116,9 @@ useEffect(()=>{
                     valueSuffix: '%'
                 }
             },
+            legend: {
+              verticalAlign: "bottom",
+            },
             plotOptions: {
                 pie: {
                     allowPointSelect: true,
@@ -125,53 +126,21 @@ useEffect(()=>{
                     dataLabels: {
                         enabled: true,
                         format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                    }
+                    },
+                    showInLegend: true,
                 }
             },
             series: [{
                 name: 'Brands',
                 colorByPoint: true,
                 data:graphData
-                // data: [{
-                //     name: 'Chrome',
-                //     y: 70.67,
-                //     sliced: true,
-                //     selected: true
-                // }, {
-                //     name: 'Edge',
-                //     y: 14.77
-                // },  {
-                //     name: 'Firefox',
-                //     y: 4.86
-                // }, {
-                //     name: 'Safari',
-                //     y: 2.63
-                // }, {
-                //     name: 'Internet Explorer',
-                //     y: 1.53
-                // },  {
-                //     name: 'Opera',
-                //     y: 1.40
-                // }, {
-                //     name: 'Sogou Explorer',
-                //     y: 0.84
-                // }, {
-                //     name: 'QQ',
-                //     y: 0.51
-                // }, {
-                //     name: 'Other',
-                //     y: 2.6
-                // }]
             }]
          },
           answer:value?.pollAnswers?.length
         });
       });
       setData(newData)
-      loader("hide")
-
     } catch (err) {
-      loader("hide")
       console.log("-err", err);
     }
   };
