@@ -737,7 +737,7 @@ const TimelineDetail = (props) => {
                                             alt=""
                                           />
                                         </div>
-                                        <h6>Email Received</h6>
+                                        <h6>{ details?.pdfTitle && details?.pdfTitle == "Webinar sample"?"Webinar Mail Received":"Email Received"}</h6>
                                       </div>
                                       <div className="timeline-time-view">
                                         <div className="timeline-time">
@@ -752,17 +752,21 @@ const TimelineDetail = (props) => {
                                     <div className="timeline-article-device">
                                       <Table>
                                         <tbody>
-                                          <tr>
-                                            <th className="device-title">
-                                              Title
-                                            </th>
-                                            <td className="device-name">
-                                              {details?.pdfTitle === null ||
-                                              details?.pdfTitle === ""
-                                                ? "New mail received"
-                                                : details?.pdfTitle}
-                                            </td>
-                                          </tr>
+                                        {
+                                              details?.pdfTitle && details?.pdfTitle == "Webinar sample"?"":<tr>
+                                              <th className="device-title">
+                                                Title
+                                              </th>
+                                             
+                                              <td className="device-name">
+                                                { details?.pdfTitle === null ||
+                                                details?.pdfTitle === ""
+                                                  ? "New mail received"
+                                                  : details?.pdfTitle}
+                                              </td>
+                                            </tr>
+                                         }
+                                         
                                           <tr>
                                             <th className="device-title">
                                               Subject
