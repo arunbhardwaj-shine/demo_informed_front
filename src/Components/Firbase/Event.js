@@ -175,10 +175,7 @@ const Event = () =>{
     const handleEvent = async() =>{
         try{
             if(data == 1){
-                console.log("-che11ck here")
-
-
-                if(Object.keys(value)?.length){
+                  if(Object.keys(value)?.length){
                     const result = await postData(ENDPOINT.WEBINAR_QUESTION,{
                           eventId:value?.event_id,
                           companyId:value?.question_id

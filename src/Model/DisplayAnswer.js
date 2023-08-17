@@ -29,38 +29,42 @@ function DisplayAnswer({ show, data, onClose }) {
           height:300
 
       },
+      exporting: {
+        enabled: false // Disable the export menu
+      },
       title: {
-          text: 'Answers in percentage',
-          align: 'center'
+        text: '' // Set an empty string to hide the title
       },
       legend: {
-        verticalAlign: "bottom",
-      },
-      tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        labelFormatter:function(){
+          return this.name + ': ' + this.y;
+        }
       },
       accessibility: {
           point: {
               valueSuffix: '%'
           }
       },
+      
       plotOptions: {
           pie: {
               size:"80%",
               allowPointSelect: true,
               cursor: 'pointer',
               dataLabels: {
-                  enabled: true,
+                  enabled: false,
                   format: '<b>{point.name}</b>: {point.percentage:.1f} %'
               },
+              
               showInLegend: true,
-          }
+          },
       },
       series: [{
           name: 'Brands',
           colorByPoint: true,
           data:graphData
       }]
+      
    }
 
     // const chart = {
