@@ -118,7 +118,7 @@ const PollQuestion = ()=>{
                     height:400
                 },
                 title: {
-                    text: 'Answers in percentage',
+                    text: '',
                     align: 'center'
                 },
                 tooltip: {
@@ -126,11 +126,17 @@ const PollQuestion = ()=>{
                 },
                 legend: {
                   verticalAlign: "bottom",
+                  labelFormatter:function(){
+                    return this.name + ': ' + this.y;
+                  }
                 },
                 accessibility: {
                     point: {
                         valueSuffix: '%'
                     }
+                },
+                exporting: {
+                  enabled: false // Disable the export menu
                 },
                 plotOptions: {
                     pie: {
