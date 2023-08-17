@@ -737,7 +737,7 @@ const TimelineDetail = (props) => {
                                             alt=""
                                           />
                                         </div>
-                                        <h6>{ details?.pdfTitle && details?.pdfTitle == "Webinar sample"?"Webinar Mail Received":"Email Received"}</h6>
+                                        <h6>Email Received</h6>
                                       </div>
                                       <div className="timeline-time-view">
                                         <div className="timeline-time">
