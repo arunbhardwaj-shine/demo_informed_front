@@ -104,6 +104,9 @@ useEffect(()=>{
                 type: 'pie',
                 height:500
             },
+            exporting: {
+              enabled: false // Disable the export menu
+            },
             title: {
                 text: 'Answers in percentage',
                 align: 'center'
@@ -118,13 +121,16 @@ useEffect(()=>{
             },
             legend: {
               verticalAlign: "bottom",
+              labelFormatter:function(){
+                return this.name + ': ' + this.y;
+              }
             },
             plotOptions: {
                 pie: {
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: true,
+                        enabled: false,
                         format: '<b>{point.name}</b>: {point.percentage:.1f} %'
                     },
                     showInLegend: true,
