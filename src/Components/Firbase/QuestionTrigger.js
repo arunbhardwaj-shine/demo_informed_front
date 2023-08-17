@@ -57,7 +57,7 @@ const QuestionTrigger = () =>{
      })
     const initialFun = async() =>{
         try{
-           loader("show")
+        //    loader("show")
           const result = await postData(ENDPOINT.QUESTION_ANSWER,{
                 "companyId":eventId?.companyId,
                 "eventId":eventId?.id
@@ -67,9 +67,9 @@ const QuestionTrigger = () =>{
                 answer:result?.data?.data?.answer,
                 ignre:result?.data?.data?.ignore 
              })
-             loader("hide")
+            //  loader("hide")
         }catch(err){
-            loader("hide")
+            // loader("hide")
             console.log("-er",err)
         }
     }
