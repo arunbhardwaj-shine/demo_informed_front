@@ -3095,6 +3095,7 @@ input[type="number"] {
   line-height: 16px;
   color: rgba(0, 74, 137, 0.55);
   padding: 0 14px 12px 0;
+  min-width: 100px;
 }
 .timeline-article-device tr .device-name {
   font-size: 14px;
