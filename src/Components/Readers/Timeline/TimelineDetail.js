@@ -737,7 +737,8 @@ const TimelineDetail = (props) => {
                                             alt=""
                                           />
                                         </div>
-                                        <h6>Email Received</h6>
+                                        <h6>Email Sent</h6> 
+                                        
                                       </div>
                                       <div className="timeline-time-view">
                                         <div className="timeline-time">
@@ -789,6 +790,17 @@ const TimelineDetail = (props) => {
                                                 : details?.device_used}
                                             </td>
                                           </tr>
+                                              <tr>
+                                       
+
+                                            <th className="device-title">
+                                              Email Opened
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.status?`Yes, (${moment(details.updated).format("DD MMM YYYY")})`:"No"
+                                              }
+                                            </td>
+                                           </tr>
                                         </tbody>
                                       </Table>
                                     </div>
