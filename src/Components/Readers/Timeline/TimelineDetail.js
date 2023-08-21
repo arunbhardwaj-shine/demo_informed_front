@@ -17,7 +17,30 @@ const TimelineDetail = (props) => {
     localStorage.getItem("myData")
   );
 
+   let obj = {
+     "em":"Email",
+     "Email":"Email",
+     "Peer":"Peer",
+     "peer":"Peer",
+     "QRcode":"QR Code",
+     "QRcode.":"QR Code",
+     "GO_code":"GO CODE",
+     "InforMedGo":"InforMedGo",
+     "re":"Email",
+     "Web":"Direct Link"
+
+
+
+   }
   const [ebookData, setEbookData] = useState([]);
+  function isJSONValid(jsonString) {
+    try {
+        JSON.parse(jsonString);
+        return true; // JSON is valid
+    } catch (error) {
+        return false; // JSON is not valid
+    }
+}
 
   const handleClick = async (index, pdf_id, cdate) => {
     if (index == activeIndex) {
@@ -264,7 +287,7 @@ const TimelineDetail = (props) => {
                               {(details?.action == "Article browsed" ||details.action == "Article opened") && (
                                 <div className="timeline-box">
                                   <div className="timeline_date">
-                                    {details?.date}
+                                    {details?.date == moment("1970-01-01").format("DD MMM YYYY")?"N/A":details?.date}
                                   </div>
                                   <div className="timeline-block">
                                     <div className="timeline-block-head read">
@@ -318,194 +341,212 @@ const TimelineDetail = (props) => {
                                                 : details?.device_used}
                                             </td>
                                           </tr>
+                                          <tr>
+                                            {console.log("---->>",details?.campaign_name)}
+                                            {console.log("--- obj[details.campaign_name]->>", obj[details.campaign_name])}
+                                  
+                                            <th className="device-title">
+                                              Medium
+                                            </th>
+                                            <td className="device-name">
+                                                 {
+                                                  details?.campaign_name ==0 ||details?.campaign_name == "" || details?.campaign_name == null?"N/A": obj[details.campaign_name]?obj[details.campaign_name] :details.campaign_name 
+                                                 }
+                                                 </td>
+                                          </tr>
+                                              
                                         </tbody>
                                       </Table>
                                     </div>
-                                    <div
-                                      className={
-                                        isActive && details.id == activeIndex
-                                          ? "timeline-article-detail-full active"
-                                          : "timeline-article-detail-full"
-                                      }
-                                      onClick={(e) => {
-                                        handleClick(
-                                          details.id,
-                                          details.pdf_id,
-                                          details.Created
-                                        );
-                                      }}
-                                    >
-                                      <div className="timeline-article-details-heading">
-                                        <p>
-                                          Details{" "}
-                                          <img
-                                            src={path_image + "down-arrow.png"}
-                                            alt=""
-                                          />
-                                        </p>
-                                      </div>
-                                      <div className="timeline-article-details-overall">
-                                        <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
-                                          <div className="timeline-article-details-boxes">
-                                            {typeof ebookData !== "undefined" &&
-                                            ebookData.length > 0 ? (
-                                              <>
-                                                {ebookData.map(
-                                                  (data, index) => {
-                                                    return (
-                                                      <>
-                                                        {/*<h3>Chapter {data?.page}</h3>*/}
+                                    {
+                                     details.file_type && details.file_type == "ebook"? "": <div
+                                     className={
+                                       isActive && details.id == activeIndex
+                                         ? "timeline-article-detail-full active"
+                                         : "timeline-article-detail-full"
+                                     }
+                                     onClick={(e) => {
+                                       handleClick(
+                                         details.id,
+                                         details.pdf_id,
+                                         details.Created
+                                       );
+                                     }}
+                                   >
+                                     
+                                     <div className="timeline-article-details-heading">
+                                       <p>
+                                         Details{" "}
+                                         <img
+                                           src={path_image + "down-arrow.png"}
+                                           alt=""
+                                         />
+                                       </p>
+                                     </div>
+                                     <div className="timeline-article-details-overall">
+                                       <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
+                                         <div className="timeline-article-details-boxes">
+                                           {typeof ebookData !== "undefined" &&
+                                           ebookData.length > 0 ? (
+                                             <>
+                                               {ebookData.map(
+                                                 (data, index) => {
+                                                   return (
+                                                     <>
+                                                       {/*<h3>Chapter {data?.page}</h3>*/}
 
-                                                        <div className="media">
-                                                          <div className="media-left">
-                                                            <img
-                                                              src={data?.image}
-                                                              className="media-object"
-                                                              style={{
-                                                                width: "80px",
-                                                              }}
-                                                              onError={
-                                                                imageOnError
-                                                              }
-                                                              alt="ebook"
-                                                            />
-                                                            <p>
-                                                              Page: {data?.page}
-                                                            </p>
-                                                          </div>
-                                                          <div className="media-right">
-                                                            <ul className="tab-mail-list data">
-                                                              <li className="d-flex align-center">
-                                                                <h6 className="tab-content-title">
-                                                                  Ignored
-                                                                </h6>
-                                                                <div className="data-progress limited">
-                                                                  <div className="progress">
-                                                                    <div
-                                                                      role="progressbar"
-                                                                      className="progress-bar bg-danger"
-                                                                      aria-valuenow="1"
-                                                                      aria-valuemin="0"
-                                                                      aria-valuemax="100"
-                                                                      style={{
-                                                                        width:
-                                                                          data?.red_per +
-                                                                          "%",
-                                                                      }}
-                                                                    >
-                                                                      {
-                                                                        data?.red
-                                                                      }
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </li>
-                                                              <li>
-                                                                <h6 className="tab-content-title">
-                                                                  Browsed
-                                                                </h6>
-                                                                <div className="data-progress success-progress">
-                                                                  <div className="progress">
-                                                                    <div
-                                                                      role="progressbar"
-                                                                      className="progress-bar bg-warning"
-                                                                      aria-valuenow="100"
-                                                                      aria-valuemin="0"
-                                                                      aria-valuemax="100"
-                                                                      style={{
-                                                                        width:
-                                                                          data?.yellow_per +
-                                                                          "%",
-                                                                      }}
-                                                                    >
-                                                                      {
-                                                                        data?.yellow
-                                                                      }
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </li>
-                                                              <li>
-                                                                <h6 className="tab-content-title">
-                                                                  Read
-                                                                </h6>
-                                                                <div className="data-progress">
-                                                                  <div className="progress">
-                                                                    <div
-                                                                      role="progressbar"
-                                                                      className="progress-bar bg-success"
-                                                                      aria-valuenow="0"
-                                                                      aria-valuemin="0"
-                                                                      aria-valuemax="100"
-                                                                      style={{
-                                                                        width:
-                                                                          data?.read_per +
-                                                                          "%",
-                                                                      }}
-                                                                    >
-                                                                      {
-                                                                        data?.read
-                                                                      }
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </li>
-                                                              <li>
-                                                                <h6 className="tab-content-title">
-                                                                  Readers
-                                                                </h6>
-                                                                <div className="data-progress">
-                                                                  <div className="progress">
-                                                                    <div
-                                                                      role="progressbar"
-                                                                      className="progress-bar bg-danger"
-                                                                      aria-valuenow="0"
-                                                                      aria-valuemin="0"
-                                                                      aria-valuemax="100"
-                                                                      style={{
-                                                                        width:
-                                                                          data?.reader_per +
-                                                                          "%",
-                                                                      }}
-                                                                    >
-                                                                      {
-                                                                        data?.readers
-                                                                      }
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </li>
-                                                            </ul>
-                                                            <p>
-                                                              <span>
-                                                                Time Needed:{" "}
-                                                                {data?.avg_time}{" "}
-                                                                seconds
-                                                              </span>{" "}
-                                                              <span>
-                                                                Time Spent:{" "}
-                                                                {
-                                                                  data?.time_spent
-                                                                }{" "}
-                                                                seconds
-                                                              </span>
-                                                            </p>
-                                                          </div>
-                                                        </div>
-                                                      </>
-                                                    );
-                                                  }
-                                                )}
-                                              </>
-                                            ) : (
-                                              <div className="no_found">
-                                                <p>No Data Found</p>
-                                              </div>
-                                            )}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
+                                                       <div className="media">
+                                                         <div className="media-left">
+                                                           <img
+                                                             src={data?.image}
+                                                             className="media-object"
+                                                             style={{
+                                                               width: "80px",
+                                                             }}
+                                                             onError={
+                                                               imageOnError
+                                                             }
+                                                             alt="ebook"
+                                                           />
+                                                           <p>
+                                                             Page: {data?.page}
+                                                           </p>
+                                                         </div>
+                                                         <div className="media-right">
+                                                           <ul className="tab-mail-list data">
+                                                             <li className="d-flex align-center">
+                                                               <h6 className="tab-content-title">
+                                                                 Ignored
+                                                               </h6>
+                                                               <div className="data-progress limited">
+                                                                 <div className="progress">
+                                                                   <div
+                                                                     role="progressbar"
+                                                                     className="progress-bar bg-danger"
+                                                                     aria-valuenow="1"
+                                                                     aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style={{
+                                                                       width:
+                                                                         data?.red_per +
+                                                                         "%",
+                                                                     }}
+                                                                   >
+                                                                     {
+                                                                       data?.red
+                                                                     }
+                                                                   </div>
+                                                                 </div>
+                                                               </div>
+                                                             </li>
+                                                             <li>
+                                                               <h6 className="tab-content-title">
+                                                                 Browsed
+                                                               </h6>
+                                                               <div className="data-progress success-progress">
+                                                                 <div className="progress">
+                                                                   <div
+                                                                     role="progressbar"
+                                                                     className="progress-bar bg-warning"
+                                                                     aria-valuenow="100"
+                                                                     aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style={{
+                                                                       width:
+                                                                         data?.yellow_per +
+                                                                         "%",
+                                                                     }}
+                                                                   >
+                                                                     {
+                                                                       data?.yellow
+                                                                     }
+                                                                   </div>
+                                                                 </div>
+                                                               </div>
+                                                             </li>
+                                                             <li>
+                                                               <h6 className="tab-content-title">
+                                                                 Read
+                                                               </h6>
+                                                               <div className="data-progress">
+                                                                 <div className="progress">
+                                                                   <div
+                                                                     role="progressbar"
+                                                                     className="progress-bar bg-success"
+                                                                     aria-valuenow="0"
+                                                                     aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style={{
+                                                                       width:
+                                                                         data?.read_per +
+                                                                         "%",
+                                                                     }}
+                                                                   >
+                                                                     {
+                                                                       data?.read
+                                                                     }
+                                                                   </div>
+                                                                 </div>
+                                                               </div>
+                                                             </li>
+                                                             <li>
+                                                               <h6 className="tab-content-title">
+                                                                 Readers
+                                                               </h6>
+                                                               <div className="data-progress">
+                                                                 <div className="progress">
+                                                                   <div
+                                                                     role="progressbar"
+                                                                     className="progress-bar bg-danger"
+                                                                     aria-valuenow="0"
+                                                                     aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style={{
+                                                                       width:
+                                                                         data?.reader_per +
+                                                                         "%",
+                                                                     }}
+                                                                   >
+                                                                     {
+                                                                       data?.readers
+                                                                     }
+                                                                   </div>
+                                                                 </div>
+                                                               </div>
+                                                             </li>
+                                                           </ul>
+                                                           <p>
+                                                             <span>
+                                                               Time Needed:{" "}
+                                                               {data?.avg_time}{" "}
+                                                               seconds
+                                                             </span>{" "}
+                                                             <span>
+                                                               Time Spent:{" "}
+                                                               {
+                                                                 data?.time_spent
+                                                               }{" "}
+                                                               seconds
+                                                             </span>
+                                                           </p>
+                                                         </div>
+                                                       </div>
+                                                     </>
+                                                   );
+                                                 }
+                                               )}
+                                             </>
+                                           ) : (
+                                             <div className="no_found">
+                                               <p>No Data Found</p>
+                                             </div>
+                                           )}
+                                         </div>
+                                       </div>
+                                     </div>
+                                   </div>
+                                    }
+                                   
                                   </div>
                                 </div>
                               )}
@@ -774,13 +815,14 @@ const TimelineDetail = (props) => {
                                             </th>
                                             <td className="device-name">
                                               {details?.mailContent != ""
-                                                ? JSON.parse(
+                                                ? isJSONValid(  details?.mailContent)?
+                                                JSON.parse(
                                                     details?.mailContent
-                                                  )?.subject
+                                                  )?.subject:"N/A"
                                                 : ""}
                                             </td>
                                           </tr>
-                                          <tr>
+                                          {/* <tr>
                                             <th className="device-title">
                                               Device
                                             </th>
@@ -789,7 +831,7 @@ const TimelineDetail = (props) => {
                                                 ? details.webinar
                                                 : details?.device_used}
                                             </td>
-                                          </tr>
+                                          </tr> */}
                                               <tr>
                                        
 
@@ -950,6 +992,17 @@ const TimelineDetail = (props) => {
                                                 {details?.webinar != ""
                                                   ? details.webinar
                                                   : details?.device_used}
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th className="device-title">
+                                                Medium
+                                              </th>
+
+                                              <td className="device-name">
+                                                 {
+                                                  details?.staticpdf_id? obj[details?.campaign_name]?obj[details?.campaign_name]:details?.campaign_name:details?.medium !=0 ||details?.medium != "" || details?.medium != null?"N/A":obj[details?.medium]?obj[details?.medium]:details?.medium  
+                                                 }
                                               </td>
                                             </tr>
                                           </tbody>

@@ -306,7 +306,7 @@ const NewReaders = () => {
         userType: 5,
         search: search,
         type: "",
-        page: page,
+        page: 1,
       };
 
       let payload = { ...data, ...filterObject };
