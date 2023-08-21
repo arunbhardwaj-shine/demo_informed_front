@@ -797,7 +797,7 @@ const TimelineDetail = (props) => {
                                               Email Opened
                                             </th>
                                             <td className="device-name">
-                                              {details?.status?`Yes, (${moment(details.updated).format("DD MMM YYYY")})`:"No"
+                                              {details?.status == 1?`Yes (${moment(details.updated).format("DD MMM YYYY")})`:"No"
                                               }
                                             </td>
                                            </tr>
