@@ -27,9 +27,8 @@ const TimelineDetail = (props) => {
      "GO_code":"GO CODE",
      "InforMedGo":"InforMedGo",
      "re":"Email",
+     "Reparkive":"GO CODE",
      "Web":"Direct Link"
-
-
 
    }
   const [ebookData, setEbookData] = useState([]);
@@ -283,8 +282,8 @@ const TimelineDetail = (props) => {
                         {timeLineData?.timeline.map((details, index) => {
                           return (
                             <>
-                          
-                              {(details?.action == "Article browsed" ||details.action == "Article opened") && (
+                          {/* details?.action == "Article browsed" || */}
+                              {( details.action == "Article opened") && (
                                 <div className="timeline-box">
                                   <div className="timeline_date">
                                     {details?.date == moment("1970-01-01").format("DD MMM YYYY")?"N/A":details?.date}
@@ -342,8 +341,8 @@ const TimelineDetail = (props) => {
                                             </td>
                                           </tr>
                                           <tr>
-                                            {console.log("---->>",details?.campaign_name)}
-                                            {console.log("--- obj[details.campaign_name]->>", obj[details.campaign_name])}
+                                            {/* {console.log("---->>",details?.campaign_name)}
+                                            {console.log("--- obj[details.campaign_name]->>", obj[details.campaign_name])} */}
                                   
                                             <th className="device-title">
                                               Medium
@@ -550,8 +549,8 @@ const TimelineDetail = (props) => {
                                   </div>
                                 </div>
                               )}
-                              {details?.action ==
-                                "Haematology library opened in Docintel App" && (
+                              {["Immunology library opened in Docintel App","Haematology library opened in Docintel App","Critical Care library opened in Docintel App" ].includes(details?.action)
+                                && (
                                 <div className="timeline-box">
                                   <div className="timeline_date">
                                     {details?.date}
@@ -567,7 +566,7 @@ const TimelineDetail = (props) => {
                                             alt=""
                                           />
                                         </div>
-                                        <h6>Opened Content</h6>
+                                        <h6>Opened Library</h6>
                                       </div>
                                       <div className="timeline-time-view">
                                         <div className="timeline-time">
@@ -762,7 +761,7 @@ const TimelineDetail = (props) => {
                                 </div>
                               )}
 
-                              {details?.action == "New mail received" && (
+                              {details?.action == "New mail received" || details?.action == "New Mail Received" ? (
                                 <div className="timeline-box">
                                   <div className="timeline_date">
                                     {details?.date}
@@ -848,7 +847,7 @@ const TimelineDetail = (props) => {
                                     </div>
                                   </div>
                                 </div>
-                              )}
+                              ): null}
 
                               {details?.action &&
                                 details.action.includes("shared") && (
