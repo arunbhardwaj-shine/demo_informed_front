@@ -31,6 +31,24 @@ const TimelineDetail = (props) => {
      "Web":"Direct Link"
 
    }
+   const deviceObj = {
+     "Ios":"iOS APP",
+     "IOS":"iOS APP",
+     "ios":"iOS APP",
+     "i":"iOS APP",
+     "I":"iOS APP",
+     "Android":"Android APP",
+     "a":"Android APP",
+     "A":"Android APP",
+     "android":"Android APP",
+     "Web":"Web",
+     "web":"Web"
+
+
+
+
+
+   }
   const [ebookData, setEbookData] = useState([]);
   function isJSONValid(jsonString) {
     try {
@@ -244,7 +262,7 @@ const TimelineDetail = (props) => {
                                 <td>
                                   {timeLineData?.user?.ibu != 0
                                     ? timeLineData?.user?.ibu
-                                    : "N/A"}
+                                    : timeLineData?.user?.ibu == 0?"Haematology":"N/A"}
                                 </td>
                               </tr>
                               <tr>
@@ -338,7 +356,7 @@ const TimelineDetail = (props) => {
                                             <td className="device-name">
                                               {details?.webinar != ""
                                                 ? details.webinar
-                                                : details?.device_used}
+                                                : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
                                             </td>
                                           </tr>
                                           <tr>
@@ -358,7 +376,6 @@ const TimelineDetail = (props) => {
                                         </tbody>
                                       </Table>
                                     </div>
-                                    {console.log("-- im her")}
                                     {/* details.file_type && details.file_type == "ebook"? "": */}
                                     {
                                      <div
@@ -396,8 +413,8 @@ const TimelineDetail = (props) => {
                                                  (data, index) => {
                                                 return (
                                                       <div className="timeline-article-details-boxes d-flex">
-                                                        <h3 >Chapter name: {data?.chapter}</h3>
-                                                          {data?.data.map(item =>{
+                                                       {data?.chapter?<h3 >Chapter name: {data?.chapter}</h3>:""} 
+                                                          {data?.data?.length? data?.data.map(item =>{
                                                     return (
                                                       <div className={`media media-${item?.flag}`}>
                                                             <div className="media-left">
@@ -425,7 +442,7 @@ const TimelineDetail = (props) => {
                                                           </div>
                                                        
                                                        )
-                                                    })}
+                                                    }):""}
 
                                                      </div>
                                                 ) 
@@ -508,7 +525,7 @@ const TimelineDetail = (props) => {
                                             <td className="device-name">
                                               {details?.webinar != ""
                                                 ? details.webinar
-                                                : details?.device_used}
+                                                : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
                                             </td>
                                           </tr>
                                         </tbody>
@@ -558,7 +575,7 @@ const TimelineDetail = (props) => {
                                             <td className="device-name">
                                               {details?.webinar != ""
                                                 ? details.webinar
-                                                : details?.device_used}
+                                                : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
                                             </td>
                                           </tr>
                                         </tbody>
@@ -606,7 +623,7 @@ const TimelineDetail = (props) => {
                                             <td className="device-name">
                                               {details?.webinar != ""
                                                 ? details.webinar
-                                                : details?.device_used}
+                                                : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
                                             </td>
                                           </tr>
                                         </tbody>
@@ -655,7 +672,7 @@ const TimelineDetail = (props) => {
                                             <td className="device-name">
                                               {details?.webinar != ""
                                                 ? details.webinar
-                                                : details?.device_used}
+                                                : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
                                             </td>
                                           </tr>
                                         </tbody>
@@ -819,7 +836,7 @@ const TimelineDetail = (props) => {
                                               <td className="device-name">
                                                 {details?.webinar != ""
                                                   ? details.webinar
-                                                  : details?.device_used}
+                                                  : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
                                               </td>
                                             </tr>
                                           </tbody>
@@ -894,7 +911,7 @@ const TimelineDetail = (props) => {
                                               <td className="device-name">
                                                 {details?.webinar != ""
                                                   ? details.webinar
-                                                  : details?.device_used}
+                                                  : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
                                               </td>
                                             </tr>
                                             <tr>
