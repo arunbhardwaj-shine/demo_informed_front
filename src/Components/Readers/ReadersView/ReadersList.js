@@ -2127,9 +2127,9 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      QR openings
+                                     QR openings/Article
                                       <LinkWithTooltip
-                                        tooltip="Number of opening counts for specific article."
+                                        tooltip="Number of opening from Qr code counts for specific article."
                                         href="#"
                                       >
                                         <img
@@ -2160,9 +2160,9 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      GO openings
+                                     GO openings/Article
                                       <LinkWithTooltip
-                                        tooltip="Number of HCPs who have register for or activated the content."
+                                       tooltip="Number of opening from inforMedGO counts for specific article."
                                         href="#"
                                       >
                                         <img
@@ -2227,7 +2227,7 @@ const NewReaders = () => {
                                   {!data?.ipFlag ? (
                                     <li className="last-activity">
                                       <h6 className="tab-content-title">
-                                        Last activity
+                                        Last content activity
                                       </h6>
                                       <div className="data-progress content-opening">
                                         <ProgressBar
