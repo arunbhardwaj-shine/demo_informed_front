@@ -219,7 +219,7 @@ const TimelineDetail = (props) => {
                         !timeLineData?.flag?(
                           <div className="timeline-left-user-detail">
                           <h5>
-                            Username{" "}
+                            Name: &nbsp;
                             {timeLineData?.user?.name
                               ? timeLineData?.user?.name
                               : "N/A"}
@@ -332,7 +332,7 @@ const TimelineDetail = (props) => {
                                         <tbody>
                                           <tr>
                                             <th className="device-title">
-                                              Device
+                                              Source
                                             </th>
                                             <td className="device-name">
                                               {details?.webinar != ""
@@ -599,7 +599,7 @@ const TimelineDetail = (props) => {
                                         <tbody>
                                           <tr>
                                             <th className="device-title">
-                                              Device
+                                              Source
                                             </th>
                                             <td className="device-name">
                                               {details?.webinar != ""
@@ -649,7 +649,7 @@ const TimelineDetail = (props) => {
                                         <tbody>
                                           <tr>
                                             <th className="device-title">
-                                              Device
+                                              Source
                                             </th>
                                             <td className="device-name">
                                               {details?.webinar != ""
@@ -697,7 +697,7 @@ const TimelineDetail = (props) => {
                                         <tbody>
                                           <tr>
                                             <th className="device-title">
-                                              Device
+                                              Source
                                             </th>
                                             <td className="device-name">
                                               {details?.webinar != ""
@@ -746,7 +746,7 @@ const TimelineDetail = (props) => {
                                         <tbody>
                                           <tr>
                                             <th className="device-title">
-                                              Device
+                                              Source
                                             </th>
                                             <td className="device-name">
                                               {details?.webinar != ""
@@ -818,7 +818,7 @@ const TimelineDetail = (props) => {
                                                 JSON.parse(
                                                     details?.mailContent
                                                   )?.subject:"N/A"
-                                                : ""}
+                                                : "N/A"}
                                             </td>
                                           </tr>
                                           {/* <tr>
@@ -910,7 +910,7 @@ const TimelineDetail = (props) => {
                                           <tbody>
                                             <tr>
                                               <th className="device-title">
-                                                Device
+                                                Source
                                               </th>
                                               <td className="device-name">
                                                 {details?.webinar != ""
@@ -985,7 +985,7 @@ const TimelineDetail = (props) => {
                                           <tbody>
                                             <tr>
                                               <th className="device-title">
-                                                Device
+                                                Source
                                               </th>
                                               <td className="device-name">
                                                 {details?.webinar != ""
@@ -1032,7 +1032,7 @@ const TimelineDetail = (props) => {
                                           </tr>
                                           <tr>
                                             <th className="device-title">
-                                              Device
+                                              Source
                                             </th>
                                             <td className="device-name">
                                               Web Browser
