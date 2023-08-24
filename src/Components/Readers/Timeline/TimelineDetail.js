@@ -232,7 +232,6 @@ const TimelineDetail = (props) => {
               Object.keys(timeLineData).length > 0 ? (
                 <>
                   <div className="vertical-timeline d-flex align-items-start">
-                    {console.log("- im herere re re re ",!timeLineData?.flag)}
                     <div className="timeline-left-user">
                       {
                         !timeLineData?.flag?(
@@ -360,9 +359,6 @@ const TimelineDetail = (props) => {
                                             </td>
                                           </tr>
                                           <tr>
-                                            {/* {console.log("---->>",details?.campaign_name)}
-                                            {console.log("--- obj[details.campaign_name]->>", obj[details.campaign_name])} */}
-                                  
                                             <th className="device-title">
                                               Medium
                                             </th>
@@ -418,9 +414,12 @@ const TimelineDetail = (props) => {
                                                     return (
                                                       <div className={`media media-${item?.flag}`}>
                                                             <div className="media-left">
-                                                              <p>
+                                                              {
+                                                                item?.image ?<img src={item?.image}  />:<p>
                                                                 Page: {item?.page}
                                                               </p>
+                                                              }
+                                                             
                                                             </div>
                                                             <div className="media-right">
                                                               <p>
