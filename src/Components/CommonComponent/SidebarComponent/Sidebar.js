@@ -125,6 +125,13 @@ const Sidebar = () => {
       c_id = localStorage.getItem("sd_i");
     }
   }
+  else if (location.pathname == "/EmailArticleSelect") {
+    title = "Selecting content for your email";
+    video_url =
+      "https://webinar.informed.pro/react_help/videos/email_page_2.mp4";
+    video_poster =
+      "https://webinar.informed.pro/react_help/poster/email_page_2.png";
+  }
 
   return (
     <>
@@ -4032,7 +4039,7 @@ const Sidebar = () => {
               >
                 <div className="help-popup-content-inner">
                   <div className="help-popup-content-library">
-                    {/* <div className="help-popup-content-video">
+                    <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
                         className="help-content-popup"
@@ -4046,38 +4053,28 @@ const Sidebar = () => {
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
-                    </div> */}
-                    <div className="help-popup-content-library-inside">
-                      <p>Library Guide: Navigating Content and Options</p>
-                    </div>
-                    <div className="help-popup-content-library-inside">
-                      <p><strong>Content Section:</strong></p>
-                    </div>
-
-                    <div className="help-popup-content-library-inside">
-                      <p>In the “Content” section, you can access the content you’ve created. Each content card includes:</p>
-                      <ul>
-                        <li>Content details - Title, Subtitle, Author name, and Selected tag.</li>
-                      </ul>
                     </div>
                      <div className="help-popup-content-library-inside">
-                      <p><strong>Three key options:</strong></p>
+                      <p><strong>Three main Sections</strong></p>
                       <ul>
-                        <li>Docintel Link - Displays the link for sharing</li>
-                        <li>Copy Icon - Click to copy the links for sharing</li>
-                        <li>Upload Date - Date when content was uploaded</li>
+                        <li>Content</li>
+                        <li>Create & Change</li>
+                        <li>Products and Tags</li>
                       </ul>
                     </div>
 
                     <div className="help-popup-content-library-inside">
-                       <p><strong>Additional information:</strong></p>
+                       <p><strong>Content Section</strong></p>
                     </div>
 
                     <div className="help-popup-content-library-inside">
+                      <p>In this page, you can access the all the content you have created. Each content card includes:</p>
                       <ul>
-                        <li>Code to define content language</li>
-                        <li>Link type and enhancement</li>
-                        <li>Indication if content contains videos or links</li>
+                        <li>Content cover</li>
+                        <li>Title</li>
+                        <li>Subtitle</li>
+                        <li>Author name</li>
+                        <li>Selected tag</li>
                       </ul>
                     </div>
 
