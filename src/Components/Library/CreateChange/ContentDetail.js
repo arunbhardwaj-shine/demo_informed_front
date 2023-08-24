@@ -369,7 +369,9 @@ const ContentDetail = () => {
                                                         </tr>*/}
 
                                                       <tr>
-                                                        <th>Mandatory</th>
+                                                        <th>
+                                                          IRT mandatory training
+                                                        </th>
                                                         <td>
                                                           {data?.reader_mandatory
                                                             ? "Yes"

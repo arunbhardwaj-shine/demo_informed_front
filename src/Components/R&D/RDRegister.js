@@ -359,9 +359,9 @@ const RDRegister = () => {
               ) : null}
               <div className="form-head-sec">
                 <h3>
-                We provide training material to health care professionals, who support us in clinical studies, on the basis of legitimate interest. Octapharma will not track on an individual user basis if you have accessed these documents or not. The same (i.e. “will not track on an individual user basis”) applies for study related communication with such health care professionals. Please check your
-                  details and give your consent for Octapharma to track your
-                  engagement with the content provided.
+                We provide here study-related training material and contents to healthcare professionals participating in the LEX-210 study.<br/><br/>
+                Please provide your details to register and access the contents.<br/><br/>
+                Octapharma will not track potential engagement on the provided contents on an individual user basis. Please refer to the Octapharma privacy statements in the link below.
                 </h3>
               </div>
               <Form className="form" id="myForm">

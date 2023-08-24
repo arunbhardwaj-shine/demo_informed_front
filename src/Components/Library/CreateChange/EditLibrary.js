@@ -1712,13 +1712,18 @@ const EditLibrary = () => {
                       {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">
-                          <label htmlFor="setasdraft1">Mandatory</label>
+                          <label htmlFor="setasdraft1">{
+                            localStorage.getItem("user_id") ==
+                            "56Ek4feL/1A8mZgIKQWEqg=="?"IRT mandatory training":"Mandatory"                           
+                    }</label>
                           <fieldset id="group2">
                             <div className="switch">
                               <label className="switch-light">
                                 <input
                                   type="checkbox"
                                   name="group2"
+                                  placeholder={ localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg=="?"Select IRT mandatory training":"Select IRT"}
                                   id="setasdraft1"
                                   defaultChecked={
                                     userInputs?.reader_mandatory ? true : false

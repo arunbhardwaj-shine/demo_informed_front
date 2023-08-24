@@ -138,6 +138,9 @@ import RDRegister from "./Components/R&D/RDRegister";
 import RDAnalytics from "./Components/R&D/RDAnalytics";
 import SetLayout from "./Components/CommonComponent/SetLayout";
 import PreviewArticle from "./Components/Library/PreviewArticle";
+import CommanPage from "./Components/Firbase/CommanPage"
+import QuestionTrigger from "./Components/Firbase/QuestionTrigger"
+import PollQuestion from "./Components/Firbase/PollQuestion"
 
 let platform = 0;
 let show = 0;
@@ -196,6 +199,7 @@ const Routing = () => {
         <Route path="/LEX-210-analytics" element={<LoginLayout component={RDAnalytics} />} />
         //LoginLayout for pages after login
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
+        <Route path="/users" element={<SetLayout component={SetLayout} />} />
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
@@ -248,7 +252,20 @@ const Routing = () => {
           path="/webinar-question"
           element={<WebinarQuestion />}
         />
+         <Route
+          path="/poll-question"
+          element={<PollQuestion />}
+        />
+        <Route
+          path="/comman-question"
+          element={<CommanPage />}
+        />
+         <Route
+          path="/question-list"
+          element={<QuestionTrigger />}
+        />
 
+         
 
         <Route
           path="/analytic-delivery-trends"
