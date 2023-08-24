@@ -155,7 +155,7 @@ const Totalhcp = () => {
       // Set options for HCP chart
       const newSeries = data.map((item) => {
         return {
-          name: `${item.ibu} (${item.total})`,
+          name: `${item.ibu=="Critical_care"?"Critical Care":item.ibu} (${item.total})`,
           data: item.total_readers.slice(1).reverse(),
           colors: colorObj[item?.ibu],
         };
@@ -182,7 +182,7 @@ const Totalhcp = () => {
           newAr.push(newData);
         });
         return {
-          name: `${item.ibu} (${item.total})`,
+          name: `${item.ibu=="Critical_care"?"Critical Care":item.ibu} (${item.total})`,
           data: newAr,
         };
       });
@@ -204,7 +204,8 @@ const Totalhcp = () => {
 
       const tableDatas = data.map((ibuitems, index) => ({
         name:
-          ibuitems.ibu +
+        `${ibuitems.ibu=="Critical_care"?"Critical Care":ibuitems.ibu} ` +
+          // ibuitems.ibu +
           " ( " +
           ibuitems.total_readers.reduce((acc, val) => acc + val, 0) +
           ")",

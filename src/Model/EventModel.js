@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { postData } from "../axios/apiHelper";
 import { ENDPOINT } from "../axios/apiConfig";
+import { loader } from "../loader";
+
 
 const EventModel = ({ show, onClose, data ,eventId}) => {
   const [user, setUser] = useState({
@@ -19,7 +21,7 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
   const handleChange = (value, type, e) => {
     if (type == "CHECKBOX") {
       let newAr = [];
-      if (user?.poll_answer_id?.includes(value)) {
+      if (user?.poll_answer_id && user?.poll_answer_id?.includes(value)) {
         newAr = user?.poll_answer_id?.filter((item) => item != value);
       } else {
         newAr = user?.poll_answer_id?.length ? user?.poll_answer_id : [];
@@ -60,6 +62,7 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
         setError({});
       }
 
+       loader("show")
        await postData(ENDPOINT.ADD_EVENT_DATA, {
           speakerName: user?.speakerName,
           eventId:eventId?.id,
@@ -71,12 +74,18 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
 
       const eventQuestion = Cookies.get("eventQuestion");
       if (!eventQuestion?.includes(user?.poll_question_id)) {
-        let newAr = eventQuestion?.length ? eventQuestion : [];
+        let newAr = eventQuestion?.length ? JSON.parse(eventQuestion) : [];
         newAr.push(user?.poll_question_id);
-        Cookies.set("eventQuestion", JSON.stringify(newAr), { expires: 7 });
+        const expirationDate = new Date();
+        expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+        Cookies.set("eventQuestion", JSON.stringify(newAr), { expires:expirationDate });
       }
+      setUser({})
       onClose(false);
+      loader("hide")
+
     } catch (err) {
+      loader("hide")
       console.log("-err", err);
     }
   };

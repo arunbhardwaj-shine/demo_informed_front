@@ -828,7 +828,7 @@
   .tab-content
   .tab-mail-list.data
   h6.tab-content-title {
-  flex: 0 0 130px;
+  flex: 0 0 148px;
 }
 .verify-email-detail-clear button {
   font-size: 12px;
@@ -3095,6 +3095,7 @@ input[type="number"] {
   line-height: 16px;
   color: rgba(0, 74, 137, 0.55);
   padding: 0 14px 12px 0;
+  min-width: 100px;
 }
 .timeline-article-device tr .device-name {
   font-size: 14px;
@@ -3199,6 +3200,10 @@ input[type="number"] {
       flex-wrap: wrap;
       align-items: flex-start;
       margin: 20px 0 0px;
+      h3{
+        flex: 0 0 100%;
+        width: 100%;
+      }
       .media {
         flex: 0 0 48%;
         padding: 15px;
@@ -3207,9 +3212,41 @@ input[type="number"] {
         border-radius: 13px;
         margin: 0 1% 20px;
         display: flex;
-        align-items: flex-start;
+        align-items: center;
+        &.media-red{
+          border: 2px solid #f58289;
+          box-shadow: 0px 1px 6px rgb(245 130 137 / 75%);
+          .content-type{
+            color:#f58289;
+          }
+        }
+        &.media-yellow{
+          border: 2px solid #FFBE2C;
+          box-shadow: 0px 1px 6px rgb(255 190 44 / 75%);
+          .content-type{
+            color:#FFBE2C;
+          }
+        }
+        &.media-green{
+          border: 2px solid #39cabc;
+          box-shadow: 0px 1px 6px rgb(57 202 188 / 75%);
+          .content-type{
+            color:#39cabc;
+          }
+        }
         .media-left {
           margin-right: 20px;
+          width:80px;
+          box-shadow: 0px 0px 6px rgba(0, 102, 190, 0.29);
+          padding: 3px;
+          height: 80px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+          img{
+            max-width: 80px;
+          }
           p {
             margin: 5px 0;
             text-align: center;
@@ -3221,6 +3258,8 @@ input[type="number"] {
         }
         .media-right {
           flex: 1 1;
+          display: flex;
+          justify-content: space-between;
           ul {
             list-style: none;
             padding: 0;
@@ -3253,6 +3292,10 @@ input[type="number"] {
               display: block;
               line-height: 20px;
             }
+          }
+          .content-type{
+            font-size: 20px;
+            font-weight: 500;
           }
         }
       }

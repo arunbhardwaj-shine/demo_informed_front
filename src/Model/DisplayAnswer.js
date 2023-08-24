@@ -19,40 +19,87 @@ function DisplayAnswer({ show, data, onClose }) {
       };
       graphData.push(foundObj);
     });
-
-    const chart = {
+    const chart  = {
       chart: {
-        type: "column",
-      },
-      yAxis: {
-        min: 0,
-        tickInterval: 1,
-      },
-      xAxis: {
-        categories: line_v,
-      },
-      title: {
-        text: "",
-      },
-      plotOptions: {
-        series: {
-          pointWidth: 20,
-        },
-      },
-      column: {
-        colorByPoint: true,
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: 'pie',
+          // width: 400,
+          height:300
+
       },
       exporting: {
-        enabled: false,
+        enabled: false // Disable the export menu
       },
+      title: {
+        text: '' // Set an empty string to hide the title
+      },
+      legend: {
+        labelFormatter:function(){
+          return this.name + ': ' + this.y;
+        }
+      },
+      accessibility: {
+          point: {
+              valueSuffix: '%'
+          }
+      },
+      
+      plotOptions: {
+          pie: {
+              size:"80%",
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                  enabled: false,
+                  format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+              },
+              
+              showInLegend: true,
+          },
+      },
+      series: [{
+          name: 'Brands',
+          colorByPoint: true,
+          data:graphData
+      }]
+      
+   }
 
-      series: [
-        {
-          data: graphData,
-          showInLegend: false,
-        },
-      ],
-    };
+    // const chart = {
+    //   chart: {
+    //     type: "column",
+    //   },
+    //   yAxis: {
+    //     min: 0,
+    //     tickInterval: 1,
+    //   },
+    //   xAxis: {
+    //     categories: line_v,
+    //   },
+    //   title: {
+    //     text: "",
+    //   },
+    //   plotOptions: {
+    //     series: {
+    //       pointWidth: 20,
+    //     },
+    //   },
+    //   column: {
+    //     colorByPoint: true,
+    //   },
+    //   exporting: {
+    //     enabled: false,
+    //   },
+
+    //   series: [
+    //     {
+    //       data: graphData,
+    //       showInLegend: false,
+    //     },
+    //   ],
+    // };
     setUserCount(totalAnswer)
     setHighChartData(chart);
   }, [data]);

@@ -112,4 +112,7 @@ export const ENDPOINT = {
   ADD_EVENT_DATA: "/auth/add-event-data",
   EVENT_SUBMIT: "/auth/event-submit",
   EVENT_CLOSE: "/auth/close-submit",
+  ADD_WEBINAR_QUESTION :"/auth/add-webinar-question"
+
+  
 };

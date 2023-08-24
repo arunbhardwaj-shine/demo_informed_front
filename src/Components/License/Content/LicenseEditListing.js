@@ -131,6 +131,12 @@ const LicenseEditListing = () => {
     applyFilters();
     getLibraryData(page, filterObject, search);
 
+    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ=='){
+      const newObj = {value: "Sunshine USA", label: "Sunshine USA"};
+      const updatedArray = [...types, newObj];
+      setTypes(updatedArray);
+    }
+
     function handleOutsideClick(event) {
       if (
         buttonRef.current &&
@@ -1765,6 +1771,8 @@ const LicenseEditListing = () => {
                                             ? types[1]
                                             : data.linkType == "Sunshine"
                                             ? types[2]
+                                            : data.linkType == "Sunshine USA"
+                                            ? types?.[3]
                                             : "Select"
                                         }
                                         onChange={(event) =>
