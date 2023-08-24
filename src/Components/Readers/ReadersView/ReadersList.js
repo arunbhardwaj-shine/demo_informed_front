@@ -1989,7 +1989,7 @@ const NewReaders = () => {
                                         <h6 className="tab-content-title">
                                           Emails sent
                                           <LinkWithTooltip
-                                            tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                            tooltip="Number of emails sent to this user"
                                             href="#"
                                           >
                                             <img
@@ -2024,7 +2024,7 @@ const NewReaders = () => {
                                         <h6 className="tab-content-title">
                                           Emails opened
                                           <LinkWithTooltip
-                                            tooltip="Number of opening counts for specific article."
+                                            tooltip="Number of emails opened by this user."
                                             href="#"
                                           >
                                             <img
@@ -2063,7 +2063,7 @@ const NewReaders = () => {
                                     <h6 className="tab-content-title">
                                       Content delivered
                                       <LinkWithTooltip
-                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        tooltip="Content in a HCPs Docintel account."
                                         href="#"
                                       >
                                         <img
@@ -2096,7 +2096,7 @@ const NewReaders = () => {
                                     <h6 className="tab-content-title">
                                       Content with RTR
                                       <LinkWithTooltip
-                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                        tooltip="Number of unique content where HCP have read a little or a lot."
                                         href="#"
                                       >
                                         <img
@@ -2195,7 +2195,7 @@ const NewReaders = () => {
                                     <h6 className="tab-content-title">
                                       Content openings
                                       <LinkWithTooltip
-                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        tooltip="Total Number of article opening."
                                         href="#"
                                       >
                                         <img
@@ -2228,6 +2228,17 @@ const NewReaders = () => {
                                     <li className="last-activity">
                                       <h6 className="tab-content-title">
                                         Last content activity
+                                        <LinkWithTooltip
+                                        tooltip="Last activity performed by user."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
                                       </h6>
                                       <div className="data-progress content-opening">
                                         <ProgressBar
