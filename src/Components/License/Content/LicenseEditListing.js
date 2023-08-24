@@ -131,6 +131,12 @@ const LicenseEditListing = () => {
     applyFilters();
     getLibraryData(page, filterObject, search);
 
+    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ=='){
+      const newObj = {value: "Sunshine USA", label: "Sunshine USA"};
+      const updatedArray = [...types, newObj];
+      setTypes(updatedArray);
+    }
+
     function handleOutsideClick(event) {
       if (
         buttonRef.current &&
@@ -1377,7 +1383,7 @@ const LicenseEditListing = () => {
                                     </li>
                                     <li className="d-flex align-center">
                                       <h6 className="tab-content-title">
-                                        Unique Reader (total)
+                                        Unique reader (total)
                                         <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
                                           <img
                                             src={
@@ -1765,6 +1771,8 @@ const LicenseEditListing = () => {
                                             ? types[1]
                                             : data.linkType == "Sunshine"
                                             ? types[2]
+                                            : data.linkType == "Sunshine USA"
+                                            ? types?.[3]
                                             : "Select"
                                         }
                                         onChange={(event) =>

@@ -53,9 +53,7 @@ const AutoEmail = () => {
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
-  const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
-  ]);
+  
   const [getTemplateLanguage, setTemplateLanguage] = useState([
     { value: "0", label: "English" },
     { value: "4", label: "Russian" },
@@ -72,6 +70,13 @@ const AutoEmail = () => {
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
+  ]);
+  const [hpc, setHpc] = useState([
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "" ,
+    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+  
+  },
   ]);
   const [irtCountry, setIRTCountry] = useState([]);
 
@@ -320,6 +325,8 @@ const AutoEmail = () => {
         email: "",
         contact_type: "",
         country: "",
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       },
     ]);
     setActiveManual("active");
@@ -500,11 +507,20 @@ const AutoEmail = () => {
 
   const handleScroll = (ev) => {
     if (ev.target.scrollTop > 20) {
-      document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
+      const mailViewElement = document.querySelector("#mail-view");
+      if (mailViewElement) {
+          mailViewElement.setAttribute("custom-atr", "scroll");
+      }
+      // document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
     } else {
-      document
-        .querySelector("#mail-view")
-        .setAttribute("custom-atr", "non-scroll");
+      // document
+      //   .querySelector("#mail-view")
+      //   .setAttribute("custom-atr", "non-scroll");
+
+        const mailViewElement = document.querySelector("#mail-view");
+        if (mailViewElement) {
+            mailViewElement.setAttribute("custom-atr", "non-scroll");
+        }
     }
   };
 
@@ -818,6 +834,8 @@ const AutoEmail = () => {
           email: "",
           contact_type: "",
           country: "",
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
         },
       ]);
     } else {
@@ -1375,7 +1393,7 @@ const AutoEmail = () => {
                           Email | <span>{data.email}</span>
                         </p>
                         <p className="send-hcp-box-title">
-                          Contact Type | <span>{data.contact_type}</span>
+                          Contact type | <span>{data.contact_type}</span>
                         </p>
                         <div
                           className="add-new-field"
@@ -1395,7 +1413,7 @@ const AutoEmail = () => {
             <div className="selected-hcp-table">
               <div className="table-title">
                 <h4>
-                  Selected Contact <span>| {selectedHcp.length}</span>
+                  Selected contact <span>| {selectedHcp.length}</span>
                 </h4>
               </div>
               <div className="selected-hcp-list">
@@ -1416,7 +1434,7 @@ const AutoEmail = () => {
                               Email | <span>{data.email}</span>
                             </p>
                             <p className="send-hcp-box-title">
-                              Contact Type | <span>{data.contact_type}</span>
+                              Contact type | <span>{data.contact_type}</span>
                             </p>
                             <div className="remove-existing-field">
                               <img
@@ -1485,6 +1503,8 @@ const AutoEmail = () => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
                   },
                 ]);
                 // document.querySelector("#file-4").value = "";
@@ -1510,7 +1530,7 @@ const AutoEmail = () => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1523,7 +1543,7 @@ const AutoEmail = () => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1557,7 +1577,7 @@ const AutoEmail = () => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
+                                      <label for="">IRT mandatory training</label>
 
                                       <Select
                                         options={optIRT}
@@ -1565,14 +1585,14 @@ const AutoEmail = () => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt}
+                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT role</label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
@@ -1630,7 +1650,7 @@ const AutoEmail = () => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label htmlFor="">Contact Type</label>
+                                      <label htmlFor="">Contact type</label>
                                       <DropdownButton
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
@@ -1777,7 +1797,7 @@ const AutoEmail = () => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Number</label>
+                                      <label for="">Site number</label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -1807,7 +1827,7 @@ const AutoEmail = () => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Name</label>
+                                      <label for="">Site name</label>
 
                                       <Select
                                         options={siteNameAll}
@@ -1967,7 +1987,7 @@ const AutoEmail = () => {
                               <table>
                                 <tbody>
                                   <tr>
-                                    <th>Contact Type</th>
+                                    <th>Contact type</th>
                                     <td>{data.contact_type}</td>
                                   </tr>
                                   <tr>
@@ -1995,7 +2015,7 @@ const AutoEmail = () => {
                                     <td>{data.registered}</td>
                                   </tr>
                                   <tr>
-                                    <th>Created By</th>
+                                    <th>Created by</th>
                                     <td>
                                       <span>{data.creator}</span>
                                     </td>

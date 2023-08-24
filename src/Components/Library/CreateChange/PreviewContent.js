@@ -39,6 +39,13 @@ const PreviewContent = () => {
   const [isEdit, setIsEdit] = useState(
     typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
   );
+  const [allowStateVideo, setAllowStateVideo] = useState(
+    typeof state?.allowVideo !== "undefined"
+      ? state?.allowVideo
+        ? true
+        : false
+      : false
+  );
   const [pdfData, setPdfData] = useState([]);
   const [editTitle, setEditTitle] = useState(false);
   const [publishStatus, setPublishStatus] = useState(false);
@@ -72,8 +79,8 @@ const PreviewContent = () => {
   }, []);
 
   const getArticleData = async () => {
-    loader("show");
     try {
+      loader("show");
       if (typeof articleId === "undefined") {
         if (state?.pdfId) {
           setArticleId(state?.pdfId);
@@ -92,16 +99,18 @@ const PreviewContent = () => {
       }
       loader("hide");
 
-      if(res?.data?.data?.file_type != "pdf"){
-          setTimeout(function () {
-            const div_img = document.querySelector(".alice-carousel__wrapper img");
-            if(typeof div_img !== "undefined" || div_img != null){
-              div_img.click();
-            }
-          }, 300);
+      if (res?.data?.data?.file_type != "pdf") {
+        setTimeout(function () {
+          const div_img = document.querySelector(
+            ".alice-carousel__wrapper img"
+          );
+          if (typeof div_img !== "undefined" || div_img != null) {
+            div_img.click();
+          }
+        }, 300);
       }
-
     } catch (err) {
+      console.log("--err", err);
       loader("hide");
     }
   };
@@ -132,9 +141,9 @@ const PreviewContent = () => {
       } else {
         pdfData.title = title;
       }
-      loader("hide");
     } catch (err) {
       console.log(err);
+    } finally {
       loader("hide");
     }
   };
@@ -200,8 +209,9 @@ const PreviewContent = () => {
 
   const uploadPdf = async (e) => {
     e.preventDefault();
-    loader("show");
+
     try {
+      loader("show");
       let formData = new FormData();
       formData.append("pdfId", articleId);
       formData.append("type", pdfData.file_type);
@@ -213,12 +223,7 @@ const PreviewContent = () => {
           setTemplateName(userInputs?.title);
           formData.append("title", userInputs?.title);
         }
-        // if(typeof userInputs?.title == "undefined"){
-        //   formData.append("title", templateName);
-        // }
-        // else{
-        //   formData.append("title", userInputs?.title);
-        // }
+
         formData.append("fileId", pdfFileId);
       }
       const res = await postFormData(ENDPOINT.UPDATE_PDF_FILE, formData, {
@@ -226,7 +231,6 @@ const PreviewContent = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      // getArticleData();
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
         setUserInputs({ ...userInputs, title: "", uploadFile: "" });
       }
@@ -241,14 +245,14 @@ const PreviewContent = () => {
         pdfData.title = res?.data?.data?.title;
         setTemplatePdf(res?.data?.data?.pdf);
       }
-      loader("hide");
     } catch (err) {
+      console.log("--err", err);
+    } finally {
       loader("hide");
     }
     handleClose();
     setUpdateFlag(0);
     setPublishStatus(false);
-    // setNewTemplateClicked(false);
   };
 
   const imageOnError = (event) => {
@@ -277,7 +281,6 @@ const PreviewContent = () => {
       if (pdfData?.file_type && pdfData.file_type == "ebook") {
         let pdfIndex = pdfData.ebookData.findIndex((el) => el.id === pdfFileId);
         pdfData.ebookData[pdfIndex].processed = 1;
-        // pdfData.ebookData[pdfIndex].image = res?.data?.data?.image?.file;
         pdfData.ebookData[pdfIndex].image = res?.data?.data?.image;
 
         let nextItem = pdfData.ebookData[pdfIndex + 1];
@@ -301,10 +304,10 @@ const PreviewContent = () => {
         });
       }
       setApiCallBackFlag(apiCallBackFlag + 1);
-      loader("hide");
     } catch (err) {
-      loader("hide");
       console.log(err);
+    } finally {
+      loader("hide");
     }
   };
 
@@ -316,24 +319,26 @@ const PreviewContent = () => {
             <div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
-                  {
-                    localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="
-                    ?
-                        <Link
-                          className="btn btn-bordered btn btn-primary"
-                          to="/library-create"
-                        >
-                          Back
-                        </Link>
-                    :
+                  {localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    <Link
+                      className="btn btn-bordered btn btn-primary"
+                      to="/library-create"
+                    >
+                      Back
+                    </Link>
+                  ) : (
                     <Link
                       className="btn btn-bordered btn btn-primary"
                       to="/set-popup"
-                      state={{ pdfId: state?.pdfId, isEdit: isEdit }}
+                      state={{
+                        pdfId: state?.pdfId,
+                        isEdit: isEdit,
+                        allowVideo: allowStateVideo,
+                      }}
                     >
                       Back
-                      {
-                        /*
+                      {/*
                         <svg
                         width="14"
                         height="24"
@@ -346,60 +351,65 @@ const PreviewContent = () => {
                         fill="#97B6CF"
                         />
                         </svg>
-                        */
-                      }
+                        */}
                     </Link>
-                  }
-
+                  )}
                 </div>
               </div>
               <div className="col-12 col-md-9">
                 <ul className="tabnav-link">
-                {
-                  isEdit == 1 ?
+                  {isEdit == 1 ? (
                     <>
                       <li className="">
                         <a href="">Edit Your Content</a>
                       </li>
-                      {
-                        localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                      {allowStateVideo ? (
                         <li className="">
-                        <a href="">Edit Consent Option</a>
-                        </li> : null
-                      }
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                      ) : null}
+                      {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <li className="">
+                          <a href="">Edit Consent Option</a>
+                        </li>
+                      ) : null}
                       <li className="active active-main">
                         <a href="">Approve Your Content &amp; Save</a>
                       </li>
                     </>
-                  :
-                  <>
-                    <li className="">
-                      <a href="">Create Your Content</a>
-                    </li>
-                    {
-                      localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ?
+                  ) : (
+                    <>
                       <li className="">
-                      <a href="">Edit Consent Option</a>
-                      </li> : null
-                    }
-                    <li className="active active-main">
-                      <a href="">Preview Your Content &amp; Publish</a>
-                    </li>
-                  </>
-                }
+                        <a href="">Create Your Content</a>
+                      </li>
+                      {allowStateVideo ? (
+                        <li className="">
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                      ) : null}
+                      {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <li className="">
+                          <a href="">Edit Consent Option</a>
+                        </li>
+                      ) : null}
+
+                      <li className="active active-main">
+                        <a href="">Preview Your Content &amp; Publish</a>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
               <div className="col-12 col-md-2">
                 <div className="header-btn">
-                  {
-                    /*<Link
+                  {/*<Link
                       className="btn btn-primary btn-bordered move-draft"
                       to="/library-create"
                     >
                       Cancel
-                    </Link>*/
-                  }
-
+                    </Link>*/}
 
                   <Button
                     onClick={() => {
@@ -411,10 +421,7 @@ const PreviewContent = () => {
                         : "btn btn-primary btn-filled next btn-disabled"
                     }
                   >
-                    {
-                      isEdit == 1 ? "Save" : "Publish"
-                    }
-
+                    {isEdit == 1 ? "Save" : "Publish"}
                   </Button>
                 </div>
               </div>
@@ -564,7 +571,7 @@ const PreviewContent = () => {
                           hidePopup="0"
                           trigger={trigger}
                           updatePublish={updatePublish}
-                          editStatus = {isEdit}
+                          editStatus={isEdit}
                         />
                       ) : (
                         <RenderPdf
@@ -574,7 +581,7 @@ const PreviewContent = () => {
                           hidePopup="0"
                           trigger={trigger}
                           updatePublish={updatePublish}
-                          editStatus = {isEdit}
+                          editStatus={isEdit}
                         />
                       )
                     ) : null}

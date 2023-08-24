@@ -41,11 +41,11 @@ const NewReaders = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const [totalCount, setCount] = useState(0);
-  // const [appliedFilter, setAppliedFilter] = useState({
-  //   status: ["Registered"],
-  //   "contact Type": ["HCP"],
-  // });
-  const [appliedFilter, setAppliedFilter] = useState();
+  const [appliedFilter, setAppliedFilter] = useState({
+    status: ["Registered"],
+    "contact Type": ["HCP"],
+  });
+  // const [appliedFilter, setAppliedFilter] = useState();
   const [filterObject, setFilterObject] = useState({
     status: ["Registered"],
     "contact Type": ["HCP"],
@@ -72,7 +72,10 @@ const NewReaders = () => {
   const [filterdata, setFilterData] = useState({
     // Status: ["Registered", "Unregistered"],
   });
-  const [originalFilterData, setOriginalFilterData] = useState({});
+  const [originalFilterData, setOriginalFilterData] = useState({
+    role: "",
+  });
+  const [apiFilterData, setApiFilterData] = useState({});
 
   const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
@@ -82,7 +85,12 @@ const NewReaders = () => {
     { value: "3", label: "Test User" },
     { value: "4", label: "Competitor" },
   ]);
-  const [irtData, setIrtData] = useState(['All','Blinded site user','Investigator-Blinded','Site unblinded pharmacist']);
+  const [irtData, setIrtData] = useState([
+    "All",
+    "Site User-Blinded",
+    "Investigator-Blinded",
+    "Site unblinded pharmacist",
+  ]);
   const [change, setChanges] = useState(null);
   const userTypeValues = {
     0: "HCP",
@@ -97,15 +105,14 @@ const NewReaders = () => {
   const [changeIRTType, setChangeIRTType] = useState([]);
   const [changeSiteNumberType, setChangeSiteNumberType] = useState([]);
   const [changeSiteNameType, setChangeSiteNameType] = useState([]);
-  const [roleData, setRoleData] = useState(
-    [ "All",
-      "Principal Investigator",
-      "Sub-Investigator",
-      "Study Coordinator",
-      "Study Nurse",
-      'Other',
+  const [roleData, setRoleData] = useState([
+    "All",
+    "Principal Investigator",
+    "Sub-Investigator",
+    "Study Coordinator",
+    "Study Nurse",
+    "Other",
   ]);
-
 
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
@@ -126,14 +133,16 @@ const NewReaders = () => {
   const filterRef = useRef(null);
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [refreshButton, setRefreshButton] = useState(false);
+  const [defaultOwner, setDefaultOwner] = useState("");
+
+  
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-      setAppliedFilter({  });
-      setFilterObject({  });
-      setApifilterObject({ });
-    }
-    else {
+      setAppliedFilter({});
+      setFilterObject({});
+      setApifilterObject({});
+    } else {
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
       setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
       setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
@@ -164,9 +173,23 @@ const NewReaders = () => {
     try {
       loader("show");
       const res = await getData(ENDPOINT.READERSFILTER);
-      setCountry(res?.data?.data?.country);
-      setFilterData(res?.data?.data);
-      setOriginalFilterData(res?.data?.data);
+      setCountry(res?.data?.data?.data?.country);
+      setFilterData(res?.data?.data?.data);
+      setApiFilterData(res?.data?.data?.data);
+
+      if(res?.data?.data?.data["Content Owners"]?.length && res?.data?.data?.defaultOwner){
+       setAppliedFilter({...appliedFilter,["Content Owners"]: [res?.data?.data?.defaultOwner]  });
+       setFilterObject({...filterObject, ["Content Owners"]: [res?.data?.data?.defaultOwner] });
+       setApifilterObject({...apifilterObject, ["Content Owners"]: [res?.data?.data?.defaultOwner]});
+       setDefaultOwner(res?.data?.data?.defaultOwner)
+      }
+
+      
+
+      setOriginalFilterData({
+        ...originalFilterData,
+        role: res?.data?.data?.data?.role,
+      });
     } catch (err) {
       loader("hide");
     }
@@ -194,8 +217,17 @@ const NewReaders = () => {
         page: page,
         limit: limit,
       };
-
-      let payload = { ...data, ...obj };
+      let payload = {};
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        payload = {
+          ...data,
+          ...obj,
+          status: ["Registered"],
+          "contact Type": ["HCP"],
+        };
+      } else {
+        payload = { ...data, ...obj };
+      }
 
       const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       if (spcFlag == 0) {
@@ -244,7 +276,7 @@ const NewReaders = () => {
       // }
 
       if (
-        res?.data?.data?.total > total_results &&
+        parseInt(res?.data?.data?.total) > total_results &&
         res?.data?.data?.result?.length != 0
       ) {
         setIsLoaded(true);
@@ -274,7 +306,7 @@ const NewReaders = () => {
         userType: 5,
         search: search,
         type: "",
-        page: page,
+        page: 1,
       };
 
       let payload = { ...data, ...filterObject };
@@ -327,21 +359,37 @@ const NewReaders = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-     
-      if(key=="IRT mandatory training"){
-        if(newObj["role"]){
-          delete newObj["role"]
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (key == "IRT mandatory training") {
+        if (newObj["role"]) {
+          delete newObj["role"];
         }
 
-        if(item == "Yes"){
+        if (item == "Yes") {
           setFilterData({ ...filterdata, role: irtData });
-        }else {
+        } else {
           setFilterData({ ...filterdata, role: roleData });
-          
         }
       }
     }
+
+
+    if(key =="Content Owners"){
+      if(item == "IBU Owner" ){
+        let newData = [];
+
+        delete apifilterObject?.["Business Unit"];
+        delete newObj?.["Business Unit"];
+
+        setFilterData({
+          ...filterdata,
+          "Business Unit": newData,
+        });
+      }else{
+        setFilterData(apiFilterData);
+      }
+    }
+    
 
     if (key == "status") {
       let newData = [];
@@ -351,7 +399,10 @@ const NewReaders = () => {
         delete apifilterObject?.["RTR?"];
         delete apifilterObject?.["Registered For Webinar"];
         delete apifilterObject?.["Registered For Title"];
+        delete apifilterObject?.["Business Unit"];
+        delete apifilterObject?.["Content Owners"];
         delete apifilterObject?.topic;
+
 
         delete filterObject.tags;
         delete filterObject?.["RTR?"];
@@ -361,6 +412,10 @@ const NewReaders = () => {
 
         delete newObj.tags;
         delete newObj?.["RTR?"];
+        delete newObj?.["Content Owners"];
+
+        delete newObj?.["Business Unit"];
+
         delete newObj?.["Registered For Webinar"];
         delete newObj?.["Registered For Title"];
         delete newObj?.topic;
@@ -369,12 +424,14 @@ const NewReaders = () => {
           ...filterdata,
           tags: newData,
           "RTR?": newData,
+          "Content Owners":newData,
           "Registered For Webinar": newData,
+          "Business Unit":newData,
           "Registered For Title": newData,
           topic: newData,
         });
       } else {
-        setFilterData(originalFilterData);
+        setFilterData(apiFilterData);
       }
     }
 
@@ -922,7 +979,7 @@ const NewReaders = () => {
 
       if (Object.keys(body)?.length !== 0) {
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
-        console.log("user Type--->", userTypeValues?.[type]);
+
         const libDataIndex = readerDataList.findIndex(
           (el) => el?.id === reader_id
         );
@@ -977,24 +1034,20 @@ const NewReaders = () => {
       checkbox.checked = false;
     });
     obj = {};
+    setAppliedFilter({});
 
     if (filterApplyflag > 0) {
-      // setApifilterObject({});
-      let obj = {
-        // status: ["Registered"],
-        // "contact Type": ["HCP"],
-      };
-
+      let obj = {};
       setFilterApplyflag(0);
-      setAppliedFilter(obj);
       setApifilterObject(obj);
       setFilterObject(obj);
       setReaderDataList([]);
-
       getReaderListData(page, obj, search);
       setSearch("");
     }
-
+    if (originalFilterData?.role?.length) {
+      setFilterData({ ...filterdata, role: originalFilterData.role });
+    }
     setShowFilter(false);
   };
 
@@ -1176,18 +1229,25 @@ const NewReaders = () => {
                     </h4>
                   )}
 
-                  {(Object.keys(filterObject)?.length == 2 &&
-                    filterObject["status"] == "Registered" &&
-                    filterObject["contact Type"] == "HCP") ||
-                  (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                    ? Object.keys(filterObject)?.length == 1 &&
-                      filterObject["status"] == "Registered"
+                  
+                  {((Object.keys(filterObject)?.length == 2 &&
+                    filterObject?.["status"] == "Registered" &&
+                    filterObject?.["contact Type"] == "HCP") || (Object.keys(filterObject)?.length == 3 &&
+                    filterObject?.["status"]?.includes("Registered") &&
+                    filterObject?.["contact Type"]?.includes("HCP")  && filterObject?.["Content Owners"]?.includes(defaultOwner)) ||
+                  (localStorage.getItem("user_id") ==
+                    "56Ek4feL/1A8mZgIKQWEqg==" &&
+                  Object.keys(filterObject)?.length <= 0)
+                    ? true
                     : false) ? (
                     <div className="refresh-button">
                       <button
                         className={refreshFlag ? "refresh-rotate" : "refresh"}
                         onClick={() => {
-                          Refresh(filterObject);
+                          Refresh({
+                            status: "Registered",
+                            "contact Type": "HCP",
+                          });
                         }}
                       >
                         <svg
@@ -1239,12 +1299,12 @@ const NewReaders = () => {
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 
-                          2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 
-                          12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 
-                          16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 
-                          14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 
-                          1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 
+                            d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665
+                          2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328
+                          12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625
+                          16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045
+                          14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597
+                          1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057
                           11.3333 6.33328 11.3333Z"
                             fill="#97B6CF"
                           />
@@ -1353,7 +1413,8 @@ const NewReaders = () => {
                                                           key == "userAction" ||
                                                           key == "Blinded" ||
                                                           key == "IRT" ||
-                                                          key == "IRT mandatory training" ||
+                                                          key ==
+                                                            "IRT mandatory training" ||
                                                           key == "region" ||
                                                           key == "RTR?" ||
                                                           key ==
@@ -1754,7 +1815,13 @@ const NewReaders = () => {
                                     <>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Role
+                                          IRT mandatory training
+                                        </h6>
+                                        <h6>{data?.irt ? data?.irt : "N/A"}</h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          IRT role
                                         </h6>
                                         <h6>
                                           {data?.role
@@ -1765,33 +1832,38 @@ const NewReaders = () => {
                                         </h6>
                                       </li>
 
+                                      {/*<li>
+                                          <h6 className="tab-content-title">
+                                            Blind Type
+                                          </h6>
+                                          <h6>
+                                            {data?.binded == "Yes"
+                                              ? "Blinded"
+                                              : data?.binded == "No"
+                                              ? "Unblinded"
+                                              : data?.binded
+                                              ? data?.binded
+                                                  ?.charAt(0)
+                                                  ?.toUpperCase() +
+                                                data?.binded?.slice(1)
+                                              : "N/A"}
+                                          </h6>
+                                        </li>*/}
+
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Blinded
+                                          Site number
                                         </h6>
                                         <h6>
-                                          {data?.binded ? data?.binded : "N/A"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          IRT
-                                        </h6>
-                                        <h6>{data?.irt ? data?.irt : "N/A"}</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Site Number
-                                        </h6>
-                                        <h6>
-                                          {data?.siteNumber
+                                          {data?.siteNumber &&
+                                          data?.siteNumber != 0
                                             ? data?.siteNumber
                                             : "N/A"}
                                         </h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Site Name
+                                          Site name
                                         </h6>
                                         <h6>
                                           {data?.siteName
@@ -1833,7 +1905,7 @@ const NewReaders = () => {
                                       ) : (
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Last Email
+                                            Last email
                                           </h6>
                                           <h6>
                                             {data?.last_email
@@ -1917,7 +1989,7 @@ const NewReaders = () => {
                                         <h6 className="tab-content-title">
                                           Emails sent
                                           <LinkWithTooltip
-                                            tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                            tooltip="Number of emails sent to this user"
                                             href="#"
                                           >
                                             <img
@@ -1952,7 +2024,7 @@ const NewReaders = () => {
                                         <h6 className="tab-content-title">
                                           Emails opened
                                           <LinkWithTooltip
-                                            tooltip="Number of opening counts for specific article."
+                                            tooltip="Number of emails opened by this user."
                                             href="#"
                                           >
                                             <img
@@ -1991,7 +2063,7 @@ const NewReaders = () => {
                                     <h6 className="tab-content-title">
                                       Content delivered
                                       <LinkWithTooltip
-                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        tooltip="Content in a HCPs Docintel account."
                                         href="#"
                                       >
                                         <img
@@ -2024,7 +2096,7 @@ const NewReaders = () => {
                                     <h6 className="tab-content-title">
                                       Content with RTR
                                       <LinkWithTooltip
-                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                        tooltip="Number of unique content where HCP have read a little or a lot."
                                         href="#"
                                       >
                                         <img
@@ -2055,9 +2127,9 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      QR openings
+                                     QR openings/Article
                                       <LinkWithTooltip
-                                        tooltip="Number of opening counts for specific article."
+                                        tooltip="Number of opening from Qr code counts for specific article."
                                         href="#"
                                       >
                                         <img
@@ -2088,9 +2160,9 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      GO openings
+                                     GO openings/Article
                                       <LinkWithTooltip
-                                        tooltip="Number of HCPs who have register for or activated the content."
+                                       tooltip="Number of opening from inforMedGO counts for specific article."
                                         href="#"
                                       >
                                         <img
@@ -2123,7 +2195,7 @@ const NewReaders = () => {
                                     <h6 className="tab-content-title">
                                       Content openings
                                       <LinkWithTooltip
-                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        tooltip="Total Number of article opening."
                                         href="#"
                                       >
                                         <img
@@ -2155,7 +2227,18 @@ const NewReaders = () => {
                                   {!data?.ipFlag ? (
                                     <li className="last-activity">
                                       <h6 className="tab-content-title">
-                                        Last Activity
+                                        Last content activity
+                                        <LinkWithTooltip
+                                        tooltip="Last activity performed by user."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
                                       </h6>
                                       <div className="data-progress content-opening">
                                         <ProgressBar
@@ -2239,7 +2322,8 @@ const NewReaders = () => {
                                               />
                                             </div>
                                           </div>
-                                        </li>*/}
+                                        </li>
+
                                         <li>
                                           <h6 className="tab-content-title">
                                             Blinded
@@ -2279,10 +2363,10 @@ const NewReaders = () => {
                                               />
                                             </div>
                                           </div>
-                                        </li>
+                                        </li>*/}
                                         <li>
                                           <h6 className="tab-content-title">
-                                            IRT
+                                            IRT mandatory training
                                           </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
@@ -2323,7 +2407,7 @@ const NewReaders = () => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Role
+                                            IRT role
                                           </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
@@ -2441,7 +2525,7 @@ const NewReaders = () => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Site Number
+                                            Site number
                                           </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
@@ -2489,7 +2573,7 @@ const NewReaders = () => {
                                         </li>
                                         <li>
                                           <h6 className="tab-content-title">
-                                            Site Name
+                                            Site name
                                           </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
@@ -2569,8 +2653,16 @@ const NewReaders = () => {
                                             <div className="select">
                                               <Select
                                                 options={countryAll}
+                                                
                                                 defaultValue={
                                                   countryAll[
+                                                    data?.country == "B&H"?(
+                                                      countryAll.findIndex(
+                                                        (el) =>
+                                                          el.value ==
+                                                           "Bosnia and Herzegovina"
+                                                      )
+                                                    ):
                                                     countryAll.findIndex(
                                                       (el) =>
                                                         el.value ==

@@ -63,8 +63,8 @@ const SelectSmartListUsers = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      optIrt: "",
-      role: "",
+      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
     },
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -525,8 +525,8 @@ const SelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        role: "",
-        optIrt: "",
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       },
     ]);
     setActiveManual("active");
@@ -593,8 +593,8 @@ const SelectSmartListUsers = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          optIrt: "",
-          role: "",
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+         optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
         },
       ]);
     } else {
@@ -1127,21 +1127,27 @@ const SelectSmartListUsers = (props) => {
                         <th scope="col">Email</th>
                         <th scope="col">Bounced</th>
                         <th scope="col">Country</th>
-                        <th scope="col">Business Unit</th>
+
                         {localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <th scope="col">Role</th>
+                          <>
+                          <th scope="col">IRT mandatory training</th>
+                          <th scope="col">IRT role</th>
+                          </>
                         ) : (
-                          <th scope="col">Contact Type</th>
+                          <>
+                          <th scope="col">Business unit</th>
+                          <th scope="col">Contact type</th>
+                          </>
                         )}
 
                         {showLessInfo == false ? (
                           <>
                             <th scope="col">Consent</th>
-                            <th scope="col">Email Received</th>
+                            <th scope="col">Email received</th>
                             <th scope="col">Openings</th>
                             <th scope="col">Registrations</th>
-                            <th scope="col">Last Email</th>
+                            <th scope="col">Last email</th>
                           </>
                         ) : null}
                       </tr>
@@ -1163,7 +1169,17 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 <span>{rr.country ? rr.country : "N/A"}</span>
                               </td>
-                              <td>{rr?.ibu ? rr?.ibu : "N/A"}</td>
+                              <td>
+                                {/*rr?.ibu ? rr?.ibu : "N/A"*/}
+                                {localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? rr?.irt
+                                      ? "Yes"
+                                      : "No"
+                                    :rr.ibu
+                                    ? rr.ibu
+                                    : "N/A"}
+                              </td>
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <td>
@@ -1318,7 +1334,17 @@ const SelectSmartListUsers = (props) => {
                                   <span>{readers.country}</span>
                                 )}
                               </td>
-                              <td>{readers.ibu ? readers.ibu : "N/A"}</td>
+                              <td>
+                                {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                {localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? readers?.irt
+                                      ? "Yes"
+                                      : "No"
+                                    :readers.ibu
+                                    ? readers.ibu
+                                    : "N/A"}
+                              </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1452,7 +1478,17 @@ const SelectSmartListUsers = (props) => {
                                   </span>
                                 )}
                               </td>
-                              <td>{readers.ibu ? readers.ibu : "N/A"}</td>
+                              <td>
+                                {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                {localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? readers?.irt
+                                      ? "Yes"
+                                      : "No"
+                                    :readers.ibu
+                                    ? readers.ibu
+                                    : "N/A"}
+                              </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1567,8 +1603,8 @@ const SelectSmartListUsers = (props) => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
-                    optIrt: "",
-                    role: "",
+                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
                   },
                 ]);
                 setActiveManual("active");
@@ -1593,7 +1629,7 @@ const SelectSmartListUsers = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1606,7 +1642,7 @@ const SelectSmartListUsers = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1643,6 +1679,7 @@ const SelectSmartListUsers = (props) => {
                                   ) : null}
                                 </div>
                               </div>
+                              {console.log("--tetetet",val)}
 
                               {localStorage.getItem("user_id") ===
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1650,22 +1687,21 @@ const SelectSmartListUsers = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
-
+                                      <label for="">IRT mandatory training</label>
                                       <Select
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt}
+                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT role</label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
@@ -1723,7 +1759,7 @@ const SelectSmartListUsers = (props) => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label htmlFor="">Contact Type</label>
+                                      <label htmlFor="">Contact type</label>
                                       <DropdownButton
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
@@ -1863,7 +1899,7 @@ const SelectSmartListUsers = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Number</label>
+                                      <label for="">Site number</label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -1884,7 +1920,7 @@ const SelectSmartListUsers = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Name</label>
+                                      <label for="">Site name</label>
 
                                       <Select
                                         options={siteNameAll}

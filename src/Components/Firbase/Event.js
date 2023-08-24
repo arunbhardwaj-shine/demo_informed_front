@@ -9,24 +9,37 @@ import DisplayAnswer from "../../Model/DisplayAnswer";
 import "./custom.css"
 import { loader } from "../../loader";
 import "./style.css"
+import { v4 as uuid } from 'uuid';
+
+
+import axios from "axios"
 import {db} from "../../config/firebaseConfig"
 const Event = () =>{
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);   
+    const [eventId,setEvent] = useState({
+        id:0,
+        companyId:0
+    })
+    const [error,setError] = useState({})
+
     
-    const [eventId,setEvent] = useState(0)
-    const q = query(collection(db, "chat"), where("triggered", '!=', 0),where("event_id","==",eventId));
+    const q = query(collection(db, "chat"), where("triggered", '!=', 0),where("event_id","==",eventId?.id));
     const [data,setData] = useState(0)
+    const [user,setUser] = useState({})
+    const [value,setValue] = useState({})
+
     const [show,setShow] = useState(false)
     const [apiData,setApiData] = useState([])
     const [answerPop,setAnswerPopup] = useState(false)
+
     useEffect(()=>{
         EventDataFun()
     },[])
     const EventDataFun = async() =>{
         try{
             loader("show")
-           const result = await postData(ENDPOINT.EVENT_ID,{
+            const result = await postData(ENDPOINT.EVENT_ID,{
                  eventCode :queryParams.get("evnt")
             })
             setEvent(result.data.data)
@@ -36,8 +49,47 @@ const Event = () =>{
             console.log("-err",err)
         }
     }
+
+    const handleChange = (e)=>{
+        setUser({...user,[e.target.name]:e.target.value})
+    }
+    const handleSubmit = async(e) =>{
+        try{
+            e.preventDefault();
+            if(!user.question){
+              setError({"question": "Please enter your question"})
+              return
+            }else{
+                setError({})  
+            }
+            loader("show")
+            let events =  Cookies.get('events');
+
+            let body = {
+                "company_id" : eventId?.companyId,
+                "event_id"   : eventId?.id,
+                "user_id"    :  events,
+                "question"   : user?.question,
+                "portal"     : "web",
+                "name": user?.name
+             };
+             await postData(ENDPOINT.ADD_WEBINAR_QUESTION,body)
+              if(data){
+                setData(0)
+              }
+              if(show){
+                  setShow(false)
+               }
+               if(Object.keys(value)?.length){
+                  setValue({})
+               }
+             loader("hide")
+        }catch(err){
+            loader("hide")
+            console.log("-err",err)
+        }
+    }
   
-    const [value,setValue] = useState({})
        onSnapshot(q, (querySnapshot) => {
          let newData ={}
         querySnapshot.forEach((doc) => {
@@ -45,19 +97,40 @@ const Event = () =>{
                 newData = doc.data()
             }
         });
-        
-
       if(Object.keys(newData)?.length){
 
         /* Check already submit question  */
         const eventQuestion = Cookies.get('eventQuestion');
         if(eventQuestion?.includes(newData?.question_id) && newData?.triggered == 1){
+            if(data){
+                setData(0)
+            }
+            if(show){
+                  setShow(false)
+             }
+             if(answerPop){
+                setAnswerPopup(false)
+             }
+         
+             if(Object.keys(value)?.length){
+                  setValue({})
+            }
             return 
         }else if(!eventQuestion?.includes(newData?.question_id) && newData?.triggered == 2){
+            if(data){
+              setData(0)
+            }
+            if(show){
+                setShow(false)
+             }
+             if(answerPop){
+                setAnswerPopup(false)
+             }
+             if(Object.keys(value)?.length){
+                setValue({})
+             }
             return 
         }
-
-        ////////
 
         if(newData?.triggered == 1 ){
             if(Object.keys(value)?.length){
@@ -105,7 +178,7 @@ const Event = () =>{
     const handleEvent = async() =>{
         try{
             if(data == 1){
-                if(Object.keys(value)?.length){
+                  if(Object.keys(value)?.length){
                     const result = await postData(ENDPOINT.WEBINAR_QUESTION,{
                           eventId:value?.event_id,
                           companyId:value?.question_id
@@ -113,6 +186,7 @@ const Event = () =>{
                       setApiData(result?.data?.data)
                       setShow(true)
                       setAnswerPopup(false)
+                      setData(0)
       
                   }
             }else if(data == 2){
@@ -123,6 +197,7 @@ const Event = () =>{
                       setApiData(result?.data?.data)
                       setAnswerPopup(true)
                       setShow(false)
+                      setData(0)
             }
            
        
@@ -131,19 +206,27 @@ const Event = () =>{
         }
     }
     useEffect(()=>{
+
     let events =  Cookies.get('events');
         if(!events){
-            const random = Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
-            const timestamp = new Date().getTime();
+            const unique_id = uuid();
             const expirationDate = new Date();
             expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-            Cookies.set('events', `${timestamp}${random}`, { expires: expirationDate  });
+            Cookies.set('events', `${unique_id}`, { expires: expirationDate  });
         }
-      handleEvent()
+        if(data){
+            handleEvent()
+        }
+   
     },[data])
 
     return (
         <>
+        <div className="loader" id="custom_loader">
+                <div className="loader_show">
+                <span className="loader-view"> </span>
+                </div>
+       </div>
  <meta name="viewport" content="width=device-width, initial-scale=1" />
  <div className="octa_events">
       <div class="container">
@@ -165,23 +248,26 @@ const Event = () =>{
             </div>
 
         </div>
-        <form >
+        <form onSubmit={handleSubmit} >
             <input type="hidden" class="form-control" id="guest_id" name="guest_id" value="lji3sjpsdc21tux2st" />
                                     
             <div class="row">
                 <div class="col-md-12">
                     <label for="fname" class="form-label">Nombre <i><small>(Opcional)</small></i></label>
-                    <input type="text" id="name" class="form-control" placeholder='Escriba su nombre' name="name" />
-                    <input type="hidden" class="form-control" value = "387" name="eventId" />
-                    <input type="hidden" class="form-control" value = "2147494217" name="companyId" />
+                    <input type="text" id="name" onChange={handleChange} class="form-control" placeholder='Escriba su nombre' name="name" />
+                    {/* <input type="hidden" class="form-control" value = "387" name="eventId" />
+                    <input type="hidden" class="form-control" value = "2147494217" name="companyId" /> */}
                     <input type="hidden" class="form-control" value = "Pregunta enviada con éxito" name="succ_message" />
                     <input type="hidden" class="form-control" value = "Por favor ingrese el mensaje" name="err_message" />
                     <input type="hidden" class="form-control" value = "index.php?evnt=octa-academy-2023" name="page" />
                 </div>
                      <div class="col-md-12">
                     <label for="question" class="form-label">Tu pregunta<sup>*</sup></label>
-                    <textarea name="question" id="question" class="form-control" placeholder="Escriba su pregunta"  cols="40" rows="4"></textarea>
+                     <textarea name="question" id="question" onChange={handleChange} class="form-control" placeholder="Escriba su pregunta"  cols="40" rows="4"></textarea>
+                     {error?.question?<span className="event-validation">{error?.question}</span>:""}
+
                       </div>
+
                 <div class="col-md-12">
                     <input type="submit" class="btn btn-success" value="ENVIAR" />
                 </div>
@@ -236,6 +322,7 @@ const Event = () =>{
  show={show}
  onClose={setShow}
  data={apiData}
+ eventId={eventId}
 />
 
 <DisplayAnswer

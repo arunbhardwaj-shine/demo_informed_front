@@ -47,9 +47,9 @@ const EditLibrary = () => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [hcpIrtClickedFirst, setHcpIrtClickedFirst] = useState([]);
   const [mandatoryRole, setMandatoryRole] = useState([
+    "Site User-Blinded",
     "Investigator-Blinded",
     "Site unblinded pharmacist",
-    "Blinded site user",
   ]);
   const [updateflag, setupdateFlag] = useState(0);
   const [userInputs, setCreateLibraryInputs] = useState({
@@ -167,8 +167,8 @@ const EditLibrary = () => {
   }
 
   const initalFun = async () => {
-    loader("show");
     try {
+      loader("show");
       const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
         user_id: id,
       });
@@ -232,19 +232,19 @@ const EditLibrary = () => {
         product: hadData?.data?.data?.product,
         reseller: hadData?.data?.data?.reseller,
       });
-
-      loader("hide");
     } catch (err) {
-      // console.log(err);
+      console.log(err);
+    } finally {
       loader("hide");
     }
   };
   const libraryDetail = async () => {
-    loader("show");
     try {
+      loader("show");
       const hadData = await getData(
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
+
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
       if (
         hadData?.data?.data?.pdfData?.tags?.length &&
@@ -276,11 +276,10 @@ const EditLibrary = () => {
         setChapter(hadData?.data?.data?.ebookData);
       }
       setShowFlag(true);
-
-      loader("hide");
     } catch (err) {
-      loader("hide");
       console.log("-err", err);
+    } finally {
+      loader("hide");
     }
   };
   useEffect(() => {
@@ -317,7 +316,6 @@ const EditLibrary = () => {
       } else {
         const newArray = [dd];
         setHcpIrtClickedFirst(newArray);
-        // setHcpIrtClickedFirst((oldArray) => [...oldArray, dd]);
       }
     } else {
       toast.error("Role already Selected.");
@@ -394,7 +392,7 @@ const EditLibrary = () => {
         setTagsCounter(tagsCounter + 1);
       } catch (err) {
         loader("hide");
-        // console.log(err);
+        console.log(err);
       }
     }
   };
@@ -430,6 +428,7 @@ const EditLibrary = () => {
             ? e?.target?.files
             : e
           : e?.target?.value,
+        allow_video: 0,
       });
     } else {
       setCreateLibraryInputs({
@@ -585,7 +584,13 @@ const EditLibrary = () => {
         formData.append("allowLibrary", userInputs?.allowLibrary);
         formData.append("allowRequest", JSON.stringify(userInputs?.chat_box));
         formData.append("draft", JSON.stringify(userInputs?.draft));
-        formData.append("allowVideo", JSON.stringify(userInputs?.allow_video));
+
+        if (userInputs?.docintelFormat == "video") {
+          formData.append("allowVideo", 0);
+        } else {
+          formData.append("allowVideo", JSON.stringify(userInputs?.allowVideo));
+        }
+
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append(
@@ -599,21 +604,63 @@ const EditLibrary = () => {
         });
         loader("hide");
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-          navigate("/preview-content", {
-            state: { pdfId: state?.pdfid, isEdit: 1 },
-          });
+          if (
+            userInputs?.docintelFormat == "video" ||
+            userInputs?.docintelFormat == "Video"
+          ) {
+            navigate("/content-detail", {
+              state: { pdfId: state?.pdfid },
+            });
+          } else {
+            navigate("/preview-content", {
+              state: { pdfId: state?.pdfid, isEdit: 1 },
+            });
+          }
         } else {
-          navigate("/set-popup", {
-            state: {
-              pdfId: state?.pdfid,
-              fileType: userInputs?.docintelFormat,
-              isEdit: 1,
-            },
-          });
+          if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
+            if (
+              userInputs?.docintelFormat == "video" ||
+              userInputs?.docintelFormat == "Video"
+            ) {
+              navigate("/set-popup", {
+                state: {
+                  pdfId: state?.pdfid,
+                  fileType: userInputs?.docintelFormat,
+                  isEdit: 1,
+                },
+              });
+            } else {
+              if (userInputs?.allow_video) {
+                navigate("/library-add-link", {
+                  state: {
+                    pdfId: state?.pdfid,
+                    isEdit: 1,
+                    allowVideo: userInputs?.allow_video ? true : false,
+                  },
+                });
+              } else {
+                navigate("/set-popup", {
+                  state: {
+                    pdfId: state?.pdfid,
+                    fileType: userInputs?.docintelFormat,
+                    isEdit: 1,
+                  },
+                });
+              }
+            }
+          } else {
+            navigate("/set-popup", {
+              state: {
+                pdfId: state?.pdfid,
+                fileType: userInputs?.docintelFormat,
+                isEdit: 1,
+              },
+            });
+          }
         }
       } catch (err) {
         loader("hide");
-        // console.log(err);
+        console.log(err);
       }
     }
   };
@@ -645,19 +692,17 @@ const EditLibrary = () => {
 
   const deleteRecord = async (i, id) => {
     if (id) {
-      loader("show");
       try {
+        loader("show");
         await deleteFormData(`${ENDPOINT.DELETE_PDF_FILE}/${id}`);
-        loader("hide");
       } catch (err) {
-        // console.log(err);
+        console.log(err);
+      } finally {
         loader("hide");
       }
     }
     const list = chapter;
-
     list.splice(i, 1);
-
     setChapter(list);
     setCounterFlag(counterFlag + 1);
   };
@@ -670,7 +715,6 @@ const EditLibrary = () => {
   };
 
   const removeTagFinal = (index, status = "") => {
-    // console.log("RemoveFinal Tags",status);
     if (status == "") {
       const tags = finalTags;
       tags.splice(index, 1);
@@ -688,7 +732,6 @@ const EditLibrary = () => {
 
   const saveButtonClicked = async () => {
     loader("show");
-    // console.log("PHuncha");
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
       if (typeof tagClickedFirst != "undefined" && tagClickedFirst.length > 0) {
         let prev_tags = finalTags;
@@ -812,8 +855,8 @@ const EditLibrary = () => {
                   isClearable
                 />
               </div>
-              {
-                localStorage.getItem('user_id') == "rOhdD02MgXkownQqcreqAw==" &&
+              {localStorage.getItem("user_id") ==
+                "rOhdD02MgXkownQqcreqAw==" && (
                 <div className="form-group">
                   <label htmlFor="">Sales</label>
                   <Select
@@ -833,8 +876,7 @@ const EditLibrary = () => {
                     isClearable
                   />
                 </div>
-              }
-
+              )}
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
               <div className="form-group justify-content-end">
@@ -850,7 +892,6 @@ const EditLibrary = () => {
                               value=""
                               id="flexCheckDefault"
                               type="checkbox"
-                              // userInputs
                               defaultChecked={reseller.includes(item?.id)}
                               onClick={(e) => handleReseller(e, item)}
                             />
@@ -1331,6 +1372,11 @@ const EditLibrary = () => {
                       <li className="active active-main">
                         <a href="">Edit Your Content</a>
                       </li>
+                      {userInputs?.allow_video ? (
+                        <li className="">
+                          <a href="">[Embedding Video]</a>
+                        </li>
+                      ) : null}
                       {localStorage.getItem("user_id") !=
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <li className="">
@@ -1712,18 +1758,24 @@ const EditLibrary = () => {
                       {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">
-                          <label htmlFor="setasdraft1">{
-                            localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg=="?"IRT mandatory training":"Mandatory"                           
-                    }</label>
+                          <label htmlFor="setasdraft1">
+                            {localStorage.getItem("user_id") ==
+                            "56Ek4feL/1A8mZgIKQWEqg=="
+                              ? "IRT mandatory training"
+                              : "Mandatory"}
+                          </label>
                           <fieldset id="group2">
                             <div className="switch">
                               <label className="switch-light">
                                 <input
                                   type="checkbox"
                                   name="group2"
-                                  placeholder={ localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="?"Select IRT mandatory training":"Select IRT"}
+                                  placeholder={
+                                    localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? "Select IRT mandatory training"
+                                      : "Select IRT"
+                                  }
                                   id="setasdraft1"
                                   defaultChecked={
                                     userInputs?.reader_mandatory ? true : false
@@ -1825,7 +1877,7 @@ const EditLibrary = () => {
                       userInputs?.reader_mandatory == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">
-                          <label htmlFor="">IRT Role</label>
+                          <label htmlFor="">IRT role</label>
                           <div className="input-group w-100">
                             <div className="tags_added">
                               <div className="select-tags">
@@ -1918,8 +1970,9 @@ const EditLibrary = () => {
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
                               <label htmlFor="file-6">
-                                <span>Choose Your File</span>
+                                <span>Change Your File</span>
                               </label>
+
                               {userInputs?.uploadFile?.[0]?.name ? (
                                 <p className="uploaded-file">
                                   {userInputs?.uploadFile?.[0].name}
@@ -1944,12 +1997,16 @@ const EditLibrary = () => {
                                 type="file"
                                 name="file-6[]"
                                 id="file-6"
-                                className="inputfile inputfile-6"
+                                className={
+                                  error?.uploadFile
+                                    ? "inputfile inputfile-6 error"
+                                    : "inputfile inputfile-6"
+                                }
                                 accept="video/mp4"
                                 onChange={(e) => handleChange(e, "uploadFile")}
                               />
                               <label htmlFor="file-6">
-                                <span>Choose Your File</span>
+                                <span>Change Your File</span>
                               </label>
                               {userInputs?.uploadFile?.[0]?.name ? (
                                 <p className="uploaded-file">
@@ -1967,6 +2024,7 @@ const EditLibrary = () => {
                           ) : null}
                         </div>
                       ) : // ePrint == "eBook" ? (
+
                       userInputs.docintelFormat == "ebook" ? (
                         chapter.map((val, i) => {
                           return (
@@ -1978,8 +2036,9 @@ const EditLibrary = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg=="
                                       ? "Chapter "
                                       : "File "}{" "}
-                                    {i + 1} title
+                                    {i + 1} title<span>*</span>
                                   </label>
+
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2273,6 +2332,58 @@ const EditLibrary = () => {
                           ></textarea>
                         </div>
                       </Col>
+                    ) : null}
+
+                    {(ebookFile?.length &&
+                      userInputs.docintelFormat?.includes("ebook")) ||
+                    (["ebook", "pdf", "pdfSpc"].includes(
+                      userInputs.docintelFormat
+                    ) &&
+                      localStorage.getItem("user_id") ==
+                        "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
+                      <>
+                        <div className="form-group">
+                          <label htmlFor="">Include video</label>
+                          <div className="switch">
+                            <label className="switch-light">
+                              <input
+                                type="checkbox"
+                                defaultChecked={
+                                  userInputs?.allowVideo ? true : false
+                                }
+                                checked={userInputs?.allow_video ? true : false}
+                                onChange={(e) => {
+                                  handleChange(
+                                    e.target?.checked,
+                                    "allow_video"
+                                  );
+                                }}
+                              />
+                              <span>
+                                <span
+                                  className={`switch-btn ${
+                                    userInputs?.allow_video == 0
+                                      ? " Active"
+                                      : ""
+                                  }`}
+                                >
+                                  No
+                                </span>
+                                <span
+                                  className={`switch-btn ${
+                                    userInputs?.allow_video == 1
+                                      ? " Active"
+                                      : ""
+                                  }`}
+                                >
+                                  Yes
+                                </span>
+                              </span>
+                              <a className="btn"></a>
+                            </label>
+                          </div>
+                        </div>
+                      </>
                     ) : null}
                   </Row>
                 </div>

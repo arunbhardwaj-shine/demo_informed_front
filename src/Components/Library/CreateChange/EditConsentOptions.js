@@ -58,7 +58,7 @@ const EditConsentOptions = (props) => {
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateSaving, setTemplateSaving] = useState("");
-  
+
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
   const [getConsentType, setConsentType] = useState([
     { value: "Online", label: "Online" },
@@ -88,7 +88,7 @@ const EditConsentOptions = (props) => {
   const [countryOption, setCountryOption] = useState(0);
   const [ibuOption, setIbuOption] = useState("");
   const [validator] = React.useState(new SimpleReactValidator());
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [message, setMessage] = useState("");
@@ -178,9 +178,6 @@ const EditConsentOptions = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           setCountryall(res.data.response.data.country);
-          //console.log(res.data.response.data.country);
-          // console.log(countryall);
-          // setCounter(counter + 1);
         })
         .catch((err) => {
           console.log(err);
@@ -242,10 +239,7 @@ const EditConsentOptions = (props) => {
 
         let index = lng_arr.findIndex((x) => x.value === selectedLanguage);
         setCountryOption(index);
-        console.log(lng_arr);
-
         setTemplateLanguage(lng_arr);
-
         setTemplateIbu(ibu_arr);
         setTemplateList(res.data.response.data);
         getSelectedTemplateSource(res.data.response.data);
@@ -267,9 +261,7 @@ const EditConsentOptions = (props) => {
     }
   };
 
-  useEffect(() => {
-    //console.log("sdsdsd");
-  }, [selectedHcp]);
+  useEffect(() => {}, [selectedHcp]);
 
   useEffect(() => {
     const body = {
@@ -282,18 +274,14 @@ const EditConsentOptions = (props) => {
         .post(`emailapi/get_tags`, body)
         .then((res) => {
           setAllTags(res.data.response.data);
-          // console.log(campaign_id_st);
-          // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
           loader("hide");
-          // }
         })
         .catch((err) => {
           loader("hide");
-          //console.log(err);
+          console.log(err);
         });
     };
     getAllTags();
-    // getCampaignData();
   }, []);
 
   const getSelectedTemplateSource = (dd) => {
@@ -310,7 +298,6 @@ const EditConsentOptions = (props) => {
           getSpecificKeyData &&
           getSpecificKeyData.hasOwnProperty("source_code")
         ) {
-          console.log(state_object);
           if (state_object != null && state_object?.template != "") {
             if (state_object.template !== "") {
               setTemplate("state_object.template");
@@ -444,7 +431,6 @@ const EditConsentOptions = (props) => {
         (number) => number["user_id"] || number["profile_user_id"]
       );
 
-      //  loader("show");
       setShowProgressBar(true);
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -456,13 +442,11 @@ const EditConsentOptions = (props) => {
         source_code: template,
       };
 
-      //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
       axios
         .post(`emailapi/send_sample_email`, body)
         .then((res) => {
-          //console.log(res);
           loader("hide");
           if (res.data.status_code === 200) {
             setUploadOrDownloadCount(100);
@@ -491,8 +475,6 @@ const EditConsentOptions = (props) => {
 
             setShowProgressBar(false);
           }
-
-          //toast.success("Test Mail sent successfuly");
         })
         .catch((err) => {
           clearInterval(timer);
@@ -533,7 +515,6 @@ const EditConsentOptions = (props) => {
   };
 
   const closeModal = () => {
-    //console.log("closed");
     setIsOpen(false);
   };
 
@@ -609,8 +590,6 @@ const EditConsentOptions = (props) => {
   };
 
   const sendSample = (event) => {
-    //  console.log(selectedHcp);
-
     event.preventDefault();
     if (templateId == "" || templateId == 0) {
       toast.warning("Please select email template first");
@@ -633,7 +612,6 @@ const EditConsentOptions = (props) => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
-    //console.log("hi");
   };
 
   const responsive = {
@@ -653,22 +631,17 @@ const EditConsentOptions = (props) => {
         email: email,
       };
 
-      //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          console.log(res);
-          // console.log(res.data.response.data);
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
           } else {
             toast.warning(res.data.message);
           }
-          // if (res.data.message) {
-          //   setMessage(res.data.message);
-          // }
+
           loader("hide");
         })
         .catch((err) => {
@@ -698,7 +671,6 @@ const EditConsentOptions = (props) => {
     const name = hpc[i].firstname;
     list[i].firstname = value;
     setHpc(list);
-    // console.log(hpc);
   };
 
   const onLastNameChange = (e, i) => {
@@ -707,7 +679,6 @@ const EditConsentOptions = (props) => {
     const name = hpc[i].lastname;
     list[i].lastname = value;
     setHpc(list);
-    //console.log(hpc);
   };
 
   const onEmailChange = (e, i) => {
@@ -716,8 +687,6 @@ const EditConsentOptions = (props) => {
     const name = hpc[i].email;
     list[i].email = value;
     setHpc(list);
-    // setEmailData(e.target.value);
-    //console.log(hpc);
   };
 
   const onContactTypeChange = (e, i) => {
@@ -726,27 +695,19 @@ const EditConsentOptions = (props) => {
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
     setHpc(list);
-    console.log(hpc);
   };
 
   const getCountrySelected = (e) => {
-    // const { value } = e.target;
-
     setSelectedCountry(e);
-
     const value = e;
-    // const list = [...hpc];
-    console.log(value);
   };
 
   const onCountryChange = (e, i) => {
-    // const { value } = e.target;
     const value = e;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
     setHpc(list);
-    console.log(hpc);
   };
 
   const deleteRecord = (i) => {
@@ -834,7 +795,6 @@ const EditConsentOptions = (props) => {
               loader("hide");
             }
             loader("hide");
-            //setSelectedHcp(res.data.response.data);
           })
           .catch((err) => {
             toast.error("Something went wrong");
@@ -849,8 +809,6 @@ const EditConsentOptions = (props) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
-
-      console.log(formData);
 
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -926,7 +884,6 @@ const EditConsentOptions = (props) => {
 
   const languageSelected = (e) => {
     loader("show");
-    console.log(e);
     setSelectedLanguage(e.value);
     getTemplateListData(2, e.value, selectedIbu);
   };
@@ -993,7 +950,7 @@ const EditConsentOptions = (props) => {
 
   const downloadFile = () => {
     let link = document.createElement("a");
-    link.href = "https://informed.pro/sample.xls";
+    link.href = "https://webinar.informed.pro/sample.xls";
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";
@@ -1034,10 +991,8 @@ const EditConsentOptions = (props) => {
 
   const handleScroll = (ev) => {
     if (ev.target.scrollTop > 20) {
-      // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
       document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
     } else {
-      // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
       document
         .querySelector("#mail-view")
         .setAttribute("custom-atr", "non-scroll");
@@ -1061,7 +1016,6 @@ const EditConsentOptions = (props) => {
       templateId != "" &&
       templateId != 0
     ) {
-      console.log(templateId);
       setviewEmailModal(true);
     } else {
       toast.warning("Template not selected.");
@@ -1598,7 +1552,7 @@ const EditConsentOptions = (props) => {
                           Email | <span>{data.email}</span>
                         </p>
                         <p className="send-hcp-box-title">
-                          Contact Type | <span>{data.contact_type}</span>
+                          Contact type | <span>{data.contact_type}</span>
                         </p>
                         <div
                           className="add-new-field"
@@ -1618,7 +1572,7 @@ const EditConsentOptions = (props) => {
             <div className="selected-hcp-table">
               <div className="table-title">
                 <h4>
-                  Selected Contact <span>| {selectedHcp.length}</span>
+                  Selected contact <span>| {selectedHcp.length}</span>
                 </h4>
               </div>
               <div className="selected-hcp-list">
@@ -1639,7 +1593,7 @@ const EditConsentOptions = (props) => {
                               Email | <span>{data.email}</span>
                             </p>
                             <p className="send-hcp-box-title">
-                              Contact Type | <span>{data.contact_type}</span>
+                              Contact type | <span>{data.contact_type}</span>
                             </p>
                             <div className="remove-existing-field">
                               <img
@@ -1733,7 +1687,7 @@ const EditConsentOptions = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1746,7 +1700,7 @@ const EditConsentOptions = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1759,7 +1713,9 @@ const EditConsentOptions = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Email <span>*</span></label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
                                     className="form-control"
@@ -1774,7 +1730,7 @@ const EditConsentOptions = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Contact Type</label>
+                                  <label htmlFor="">Contact type</label>
                                   <DropdownButton
                                     className="dropdown-basic-button split-button-dropup"
                                     title={
@@ -1896,7 +1852,9 @@ const EditConsentOptions = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                   {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
+                                    {localStorage.getItem("user_id") == userId
+                                      ? "Add User +"
+                                      : "Add HCP +"}
                                   </a>
                                 </li>
                               </ul>
@@ -1997,7 +1955,7 @@ const EditConsentOptions = (props) => {
                               <table>
                                 <tbody>
                                   <tr>
-                                    <th>Contact Type</th>
+                                    <th>Contact type</th>
                                     <td>{data.contact_type}</td>
                                   </tr>
                                   <tr>
@@ -2025,7 +1983,7 @@ const EditConsentOptions = (props) => {
                                     <td>{data.registered}</td>
                                   </tr>
                                   <tr>
-                                    <th>Created By</th>
+                                    <th>Created by</th>
                                     <td>
                                       <span>{data.creator}</span>
                                     </td>

@@ -26,8 +26,10 @@ const CountryRegistration = () => {
     getDataFromApi();
   }, []);
 
-  let startMonth = new Date("March 2022");
+  // let startMonth = new Date("March 2022");
   let endMonth = new Date();
+  let startMonth = new Date();  
+  startMonth.setMonth(startMonth.getMonth() - 12);  
   let months = [{ value: "All", label: "All" }];
 
   while (startMonth <= endMonth) {
@@ -39,8 +41,10 @@ const CountryRegistration = () => {
     });
     startMonth.setMonth(startMonth.getMonth() + 1);
   }
+console.log("months",months);
   months.reverse();
   const [monthYear, setMonthYear] = useState(months[0]?.value);
+
 
   const MemoizedMap = ({ data, options }) => {
     return (
@@ -67,6 +71,7 @@ const CountryRegistration = () => {
         type: "map",
         proj4,
         height: "60%",
+        plotBackgroundColor: '#aad3df',      
         events: {
           load: function () {
             const lat = zoomCoordinates.lat;
@@ -100,8 +105,8 @@ const CountryRegistration = () => {
       series: [
         {
           name: "Basemap",
-          borderColor: "#A0A0A0",
-          nullColor: "rgba(200, 200, 200, 0.3)",
+          borderColor: "grey",
+          nullColor: "#93d38c",
           showInLegend: false,
           mapData: worldMap,
         },
@@ -288,7 +293,7 @@ const CountryRegistration = () => {
 
       let newSeries = [
         {
-          name: `Critical_care`,
+          name: `Critical Care`,
           data: apiData.data?.critical_care,
           color: Highcharts?.getOptions()?.colors[2],
         },

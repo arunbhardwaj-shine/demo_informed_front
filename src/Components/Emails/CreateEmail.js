@@ -167,10 +167,11 @@ const CreateEmail = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      role: "",
-      optIRT: "",
+      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
     },
   ]);
+
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [addListOpen, setAddListOpen] = useState(false);
@@ -461,8 +462,8 @@ const CreateEmail = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          optIRT: "",
-          role: "",
+          optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
         },
       ]);
     } else {
@@ -1066,15 +1067,17 @@ const CreateEmail = (props) => {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
-      //  console.log(allTags)
       let alltemp_tags = [];
-      Object.entries(allTags).map((data) => {
-        return alltemp_tags.push(...data);
-      });
-      alltemp_tags = alltemp_tags.map((data) => {
-        return data.toLowerCase();
-      });
-      console.log(alltemp_tags);
+
+      if(typeof(allTags) != "undefined"){
+          Object.entries(allTags)?.map((data) => {
+            return alltemp_tags.push(...data);
+          });
+          alltemp_tags = alltemp_tags?.map((data) => {
+            return data.toLowerCase();
+          });
+          // console.log(alltemp_tags);
+      }
 
       if (
         !temp_tags.includes(newTag.toLowerCase()) &&
@@ -1096,6 +1099,7 @@ const CreateEmail = (props) => {
             loader("hide");
           })
           .catch((err) => {
+            loader("hide");
             console.log(err);
           });
       } else {
@@ -1146,8 +1150,8 @@ const CreateEmail = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        role: "",
-        optIRT: "",
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
       },
     ]);
     setActiveManual("active");
@@ -1160,7 +1164,9 @@ const CreateEmail = (props) => {
     tags.splice(index, 1);
     //console.log(tags);
     setTagClickedFirst(tags);
+    setFinalTags(tags);
     setTagsReRender(tagsReRender + 1);
+
     // tagClickedFirst.splice(index, 1);
   };
 
@@ -1183,32 +1189,32 @@ const CreateEmail = (props) => {
   const searchHcp = async (e) => {
     e.preventDefault();
 
-    // if (name == "" && email == "") {
-    //   toast.warning("Please enter name or email first");
-    // }
-    // else {
-    //   const body = {
-    //     user_id: localStorage.getItem("user_id"),
-    //     name: name,
-    //     email: email,
-    //   };
-    let error = {};
-    if (name == "") {
-      error.name = "Please enter name";
+    if (name == "" && email == "") {
+      toast.warning("Please enter name or email first");
     }
-    if (email == "") {
-      error.email = "Please enter email";
-    }
-    if (Object.keys(error)?.length) {
-      toast.error(error[Object.keys(error)[0]]);
-      setValidationError(error);
-      return;
-    } else {
+    else {
       const body = {
         user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
       };
+    // let error = {};
+    // if (name == "") {
+    //   error.name = "Please enter name";
+    // }
+    // if (email == "") {
+    //   error.email = "Please enter email";
+    // }
+    // if (Object.keys(error)?.length) {
+    //   toast.error(error[Object.keys(error)[0]]);
+    //   setValidationError(error);
+    //   return;
+    // } else {
+    //   const body = {
+    //     user_id: localStorage.getItem("user_id"),
+    //     name: name,
+    //     email: email,
+    //   };
       //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
@@ -1568,7 +1574,7 @@ const CreateEmail = (props) => {
 
   const downloadFile = () => {
     let link = document.createElement("a");
-    link.href = "https://informed.pro/sample.xls";
+    link.href = "https://webinar.informed.pro/sample.xls";
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";
@@ -2166,7 +2172,7 @@ const CreateEmail = (props) => {
                       <div className="row justify-content-between align-items-center">
                         <div className="form-group col-sm-5">
                           <label htmlFor="hcp-name">
-                            Name<span>*</span>
+                            Name
                           </label>
                           <input
                             type="text"
@@ -2186,7 +2192,7 @@ const CreateEmail = (props) => {
                         </div>
                         <div className="form-group col-sm-5">
                           <label htmlFor="hcp-email">
-                            Email<span>*</span>{" "}
+                            Email
                           </label>
                           <input
                             type="mail"
@@ -2254,7 +2260,7 @@ const CreateEmail = (props) => {
                             Email | <span>{data.email}</span>
                           </p>
                           <p className="send-hcp-box-title">
-                            Contact Type | <span>{data.contact_type}</span>
+                            Contact type | <span>{data.contact_type}</span>
                           </p>
                           <div
                             className="add-new-field"
@@ -2274,7 +2280,7 @@ const CreateEmail = (props) => {
               <div className="selected-hcp-table">
                 <div className="table-title">
                   <h4>
-                    Selected Contact <span>| {selectedHcp.length}</span>
+                    Selected contact <span>| {selectedHcp.length}</span>
                   </h4>
                 </div>
                 <div className="selected-hcp-list">
@@ -2310,7 +2316,7 @@ const CreateEmail = (props) => {
                               ) : (
                                 <p className="send-hcp-box-title">
                                   {" "}
-                                  Contact Type |{" "}
+                                  Contact type |{" "}
                                   <span>
                                     {data?.contact_type
                                       ? data?.contact_type
@@ -2494,7 +2500,7 @@ const CreateEmail = (props) => {
                               <table>
                                 <tbody>
                                   <tr>
-                                    <th>Contact Type</th>
+                                    <th>Contact type</th>
                                     <td>{data.contact_type}</td>
                                   </tr>
                                   <tr>
@@ -2522,7 +2528,7 @@ const CreateEmail = (props) => {
                                     <td>{data.registered}</td>
                                   </tr>
                                   <tr>
-                                    <th>Created By</th>
+                                    <th>Created by</th>
                                     <td>
                                       <span>{data.creator}</span>
                                     </td>
@@ -2653,8 +2659,8 @@ const CreateEmail = (props) => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
-                    role: "",
-                    optIRT: "",
+                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
                   },
                 ]);
                 if (document.querySelector("#file-4")) {
@@ -2682,7 +2688,7 @@ const CreateEmail = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2695,7 +2701,7 @@ const CreateEmail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2739,22 +2745,21 @@ const CreateEmail = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
-
+                                      <label for="">IRT mandatory training</label>
                                       <Select
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIRT}
+                                        defaultValue={val?.optIRT?{label:"Yes",value:val?.optIRT}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT role</label>
                                       {val.optIRT == "yes" ? (
                                         <Select
                                           options={irtRole}
@@ -2813,7 +2818,7 @@ const CreateEmail = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label htmlFor="">Contact Type</label>
+                                      <label htmlFor="">Contact type</label>
                                       <DropdownButton
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
@@ -2977,7 +2982,7 @@ const CreateEmail = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Number</label>
+                                      <label for="">Site number</label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -2998,7 +3003,7 @@ const CreateEmail = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Name</label>
+                                      <label for="">Site name</label>
 
                                       <Select
                                         options={siteNameAll}
@@ -3261,21 +3266,27 @@ const CreateEmail = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      <th scope="col">Business Unit</th>
+
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <th scope="col">Role</th>
+                        <>
+                          <th scope="col">IRT mandatory training</th>
+                          <th scope="col">IRT role</th>
+                        </>
                       ) : (
-                        <th scope="col">Contact Type</th>
+                        <>
+                        <th scope="col">Business unit</th>
+                        <th scope="col">Contact type</th>
+                        </>
                       )}
 
                       {showLessInfo == false ? (
                         <>
                           <th scope="col">Consent</th>
-                          <th scope="col">Email Received</th>
+                          <th scope="col">Email received</th>
                           <th scope="col">Openings</th>
                           <th scope="col">Registrations</th>
-                          <th scope="col">Last Email</th>
+                          <th scope="col">Last email</th>
                         </>
                       ) : null}
                     </tr>
@@ -3291,7 +3302,17 @@ const CreateEmail = (props) => {
                               <td>{rr?.email ? rr?.email : "N/A"}</td>
                               <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                               <td>{rr?.country ? rr?.country : "N/A"}</td>
-                              <td>{rr?.ibu ? rr?.ibu : "N/A"}</td>
+                              <td>
+                              {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :rr.ibu
+                                  ? rr.ibu
+                                  : "N/A"}
+                                {/*rr?.ibu ? rr?.ibu : "N/A"*/}
+                              </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg=="

@@ -25,12 +25,18 @@ const ReaderAdd = () => {
   const [irtCountry, setIRTCountry] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
-    { value: "Anaesthesia & Intensive care", label: "Anaesthesia & Intensive care" },
+    {
+      value: "Anaesthesia & Intensive care",
+      label: "Anaesthesia & Intensive care",
+    },
     { value: "CIDP and MMN", label: "CIDP and MMN" },
     { value: "Cardiac surgery", label: "Cardiac surgery" },
     { value: "GBS", label: "GBS" },
     { value: "General Haematology", label: "General Haematology" },
-    { value: "Haematological malignancies", label: "Haematological malignancies" },
+    {
+      value: "Haematological malignancies",
+      label: "Haematological malignancies",
+    },
     { value: "Haemophilia and VWD", label: "Haemophilia and VWD" },
     { value: "Immunology", label: "Immunology" },
     { value: "Neurology", label: "Neurology" },
@@ -98,6 +104,19 @@ const ReaderAdd = () => {
     label: "",
     value: "",
   });
+  const [userDetail, setUserDetail] = useState({
+    speciality: [],
+    discipline: [],
+    product: [],
+    ibu: [],
+    irt: [],
+    userType: [],
+    blind_type: [],
+    hospital: [],
+    province: [],
+    siteNumber: [],
+    siteName: [],
+  });
 
   const [userInputs, setAddReaderInputs] = useState({
     alternativeEmail: "",
@@ -128,19 +147,7 @@ const ReaderAdd = () => {
     ibu: "",
     hospitalData: {},
   });
-  const [userDetail, setUserDetail] = useState({
-    speciality: [],
-    discipline: [],
-    product: [],
-    ibu: [],
-    irt: [],
-    userType: [],
-    blind_type: [],
-    hospital: [],
-    province: [],
-    siteNumber: [],
-    siteName: [],
-  });
+
   const [uploadShow, setUploadShow] = useState(false);
   const [updateFlag, setUpdateFlag] = useState(0);
 
@@ -245,6 +252,13 @@ const ReaderAdd = () => {
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
     setPharmaData(hasData?.data?.data?.user?.[0]?.pharmaData);
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      setAddReaderInputs({
+        ...userInputs,
+        role: hasData?.data?.data?.userIrtRoles?.[0]?.value,
+        irt: 1,
+      });
+    }
 
     setUserDetail({
       ...userDetail,
@@ -253,7 +267,11 @@ const ReaderAdd = () => {
       province: hasData?.data?.data?.province,
       product: hasData?.data?.data?.product,
       role: hasData?.data?.data?.role,
-      userType:[{label:"Hcp",value:"Hcp"},{label:"Staff users",value:"Staff users"},{label:"Test users",value:"Test users"}],
+      userType: [
+        { label: "Hcp", value: "Hcp" },
+        { label: "Staff users", value: "Staff users" },
+        { label: "Test users", value: "Test users" },
+      ],
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
@@ -510,10 +528,21 @@ const ReaderAdd = () => {
       });
     } else if (isSelectedName == "irt") {
       let country = "";
+      let newSiteName = [],
+        newSiteNumber = [];
+
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName]: e,
         ["country"]: country,
+        ["siteName"]: "",
+        ["siteNumber"]: "",
+      });
+      setUserDetail({
+        ...userDetail,
+        flag: 1,
+        siteName: newSiteName,
+        siteNumber: newSiteNumber,
       });
     } else {
       setAddReaderInputs({
@@ -603,13 +632,13 @@ const ReaderAdd = () => {
           repContact: userInputs?.repContact,
           notes: userInputs?.notes,
           siteNumber: userInputs?.siteNumber,
-          blind_type: userInputs?.blind_type,
+          blind_type: userInputs?.blinded,
           siteName: userInputs?.siteName,
           irt: userInputs?.irt,
           role: userInputs?.role,
           sub_role: userInputs?.sub_role,
           ibu: userInputs?.ibu,
-          userType:userInputs?.UserType
+          userType: userInputs?.UserType,
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
@@ -629,10 +658,11 @@ const ReaderAdd = () => {
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
+
     if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
-      link.href = "https://informed.pro/R_D_sample.xls";
+      link.href = "https://webinar.informed.pro/R_D_sample.xlsx";
     } else {
-      link.href = "https://informed.pro/sample.xls";
+      link.href = "https://webinar.informed.pro/sample.xls";
     }
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
@@ -645,15 +675,22 @@ const ReaderAdd = () => {
     return (
       <>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">{
-     localStorage.getItem("user_id") ==
-     "56Ek4feL/1A8mZgIKQWEqg=="?"IRT mandatory training":"IRT"           
-          
-  }</Form.Label>
+          <Form.Label htmlFor="">
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "IRT mandatory training"
+              : "IRT"}
+          </Form.Label>
           <Select
             options={userDetail?.irt}
-            placeholder={ localStorage.getItem("user_id") ==
-            "56Ek4feL/1A8mZgIKQWEqg=="?"Select IRT mandatory training":"Select IRT"}
+            defaultValue={{
+              label: "Yes",
+              value: "Yes",
+            }}
+            placeholder={
+              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                ? "Select IRT mandatory training"
+                : "Select IRT"
+            }
             name="irt"
             className={
               error?.irt
@@ -665,19 +702,24 @@ const ReaderAdd = () => {
           />
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Role </Form.Label>
+          <Form.Label htmlFor="">
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "IRT role"
+              : "Role"}
+          </Form.Label>
 
           {userInputs?.irt && userInputs.irt == 1 ? (
             <Select
               options={userDetail?.userIrtRoles}
               placeholder="Select Role"
               name="role"
+              // defaultValue={userDetail?.userIrtRoles[0]}
               className="dropdown-basic-button split-button-dropup"
               value={
                 userDetail?.userIrtRoles.findIndex(
                   (el) => el.value == userInputs?.role
                 ) == -1
-                  ? ""
+                  ? userDetail?.userIrtRoles[0]
                   : userDetail?.userIrtRoles[
                       userDetail?.userIrtRoles.findIndex(
                         (el) => el.value == userInputs?.role
@@ -715,27 +757,47 @@ const ReaderAdd = () => {
           )}
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Sub Role </Form.Label>
+          <Form.Label htmlFor="">
+            {" "}
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "Study role"
+              : "Sub Role"}{" "}
+          </Form.Label>
           <Select
             options={userDetail?.sub_role}
-            placeholder="Select Sub Role"
+            placeholder={
+              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                ? "Select Study Role"
+                : "Select Role"
+            }
             name="sub_role"
             className="dropdown-basic-button split-button-dropup"
             isClearable
             onChange={(e) => handleChange(e?.value, "sub_role")}
           />
         </Form.Group>
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">Blind Type </Form.Label>
+        {/* <Form.Group className="form-group">
+          <Form.Label htmlFor="">
+            Blind Type<span>*</span>{" "}
+          </Form.Label>
           <Select
             options={userDetail?.blind_type}
             placeholder="Select Blind Type"
-            name="blind_type"
-            className="dropdown-basic-button split-button-dropup"
+            name="blinded"
+            className={
+              error?.blinded
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
             isClearable
-            onChange={(e) => handleChange(e?.value, "blind_type")}
+            onChange={(e) => handleChange(e?.value, "blinded")}
           />
-        </Form.Group>
+          {error?.blinded ? (
+            <div className="login-validation">{error?.blinded}</div>
+          ) : (
+            ""
+          )}
+        </Form.Group> */}
 
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
@@ -796,8 +858,9 @@ const ReaderAdd = () => {
             ""
           )}
         </Form.Group>
+
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Site Number </Form.Label>
+          <Form.Label htmlFor="">Site number </Form.Label>
           <Select
             options={userDetail?.siteNumber}
             placeholder="Select Site Number"
@@ -824,7 +887,7 @@ const ReaderAdd = () => {
           />
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Site Name </Form.Label>
+          <Form.Label htmlFor="">Site name </Form.Label>
           <Select
             options={userDetail?.siteName}
             placeholder="Select Site Name "

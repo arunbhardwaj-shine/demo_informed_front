@@ -30,6 +30,7 @@ const SelectSmartList = (props) => {
   const [PdfSelected, setPdfSelected] = useState(0);
   const [TemplateId, setTemplateId] = useState(0);
   const [getselecedlistid, setselecedlistid] = useState(0);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
   const [smartListSelected, setSmartListSelected] = useState({});
   const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [getpopupopeningstatus, setpopupopeningstatus] = useState(false);
@@ -62,6 +63,7 @@ const SelectSmartList = (props) => {
   }, []);
 
   const getSmartListData = (page = 1) => {
+    setApiCallStatus(false);
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: "",
@@ -74,10 +76,14 @@ const SelectSmartList = (props) => {
       .then((res) => {
         setSendListData(res.data.response.data);
         loader("hide");
+        setApiCallStatus(true);
       })
       .catch((err) => {
+        loader("hide");
+        setApiCallStatus(true);
         console.log(err);
       });
+
   };
 
   const handleClose = () => {
@@ -277,7 +283,7 @@ const SelectSmartList = (props) => {
       const ws = readedData.Sheets[wsname];
 
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      console.log(dataParse);
+      // console.log(dataParse);
 
       setFileLength(dataParse.length);
     };
@@ -383,8 +389,28 @@ const SelectSmartList = (props) => {
   };
 
   const downloadFile = () => {
+    // let link = document.createElement("a");
+    // link.href = "https://webinar.informed.pro/sample.xls";
+    // link.setAttribute("download", "file.xlsx");
+    // document.body.appendChild(link);
+    // link.download = "";
+    // link.click();
+    // document.body.removeChild(link);
+
+    let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
-    link.href = "https://informed.pro/sample.xls";
+    if (
+      user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
+      user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||
+      user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
+      user_id == "UbCJcnLM9fe HsRMgX8c1A=="
+    ) {
+      link.href = "https://webinar.informed.pro/sample_st.xls";
+    } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+      link.href = "https://webinar.informed.pro/R_D_sample.xlsx";
+    } else {
+      link.href = "https://webinar.informed.pro/sample.xls";
+    }
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";
@@ -518,97 +544,105 @@ const SelectSmartList = (props) => {
               */}
 
                 <div className="col smartlist-result-block">
-                  {SendListData.map((template) => {
-                    return (
-                      <div className="smartlist_box_block">
-                        <div className="smartlist-view email_box">
-                          <div className="mail-box-content">
-                            <h5>{template.name}</h5>
-                            <div className="select-mail-option">
-                              <input
-                                onClick={() => handleSelect(template)}
-                                type="radio"
-                                name="radio"
-                                checked={
-                                  template.id == PdfSelected
-                                    ? true
-                                    : template.id == getselecedlistid &&
-                                      !PdfSelected
-                                    ? true
-                                    : false
-                                }
-                              />
-                              <span className="checkmark"></span>
-                            </div>
-                            <div className="mailbox-table">
-                              <table>
-                                <tbody>
-                                  <tr>
-                                    <th>Contact Type</th>
-                                    <td>{template.contact_type}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Speciality</th>
-                                    <td>{template.speciality}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Readers</th>
-                                    <td>{template.reader_selection}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>IBU</th>
-                                    <td>{template.ibu}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Product</th>
-                                    <td>{template.product}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Country</th>
-                                    <td>{template.country}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Registered</th>
-                                    <td>{template.registered}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Created By</th>
-                                    <td>
-                                      <span>{template.creator}</span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-
-                            <div className="mail-time">
-                              <span> {template.created_at}</span>
-                            </div>
-                            <div className="smart-list-added-user">
-                              <img
-                                src={path_image + "smartlist-user.svg"}
-                                alt="User icon"
-                              />
-                              {template.readers_count}
-                            </div>
-
-                            <div className="smartlist-buttons">
-                              <button className="btn view">
-                                <a
-                                  className="color_blue"
-                                  onClick={() =>
-                                    openSmartListPopup(template.id)
+                  {
+                    apiCallStatus && SendListData.length > 0
+                    ?
+                    SendListData.map((template) => {
+                      return (
+                        <div className="smartlist_box_block">
+                          <div className="smartlist-view email_box">
+                            <div className="mail-box-content">
+                              <h5>{template.name}</h5>
+                              <div className="select-mail-option">
+                                <input
+                                  onClick={() => handleSelect(template)}
+                                  type="radio"
+                                  name="radio"
+                                  checked={
+                                    template.id == PdfSelected
+                                      ? true
+                                      : template.id == getselecedlistid &&
+                                        !PdfSelected
+                                      ? true
+                                      : false
                                   }
-                                >
-                                  View
-                                </a>
-                              </button>
+                                />
+                                <span className="checkmark"></span>
+                              </div>
+                              <div className="mailbox-table">
+                                <table>
+                                  <tbody>
+                                    <tr>
+                                      <th>Contact type</th>
+                                      <td>{template.contact_type}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Speciality</th>
+                                      <td>{template.speciality}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Readers</th>
+                                      <td>{template.reader_selection}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>IBU</th>
+                                      <td>{template.ibu}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Product</th>
+                                      <td>{template.product}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Country</th>
+                                      <td>{template.country}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Registered</th>
+                                      <td>{template.registered}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Created by</th>
+                                      <td>
+                                        <span>{template.creator}</span>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+
+                              <div className="mail-time">
+                                <span> {template.created_at}</span>
+                              </div>
+                              <div className="smart-list-added-user">
+                                <img
+                                  src={path_image + "smartlist-user.svg"}
+                                  alt="User icon"
+                                />
+                                {template.readers_count}
+                              </div>
+
+                              <div className="smartlist-buttons">
+                                <button className="btn view">
+                                  <a
+                                    className="color_blue"
+                                    onClick={() =>
+                                      openSmartListPopup(template.id)
+                                    }
+                                  >
+                                    View
+                                  </a>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  :
+                  apiCallStatus ? (
+                    <div class="no_found"><p>No Data Found</p></div>
+                  ): null
+                }
                 </div>
 
                 {typeof SendListData !== "undefined" &&
@@ -735,21 +769,26 @@ const SelectSmartList = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      <th scope="col">Business Unit</th>
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <th scope="col">Role</th>
+                        <th scope="col">IRT mandatory training</th>
                       ) : (
-                        <th scope="col">Contact Type</th>
+                        <th scope="col">Business unit</th>
+                      )}
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <th scope="col">IRT role</th>
+                      ) : (
+                        <th scope="col">Contact type</th>
                       )}
 
                       {showLessInfo == false ? (
                         <>
                           <th scope="col">Consent</th>
-                          <th scope="col">Email Received</th>
+                          <th scope="col">Email received</th>
                           <th scope="col">Openings</th>
                           <th scope="col">Registrations</th>
-                          <th scope="col">Last Email</th>
+                          <th scope="col">Last email</th>
                         </>
                       ) : null}
                       <th></th>
@@ -766,7 +805,16 @@ const SelectSmartList = (props) => {
                               <td>{rr.email}</td>
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
-                              <td>{rr.ibu}</td>
+                              <td>
+                              {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :rr.ibu
+                                  ? rr.ibu
+                                  : "N/A"}
+                              </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg=="
@@ -896,7 +944,7 @@ const SelectSmartList = (props) => {
                       </div>
                       <div className="form-group col">
                         <label htmlFor="creator-name">
-                          Creator’s Name<span>*</span>
+                          Creator’s name<span>*</span>
                         </label>
                         <input
                           type="text"
@@ -914,30 +962,34 @@ const SelectSmartList = (props) => {
                           </div>
                         ) : null}
                       </div>
-                      <div className="form-group col-sm-12">
-                        <div className="form-group-content">
-                          <p>
-                            {" "}
-                            I want this to be a <span>Demo list</span>
-                          </p>
-                          <div className="select-demo-option">
-                            <input type="checkbox" name="checkbox" />
-                            <span className="checkmark"></span>
+
+                      {
+                        /*<div className="form-group col-sm-12">
+                          <div className="form-group-content">
+                            <p>
+                              {" "}
+                              I want this to be a <span>Demo list</span>
+                            </p>
+                            <div className="select-demo-option">
+                              <input type="checkbox" name="checkbox" />
+                              <span className="checkmark"></span>
+                            </div>
+                            <a
+                              href="#"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="Step to create smart list"
+                            >
+                              <img src={path_image + "question.svg"} alt="" />
+                            </a>
+                            <div className="tooltip">
+                              A list that will appeare when you select smart list
+                              to <span>send a sample.</span>
+                            </div>
                           </div>
-                          <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="Step to create smart list"
-                          >
-                            <img src={path_image + "question.svg"} alt="" />
-                          </a>
-                          <div className="tooltip">
-                            A list that will appeare when you select smart list
-                            to <span>send a sample.</span>
-                          </div>
-                        </div>
-                      </div>
+                        </div>*/
+                      }
+
                     </div>
                   </form>
                 </div>

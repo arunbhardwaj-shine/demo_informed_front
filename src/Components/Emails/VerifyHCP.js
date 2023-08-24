@@ -85,8 +85,9 @@ const VerifyHCP = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      optIrt: "",
-      role: "",
+      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+
     },
   ]);
   const [updateCounter, setUpdateCounter] = useState(0);
@@ -284,8 +285,8 @@ const VerifyHCP = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        role: "",
-        optIrt: "",
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       },
     ]);
     setActiveManual("active");
@@ -686,8 +687,8 @@ const VerifyHCP = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          optIrt: "",
-          role: "",
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
         },
       ]);
     } else {
@@ -1088,21 +1089,24 @@ const VerifyHCP = (props) => {
                           <th scope="col">Email</th>
                           <th scope="col">Bounced</th>
                           <th scope="col">Country</th>
-                          <th scope="col">Business Unit</th>
+                          {localStorage.getItem("user_id") ===
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                            <>
+                            <th scope="col">IRT mandatory training</th>
+                            <th scope="col">IRT role</th>
+                            </>
+                          ) : (
+                            <>
+                            <th scope="col">Business unit</th>
+                            <th scope="col">Contact type</th>
+                            </>
+                          )}
 
-                          <th scope="col">
-                            {localStorage.getItem("user_id") ===
-                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                              <th scope="col">Role</th>
-                            ) : (
-                              <th scope="col">Contact Type</th>
-                            )}
-                          </th>
                           <th scope="col">Consent</th>
-                          <th scope="col">Email Received</th>
+                          <th scope="col">Email received</th>
                           <th scope="col">Openings</th>
                           <th scope="col">Registrations</th>
-                          <th scope="col">Last Email</th>
+                          <th scope="col">Last email</th>
                           <th scope="col"></th>
                         </tr>
                       </thead>
@@ -1115,7 +1119,16 @@ const VerifyHCP = (props) => {
                                 <td>{users.email}</td>
                                 <td>{users.bounce}</td>
                                 <td>{users.country}</td>
-                                <td>{users.ibu}</td>
+                                <td>
+                                  {localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? users?.irt
+                                        ? "Yes"
+                                        : "No"
+                                      :users.ibu
+                                      ? users.ibu
+                                      : "N/A"}
+                                </td>
                                 <td>
                                   {localStorage.getItem("user_id") ===
                                   "56Ek4feL/1A8mZgIKQWEqg=="
@@ -1271,18 +1284,24 @@ const VerifyHCP = (props) => {
                           <th scope="col">Email</th>
                           <th scope="col">Bounced</th>
                           <th scope="col">Country</th>
-                          <th scope="col">Business Unit</th>
+
                           {localStorage.getItem("user_id") ===
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                            <th scope="col">Role</th>
+                            <>
+                            <th scope="col">IRT mandatory training</th>
+                            <th scope="col">IRT role</th>
+                            </>
                           ) : (
+                            <>
+                            <th scope="col">Business unit</th>
                             <th scope="col">Interest</th>
+                            </>
                           )}
                           <th scope="col">Consent</th>
-                          <th scope="col">Email Received</th>
+                          <th scope="col">Email received</th>
                           <th scope="col">Openings</th>
                           <th scope="col">Registrations</th>
-                          <th scope="col">Last Email</th>
+                          <th scope="col">Last email</th>
                           <th scope="col"></th>
                         </tr>
                       </thead>
@@ -1340,7 +1359,17 @@ const VerifyHCP = (props) => {
                                     </span>
                                   )}
                                 </td>
-                                <td>{data?.ibu ? data?.ibu : "N/A"}</td>
+                                <td>
+                                  {/*data?.ibu ? data?.ibu : "N/A"*/}
+                                  {localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? data.irt
+                                        ? "Yes"
+                                        : "No"
+                                      :data.ibu
+                                      ? data.ibu
+                                      : "N/A"}
+                                  </td>
                                 <td>
                                   {localStorage.getItem("user_id") ===
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1461,7 +1490,7 @@ const VerifyHCP = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1474,7 +1503,7 @@ const VerifyHCP = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1508,7 +1537,7 @@ const VerifyHCP = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
+                                      <label for="">IRT mandatory training</label>
 
                                       <Select
                                         options={optIRT}
@@ -1516,14 +1545,14 @@ const VerifyHCP = (props) => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt}
+                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT role</label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
@@ -1581,7 +1610,7 @@ const VerifyHCP = (props) => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label htmlFor="">Contact Type</label>
+                                      <label htmlFor="">Contact type</label>
                                       <DropdownButton
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
@@ -1763,7 +1792,7 @@ const VerifyHCP = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Number</label>
+                                      <label for="">Site number</label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -1784,7 +1813,7 @@ const VerifyHCP = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Name</label>
+                                      <label for="">Site name</label>
 
                                       <Select
                                         options={siteNameAll}

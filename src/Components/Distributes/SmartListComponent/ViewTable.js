@@ -299,6 +299,7 @@ const ViewTable = (props) => {
   const [getlistname, setListName] = useState("");
   const [getlistcount, setListCount] = useState("");
   const [change, setChanges] = useState(null);
+  const [irtRole, setIrtRole] = useState([]);
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
@@ -310,8 +311,8 @@ const ViewTable = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      userType: "",
-      userTypeIndex: "",
+      userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
       subUserType: "",
       siteNumber: "",
       subUserTypeIndex: "",
@@ -326,9 +327,11 @@ const ViewTable = (props) => {
       siteStreetIndex: "",
       siteName: "",
       siteNameIndex: "",
-      siteIrt: "",
-      siteIrtIndex: "",
-
+      siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+      siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
+      // siteIrtAll
+      // role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      // optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       // siteDetails: [
       //   {
       //     siteNumber: "",
@@ -353,7 +356,6 @@ const ViewTable = (props) => {
   const [countryall, setCountryall] = useState([]);
   const [irtCountry, setIRTCountry] = useState([]);
   const [userTypeAll, setUserTypeAll] = useState([]);
-  const [irtRole, setIrtRole] = useState([]);
   const [subUserTypeAll, setSubUserTypeAll] = useState([]);
   const [blindTypeAll, setBlindTypeAll] = useState([]);
   const handleClose = () => {
@@ -371,6 +373,10 @@ const ViewTable = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+        siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+        siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
         siteDetails: [
           {
             siteNumber: "",
@@ -378,6 +384,8 @@ const ViewTable = (props) => {
             siteStreet: "",
             sitePostCode: "",
             siteCity: "",
+
+
           },
         ],
       },
@@ -611,8 +619,8 @@ const ViewTable = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          userType: "",
-          userTypeIndex: "",
+          userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
           subUserType: "",
           subUserTypeIndex: "",
           blindType: "",
@@ -627,8 +635,8 @@ const ViewTable = (props) => {
           siteStreetIndex: "",
           sitePostCodeIndex: "",
           siteCityIndex: "",
-          siteIrt: "",
-          siteIrtIndex: "",
+          siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+          siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
         },
       ]);
     } else {
@@ -1676,22 +1684,28 @@ const ViewTable = (props) => {
                   <th scope="col">Email</th>
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
-                  <th scope="col">Business Unit</th>
+
                   {localStorage.getItem("user_id") ==
                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                    <th scope="col"> Role </th>
+                    <>
+                      <th scope="col">IRT mandatory training</th>
+                      <th scope="col">IRT role</th>
+                    </>
                   ) : (
-                    <th scope="col">Contact Type</th>
+                    <>
+                    <th scope="col">Business unit</th>
+                    <th scope="col">Contact type</th>
+                    </>
                   )}
 
                   {showLessInfo == false ? (
                     <>
                       {" "}
                       <th scope="col">Consent</th>
-                      <th scope="col">Email Received</th>
+                      <th scope="col">Email received</th>
                       <th scope="col">Openings</th>
                       <th scope="col">Registrations</th>
-                      <th scope="col">Last Email</th>
+                      <th scope="col">Last email</th>
                       <th scope="col"></th>{" "}
                     </>
                   ) : null}
@@ -1758,7 +1772,16 @@ const ViewTable = (props) => {
                         <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    <td>{item.ibu ? item.ibu : "N/A"}</td>
+                    <td>
+                      {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? item?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :item.ibu
+                                  ? item.ibu
+                                  : "N/A"}
+                    </td>
                     <td>
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1867,7 +1890,17 @@ const ViewTable = (props) => {
                         <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    <td id="field_business_unit">{item.ibu}</td>
+                    <td id="field_business_unit">
+                    {/*item.ibu*/}
+                    {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg=="
+                                ? item?.irt
+                                  ? "Yes"
+                                  : "No"
+                                :item.ibu
+                                ? item.ibu
+                                : "N/A"}
+                    </td>
                     <td id="field_interest">
                       {localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -2024,7 +2057,11 @@ const ViewTable = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
                     countryIndex: "",
+                    siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+                    siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.indexOf(item =>item?.value == "Yes"):"",
                   },
                 ]);
                 setActiveManual("active");
@@ -2041,6 +2078,9 @@ const ViewTable = (props) => {
             <div className="hcp-add-box">
               <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+                          {console.log("--hpc",hpc)}
+                          {console.log("--=-=-=-=->>",irtRole)}
+
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
@@ -2050,7 +2090,7 @@ const ViewTable = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2063,7 +2103,7 @@ const ViewTable = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2105,7 +2145,7 @@ const ViewTable = (props) => {
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label for="">Contact Type</label>
+                                    <label for="">Contact type</label>
                                     <DropdownButton
                                       className="dropdown-basic-button split-button-dropup"
                                       title={
@@ -2209,14 +2249,13 @@ const ViewTable = (props) => {
                                   <hr />
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
+                                      <label for="">IRT mandatory training</label>
                                       <Select
                                         options={siteIrtAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
                                           onSiteIrtChange(
                                             event,
-
                                             i
                                           )
                                         }
@@ -2235,7 +2274,7 @@ const ViewTable = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT role</label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
                                         <Select
@@ -2292,35 +2331,39 @@ const ViewTable = (props) => {
                                       )}
                                     </div>
                                   </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Blind Type</label>
-                                      <Select
-                                        options={blindTypeAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onBlindTypeChange(event, i)
-                                        }
-                                        defaultValue={
-                                          blindTypeAll[hpc[i].blindTypeIndex]
-                                        }
-                                        placeholder={
-                                          typeof blindTypeAll[
-                                            hpc[i].blindTypeIndex
-                                          ] === "undefined"
-                                            ? "Select Blind Type"
-                                            : blindTypeAll[
-                                                hpc[i].blindTypeIndex
-                                              ]
-                                        }
-                                        // filterOption={createFilter(filterConfig)}
-                                      />
-                                    </div>
-                                  </div>
+
+                                  {
+                                    /*<div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Blind Type</label>
+                                        <Select
+                                          options={blindTypeAll}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onBlindTypeChange(event, i)
+                                          }
+                                          defaultValue={
+                                            blindTypeAll[hpc[i].blindTypeIndex]
+                                          }
+                                          placeholder={
+                                            typeof blindTypeAll[
+                                              hpc[i].blindTypeIndex
+                                            ] === "undefined"
+                                              ? "Select Blind Type"
+                                              : blindTypeAll[
+                                                  hpc[i].blindTypeIndex
+                                                ]
+                                          }
+                                          // filterOption={createFilter(filterConfig)}
+                                        />
+                                      </div>
+                                    </div>*/
+                                  }
+
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Sub Role</label>
+                                      <label for="">Study role</label>
                                       <Select
                                         options={subUserTypeAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2336,7 +2379,7 @@ const ViewTable = (props) => {
                                           typeof subUserTypeAll[
                                             hpc[i].subUserTypeIndex
                                           ] === "undefined"
-                                            ? "Select Sub Role"
+                                            ? "Select Study Role"
                                             : subUserTypeAll[
                                                 hpc[i].subUserTypeIndex
                                               ]
@@ -2427,7 +2470,7 @@ const ViewTable = (props) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Number</label>
+                                      <label for="">Site number</label>
                                       <Select
                                         options={siteNumberAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2476,7 +2519,7 @@ const ViewTable = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Name</label>
+                                      <label for="">Site name</label>
 
                                       <Select
                                         options={siteNameAll}

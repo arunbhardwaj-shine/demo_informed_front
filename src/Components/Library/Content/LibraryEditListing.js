@@ -1,14 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
 import { popup_alert } from "../../../popup_alert";
-import {
-  deleteData,
-  postData,
-  updateConsent,
-  resetStats,
-  updateTags,
-} from "../../../axios/apiHelper";
+import { postData, updateConsent, updateTags } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
@@ -29,18 +22,13 @@ import {
 
 import "react-toastify/dist/ReactToastify.css";
 import "react-activity/dist/library.css";
-
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-// import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
-
-const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryEditListing = () => {
   const limit = 24;
-  const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
@@ -48,8 +36,6 @@ const LibraryEditListing = () => {
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [totalCount, setCount] = useState(0);
-  const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
@@ -88,7 +74,6 @@ const LibraryEditListing = () => {
   const [qrSize, setQrSize] = useState(290);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [modalCounter, setModalCounter] = useState(0);
   const [allTags, setAllTags] = useState({});
   const [resetDataId, setResetDataId] = useState();
   const [popupMessage, setPopupMessage] = useState({
@@ -101,6 +86,8 @@ const LibraryEditListing = () => {
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
+
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const downloadQRData = [
     {
@@ -138,6 +125,12 @@ const LibraryEditListing = () => {
     applyFilters();
     getLibraryData(page, filterObject, search);
 
+    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ=='){
+      const newObj = {value: "Sunshine USA", label: "Sunshine USA"};
+      const updatedArray = [...types, newObj];
+      setTypes(updatedArray);
+    }
+
     function handleOutsideClick(event) {
       if (
         buttonRef.current &&
@@ -166,17 +159,13 @@ const LibraryEditListing = () => {
         setFilterData(res?.data?.data);
         setAllTags(res?.data?.data?.tags);
       }
-      // loader("hide");
     } catch (err) {
-      // loader("hide");
       console.log("err");
     }
   };
 
   const loadMoreClicked = () => {
-    // getLibraryData(sp, filterObject, search, 1);
     loader("show");
-
     let sp = page + 1;
     let totalRecord = loadData.limit * sp;
     let newData = [];
@@ -191,7 +180,6 @@ const LibraryEditListing = () => {
 
     setLibraryData((oldArray) => [...oldArray, ...newData]);
     setPage(sp);
-
     loader("hide");
   };
 
@@ -238,7 +226,6 @@ const LibraryEditListing = () => {
     setUserId(id);
 
     if (event == "data-tab") {
-      // setOpeningDetails(normal_data);
       let index = opening_details.findIndex((el) => el.pdfId == id);
       if (index === -1) {
         let normal_data = opening_details;
@@ -344,44 +331,11 @@ const LibraryEditListing = () => {
         }
       }
       setLibraryData(apiData);
-
-      // if (totalCount != res?.data?.data?.total) {
-      //   setCount(res?.data?.data?.total);
-      // }
-
-      // let total_results = 0;
-      // if (libraryData?.length) {
-      //   total_results = res?.data?.data?.library.length + libraryData.length;
-      //   if (res?.data?.data?.library) {
-      //     setLibraryData((oldArray) => [
-      //       ...oldArray,
-      //       ...res?.data?.data?.library,
-      //     ]);
-      //   }
-      // } else {
-      //   total_results = res?.data?.data?.library.length;
-      //   setLibraryData(res?.data?.data?.library);
-      // }
-
-      // if (res?.data?.data?.total > total_results) {
-      //   setIsLoaded(true);
-      // } else {
-      //   setIsLoaded(false);
-      // }
-
       setPageAll(false);
       setApiCallStatus(true);
-      loader("hide");
-      // setPageAllClicked(false);
-      // if((res?.data?.data?.library).length>0){
-      //   setIsLoaded(true);
-      //   setNoData(false)
-      // }
-      // else{
-      //   setNoData(true)
-      // }
     } catch (err) {
       console.log("err");
+    } finally {
       loader("hide");
     }
   };
@@ -396,65 +350,6 @@ const LibraryEditListing = () => {
 
       getLibraryData(page, filterObject, "");
     }
-  };
-
-  const showConfirmationPopup = (stateMsg, e, id) => {
-    if (stateMsg == "delete") {
-      // setUserId(id);
-      setResetDataId(id);
-      setCommonConfirmModelFun(() => deleteUser);
-      setPopupMessage({
-        message1:
-          "You are about to remove this content from any reader and every device forever.",
-        message2: "Are you sure you want to do this?",
-        footerButton: "Yes Please  !",
-      });
-      if (confirmationpopup) {
-        setConfirmationPopup(false);
-      } else {
-        setConfirmationPopup(true);
-      }
-    } else {
-      // setDeleteStatus(false);
-      setResetDataId(id);
-      setCommonConfirmModelFun(() => resetCollection);
-      setPopupMessage({
-        message1: " You are about to reset the collected data.",
-        message2: "Are you sure you want to do this?",
-        footerButton: "Delete all data",
-      });
-      if (confirmationpopup) {
-        setConfirmationPopup(false);
-      } else {
-        setConfirmationPopup(true);
-      }
-    }
-  };
-
-  const deleteUser = async (id) => {
-    loader("show");
-    try {
-      const res = await deleteData(ENDPOINT.DELETE, id);
-      if (res?.data?.message == "Library deleted successfully") {
-        loader("hide");
-        popup_alert({
-          visible: "show",
-          message: "Your content has been deleted <br />successfully !",
-          type: "success",
-          redirect: "",
-        });
-        const updatedRes = libraryData.filter((item) => item.id !== id);
-        setLibraryData(updatedRes);
-        // setLibraryData([]);
-        // getLibraryData(page, filterObject, search);
-      }
-
-      loader("hide");
-    } catch (err) {
-      loader("hide");
-    }
-
-    hideConfirmationModal();
   };
 
   const commonModelFun = () => {
@@ -521,8 +416,8 @@ const LibraryEditListing = () => {
   };
 
   const updateConset = async (pdf_id, index) => {
-    loader("show");
     try {
+      loader("show");
       const index = changeConsent.findIndex((el) => el.index === pdf_id);
       let consent_value = changeConsent[index].value;
 
@@ -548,55 +443,6 @@ const LibraryEditListing = () => {
       console.log("err", err);
       loader("hide");
     }
-  };
-
-  const resetCollection = async (pdf_id) => {
-    loader("show");
-    try {
-      let body = {
-        user_id: localStorage.getItem("user_id"),
-        pdfId: pdf_id,
-      };
-      const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
-      let normal_data = opening_details;
-      const lib_data_index = normal_data.findIndex(
-        (el) => el.pdf_id === pdf_id
-      );
-      normal_data[lib_data_index].uniqueReader = 0;
-      normal_data[lib_data_index].opening = 0;
-      normal_data[lib_data_index].registeredReader = 0;
-
-      setOpeningDetails(normal_data);
-      setFlag(1);
-      setUpdate(update + 1);
-
-      loader("hide");
-      popup_alert({
-        visible: "show",
-        message: "Your stats has been reset <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
-    } catch (err) {
-      console.log("err", err);
-      loader("hide");
-    }
-    hideConfirmationModal();
-  };
-
-  const tagButtonClicked = (pdf_id) => {
-    const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
-    let get_tags = libraryData[lib_data_index]?.tags;
-    if (get_tags != "") {
-      let parsed_tag = JSON.parse(get_tags);
-      setTagClickedFirst(parsed_tag);
-    } else {
-      setTagClickedFirst([]);
-    }
-    setFinalTags([]);
-    setpdftagsid(pdf_id);
-    setIsOpen(true);
-    setModalCounter(modalCounter + 1);
   };
 
   const closeModal = () => {
@@ -720,7 +566,6 @@ const LibraryEditListing = () => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
     document.body.appendChild(textArea);
-    // textArea.focus();
     textArea.select();
     try {
       document.execCommand("copy");
@@ -746,7 +591,6 @@ const LibraryEditListing = () => {
       data += "Request | ";
     }
     if (data) {
-      // data = data.replace(/^,|,$/g, "");
       data = data.trim().slice(0, -1);
     } else {
       data = "N/A";
@@ -1415,7 +1259,7 @@ const LibraryEditListing = () => {
 
                                     <li className="d-flex align-center">
                                       <h6 className="tab-content-title">
-                                        Unique Reader (total)
+                                        Unique reader (total)
                                         <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
                                           <img
                                             src={
@@ -1813,6 +1657,8 @@ const LibraryEditListing = () => {
                                             ? types[1]
                                             : data.linkType == "Sunshine"
                                             ? types[2]
+                                            : data.linkType == "Sunshine USA"
+                                            ? types?.[3]
                                             : "Select"
                                         }
                                         onChange={(event) =>
@@ -2050,113 +1896,6 @@ const LibraryEditListing = () => {
           </Row>
         </div>
       </Col>
-
-      <CommonModel
-        show={show}
-        onClose={setShow}
-        heading={"Download QR"}
-        data={downloadQRData}
-        footerButton={"Download"}
-        handleSubmit={downloadQRCode}
-        handleQR={handleQR}
-      />
-
-      <CommonConfirmModel
-        show={confirmationpopup}
-        onClose={hideConfirmationModal}
-        fun={commonConfirmModelFun}
-        popupMessage={popupMessage}
-        path_image={path_image}
-        resetDataId={resetDataId}
-      />
-
-      <Modal id="tagsModal" show={isOpen}>
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={closeModal}
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="select-tags">
-            <h6>Select Tag :</h6>
-            <div className="tag-lists">
-              <div className="tag-lists-view">
-                {allTags?.length
-                  ? Object.values(allTags).map((data) => {
-                      return (
-                        <>
-                          <div onClick={(event) => tagClicked(data)}>
-                            {data}{" "}
-                          </div>
-                        </>
-                      );
-                    })
-                  : null}
-              </div>
-            </div>
-          </div>
-          <div className="selected-tags">
-            <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
-            </h6>
-
-            <div className="total-selected">
-              {tagClickedFirst?.length
-                ? tagClickedFirst?.map((data, index) => {
-                    return (
-                      <>
-                        <div className="tag-cross">
-                          {data.innerHTML || data}
-                          <img
-                            src={path_image + "filter-close.svg"}
-                            alt="Close-filter"
-                            onClick={() => removeTagFinal(index)}
-                          />
-                        </div>
-                      </>
-                    );
-                  })
-                : null}
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <form>
-            <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
-              <input
-                type="text"
-                className="form-control"
-                id="new-tag"
-                value={newTag}
-                onChange={(e) => newTagChanged(e)}
-              />
-
-              <button
-                onClick={addTag}
-                type="button"
-                className="btn btn-primary add btn-bordered"
-              >
-                Add
-              </button>
-            </div>
-          </form>
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            onClick={saveButtonClicked}
-          >
-            Save
-          </button>
-        </Modal.Footer>
-      </Modal>
     </>
   );
 };

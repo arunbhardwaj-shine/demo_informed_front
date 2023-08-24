@@ -115,7 +115,10 @@ const TemplateBuilder = (props) => {
   const [getDefaultTemplate, setDefaultTemplate] = useState(0);
 
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "" ,
+    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+  },
   ]);
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -416,6 +419,8 @@ const TemplateBuilder = (props) => {
           email: "",
           contact_type: "",
           country: "",
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
         },
       ]);
     } else {
@@ -774,6 +779,8 @@ const TemplateBuilder = (props) => {
         email: "",
         contact_type: "",
         country: "",
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
       },
     ]);
     setActiveManual("active");
@@ -1305,7 +1312,7 @@ const TemplateBuilder = (props) => {
 
   const downloadFile = () => {
     let link = document.createElement("a");
-    link.href = "https://informed.pro/sample.xls";
+    link.href = "https://webinar.informed.pro/sample.xls";
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";
@@ -2123,7 +2130,7 @@ const TemplateBuilder = (props) => {
                           Email | <span>{data.email}</span>
                         </p>
                         <p className="send-hcp-box-title">
-                          Contact Type | <span>{data.contact_type}</span>
+                          Contact type | <span>{data.contact_type}</span>
                         </p>
                         <div
                           className="add-new-field"
@@ -2143,7 +2150,7 @@ const TemplateBuilder = (props) => {
             <div className="selected-hcp-table">
               <div className="table-title">
                 <h4>
-                  Selected Contact <span>| {selectedHcp.length}</span>
+                  Selected contact <span>| {selectedHcp.length}</span>
                 </h4>
               </div>
               <div className="selected-hcp-list">
@@ -2164,7 +2171,7 @@ const TemplateBuilder = (props) => {
                               Email | <span>{data.email}</span>
                             </p>
                             <p className="send-hcp-box-title">
-                              Contact Type | <span>{data.contact_type}</span>
+                              Contact type | <span>{data.contact_type}</span>
                             </p>
                             <div className="remove-existing-field">
                               <img
@@ -2233,6 +2240,8 @@ const TemplateBuilder = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
                   },
                 ]);
                 setActiveManual("active");
@@ -2257,7 +2266,7 @@ const TemplateBuilder = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2270,7 +2279,7 @@ const TemplateBuilder = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2314,7 +2323,7 @@ const TemplateBuilder = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT</label>
+                                      <label for="">IRT mandatory training</label>
 
                                       <Select
                                         options={optIRT}
@@ -2322,14 +2331,14 @@ const TemplateBuilder = (props) => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt}
+                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
                                         placeholder="Select IRT"
                                       />
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Role</label>
+                                      <label for="">IRT role</label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
@@ -2387,7 +2396,7 @@ const TemplateBuilder = (props) => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label htmlFor="">Contact Type</label>
+                                      <label htmlFor="">Contact type</label>
                                       <DropdownButton
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
@@ -2534,7 +2543,7 @@ const TemplateBuilder = (props) => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Number</label>
+                                      <label for="">Site number</label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -2564,7 +2573,7 @@ const TemplateBuilder = (props) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site Name</label>
+                                      <label for="">Site name</label>
 
                                       <Select
                                         options={siteNameAll}
@@ -2724,7 +2733,7 @@ const TemplateBuilder = (props) => {
                               <table>
                                 <tbody>
                                   <tr>
-                                    <th>Contact Type</th>
+                                    <th>Contact type</th>
                                     <td>{data.contact_type}</td>
                                   </tr>
                                   <tr>
@@ -2752,7 +2761,7 @@ const TemplateBuilder = (props) => {
                                     <td>{data.registered}</td>
                                   </tr>
                                   <tr>
-                                    <th>Created By</th>
+                                    <th>Created by</th>
                                     <td>
                                       <span>{data.creator}</span>
                                     </td>
@@ -2771,13 +2780,16 @@ const TemplateBuilder = (props) => {
                               />
                               {data.readers_count}
                             </div>
-                            <div className="smartlist-buttons">
-                              <button className="btn btn-primary btn-bordered view">
-                                <a onClick={() => openSmartListPopup(data.id)}>
-                                  View
-                                </a>
-                              </button>
-                            </div>
+                            {
+                              /*<div className="smartlist-buttons">
+                                <button className="btn btn-primary btn-bordered view">
+                                  <a onClick={() => openSmartListPopup(data.id)}>
+                                    View
+                                  </a>
+                                </button>
+                              </div>*/
+                            }
+
                           </div>
                         </div>
                       </div>

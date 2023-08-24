@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getData, postData, postFormData } from "../../axios/apiHelper";
-import { Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { ENDPOINT } from "../../axios/apiConfig";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import highchartsMap from "highcharts/modules/map";
 import MapModule from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import proj4 from "proj4";
 
 MapModule(Highcharts);
-
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const MapComponent = ({ data, status }) => {
@@ -104,49 +98,6 @@ const MapComponent = ({ data, status }) => {
     ],
   };
 
-  // country list
-  // const [countryList, SetCountryList] = useState({
-  //   chart: {
-  //     type: "bar",
-  //     height: "500%",
-  //   },
-  //   title: {
-  //     text: "",
-  //   },
-  //   xAxis: {
-  //     categories: [],
-  //   },
-  //   yAxis: {
-  //     title: {
-  //       text: "Number of Cases",
-  //     },
-  //   },
-  //   stackLabels: {
-  //     enabled: true,
-  //   },
-  //   legend: {
-  //     align: "center",
-  //     verticalAlign: "bottom",
-  //     layout: "horizontal",
-  //     x: 0,
-  //     y: 0,
-  //   },
-  //   plotOptions: {
-  //     bar: {
-  //       dataLabels: {
-  //         enabled: true,
-  //       },
-  //     },
-  //     series: {
-  //       pointWidth: 15,
-  //     },
-  //   },
-  //   exporting: {
-  //     showTable: true,
-  //   },
-  //   series: [],
-  // });
-
   Highcharts.setOptions({
     colors: ["#FFBE2C", "#00D4C0", "#F58289"],
   });
@@ -155,51 +106,17 @@ const MapComponent = ({ data, status }) => {
     const getDataFromApi = async () => {
       try {
         if (!status) {
-          // const countryData = data?.data?.map((item, index) => {
-          //   const latlongParts = item?.latlong.split("~");
-          //   const lat = parseFloat(latlongParts[0]) || 0;
-          //   const lon = parseFloat(latlongParts[1]) || 0;
-          //   const viewedOnDates = item?.dated
-          //     .map((date) => `viewed on: ${date}` + "<br> ")
-          //     .join("");
-          //   const indexVal = data?.countryname.indexOf(item.country);
-          //   const open = data?.opening[indexVal];
-          //   const readers = data?.reader[indexVal];
-          //   let matchedCountry = data?.countryname?.filter((name) => name === item.country)[0];
-            
-          //   if (matchedCountry === "United States") {
-          //     matchedCountry = "United States of America";
-          //   }
-
-
-          
-          //   return {
-          //     opening: open,
-          //     reader: readers,
-          //     name: matchedCountry,
-          //     lat: lat,
-          //     lon: lon,
-          //     city: item.city,
-          //     country: item.country,
-          //     address: item.address,
-          //     pdfTitle: item.pdftitle,
-          //     dated: viewedOnDates,
-          //   };
-          // });
-
-
-
           const coordinate = data?.coordinations;
           const countryNames = data?.countryname;
-          let countryData = []; 
-          
+          let countryData = [];
+
           if (Array.isArray(countryNames)) {
             countryData = countryNames.map((countryName, index) => {
               let lat, lon;
-          
-              if (countryName === 'Others') {
-                lat = 53.079178; 
-                lon = -31.368209; 
+
+              if (countryName === "Others") {
+                lat = 53.079178;
+                lon = -31.368209;
               } else {
                 const coordString = coordinate?.[countryName];
                 if (coordString) {
@@ -208,7 +125,7 @@ const MapComponent = ({ data, status }) => {
                   lon = parseFloat(parsedLon);
                 }
               }
-          
+
               return {
                 opening: data?.opening?.[index],
                 reader: data?.reader?.[index],
@@ -218,9 +135,7 @@ const MapComponent = ({ data, status }) => {
               };
             });
           }
-          
 
-         
           setNewData(countryData);
         } else {
           const countryData = data?.response?.data.map((coordObject, index) => {
@@ -230,7 +145,6 @@ const MapComponent = ({ data, status }) => {
               name: coordObject.region_name,
               lat: parseFloat(lat),
               lon: parseFloat(lon),
-
             };
           });
 
@@ -246,24 +160,24 @@ const MapComponent = ({ data, status }) => {
 
   return (
     <>
-      {/*<Col className="right-sidebar">
-          <div className="custom-container">
-            <Row>*/}
-
       <div className="high_charts"></div>
-      <HighchartsReact
-        constructorType={"mapChart"}
-        highcharts={Highcharts}
-        options={mapOptions}
-      />
-      {/* <div className="high_charts">
-              <HighchartsReact highcharts={Highcharts} options={countryList} />
-            </div> */}
-      {/*
-              </Row>
-            </div>
-          </Col>
-              */}
+
+      {newData?.length ? (
+        <>
+          <HighchartsReact
+            constructorType={"mapChart"}
+            highcharts={Highcharts}
+            options={mapOptions}
+          />
+        </>
+      ) : (
+        <>
+          {" "}
+          <div className="no_found">
+            <p align="center">No Data Available</p>
+          </div>
+        </>
+      )}
     </>
   );
 };

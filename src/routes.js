@@ -3,7 +3,12 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./App";
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Outlet,
+} from "react-router-dom";
 
 //Library routes
 import LibraryContent from "./Components/Library/Content/LibraryContent";
@@ -19,10 +24,9 @@ import Products from "./Components/Library/Products";
 import ChangePassword from "./Auth/ChangePassword";
 import WebinarQuestion from "./Components/Firbase/WebinarQuestion";
 
-//Firbase 
+//Firbase
 
 import Event from "./Components/Firbase/Event";
-
 
 //License routes
 import LicenseContent from "./Components/License/Content/LicenseContent";
@@ -112,6 +116,7 @@ import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
 import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
 import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
+import AddLinkToPdf from "./Components/Library/CreateChange/AddLinkToPdf";
 import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintelLink";
 import SpcView from "./Components/Library/SpcView";
 import CanadaContentType from "./Components/Analytics/CanadaContentType";
@@ -138,9 +143,10 @@ import RDRegister from "./Components/R&D/RDRegister";
 import RDAnalytics from "./Components/R&D/RDAnalytics";
 import SetLayout from "./Components/CommonComponent/SetLayout";
 import PreviewArticle from "./Components/Library/PreviewArticle";
-import CommanPage from "./Components/Firbase/CommanPage"
-import QuestionTrigger from "./Components/Firbase/QuestionTrigger"
-import PollQuestion from "./Components/Firbase/PollQuestion"
+import CommanPage from "./Components/Firbase/CommanPage";
+import QuestionTrigger from "./Components/Firbase/QuestionTrigger";
+import PollQuestion from "./Components/Firbase/PollQuestion";
+import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf";
 
 let platform = 0;
 let show = 0;
@@ -160,7 +166,7 @@ if (
 } else if (
   window.location.pathname == "/webinar" ||
   window.location.pathname == "/rd-register" ||
-  window.location.pathname =="LEX-210-Registration"
+  window.location.pathname == "LEX-210-Registration"
 ) {
   require("./Components/assets/css/webinar.css");
   require("./Components/assets/css/webinar-responsive.css");
@@ -175,6 +181,15 @@ if (
   require("./Components/assets/fonts/fonts.css");
   require("./Components/assets/css/video.css");
 }
+
+const Layout = () => {
+  return (
+    <>
+      <CommanPage />
+      <Outlet />
+    </>
+  );
+};
 
 const Routing = () => {
   return (
@@ -196,7 +211,10 @@ const Routing = () => {
         />
         <Route path="rd-register" element={<RDRegister />} />
         <Route path="LEX-210-Registration" element={<RDRegister />} />
-        <Route path="/LEX-210-analytics" element={<LoginLayout component={RDAnalytics} />} />
+        <Route
+          path="/LEX-210-analytics"
+          element={<LoginLayout component={RDAnalytics} />}
+        />
         //LoginLayout for pages after login
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
         <Route path="/users" element={<SetLayout component={SetLayout} />} />
@@ -204,6 +222,11 @@ const Routing = () => {
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
         />
+        <Route exact path="/Webinar" element={<Layout />}>
+          <Route exact path="poll-question" element={<PollQuestion />} />
+          <Route exact path="question-list" element={<QuestionTrigger />} />
+          <Route exact path="webinar-question" element={<WebinarQuestion />} />
+        </Route>
         <Route
           path="/cis_stats"
           element={<LoginLayout component={CisStats} />}
@@ -244,29 +267,10 @@ const Routing = () => {
           path="/analytic-content-type"
           element={<LoginLayout component={CanadaContentType} />}
         />
-         <Route
+        <Route
           path="/change-password"
           element={<LoginLayout component={ChangePassword} />}
         />
-          <Route
-          path="/webinar-question"
-          element={<WebinarQuestion />}
-        />
-         <Route
-          path="/poll-question"
-          element={<PollQuestion />}
-        />
-        <Route
-          path="/comman-question"
-          element={<CommanPage />}
-        />
-         <Route
-          path="/question-list"
-          element={<QuestionTrigger />}
-        />
-
-         
-
         <Route
           path="/analytic-delivery-trends"
           element={<LoginLayout component={CanadaDeliveryTrends} />}
@@ -363,14 +367,7 @@ const Routing = () => {
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
         />
-
-          <Route
-          path="/event"
-          element={<Event />}
-        />
-
-
-
+        <Route path="/event" element={<Event />} />
         <Route
           path="/library-edit"
           element={<LoginLayout component={EditLibrary} />}
@@ -401,6 +398,10 @@ const Routing = () => {
         <Route
           path="/library-create-user"
           element={<LoginLayout component={LibraryCreateUser} />}
+        />
+        <Route
+          path="/library-add-link"
+          element={<LoginLayout component={AddLinkToPdf} />}
         />
         <Route
           path="/edit-Consent-Options"
@@ -595,6 +596,10 @@ const Routing = () => {
         <Route
           path="/license-create-user"
           element={<LoginLayout component={LicenseCreateUser} />}
+        />
+        <Route
+          path="/license-add-link"
+          element={<LoginLayout component={LicenseLinkToPdf} />}
         />
         <Route
           path="/license-sublink"

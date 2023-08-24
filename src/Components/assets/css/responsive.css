@@ -1603,7 +1603,7 @@
   }
 
   .page-top-nav .tabnav-link li a {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .page-top-nav .tabnav-link li::after {
@@ -1797,7 +1797,9 @@
 }
 
 @media only screen and (max-width: 1365px) {
-  nav #collapsibleNavbar li.nav-item a {
+
+  nav #collapsibleNavbar li.nav-item a,
+  .nav-item.user-login .dropdown #dropdown-basic {
     padding: 0 28px;
   }
 }

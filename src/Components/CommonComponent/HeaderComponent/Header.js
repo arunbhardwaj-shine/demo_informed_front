@@ -38,6 +38,12 @@ const Header = () => {
   const queryParams = queryString.parse(window.location.search);
   const scrollDirection = useScrollDirection();
   const [getUserName, setUserName] = useState("");
+  const [congressOptions, setCongressOptions] = useState([
+    { value: "I3yCIhnPAd0Ma6sNY4augA==", label: "THSNA" },
+    { value: "5EdDBhVCQm08iLJwBENCWw==", label: "WFH" },
+    { value: "Y/I8/x8K0syk/ulWyKwKhg==", label: "ISTH" },
+    { value: "MpEPwXLqTPveAfumxT/KXw==", label: "EAHAD" },
+  ]);
   const navigate = useNavigate();
 
   const removed_pop = () => {
@@ -105,6 +111,7 @@ const Header = () => {
   }, []);
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -149,6 +156,7 @@ const Header = () => {
                     window.location.pathname == "/set-popup" ||
                     window.location.pathname == "/preview-content" ||
                     window.location.pathname == "/library-create-user" ||
+                    window.location.pathname == "/library-add-link" ||
                     window.location.pathname == "/edit-Consent-Options" ||
                     window.location.pathname == "/auto_popup" ||
                     window.location.pathname == "/create-docintel-link" ||
@@ -219,7 +227,7 @@ const Header = () => {
                     window.location.pathname == "/octa-country" ||
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
-                    window.location.pathname =="/LEX-210-analytics" ||
+                    window.location.pathname == "/LEX-210-analytics" ||
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
                       : "nav-item"
@@ -299,7 +307,8 @@ const Header = () => {
                       window.location.pathname == "/license-create-user" ||
                       window.location.pathname == "/license-content-detail" ||
                       window.location.pathname == "/license-edit-listing" ||
-                      window.location.pathname == "/license-create"
+                      window.location.pathname == "/license-create" ||
+                      window.location.pathname == "/license-add-link"
                         ? "nav-item active active-main"
                         : "nav-item"
                     }
@@ -312,7 +321,8 @@ const Header = () => {
 
                 {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
                 localStorage.getItem("webinar_flag") == 1 &&
-                localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                localStorage.getItem("user_id") !=
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
                   <li className="nav-item">
                     <a
                       className="nav-link"
@@ -340,8 +350,41 @@ const Header = () => {
                         localStorage.getItem("user_id")
                       }
                     >
-                      Q&A/SURVEY
+                      Q & POLL
                     </a>
+                  </li>
+                ) : (
+                  ""
+                )}
+
+                {localStorage.getItem("user_id") ==
+                "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                  <li className="nav-item user-login">
+                    <Dropdown>
+                      <Dropdown.Toggle id="dropdown-basic">
+                        <span>CONGRESS</span>
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        {congressOptions.map((item) => {
+                          return (
+                            <Dropdown.Item
+                              onClick={(e) =>
+                                window.open(
+                                  "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
+                                    item?.value,
+                                  "_blank",
+                                  "noreferrer"
+                                )
+                              }
+                              className="dropdown-item"
+                            >
+                              {item.label}
+                            </Dropdown.Item>
+                          );
+                        })}
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </li>
                 ) : (
                   ""

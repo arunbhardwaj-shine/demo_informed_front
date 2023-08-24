@@ -79,9 +79,9 @@ const LibraryCreateUser = () => {
     { value: "unblinded", label: "unblind" },
   ]);
   const [mandatoryRole, setMandatoryRole] = useState([
+    "Site User-Blinded",
     "Investigator-Blinded",
     "Site unblinded pharmacist",
-    "Blinded site user",
   ]);
   const [ebookFile, setEbookFile] = useState([]);
   const [chapter, setChapter] = useState([
@@ -232,6 +232,7 @@ const LibraryCreateUser = () => {
           },
         ]);
       }
+
       setCreateLibraryInputs({
         ...userInputs,
         uploadFile: "",
@@ -240,6 +241,7 @@ const LibraryCreateUser = () => {
             ? e?.target?.files
             : e
           : e?.target?.value,
+        allowVideo: false,
       });
     } else {
       setCreateLibraryInputs({
@@ -408,7 +410,13 @@ const LibraryCreateUser = () => {
             ? JSON.stringify(userInputs?.draft)
             : JSON.stringify(false)
         );
-        formData.append("allowVideo", userInputs?.allowVideo ? 1 : 0);
+
+        if (userInputs?.docintelFormat == "video") {
+          formData.append("allowVideo", 0);
+        } else {
+          formData.append("allowVideo", userInputs?.allowVideo ? 1 : 0);
+        }
+
         formData.append("comDatetime", userInputs?.comDatetime);
         formData.append("cpdValue", userInputs?.cpdValue);
         formData.append(
@@ -424,17 +432,59 @@ const LibraryCreateUser = () => {
         loader("hide");
 
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-          navigate("/preview-content", {
-            state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
-          });
+          if (
+            userInputs?.docintelFormat == "video" ||
+            userInputs?.docintelFormat == "Video"
+          ) {
+            navigate("/content-detail", {
+              state: { pdfId: res?.data?.data?.pdfId },
+            });
+          } else {
+            navigate("/preview-content", {
+              state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
+            });
+          }
         } else {
-          navigate("/set-popup", {
-            state: {
-              pdfId: res?.data?.data?.pdfId,
-              fileType: userInputs?.docintelFormat,
-              isEdit: 0,
-            },
-          });
+          if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
+            if (
+              userInputs?.docintelFormat == "video" ||
+              userInputs?.docintelFormat == "Video"
+            ) {
+              navigate("/set-popup", {
+                state: {
+                  pdfId: res?.data?.data?.pdfId,
+                  fileType: userInputs?.docintelFormat,
+                  isEdit: 0,
+                },
+              });
+            } else {
+              if (userInputs?.allowVideo) {
+                navigate("/library-add-link", {
+                  state: {
+                    pdfId: res?.data?.data?.pdfId,
+                    isEdit: 0,
+                    allowVideo: userInputs?.allowVideo,
+                  },
+                });
+              } else {
+                navigate("/set-popup", {
+                  state: {
+                    pdfId: res?.data?.data?.pdfId,
+                    fileType: userInputs?.docintelFormat,
+                    isEdit: 0,
+                  },
+                });
+              }
+            }
+          } else {
+            navigate("/set-popup", {
+              state: {
+                pdfId: res?.data?.data?.pdfId,
+                fileType: userInputs?.docintelFormat,
+                isEdit: 0,
+              },
+            });
+          }
         }
       } catch (err) {
         loader("hide");
@@ -717,8 +767,8 @@ const LibraryCreateUser = () => {
                 />
               </div>
 
-              {
-                localStorage.getItem('user_id') == "rOhdD02MgXkownQqcreqAw==" &&
+              {localStorage.getItem("user_id") ==
+                "rOhdD02MgXkownQqcreqAw==" && (
                 <>
                   <div className="form-group">
                     <label htmlFor="">Sales</label>
@@ -731,8 +781,7 @@ const LibraryCreateUser = () => {
                     />
                   </div>
                 </>
-              }
-
+              )}
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
               <div className="form-group justify-content-end">
@@ -1184,6 +1233,12 @@ const LibraryCreateUser = () => {
                     <li className="active active-main">
                       <a href="">Create Your Content</a>
                     </li>
+                    {localStorage.getItem("user_id") ==
+                      "rjiGlqA9DXJVH7bDDTX0Lg==" && userInputs?.allowVideo ? (
+                      <li className="">
+                        <a href="">[Embedding Video]</a>
+                      </li>
+                    ) : null}
                     {localStorage.getItem("user_id") !=
                     "56Ek4feL/1A8mZgIKQWEqg==" ? (
                       <li className="">
@@ -1501,9 +1556,12 @@ const LibraryCreateUser = () => {
                     {userDetail?.user?.[0]?.flag == 1 &&
                     userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
-                        <label htmlFor="setasdraft1">{
-                         localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="?"Irt mandatory training":"Mandatory"   }</label>
+                        <label htmlFor="setasdraft1">
+                          {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg=="
+                            ? "Irt mandatory training"
+                            : "Mandatory"}
+                        </label>
                         <fieldset id="group2">
                           <div className="switch">
                             <label className="switch-light">
@@ -1600,7 +1658,7 @@ const LibraryCreateUser = () => {
                     userInputs?.mandatory == 1 &&
                     userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
-                        <label htmlFor="">IRT Role</label>
+                        <label htmlFor="">IRT role</label>
                         <div className="input-group w-100">
                           <div className="tags_added">
                             <div className="select-tags">
@@ -1738,8 +1796,7 @@ const LibraryCreateUser = () => {
                           </div>
                         ) : null}
                       </div>
-                    ) : // ePrint == "eBook" ? (
-                    userInputs.docintelFormat == "ebook" ? (
+                    ) : userInputs.docintelFormat == "ebook" ? (
                       chapter.map((val, i) => {
                         return (
                           <>
@@ -1750,7 +1807,7 @@ const LibraryCreateUser = () => {
                                   "56Ek4feL/1A8mZgIKQWEqg=="
                                     ? "Chapter "
                                     : "File "}
-                                  {i + 1} title
+                                  {i + 1} title <span>*</span>
                                 </label>
                                 <input
                                   type="text"
@@ -1965,6 +2022,36 @@ const LibraryCreateUser = () => {
                       </div>
                     </Col>
                   ) : null}
+
+                  {(ebookFile?.length &&
+                    userInputs.docintelFormat?.includes("ebook")) ||
+                  (["ebook", "pdf", "pdfSpc"].includes(
+                    userInputs.docintelFormat
+                  ) &&
+                    localStorage.getItem("user_id") ==
+                      "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
+                    <>
+                      <div className="form-group">
+                        <label htmlFor="">Include video</label>
+                        <div className="switch">
+                          <label className="switch-light">
+                            <input
+                              type="checkbox"
+                              checked={userInputs?.allowVideo ? true : false}
+                              onChange={(e) => {
+                                handleChange(e.target?.checked, "allowVideo");
+                              }}
+                            />
+                            <span>
+                              <span className="switch-btn active">No</span>
+                              <span className="switch-btn">Yes</span>
+                            </span>
+                            <a className="btn"></a>
+                          </label>
+                        </div>
+                      </div>
+                    </>
+                  ) : null}
                 </Row>
               </div>
             </div>
@@ -1981,12 +2068,7 @@ const LibraryCreateUser = () => {
               <p>Select the chapter </p>
               <Form.Group className="formgroup">
                 <Form.Label>Chapters</Form.Label>
-                {/* <ReactSelect
-                  placeholder="Select your chapter"
-                  options={types}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                /> */}
+
                 <DropdownButton
                   className="dropdown-basic-button split-button-dropup "
                   title={
@@ -2084,7 +2166,6 @@ const LibraryCreateUser = () => {
           <Button
             className="btn-filled"
             variant="primary"
-            // onClick={handleClose}
             onClick={() => navigate("/edit-Consent-Options")}
           >
             Save

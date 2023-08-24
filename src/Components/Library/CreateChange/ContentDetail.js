@@ -230,7 +230,9 @@ const ContentDetail = () => {
                                         </>
                                       </h6>
                                       {localStorage.getItem("user_id") !=
-                                      "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                                        "iSnEsKu5gB/DRlycxB6G4g==" &&
+                                      localStorage.getItem("user_id") !=
+                                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                         <h6>
                                           <strong>Author | </strong>
                                           {data?.key_author
@@ -333,14 +335,6 @@ const ContentDetail = () => {
                                                     "group_id"
                                                   ) == "3" ? (
                                                     <>
-                                                      {/*<tr>
-                                                          <th>Trial</th>
-                                                          <td>
-                                                            {data?.trial_name
-                                                              ? data?.trial_name
-                                                              : "N/A"}
-                                                          </td>
-                                                        </tr>*/}
                                                       <tr>
                                                         <th>User Role</th>
                                                         <td>
@@ -620,9 +614,6 @@ const ContentDetail = () => {
                                                           "video"
                                                         ? "Video"
                                                         : "PDF"}
-                                                      {/*data?.linkType
-                                                          ? data?.linkType
-                                                          : "N/A"*/}
                                                     </td>
                                                   </tr>
                                                 ) : null}

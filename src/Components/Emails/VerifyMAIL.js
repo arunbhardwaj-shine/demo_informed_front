@@ -715,7 +715,7 @@ const VerifyMAIL = (props) => {
                                   <table>
                                     <tbody>
                                       <tr>
-                                        <th>Upload Date</th>
+                                        <th>Upload date</th>
                                         <td>{getpdfdata.pdf_created}</td>
                                       </tr>
                                       <tr>
@@ -731,7 +731,7 @@ const VerifyMAIL = (props) => {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <th>Last Email</th>
+                                        <th>Last email</th>
                                         <td>
                                           {getpdfdata.pdf_last_sent == ""
                                             ? "N/A"
@@ -844,7 +844,7 @@ const VerifyMAIL = (props) => {
                                     <table>
                                       <tbody>
                                         <tr>
-                                          <th>Contact Type</th>
+                                          <th>Contact type</th>
                                           <td>
                                             {getSmartListData.contact_type}
                                           </td>
@@ -876,7 +876,7 @@ const VerifyMAIL = (props) => {
                                           <td>{getSmartListData.registered}</td>
                                         </tr>
                                         <tr>
-                                          <th>Created By</th>
+                                          <th>Created by</th>
                                           <td>
                                             <span>
                                               {getSmartListData.creator}
@@ -1082,15 +1082,27 @@ const VerifyMAIL = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      <th scope="col">Business Unit</th>
-                      <th scope="col">Contact Type</th>
+
+                      {localStorage.getItem("user_id") ===
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <>
+                        <th scope="col">IRT mandatory training</th>
+                        <th scope="col">IRT role</th>
+                        </>
+                      ) : (
+                        <>
+                        <th scope="col">Business unit</th>
+                        <th scope="col">Contact type</th>
+                        </>
+                      )}
+
                       {showLessInfo == false ? (
                         <>
                           <th scope="col">Consent</th>
-                          <th scope="col">Email Received</th>
+                          <th scope="col">Email received</th>
                           <th scope="col">Openings</th>
                           <th scope="col">Registrations</th>
-                          <th scope="col">Last Email</th>
+                          <th scope="col">Last email</th>
                         </>
                       ) : null}
                     </tr>
@@ -1106,8 +1118,22 @@ const VerifyMAIL = (props) => {
                               <td>{rr.email}</td>
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
-                              <td>{rr.ibu}</td>
-                              <td>{rr.contact_type}</td>
+                              <td>
+                                {localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? rr?.irt
+                                      ? "Yes"
+                                      : "No"
+                                    :rr.ibu
+                                    ? rr.ibu
+                                    : "N/A"}
+                              </td>
+                              <td>
+                                {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr.user_type != 0 ? rr.user_type : "N/A"
+                                  : rr.contact_type
+                                }
+                              </td>
                               {showLessInfo == false ? (
                                 <td>
                                   <span>{rr.consent}</span>{" "}

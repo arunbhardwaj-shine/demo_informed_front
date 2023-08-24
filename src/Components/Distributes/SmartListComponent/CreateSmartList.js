@@ -19,7 +19,7 @@ import "react-circular-progressbar/dist/styles.css";
 const CreateSmartList = () => {
   const percentage = 98;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
-  const [fileLength, setFileLength] = useState();
+  const [fileLength, setFileLength] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
   const [showPreogressBar, setShowProgressBar] = useState(false);
@@ -267,9 +267,11 @@ const CreateSmartList = () => {
       user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
       user_id == "UbCJcnLM9fe HsRMgX8c1A=="
     ) {
-      link.href = "https://informed.pro/sample_st.xls";
+      link.href = "https://webinar.informed.pro/sample_st.xls";
+    } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+      link.href = "https://webinar.informed.pro/R_D_sample.xlsx";
     } else {
-      link.href = "https://informed.pro/sample.xls";
+      link.href = "https://webinar.informed.pro/sample.xls";
     }
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
@@ -339,7 +341,7 @@ const CreateSmartList = () => {
 
                         <div className="form-group col">
                           <label htmlFor="creator-name">
-                            Creator’s Name <span>*</span>
+                            Creator’s name <span>*</span>
                           </label>
                           <input
                             type="text"
@@ -358,28 +360,32 @@ const CreateSmartList = () => {
                           ) : null}
                         </div>
 
-                        <div className="form-group col-sm-12">
-                          <div className="form-group-content">
-                            <p>
-                              I want this to be a <span>Demo list</span>
-                            </p>
-                            <div className="select-demo-option">
-                              <input type="checkbox" name="cherk" />
-                              <span className="checkmark"></span>
+                        {
+                          /*<div className="form-group col-sm-12">
+                            <div className="form-group-content">
+                              <p>
+                                I want this to be a <span>Demo list</span>
+                              </p>
+                              <div className="select-demo-option">
+                                <input type="checkbox" name="cherk" />
+                                <span className="checkmark"></span>
+                              </div>
+                              <a
+                                href="#"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                              >
+                                <img src={path + "question.svg"} alt="" />
+                              </a>
+                              <div className="tooltip">
+                                A list that will appeare when you select smart
+                                list to <span>send a sample.</span>
+                              </div>
                             </div>
-                            <a
-                              href="#"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                            >
-                              <img src={path + "question.svg"} alt="" />
-                            </a>
-                            <div className="tooltip">
-                              A list that will appeare when you select smart
-                              list to <span>send a sample.</span>
-                            </div>
-                          </div>
-                        </div>
+                          </div>*/
+                        }
+
+
                       </div>
                     </form>
                   </div>
@@ -427,8 +433,8 @@ const CreateSmartList = () => {
                 <div className="download-sample">
                   <p>
                   {localStorage.getItem("user_id") == userId?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
- 
-                    
+
+
                    </p>
                   <div className="upload-btn" onClick={downloadFile}>
                     Download File

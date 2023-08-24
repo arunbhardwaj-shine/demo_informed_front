@@ -35,7 +35,6 @@ const SetPopup = (props) => {
   const [actualTemplateData, setActualTemplateData] = useState([]);
   const [isTemplateData, setIsTemplateData] = useState(true);
   const [isOnline, setIsOnline] = useState(false);
-
   const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [countryOption, setCountryOption] = useState(0);
   const [templateSaving, setTemplateSaving] = useState("");
@@ -62,6 +61,13 @@ const SetPopup = (props) => {
   );
   const [isEdit, setIsEdit] = useState(
     typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
+  );
+  const [allowStateVideo, setAllowStateVideo] = useState(
+    typeof state?.allowVideo !== "undefined"
+      ? state?.allowVideo
+        ? true
+        : false
+      : false
   );
   const [changeEditorCount, setChangeEditorCount] = useState(0);
   const [selectOptions, setSelectOptions] = useState({
@@ -94,9 +100,12 @@ const SetPopup = (props) => {
   };
 
   useEffect(() => {
+    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ=='){
+      const newObj = {value: "Sunshine USA", label: "Sunshine USA"};
+      const updatedArray = [...types, newObj];
+      setTypes(updatedArray);
+    }
     getTemplateListData(0, "All", "", 1);
-
-    // div_img.click();
   }, []);
 
   const dropDownSelected = (label, e) => {
@@ -192,6 +201,9 @@ const SetPopup = (props) => {
 
           data.push(res?.data?.data?.popupData[0]);
           data.push(res?.data?.data?.popupData[3]);
+        } else if(consent == "Sunshine USA" || first_consent == "Sunshine USA"){
+          setIsOnline(false);
+          data = res?.data?.data?.usaPopup;
         } else {
           setIsOnline(false);
 
@@ -304,7 +316,11 @@ const SetPopup = (props) => {
       loader("hide");
       if (state?.fileType != "video") {
         navigate("/preview-content", {
-          state: { pdfId: articleId, isEdit: isEdit },
+          state: {
+            pdfId: articleId,
+            isEdit: isEdit,
+            allowVideo: allowStateVideo,
+          },
         });
       } else {
         navigate("/content-detail", {
@@ -312,7 +328,6 @@ const SetPopup = (props) => {
         });
       }
 
-      // navigate("/preview-content")
     } catch (err) {
       loader("hide");
     }
@@ -351,17 +366,39 @@ const SetPopup = (props) => {
                     <Row className="justify-content-end align-items-center">
                       <Col md="1">
                         <div className="header-btn-left">
-                          <Link
+                          <Button
                             className="btn btn-bordered btn btn-primary"
-                            to="/library-create"
+                            onClick={() => {
+                              if (
+                                localStorage.getItem("user_id") ==
+                                  "rjiGlqA9DXJVH7bDDTX0Lg==" &&
+                                allowStateVideo
+                              ) {
+                                navigate("/library-add-link", {
+                                  state: {
+                                    pdfId: state?.pdfId,
+                                    isEdit: isEdit,
+                                    allowVideo: allowStateVideo,
+                                  },
+                                });
+                              } else {
+                                navigate("/library-create");
+                              }
+                            }}
                           >
                             Back
-                            {/*
+                          </Button>
+                          {/* <Link
+                            className="btn btn-bordered btn btn-primary"
+                            to="/library-create"
+                          > */}
+                          {/* Back */}
+                          {/*
                               <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
                               </svg>
                               */}
-                          </Link>
+                          {/* </Link> */}
                           {/* <Link
                             className="btn btn-primary btn-bordered back"
                             to="/library-create-user"
@@ -377,6 +414,11 @@ const SetPopup = (props) => {
                               <li className="">
                                 <a href="">Edit Your Content</a>
                               </li>
+                              {allowStateVideo ? (
+                                <li className="">
+                                  <a href="">[Embedding Video]</a>
+                                </li>
+                              ) : null}
                               <li className="active active-main">
                                 <a href="">Edit Consent Option</a>
                               </li>
@@ -389,6 +431,11 @@ const SetPopup = (props) => {
                               <li className="">
                                 <a href="">Create Your Content</a>
                               </li>
+                              {allowStateVideo ? (
+                                <li className="">
+                                  <a href="">[Embedding Video]</a>
+                                </li>
+                              ) : null}
                               <li className="active active-main">
                                 <a href="">Edit Consent Option</a>
                               </li>
