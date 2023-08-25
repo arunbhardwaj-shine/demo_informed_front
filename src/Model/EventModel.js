@@ -7,6 +7,7 @@ import { postData } from "../axios/apiHelper";
 import { ENDPOINT } from "../axios/apiConfig";
 import { loader } from "../loader";
 
+
 const EventModel = ({ show, onClose, data ,eventId}) => {
   const [user, setUser] = useState({
     speakerName: "",
@@ -20,7 +21,6 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
   const handleChange = (value, type, e) => {
     if (type == "CHECKBOX") {
       let newAr = [];
-      console.log("-users",user.poll_answer_id)
       if (user?.poll_answer_id && user?.poll_answer_id?.includes(value)) {
         newAr = user?.poll_answer_id?.filter((item) => item != value);
       } else {
@@ -76,8 +76,11 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
       if (!eventQuestion?.includes(user?.poll_question_id)) {
         let newAr = eventQuestion?.length ? JSON.parse(eventQuestion) : [];
         newAr.push(user?.poll_question_id);
-        Cookies.set("eventQuestion", JSON.stringify(newAr), { expires: 7 });
+        const expirationDate = new Date();
+        expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+        Cookies.set("eventQuestion", JSON.stringify(newAr), { expires:expirationDate });
       }
+      setUser({})
       onClose(false);
       loader("hide")
 

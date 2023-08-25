@@ -9,6 +9,9 @@ import DisplayAnswer from "../../Model/DisplayAnswer";
 import "./custom.css"
 import { loader } from "../../loader";
 import "./style.css"
+import { v4 as uuid } from 'uuid';
+
+
 import axios from "axios"
 import {db} from "../../config/firebaseConfig"
 const Event = () =>{
@@ -70,11 +73,7 @@ const Event = () =>{
                 "portal"     : "web",
                 "name": user?.name
              };
-            await axios({
-                method:"post",
-                data:body,
-                baseURL: `${process.env.REACT_APP_API_KEY}save_contact`
-               });
+             await postData(ENDPOINT.ADD_WEBINAR_QUESTION,body)
               if(data){
                 setData(0)
               }
@@ -89,7 +88,6 @@ const Event = () =>{
             loader("hide")
             console.log("-err",err)
         }
-
     }
   
        onSnapshot(q, (querySnapshot) => {
@@ -99,13 +97,24 @@ const Event = () =>{
                 newData = doc.data()
             }
         });
-        
-
       if(Object.keys(newData)?.length){
 
         /* Check already submit question  */
         const eventQuestion = Cookies.get('eventQuestion');
         if(eventQuestion?.includes(newData?.question_id) && newData?.triggered == 1){
+            if(data){
+                setData(0)
+            }
+            if(show){
+                  setShow(false)
+             }
+             if(answerPop){
+                setAnswerPopup(false)
+             }
+         
+             if(Object.keys(value)?.length){
+                  setValue({})
+            }
             return 
         }else if(!eventQuestion?.includes(newData?.question_id) && newData?.triggered == 2){
             if(data){
@@ -113,6 +122,9 @@ const Event = () =>{
             }
             if(show){
                 setShow(false)
+             }
+             if(answerPop){
+                setAnswerPopup(false)
              }
              if(Object.keys(value)?.length){
                 setValue({})
@@ -166,7 +178,7 @@ const Event = () =>{
     const handleEvent = async() =>{
         try{
             if(data == 1){
-                if(Object.keys(value)?.length){
+                  if(Object.keys(value)?.length){
                     const result = await postData(ENDPOINT.WEBINAR_QUESTION,{
                           eventId:value?.event_id,
                           companyId:value?.question_id
@@ -174,6 +186,7 @@ const Event = () =>{
                       setApiData(result?.data?.data)
                       setShow(true)
                       setAnswerPopup(false)
+                      setData(0)
       
                   }
             }else if(data == 2){
@@ -184,6 +197,7 @@ const Event = () =>{
                       setApiData(result?.data?.data)
                       setAnswerPopup(true)
                       setShow(false)
+                      setData(0)
             }
            
        
@@ -192,15 +206,18 @@ const Event = () =>{
         }
     }
     useEffect(()=>{
+
     let events =  Cookies.get('events');
         if(!events){
-            const random = Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
-            const timestamp = new Date().getTime();
+            const unique_id = uuid();
             const expirationDate = new Date();
             expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-            Cookies.set('events', `${timestamp}${random}`, { expires: expirationDate  });
+            Cookies.set('events', `${unique_id}`, { expires: expirationDate  });
         }
-      handleEvent()
+        if(data){
+            handleEvent()
+        }
+   
     },[data])
 
     return (
