@@ -145,6 +145,15 @@ const Sidebar = () => {
     title = "New SubLink";
     video_url ="/componentAssets/images/new-sublink.mp4";
     video_poster ="/componentAssets/images/new-sublink.png";
+  }else if (location.pathname == "/products") {
+    title = "Products and Tags";
+    video_url ="/componentAssets/images/products-tags.mp4";
+    video_poster ="/componentAssets/images/products-tags.png";
+  }else if (location.pathname == "/library-create-user" || location.pathname == "/preview-content" ||
+    location.pathname == "/content-detail") {
+    title = "Create content";
+    video_url ="/componentAssets/images/create_content.mp4";
+    video_poster ="/componentAssets/images/create-content.png";
   }
 
   return (
@@ -4823,6 +4832,125 @@ const Sidebar = () => {
               </div>
           </>
         )}
+
+         {/*Help Pages for filter segment start*/}
+        {location.pathname == "/license-preview-content" && (
+          <>
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+                      <div className="help-popup-content-library-inside library-p publisher">
+                         <h6>Create content</h6>
+                        <p><strong>Steps 3 :</strong> “Preview your content & publish”</p><p></p>
+                        <p>
+                          Review your content details and make necessary edits.
+                        </p>
+                      </div>
+                      <hr/>
+                      <div className="help-popup-content-library-inside">
+                        <img className="dleete-btn" src={path_image + "edit-button-white.png"} alt="" />
+                        <p><span>If needed, change the title by clicking on the pen icon.</span></p>
+                      </div>
+                      <hr/>
+                      <div className="help-popup-content-library-inside">
+                          <Button className="btn-bordered">Change content file</Button>
+                          <p><span>Click “Change content file” to change the uploaded content file.</span></p>
+                      </div>
+                      <hr/>
+                      <div className="help-popup-content-library-inside">
+                        <p className="voilet-text">You have to scroll to the bottom to complete previewing your file and that will enable the “Publish” button.</p>
+                        <Button className="btn-filled publish">Publish</Button>
+                        <p><span>Click “Publish” to finalise your content.</span></p>
+                      </div>
+                      <hr/>
+                      <div class="help-popup-content-library-inside">
+                        <Button className="btn-bordered back">Back</Button><p></p>
+                        <p><span>Or click  “Back” to go back to the previous step.</span></p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
         {/*Help Pages for filter segment start*/}
         {location.pathname == "/license-sublink" && (
           <>
@@ -4947,9 +5075,273 @@ const Sidebar = () => {
           </>
         )}
         {/*Help Pages for filter segment end*/}
-        {/*Help Pages for filter segment end*/}
+
+
         {/*Help Pages for filter segment start*/}
         {location.pathname == "/library-create-user" && (
+          <>
+          {localStorage.getItem("group_id") == 3 ? (
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div>
+                    <div className="help-popup-content-library-inside">
+                            <p><strong>Three Steps to Create Your Content</strong></p>
+                            <img src={path_image + "create-content-steps.png"} alt=""/>
+                            <p><strong>Steps 1 : </strong>“Create Your Content”</p>
+                          </div>
+                          <div className="help-popup-content-library-inside">
+                            <p>Start by filling in the information <strong>About the Docintel link you're making.</strong></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <Button className="btn-purple btn-bordered">Add new product +</Button>
+                            <p><span>Next add the product. To add a new product, click “Add a New Product” found to the right of the “Product” bar. This will reveal a pop-up.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <img src={path_image + "group-topics.png"} alt="" /><p></p>
+                            <p><span>To add topic tags, click “Add Topic” and select one or more from the predefined list or create your own.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <p>Next <strong>Create the Docintel link</strong> for your content.</p>
+                            <img src={path_image + "form-toggle.png"} alt=""/>
+                            <p><span>You can save your content as a draft by selecting “Yes” in the Draft button. </span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <p>Select the Docintel format, such as PDF, Video and E-book.</p><p></p>
+                            <img src={path_image + "select-format.png"} alt=""/><p></p>
+                            <p><span><strong>E-book</strong> allows you to upload individual chapters by clicking “Choose Your File” and type chapter title. </span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <img src={path_image + "select-cover-img.png"} alt=""/><p></p>
+                            <p><span> The last thing is uploading the content cover by clicking “Choose Your File”.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <Button className="btn-filled cancel">Next</Button>
+                            <p><span>Click “Next” to move to the next step.</span></p>
+                          </div>
+                          <div className="help-popup-content-library-inside">
+                            <p><strong>Something else</strong><br/>
+                              If you have any special requirements that are not available here please open a ticket in the upper right corner or email/call your inforMed.pro contact.</p>
+                          </div>
+
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+           ) : (
+              ""
+            )}
+            {localStorage.getItem("group_id") == 2 ? (
+              <div className="help-popup">
+                  <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                        {/* <div className="help-popup-content-video">
+                          <h6>{title}</h6>
+                          <div
+                            className="help-content-popup"
+                            onClick={() =>
+                              setOpenVideoPopup(
+                                (getOpenVideoPopup) => !getOpenVideoPopup
+                              )
+                            }
+                          >
+                            <a href="javascript:;">
+                              <img src={video_poster} alt="" />
+                            </a>
+                          </div>
+                        </div> */}
+                      <div className="help-popup-content-library-inside library-p publisher">
+                          <div className="help-popup-content-library-inside">
+                            <h6>Create content</h6>
+                            <p><strong>Three Steps to Create Your Content</strong></p>
+                            <img src={path_image + "create-content-steps.png"} alt=""/>
+                            <p><strong>Steps 1 : </strong>“Create Your Content”</p>
+                          </div>
+                          <div className="help-popup-content-library-inside">
+                            <p>Start by filling in the information about <strong>Who is involved</strong> and if they can print or download the sample.</p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <p>Next <strong>Create the Docintel link</strong> for your content.</p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <p>Select the Docintel format, such as PDF, Video and E-book.</p>
+                            <img src={path_image + "select-format.png"} alt="" />
+                            <p><span><strong>E-book</strong> allows you to upload individual chapters by clicking “Choose Your File” and type chapter title. </span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <img src={path_image + "select-cover-img.png"} alt=""/>
+                            <p><span> The last thing is uploading the content cover by clicking “Choose Your File”.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <Button className="btn-filled cancel">Next</Button>
+                            <p><span>Click “Next” to move to the next step.</span></p>
+                          </div>
+                          <div className="help-popup-content-library-inside">
+                            <p><strong>Something else</strong><br/>
+                              If you have any special requirements that are not available here please open a ticket in the upper right corner or email/call your inforMed.pro contact.</p>
+                          </div>
+                      </div>
+                      <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                    </div>
+                  </div>
+                </div>   
+              </div>
+             ) : (
+              ""
+            )}
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/license-create-user" && (
           <>
             <div className="help-popup">
               <div
@@ -4982,7 +5374,7 @@ const Sidebar = () => {
                 }
               >
                 <div className="help-popup-content-inner">
-                  <div className="help-popup-content-library">
+                  <div className="help-popup-content-library library-p">
                     {/* <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
@@ -4999,113 +5391,44 @@ const Sidebar = () => {
                       </div>
                     </div> */}
                     <div className="help-popup-content-library-inside">
-                      <p>
-                        Create Content Welcome to the content creation page.
-                        Here, you’ll find a three stop process to guide you
-                        through creating your content. Let’s get started:
-                      </p>
-                    </div>
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        <strong>Step 1: Create Your Content</strong>
-                      </p>
-                    </div>
+                            <p><strong>Three Steps to Create Your Content</strong></p>
+                            <img src={path_image + "create-content-steps.png"} alt=""/>
+                            <p><strong>Steps 1 : </strong>“Create Your Content”</p>
+                          </div>
+                          <div className="help-popup-content-library-inside">
+                            <p>Start by filling in the information <strong>About the Docintel link you're making.</strong></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <p><strong>Limits agreed</strong><br/>Is your chance to set the limits you've agreed with your client. When those limits are near you will get alerted via email.</p>
+                            <img src={path_image + "set-limit.png"} alt=""/>
+                            <p>Usage refer to Unique Readers, not just quantity of openings.</p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <p>Next <strong>Create the Docintel link</strong> for your content.</p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <p>Select the Docintel format, such as PDF, Video and E-book.</p><p></p>
+                            <img src={path_image + "select-format.png"} alt=""/><p></p>
+                            <p><span><strong>E-book</strong> allows you to upload individual chapters by clicking “Choose Your File” and type chapter title. </span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <img src={path_image + "select-cover-img.png"} alt=""/><p></p>
+                            <p><span> The last thing is uploading the content cover by clicking “Choose Your File”.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <Button className="btn-filled cancel">Next</Button>
+                            <p><span>Click “Next” to move to the next step.</span></p>
+                          </div>
+                          <div className="help-popup-content-library-inside">
+                            <p><strong>Something else</strong><br/>
+                              If you have any special requirements that are not available here please open a ticket in the upper right corner or email/call your inforMed.pro contact.</p>
+                          </div>
 
-                    <div className="help-popup-content-library-inside">
-                      <ul>
-                        <li>Choose “Create Content” option.</li>
-                        <li>Start by selecting a category for your content.</li>
-                        <li>
-                          Choose the format, project and topics that best suit
-                          your content.
-                        </li>
-                        <li>
-                          To add a new project, click “Add a New Project” and
-                          follow the prompts.
-                        </li>
-                        <li>
-                          If needed, add topic tags by clicking “Add Topic” and
-                          selecting from the predefined list or creating your
-                          own.
-                        </li>
-                        <li>
-                          Click “Save” to add your selected tags to the content.
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        <strong>Step 2: Customise the Content Link</strong>
-                      </p>
-                    </div>
-
-                    <div className="help-popup-content-library-inside">
-                      <ul>
-                        <li>
-                          Fill in the content title, subtitle and author name.
-                        </li>
-                        <li>Choose optional features for your content.</li>
-                        <li>
-                          You can save your content as a draft by selecting the
-                          “Draft” button.
-                        </li>
-                        <li>
-                          Select the content format, such as E-book and input
-                          chapter titles and files.
-                        </li>
-                        <li>
-                          For PDF files, upload your document and content cover
-                          image.
-                        </li>
-                        <li>
-                          Proceed to the “Constant Options” to customise
-                          settings like content type and appearance time.
-                        </li>
-                        <li>Hover over icons for descriptions of fields.</li>
-                      </ul>
-                    </div>
-
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        <strong>Step 3: Double-Check and Publish</strong>
-                      </p>
-                    </div>
-
-                    <div className="help-popup-content-library-inside">
-                      <ul>
-                        <li>
-                          Review your content details and make necessary edits.
-                        </li>
-                        <li>If needed, change the title and uploaded file.</li>
-                        <li>
-                          Scroll to the bottom of the page to find the “Publish”
-                          button.
-                        </li>
-                        <li>Click “Publish” to finalise your content.</li>
-                        <li>
-                          A summary of your content will appear for you to
-                          review.
-                        </li>
-                        <li>
-                          Click “Close” or “Edit” to make any last-minute
-                          changes.
-                        </li>
-                        <li>
-                          Once satisfied, click “Close” to finish or “Edit” to
-                          make final adjustments.
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        And that’s it! You’ve successfully navigated through the
-                        content creation process. If you need to revisit or make
-                        changes, follow these steps. Your content is now ready
-                        to be published and shared with your audience.
-                      </p>
-                    </div>
                   </div>
                   <div
                     className="help-popup-close"
@@ -5146,8 +5469,588 @@ const Sidebar = () => {
           </>
         )}
         {/*Help Pages for filter segment end*/}
-        
-        
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/preview-content" && (
+          <>
+          {localStorage.getItem("group_id") == 3 ? (
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div>
+                    <div className="help-popup-content-library-inside">
+                            <p><strong>Steps 3 :</strong> “Preview your content & publish</p>
+                            <p></p>
+                            <p>Review your content details and make necessary edits.</p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <img className="dleete-btn" src={path_image + "edit-button-white.png"} alt="" /><p></p>
+                            <p><span>If needed, change the title by clicking on the pen icon.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                             <Button className="btn-bordered">Change content file</Button>
+                            <p><span>Click “Change content file” to change the uploaded content file.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <p className="voilet-text">You have to scroll to the bottom to complete previewing your file and that will enable the “Publish” button. </p>
+                            <Button className="btn-filled publish">Publish</Button>
+                            <p><span>Click “Publish” to finalise your content. </span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                             <Button className="btn-bordered back">Back</Button>
+                            <p></p>
+                            <p><span>Or click  “Back” to go back to the previous step.</span></p>
+                          </div>
+
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+           ) : (
+              ""
+            )}
+            {localStorage.getItem("group_id") == 2 ? (
+              <div className="help-popup">
+                  <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                        {/* <div className="help-popup-content-video">
+                          <h6>{title}</h6>
+                          <div
+                            className="help-content-popup"
+                            onClick={() =>
+                              setOpenVideoPopup(
+                                (getOpenVideoPopup) => !getOpenVideoPopup
+                              )
+                            }
+                          >
+                            <a href="javascript:;">
+                              <img src={video_poster} alt="" />
+                            </a>
+                          </div>
+                        </div> */}
+                      <div className="help-popup-content-library-inside library-p publisher">
+                          <div className="help-popup-content-library-inside">
+                            <h6>Create content</h6>
+                          </div>
+                          <div className="help-popup-content-library-inside">
+                            <p><strong>Steps 3 :</strong> “Preview your content & publish</p>
+                            <p></p>
+                            <p>Review your content details and make necessary edits.</p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <img className="dleete-btn" src={path_image + "edit-button-white.png"} alt="" /><p></p>
+                            <p><span>If needed, change the title by clicking on the pen icon.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                             <Button className="btn-bordered">Change content file</Button>
+                            <p><span>Click “Change content file” to change the uploaded content file.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <p className="voilet-text">You have to scroll to the bottom to complete previewing your file and that will enable the “Publish” button. </p>
+                            <Button className="btn-filled publish">Publish</Button>
+                            <p><span>Click “Publish” to finalise your content. </span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                             <Button className="btn-bordered back">Back</Button>
+                            <p></p>
+                            <p><span>Or click  “Back” to go back to the previous step.</span></p>
+                          </div>
+                      </div>
+                      <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                    </div>
+                  </div>
+                </div>   
+              </div>
+             ) : (
+              ""
+            )}
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/content-detail" && (
+          <>
+          {localStorage.getItem("group_id") == 3 ? (
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div>
+                    <div className="help-popup-content-library-inside">
+                      <p><strong>Content Details </strong><br/>
+                      A summary of your content to review.</p>
+                    </div>
+                    <hr/>
+                    <div className="help-popup-content-library-inside">
+                      <img className="dleete-btn small" src={path_image + "copy-content.png"} alt="" /><p></p>
+                      <p><span>To copy the Docintel link you can click on the copy icon to copy it.</span></p>
+                    </div>
+                    <hr/>
+                    <div className="help-popup-content-library-inside">
+                        <Button className="btn-bordered small">Close</Button>
+                      <p><span>Once happy with your content, click “Close” to finish.</span></p>
+                    </div>
+                    <hr/>
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered small disabled">Edit</Button>
+                      <p><span>Or click “Edit” to make any final adjustments.  </span></p>
+                    </div>
+
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+           ) : (
+              ""
+            )}
+            {localStorage.getItem("group_id") == 2 ? (
+              <div className="help-popup">
+                  <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                        {/* <div className="help-popup-content-video">
+                          <h6>{title}</h6>
+                          <div
+                            className="help-content-popup"
+                            onClick={() =>
+                              setOpenVideoPopup(
+                                (getOpenVideoPopup) => !getOpenVideoPopup
+                              )
+                            }
+                          >
+                            <a href="javascript:;">
+                              <img src={video_poster} alt="" />
+                            </a>
+                          </div>
+                        </div> */}
+                      <div className="help-popup-content-library-inside library-p publisher">
+                          <div className="help-popup-content-library-inside">
+                            <h6>Create content</h6>
+                          </div>
+                          <div className="help-popup-content-library-inside">
+                            <p><strong>Content Details </strong><br/>
+                            A summary of your content to review.</p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <img className="dleete-btn small" src={path_image + "copy-content.png"} alt="" /><p></p>
+                            <p><span>To copy the Docintel link you can click on the copy icon to copy it.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                              <Button className="btn-bordered small">Close</Button>
+                            <p><span>Once happy with your content, click “Close” to finish.</span></p>
+                          </div>
+                          <hr/>
+                          <div className="help-popup-content-library-inside">
+                            <Button className="btn-bordered small disabled">Edit</Button>
+                            <p><span>Or click “Edit” to make any final adjustments.</span></p>
+                          </div>
+                      </div>
+                      <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                    </div>
+                  </div>
+                </div>   
+              </div>
+             ) : (
+              ""
+            )}
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+         {/*Help Pages for filter segment start*/}
+        {location.pathname == "/license-content-detail" && (
+          <>
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+                    <div className="help-popup-content-library-inside">
+                      <h6>Create content</h6>
+                      <p><strong>Content Details </strong><br/>
+                      A summary of your content to review.</p>
+                    </div>
+                    <hr/>
+                    <div className="help-popup-content-library-inside">
+                      <img className="dleete-btn small" src={path_image + "copy-content.png"} alt="" /><p></p>
+                      <p><span>This is the link to send to your client. To copy the Docintel link you can click on the copy icon to copy it.<br/><br/>
+                          They can use it right away, or review and you can Reset data back to zero when they have approved.<br/> <br/>
+                          If you need amend anything go back to Create & Change, find the eprint and change the parts that needs changing. 
+                        </span></p>
+                    </div>
+                    <hr/>
+                    <div className="help-popup-content-library-inside">
+                        <Button className="btn-bordered small">Close</Button>
+                      <p><span>Once happy with your content, click “Close” to finish.</span></p>
+                    </div>
+                    <hr/>
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered small disabled">Edit</Button>
+                      <p><span>Or click “Edit” to make any final adjustments.  </span></p>
+                    </div>
+
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
         {/*Help Pages for filter segment start*/}
         {location.pathname == "/products" && (
           <>
@@ -5182,8 +6085,8 @@ const Sidebar = () => {
                 }
               >
                 <div className="help-popup-content-inner">
-                  <div className="help-popup-content-library">
-                    {/* <div className="help-popup-content-video">
+                  <div className="help-popup-content-library library-p">
+                     <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
                         className="help-content-popup"
@@ -5197,7 +6100,7 @@ const Sidebar = () => {
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
-                    </div> */}
+                    </div>
                     <div className="help-popup-content-library-inside">
                       <p>
                         Welcome to the Projects and Tags Section Help Guide!
@@ -5205,109 +6108,29 @@ const Sidebar = () => {
                     </div>
                     <div className="help-popup-content-library-inside">
                       <p>
-                        <strong>1. Selecting Type:</strong>
+                        <strong>Selecting Type</strong><br/>
+                        At the top of the page, you'll find the “Select Type” bar. Click to select “Products” or “Tags”.
                       </p>
+                      <p>If you’ve selected “Products or Tags” you’ll see a list of all your products or tags at the bottom of the page.</p>
                     </div>
-
+                    <hr/>
                     <div className="help-popup-content-library-inside">
-                      <p>
-                        At the top of the page, you’ll find two options:
-                        “Products” and “Tags.” Choose the one you want to work
-                        with.
-                      </p>
+                        <img className="dleete-btn" src={path_image + "edit-button.png"} alt="" />
+                        <p><span>To edit a product or tag, click the “Edit” button (Pictured as a pencil), next to that product or tag. </span></p>
                     </div>
-
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        <strong>2. Managing Products:</strong>
-                      </p>
+                    <hr/>
+                     <div className="help-popup-content-library-inside">
+                        <Button className="btn-bordered btn-purple">Add New Product +</Button>
+                        <Button className="btn-bordered btn-purple">Add New Topic +</Button>
+                        <p><span>To add a new product or topic, click the “Add New Product/topic” button at the top right-hand corner.</span></p>
                     </div>
-
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        If you’ve selected “Products” you’ll see a list of all
-                        your products at the bottom of the page.
-                      </p>
-                    </div>
-
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        <strong>3. Editing Products:</strong>
-                      </p>
-                    </div>
-
-                    <div className="help-popup-content-library-inside">
-                      <ul>
-                        <li>
-                          To edit a product’s name, click the “Edit” button next
-                          to that product.
-                        </li>
-                        <li>
-                          A window will pop up, allowing you to make changes to
-                          the product’s name.
-                        </li>
-                        <li>
-                          After editing, click the “Update” button to save your
-                          changes.
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        <strong>4. Adding New Products:</strong>
-                      </p>
-                    </div>
-                    <div className="help-popup-content-library-inside">
-                      <ul>
-                        <li>
-                          To add a new product, click the “Add New Product”
-                          button.
-                        </li>
-                        <li>
-                          A window will appear, prompting you to enter the new
-                          product’s name.
-                        </li>
-                        <li>
-                          Type in the desired name and click “Add” button to
-                          include it in your list.
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        <strong>5. Deleting Products:</strong>
-                      </p>
-                    </div>
-                    <div className="help-popup-content-library-inside">
-                      <ul>
-                        <li>
-                          If you wish to remove a product, click the “Delete”
-                          button next to that product.
-                        </li>
-                        <li>
-                          This action will activate delete buttons for all
-                          products.
-                        </li>
-                        <li>
-                          Select the products you want to delete by clicking
-                          their respective delete buttons.
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        <strong>6. Cancelling Deletion:</strong>
-                      </p>
-                    </div>
-                    <div className="help-popup-content-library-inside">
-                      <ul>
-                        <li>
-                          To exit the deletion mode without removing any
-                          products, click the “Cancel” button.
-                        </li>
-                        <li>This will send you back to the original page.</li>
-                      </ul>
-                    </div>
+                    <hr/>
+                     <div className="help-popup-content-library-inside">
+                         <img className="dleete-btn" src={path_image + "delete-button.png"} alt="" />
+                         <p><span>If you wish to remove a product, click the “Delete” button found below the “Add New Product/topic” button. This will activate delete buttons for all products or topics. Select the products or topics you want to delete by clicking their respective delete buttons.</span></p>
+                         <Button className="btn-filled cancel">Cancel</Button>
+                         <p><span>To exit the deletion mode without removing any products or topics, click the “Cancel” button. This will send you back to the original page.</span></p>
+                     </div>
                   </div>
                   <div
                     className="help-popup-close"
@@ -5348,6 +6171,11 @@ const Sidebar = () => {
           </>
         )}
         {/*Help Pages for filter segment end*/}
+
+
+
+
+
         {/*
           (location.pathname == "/EmailArticleSelect"  || location.pathname == "/CreateEmail") && (
             <>

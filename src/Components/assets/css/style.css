@@ -6302,6 +6302,7 @@ header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-head
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: 0.4s linear;
 }
 
 .help-popup-content .help-popup-content-video,
@@ -6386,7 +6387,7 @@ header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-head
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside strong {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside li {
@@ -6398,7 +6399,7 @@ header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-head
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside .btn {
-  font-size: 14px;
+  font-size: 16px;
   min-width: 128px;
   padding: 8px;
   margin: 0 auto 12px;
@@ -6408,10 +6409,49 @@ header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-head
   align-items: center;
 }
 
+.help-popup-content .library-p .help-popup-content-library-inside .btn.cancel,
+.help-popup-content .library-p .help-popup-content-library-inside .btn.back {
+  min-width: 82px;
+}
+
+.help-popup-content .library-p .help-popup-content-library-inside .btn.publish {
+  background: linear-gradient(132deg, #0066BE 0%, #455AAD 39.06%, #8A4E9C 100%);
+  border-width: 0;
+}
+
+.help-popup-content .library-p .help-popup-content-library-inside .btn.btn-purple {
+  border: 1px solid #8A4E9C;
+  color: #8A4E9C;
+  min-width: 172px;
+}
+
+.help-popup-content .library-p .help-popup-content-library-inside .btn.btn-purple:hover {
+  color: #ffffff;
+  background: #8A4E9C;
+}
+
+.full_video_popup #open_video_popup .modal-content .modal-header {
+  padding: 10px 0;
+}
+
 .help-popup-content .library-p .help-popup-content-library-inside img.dleete-btn {
   max-width: 47px;
   margin: 0 auto 5px;
   display: flex;
+}
+
+.help-popup-content .library-p .help-popup-content-library-inside .btn.small.disabled {
+  background: transparent;
+  color: #97B6CF;
+  border: 1px solid #97B6CF;
+}
+
+.help-popup-content .library-p .help-popup-content-library-inside img.small {
+  max-width: 16px;
+}
+
+.help-popup-content .library-p .help-popup-content-library-inside .btn.small {
+  min-width: 82px;
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside p.voilet-text {
@@ -6616,8 +6656,27 @@ header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-head
   width: 100%;
 }
 
+.help-popup-content .help-popup-close {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-radius: 0px 0px 5px 15px;
+  background: rgba(0, 102, 190, 0.02);
+  backdrop-filter: blur(3.5px);
+  padding: 4px 10px;
+}
+
+header.-top-24~div .help-popup-content {
+  top: 0;
+}
+
 .help-popup-content-library {
   padding-bottom: 44px;
+}
+
+header.-top-24~div .help-popup-content .help-popup-content-inner {
+  height: 100vh;
+  padding-bottom: 30px;
 }
 
 .help-popup-content-library .help-popup-content-list p.help-popup-title,
