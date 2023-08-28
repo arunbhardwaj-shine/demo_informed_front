@@ -25,6 +25,7 @@ import {
   Tabs,
 } from "react-bootstrap";
 import Select from "react-select";
+import { useSidebar } from "../../CommonComponent/LoginLayout";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SetPopup = (props) => {
@@ -98,9 +99,17 @@ const SetPopup = (props) => {
     1024: { items: 5 },
   };
 
+  const { setSelectedPDF } = useSidebar();
+
   useEffect(() => {
-    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ=='){
-      const newObj = {value: "Sunshine USA", label: "Sunshine USA"};
+    console.log("state--->", state);
+    if (state?.pdfId) {
+      setSelectedPDF(state?.pdfId);
+    } else {
+      setSelectedPDF("");
+    }
+    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+      const newObj = { value: "Sunshine USA", label: "Sunshine USA" };
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);
     }
@@ -205,7 +214,10 @@ const SetPopup = (props) => {
 
           data.push(res?.data?.data?.popupData[0]);
           data.push(res?.data?.data?.popupData[3]);
-        } else if(consent == "Sunshine USA" || first_consent == "Sunshine USA"){
+        } else if (
+          consent == "Sunshine USA" ||
+          first_consent == "Sunshine USA"
+        ) {
           setIsOnline(false);
           data = res?.data?.data?.usaPopup;
         } else {
