@@ -122,6 +122,7 @@ const TemplateBuilder = (props) => {
   ]);
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
+  const linkCount = useRef(1);
 
   const [addListOpen, setAddListOpen] = useState(false);
   const [smartListData, setSmartListData] = useState([]);
@@ -2006,7 +2007,52 @@ const TemplateBuilder = (props) => {
                             
                             input.click();
                         }
+                        ,
+                        init_instance_callback: function(editor) {
+                          editor.on('OpenWindow', function(e) {
+                            let dialog = document.getElementsByClassName("tox-dialog")[0];
+                            
                         
+                            if (dialog) {
+                                let header = dialog.querySelector(".tox-dialog__header");
+                                const closeButton = header.querySelector('[aria-label="Close"]');
+                                let text = header.querySelector(".tox-dialog__title");
+                        
+                                if (text.innerText == "Insert/Edit Link") {
+                                    let newButton = document.createElement("button");
+                                    newButton.innerText = "Add Tracking";
+                                    newButton.onclick = function() {
+                                      let firstToxControlWrap = document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input")
+
+                      // let text =dialog.querySelector(".tox-form__group");
+if(!firstToxControlWrap.value){
+  alert("Please enter a link");
+  return;
+}
+const baseLink = 'https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_';
+if (firstToxControlWrap.value.startsWith(baseLink)) {
+
+alert("Traking already added");
+return;
+}
+
+const currentTimestamp = Date.now();
+// const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+                                        let link =`https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+                                        firstToxControlWrap.value=link;
+                                        linkCount.current=linkCount.current+1;
+alert("Traking added");
+                                        
+                                    };
+                        
+                                
+                                    header.insertBefore(newButton, closeButton);
+
+                                }
+                            }
+                        });
+                        
+                        }
                       }}
                       onEditorChange={(content) => {
                         setTemplateSaving(content);
