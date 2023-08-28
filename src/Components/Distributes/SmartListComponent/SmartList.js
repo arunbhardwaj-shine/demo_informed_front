@@ -10,6 +10,8 @@ import CreateSmartList from "./CreateSmartList";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import Accordion from "react-bootstrap/Accordion";
+import CommonModel from "../../../Model/CommonModel";
+
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
   const [getUserDetails, setUserDetails] = useState([]);
@@ -28,6 +30,19 @@ const SmartList = (props) => {
   const [showfilter, setShowFilter] = useState(false);
   const [filterapplied, setFilterApply] = useState(false);
   const [getloadmore, setloadmore] = useState(0);
+  const [show,setShow] = useState(false)
+  const [userObj, setUserObj] = useState({
+    "name":""
+  });
+  const [modelData,setModelData] =  useState([
+    {
+      label: "Name",
+      type: "input",
+      placeholder: "Smart list name",
+      value:""
+    },
+  ])
+
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -47,8 +62,6 @@ const SmartList = (props) => {
     await axios
       .post(`distributes/get_smart_list?page=` + page, body)
       .then((res) => {
-        console.log(res);
-
         setLoading(false);
         setSmartListData(res.data.response.data);
         if (flag == 0) {
@@ -63,6 +76,8 @@ const SmartList = (props) => {
         console.log(err);
       });
   };
+
+  
 
   useEffect(() => {
     getSmartListData(0);
@@ -98,6 +113,13 @@ const SmartList = (props) => {
       // getSmartListData(1);
     }
   };
+  const handleClick = (data,index)=>{
+    const newData = [...modelData]
+    newData[0].value = data.name
+    setUserObj({"id":data?.id,"index":index})
+    setModelData(newData)
+    setShow(true)
+  }
 
   const submitHandler = (event) => {
     setShowFilter(false);
@@ -231,6 +253,28 @@ const SmartList = (props) => {
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
+
+  const handleChange = (e) =>{
+    setUserObj({...userObj,"name":e.target.value})
+  }
+  const handleSubmit =async (data) =>{
+    try{
+      loader("show")
+      const result =  await axios.post(`distributes/update_smart_list_name`,{
+        "user_id":localStorage.getItem('user_id'),
+        "smart_list_id":userObj?.id,
+         "name":userObj?.name
+      } )
+      let listData = [...smartListData]
+      listData[userObj?.index].name = userObj?.name
+      setSmartListData(listData)
+  }catch(err){
+    console.log(err);
+  }
+  finally{
+    loader("hide");
+  }
+  }
 
   const clearFilter = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
@@ -682,13 +726,15 @@ const SmartList = (props) => {
                   )}
                 {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
-                  smartListData.map((data) => {
+                  smartListData.map((data,index) => {
                     return (
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
-                            <h5>{data.name}</h5>
-
+                            <div className="mail-box-conten-title">
+                              <h5 contenteditable="true">{data.name}</h5>
+                              <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
+                            </div>
                             <div className="mailbox-table">
                               <table>
                                 <tbody>
@@ -879,7 +925,19 @@ const SmartList = (props) => {
         </Modal>
       </div>
       {/*Modal for delete confrimaton end*/}
+      <CommonModel
+        show={show}
+        onClose={setShow}
+        heading={"Smart List Name"}
+        data={modelData}
+        footerButton={"Update"}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        inputValue
+      />
+
     </>
+
   );
 };
 
