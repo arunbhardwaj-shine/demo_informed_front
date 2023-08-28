@@ -3582,7 +3582,7 @@ const Sidebar = () => {
                           </li>
                         </ul>
                         <br/>
-                         <Button className="btn-filled">Save</Button>
+                         <Button className="btn-filled small">Save</Button>
                          <p style={{textAlign:"center"}}><span>Once completed, click “Save”.</span></p>
                       </div>
                     </div>
@@ -3658,7 +3658,7 @@ const Sidebar = () => {
                 >
                   <div className="help-popup-content-inner">
                     <div className="help-popup-content-library library-p">
-                      <div className="help-popup-content-video">
+                      {/* <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
                         className="help-content-popup"
@@ -3672,8 +3672,9 @@ const Sidebar = () => {
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
-                    </div>
+                    </div> */}
                       <div className="help-popup-content-library-inside library-p publisher">
+                        <h6>Set Pop-up</h6><br/>
                         <p><strong>This page allows you to make changes to your standard consent and pop-up texts</strong></p><br/>
                         <p>
                           <strong>
@@ -3692,7 +3693,7 @@ const Sidebar = () => {
                           </li>
                         </ul>
                         <br/>
-                         <Button className="btn-filled">Save</Button>
+                         <Button className="btn-filled small">Save</Button>
                          <p style={{textAlign:"center"}}><span>Once completed, click “Save”.</span></p>
                       </div>
                     </div>
@@ -3817,7 +3818,7 @@ const Sidebar = () => {
                       <div className="help-popup-content-library-inside">
                         <img className="qr-download" src={path_image + "qr-code-download.png"} alt="" />
                         <p><span>Click on the download icon to download the sublink QR</span></p>
-                        <Button className="btn-bordered">Analytics</Button>
+                        <Button className="btn-bordered white">Analytics</Button>
                          <p><span>Your “Analytics” button will take you to the analytics page of the sublink. </span></p>
                       </div>
                       <hr/>
@@ -3897,8 +3898,8 @@ const Sidebar = () => {
                 }
               >
                 <div className="help-popup-content-inner">
-                  <div className="help-popup-content-library">
-                    <div className="help-popup-content-video">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
                         className="help-content-popup"
@@ -3912,8 +3913,9 @@ const Sidebar = () => {
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="help-popup-content-library-inside library-p publisher">
+                      <h6>New SubLink</h6><br/>
                         <p><strong>A Sublink is a unique link that leads to the main link, and can be tracked separately. It can be useful for events, promotion, social media etc.</strong></p><br/>
                         <p>
                           <strong>
@@ -3941,8 +3943,8 @@ const Sidebar = () => {
                       <div className="help-popup-content-library-inside">
                         <img className="qr-download" src={path_image + "qr-code-download.png"} alt="" />
                         <p><span>Click on the download icon to download the sublink QR</span></p>
-                        <Button className="btn-bordered">Analytics</Button>
-                         <p><span>Your “Analytics” button will take you to the analytics page of the sublink. </span></p>
+                        <Button className="btn-bordered white">Analytics</Button>
+                         <p><span>Your “Analytics” button will take you to the analytics page of the sublink.</span></p>
                       </div>
                       <hr/>
                        <div className="help-popup-content-library-inside">
@@ -4120,16 +4122,16 @@ const Sidebar = () => {
                           </li>
                         </ul>
                       </div>
-                        <hr/>
+                        <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                          At the bottom of the content card you will find three buttons: 
                         </p>
-                        <Button className="btn-bordered">Preview article</Button>
+                        <Button className="btn-bordered white">Preview article</Button>
                         <p><span>Opens content in a new tab for preview. Usage is not tracked.</span></p>
-                         <Button className="btn-bordered">Download QR</Button>
+                         <Button className="btn-bordered white">Download QR</Button>
                          <p><span>To generate and download a QR code for the content.</span></p>
-                         <Button className="btn-bordered">Send in email</Button>
+                         <Button className="btn-bordered white">Send in email</Button>
                          <p><span>Directs you to the email engine to send the content via email.</span></p>
                       </div>
                         <hr/>
@@ -4147,14 +4149,14 @@ const Sidebar = () => {
                           <li>Printed (if enabled)</li>
                         </ul>
                       </div>
-                      <hr/>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                           At the bottom of the Data tab are two buttons:
                         </p>
-                        <Button className="btn-bordered">Analytics</Button>
+                        <Button className="btn-bordered white">Analytics</Button>
                         <p><span>This takes you to the analytics page, revealing the analytics of the selected content.</span></p>
-                         <Button className="btn-bordered btn-voilet">Reset the collected data</Button>
+                         <Button className="btn-bordered btn-voilet white">Reset the collected data</Button>
                          <p className="voilet-text">Deletes usage, users and any other collected data for the selected content. Be careful.</p>
                       </div>
                       <hr/>
@@ -4163,15 +4165,15 @@ const Sidebar = () => {
                         <Button className="btn-filled">Update</Button>
                         <p><span>You can change the consent type and clicking “Update” to secure your changes.</span></p>
                       </div>
-                      <hr/>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                           At the bottom three buttons:</p>
-                          <Button className="btn-bordered">Edit Docintel link</Button>
+                          <Button className="btn-bordered white">Edit Docintel link</Button>
                         <p><span>Redirects you to the creation page, allowing you to make changes to the content.</span></p>
-                          <Button className="btn-bordered">Add / remove tags</Button>
+                          <Button className="btn-bordered white">Add / remove tags</Button>
                           <p><span>Opens Tags pop-up where you can add new or remove tags from your content. Tags are useful for users to filter content by if they have a library, for tracking usage, and for AI to learn from. </span></p>
-                          <Button className="btn-bordered">New sublink</Button>
+                          <Button className="btn-bordered white">New sublink</Button>
                           <p><span>Redirects you to the New Sublinks page to create a new sublink for your content.</span></p>
                       </div>
                       <hr/>
@@ -4191,12 +4193,12 @@ const Sidebar = () => {
                         <p><span>Or click the “Remove All” button to see everything again.</span></p>
                         <p>Should have need for more custom filters please open a ticket in the upper right corner, or email your contact.</p>
                       </div>
-                      <hr/>
+                     <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p><strong>Delete content</strong></p>
                         <img className="dleete-btn" src={path_image +"delete-button.png"} alt="" />
                         <p><span>Besides the search bar and filter you will find a rubbish bin for your deletion purposes. Once clicked, this will activate the ability to delete any content.</span></p>
-                        <Button className="btn-bordered">Cancel</Button>
+                        <Button className="btn-bordered small">Cancel</Button>
                         <p><span>By clicking “Cancel” to leave deletion mode.</span></p>
                       </div>
                     </div>
@@ -4358,16 +4360,16 @@ const Sidebar = () => {
                           </li>
                         </ul>
                       </div>
-                        <hr/>
+                        <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                          At the bottom of the content card you will find three buttons: 
                         </p>
-                        <Button className="btn-bordered">Preview article</Button>
+                        <Button className="btn-bordered white">Preview article</Button>
                         <p><span>Opens content in a new tab for preview. Usage is not tracked.</span></p>
-                         <Button className="btn-bordered">Download QR</Button>
+                         <Button className="btn-bordered white">Download QR</Button>
                          <p><span>To generate and download a QR code for the content.</span></p>
-                         <Button className="btn-bordered">Send in email</Button>
+                         <Button className="btn-bordered white">Send in email</Button>
                          <p><span>Directs you to the email engine to send the content via email.</span></p>
                       </div>
                         <hr/>
@@ -4385,14 +4387,14 @@ const Sidebar = () => {
                           <li>Printed (if enabled)</li>
                         </ul>
                       </div>
-                      <hr/>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                           At the bottom of the Data tab are two buttons:
                         </p>
-                        <Button className="btn-bordered">Analytics</Button>
+                        <Button className="btn-bordered white">Analytics</Button>
                         <p><span>This takes you to the analytics page, revealing the analytics of the selected content.</span></p>
-                         <Button className="btn-bordered btn-voilet">Reset the collected data</Button>
+                         <Button className="btn-bordered btn-voilet white">Reset the collected data</Button>
                          <p className="voilet-text">Deletes usage, users and any other collected data for the selected content. Be careful.</p>
                       </div>
                       <hr/>
@@ -4401,15 +4403,15 @@ const Sidebar = () => {
                         <Button className="btn-filled">Update</Button>
                         <p><span>You can change the consent type and clicking “Update” to secure your changes.</span></p>
                       </div>
-                      <hr/>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                           At the bottom three buttons:</p>
-                          <Button className="btn-bordered">Edit Docintel linkl</Button>
+                          <Button className="btn-bordered white">Edit Docintel link</Button>
                         <p><span>Redirects you to the creation page, allowing you to make changes to the content.</span></p>
-                          <Button className="btn-bordered">Add / remove tags</Button>
+                          <Button className="btn-bordered white">Add / remove tags</Button>
                           <p><span>Opens Tags pop-up where you can add new or remove tags from your content. Tags are useful for users to filter content by if they have a library, for tracking usage, and for AI to learn from. </span></p>
-                          <Button className="btn-bordered">New sublink</Button>
+                          <Button className="btn-bordered white">New sublink</Button>
                           <p><span>Redirects you to the New Sublinks page to create a new sublink for your content.</span></p>
                       </div>
                       <hr/>
@@ -4429,12 +4431,12 @@ const Sidebar = () => {
                         <p><span>Or click the “Remove All” button to see everything again.</span></p>
                         <p>Should have need for more custom filters please open a ticket in the upper right corner, or email your contact.</p>
                       </div>
-                      <hr/>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p><strong>Delete content</strong></p>
                         <img className="dleete-btn" src={path_image +"delete-button.png"} alt="" />
                         <p><span>Besides the search bar and filter you will find a rubbish bin for your deletion purposes. Once clicked, this will activate the ability to delete any content.</span></p>
-                        <Button className="btn-bordered">Cancel</Button>
+                        <Button className="btn-bordered small">Cancel</Button>
                         <p><span>By clicking “Cancel” to leave deletion mode.</span></p>
                       </div>
                     </div>
@@ -4601,16 +4603,16 @@ const Sidebar = () => {
                           </li>
                         </ul>
                       </div>
-                        <hr/>
+                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                          At the bottom of the content card you will find three buttons: 
                         </p>
-                        <Button className="btn-bordered">Preview article</Button>
+                        <Button className="btn-bordered white">Preview article</Button>
                         <p><span>Opens content in a new tab for preview. Usage is not tracked.</span></p>
-                         <Button className="btn-bordered">Download QR</Button>
+                         <Button className="btn-bordered white">Download QR</Button>
                          <p><span>To generate and download a QR code for the content.</span></p>
-                         <Button className="btn-bordered">Send in email</Button>
+                         <Button className="btn-bordered white">Send in email</Button>
                          <p><span>Directs you to the email engine to send the content via email.</span></p>
                       </div>
                         <hr/>
@@ -4628,14 +4630,14 @@ const Sidebar = () => {
                           <li>Printed (if enabled)</li>
                         </ul>
                       </div>
-                      <hr/>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                           At the bottom of the Data tab are two buttons:
                         </p>
-                        <Button className="btn-bordered">Analytics</Button>
+                        <Button className="btn-bordered white">Analytics</Button>
                         <p><span>This takes you to the analytics page, revealing the analytics of the selected content.</span></p>
-                         <Button className="btn-bordered btn-voilet">Reset the collected data</Button>
+                         <Button className="btn-bordered btn-voilet white">Reset the collected data</Button>
                          <p className="voilet-text">Deletes usage, users and any other collected data for the selected content. Be careful.</p>
                       </div>
                       <hr/>
@@ -4644,15 +4646,15 @@ const Sidebar = () => {
                         <Button className="btn-filled">Update</Button>
                         <p><span>You can change the consent type and clicking “Update” to secure your changes.</span></p>
                       </div>
-                      <hr/>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                           At the bottom three buttons:</p>
-                          <Button className="btn-bordered">Edit Docintel link</Button>
+                          <Button className="btn-bordered white">Edit Docintel link</Button>
                         <p><span>Redirects you to the creation page, allowing you to make changes to the content.</span></p>
-                          <Button className="btn-bordered">Add / remove tags</Button>
+                          <Button className="btn-bordered white">Add / remove tags</Button>
                           <p><span>Opens Tags pop-up where you can add new or remove tags from your content. Tags are useful for users to filter content by if they have a library, for tracking usage, and for AI to learn from. </span></p>
-                          <Button className="btn-bordered">New sublink</Button>
+                          <Button className="btn-bordered white">New sublink</Button>
                           <p><span>Redirects you to the New Sublinks page to create a new sublink for your content.</span></p>
                       </div>
                       <hr/>
@@ -4672,12 +4674,12 @@ const Sidebar = () => {
                         <p><span>Or click the “Remove All” button to see everything again.</span></p>
                         <p>Should have need for more custom filters please open a ticket in the upper right corner, or email your contact.</p>
                       </div>
-                      <hr/>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p><strong>Delete content</strong></p>
                         <img className="dleete-btn" src={path_image +"delete-button.png"} alt="" />
                         <p><span>Besides the search bar and filter you will find a rubbish bin for your deletion purposes. Once clicked, this will activate the ability to delete any content.</span></p>
-                        <Button className="btn-bordered">Cancel</Button>
+                        <Button className="btn-bordered small">Cancel</Button>
                         <p><span>By clicking “Cancel” to leave deletion mode.</span></p>
                       </div>
                     </div>
@@ -4754,6 +4756,7 @@ const Sidebar = () => {
                   }
                 >
                   <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
                       {/* <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
@@ -4769,8 +4772,9 @@ const Sidebar = () => {
                         </a>
                       </div>
                     </div> */}
-                      <div className="help-popup-content-library library-p">
+                      
                         <div className="help-popup-content-library-inside library-p publisher">
+                          <h6>Set Pop-up</h6><br/>
                         <p><strong>This page allows you to make changes to your standard consent and pop-up texts</strong></p><br/>
                         <p>
                           <strong>
@@ -4789,7 +4793,7 @@ const Sidebar = () => {
                           </li>
                         </ul>
                         <br/>
-                         <Button className="btn-filled">Save</Button>
+                         <Button className="btn-filled small">Save</Button>
                          <p style={{textAlign:"center"}}><span>Once completed, click “Save”.</span></p>
                     
                     </div>
@@ -4890,23 +4894,23 @@ const Sidebar = () => {
                           Review your content details and make necessary edits.
                         </p>
                       </div>
-                      <hr/>
+                      <div className="dotted">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <img className="dleete-btn" src={path_image + "edit-button-white.png"} alt="" />
                         <p><span>If needed, change the title by clicking on the pen icon.</span></p>
                       </div>
-                      <hr/>
+                       <div className="dotted">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                           <Button className="btn-bordered">Change content file</Button>
                           <p><span>Click “Change content file” to change the uploaded content file.</span></p>
                       </div>
-                      <hr/>
+                       <div className="dotted">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p className="voilet-text">You have to scroll to the bottom to complete previewing your file and that will enable the “Publish” button.</p>
                         <Button className="btn-filled publish">Publish</Button>
                         <p><span>Click “Publish” to finalise your content.</span></p>
                       </div>
-                      <hr/>
+                       <div className="dotted">&nbsp;</div>
                       <div class="help-popup-content-library-inside">
                         <Button className="btn-bordered back">Back</Button><p></p>
                         <p><span>Or click  “Back” to go back to the previous step.</span></p>
@@ -5028,7 +5032,7 @@ const Sidebar = () => {
                       <div className="help-popup-content-library-inside">
                         <img className="qr-download" src={path_image + "qr-code-download.png"} alt="" />
                         <p><span>Click on the download icon to download the sublink QR</span></p>
-                        <Button className="btn-bordered">Analytics</Button>
+                        <Button className="btn-bordered white">Analytics</Button>
                          <p><span>Your “Analytics” button will take you to the analytics page of the sublink. </span></p>
                       </div>
                       <hr/>
@@ -5136,12 +5140,12 @@ const Sidebar = () => {
                           <div className="help-popup-content-library-inside">
                             <p>Start by filling in the information <strong>About the Docintel link you're making.</strong></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <Button className="btn-purple btn-bordered">Add new product +</Button>
                             <p><span>Next add the product. To add a new product, click “Add a New Product” found to the right of the “Product” bar. This will reveal a pop-up.</span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <img src={path_image + "group-topics.png"} alt="" /><p></p>
                             <p><span>To add topic tags, click “Add Topic” and select one or more from the predefined list or create your own.</span></p>
@@ -5152,13 +5156,13 @@ const Sidebar = () => {
                             <img src={path_image + "form-toggle.png"} alt=""/>
                             <p><span>You can save your content as a draft by selecting “Yes” in the Draft button. </span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <p>Select the Docintel format, such as PDF, Video and E-book.</p><p></p>
                             <img src={path_image + "select-format.png"} alt=""/><p></p>
                             <p><span><strong>E-book</strong> allows you to upload individual chapters by clicking “Choose Your File” and type chapter title. </span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <img src={path_image + "select-cover-img.png"} alt=""/><p></p>
                             <p><span> The last thing is uploading the content cover by clicking “Choose Your File”.</span></p>
@@ -5261,9 +5265,9 @@ const Sidebar = () => {
                             </a>
                           </div>
                         </div> */}
-                      <div className="help-popup-content-library-inside library-p publisher">
+                      
                           <div className="help-popup-content-library-inside">
-                            <h6>Create content</h6>
+                            <h6>Create content</h6><br/>
                             <p><strong>Three Steps to Create Your Content</strong></p>
                             <img src={path_image + "create-content-steps.png"} alt=""/>
                             <p><strong>Steps 1 : </strong>“Create Your Content”</p>
@@ -5275,13 +5279,13 @@ const Sidebar = () => {
                           <div className="help-popup-content-library-inside">
                             <p>Next <strong>Create the Docintel link</strong> for your content.</p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <p>Select the Docintel format, such as PDF, Video and E-book.</p>
                             <img src={path_image + "select-format.png"} alt="" />
                             <p><span><strong>E-book</strong> allows you to upload individual chapters by clicking “Choose Your File” and type chapter title. </span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <img src={path_image + "select-cover-img.png"} alt=""/>
                             <p><span> The last thing is uploading the content cover by clicking “Choose Your File”.</span></p>
@@ -5295,7 +5299,7 @@ const Sidebar = () => {
                             <p><strong>Something else</strong><br/>
                               If you have any special requirements that are not available here please open a ticket in the upper right corner or email/call your inforMed.pro contact.</p>
                           </div>
-                      </div>
+                      
                       <div
                       className="help-popup-close"
                       onClick={() =>
@@ -5391,6 +5395,7 @@ const Sidebar = () => {
                       </div>
                     </div> */}
                     <div className="help-popup-content-library-inside">
+                            <h6>Create content</h6><br/>
                             <p><strong>Three Steps to Create Your Content</strong></p>
                             <img src={path_image + "create-content-steps.png"} alt=""/>
                             <p><strong>Steps 1 : </strong>“Create Your Content”</p>
@@ -5404,17 +5409,17 @@ const Sidebar = () => {
                             <img src={path_image + "set-limit.png"} alt=""/>
                             <p>Usage refer to Unique Readers, not just quantity of openings.</p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <p>Next <strong>Create the Docintel link</strong> for your content.</p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <p>Select the Docintel format, such as PDF, Video and E-book.</p><p></p>
                             <img src={path_image + "select-format.png"} alt=""/><p></p>
                             <p><span><strong>E-book</strong> allows you to upload individual chapters by clicking “Choose Your File” and type chapter title. </span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <img src={path_image + "select-cover-img.png"} alt=""/><p></p>
                             <p><span> The last thing is uploading the content cover by clicking “Choose Your File”.</span></p>
@@ -5521,27 +5526,27 @@ const Sidebar = () => {
                       </div>
                     </div>
                     <div className="help-popup-content-library-inside">
-                            <p><strong>Steps 3 :</strong> “Preview your content & publish</p>
+                            <p><strong>Steps 3 :</strong> “Preview your content & publish"</p>
                             <p></p>
                             <p>Review your content details and make necessary edits.</p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <img className="dleete-btn" src={path_image + "edit-button-white.png"} alt="" /><p></p>
                             <p><span>If needed, change the title by clicking on the pen icon.</span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                              <Button className="btn-bordered">Change content file</Button>
                             <p><span>Click “Change content file” to change the uploaded content file.</span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <p className="voilet-text">You have to scroll to the bottom to complete previewing your file and that will enable the “Publish” button. </p>
                             <Button className="btn-filled publish">Publish</Button>
                             <p><span>Click “Publish” to finalise your content. </span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                              <Button className="btn-bordered back">Back</Button>
                             <p></p>
@@ -5636,38 +5641,37 @@ const Sidebar = () => {
                             </a>
                           </div>
                         </div> */}
-                      <div className="help-popup-content-library-inside library-p publisher">
                           <div className="help-popup-content-library-inside">
                             <h6>Create content</h6>
                           </div>
                           <div className="help-popup-content-library-inside">
-                            <p><strong>Steps 3 :</strong> “Preview your content & publish</p>
+                            <p><strong>Steps 3 :</strong> “Preview your content & publish"</p>
                             <p></p>
                             <p>Review your content details and make necessary edits.</p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <img className="dleete-btn" src={path_image + "edit-button-white.png"} alt="" /><p></p>
                             <p><span>If needed, change the title by clicking on the pen icon.</span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                              <Button className="btn-bordered">Change content file</Button>
                             <p><span>Click “Change content file” to change the uploaded content file.</span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                             <p className="voilet-text">You have to scroll to the bottom to complete previewing your file and that will enable the “Publish” button. </p>
                             <Button className="btn-filled publish">Publish</Button>
                             <p><span>Click “Publish” to finalise your content. </span></p>
                           </div>
-                          <hr/>
+                          <div className="dotted-line">&nbsp;</div>
                           <div className="help-popup-content-library-inside">
                              <Button className="btn-bordered back">Back</Button>
                             <p></p>
                             <p><span>Or click  “Back” to go back to the previous step.</span></p>
                           </div>
-                      </div>
+
                       <div
                       className="help-popup-close"
                       onClick={() =>
@@ -5766,17 +5770,17 @@ const Sidebar = () => {
                       <p><strong>Content Details </strong><br/>
                       A summary of your content to review.</p>
                     </div>
-                    <hr/>
+                    <div className="dotted-line">&nbsp;</div>
                     <div className="help-popup-content-library-inside">
                       <img className="dleete-btn small" src={path_image + "copy-content.png"} alt="" /><p></p>
                       <p><span>To copy the Docintel link you can click on the copy icon to copy it.</span></p>
                     </div>
-                    <hr/>
+                    <div className="dotted-line">&nbsp;</div>
                     <div className="help-popup-content-library-inside">
                         <Button className="btn-bordered small">Close</Button>
                       <p><span>Once happy with your content, click “Close” to finish.</span></p>
                     </div>
-                    <hr/>
+                    <div className="dotted-line">&nbsp;</div>
                     <div className="help-popup-content-library-inside">
                       <Button className="btn-bordered small disabled">Edit</Button>
                       <p><span>Or click “Edit” to make any final adjustments.  </span></p>
@@ -6118,13 +6122,13 @@ const Sidebar = () => {
                         <img className="dleete-btn" src={path_image + "edit-button.png"} alt="" />
                         <p><span>To edit a product or tag, click the “Edit” button (Pictured as a pencil), next to that product or tag. </span></p>
                     </div>
-                    <hr/>
+                    <div className="dotted-line">&nbsp;</div>
                      <div className="help-popup-content-library-inside">
                         <Button className="btn-bordered btn-purple">Add New Product +</Button>
                         <Button className="btn-bordered btn-purple">Add New Topic +</Button>
                         <p><span>To add a new product or topic, click the “Add New Product/topic” button at the top right-hand corner.</span></p>
                     </div>
-                    <hr/>
+                    <div className="dotted-line">&nbsp;</div>
                      <div className="help-popup-content-library-inside">
                          <img className="dleete-btn" src={path_image + "delete-button.png"} alt="" />
                          <p><span>If you wish to remove a product, click the “Delete” button found below the “Add New Product/topic” button. This will activate delete buttons for all products or topics. Select the products or topics you want to delete by clicking their respective delete buttons.</span></p>

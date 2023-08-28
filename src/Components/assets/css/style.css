@@ -6303,6 +6303,7 @@ header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-head
   flex-direction: column;
   justify-content: space-between;
   transition: 0.4s linear;
+  padding-bottom: 30px;
 }
 
 .help-popup-content .help-popup-content-video,
@@ -6399,7 +6400,7 @@ header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-head
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside .btn {
-  font-size: 16px;
+  font-size: 14px;
   min-width: 128px;
   padding: 8px;
   margin: 0 auto 12px;
@@ -6407,6 +6408,24 @@ header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-head
   text-align: center;
   justify-content: center;
   align-items: center;
+}
+
+.help-popup-content .library-p .dotted-line {
+  height: 1px;
+  border-top: 1px dotted #0066be;
+  margin: 13px 0 7px;
+}
+
+.help-popup-content .library-p .help-popup-content-library-inside .btn.white {
+  background: #fff;
+}
+
+.help-popup-content .library-p .help-popup-content-library-inside .btn.btn-voilet.white:hover {
+  color: #8A4E9C;
+}
+
+.help-popup-content .library-p .help-popup-content-library-inside .btn.white:hover {
+  color: inherit;
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside .btn.cancel,
@@ -6676,12 +6695,16 @@ header.-top-24~div .help-popup-content {
 
 header.-top-24~div .help-popup-content .help-popup-content-inner {
   height: 100vh;
-  padding-bottom: 30px;
 }
 
 .help-popup-content-library .help-popup-content-list p.help-popup-title,
 .help-popup-content .help-popup-find-content p.help-popup-title {
   font-weight: 500;
+}
+
+hr {
+  background-color: #0066BE;
+  border-top: 1px solid #0066be;
 }
 
 /**sidebar Modal End**/
