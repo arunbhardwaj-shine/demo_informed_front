@@ -5163,14 +5163,10 @@ const Sidebar = () => {
                         <li>Upload date</li>
                         <li>inforMedGO link</li>
                         <li>Docintel Code</li>
+                        <li>Language of the content</li>
+                        <li>Link Type</li>
                         <li>
-                          <strong>Language of the content</strong>
-                        </li>
-                        <li>
-                          <strong>Link Type</strong>
-                        </li>
-                        <li>
-                          <strong>Enhanced</strong> (Identifying if the content
+                          Enhanced (Identifying if the content
                           contains: SPC{" "}
                           <img src={path_image + "spc-img.png"} alt="" />,
                           videos{" "}
