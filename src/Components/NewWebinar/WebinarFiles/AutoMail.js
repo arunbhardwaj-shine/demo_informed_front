@@ -1229,6 +1229,10 @@ const AutoMail = (props) => {
           let newButton =
             document.createElement("button");
           newButton.innerText = "Add Tracking";
+          newButton.classList.add("tox-button")
+          newButton.classList.add("tox-button--icon")
+          newButton.classList.add("tox-button--naked")
+          newButton.classList.add("track")
           newButton.onclick = function () {
             let firstToxControlWrap =
               document.querySelector(

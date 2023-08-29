@@ -1653,7 +1653,7 @@ const CreateEmail = (props) => {
       toast.warning("Template not selected.");
     }
   };
- const addTracking= function (editor) {
+  const addTracking= function (editor) {
     editor.on("OpenWindow", function (e) {
       let dialog =
         document.getElementsByClassName("tox-dialog")[0];
@@ -1707,6 +1707,7 @@ const CreateEmail = (props) => {
       }
     });
   }
+
   const uploadImageToServer = async (file) => {
     try {
       loader("show");
@@ -1733,7 +1734,6 @@ const CreateEmail = (props) => {
       return null;
     }
   };
-
 
   return (
     <>
@@ -2083,6 +2083,7 @@ const CreateEmail = (props) => {
                       contextmenu:
                         "link image imagetools table configurepermanentpen",
                       file_picker_types: "image",
+                      init_instance_callback: (editor)=>addTracking(editor),
                       file_picker_callback: function (callback, value, meta) {
                         const input = document.createElement("input");
                         input.setAttribute("type", "file");
@@ -2133,7 +2134,6 @@ const CreateEmail = (props) => {
 
                         input.click();
                       },
-                      init_instance_callback: (editor)=>addTracking(editor),
                     }}
                     onEditorChange={(content) => {
                       setTemplateSaving(content);

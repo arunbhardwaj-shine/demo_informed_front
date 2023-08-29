@@ -3170,6 +3170,9 @@ input[type="number"] {
 .timeline-article-detail-full.active .timeline-article-details-overall {
   display: block;
 }
+.timeline-article-detail-full.active .timeline-article-details-overall .no_found{
+  min-height: 150px;
+}
 .timeline-article-detail-full .timeline-article-details-heading p {
   font-weight: 500;
   font-size: 14px;

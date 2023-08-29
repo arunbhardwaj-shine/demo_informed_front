@@ -92,6 +92,9 @@ const ViewTable = (props) => {
       setListName(props.smartListName);
     }
   }, []);
+  useEffect(()=>{
+    setEditList(props.data);
+  },[props.data?.length])
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -1511,6 +1514,7 @@ const ViewTable = (props) => {
   return (
     <>
       <div className="page-top-nav smart_list_names sticky">
+        {console.log("props.data",props.data)}
         <div className="row justify-content-end align-items-center">
           <div className="col-12 col-md-1">
             <div className="header-btn-left">
@@ -1628,7 +1632,7 @@ const ViewTable = (props) => {
         <div className="result-hcp-table">
           <div className="table-title">
             <h4>
-              {getlistname} <span>| {editList.length}</span>
+              {getlistname} <span>| {props.list_count}</span>
             </h4>
             <div className="selected-hcp-table-action">
               {editable == false ? (
@@ -2078,8 +2082,6 @@ const ViewTable = (props) => {
             <div className="hcp-add-box">
               <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
-                          {console.log("--hpc",hpc)}
-                          {console.log("--=-=-=-=->>",irtRole)}
 
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
