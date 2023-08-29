@@ -146,6 +146,13 @@ const TemplateBuilder = (props) => {
   const [getSmartListId, setSmartListId] = useState(0);
   const [templateClickedd, setTemplateClicked] = useState(false);
   const [validationError, setValidationError] = useState({});
+  const [selectType, setSelectType] = useState([
+    { label: "Placeholder", value: "Placeholder" },
+    { label: "Pure text", value: "Puretext" },
+  ]);
+  const [userTemplateType, setUserTemplateType] = useState(
+    selectType[0]?.value
+  );
 
   const newArr = [];
 
@@ -158,7 +165,7 @@ const TemplateBuilder = (props) => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
-    getTemplateListData(0, "All", "");
+    getTemplateListData(0, "All", "", userTemplateType);
     getSmartListData(0);
   }, []);
 
@@ -271,7 +278,7 @@ const TemplateBuilder = (props) => {
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getTemplateListData = async (flag, lng, ibu) => {
+  const getTemplateListData = async (flag, lng, ibu, userTemplateType) => {
     let check_lng_index = 10;
     if (lng == "All") {
       check_lng_index = 10;
@@ -291,6 +298,7 @@ const TemplateBuilder = (props) => {
       user_id: localStorage.getItem("user_id"),
       language: check_lng_index,
       ibu: ibu,
+      content_included: `${userTemplateType == "Placeholder" ? 1 : 0}`,
     };
 
     loader("show");
@@ -411,6 +419,11 @@ const TemplateBuilder = (props) => {
         }
       }
     }
+  };
+
+  const handleChange = (e) => {
+    setUserTemplateType(e?.value);
+    getTemplateListData(0, selectedLanguage, selectedIbu, e?.value);
   };
 
   const addMoreHcp = () => {
@@ -746,7 +759,12 @@ const TemplateBuilder = (props) => {
           if (res.data.status_code == 200) {
             toast.success(res.data.message);
             setTemplateName(newTemplateName);
-            getTemplateListData(0, selectedLanguage, selectedIbu);
+            getTemplateListData(
+              0,
+              selectedLanguage,
+              selectedIbu,
+              userTemplateType
+            );
             loader("hide");
           } else {
             toast.warning(res.data.message);
@@ -1217,7 +1235,7 @@ const TemplateBuilder = (props) => {
     loader("show");
 
     setSelectedLanguage(e.value);
-    getTemplateListData(2, e.value, selectedIbu);
+    getTemplateListData(2, e.value, selectedIbu, userTemplateType);
   };
 
   const ibuSelected = (e) => {
@@ -1225,7 +1243,7 @@ const TemplateBuilder = (props) => {
     setSelectedIbu(e.value);
     let index = getTemplateIbu.findIndex((x) => x.value === e.value);
     setIbuOption(index);
-    getTemplateListData(2, selectedLanguage, e.value);
+    getTemplateListData(2, selectedLanguage, e.value, userTemplateType);
   };
 
   const savenewtemplate = async (e) => {
@@ -1261,7 +1279,12 @@ const TemplateBuilder = (props) => {
         .post(`emailapi/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
-            getTemplateListData(1, selectedLanguage, selectedIbu);
+            getTemplateListData(
+              1,
+              selectedLanguage,
+              selectedIbu,
+              userTemplateType
+            );
             setTemplateId(res.data.response.data.last_id);
             setTemplateName(template_name);
           } else {
@@ -1315,7 +1338,12 @@ const TemplateBuilder = (props) => {
         .then((res) => {
           if (res.data.status_code === 200) {
             loader("hide");
-            getTemplateListData(1, selectedLanguage, selectedIbu);
+            getTemplateListData(
+              1,
+              selectedLanguage,
+              selectedIbu,
+              userTemplateType
+            );
             setTemplateId(res.data.response.data.last_id);
             setTemplateName(newTemplateNamee);
           } else {
@@ -1436,7 +1464,12 @@ const TemplateBuilder = (props) => {
             .then((res) => {
               if (res.data.status_code == 200) {
                 toast.success(res.data.message);
-                getTemplateListData(0, selectedLanguage, selectedIbu);
+                getTemplateListData(
+                  0,
+                  selectedLanguage,
+                  selectedIbu,
+                  userTemplateType
+                );
               } else {
                 toast.warning(res.data.message);
               }
@@ -1481,7 +1514,12 @@ const TemplateBuilder = (props) => {
           .post(`emailapi/add_update_template`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              getTemplateListData(1, selectedLanguage, selectedIbu);
+              getTemplateListData(
+                1,
+                selectedLanguage,
+                selectedIbu,
+                userTemplateType
+              );
               setTemplate(templateSaving);
             } else {
               loader("hide");
@@ -1518,7 +1556,12 @@ const TemplateBuilder = (props) => {
         .then((res) => {
           if (res.data.status_code === 200) {
             setshowConfirmation(false);
-            getTemplateListData(0, selectedLanguage, selectedIbu);
+            getTemplateListData(
+              0,
+              selectedLanguage,
+              selectedIbu,
+              userTemplateType
+            );
             setTemplateId();
             setTemplateName("");
             setNewTemplateName("");
@@ -1602,35 +1645,26 @@ const TemplateBuilder = (props) => {
     }
   };
 
-
-  const addTracking=function (editor) {
+  const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-      let dialog =
-        document.getElementsByClassName("tox-dialog")[0];
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
 
       if (dialog) {
-        let header = dialog.querySelector(
-          ".tox-dialog__header"
-        );
-        const closeButton = header.querySelector(
-          '[aria-label="Close"]'
-        );
-        let text =
-          header.querySelector(".tox-dialog__title");
+        let header = dialog.querySelector(".tox-dialog__header");
+        const closeButton = header.querySelector('[aria-label="Close"]');
+        let text = header.querySelector(".tox-dialog__title");
 
         if (text.innerText == "Insert/Edit Link") {
-          let newButton =
-            document.createElement("button");
+          let newButton = document.createElement("button");
           newButton.innerText = "Add Tracking";
-          newButton.classList.add("tox-button")
-          newButton.classList.add("tox-button--icon")
-          newButton.classList.add("tox-button--naked")
-          newButton.classList.add("track")
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
           newButton.onclick = function () {
-            let firstToxControlWrap =
-              document.querySelector(
-                "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-              );
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
 
             // let text =dialog.querySelector(".tox-form__group");
             if (!firstToxControlWrap.value) {
@@ -1639,11 +1673,7 @@ const TemplateBuilder = (props) => {
             }
             const baseLink =
               "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            if (
-              firstToxControlWrap.value.startsWith(
-                baseLink
-              )
-            ) {
+            if (firstToxControlWrap.value.startsWith(baseLink)) {
               alert("Traking already added");
               return;
             }
@@ -1660,7 +1690,7 @@ const TemplateBuilder = (props) => {
         }
       }
     });
-  }
+  };
   return (
     <>
       <div className="col right-sidebar">
@@ -1719,6 +1749,22 @@ const TemplateBuilder = (props) => {
                     </div>
                   </div>
                 )}
+
+                <div className="template_language">
+                  <span> Select Type</span>
+                  <div className="form-group">
+                    <Select
+                      options={selectType}
+                      placeholder="Select type"
+                      name="selectType"
+                      onChange={(e) => handleChange(e)}
+                      // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                      defaultValue={selectType[0]}
+                      isClearable
+                    />
+                  </div>
+                </div>
 
                 {getTemplateIbu.length > 0 && (
                   <div className="template_country">
@@ -2102,7 +2148,7 @@ const TemplateBuilder = (props) => {
 
                           input.click();
                         },
-                        init_instance_callback: (editor)=>addTracking(editor),
+                        init_instance_callback: (editor) => addTracking(editor),
                       }}
                       onEditorChange={(content) => {
                         setTemplateSaving(content);
@@ -2163,9 +2209,8 @@ const TemplateBuilder = (props) => {
                           };
                           input.click();
                         },
-                        init_instance_callback: (editor)=>addTracking(editor),
+                        init_instance_callback: (editor) => addTracking(editor),
                       }}
-                      
                       onEditorChange={(content) => {
                         setNewTemplateContent(content);
                       }}
@@ -2224,7 +2269,7 @@ const TemplateBuilder = (props) => {
                           };
                           input.click();
                         },
-                        init_instance_callback: (editor)=>addTracking(editor),
+                        init_instance_callback: (editor) => addTracking(editor),
                       }}
                       onEditorChange={(content) => {
                         setNewTemplateContent(content);
