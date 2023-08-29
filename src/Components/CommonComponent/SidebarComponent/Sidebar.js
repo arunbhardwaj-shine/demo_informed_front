@@ -3553,7 +3553,7 @@ const Sidebar = () => {
                   <div className="help-popup-content-inner">
                     <div className="help-popup-content-library library-p">
                       <div className="help-popup-content-video">
-                        <h6>{title}</h6>
+                        <h6>Create content</h6>
                         <div
                           className="help-content-popup"
                           onClick={() =>
@@ -5842,7 +5842,7 @@ const Sidebar = () => {
                 >
                   <div className="help-popup-content-inner">
                     <div className="help-popup-content-library library-p">
-                        {/* <div className="help-popup-content-video">
+                        <div className="help-popup-content-video">
                           <h6>{title}</h6>
                           <div
                             className="help-content-popup"
@@ -5856,16 +5856,25 @@ const Sidebar = () => {
                               <img src={video_poster} alt="" />
                             </a>
                           </div>
-                        </div> */}
+                        </div>
                       
                           <div className="help-popup-content-library-inside">
-                            <h6>Create content</h6><br/>
                             <p><strong>Three Steps to Create Your Content</strong></p><p></p>
                             <img src={path_image + "create-content-steps.png"} alt=""/>
                             <p><strong>Steps 1 : </strong>“Create Your Content”</p>
                           </div>
                           <div className="help-popup-content-library-inside">
                             <p>Start by filling in the information about <strong>Who is involved</strong> and if they can print or download the sample.</p>
+                          </div>
+                           <div className="dotted-line">&nbsp;</div>
+                          <div className="help-popup-content-library-inside">
+                            <Button className="btn-purple btn-bordered">Add new product +</Button>
+                            <p><span>Next add the product. To add a new product, click “Add a New Product” found to the right of the “Product” bar. This will reveal a pop-up.</span></p>
+                          </div>
+                          <div className="dotted-line">&nbsp;</div>
+                          <div className="help-popup-content-library-inside">
+                            <img src={path_image + "group-topics.png"} alt="" /><p></p>
+                            <p><span>To add topic tags, click “Add Topic” and select one or more from the predefined list or create your own.</span></p>
                           </div>
                           <hr/>
                           <div className="help-popup-content-library-inside">
