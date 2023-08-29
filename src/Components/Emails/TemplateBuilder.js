@@ -2021,6 +2021,14 @@ const TemplateBuilder = (props) => {
                                 if (text.innerText == "Insert/Edit Link") {
                                     let newButton = document.createElement("button");
                                     newButton.innerText = "Add Tracking";
+
+                                    newButton.classList.add("tox-button")
+                                    newButton.classList.add("tox-button--icon")
+                                    newButton.classList.add("tox-button--naked")
+                                    newButton.classList.add("track")
+
+
+
                                     newButton.onclick = function() {
                                       let firstToxControlWrap = document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input")
 
