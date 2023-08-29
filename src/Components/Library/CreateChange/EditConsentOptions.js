@@ -1158,7 +1158,87 @@ const EditConsentOptions = (props) => {
       </OverlayTrigger>
     );
   }
+  const addTracking= function (editor) {
+    editor.on("OpenWindow", function (e) {
+      let dialog =
+        document.getElementsByClassName("tox-dialog")[0];
 
+      if (dialog) {
+        let header = dialog.querySelector(
+          ".tox-dialog__header"
+        );
+        const closeButton = header.querySelector(
+          '[aria-label="Close"]'
+        );
+        let text =
+          header.querySelector(".tox-dialog__title");
+
+        if (text.innerText == "Insert/Edit Link") {
+          let newButton =
+            document.createElement("button");
+          newButton.innerText = "Add Tracking";
+          newButton.onclick = function () {
+            let firstToxControlWrap =
+              document.querySelector(
+                "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+              );
+
+            // let text =dialog.querySelector(".tox-form__group");
+            if (!firstToxControlWrap.value) {
+              alert("Please enter a link");
+              return;
+            }
+            const baseLink =
+              "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+            if (
+              firstToxControlWrap.value.startsWith(
+                baseLink
+              )
+            ) {
+              alert("Traking already added");
+              return;
+            }
+
+            const currentTimestamp = Date.now();
+            // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+            firstToxControlWrap.value = link;
+          
+            alert("Traking added");
+          };
+
+          header.insertBefore(newButton, closeButton);
+        }
+      }
+    });
+  }
+
+  const uploadImageToServer = async (file) => {
+    try {
+      loader("show");
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = await fetch(
+        "https://onesource.informed.pro/api/upload-image",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const uploadedData = await response.json();
+        return uploadedData.imageUrl;
+      } else {
+        console.error("Image upload failed");
+        return null;
+      }
+    } catch (error) {
+      console.error("Image upload error:", error);
+      return null;
+    }
+  };
   return (
     <>
       <div className="col right-sidebar">
@@ -1416,6 +1496,57 @@ const EditConsentOptions = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                          init_instance_callback: (editor)=>addTracking(editor),
+                          file_picker_callback: function (callback, value, meta) {
+                            const input = document.createElement("input");
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "image/*");
+  
+                            // Create a loading indicator element (e.g., a spinner)
+                            const loadingIndicator =
+                              document.createElement("div");
+                            loadingIndicator.className = "loading-indicator";
+                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+  
+                            input.onchange = async () => {
+                              document.body.appendChild(loadingIndicator); // Show loading indicator
+  
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
+  
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl = await uploadImageToServer(
+                                      file,
+                                      meta.width,
+                                      meta.height
+                                    );
+                                  } else {
+                                    uploadedImageUrl = await uploadImageToServer(
+                                      file
+                                    );
+                                  }
+  
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                    loader("hide");
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error("Error uploading image:", error);
+                                } finally {
+                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                }
+                              }
+                            };
+  
+                            input.click();
+                          },
                       }}
                       onEditorChange={(content) => {
                         setTemplateSaving(content);
