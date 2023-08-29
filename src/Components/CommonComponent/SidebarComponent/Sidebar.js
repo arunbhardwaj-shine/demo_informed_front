@@ -3569,32 +3569,40 @@ const Sidebar = () => {
                       </div>
                       <div className="help-popup-content-library-inside">
                         <p>
-                          <strong>
-                            Steps 2 :</strong> “Edit Consent Options”
+                          <strong>Steps 2 :</strong> “Edit Consent Options”
                         </p>
                         <p>
-                         Proceed to the next step to customise settings like </p>
-                         <ul style={{margin:"0 0 9px"}}>
+                          Proceed to the next step to customise settings like{" "}
+                        </p>
+                        <ul style={{ margin: "0 0 9px" }}>
                           <li>consent type</li>
                           <li>language</li>
                           <li>pop-up appearance time</li>
-                         </ul>
-                         <p>Select the pop-up and edit text if needed.
-                        </p>
+                        </ul>
+                        <p>Select the pop-up and edit text if needed.</p>
                       </div>
                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
-                         <Button className="btn-filled">Save</Button>
-                        <p><span>Click “Save”, when you do any editing to the pop-up. </span></p>
+                        <Button className="btn-filled">Save</Button>
+                        <p>
+                          <span>
+                            Click “Save”, when you do any editing to the pop-up.{" "}
+                          </span>
+                        </p>
                       </div>
                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <div className="d-flex align-items-center justify-content-center button-group">
-                            <Button className="btn-bordered small">Back</Button>
-                            <Button className="btn-filled small">Next</Button>
+                          <Button className="btn-bordered small">Back</Button>
+                          <Button className="btn-filled small">Next</Button>
                         </div>
-                        
-                        <p><span>Click “Next” to proceed to the final step or “Back” to go back to the previous step.</span></p>
+
+                        <p>
+                          <span>
+                            Click “Next” to proceed to the final step or “Back”
+                            to go back to the previous step.
+                          </span>
+                        </p>
                       </div>
                     </div>
                     <div
@@ -3666,23 +3674,29 @@ const Sidebar = () => {
                 >
                   <div className="help-popup-content-inner">
                     <div className="help-popup-content-library library-p">
-                       <div className="help-popup-content-video">
-                      <h6>{title}</h6>
-                      <div
-                        className="help-content-popup"
-                        onClick={() =>
-                          setOpenVideoPopup(
-                            (getOpenVideoPopup) => !getOpenVideoPopup
-                          )
-                        }
-                      >
-                        <a href="javascript:;">
-                          <img src={video_poster} alt="" />
-                        </a>
+                      <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
                       </div>
-                    </div> 
                       <div className="help-popup-content-library-inside library-p publisher">
-                        <p><strong>This page allows you to make changes to your standard consent and pop-up texts</strong></p><br/>
+                        <p>
+                          <strong>
+                            This page allows you to make changes to your
+                            standard consent and pop-up texts
+                          </strong>
+                        </p>
+                        <br />
                         <p>
                           <strong>To set your pop-up:</strong>
                         </p>
@@ -3697,9 +3711,11 @@ const Sidebar = () => {
                           </li>
                           <li>Edit the text of the pop-up if needed</li>
                         </ul>
-                        <br/>
-                         <Button className="btn-filled small">Save</Button>
-                         <p style={{textAlign:"center"}}><span>Once completed, click “Save”.</span></p>
+                        <br />
+                        <Button className="btn-filled small">Save</Button>
+                        <p style={{ textAlign: "center" }}>
+                          <span>Once completed, click “Save”.</span>
+                        </p>
                       </div>
                     </div>
                     <div
@@ -3790,34 +3806,43 @@ const Sidebar = () => {
                         </div>
                       </div> */}
                       <div className="help-popup-content-library-inside">
-                        <h6>Create content</h6><br/>
+                        <h6>Create content</h6>
+                        <br />
                         <p>
-                          <strong>
-                            Steps 2 :</strong> “Edit Consent Options”
+                          <strong>Steps 2 :</strong> “Edit Consent Options”
                         </p>
                         <p>
-                         Proceed to the next step to customise settings like </p>
-                         <ul style={{margin:"0 0 9px"}}>
+                          Proceed to the next step to customise settings like{" "}
+                        </p>
+                        <ul style={{ margin: "0 0 9px" }}>
                           <li>consent type</li>
                           <li>language</li>
                           <li>pop-up appearance time</li>
-                         </ul>
-                         <p>Select the pop-up and edit text if needed.
-                        </p>
+                        </ul>
+                        <p>Select the pop-up and edit text if needed.</p>
                       </div>
                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
-                         <Button className="btn-filled">Save</Button>
-                        <p><span>Click “Save”, when you do any editing to the pop-up. </span></p>
+                        <Button className="btn-filled">Save</Button>
+                        <p>
+                          <span>
+                            Click “Save”, when you do any editing to the pop-up.{" "}
+                          </span>
+                        </p>
                       </div>
                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <div className="d-flex align-items-center justify-content-center button-group">
-                            <Button className="btn-bordered small">Back</Button>
-                            <Button className="btn-filled small">Next</Button>
+                          <Button className="btn-bordered small">Back</Button>
+                          <Button className="btn-filled small">Next</Button>
                         </div>
-                        
-                        <p><span>Click “Next” to proceed to the final step or “Back” to go back to the previous step.</span></p>
+
+                        <p>
+                          <span>
+                            Click “Next” to proceed to the final step or “Back”
+                            to go back to the previous step.
+                          </span>
+                        </p>
                       </div>
                     </div>
                     <div
@@ -3866,7 +3891,7 @@ const Sidebar = () => {
                     )
                   }
                 >
-                 <svg
+                  <svg
                     width="16"
                     height="38"
                     viewBox="0 0 16 38"
@@ -3879,17 +3904,17 @@ const Sidebar = () => {
                       fillOpacity="0.6"
                     />
                   </svg>
-              </div>
-              <div
-                className={
-                  getHideShowSideContent
-                    ? "help-popup-content show"
-                    : "help-popup-content"
-                }
-              >
-                <div className="help-popup-content-inner">
-                  <div className="help-popup-content-library library-p">
-                    {/* <div className="help-popup-content-video">
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      {/* <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
                         className="help-content-popup"
@@ -3904,9 +3929,16 @@ const Sidebar = () => {
                         </a>
                       </div>
                     </div> */}
-                    <div className="help-popup-content-library-inside">
-                      <h6>Set Popup</h6><br/>
-                        <p><strong>This page allows you to make changes to your standard consent and pop-up texts</strong></p><br/>
+                      <div className="help-popup-content-library-inside">
+                        <h6>Set Popup</h6>
+                        <br />
+                        <p>
+                          <strong>
+                            This page allows you to make changes to your
+                            standard consent and pop-up texts
+                          </strong>
+                        </p>
+                        <br />
                         <p>
                           <strong>To set your pop-up:</strong>
                         </p>
@@ -3921,9 +3953,11 @@ const Sidebar = () => {
                           </li>
                           <li>Edit the text of the pop-up if needed</li>
                         </ul>
-                        <br/>
-                         <Button className="btn-filled small">Save</Button>
-                         <p style={{textAlign:"center"}}><span>Once completed, click “Save”.</span></p>
+                        <br />
+                        <Button className="btn-filled small">Save</Button>
+                        <p style={{ textAlign: "center" }}>
+                          <span>Once completed, click “Save”.</span>
+                        </p>
                       </div>
                     </div>
                     <div
@@ -4027,17 +4061,17 @@ const Sidebar = () => {
                             useful for events, promotion, social media etc.
                           </strong>
                         </p>
-                        </div>
-                        <div className="help-popup-content-library-inside">
+                      </div>
+                      <div className="help-popup-content-library-inside">
                         <p>
                           <strong>
                             To create new sublink for your content:
                           </strong>
                         </p>
-                          <p>
+                        <p>
                           By choosing the content you wish to create a sub-link
                           of, either from the:
-                          </p>
+                        </p>
                         <ul>
                           <li>Title</li>
                           <li>Content URL</li>
@@ -4067,13 +4101,28 @@ const Sidebar = () => {
                             QR
                           </span>
                         </p>
-                        <Button className="btn-bordered white">Analytics</Button>
-                        <p><span>Your “Analytics” button will take you to the analytics page of the sublink.</span></p>
+                        <Button className="btn-bordered white">
+                          Analytics
+                        </Button>
+                        <p>
+                          <span>
+                            Your “Analytics” button will take you to the
+                            analytics page of the sublink.
+                          </span>
+                        </p>
                       </div>
-                     <div className="dotted-line">&nbsp;</div>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
-                        <Button className="btn-filled">Create New Link +</Button>
-                        <p><span>Click on “Create New Link” to reveal a pop-up that allows you to create a new sublink for the selected content.</span></p>
+                        <Button className="btn-filled">
+                          Create New Link +
+                        </Button>
+                        <p>
+                          <span>
+                            Click on “Create New Link” to reveal a pop-up that
+                            allows you to create a new sublink for the selected
+                            content.
+                          </span>
+                        </p>
                       </div>
                     </div>
                     <div
@@ -4403,18 +4452,38 @@ const Sidebar = () => {
                           </li>
                         </ul>
                       </div>
-                        <div className="dotted-line">&nbsp;</div>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                           At the bottom of the content card you will find three
                           buttons:
                         </p>
-                        <Button className="btn-bordered white">Preview article</Button>
-                        <p><span>Opens content in a new tab for preview. Usage is not tracked.</span></p>
-                         <Button className="btn-bordered white">Download QR</Button>
-                         <p><span>To generate and download a QR code for the content.</span></p>
-                         <Button className="btn-bordered white">Send in email</Button>
-                         <p><span>Directs you to the email engine to send the content via email.</span></p>
+                        <Button className="btn-bordered white">
+                          Preview article
+                        </Button>
+                        <p>
+                          <span>
+                            Opens content in a new tab for preview. Usage is not
+                            tracked.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Download QR
+                        </Button>
+                        <p>
+                          <span>
+                            To generate and download a QR code for the content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Send in email
+                        </Button>
+                        <p>
+                          <span>
+                            Directs you to the email engine to send the content
+                            via email.
+                          </span>
+                        </p>
                       </div>
                       <hr />
                       <div className="help-popup-content-library-inside">
@@ -4441,11 +4510,23 @@ const Sidebar = () => {
                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>At the bottom of the Data tab are two buttons:</p>
-                        
-                        <Button className="btn-bordered white">Analytics</Button>
-                        <p><span>This takes you to the analytics page, revealing the analytics of the selected content.</span></p>
-                         <Button className="btn-bordered btn-voilet white">Reset the collected data</Button>
-                         <p className="voilet-text">Deletes usage, users and any other collected data for the selected content. Be careful.</p>
+
+                        <Button className="btn-bordered white">
+                          Analytics
+                        </Button>
+                        <p>
+                          <span>
+                            This takes you to the analytics page, revealing the
+                            analytics of the selected content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered btn-voilet white">
+                          Reset the collected data
+                        </Button>
+                        <p className="voilet-text">
+                          Deletes usage, users and any other collected data for
+                          the selected content. Be careful.
+                        </p>
                       </div>
                       <hr />
                       <div className="help-popup-content-library-inside">
@@ -4464,15 +4545,36 @@ const Sidebar = () => {
                       </div>
                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
-                        
+                        <p>At the bottom three buttons:</p>
+                        <Button className="btn-bordered white">
+                          Edit Docintel link
+                        </Button>
                         <p>
-                          At the bottom three buttons:</p>
-                          <Button className="btn-bordered white">Edit Docintel link</Button>
-                        <p><span>Redirects you to the creation page, allowing you to make changes to the content.</span></p>
-                          <Button className="btn-bordered white">Add / remove tags</Button>
-                          <p><span>Opens Tags pop-up where you can add new or remove tags from your content. Tags are useful for users to filter content by if they have a library, for tracking usage, and for AI to learn from. </span></p>
-                          <Button className="btn-bordered white">New sublink</Button>
-                          <p><span>Redirects you to the New Sublinks page to create a new sublink for your content.</span></p>
+                          <span>
+                            Redirects you to the creation page, allowing you to
+                            make changes to the content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Add / remove tags
+                        </Button>
+                        <p>
+                          <span>
+                            Opens Tags pop-up where you can add new or remove
+                            tags from your content. Tags are useful for users to
+                            filter content by if they have a library, for
+                            tracking usage, and for AI to learn from.{" "}
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          New sublink
+                        </Button>
+                        <p>
+                          <span>
+                            Redirects you to the New Sublinks page to create a
+                            new sublink for your content.
+                          </span>
+                        </p>
                       </div>
                       <hr />
                       <div className="help-popup-content-library-inside">
@@ -4487,7 +4589,7 @@ const Sidebar = () => {
                         <p>
                           <strong>Search and Filter</strong>
                         </p>
-                          <img src={path_image + "searchbar.png"} alt="" />
+                        <img src={path_image + "searchbar.png"} alt="" />
                         <p>
                           <span>
                             On the right of the page, you will find the search
@@ -4522,11 +4624,28 @@ const Sidebar = () => {
                       </div>
                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
-                        <p><strong>Delete content</strong></p>
-                        <img className="dleete-btn" src={path_image +"delete-button.png"} alt="" />
-                        <p><span>Besides the search bar and filter you will find a rubbish bin for your deletion purposes. Once clicked, this will activate the ability to delete any content.</span></p>
+                        <p>
+                          <strong>Delete content</strong>
+                        </p>
+                        <img
+                          className="dleete-btn"
+                          src={path_image + "delete-button.png"}
+                          alt=""
+                        />
+                        <p>
+                          <span>
+                            Besides the search bar and filter you will find a
+                            rubbish bin for your deletion purposes. Once
+                            clicked, this will activate the ability to delete
+                            any content.
+                          </span>
+                        </p>
                         <Button className="btn-bordered small">Cancel</Button>
-                        <p><span>By clicking “Cancel” to leave deletion mode.</span></p>
+                        <p>
+                          <span>
+                            By clicking “Cancel” to leave deletion mode.
+                          </span>
+                        </p>
                       </div>
                     </div>
                     <div
@@ -4703,19 +4822,39 @@ const Sidebar = () => {
                           </li>
                         </ul>
                       </div>
-                       <div className="dotted-line">&nbsp;</div>
+                      <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>
                           At the bottom of the content card you will find three
                           buttons:
                         </p>
-                        
-                        <Button className="btn-bordered white">Preview article</Button>
-                        <p><span>Opens content in a new tab for preview. Usage is not tracked.</span></p>
-                         <Button className="btn-bordered white">Download QR</Button>
-                         <p><span>To generate and download a QR code for the content.</span></p>
-                         <Button className="btn-bordered white">Send in email</Button>
-                         <p><span>Directs you to the email engine to send the content via email.</span></p>
+
+                        <Button className="btn-bordered white">
+                          Preview article
+                        </Button>
+                        <p>
+                          <span>
+                            Opens content in a new tab for preview. Usage is not
+                            tracked.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Download QR
+                        </Button>
+                        <p>
+                          <span>
+                            To generate and download a QR code for the content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Send in email
+                        </Button>
+                        <p>
+                          <span>
+                            Directs you to the email engine to send the content
+                            via email.
+                          </span>
+                        </p>
                       </div>
                       <hr />
                       <div className="help-popup-content-library-inside">
@@ -4742,11 +4881,23 @@ const Sidebar = () => {
                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
                         <p>At the bottom of the Data tab are two buttons:</p>
-                        
-                        <Button className="btn-bordered white">Analytics</Button>
-                        <p><span>This takes you to the analytics page, revealing the analytics of the selected content.</span></p>
-                         <Button className="btn-bordered btn-voilet white">Reset the collected data</Button>
-                         <p className="voilet-text">Deletes usage, users and any other collected data for the selected content. Be careful.</p>
+
+                        <Button className="btn-bordered white">
+                          Analytics
+                        </Button>
+                        <p>
+                          <span>
+                            This takes you to the analytics page, revealing the
+                            analytics of the selected content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered btn-voilet white">
+                          Reset the collected data
+                        </Button>
+                        <p className="voilet-text">
+                          Deletes usage, users and any other collected data for
+                          the selected content. Be careful.
+                        </p>
                       </div>
                       <hr />
                       <div className="help-popup-content-library-inside">
@@ -4765,15 +4916,36 @@ const Sidebar = () => {
                       </div>
                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
-                        
+                        <p>At the bottom three buttons:</p>
+                        <Button className="btn-bordered white">
+                          Edit Docintel link
+                        </Button>
                         <p>
-                          At the bottom three buttons:</p>
-                          <Button className="btn-bordered white">Edit Docintel link</Button>
-                        <p><span>Redirects you to the creation page, allowing you to make changes to the content.</span></p>
-                          <Button className="btn-bordered white">Add / remove tags</Button>
-                          <p><span>Opens Tags pop-up where you can add new or remove tags from your content. Tags are useful for users to filter content by if they have a library, for tracking usage, and for AI to learn from. </span></p>
-                          <Button className="btn-bordered white">New sublink</Button>
-                          <p><span>Redirects you to the New Sublinks page to create a new sublink for your content.</span></p>
+                          <span>
+                            Redirects you to the creation page, allowing you to
+                            make changes to the content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Add / remove tags
+                        </Button>
+                        <p>
+                          <span>
+                            Opens Tags pop-up where you can add new or remove
+                            tags from your content. Tags are useful for users to
+                            filter content by if they have a library, for
+                            tracking usage, and for AI to learn from.{" "}
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          New sublink
+                        </Button>
+                        <p>
+                          <span>
+                            Redirects you to the New Sublinks page to create a
+                            new sublink for your content.
+                          </span>
+                        </p>
                       </div>
                       <hr />
                       <div className="help-popup-content-library-inside">
@@ -4788,7 +4960,7 @@ const Sidebar = () => {
                         <p>
                           <strong>Search and Filter</strong>
                         </p>
-                          <img src={path_image + "searchbar.png"} alt="" />
+                        <img src={path_image + "searchbar.png"} alt="" />
                         <p>
                           <span>
                             On the right of the page, you will find the search
@@ -4823,11 +4995,28 @@ const Sidebar = () => {
                       </div>
                       <div className="dotted-line">&nbsp;</div>
                       <div className="help-popup-content-library-inside">
-                        <p><strong>Delete content</strong></p>
-                        <img className="dleete-btn" src={path_image +"delete-button.png"} alt="" />
-                        <p><span>Besides the search bar and filter you will find a rubbish bin for your deletion purposes. Once clicked, this will activate the ability to delete any content.</span></p>
+                        <p>
+                          <strong>Delete content</strong>
+                        </p>
+                        <img
+                          className="dleete-btn"
+                          src={path_image + "delete-button.png"}
+                          alt=""
+                        />
+                        <p>
+                          <span>
+                            Besides the search bar and filter you will find a
+                            rubbish bin for your deletion purposes. Once
+                            clicked, this will activate the ability to delete
+                            any content.
+                          </span>
+                        </p>
                         <Button className="btn-bordered small">Cancel</Button>
-                        <p><span>By clicking “Cancel” to leave deletion mode.</span></p>
+                        <p>
+                          <span>
+                            By clicking “Cancel” to leave deletion mode.
+                          </span>
+                        </p>
                       </div>
                     </div>
                     <div
@@ -4885,18 +5074,18 @@ const Sidebar = () => {
                 }
               >
                 <svg
-                    width="16"
-                    height="38"
-                    viewBox="0 0 16 38"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
-                      fill="#0066BE"
-                      fillOpacity="0.6"
-                    />
-                  </svg>
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
               </div>
               <div
                 className={
@@ -4905,9 +5094,9 @@ const Sidebar = () => {
                     : "help-popup-content"
                 }
               >
-                  <div className="help-popup-content-inner">
-                    <div className="help-popup-content-library library-p">
-                      {/* <div className="help-popup-content-video">
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
                         className="help-content-popup"
@@ -4922,24 +5111,24 @@ const Sidebar = () => {
                         </a>
                       </div>
                     </div> */}
-                      
-                        <div className="help-popup-content-library-inside library-p publisher">
-                          <h6>Licensed  content</h6>
-                        <p>This module is for all your sales. Here you can set the limits you’ve agreed with your client. When the limits are near (date and/or usage) you will get alerted via email.</p><br/>
-                        <p>
-                          <strong>
-                           Two main Sections:
-                          </strong>
-                        </p>
-                        <ul>
-                          <li>
-                           Content
-                          </li>
-                          <li>
-                            Create & Change
-                          </li>
-                        </ul>
-                        <br/>
+
+                    <div className="help-popup-content-library-inside library-p publisher">
+                      <h6>Licensed content</h6>
+                      <p>
+                        This module is for all your sales. Here you can set the
+                        limits you’ve agreed with your client. When the limits
+                        are near (date and/or usage) you will get alerted via
+                        email.
+                      </p>
+                      <br />
+                      <p>
+                        <strong>Two main Sections:</strong>
+                      </p>
+                      <ul>
+                        <li>Content</li>
+                        <li>Create & Change</li>
+                      </ul>
+                      <br />
                     </div>
 
                     <div className="help-popup-content-library-inside">
@@ -5117,7 +5306,7 @@ const Sidebar = () => {
                       <p>
                         <strong>Search and Filter</strong>
                       </p>
-                        <img src={path_image + "searchbar.png"} alt="" />
+                      <img src={path_image + "searchbar.png"} alt="" />
                       <p>
                         <span>
                           On the right of the page, you will find the search bar
@@ -5214,7 +5403,7 @@ const Sidebar = () => {
         )}
         {/*Help Pages for filter segment end*/}
         {/*Help Pages for filter segment start*/}
-        {location.pathname == "/license-set-popup" && selectedItem ?(
+        {location.pathname == "/license-set-popup" && selectedItem ? (
           <>
             <div className="help-popup">
               <div
@@ -5226,29 +5415,29 @@ const Sidebar = () => {
                 }
               >
                 <svg
-                    width="16"
-                    height="38"
-                    viewBox="0 0 16 38"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
-                      fill="#0066BE"
-                      fillOpacity="0.6"
-                    />
-                  </svg>
-                </div>
-                 <div
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
                 className={
                   getHideShowSideContent
                     ? "help-popup-content show"
                     : "help-popup-content"
                 }
               >
-                  <div className="help-popup-content-inner">
-                    <div className="help-popup-content-library library-p">
-                      {/* <div className="help-popup-content-video">
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
                         className="help-content-popup"
@@ -5263,68 +5452,42 @@ const Sidebar = () => {
                         </a>
                       </div>
                     </div> */}
-                      <div className="help-popup-content-library-inside">
-                        <p>
-                          <strong>
-                            Steps 2 :</strong> “Edit Consent Options”
-                        </p>
-                        <p>
-                         Proceed to the next step to customise settings like </p>
-                         <ul style={{margin:"0 0 9px"}}>
-                          <li>consent type</li>
-                          <li>language</li>
-                          <li>pop-up appearance time</li>
-                         </ul>
-                         <p>Select the pop-up and edit text if needed.
-                        </p>
-                      </div>
-                      <div className="dotted-line">&nbsp;</div>
-                      <div className="help-popup-content-library-inside">
-                         <Button className="btn-filled">Save</Button>
-                        <p><span>Click “Save”, when you do any editing to the pop-up. </span></p>
-                      </div>
-                      <div className="dotted-line">&nbsp;</div>
-                      <div className="help-popup-content-library-inside">
-                        <div className="d-flex align-items-center justify-content-center button-group">
-                            <Button className="btn-bordered small">Back</Button>
-                            <Button className="btn-filled small">Next</Button>
-                        </div>
-                        
-                        <p><span>Click “Next” to proceed to the final step or “Back” to go back to the previous step.</span></p>
-                      </div>
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Steps 2 :</strong> “Edit Consent Options”
+                      </p>
+                      <p>
+                        Proceed to the next step to customise settings like{" "}
+                      </p>
+                      <ul style={{ margin: "0 0 9px" }}>
+                        <li>consent type</li>
+                        <li>language</li>
+                        <li>pop-up appearance time</li>
+                      </ul>
+                      <p>Select the pop-up and edit text if needed.</p>
                     </div>
-                    <div
-                      className="help-popup-close"
-                      onClick={() =>
-                        setHideShowSideContent(
-                          (getHideShowSideContent) => !getHideShowSideContent
-                        )
-                      }
-                    >
-                      <a href="javascript:;">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            width="2.72751"
-                            height="19.7402"
-                            rx="1.36376"
-                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
-                            fill="#8A4E9C"
-                          />
-                          <rect
-                            width="2.72751"
-                            height="19.7402"
-                            rx="1.36376"
-                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
-                            fill="#8A4E9C"
-                          />
-                        </svg>
-                      </a>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-filled">Save</Button>
+                      <p>
+                        <span>
+                          Click “Save”, when you do any editing to the pop-up.{" "}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <div className="d-flex align-items-center justify-content-center button-group">
+                        <Button className="btn-bordered small">Back</Button>
+                        <Button className="btn-filled small">Next</Button>
+                      </div>
+
+                      <p>
+                        <span>
+                          Click “Next” to proceed to the final step or “Back” to
+                          go back to the previous step.
+                        </span>
+                      </p>
                     </div>
                   </div>
                   <div
@@ -5360,11 +5523,45 @@ const Sidebar = () => {
                       </svg>
                     </a>
                   </div>
+                </div>
+                <div
+                  className="help-popup-close"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <a href="javascript:;">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                        fill="#8A4E9C"
+                      />
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                        fill="#8A4E9C"
+                      />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
           </>
-        ) : location.pathname=="/license-set-popup"?
-        <>
+        ) : location.pathname == "/license-set-popup" ? (
+          <>
             <div className="help-popup">
               <div
                 className="help-popup-view"
@@ -5375,29 +5572,29 @@ const Sidebar = () => {
                 }
               >
                 <svg
-                    width="16"
-                    height="38"
-                    viewBox="0 0 16 38"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
-                      fill="#0066BE"
-                      fillOpacity="0.6"
-                    />
-                  </svg>
-                </div>
-                 <div
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
                 className={
                   getHideShowSideContent
                     ? "help-popup-content show"
                     : "help-popup-content"
                 }
               >
-                  <div className="help-popup-content-inner">
-                    <div className="help-popup-content-library library-p">
-                      {/* <div className="help-popup-content-video">
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
                         className="help-content-popup"
@@ -5412,60 +5609,33 @@ const Sidebar = () => {
                         </a>
                       </div>
                     </div> */}
-                      <div className="help-popup-content-library-inside">
-                        <h6>Set Popup</h6><br/>
-                        <p><strong>This page allows you to make changes to your standard consent and pop-up texts</strong></p><br/>
-                        <p>
-                          <strong>To set your pop-up:</strong>
-                        </p>
-                        <ul>
-                          <li>
-                            Select the language you want your pop-ups to appear
-                            in
-                          </li>
-                          <li>
-                            Choose the type of pop-up you wish to create or
-                            modify
-                          </li>
-                          <li>Edit the text of the pop-up if needed</li>
-                        </ul>
-                        <br/>
-                         <Button className="btn-filled small">Save</Button>
-                         <p style={{textAlign:"center"}}><span>Once completed, click “Save”.</span></p>
-                      </div>
-                    </div>
-                    <div
-                      className="help-popup-close"
-                      onClick={() =>
-                        setHideShowSideContent(
-                          (getHideShowSideContent) => !getHideShowSideContent
-                        )
-                      }
-                    >
-                      <a href="javascript:;">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            width="2.72751"
-                            height="19.7402"
-                            rx="1.36376"
-                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
-                            fill="#8A4E9C"
-                          />
-                          <rect
-                            width="2.72751"
-                            height="19.7402"
-                            rx="1.36376"
-                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
-                            fill="#8A4E9C"
-                          />
-                        </svg>
-                      </a>
+                    <div className="help-popup-content-library-inside">
+                      <h6>Set Popup</h6>
+                      <br />
+                      <p>
+                        <strong>
+                          This page allows you to make changes to your standard
+                          consent and pop-up texts
+                        </strong>
+                      </p>
+                      <br />
+                      <p>
+                        <strong>To set your pop-up:</strong>
+                      </p>
+                      <ul>
+                        <li>
+                          Select the language you want your pop-ups to appear in
+                        </li>
+                        <li>
+                          Choose the type of pop-up you wish to create or modify
+                        </li>
+                        <li>Edit the text of the pop-up if needed</li>
+                      </ul>
+                      <br />
+                      <Button className="btn-filled small">Save</Button>
+                      <p style={{ textAlign: "center" }}>
+                        <span>Once completed, click “Save”.</span>
+                      </p>
                     </div>
                   </div>
                   <div
@@ -5501,12 +5671,46 @@ const Sidebar = () => {
                       </svg>
                     </a>
                   </div>
+                </div>
+                <div
+                  className="help-popup-close"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <a href="javascript:;">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                        fill="#8A4E9C"
+                      />
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                        fill="#8A4E9C"
+                      />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
           </>
-        :(
-              ""
-            )}
+        ) : (
+          ""
+        )}
 
         {/*Help Pages for filter segment start*/}
         {location.pathname == "/license-preview-content" && (
@@ -5558,34 +5762,66 @@ const Sidebar = () => {
                         </a>
                       </div>
                     </div> */}
-                      <div className="help-popup-content-library-inside">
-                            <h6>Create content</h6><br/>
-                            <p><strong>Steps 3 :</strong> “Preview your content & publish"</p>
-                            <p></p>
-                            <p>Review your content details and make necessary edits.</p>
-                          </div>
-                          <div className="dotted-line">&nbsp;</div>
-                          <div className="help-popup-content-library-inside">
-                            <img className="dleete-btn" src={path_image + "edit-button-white.png"} alt="" /><p></p>
-                            <p><span>If needed, change the title by clicking on the pen icon.</span></p>
-                          </div>
-                          <div className="dotted-line">&nbsp;</div>
-                          <div className="help-popup-content-library-inside">
-                             <Button className="btn-bordered">Change content file</Button>
-                            <p><span>Click “Change content file” to change the uploaded content file.</span></p>
-                          </div>
-                          <div className="dotted-line">&nbsp;</div>
-                          <div className="help-popup-content-library-inside">
-                            <p className="voilet-text">You have to scroll to the bottom to complete previewing your file and that will enable the “Publish” button. </p>
-                            <Button className="btn-filled publish">Publish</Button>
-                            <p><span>Click “Publish” to finalise your content. </span></p>
-                          </div>
-                          <div className="dotted-line">&nbsp;</div>
-                          <div className="help-popup-content-library-inside">
-                             <Button className="btn-bordered back">Back</Button>
-                            <p></p>
-                            <p><span>Or click  “Back” to go back to the previous step.</span></p>
-                          </div>
+                    <div className="help-popup-content-library-inside">
+                      <h6>Create content</h6>
+                      <br />
+                      <p>
+                        <strong>Steps 3 :</strong> “Preview your content &
+                        publish"
+                      </p>
+                      <p></p>
+                      <p>
+                        Review your content details and make necessary edits.
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <img
+                        className="dleete-btn"
+                        src={path_image + "edit-button-white.png"}
+                        alt=""
+                      />
+                      <p></p>
+                      <p>
+                        <span>
+                          If needed, change the title by clicking on the pen
+                          icon.
+                        </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered">
+                        Change content file
+                      </Button>
+                      <p>
+                        <span>
+                          Click “Change content file” to change the uploaded
+                          content file.
+                        </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <p className="voilet-text">
+                        You have to scroll to the bottom to complete previewing
+                        your file and that will enable the “Publish” button. 
+                      </p>
+                      <Button className="btn-filled publish">Publish</Button>
+                      <p>
+                        <span>Click “Publish” to finalise your content. </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered back">Back</Button>
+                      <p></p>
+                      <p>
+                        <span>
+                          Or click “Back” to go back to the previous step.
+                        </span>
+                      </p>
+                    </div>
                     <div
                       className="help-popup-close"
                       onClick={() =>
@@ -5660,7 +5896,6 @@ const Sidebar = () => {
         )}
         {/*Help Pages for filter segment end*/}
 
-        
         {/*Help Pages for filter segment start*/}
         {location.pathname == "/license-sublink" && (
           <>
@@ -5695,7 +5930,7 @@ const Sidebar = () => {
                 }
               >
                 <div className="help-popup-content-inner library-p">
-                    {/* <div className="help-popup-content-video">
+                  {/* <div className="help-popup-content-video">
                         <h6>{title}</h6>
                         <div
                           className="help-content-popup"
@@ -5710,98 +5945,106 @@ const Sidebar = () => {
                           </a>
                         </div>
                       </div> */}
-                    <div className="help-popup-content-library-inside">
-                        <p>
-                          <strong>
-                            A Sublink is a unique link that leads to the main
-                            link, and can be tracked separately. It can be
-                            useful for events, promotion, social media etc.
-                          </strong>
-                        </p>
-                        </div>
-                        <div className="help-popup-content-library-inside">
-                        <p>
-                          <strong>
-                            To create new sublink for your content:
-                          </strong>
-                        </p>
-                          <p>
-                          By choosing the content you wish to create a sub-link
-                          of, either from the:
-                          </p>
-                        <ul>
-                          <li>Title</li>
-                          <li>Content URL</li>
-                        </ul>
-                      </div>
-                      <div className="help-popup-content-library-inside">
-                        <p>
-                          On the right-hand side of the screen, you'll find a
-                          list of all the sub-links you've previously created.
-                          Each sub-link will feature with:
-                        </p>
-                        <img src={path_image + "docintel-link.png"} alt="" />
-                        <ul>
-                          <li>Title and link</li>
-                          <li>Copy icon to copy the link quickly</li>
-                        </ul>
-                      </div>
-                      <div className="help-popup-content-library-inside">
-                        <img
-                          className="qr-download"
-                          src={path_image + "qr-code-download.png"}
-                          alt=""
-                        />
-                        <p>
-                          <span>
-                            Click on the download icon to download the sublink
-                            QR
-                          </span>
-                        </p>
-                        <Button className="btn-bordered white">Analytics</Button>
-                        <p><span>Your “Analytics” button will take you to the analytics page of the sublink.</span></p>
-                      </div>
-                     <div className="dotted-line">&nbsp;</div>
-                      <div className="help-popup-content-library-inside">
-                        <Button className="btn-filled">Create New Link +</Button>
-                        <p><span>Click on “Create New Link” to reveal a pop-up that allows you to create a new sublink for the selected content.</span></p>
-                      </div>
+                  <div className="help-popup-content-library-inside">
+                    <p>
+                      <strong>
+                        A Sublink is a unique link that leads to the main link,
+                        and can be tracked separately. It can be useful for
+                        events, promotion, social media etc.
+                      </strong>
+                    </p>
                   </div>
-                  <div
-                    className="help-popup-close"
-                    onClick={() =>
-                      setHideShowSideContent(
-                        (getHideShowSideContent) => !getHideShowSideContent
-                      )
-                    }
-                  >
-                    <a href="javascript:;">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect
-                          width="2.72751"
-                          height="19.7402"
-                          rx="1.36376"
-                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
-                          fill="#8A4E9C"
-                        />
-                        <rect
-                          width="2.72751"
-                          height="19.7402"
-                          rx="1.36376"
-                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
-                          fill="#8A4E9C"
-                        />
-                      </svg>
-                    </a>
+                  <div className="help-popup-content-library-inside">
+                    <p>
+                      <strong>To create new sublink for your content:</strong>
+                    </p>
+                    <p>
+                      By choosing the content you wish to create a sub-link of,
+                      either from the:
+                    </p>
+                    <ul>
+                      <li>Title</li>
+                      <li>Content URL</li>
+                    </ul>
+                  </div>
+                  <div className="help-popup-content-library-inside">
+                    <p>
+                      On the right-hand side of the screen, you'll find a list
+                      of all the sub-links you've previously created. Each
+                      sub-link will feature with:
+                    </p>
+                    <img src={path_image + "docintel-link.png"} alt="" />
+                    <ul>
+                      <li>Title and link</li>
+                      <li>Copy icon to copy the link quickly</li>
+                    </ul>
+                  </div>
+                  <div className="help-popup-content-library-inside">
+                    <img
+                      className="qr-download"
+                      src={path_image + "qr-code-download.png"}
+                      alt=""
+                    />
+                    <p>
+                      <span>
+                        Click on the download icon to download the sublink QR
+                      </span>
+                    </p>
+                    <Button className="btn-bordered white">Analytics</Button>
+                    <p>
+                      <span>
+                        Your “Analytics” button will take you to the analytics
+                        page of the sublink.
+                      </span>
+                    </p>
+                  </div>
+                  <div className="dotted-line">&nbsp;</div>
+                  <div className="help-popup-content-library-inside">
+                    <Button className="btn-filled">Create New Link +</Button>
+                    <p>
+                      <span>
+                        Click on “Create New Link” to reveal a pop-up that
+                        allows you to create a new sublink for the selected
+                        content.
+                      </span>
+                    </p>
                   </div>
                 </div>
+                <div
+                  className="help-popup-close"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <a href="javascript:;">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                        fill="#8A4E9C"
+                      />
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                        fill="#8A4E9C"
+                      />
+                    </svg>
+                  </a>
+                </div>
               </div>
+            </div>
           </>
         )}
         {/*Help Pages for filter segment end*/}
@@ -5842,101 +6085,152 @@ const Sidebar = () => {
                 >
                   <div className="help-popup-content-inner">
                     <div className="help-popup-content-library library-p">
-                        <div className="help-popup-content-video">
-                          <h6>{title}</h6>
-                          <div
-                            className="help-content-popup"
-                            onClick={() =>
-                              setOpenVideoPopup(
-                                (getOpenVideoPopup) => !getOpenVideoPopup
-                              )
-                            }
-                          >
-                            <a href="javascript:;">
-                              <img src={video_poster} alt="" />
-                            </a>
-                          </div>
-                        </div>
-                      
-                          <div className="help-popup-content-library-inside">
-                            <p><strong>Three Steps to Create Your Content</strong></p><p></p>
-                            <img src={path_image + "create-content-steps.png"} alt=""/>
-                            <p><strong>Steps 1 : </strong>“Create Your Content”</p>
-                          </div>
-                          <div className="help-popup-content-library-inside">
-                            <p>Start by filling in the information about <strong>Who is involved</strong> and if they can print or download the sample.</p>
-                          </div>
-                           <div className="dotted-line">&nbsp;</div>
-                          <div className="help-popup-content-library-inside">
-                            <Button className="btn-purple btn-bordered">Add new product +</Button>
-                            <p><span>Next add the product. To add a new product, click “Add a New Product” found to the right of the “Product” bar. This will reveal a pop-up.</span></p>
-                          </div>
-                          <div className="dotted-line">&nbsp;</div>
-                          <div className="help-popup-content-library-inside">
-                            <img src={path_image + "group-topics.png"} alt="" /><p></p>
-                            <p><span>To add topic tags, click “Add Topic” and select one or more from the predefined list or create your own.</span></p>
-                          </div>
-                          <hr/>
-                          <div className="help-popup-content-library-inside">
-                            <p>Next <strong>Create the Docintel link</strong> for your content.</p>
-                          </div>
-                          <div className="dotted-line">&nbsp;</div>
-                          <div className="help-popup-content-library-inside">
-                            <p>Select the Docintel format, such as PDF, Video and E-book.</p>
-                            <img src={path_image + "select-format.png"} alt="" />
-                            <p><span><strong>E-book</strong> allows you to upload individual chapters by clicking “Choose Your File” and type chapter title. </span></p>
-                          </div>
-                          <div className="dotted-line">&nbsp;</div>
-                          <div className="help-popup-content-library-inside">
-                            <img src={path_image + "select-cover-img.png"} alt=""/>
-                            <p><span> The last thing is uploading the content cover by clicking “Choose Your File”.</span></p>
-                          </div>
-                          <hr/>
-                          <div className="help-popup-content-library-inside">
-                            <Button className="btn-filled cancel">Next</Button>
-                            <p><span>Click “Next” to move to the next step.</span></p>
-                          </div>
-                          <div className="help-popup-content-library-inside">
-                            <p><strong>Something else</strong><br/>
-                              If you have any special requirements that are not available here please open a ticket in the upper right corner or email/call your inforMed.pro contact.</p>
-                          </div>
-                      
-                      <div
-                      className="help-popup-close"
-                      onClick={() =>
-                        setHideShowSideContent(
-                          (getHideShowSideContent) => !getHideShowSideContent
-                        )
-                      }
-                    >
-                      <a href="javascript:;">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+                      <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
                         >
-                          <rect
-                            width="2.72751"
-                            height="19.7402"
-                            rx="1.36376"
-                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
-                            fill="#8A4E9C"
-                          />
-                          <rect
-                            width="2.72751"
-                            height="19.7402"
-                            rx="1.36376"
-                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
-                            fill="#8A4E9C"
-                          />
-                        </svg>
-                      </a>
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div>
+
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Three Steps to Create Your Content</strong>
+                        </p>
+                        <p></p>
+                        <img
+                          src={path_image + "create-content-steps.png"}
+                          alt=""
+                        />
+                        <p>
+                          <strong>Steps 1 : </strong>“Create Your Content”
+                        </p>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Start by filling in the information about{" "}
+                          <strong>Who is involved</strong> and if they can print
+                          or download the sample.
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-purple btn-bordered">
+                          Add new product +
+                        </Button>
+                        <p>
+                          <span>
+                            Next add the product. To add a new product, click
+                            “Add a New Product” found to the right of the
+                            “Product” bar. This will reveal a pop-up.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <img src={path_image + "group-topics.png"} alt="" />
+                        <p></p>
+                        <p>
+                          <span>
+                            To add topic tags, click “Add Topic” and select one
+                            or more from the predefined list or create your own.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Next <strong>Create the Docintel link</strong> for
+                          your content.
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Select the Docintel format, such as PDF, Video and
+                          E-book.
+                        </p>
+                        <img src={path_image + "select-format.png"} alt="" />
+                        <p>
+                          <span>
+                            <strong>E-book</strong> allows you to upload
+                            individual chapters by clicking “Choose Your File”
+                            and type chapter title.{" "}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <img src={path_image + "select-cover-img.png"} alt="" />
+                        <p>
+                          <span>
+                            {" "}
+                            The last thing is uploading the content cover by
+                            clicking “Choose Your File”.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-filled cancel">Next</Button>
+                        <p>
+                          <span>Click “Next” to move to the next step.</span>
+                        </p>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Something else</strong>
+                          <br />
+                          If you have any special requirements that are not
+                          available here please open a ticket in the upper right
+                          corner or email/call your inforMed.pro contact.
+                        </p>
+                      </div>
+
+                      <div
+                        className="help-popup-close"
+                        onClick={() =>
+                          setHideShowSideContent(
+                            (getHideShowSideContent) => !getHideShowSideContent
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                              fill="#8A4E9C"
+                            />
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                              fill="#8A4E9C"
+                            />
+                          </svg>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             ) : (
               ""
@@ -5951,7 +6245,7 @@ const Sidebar = () => {
                     )
                   }
                 >
-                <svg
+                  <svg
                     width="16"
                     height="38"
                     viewBox="0 0 16 38"
@@ -5964,17 +6258,17 @@ const Sidebar = () => {
                       fillOpacity="0.6"
                     />
                   </svg>
-              </div>
-              <div
-                className={
-                  getHideShowSideContent
-                    ? "help-popup-content show"
-                    : "help-popup-content"
-                }
-              >
-                <div className="help-popup-content-inner">
-                  <div className="help-popup-content-library library-p">
-                    {/* <div className="help-popup-content-video">
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      {/* <div className="help-popup-content-video">
                       <h6>{title}</h6>
                       <div
                         className="help-content-popup"
@@ -5989,77 +6283,117 @@ const Sidebar = () => {
                         </a>
                       </div>
                     </div> */}
-                    <div className="help-popup-content-library-inside">
-                            <h6>Create content</h6><br/>
-                            <p><strong>Three Steps to Create Your Content</strong></p><p></p>
-                            <img src={path_image + "create-content-steps.png"} alt=""/>
-                            <p><strong>Steps 1 : </strong>“Create Your Content”</p>
-                    </div>
-                    <div className="help-popup-content-library-inside">
-                      <p>Start by filling in the information about <strong>Who is involved</strong> and if they can print or download the sample.</p>
-                    </div>
-                    <hr/>
+                      <div className="help-popup-content-library-inside">
+                        <h6>Create content</h6>
+                        <br />
+                        <p>
+                          <strong>Three Steps to Create Your Content</strong>
+                        </p>
+                        <p></p>
+                        <img
+                          src={path_image + "create-content-steps.png"}
+                          alt=""
+                        />
+                        <p>
+                          <strong>Steps 1 : </strong>“Create Your Content”
+                        </p>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Start by filling in the information about{" "}
+                          <strong>Who is involved</strong> and if they can print
+                          or download the sample.
+                        </p>
+                      </div>
+                      <hr />
 
-                    <div className="help-popup-content-library-inside">
-                      <p>Next <strong>Create the Docintel link</strong> for your content.</p>
-                    </div>
-                    <div className="dotted-line">&nbsp;</div>
-                    <div className="help-popup-content-library-inside">
-                      <p>Select the Docintel format, such as PDF, Video and E-book.</p><p></p>
-                      <img src={path_image + "select-format.png"} alt=""/><p></p>
-                      <p><span><strong>E-book</strong> allows you to upload individual chapters by clicking “Choose Your File” and type chapter title. </span></p>
-                    </div>
-                    <div className="dotted-line">&nbsp;</div>
-                    <div className="help-popup-content-library-inside">
-                      <img src={path_image + "select-cover-img.png"} alt=""/><p></p>
-                      <p><span> The last thing is uploading the content cover by clicking “Choose Your File”.</span></p>
-                    </div>
-                    <hr/>
-                    <div className="help-popup-content-library-inside">
-                      <Button className="btn-filled cancel">Next</Button>
-                      <p><span>Click “Next” to move to the next step.</span></p>
-                    </div>
-                    <div className="help-popup-content-library-inside">
-                      <p><strong>Something else</strong><br/>
-                        If you have any special requirements that are not available here please open a ticket in the upper right corner or email/call your inforMed.pro contact.</p>
-                    </div>
-                    <div
-                      className="help-popup-close"
-                      onClick={() =>
-                        setHideShowSideContent(
-                          (getHideShowSideContent) => !getHideShowSideContent
-                        )
-                      }
-                    >
-                      <a href="javascript:;">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            width="2.72751"
-                            height="19.7402"
-                            rx="1.36376"
-                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
-                            fill="#8A4E9C"
-                          />
-                          <rect
-                            width="2.72751"
-                            height="19.7402"
-                            rx="1.36376"
-                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
-                            fill="#8A4E9C"
-                          />
-                        </svg>
-                      </a>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Next <strong>Create the Docintel link</strong> for
+                          your content.
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Select the Docintel format, such as PDF, Video and
+                          E-book.
+                        </p>
+                        <p></p>
+                        <img src={path_image + "select-format.png"} alt="" />
+                        <p></p>
+                        <p>
+                          <span>
+                            <strong>E-book</strong> allows you to upload
+                            individual chapters by clicking “Choose Your File”
+                            and type chapter title.{" "}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <img src={path_image + "select-cover-img.png"} alt="" />
+                        <p></p>
+                        <p>
+                          <span>
+                            {" "}
+                            The last thing is uploading the content cover by
+                            clicking “Choose Your File”.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-filled cancel">Next</Button>
+                        <p>
+                          <span>Click “Next” to move to the next step.</span>
+                        </p>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Something else</strong>
+                          <br />
+                          If you have any special requirements that are not
+                          available here please open a ticket in the upper right
+                          corner or email/call your inforMed.pro contact.
+                        </p>
+                      </div>
+                      <div
+                        className="help-popup-close"
+                        onClick={() =>
+                          setHideShowSideContent(
+                            (getHideShowSideContent) => !getHideShowSideContent
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                              fill="#8A4E9C"
+                            />
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                              fill="#8A4E9C"
+                            />
+                          </svg>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              
               </div>
             ) : (
               ""
@@ -6119,7 +6453,8 @@ const Sidebar = () => {
                       </div>
                     </div> */}
                     <div className="help-popup-content-library-inside">
-                       <h6>Create content</h6><br/>
+                      <h6>Create content</h6>
+                      <br />
                       <p>
                         <strong>Three Steps to Create Your Content</strong>
                       </p>
@@ -6132,39 +6467,79 @@ const Sidebar = () => {
                       </p>
                     </div>
                     <div className="help-popup-content-library-inside">
-                      <p>Start by filling in the information about <strong>Who is involved</strong> and if they can print or download the sample.</p>
+                      <p>
+                        Start by filling in the information about{" "}
+                        <strong>Who is involved</strong> and if they can print
+                        or download the sample.
+                      </p>
                     </div>
-                    <hr/>
+                    <hr />
                     <div className="help-popup-content-library-inside">
-                      <p><strong>Limits agreed</strong><br/>Is your chance to set the limits you've agreed with your client. When those limits are near you will get alerted via email.</p>
-                      <img src={path_image + "set-limit.png"} alt=""/>
-                      <p>Usage refer to Unique Readers, not just quantity of openings.</p>
+                      <p>
+                        <strong>Limits agreed</strong>
+                        <br />
+                        Is your chance to set the limits you've agreed with your
+                        client. When those limits are near you will get alerted
+                        via email.
+                      </p>
+                      <img src={path_image + "set-limit.png"} alt="" />
+                      <p>
+                        Usage refer to Unique Readers, not just quantity of
+                        openings.
+                      </p>
                     </div>
                     <div className="dotted-line">&nbsp;</div>
                     <div className="help-popup-content-library-inside">
-                      <p>Next <strong>Create the Docintel link</strong> for your content.</p>
+                      <p>
+                        Next <strong>Create the Docintel link</strong> for your
+                        content.
+                      </p>
                     </div>
                     <div className="dotted-line">&nbsp;</div>
                     <div className="help-popup-content-library-inside">
-                      <p>Select the Docintel format, such as PDF, Video and E-book.</p><p></p>
-                      <img src={path_image + "select-format.png"} alt=""/><p></p>
-                      <p><span><strong>E-book</strong> allows you to upload individual chapters by clicking “Choose Your File” and type chapter title. </span></p>
+                      <p>
+                        Select the Docintel format, such as PDF, Video and
+                        E-book.
+                      </p>
+                      <p></p>
+                      <img src={path_image + "select-format.png"} alt="" />
+                      <p></p>
+                      <p>
+                        <span>
+                          <strong>E-book</strong> allows you to upload
+                          individual chapters by clicking “Choose Your File” and
+                          type chapter title.{" "}
+                        </span>
+                      </p>
                     </div>
                     <div className="dotted-line">&nbsp;</div>
                     <div className="help-popup-content-library-inside">
-                      <img src={path_image + "select-cover-img.png"} alt=""/><p></p>
-                      <p><span> The last thing is uploading the content cover by clicking “Choose Your File”.</span></p>
+                      <img src={path_image + "select-cover-img.png"} alt="" />
+                      <p></p>
+                      <p>
+                        <span>
+                          {" "}
+                          The last thing is uploading the content cover by
+                          clicking “Choose Your File”.
+                        </span>
+                      </p>
                     </div>
-                    <hr/>
+                    <hr />
                     <div className="help-popup-content-library-inside">
                       <Button className="btn-filled cancel">Next</Button>
-                      <p><span>Click “Next” to move to the next step.</span></p>
+                      <p>
+                        <span>Click “Next” to move to the next step.</span>
+                      </p>
                     </div>
                     <div className="help-popup-content-library-inside">
-                      <p><strong>Something else</strong><br/>
-                        If you have any special requirements that are not available here please open a ticket in the upper right corner or email/call your inforMed.pro contact.</p>
+                      <p>
+                        <strong>Something else</strong>
+                        <br />
+                        If you have any special requirements that are not
+                        available here please open a ticket in the upper right
+                        corner or email/call your inforMed.pro contact.
+                      </p>
                     </div>
-
                   </div>
                   <div
                     className="help-popup-close"
@@ -6518,115 +6893,136 @@ const Sidebar = () => {
         )}
         {/*Help Pages for filter segment end*/}
 
-        
         {/*Help Pages for filter segment start*/}
         {location.pathname == "/content-detail" && (
           <>
-          {localStorage.getItem("group_id") == 3 ? (
-            <div className="help-popup">
-              <div
-                className="help-popup-view"
-                onClick={() =>
-                  setHideShowSideContent(
-                    (getHideShowSideContent) => !getHideShowSideContent
-                  )
-                }
-              >
-                <svg
-                  width="16"
-                  height="38"
-                  viewBox="0 0 16 38"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            {localStorage.getItem("group_id") == 3 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
                 >
-                  <path
-                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
-                    fill="#0066BE"
-                    fillOpacity="0.6"
-                  />
-                </svg>
-              </div>
-              <div
-                className={
-                  getHideShowSideContent
-                    ? "help-popup-content show"
-                    : "help-popup-content"
-                }
-              >
-                <div className="help-popup-content-inner">
-                  <div className="help-popup-content-library library-p">
-                    <div className="help-popup-content-video">
-                      <h6>{title}</h6>
-                      <div
-                        className="help-content-popup"
-                        onClick={() =>
-                          setOpenVideoPopup(
-                            (getOpenVideoPopup) => !getOpenVideoPopup
-                          )
-                        }
-                      >
-                        <a href="javascript:;">
-                          <img src={video_poster} alt="" />
-                        </a>
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Content Details </strong>
+                          <br />A summary of your content to review.
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <img
+                          className="dleete-btn small"
+                          src={path_image + "copy-content.png"}
+                          alt=""
+                        />
+                        <p></p>
+                        <p>
+                          <span>
+                            To copy the Docintel link you can click on the copy
+                            icon to copy it.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-bordered small">Close</Button>
+                        <p>
+                          <span>
+                            Once happy with your content, click “Close” to
+                            finish.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-bordered small disabled">
+                          Edit
+                        </Button>
+                        <p>
+                          <span>
+                            Or click “Edit” to make any final adjustments.  
+                          </span>
+                        </p>
                       </div>
                     </div>
-                    <div className="help-popup-content-library-inside">
-                      <p><strong>Content Details </strong><br/>
-                      A summary of your content to review.</p>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
                     </div>
-                    <div className="dotted-line">&nbsp;</div>
-                    <div className="help-popup-content-library-inside">
-                      <img className="dleete-btn small" src={path_image + "copy-content.png"} alt="" /><p></p>
-                      <p><span>To copy the Docintel link you can click on the copy icon to copy it.</span></p>
-                    </div>
-                    <div className="dotted-line">&nbsp;</div>
-                    <div className="help-popup-content-library-inside">
-                        <Button className="btn-bordered small">Close</Button>
-                      <p><span>Once happy with your content, click “Close” to finish.</span></p>
-                    </div>
-                    <div className="dotted-line">&nbsp;</div>
-                    <div className="help-popup-content-library-inside">
-                      <Button className="btn-bordered small disabled">Edit</Button>
-                      <p><span>Or click “Edit” to make any final adjustments.  </span></p>
-                    </div>
-
-                  </div>
-                  <div
-                    className="help-popup-close"
-                    onClick={() =>
-                      setHideShowSideContent(
-                        (getHideShowSideContent) => !getHideShowSideContent
-                      )
-                    }
-                  >
-                    <a href="javascript:;">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect
-                          width="2.72751"
-                          height="19.7402"
-                          rx="1.36376"
-                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
-                          fill="#8A4E9C"
-                        />
-                        <rect
-                          width="2.72751"
-                          height="19.7402"
-                          rx="1.36376"
-                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
-                          fill="#8A4E9C"
-                        />
-                      </svg>
-                    </a>
                   </div>
                 </div>
               </div>
-            </div>
             ) : (
               ""
             )}
@@ -6819,7 +7215,8 @@ const Sidebar = () => {
                       </div>
                     </div> */}
                     <div className="help-popup-content-library-inside">
-                      <h6>Create content</h6><br/>
+                      <h6>Create content</h6>
+                      <br />
                       <p>
                         <strong>Content Details </strong>
                         <br />A summary of your content to review.
@@ -6959,11 +7356,7 @@ const Sidebar = () => {
                         </a>
                       </div>
                     </div>
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        Welcome to the Projects and Tags Section Help Guide!
-                      </p>
-                    </div>
+
                     <div className="help-popup-content-library-inside">
                       <p>
                         <strong>Selecting Type</strong>
@@ -7007,22 +7400,58 @@ const Sidebar = () => {
                     </div>
                     <hr />
                     <div className="help-popup-content-library-inside">
-                        <img className="dleete-btn" src={path_image + "edit-button.png"} alt="" />
-                        <p><span>To edit a product or tag, click the “Edit” button (Pictured as a pencil), next to that product or tag. </span></p>
+                      <img
+                        className="dleete-btn"
+                        src={path_image + "edit-button.png"}
+                        alt=""
+                      />
+                      <p>
+                        <span>
+                          To edit a product or tag, click the “Edit” button
+                          (Pictured as a pencil), next to that product or tag.{" "}
+                        </span>
+                      </p>
                     </div>
                     <div className="dotted-line">&nbsp;</div>
-                     <div className="help-popup-content-library-inside">
-                        <Button className="btn-bordered btn-purple">Add New Product +</Button>
-                        <Button className="btn-bordered btn-purple">Add New Topic +</Button>
-                        <p><span>To add a new product or topic, click the “Add New Product/topic” button at the top right-hand corner.</span></p>
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered btn-purple">
+                        Add New Product +
+                      </Button>
+                      <Button className="btn-bordered btn-purple">
+                        Add New Topic +
+                      </Button>
+                      <p>
+                        <span>
+                          To add a new product or topic, click the “Add New
+                          Product/topic” button at the top right-hand corner.
+                        </span>
+                      </p>
                     </div>
                     <div className="dotted-line">&nbsp;</div>
-                     <div className="help-popup-content-library-inside">
-                         <img className="dleete-btn" src={path_image + "delete-button.png"} alt="" />
-                         <p><span>If you wish to remove a product, click the “Delete” button found below the “Add New Product/topic” button. This will activate delete buttons for all products or topics. Select the products or topics you want to delete by clicking their respective delete buttons.</span></p>
-                         <Button className="btn-filled cancel">Cancel</Button>
-                         <p><span>To exit the deletion mode without removing any products or topics, click the “Cancel” button. This will send you back to the original page.</span></p>
-                     </div>
+                    <div className="help-popup-content-library-inside">
+                      <img
+                        className="dleete-btn"
+                        src={path_image + "delete-button.png"}
+                        alt=""
+                      />
+                      <p>
+                        <span>
+                          If you wish to remove a product, click the “Delete”
+                          button found below the “Add New Product/topic” button.
+                          This will activate delete buttons for all products or
+                          topics. Select the products or topics you want to
+                          delete by clicking their respective delete buttons.
+                        </span>
+                      </p>
+                      <Button className="btn-filled cancel">Cancel</Button>
+                      <p>
+                        <span>
+                          To exit the deletion mode without removing any
+                          products or topics, click the “Cancel” button. This
+                          will send you back to the original page.
+                        </span>
+                      </p>
+                    </div>
                   </div>
                   <div
                     className="help-popup-close"
@@ -7163,7 +7592,7 @@ const Sidebar = () => {
           </Modal.Body>
         </Modal>
         {/*End Video Modal Functionality*/}
-    </div>
+      </div>
     </>
   );
 };
