@@ -73,6 +73,8 @@ const TemplateBuilder = (props) => {
   const [modalCounter, setModalCounter] = useState(0);
   const [emailSubject, setEmailSubject] = useState("");
   const [templateId, setTemplateId] = useState();
+  const linkingPayload = useRef();
+  const templateIdRef= useRef();
   const [templateName, setTemplateName] = useState("");
   const [renderAfterValidation, setRenderAfterValidation] = useState(0);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
@@ -525,6 +527,7 @@ const TemplateBuilder = (props) => {
     setTemplateClicked(false);
     setTemplateId();
     setTemplateName();
+    templateIdRef.current='';
     setNewTemplateName();
     setTemplate();
   };
@@ -719,6 +722,8 @@ const TemplateBuilder = (props) => {
     }
     setTemplateClicked(true);
     setTemplateId(template.id);
+    templateIdRef.current=template.id
+   
     setTemplateName(template.name);
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
@@ -1317,6 +1322,7 @@ const TemplateBuilder = (props) => {
             loader("hide");
             getTemplateListData(1, selectedLanguage, selectedIbu);
             setTemplateId(res.data.response.data.last_id);
+            templateIdRef.current=res.data.response.data.last_id
             setTemplateName(newTemplateNamee);
           } else {
             loader("hide");
@@ -1459,6 +1465,8 @@ const TemplateBuilder = (props) => {
   }, [ref, templateId]);
 
   const updateTemplate = async (e) => {
+
+
     e.preventDefault();
     let template_id = templateId;
     if (
@@ -1483,6 +1491,7 @@ const TemplateBuilder = (props) => {
             if (res.data.status_code === 200) {
               getTemplateListData(1, selectedLanguage, selectedIbu);
               setTemplate(templateSaving);
+              templateIdRef.current=templateId
             } else {
               loader("hide");
               toast.warning("Template not selected.");
@@ -1627,16 +1636,22 @@ const TemplateBuilder = (props) => {
           newButton.classList.add("tox-button--naked")
           newButton.classList.add("track")
           newButton.onclick = function () {
+        if(templateIdRef.current==''){
+          alert("Please save the template before adding the link");
+          return;
+        }
+            // alert(templateId);
             let firstToxControlWrap =
               document.querySelector(
                 "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
               );
-
+          
             // let text =dialog.querySelector(".tox-form__group");
             if (!firstToxControlWrap.value) {
               alert("Please enter a link");
               return;
             }
+          
             const baseLink =
               "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
             if (
@@ -1647,12 +1662,36 @@ const TemplateBuilder = (props) => {
               alert("Traking already added");
               return;
             }
+            let slugValue = prompt("Enter a slug value");
 
             const currentTimestamp = Date.now();
             // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+            let payload={
+              slug_value:slugValue,
+             template_id: templateIdRef.current,
+             url_code:`clicked_track_doc_${currentTimestamp}`
+            }
+            linkingPayload.current=payload
             let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-            firstToxControlWrap.value = link;
-            linkCount.current = linkCount.current + 1;
+                  firstToxControlWrap.value = link;
+                  var saveButton = document.querySelector('.tox-button[title="Save"]');
+             
+                  saveButton.addEventListener('click', function () {
+
+                    
+
+                    let link=`https://onesource.informed.pro/api/track-links`;
+                    let link2=`http://192.168.0.162:5000/api/track-links`;
+                    axios
+      .post(link2, payload)
+      .then((res) => {
+       console.log("done");
+      })
+      .catch((err) => {
+        loader("hide");
+        console.log(err);
+      });
+                  });
             alert("Traking added");
           };
 
@@ -1660,6 +1699,7 @@ const TemplateBuilder = (props) => {
         }
       }
     });
+
   }
   return (
     <>
