@@ -174,7 +174,7 @@ const DocintelAccount = ({ data }) => {
                               radius: "69%",
                               innerRadius: "44%",
                               y: Math.round(
-                                (element.opened / 100) * element.distribute
+                                (element.opened * 100) / element.distribute
                               ),
                               z: element.opened,
                             },
@@ -188,7 +188,7 @@ const DocintelAccount = ({ data }) => {
                               radius: "44%",
                               innerRadius: "18%",
                               y: Math.round(
-                                (element.rtr * 100) / element.distribute
+                                (element.rtr * 100) / element.opened
                               ),
                               z: element.rtr,
                             },

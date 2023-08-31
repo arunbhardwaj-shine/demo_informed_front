@@ -115,13 +115,25 @@ const TemplateBuilder = (props) => {
   const [getDefaultTemplate, setDefaultTemplate] = useState(0);
 
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" ,
-    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
-  },
+    {
+      firstname: "",
+      lastname: "",
+      email: "",
+      contact_type: "",
+      country: "",
+      role:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      optIrt:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? "yes"
+          : "",
+    },
   ]);
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
+  const linkCount = useRef(1);
 
   const [addListOpen, setAddListOpen] = useState(false);
   const [smartListData, setSmartListData] = useState([]);
@@ -134,6 +146,13 @@ const TemplateBuilder = (props) => {
   const [getSmartListId, setSmartListId] = useState(0);
   const [templateClickedd, setTemplateClicked] = useState(false);
   const [validationError, setValidationError] = useState({});
+  const [selectType, setSelectType] = useState([
+    { label: "Placeholder", value: "Placeholder" },
+    { label: "Pure text", value: "Puretext" },
+  ]);
+  const [userTemplateType, setUserTemplateType] = useState(
+    selectType[0]?.value
+  );
 
   const newArr = [];
 
@@ -146,7 +165,7 @@ const TemplateBuilder = (props) => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
-    getTemplateListData(0, "All", "");
+    getTemplateListData(0, "All", "", userTemplateType);
     getSmartListData(0);
   }, []);
 
@@ -259,7 +278,7 @@ const TemplateBuilder = (props) => {
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getTemplateListData = async (flag, lng, ibu) => {
+  const getTemplateListData = async (flag, lng, ibu, userTemplateType) => {
     let check_lng_index = 10;
     if (lng == "All") {
       check_lng_index = 10;
@@ -279,6 +298,7 @@ const TemplateBuilder = (props) => {
       user_id: localStorage.getItem("user_id"),
       language: check_lng_index,
       ibu: ibu,
+      content_included: `${userTemplateType == "Placeholder" ? 1 : 0}`,
     };
 
     loader("show");
@@ -401,6 +421,11 @@ const TemplateBuilder = (props) => {
     }
   };
 
+  const handleChange = (e) => {
+    setUserTemplateType(e?.value);
+    getTemplateListData(0, selectedLanguage, selectedIbu, e?.value);
+  };
+
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (data.email == "") {
@@ -419,8 +444,14 @@ const TemplateBuilder = (props) => {
           email: "",
           contact_type: "",
           country: "",
-          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+          role:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          optIrt:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "yes"
+              : "",
         },
       ]);
     } else {
@@ -728,7 +759,12 @@ const TemplateBuilder = (props) => {
           if (res.data.status_code == 200) {
             toast.success(res.data.message);
             setTemplateName(newTemplateName);
-            getTemplateListData(0, selectedLanguage, selectedIbu);
+            getTemplateListData(
+              0,
+              selectedLanguage,
+              selectedIbu,
+              userTemplateType
+            );
             loader("hide");
           } else {
             toast.warning(res.data.message);
@@ -779,8 +815,14 @@ const TemplateBuilder = (props) => {
         email: "",
         contact_type: "",
         country: "",
-        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+        role:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIrt:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
       },
     ]);
     setActiveManual("active");
@@ -1193,7 +1235,7 @@ const TemplateBuilder = (props) => {
     loader("show");
 
     setSelectedLanguage(e.value);
-    getTemplateListData(2, e.value, selectedIbu);
+    getTemplateListData(2, e.value, selectedIbu, userTemplateType);
   };
 
   const ibuSelected = (e) => {
@@ -1201,7 +1243,7 @@ const TemplateBuilder = (props) => {
     setSelectedIbu(e.value);
     let index = getTemplateIbu.findIndex((x) => x.value === e.value);
     setIbuOption(index);
-    getTemplateListData(2, selectedLanguage, e.value);
+    getTemplateListData(2, selectedLanguage, e.value, userTemplateType);
   };
 
   const savenewtemplate = async (e) => {
@@ -1237,7 +1279,12 @@ const TemplateBuilder = (props) => {
         .post(`emailapi/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
-            getTemplateListData(1, selectedLanguage, selectedIbu);
+            getTemplateListData(
+              1,
+              selectedLanguage,
+              selectedIbu,
+              userTemplateType
+            );
             setTemplateId(res.data.response.data.last_id);
             setTemplateName(template_name);
           } else {
@@ -1291,7 +1338,12 @@ const TemplateBuilder = (props) => {
         .then((res) => {
           if (res.data.status_code === 200) {
             loader("hide");
-            getTemplateListData(1, selectedLanguage, selectedIbu);
+            getTemplateListData(
+              1,
+              selectedLanguage,
+              selectedIbu,
+              userTemplateType
+            );
             setTemplateId(res.data.response.data.last_id);
             setTemplateName(newTemplateNamee);
           } else {
@@ -1412,7 +1464,12 @@ const TemplateBuilder = (props) => {
             .then((res) => {
               if (res.data.status_code == 200) {
                 toast.success(res.data.message);
-                getTemplateListData(0, selectedLanguage, selectedIbu);
+                getTemplateListData(
+                  0,
+                  selectedLanguage,
+                  selectedIbu,
+                  userTemplateType
+                );
               } else {
                 toast.warning(res.data.message);
               }
@@ -1457,7 +1514,12 @@ const TemplateBuilder = (props) => {
           .post(`emailapi/add_update_template`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              getTemplateListData(1, selectedLanguage, selectedIbu);
+              getTemplateListData(
+                1,
+                selectedLanguage,
+                selectedIbu,
+                userTemplateType
+              );
               setTemplate(templateSaving);
             } else {
               loader("hide");
@@ -1494,7 +1556,12 @@ const TemplateBuilder = (props) => {
         .then((res) => {
           if (res.data.status_code === 200) {
             setshowConfirmation(false);
-            getTemplateListData(0, selectedLanguage, selectedIbu);
+            getTemplateListData(
+              0,
+              selectedLanguage,
+              selectedIbu,
+              userTemplateType
+            );
             setTemplateId();
             setTemplateName("");
             setNewTemplateName("");
@@ -1527,12 +1594,12 @@ const TemplateBuilder = (props) => {
       ""
     );
 
-    var modifiedStringagain =   modifiedContent?.replace(
+    var modifiedStringagain = modifiedContent?.replace(
       '<p><img style="display: none;" src="https://webinar.informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
       ""
     );
 
-    var modifiedStringforsrc =   modifiedContent?.replace(
+    var modifiedStringforsrc = modifiedContent?.replace(
       '<p><img style="display: none;" src="Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
       ""
     );
@@ -1551,7 +1618,79 @@ const TemplateBuilder = (props) => {
     );
     return modifiedString;
   };
+  const uploadImageToServer = async (file) => {
+    try {
+      loader("show");
+      const formData = new FormData();
+      formData.append("image", file);
 
+      const response = await fetch(
+        "https://onesource.informed.pro/api/upload-image",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const uploadedData = await response.json();
+        return uploadedData.imageUrl;
+      } else {
+        console.error("Image upload failed");
+        return null;
+      }
+    } catch (error) {
+      console.error("Image upload error:", error);
+      return null;
+    }
+  };
+
+  const addTracking = function (editor) {
+    editor.on("OpenWindow", function (e) {
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
+
+      if (dialog) {
+        let header = dialog.querySelector(".tox-dialog__header");
+        const closeButton = header.querySelector('[aria-label="Close"]');
+        let text = header.querySelector(".tox-dialog__title");
+
+        if (text.innerText == "Insert/Edit Link") {
+          let newButton = document.createElement("button");
+          newButton.innerText = "Add Tracking";
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
+          newButton.onclick = function () {
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
+
+            // let text =dialog.querySelector(".tox-form__group");
+            if (!firstToxControlWrap.value) {
+              alert("Please enter a link");
+              return;
+            }
+            const baseLink =
+              "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+            if (firstToxControlWrap.value.startsWith(baseLink)) {
+              alert("Traking already added");
+              return;
+            }
+
+            const currentTimestamp = Date.now();
+            // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+            firstToxControlWrap.value = link;
+            linkCount.current = linkCount.current + 1;
+            alert("Traking added");
+          };
+
+          header.insertBefore(newButton, closeButton);
+        }
+      }
+    });
+  };
   return (
     <>
       <div className="col right-sidebar">
@@ -1610,6 +1749,22 @@ const TemplateBuilder = (props) => {
                     </div>
                   </div>
                 )}
+
+                <div className="template_language">
+                  <span> Select Type</span>
+                  <div className="form-group">
+                    <Select
+                      options={selectType}
+                      placeholder="Select type"
+                      name="selectType"
+                      onChange={(e) => handleChange(e)}
+                      // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                      defaultValue={selectType[0]}
+                      isClearable
+                    />
+                  </div>
+                </div>
 
                 {getTemplateIbu.length > 0 && (
                   <div className="template_country">
@@ -1943,6 +2098,57 @@ const TemplateBuilder = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        file_picker_callback: function (callback, value, meta) {
+                          const input = document.createElement("input");
+                          input.setAttribute("type", "file");
+                          input.setAttribute("accept", "image/*");
+
+                          // Create a loading indicator element (e.g., a spinner)
+                          const loadingIndicator =
+                            document.createElement("div");
+                          loadingIndicator.className = "loading-indicator";
+                          loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                          input.onchange = async () => {
+                            document.body.appendChild(loadingIndicator); // Show loading indicator
+
+                            const file = input.files[0];
+                            if (file) {
+                              let uploadedImageUrl;
+
+                              try {
+                                if (meta && meta.width && meta.height) {
+                                  uploadedImageUrl = await uploadImageToServer(
+                                    file,
+                                    meta.width,
+                                    meta.height
+                                  );
+                                } else {
+                                  uploadedImageUrl = await uploadImageToServer(
+                                    file
+                                  );
+                                }
+
+                                if (uploadedImageUrl) {
+                                  callback(uploadedImageUrl, {
+                                    width: 500,
+                                    height: 500,
+                                  });
+                                  loader("hide");
+                                } else {
+                                  console.error("Failed to upload image");
+                                }
+                              } catch (error) {
+                                console.error("Error uploading image:", error);
+                              } finally {
+                                document.body.removeChild(loadingIndicator); // Hide loading indicator
+                              }
+                            }
+                          };
+
+                          input.click();
+                        },
+                        init_instance_callback: (editor) => addTracking(editor),
                       }}
                       onEditorChange={(content) => {
                         setTemplateSaving(content);
@@ -1968,6 +2174,42 @@ const TemplateBuilder = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        file_picker_callback: function (callback, value, meta) {
+                          const input = document.createElement("input");
+                          input.setAttribute("type", "file");
+                          input.setAttribute("accept", "image/*");
+                          input.onchange = async () => {
+                            const file = input.files[0];
+                            if (file) {
+                              let uploadedImageUrl;
+
+                              if (meta && meta.width && meta.height) {
+                                // Use existing dimensions for update
+                                uploadedImageUrl = await uploadImageToServer(
+                                  file,
+                                  meta.width,
+                                  meta.height
+                                );
+                              } else {
+                                uploadedImageUrl = await uploadImageToServer(
+                                  file
+                                );
+                              }
+
+                              if (uploadedImageUrl) {
+                                callback(uploadedImageUrl, {
+                                  width: 500,
+                                  height: 500,
+                                });
+                                loader("hide");
+                              } else {
+                                console.error("Failed to upload image");
+                              }
+                            }
+                          };
+                          input.click();
+                        },
+                        init_instance_callback: (editor) => addTracking(editor),
                       }}
                       onEditorChange={(content) => {
                         setNewTemplateContent(content);
@@ -1993,6 +2235,41 @@ const TemplateBuilder = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        file_picker_callback: function (callback, value, meta) {
+                          const input = document.createElement("input");
+                          input.setAttribute("type", "file");
+                          input.setAttribute("accept", "image/*");
+                          input.onchange = async () => {
+                            const file = input.files[0];
+                            if (file) {
+                              let uploadedImageUrl;
+
+                              if (meta && meta.width && meta.height) {
+                                uploadedImageUrl = await uploadImageToServer(
+                                  file,
+                                  meta.width,
+                                  meta.height
+                                );
+                              } else {
+                                uploadedImageUrl = await uploadImageToServer(
+                                  file
+                                );
+                              }
+
+                              if (uploadedImageUrl) {
+                                callback(uploadedImageUrl, {
+                                  width: 500,
+                                  height: 500,
+                                });
+                                loader("hide");
+                              } else {
+                                console.error("Failed to upload image");
+                              }
+                            }
+                          };
+                          input.click();
+                        },
+                        init_instance_callback: (editor) => addTracking(editor),
                       }}
                       onEditorChange={(content) => {
                         setNewTemplateContent(content);
@@ -2240,8 +2517,16 @@ const TemplateBuilder = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+                    role:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? irtRole?.[0]?.value
+                        : "",
+                    optIrt:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "yes"
+                        : "",
                   },
                 ]);
                 setActiveManual("active");
@@ -2323,7 +2608,9 @@ const TemplateBuilder = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT mandatory training</label>
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
 
                                       <Select
                                         options={optIRT}
@@ -2331,7 +2618,14 @@ const TemplateBuilder = (props) => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
+                                        defaultValue={
+                                          val?.optIrt
+                                            ? {
+                                                label: "Yes",
+                                                value: val?.optIrt,
+                                              }
+                                            : ""
+                                        }
                                         placeholder="Select IRT"
                                       />
                                     </div>
@@ -2780,16 +3074,13 @@ const TemplateBuilder = (props) => {
                               />
                               {data.readers_count}
                             </div>
-                            {
-                              /*<div className="smartlist-buttons">
+                            {/*<div className="smartlist-buttons">
                                 <button className="btn btn-primary btn-bordered view">
                                   <a onClick={() => openSmartListPopup(data.id)}>
                                     View
                                   </a>
                                 </button>
-                              </div>*/
-                            }
-
+                              </div>*/}
                           </div>
                         </div>
                       </div>
