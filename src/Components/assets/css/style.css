@@ -6271,7 +6271,7 @@ header.top-0
 .split-button-dropup.edit-country-dropdown
   div:nth-child(3)
   > div
-  div[class*="--indicatorContainer"] {
+  div[class*="-indicatorContainer"] {
   display: none;
 }
 .split-button-dropup.edit-country-dropdown
@@ -6587,11 +6587,17 @@ header.top-0
   background: #fff;
 }
 
-.help-popup-content .library-p .help-popup-content-library-inside .btn.btn-voilet.white:hover {
-  color: #8A4E9C;
+.help-popup-content
+  .library-p
+  .help-popup-content-library-inside
+  .btn.btn-voilet.white:hover {
+  color: #8a4e9c;
 }
 
-.help-popup-content .library-p .help-popup-content-library-inside .btn.white:hover {
+.help-popup-content
+  .library-p
+  .help-popup-content-library-inside
+  .btn.white:hover {
   color: inherit;
 }
 
@@ -6601,35 +6607,47 @@ header.top-0
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside .btn.publish {
-  background: linear-gradient(132deg, #0066BE 0%, #455AAD 39.06%, #8A4E9C 100%);
+  background: linear-gradient(132deg, #0066be 0%, #455aad 39.06%, #8a4e9c 100%);
   border-width: 0;
 }
 
-.help-popup-content .library-p .help-popup-content-library-inside .btn.btn-purple {
-  border: 1px solid #8A4E9C;
-  color: #8A4E9C;
+.help-popup-content
+  .library-p
+  .help-popup-content-library-inside
+  .btn.btn-purple {
+  border: 1px solid #8a4e9c;
+  color: #8a4e9c;
   min-width: 172px;
 }
 
-.help-popup-content .library-p .help-popup-content-library-inside .btn.btn-purple:hover {
+.help-popup-content
+  .library-p
+  .help-popup-content-library-inside
+  .btn.btn-purple:hover {
   color: #ffffff;
-  background: #8A4E9C;
+  background: #8a4e9c;
 }
 
 .full_video_popup #open_video_popup .modal-content .modal-header {
   padding: 10px 0;
 }
 
-.help-popup-content .library-p .help-popup-content-library-inside img.dleete-btn {
+.help-popup-content
+  .library-p
+  .help-popup-content-library-inside
+  img.dleete-btn {
   max-width: 47px;
   margin: 0 auto 5px;
   display: flex;
 }
 
-.help-popup-content .library-p .help-popup-content-library-inside .btn.small.disabled {
+.help-popup-content
+  .library-p
+  .help-popup-content-library-inside
+  .btn.small.disabled {
   background: transparent;
-  color: #97B6CF;
-  border: 1px solid #97B6CF;
+  color: #97b6cf;
+  border: 1px solid #97b6cf;
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside img.small {
@@ -6640,23 +6658,29 @@ header.top-0
   min-width: 82px;
 }
 
-.help-popup-content .library-p .help-popup-content-library-inside p.voilet-text {
-  color: #8A4E9C;
+.help-popup-content
+  .library-p
+  .help-popup-content-library-inside
+  p.voilet-text {
+  color: #8a4e9c;
 }
 
-.help-popup-content .library-p .help-popup-content-library-inside img.filter-tags {
+.help-popup-content
+  .library-p
+  .help-popup-content-library-inside
+  img.filter-tags {
   max-width: 102px;
   margin: 0 auto 12px;
   display: flex;
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside p span {
-  color: #547FA4;
+  color: #547fa4;
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside p d {
   font-weight: 500;
-  color: #8A4E9C;
+  color: #8a4e9c;
 }
 
 .help-popup-content .library-p .help-popup-content-library-inside li strong {
@@ -6867,7 +6891,7 @@ header.top-0
   padding: 4px 10px;
 }
 
-header.-top-24~div .help-popup-content {
+header.-top-24 ~ div .help-popup-content {
   top: 0;
 }
 
@@ -6875,7 +6899,7 @@ header.-top-24~div .help-popup-content {
   padding-bottom: 44px;
 }
 
-header.-top-24~div .help-popup-content .help-popup-content-inner {
+header.-top-24 ~ div .help-popup-content .help-popup-content-inner {
   height: 100vh;
 }
 
@@ -6885,7 +6909,7 @@ header.-top-24~div .help-popup-content .help-popup-content-inner {
 }
 
 hr {
-  background-color: #0066BE;
+  background-color: #0066be;
   border-top: 1px solid #0066be;
 }
 
@@ -8086,6 +8110,14 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 .split-button-dropup.edit-country-dropdown
   div:nth-child(3)
-  > div[class*="-IndicatorsContainer"] {
-  display: none;
+  > div[class*="-IndicatorsContainer"],
+.split-button-dropup.edit-country-dropdown
+  div:nth-child(3)
+  > div
+  div[class*="-indicatorContainer"],
+.split-button-dropup.edit-country-dropdown
+  div:nth-child(3)
+  > div
+  span[class*="-indicatorSeparator"] {
+  display: none !important;
 }
