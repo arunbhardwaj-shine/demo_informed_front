@@ -27,9 +27,11 @@ var dxr = 0;
 var state_object = {};
 
 const CreateEmail = (props) => {
+  
   const editorRef = useRef(null);
   const [totalData, setTotalData] = useState({});
-
+   const linkingPayload = useRef();
+  const templateIdRef= useRef('');
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
@@ -395,6 +397,7 @@ const CreateEmail = (props) => {
         setFinalTags(props.getDraftData.tags);
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
+        templateIdRef.current=props.getDraftData.campaign_data.template_id
         setIsApprovedStatus(props.getDraftData.status);
         setTemplate(props.getDraftData.source_code);
       }
@@ -796,6 +799,8 @@ const CreateEmail = (props) => {
     }
 
     setTemplateId(template.id);
+templateIdRef.current=template.id
+
     setTemplateName(template.name);
     setTemplate(template.source_code);
     e.target.classList.toggle("select_mm");
@@ -1553,6 +1558,7 @@ const CreateEmail = (props) => {
             if (res.data.status_code === 200) {
               getTemplateListData(1);
               setTemplateId(res.data.response.data.last_id);
+              templateIdRef.current=res.data.response.data.last_id
             } else {
               loader("hide");
               toast.warning("Template not selected.");
@@ -1653,7 +1659,7 @@ const CreateEmail = (props) => {
       toast.warning("Template not selected.");
     }
   };
-  const addTracking= function (editor) {
+  const addTracking=function (editor) {
     editor.on("OpenWindow", function (e) {
       let dialog =
         document.getElementsByClassName("tox-dialog")[0];
@@ -1672,17 +1678,28 @@ const CreateEmail = (props) => {
           let newButton =
             document.createElement("button");
           newButton.innerText = "Add Tracking";
+          newButton.classList.add("tox-button")
+          newButton.classList.add("tox-button--icon")
+          newButton.classList.add("tox-button--naked")
+          newButton.classList.add("track")
           newButton.onclick = function () {
+        if(templateIdRef.current==''){
+          alert("Please select the template first before adding the link");
+          return;
+        }
+            // alert(templateId);
             let firstToxControlWrap =
               document.querySelector(
                 "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
               );
-
+          
             // let text =dialog.querySelector(".tox-form__group");
             if (!firstToxControlWrap.value) {
               alert("Please enter a link");
               return;
             }
+            
+          
             const baseLink =
               "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
             if (
@@ -1693,12 +1710,36 @@ const CreateEmail = (props) => {
               alert("Traking already added");
               return;
             }
+            let slugValue = prompt("Enter a slug value");
 
             const currentTimestamp = Date.now();
             // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+            let payload={
+              slug_value:slugValue,
+             template_id: templateIdRef.current,
+             url_code:`clicked_track_doc_${currentTimestamp}`
+            }
+            linkingPayload.current=payload
             let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-            firstToxControlWrap.value = link;
-          
+                  firstToxControlWrap.value = link;
+                  var saveButton = document.querySelector('.tox-button[title="Save"]');
+             
+                  saveButton.addEventListener('click', function () {
+
+                    
+
+                    let link=`https://onesource.informed.pro/api/track-links`;
+                    let link2=`http://192.168.0.162:5000/api/track-links`;
+                    axios
+      .post(link2, payload)
+      .then((res) => {
+       console.log("done");
+      })
+      .catch((err) => {
+        loader("hide");
+        console.log(err);
+      });
+                  });
             alert("Traking added");
           };
 
@@ -1706,8 +1747,8 @@ const CreateEmail = (props) => {
         }
       }
     });
-  }
 
+  }
   const uploadImageToServer = async (file) => {
     try {
       loader("show");
