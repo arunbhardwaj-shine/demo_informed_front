@@ -54,7 +54,9 @@ export const ENDPOINT = {
     "https://webinar.docintel.app/lmn/api/analytics/octa_delivery_registration",
 
   DELIVERYTRENDS: "analytics/trend",
-  CAMPAINGSTAT: "analytics/campaign-stats",
+  //CAMPAINGSTAT: "analytics/campaign-stats",
+  CAMPAINGSTAT: "analytics/delivery-campaign-stats",
+
 
   MAPLOCATION: `analytics/map-location`,
   SUBLINK_MAPLOCATION: `library/Sublink-country`,

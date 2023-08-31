@@ -11,10 +11,11 @@ import HighchartsReact from "highcharts-react-official";
 import { Link } from "react-router-dom";
 import drilldown from "highcharts/modules/drilldown.js";
 import CommonLineGraph from "./CommonLineGraph";
+import { element } from "prop-types";
 exporting(Highcharts);
 exportData(Highcharts);
 drilldown(Highcharts);
-const CampaignStats = () => {
+const  CampaignStats = () => {
   const [data, setData] = useState({});
   const [newData, setNewData] = useState([]);
   const [pieData, setPieData] = useState({});
@@ -22,6 +23,8 @@ const CampaignStats = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const selectFilter = useRef(null);
+  const [newValue, setNewValue] = useState([]);
+  
   const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState({
     chart: {
       plotBackgroundColor: null,
@@ -52,23 +55,20 @@ const CampaignStats = () => {
         },
         point: {
           events: {
-            drilldown: function (e) {},
+            drilldown: function (e) {
+              const drilldownSeries = e.seriesOptions;
+              console.log('Drilldown data:', drilldownSeries);
+            },
           },
         },
       },
     },
-    series: [
-      {
-        name: "Article Registration based on delivery",
-        colorByPoint: true,
-        data: [], // Initialize with empty data
-        drilldown: true, // Enable drilldown for this series
-      },
-    ],
+    series: [],
     drilldown: {
-      series: [], // Initialize with empty drilldown series
+      series: [],
     },
   });
+
 
   const chart = useRef(null);
   Highcharts.setOptions({
@@ -90,343 +90,72 @@ const CampaignStats = () => {
     ],
   });
 
-  const initiFun = async () => {
-    try {
-      loader("show");
-      const result = await postData(ENDPOINT.CAMPAINGSTAT);
 
-      let newValue = [
-        {
-          name: "Article Registration based on delivery",
-          colorByPoint: true,
-          data: [
-            {
-              name: "Email campaign",
-              y: result?.data?.data?.tot_email,
-              color: Highcharts.getOptions().colors[0],
-              drilldown: "email",
-            },
-            {
-              name: "inforMedGO",
-              y: result?.data?.data?.tot_GO_code,
-              color: Highcharts.getOptions().colors[1],
-              drilldown: "inforMedGO",
-            },
-            {
-              name: "Docintel Code",
-              y: result?.data?.data?.tot_Docintel_code,
-              color: Highcharts.getOptions().colors[2],
-              drilldown: "Docintel Code",
-            },
-            {
-              name: "Direct",
-              y: result?.data?.data?.tot_web,
-              color: Highcharts.getOptions().colors[4],
-              drilldown: "direct",
-            },
-            {
-              name: "QR",
-              y: result?.data.data.tot_QRcode,
-              color: Highcharts.getOptions().colors[3],
-              drilldown: "QR",
-            },
-            {
-              name: "Peer sharing",
-              y: Math.round(result?.data?.data?.tot_peer),
-              color: Highcharts.getOptions().colors[5],
-              drilldown: "peer",
-            },
-            {
-              name: "Webinar",
-              y: result?.data?.data?.tot_CIS_oc,
-              color: Highcharts.getOptions().colors[6],
-              drilldown: "webinar",
-            },
-            {
-              name: "IBU Email campaign",
-              y: result?.data?.data?.tot_email_oc,
-              color: Highcharts.getOptions().colors[7],
-              drilldown: "ibuemail",
-            },
-            {
-              name: "IBU inforMedGO",
-              y: result?.data?.data?.tot_GO_code_oc,
-              color: Highcharts.getOptions().colors[8],
-              drilldown: "ibuinformedgo",
-            },
-            {
-              name: "IBU QR",
-              y: result?.data?.data?.tot_QRcode_oc,
-              color: Highcharts.getOptions().colors[10],
-              drilldown: "QR",
-            },
-            {
-              name: "IBU Docintel Code",
-              y: result?.data?.data?.tot_Docintel_code_oc,
-              color: Highcharts.getOptions().colors[9],
-              drilldown: "QR",
-            },
-            {
-              name: "IBU Direct",
-              y: result?.data?.data?.tot_web_oc,
-              color: Highcharts.getOptions().colors[11],
-              drilldown: "ibudirect",
-            },
-            {
-              name: "Webinar IBU",
-              y: result?.data?.data?.tot_IBU_oc,
-              color: Highcharts.getOptions().colors[13],
-              drilldown: "webinaribu",
-            },
-          ],
-        },
-      ];
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    initiFun();
+    getDataFromApi();
+  }, []);
 
-      let drillDownValue = [
-        {
-          series: [
-            {
-              name: "Email campaign",
-              id: "email",
-              y: result?.data?.data?.tot_email,
-              data: [
-                ["Critical Care", result?.data?.data?.tot_email_c2],
-                ["Haematology", result?.data?.data?.tot_email_h2],
-                ["Immunotherapy", result?.data?.data?.tot_email_i2],
-              ],
-            },
-            {
-              name: "inforMedGO",
-              id: "inforMedGO",
-              y: result?.data?.data?.tot_GO_code,
-              data: [
-                ["Critical Care", result?.data?.data?.tot_GO_code_c2],
-                ["Haematology", result?.data?.data?.tot_GO_code_h2],
-                ["Immunotherapy", result?.data?.data?.tot_GO_code_i2],
-              ],
-            },
-            {
-              name: "Docintel Code",
-              id: "Docintel Code",
-              y: result?.data?.data?.tot_Docintel_code,
-              data: [
-                ["Critical Care", result?.data?.data?.tot_Docintel_code_c2],
-                ["Haematology", result?.data?.data?.tot_Docintel_code_h2],
-                ["Immunotherapy", result?.data?.data?.tot_Docintel_code_i2],
-              ],
-            },
 
-            {
-              name: "QR",
-              id: "QR",
-              y: result?.data?.data?.tot_QRcode,
-              data: [
-                ["Critical Care", result?.data?.data?.tot_QRcode_c2],
-                ["Haematology", result?.data?.data?.tot_QRcode_h2],
-                ["Immunotherapy", result?.data?.data?.tot_QRcode_i2],
-              ],
-            },
 
-            {
-              name: "Direct",
-              id: "direct",
-              y: result?.data?.data?.tot_web,
-              data: [
-                ["Critical Care", result?.data?.data?.tot_web_c2],
-                ["Haematology", result?.data?.data?.tot_web_h2],
-                ["Immunotherapy", result?.data?.data?.tot_web_i2],
-              ],
-            },
-            {
-              name: "Peer sharing",
-              id: "peer",
-              y: result?.data?.data?.tot_peer,
-              data: [
-                ["Critical Care", result?.data?.data?.tot_peer_c2],
-                ["Haematology", result?.data?.data?.tot_peer_h2],
+ 
+  let drillDownValue  = {};
+ const initiFun = async () => {
+  try {
+    loader("show");
+    const result = await getData(ENDPOINT.CAMPAINGSTAT);
+     
+    const newSeries = result?.data?.data.map((element, index) => ({
+      name: element.label,
+      y: parseFloat(element.percentage),
+      color: Highcharts.getOptions().colors[index],
+      drilldown: element.label,
+      
+    }));
 
-                ["Immunotherapy", result?.data?.data?.tot_peer_i2],
-              ],
-            },
-          ],
-        },
-      ];
 
-      setCampaignStatsPieOptions((prevOptions) => {
-        const updatedDrilldown = drillDownValue?.[0].series.map(
-          (seriesItem) => {
-            const { name, id, data } = seriesItem;
-            const updatedData = data ? data.map(([name, y]) => [name, y]) : [];
-            return {
-              name: name,
-              id: id,
-              data: updatedData,
-            };
-          }
-        );
+    const drilldownSeries = result?.data?.data.map((element) => {
+      const ibuName = element.drillDownLabel;
+      const drillData = element.drillDown;
+      const dataArr = [];
+
+      for (let i = 0; i < ibuName.length; i++) {
+        dataArr.push([ibuName[i], parseFloat(drillData[i])]);
+      }
+
+      if(!element.label.startsWith("IBU")){
 
         return {
-          ...prevOptions,
-          series: newValue,
-
-          drilldown: {
-            series: updatedDrilldown,
-          },
+          id: element.label,
+          name: element.label,
+          data: dataArr,
         };
-      });
+      }
+        return null;
+    }).filter(series => series !== null);
+  
+  
+setCampaignStatsPieOptions({
+  ...campaignStatsPieOptions,
+  series: [{
+    name: "Article Registration based on delivery",
+    colorByPoint: true,
+    data: newSeries,
+  }],
+  drilldown: {
+    series: drilldownSeries,
+  },
+});
 
-      // let newValue = [
-      //   {
-      //     name: "Article Registration based on delivery",
-      //     colorByPoint: true,
-      //     data: [
-      //       {
-      //         name: "Email campaign",
-      //         y: result?.data?.data?.tot_email,
-      //         color: Highcharts.getOptions().colors[0],
-      //         drilldown: "email",
-      //       },
-      //       {
-      //         name: "inforMedGO",
-      //         y: result?.data?.data?.tot_GO_code,
-      //         color: Highcharts.getOptions().colors[1],
-      //         drilldown: "inforMedGO",
-      //       },
-      //       {
-      //         name: "Docintel Code",
-      //         y: result?.data?.data?.tot_Docintel_code,
-      //         color: Highcharts.getOptions().colors[2],
-      //         drilldown: "Docintel Code",
-      //       },
-      //       {
-      //         name: "Direct",
-      //         y: result?.data?.data?.tot_web,
-      //         color: Highcharts.getOptions().colors[4],
-      //         drilldown: "direct",
-      //       },
-      //       {
-      //         name: "Peer sharing",
-      //         y: Math.round(result?.data?.data?.tot_peer),
-      //         color: Highcharts.getOptions().colors[5],
-      //         drilldown: "peer",
-      //       },
-      //       {
-      //         name: "Webinar",
-      //         y: result?.data?.data?.tot_CIS_oc,
-      //         color: Highcharts.getOptions().colors[6],
-      //         drilldown: "webinar",
-      //       },
-      //       {
-      //         name: "IBU Email campaign",
-      //         y: result?.data?.data?.tot_email_oc,
-      //         color: Highcharts.getOptions().colors[7],
-      //         drilldown: "ibuemail",
-      //       },
-      //       {
-      //         name: "IBU inforMedGO",
-      //         y: result?.data?.data?.tot_GO_code_oc,
-      //         color: Highcharts.getOptions().colors[8],
-      //         drilldown: "ibuinformedgo",
-      //       },
-      //       {
-      //         name: "IBU QR",
-      //         y: result?.data?.data?.tot_QRcode_oc,
-      //         color: Highcharts.getOptions().colors[10],
-      //         drilldown: "QR",
-      //       },
-      //       {
-      //         name: "IBU Direct",
-      //         y: result?.data?.data?.tot_web_oc,
-      //         color: Highcharts.getOptions().colors[11],
-      //         drilldown: "ibudirect",
-      //       },
-      //       {
-      //         name: "Webinar IBU",
-      //         y: result?.data?.data?.tot_IBU_oc,
-      //         color: Highcharts.getOptions().colors[13],
-      //         drilldown: "webinaribu",
-      //       },
-      //     ],
-      //   },
-      // ];
+    loader("hide");
+  } catch (err) {
+    loader("hide");
+    console.log("-err", err);
+  }
+};
 
-      // let drillDownValue = [
-      //   {
-      //     series: [
-      //       {
-      //         name: "Email campaign",
-      //         id: "email",
-      //         y: result?.data?.data?.tot_email,
-      //         data: [
-      //           ["Critical Care", result?.data?.data?.tot_email_c2],
-      //           ["Haematology", result?.data?.data?.tot_email_h2],
-      //           ["Immunotherapy", result?.data?.data?.tot_email_i2],
-      //         ],
-      //       },
-      //       {
-      //         name: "inforMedGO",
-      //         id: "inforMedGO",
-      //         data: [
-      //           ["Critical Care", result?.data?.data?.tot_GO_code_c2],
-      //           ["Haematology", result?.data?.data?.tot_GO_code_h2],
-      //           ["Immunotherapy", result?.data?.data?.tot_GO_code_i2],
-      //         ],
-      //       },
-      //       {
-      //         name: "Docintel Code",
-      //         id: "Docintel Code",
-      //         data: [
-      //           ["Critical Care", result?.data?.data?.tot_Docintel_code_c2],
-      //           ["Haematology", result?.data?.data?.tot_Docintel_code_h2],
-      //           ["Immunotherapy", result?.data?.data?.tot_Docintel_code_i2],
-      //         ],
-      //       },
 
-      //       {
-      //         name: "QR",
-      //         id: "QR",
-      //         data: [
-      //           ["Critical Care", result?.data?.data?.tot_QRcode_c2],
-      //           ["Haematology", result?.data?.data?.tot_QRcode_h2],
-      //           ["Immunotherapy", result?.data?.data?.tot_QRcode_i2],
-      //         ],
-      //       },
-
-      //       {
-      //         name: "Direct",
-      //         id: "Direct",
-      //         data: [
-      //           ["Critical Care", result?.data?.data?.tot_web_c2],
-      //           ["Haematology", result?.data?.data?.tot_web_h2],
-      //           ["Immunotherapy", result?.data?.data?.tot_web_i2],
-      //         ],
-      //       },
-      //       {
-      //         name: "Peer sharing",
-      //         id: "Peer sharing",
-      //         data: [
-      //           ["Critical Care", result?.data?.data?.tot_peer_c2],
-      //           ["Haematology", result?.data?.data?.tot_peer_h2],
-
-      //           ["Immunotherapy", result?.data?.data?.tot_peer_i2],
-      //         ],
-      //       },
-      //     ],
-      //   },
-      // ];
-
-      // setCampaignStatsPieOptions({
-      //   ...campaignStatsPieOptions,
-      //   series: newValue,
-      //   drilldown: drillDownValue,
-      // });
-
-      loader("hide");
-    } catch (err) {
-      loader("hide");
-      console.log("-err", err);
-    }
-  };
   const [seriesData, setSeriesData] = useState([]);
   const [campaignStatsLineOption, setCampaignStatsLineOption] = useState({
     chart: {
@@ -598,11 +327,7 @@ const CampaignStats = () => {
     },
   });
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    initiFun();
-    getDataFromApi();
-  }, []);
+ 
 
   const getDataFromApi = async () => {
     try {
@@ -809,7 +534,7 @@ const CampaignStats = () => {
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={campaignStatsPieOptions}
-                    ref={chart}
+                  // ref={chart}
                   />
                 </div>
 
