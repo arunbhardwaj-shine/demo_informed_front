@@ -287,7 +287,6 @@ const Table = (props, ref) => {
     getalCountry();
   }, []);
 
-
   const [hpc, setHpc] = useState([
     {
       firstname: "",
@@ -296,10 +295,20 @@ const Table = (props, ref) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
-      siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
-         userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-      userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+      siteIrt:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
+          : "",
+      siteIrtIndex:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
+          : "",
+      userType:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      userTypeIndex:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 0 : "",
     },
   ]);
 
@@ -572,10 +581,22 @@ const Table = (props, ref) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-        userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
-        siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
-        siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
+        userType:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        userTypeIndex:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? 0
+            : "",
+        siteIrt:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
+            : "",
+        siteIrtIndex:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
+            : "",
       },
     ]);
     setActiveManual("active");
@@ -1055,10 +1076,22 @@ const Table = (props, ref) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-          userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
-          siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
-          siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
+          userType:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          userTypeIndex:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? 0
+              : "",
+          siteIrt:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
+              : "",
+          siteIrtIndex:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
+              : "",
         },
       ]);
     } else {
@@ -1244,7 +1277,7 @@ const Table = (props, ref) => {
             data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
         };
       });
-// console.log(body_data);
+      // console.log(body_data);
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
@@ -1280,7 +1313,7 @@ const Table = (props, ref) => {
       if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        console.log("b")
+        console.log("b");
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -1629,7 +1662,10 @@ const Table = (props, ref) => {
                 <span>| {editList.length > 0 ? editList.length : 0}</span>
               </h4>
             ) : (
-              <h4>Selected HCPs for the smart list</h4>
+              <h4>
+                Selected HCPs for the smart list |{" "}
+                <span> {editList.length > 0 ? editList.length : 0}</span>
+              </h4>
             )}
 
             <div className="selected-hcp-table-action">
@@ -2050,7 +2086,8 @@ const Table = (props, ref) => {
           </button>
         </Modal.Header>{" "}
         <div className="container">
-        IRT role          {hpc.map((val, i) => {
+          IRT role{" "}
+          {hpc.map((val, i) => {
             const fieldName = `hpc[${i}]`;
             return (
               <>
@@ -2155,7 +2192,6 @@ const Table = (props, ref) => {
               </>
             );
           })}
-
           <button
             type="submit"
             className="btn btn-secondary"
@@ -2167,195 +2203,216 @@ const Table = (props, ref) => {
       </Modal>
 
       {/* add new hcps */}
-      {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?  <Modal
-        id="add_hcp"
-        show={isOpenAdd}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <div
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-hidden="true"
+      {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+        <Modal
+          id="add_hcp"
+          show={isOpenAdd}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
         >
-          <div className="modal-header">
-            <h5 className="modal-title" id="staticBackdropLabel">
-              {localStorage.getItem("user_id") == userId
-                ? "Add New User +"
-                : "Add New HCP"}
-            </h5>
-            <button
-              onClick={() => {
-                setIsOpenAdd(false);
-                setHpc([
-                  {
-                    firstname: "",
-                    lastname: "",
-                    email: "",
-                    contact_type: "",
-                    country: "",
-                    countryIndex: "",
-                    userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-                    userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
-                    siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
-                    siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.indexOf(item =>item?.value == "Yes"):"",
-                  },
-                ]);
-                setActiveManual("active");
-                // document.querySelector("#file-4").value = "";
-                setActiveExcel("");
-              }}
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content" id="upload-confirm">
-                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
-                  {hpc.map((val, i) => {
-                    const fieldName = `hpc[${i}]`;
-                    return (
-                      <>
-                        <div className="add_hcp_boxes">
-                          <div className="form_action">
-                            <div className="row">
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">First name</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    onChange={(event) =>
-                                      onFirstNameChange(event, i)
-                                    }
-                                    value={val.firstname}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Last name</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    onChange={(event) =>
-                                      onLastNameChange(event, i)
-                                    }
-                                    value={val.lastname}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    Email <span>*</span>
-                                  </label>
-                                  <input
-                                    type="email"
-                                    className={
-                                      validationError?.newHcpEmail
-                                        ? "form-control error"
-                                        : "form-control"
-                                    }
-                                    id="email-desc"
-                                    name={`${fieldName}.email`}
-                                    onChange={(event) =>
-                                      onEmailChange(event, i)
-                                    }
-                                    value={val.email}
-                                  />
-                                  {validationError?.newHcpEmail ? (
-                                    <div className="login-validation">
-                                      {validationError?.newHcpEmail}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-
-                              {localStorage.getItem("user_id") !=
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+          <div
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                {localStorage.getItem("user_id") == userId
+                  ? "Add New User +"
+                  : "Add New HCP"}
+              </h5>
+              <button
+                onClick={() => {
+                  setIsOpenAdd(false);
+                  setHpc([
+                    {
+                      firstname: "",
+                      lastname: "",
+                      email: "",
+                      contact_type: "",
+                      country: "",
+                      countryIndex: "",
+                      userType:
+                        localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg=="
+                          ? irtRole?.[0]?.value
+                          : "",
+                      userTypeIndex:
+                        localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg=="
+                          ? 0
+                          : "",
+                      siteIrt:
+                        localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg=="
+                          ? siteIrtAll?.find((item) => item?.value == "Yes")
+                              ?.value
+                          : "",
+                      siteIrtIndex:
+                        localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg=="
+                          ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
+                          : "",
+                    },
+                  ]);
+                  setActiveManual("active");
+                  // document.querySelector("#file-4").value = "";
+                  setActiveExcel("");
+                }}
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <div className="hcp-add-box">
+                <div className="hcp-add-form tab-content" id="upload-confirm">
+                  <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+                    {hpc.map((val, i) => {
+                      const fieldName = `hpc[${i}]`;
+                      return (
+                        <>
+                          <div className="add_hcp_boxes">
+                            <div className="form_action">
+                              <div className="row">
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label for="">Contact type</label>
-                                    <DropdownButton
-                                      className="dropdown-basic-button split-button-dropup"
-                                      title={
-                                        hpc[i].contact_type != "" &&
-                                        hpc[i].contact_type != "undefined"
-                                          ? hpc[i].contact_type
-                                          : "Select Type"
+                                    <label htmlFor="">First name</label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      onChange={(event) =>
+                                        onFirstNameChange(event, i)
                                       }
-                                      onSelect={(event) =>
-                                        onContactTypeChange(event, i)
-                                      }
-                                    >
-                                      <div className="scroll_div">
-                                        <Dropdown.Item
-                                          eventKey="HCP"
-                                          className={
-                                            hpc[i].contact_type == "HCP"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          HCP
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          eventKey="Staff"
-                                          className={
-                                            hpc[i].contact_type == "Staff"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          Staff
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          eventKey="Test Users"
-                                          className={
-                                            hpc[i].contact_type == "Test Users"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          Test Users
-                                        </Dropdown.Item>
-                                      </div>
-                                    </DropdownButton>
+                                      value={val.firstname}
+                                    />
                                   </div>
                                 </div>
-                              ) : null}
-
-                              {localStorage.getItem("user_id") !=
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label for="">Country</label>
-                                    <Select
-                                      options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                    <label htmlFor="">Last name</label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
                                       onChange={(event) =>
-                                        onCountryChange(event, i)
+                                        onLastNameChange(event, i)
                                       }
-                                      defaultValue={
-                                        countryall[hpc[i].countryIndex]
-                                      }
-                                      placeholder={
-                                        typeof countryall[
-                                          hpc[i].countryIndex
-                                        ] === "undefined"
-                                          ? "Select Country"
-                                          : countryall[hpc[i].countryIndex]
-                                      }
-                                      filterOption={createFilter(filterConfig)}
-                                      isClearable
+                                      value={val.lastname}
                                     />
-                                    {/*
+                                  </div>
+                                </div>
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label htmlFor="">
+                                      Email <span>*</span>
+                                    </label>
+                                    <input
+                                      type="email"
+                                      className={
+                                        validationError?.newHcpEmail
+                                          ? "form-control error"
+                                          : "form-control"
+                                      }
+                                      id="email-desc"
+                                      name={`${fieldName}.email`}
+                                      onChange={(event) =>
+                                        onEmailChange(event, i)
+                                      }
+                                      value={val.email}
+                                    />
+                                    {validationError?.newHcpEmail ? (
+                                      <div className="login-validation">
+                                        {validationError?.newHcpEmail}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+
+                                {localStorage.getItem("user_id") !=
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Contact type</label>
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          hpc[i].contact_type != "" &&
+                                          hpc[i].contact_type != "undefined"
+                                            ? hpc[i].contact_type
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onContactTypeChange(event, i)
+                                        }
+                                      >
+                                        <div className="scroll_div">
+                                          <Dropdown.Item
+                                            eventKey="HCP"
+                                            className={
+                                              hpc[i].contact_type == "HCP"
+                                                ? "active"
+                                                : ""
+                                            }
+                                          >
+                                            HCP
+                                          </Dropdown.Item>
+                                          <Dropdown.Item
+                                            eventKey="Staff"
+                                            className={
+                                              hpc[i].contact_type == "Staff"
+                                                ? "active"
+                                                : ""
+                                            }
+                                          >
+                                            Staff
+                                          </Dropdown.Item>
+                                          <Dropdown.Item
+                                            eventKey="Test Users"
+                                            className={
+                                              hpc[i].contact_type ==
+                                              "Test Users"
+                                                ? "active"
+                                                : ""
+                                            }
+                                          >
+                                            Test Users
+                                          </Dropdown.Item>
+                                        </div>
+                                      </DropdownButton>
+                                    </div>
+                                  </div>
+                                ) : null}
+
+                                {localStorage.getItem("user_id") !=
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Country</label>
+                                      <Select
+                                        options={countryall}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onCountryChange(event, i)
+                                        }
+                                        defaultValue={
+                                          countryall[hpc[i].countryIndex]
+                                        }
+                                        placeholder={
+                                          typeof countryall[
+                                            hpc[i].countryIndex
+                                          ] === "undefined"
+                                            ? "Select Country"
+                                            : countryall[hpc[i].countryIndex]
+                                        }
+                                        filterOption={createFilter(
+                                          filterConfig
+                                        )}
+                                        isClearable
+                                      />
+                                      {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                         title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                         onSelect={(event) => onCountryChange(event, i)}
@@ -2375,101 +2432,107 @@ const Table = (props, ref) => {
                                   </div>
                                   </DropdownButton>
                                     */}
+                                    </div>
                                   </div>
-                                </div>
-                              ) : null}
+                                ) : null}
 
-                              {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                <>
-                                  <hr />
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT mandatory training</label>
-                                      {console.log( siteIrtAll[hpc[i].siteIrtIndex],siteIrtAll,hpc[i])}
-                                      <Select
-                                        options={siteIrtAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteIrtChange(
-                                            event,
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteIrtAll[
-                                            hpc[i].siteIrtIndex
-                                          ] === "undefined"
-                                            ? "Select Site IRT"
-                                            : siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT role</label>
-                                      {siteIrtAll[hpc[i].siteIrtIndex]
-                                        ?.value === "Yes" ? (
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  <>
+                                    <hr />
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">
+                                          IRT mandatory training
+                                        </label>
+                                        {console.log(
+                                          siteIrtAll[hpc[i].siteIrtIndex],
+                                          siteIrtAll,
+                                          hpc[i]
+                                        )}
                                         <Select
-                                          options={irtRole}
+                                          options={siteIrtAll}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                           onChange={(event) =>
-                                            onUserTypeChange(event, i)
+                                            onSiteIrtChange(event, i)
                                           }
-                                          value={
-                                            irtRole.findIndex(
-                                              (el) => el.value == val?.userType
-                                            ) == -1
-                                              ? ""
-                                              : irtRole[
-                                                  irtRole.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.userType
-                                                  )
-                                                ]
+                                          defaultValue={
+                                            siteIrtAll[hpc[i].siteIrtIndex]
                                           }
-                                          placeholder={"Select Role"}
-                                          isClearable
-                                          // filterOption={createFilter(filterConfig)}
+                                          placeholder={
+                                            typeof siteIrtAll[
+                                              hpc[i].siteIrtIndex
+                                            ] === "undefined"
+                                              ? "Select Site IRT"
+                                              : siteIrtAll[hpc[i].siteIrtIndex]
+                                          }
                                         />
-                                      ) : siteIrtAll[hpc[i].siteIrtIndex]
-                                          ?.value === "No" ? (
-                                        <Select
-                                          options={userTypeAll}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onUserTypeChange(event, i)
-                                          }
-                                          value={
-                                            userTypeAll.findIndex(
-                                              (el) => el.value == val?.userType
-                                            ) == -1
-                                              ? ""
-                                              : userTypeAll[
-                                                  userTypeAll.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.userType
-                                                  )
-                                                ]
-                                          }
-                                          isClearable
-                                          placeholder={"Select Role"}
-                                          // filterOption={createFilter(filterConfig)}
-                                        />
-                                      ) : (
-                                        <Select
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          placeholder={"Select Role"}
-                                        />
-                                      )}
+                                      </div>
                                     </div>
-                                  </div>
-                                  {
-                                    /*<div className="col-12 col-md-6">
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">IRT role</label>
+                                        {siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "Yes" ? (
+                                          <Select
+                                            options={irtRole}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            onChange={(event) =>
+                                              onUserTypeChange(event, i)
+                                            }
+                                            value={
+                                              irtRole.findIndex(
+                                                (el) =>
+                                                  el.value == val?.userType
+                                              ) == -1
+                                                ? ""
+                                                : irtRole[
+                                                    irtRole.findIndex(
+                                                      (el) =>
+                                                        el.value ==
+                                                        val?.userType
+                                                    )
+                                                  ]
+                                            }
+                                            placeholder={"Select Role"}
+                                            isClearable
+                                            // filterOption={createFilter(filterConfig)}
+                                          />
+                                        ) : siteIrtAll[hpc[i].siteIrtIndex]
+                                            ?.value === "No" ? (
+                                          <Select
+                                            options={userTypeAll}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            onChange={(event) =>
+                                              onUserTypeChange(event, i)
+                                            }
+                                            value={
+                                              userTypeAll.findIndex(
+                                                (el) =>
+                                                  el.value == val?.userType
+                                              ) == -1
+                                                ? ""
+                                                : userTypeAll[
+                                                    userTypeAll.findIndex(
+                                                      (el) =>
+                                                        el.value ==
+                                                        val?.userType
+                                                    )
+                                                  ]
+                                            }
+                                            isClearable
+                                            placeholder={"Select Role"}
+                                            // filterOption={createFilter(filterConfig)}
+                                          />
+                                        ) : (
+                                          <Select
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            placeholder={"Select Role"}
+                                          />
+                                        )}
+                                      </div>
+                                    </div>
+                                    {/*<div className="col-12 col-md-6">
                                       <div className="form-group">
                                         <label for="">Blind Type</label>
                                         <Select
@@ -2493,95 +2556,93 @@ const Table = (props, ref) => {
                                           // filterOption={createFilter(filterConfig)}
                                         />
                                       </div>
-                                    </div>*/
-                                  }
+                                    </div>*/}
 
-
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Study role</label>
-                                      <Select
-                                        options={subUserTypeAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSubUserTypeChange(event, i)
-                                        }
-                                        defaultValue={
-                                          subUserTypeAll[
-                                            hpc[i].subUserTypeIndex
-                                          ]
-                                        }
-                                        placeholder={
-                                          typeof subUserTypeAll[
-                                            hpc[i].subUserTypeIndex
-                                          ] === "undefined"
-                                            ? "Select Study Role"
-                                            : subUserTypeAll[
-                                                hpc[i].subUserTypeIndex
-                                              ]
-                                        }
-                                        // filterOption={createFilter(filterConfig)}
-                                        //  isClearable
-                                      />
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Study role</label>
+                                        <Select
+                                          options={subUserTypeAll}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onSubUserTypeChange(event, i)
+                                          }
+                                          defaultValue={
+                                            subUserTypeAll[
+                                              hpc[i].subUserTypeIndex
+                                            ]
+                                          }
+                                          placeholder={
+                                            typeof subUserTypeAll[
+                                              hpc[i].subUserTypeIndex
+                                            ] === "undefined"
+                                              ? "Select Study Role"
+                                              : subUserTypeAll[
+                                                  hpc[i].subUserTypeIndex
+                                                ]
+                                          }
+                                          // filterOption={createFilter(filterConfig)}
+                                          //  isClearable
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
 
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Country</label>
-                                      {siteIrtAll[hpc[i].siteIrtIndex]
-                                        ?.value === "Yes" ? (
-                                        <Select
-                                          options={irtCountry}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onCountryChange(event, i)
-                                          }
-                                          value={
-                                            irtCountry.findIndex(
-                                              (el) => el.value == val?.country
-                                            ) == -1
-                                              ? ""
-                                              : irtCountry[
-                                                  irtCountry.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.country
-                                                  )
-                                                ]
-                                          }
-                                          placeholder="Select Country"
-                                          filterOption={createFilter(
-                                            filterConfig
-                                          )}
-                                          isClearable
-                                        />
-                                      ) : (
-                                        <Select
-                                          options={countryall}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onCountryChange(event, i)
-                                          }
-                                          value={
-                                            countryall.findIndex(
-                                              (el) => el.value == val?.country
-                                            ) == -1
-                                              ? ""
-                                              : countryall[
-                                                  countryall.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.country
-                                                  )
-                                                ]
-                                          }
-                                          placeholder="Select Country"
-                                          filterOption={createFilter(
-                                            filterConfig
-                                          )}
-                                          isClearable
-                                        />
-                                      )}
-                                      {/*
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Country</label>
+                                        {siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "Yes" ? (
+                                          <Select
+                                            options={irtCountry}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            onChange={(event) =>
+                                              onCountryChange(event, i)
+                                            }
+                                            value={
+                                              irtCountry.findIndex(
+                                                (el) => el.value == val?.country
+                                              ) == -1
+                                                ? ""
+                                                : irtCountry[
+                                                    irtCountry.findIndex(
+                                                      (el) =>
+                                                        el.value == val?.country
+                                                    )
+                                                  ]
+                                            }
+                                            placeholder="Select Country"
+                                            filterOption={createFilter(
+                                              filterConfig
+                                            )}
+                                            isClearable
+                                          />
+                                        ) : (
+                                          <Select
+                                            options={countryall}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            onChange={(event) =>
+                                              onCountryChange(event, i)
+                                            }
+                                            value={
+                                              countryall.findIndex(
+                                                (el) => el.value == val?.country
+                                              ) == -1
+                                                ? ""
+                                                : countryall[
+                                                    countryall.findIndex(
+                                                      (el) =>
+                                                        el.value == val?.country
+                                                    )
+                                                  ]
+                                            }
+                                            placeholder="Select Country"
+                                            filterOption={createFilter(
+                                              filterConfig
+                                            )}
+                                            isClearable
+                                          />
+                                        )}
+                                        {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                         title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                         onSelect={(event) => onCountryChange(event, i)}
@@ -2601,100 +2662,106 @@ const Table = (props, ref) => {
                                   </div>
                                   </DropdownButton>
                                     */}
+                                      </div>
                                     </div>
-                                  </div>
 
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site number</label>
-                                      <Select
-                                        options={siteNumberAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteNumberChange(event, i)
-                                        }
-                                        value={
-                                          siteNumberAll[hpc[i].siteNumberIndex]
-                                            ? siteNumberAll[
-                                                hpc[i].siteNumberIndex
-                                              ]
-                                            : ""
-                                        }
-                                        // defaultValue={
-                                        //   siteNumberAll[hpc[i].siteNumberIndex]
-                                        // }
-                                        placeholder={
-                                          typeof siteNumberAll[
-                                            hpc[i].siteNumberIndex
-                                          ] === "undefined"
-                                            ? "Select Site Number"
-                                            : siteNumberAll[
-                                                hpc[i].siteNumberIndex
-                                              ]
-                                        }
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // placeholder={
-                                        //   typeof userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ] === "undefined"
-                                        //     ? "Select User Type"
-                                        //     : userTypeAll[
-                                        //         hpc[i].userTypeIndex
-                                        //       ]
-                                        // }
-                                        // filterOption={createFilter(filterConfig)}
-                                      />
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Site number</label>
+                                        <Select
+                                          options={siteNumberAll}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onSiteNumberChange(event, i)
+                                          }
+                                          value={
+                                            siteNumberAll[
+                                              hpc[i].siteNumberIndex
+                                            ]
+                                              ? siteNumberAll[
+                                                  hpc[i].siteNumberIndex
+                                                ]
+                                              : ""
+                                          }
+                                          // defaultValue={
+                                          //   siteNumberAll[hpc[i].siteNumberIndex]
+                                          // }
+                                          placeholder={
+                                            typeof siteNumberAll[
+                                              hpc[i].siteNumberIndex
+                                            ] === "undefined"
+                                              ? "Select Site Number"
+                                              : siteNumberAll[
+                                                  hpc[i].siteNumberIndex
+                                                ]
+                                          }
+                                          // onChange={(event) =>
+                                          //   onUserTypeChange(event, i)
+                                          // }
+                                          // defaultValue={
+                                          //   userTypeAll[
+                                          //     hpc[i].userTypeIndex
+                                          //   ]
+                                          // }
+                                          // placeholder={
+                                          //   typeof userTypeAll[
+                                          //     hpc[i].userTypeIndex
+                                          //   ] === "undefined"
+                                          //     ? "Select User Type"
+                                          //     : userTypeAll[
+                                          //         hpc[i].userTypeIndex
+                                          //       ]
+                                          // }
+                                          // filterOption={createFilter(filterConfig)}
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site name</label>
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Site name</label>
 
-                                      <Select
-                                        options={siteNameAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteNameChange(event, i)
-                                        }
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // valueField={
-                                        //   siteNameAll[hpc[i].siteNameIndex]?.value
-                                        // }
-                                        value={
-                                          siteNameAll[hpc[i].siteNameIndex]
-                                            ? siteNameAll[hpc[i].siteNameIndex]
-                                            : ""
-                                        }
-                                        defaultValue={
-                                          siteNameAll[hpc[i].siteNameIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteNameAll[
-                                            hpc[i].siteNameIndex
-                                          ] === "undefined"
-                                            ? "Select Site Name"
-                                            : siteNameAll[hpc[i].siteNameIndex]
-                                        }
-                                        // filterOption={createFilter(filterConfig)}
-                                      />
+                                        <Select
+                                          options={siteNameAll}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onSiteNameChange(event, i)
+                                          }
+                                          // onChange={(event) =>
+                                          //   onUserTypeChange(event, i)
+                                          // }
+                                          // defaultValue={
+                                          //   userTypeAll[
+                                          //     hpc[i].userTypeIndex
+                                          //   ]
+                                          // }
+                                          // valueField={
+                                          //   siteNameAll[hpc[i].siteNameIndex]?.value
+                                          // }
+                                          value={
+                                            siteNameAll[hpc[i].siteNameIndex]
+                                              ? siteNameAll[
+                                                  hpc[i].siteNameIndex
+                                                ]
+                                              : ""
+                                          }
+                                          defaultValue={
+                                            siteNameAll[hpc[i].siteNameIndex]
+                                          }
+                                          placeholder={
+                                            typeof siteNameAll[
+                                              hpc[i].siteNameIndex
+                                            ] === "undefined"
+                                              ? "Select Site Name"
+                                              : siteNameAll[
+                                                  hpc[i].siteNameIndex
+                                                ]
+                                          }
+                                          // filterOption={createFilter(filterConfig)}
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
 
-                                  {/* <div className="col-12 col-md-6">
+                                    {/* <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site Street</label>
                                       <Select
@@ -2779,14 +2846,14 @@ const Table = (props, ref) => {
                                     </div>
                                   </div>*/}
 
-                                  {/* <button onClick={(e) => addMoreSite(i, e)}>
+                                    {/* <button onClick={(e) => addMoreSite(i, e)}>
                                     +
                                   </button> */}
 
-                                  {val?.siteDetails?.map((data, index) => {
-                                    return (
-                                      <>
-                                        {/* {index !== 0 ? (
+                                    {val?.siteDetails?.map((data, index) => {
+                                      return (
+                                        <>
+                                          {/* {index !== 0 ? (
                                           <>
                                             <div className="add-content-form">
                                               <div className="row">
@@ -2923,18 +2990,18 @@ const Table = (props, ref) => {
                                             </div>
                                           </>
                                         ) : ( */}
-                                        <>
-                                          <div className="add-content-form">
-                                            <div className="row"></div>
-                                          </div>
+                                          <>
+                                            <div className="add-content-form">
+                                              <div className="row"></div>
+                                            </div>
+                                          </>
+                                          {/* )} */}
                                         </>
-                                        {/* )} */}
-                                      </>
-                                    );
-                                  })}
-                                </>
-                              ) : null}
-                              {/*
+                                      );
+                                    })}
+                                  </>
+                                ) : null}
+                                {/*
                               <div className="col-12 col-md-6 btn_rmv">
                                 <div className="form-group">
                                   {i !== 0 && (
@@ -2949,44 +3016,44 @@ const Table = (props, ref) => {
                                 </div>
                               </div>
                               */}
+                              </div>
                             </div>
-                          </div>
 
-                          <div className="hcp-modal-action">
-                            <div className="hcp-action-block">
-                              {activeManual == "active" ? (
-                                <>
-                                  {hpc.length > 1 && (
-                                    <div className="hcp-remove">
-                                      <button
-                                        type="button"
-                                        className="btn btn-filled"
-                                        onClick={() => deleteRecord(i)}
-                                      >
-                                        <img
-                                          src={path_image + "delete.svg"}
-                                          alt="Add More"
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
-                              ) : null}
-                              <ul className="nav nav-tabs" role="tablist">
-                                <li className="nav-item add_hcp">
-                                  <a
-                                    onClick={(e) => addMoreHcp(e)}
-                                    className="nav-link active btn-bordered"
-                                    data-bs-toggle="tab"
-                                    href="javascript:;"
-                                  >
-                                    {localStorage.getItem("user_id") == userId
-                                      ? "Add User +"
-                                      : "Add HCP +"}
-                                  </a>
-                                </li>
+                            <div className="hcp-modal-action">
+                              <div className="hcp-action-block">
+                                {activeManual == "active" ? (
+                                  <>
+                                    {hpc.length > 1 && (
+                                      <div className="hcp-remove">
+                                        <button
+                                          type="button"
+                                          className="btn btn-filled"
+                                          onClick={() => deleteRecord(i)}
+                                        >
+                                          <img
+                                            src={path_image + "delete.svg"}
+                                            alt="Add More"
+                                          />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </>
+                                ) : null}
+                                <ul className="nav nav-tabs" role="tablist">
+                                  <li className="nav-item add_hcp">
+                                    <a
+                                      onClick={(e) => addMoreHcp(e)}
+                                      className="nav-link active btn-bordered"
+                                      data-bs-toggle="tab"
+                                      href="javascript:;"
+                                    >
+                                      {localStorage.getItem("user_id") == userId
+                                        ? "Add User +"
+                                        : "Add HCP +"}
+                                    </a>
+                                  </li>
 
-                                {/*
+                                  {/*
                                 <li className="nav-item add-file">
                                   <a
                                     onClick={(e) => addFile(e)}
@@ -2998,16 +3065,16 @@ const Table = (props, ref) => {
                                   </a>
                                 </li>
                                 */}
-                              </ul>
+                                </ul>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </>
-                    );
-                  })}
-                </form>
+                        </>
+                      );
+                    })}
+                  </form>
 
-                {/*
+                  {/*
                   <form id="add_file" className={"tab-pane" + activeExcel}>
                     <div className="file_upload-box">
                       <div className="upload-file-box">
@@ -3040,186 +3107,188 @@ const Table = (props, ref) => {
                     </div>
                   </form>
                   */}
+                </div>
               </div>
             </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-primary save btn-filled"
+                onClick={(e) => {
+                  saveClickedRd(e);
+                }}
+              >
+                Save
+              </button>
+            </div>
           </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-primary save btn-filled"
-              onClick={(e) => {
-                saveClickedRd(e);
-              }}
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </Modal>:
-      <Modal
-        id="add_hcp"
-        show={isOpenAdd}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <div
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-hidden="true"
+        </Modal>
+      ) : (
+        <Modal
+          id="add_hcp"
+          show={isOpenAdd}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
         >
-          <div className="modal-header">
-            <h5 className="modal-title" id="staticBackdropLabel">
-              {localStorage.getItem("user_id") == userId
-                ? "Add New User +"
-                : "Add New HCP"}
-            </h5>
-            <button
-              onClick={() => {
-                setIsOpenAdd(false);
-                setHpc([
-                  {
-                    firstname: "",
-                    lastname: "",
-                    email: "",
-                    contact_type: "",
-                    country: "",
-                    countryIndex: "",
-                  },
-                ]);
-                setActiveManual("active");
-                // document.querySelector("#file-4").value = "";
-                setActiveExcel("");
-              }}
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content">
-                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
-                  {hpc.map((val, i) => {
-                    const fieldName = `hpc[${i}]`;
-                    return (
-                      <>
-                        <div className="add_hcp_boxes">
-                          <div className="form_action">
-                            <div className="row">
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">First name</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    onChange={(event) =>
-                                      onFirstNameChange(event, i)
-                                    }
-                                    value={val.firstname}
-                                  />
+          <div
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                {localStorage.getItem("user_id") == userId
+                  ? "Add New User +"
+                  : "Add New HCP"}
+              </h5>
+              <button
+                onClick={() => {
+                  setIsOpenAdd(false);
+                  setHpc([
+                    {
+                      firstname: "",
+                      lastname: "",
+                      email: "",
+                      contact_type: "",
+                      country: "",
+                      countryIndex: "",
+                    },
+                  ]);
+                  setActiveManual("active");
+                  // document.querySelector("#file-4").value = "";
+                  setActiveExcel("");
+                }}
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <div className="hcp-add-box">
+                <div className="hcp-add-form tab-content">
+                  <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+                    {hpc.map((val, i) => {
+                      const fieldName = `hpc[${i}]`;
+                      return (
+                        <>
+                          <div className="add_hcp_boxes">
+                            <div className="form_action">
+                              <div className="row">
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label htmlFor="">First name</label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      onChange={(event) =>
+                                        onFirstNameChange(event, i)
+                                      }
+                                      value={val.firstname}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Last name</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    onChange={(event) =>
-                                      onLastNameChange(event, i)
-                                    }
-                                    value={val.lastname}
-                                  />
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label htmlFor="">Last name</label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      onChange={(event) =>
+                                        onLastNameChange(event, i)
+                                      }
+                                      value={val.lastname}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Email *</label>
-                                  <input
-                                    type="email"
-                                    className="form-control"
-                                    id="email-desc"
-                                    name={`${fieldName}.email`}
-                                    onChange={(event) =>
-                                      onEmailChange(event, i)
-                                    }
-                                    value={val.email}
-                                  />
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label htmlFor="">Email *</label>
+                                    <input
+                                      type="email"
+                                      className="form-control"
+                                      id="email-desc"
+                                      name={`${fieldName}.email`}
+                                      onChange={(event) =>
+                                        onEmailChange(event, i)
+                                      }
+                                      value={val.email}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Contact type</label>
-                                  <DropdownButton
-                                    className="dropdown-basic-button split-button-dropup"
-                                    title={
-                                      hpc[i].contact_type != "" &&
-                                      hpc[i].contact_type != "undefined"
-                                        ? hpc[i].contact_type
-                                        : "Select Type"
-                                    }
-                                    onSelect={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                  >
-                                    <Dropdown.Item
-                                      eventKey="HCP"
-                                      className={
-                                        hpc[i].contact_type == "HCP"
-                                          ? "active"
-                                          : ""
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label htmlFor="">Contact type</label>
+                                    <DropdownButton
+                                      className="dropdown-basic-button split-button-dropup"
+                                      title={
+                                        hpc[i].contact_type != "" &&
+                                        hpc[i].contact_type != "undefined"
+                                          ? hpc[i].contact_type
+                                          : "Select Type"
+                                      }
+                                      onSelect={(event) =>
+                                        onContactTypeChange(event, i)
                                       }
                                     >
-                                      HCP
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Staff"
-                                      className={
-                                        hpc[i].contact_type == "Staff"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      Staff
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Test Users"
-                                      className={
-                                        hpc[i].contact_type == "Test Users"
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      Test Users
-                                    </Dropdown.Item>
-                                  </DropdownButton>
+                                      <Dropdown.Item
+                                        eventKey="HCP"
+                                        className={
+                                          hpc[i].contact_type == "HCP"
+                                            ? "active"
+                                            : ""
+                                        }
+                                      >
+                                        HCP
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        eventKey="Staff"
+                                        className={
+                                          hpc[i].contact_type == "Staff"
+                                            ? "active"
+                                            : ""
+                                        }
+                                      >
+                                        Staff
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        eventKey="Test Users"
+                                        className={
+                                          hpc[i].contact_type == "Test Users"
+                                            ? "active"
+                                            : ""
+                                        }
+                                      >
+                                        Test Users
+                                      </Dropdown.Item>
+                                    </DropdownButton>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Country</label>
-                                  <Select
-                                    options={countryall}
-                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                    onChange={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                    defaultValue={
-                                      countryall[hpc[i].countryIndex]
-                                    }
-                                    placeholder={
-                                      typeof countryall[hpc[i].countryIndex] ===
-                                      "undefined"
-                                        ? "Select Country"
-                                        : countryall[hpc[i].countryIndex]
-                                    }
-                                    filterOption={createFilter(filterConfig)}
-                                    isClearable
-                                  />
-                                  {/*
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label htmlFor="">Country</label>
+                                    <Select
+                                      options={countryall}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      defaultValue={
+                                        countryall[hpc[i].countryIndex]
+                                      }
+                                      placeholder={
+                                        typeof countryall[
+                                          hpc[i].countryIndex
+                                        ] === "undefined"
+                                          ? "Select Country"
+                                          : countryall[hpc[i].countryIndex]
+                                      }
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                    {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                             title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                             onSelect={(event) => onCountryChange(event, i)}
@@ -3239,10 +3308,10 @@ const Table = (props, ref) => {
                                       </div>
                                       </DropdownButton>
                                     */}
+                                  </div>
                                 </div>
-                              </div>
 
-                              {/*
+                                {/*
                                 <div className="col-12 col-md-6 btn_rmv">
                                   <div className="form-group">
                                     {i !== 0 && (
@@ -3257,45 +3326,45 @@ const Table = (props, ref) => {
                                   </div>
                                 </div>
                                 */}
+                              </div>
                             </div>
-                          </div>
 
-                          <div className="hcp-modal-action">
-                            <div className="hcp-action-block">
-                              {activeManual == "active" ? (
-                                <>
-                                  {hpc.length > 1 && (
-                                    <div className="hcp-remove">
-                                      <button
-                                        type="button"
-                                        className="btn btn-filled"
-                                        onClick={() => deleteRecord(i)}
-                                      >
-                                        <img
-                                          src={path_image + "delete.svg"}
-                                          alt="Add More"
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
-                              ) : null}
+                            <div className="hcp-modal-action">
+                              <div className="hcp-action-block">
+                                {activeManual == "active" ? (
+                                  <>
+                                    {hpc.length > 1 && (
+                                      <div className="hcp-remove">
+                                        <button
+                                          type="button"
+                                          className="btn btn-filled"
+                                          onClick={() => deleteRecord(i)}
+                                        >
+                                          <img
+                                            src={path_image + "delete.svg"}
+                                            alt="Add More"
+                                          />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </>
+                                ) : null}
 
-                              <ul className="nav nav-tabs" role="tablist">
-                                <li className="nav-item add_hcp">
-                                  <a
-                                    onClick={addMoreHcp}
-                                    className="nav-link active btn-bordered"
-                                    data-bs-toggle="tab"
-                                    href="javascript:;"
-                                  >
-                                    {localStorage.getItem("user_id") == userId
-                                      ? "Add User +"
-                                      : "Add HCP +"}
-                                  </a>
-                                </li>
+                                <ul className="nav nav-tabs" role="tablist">
+                                  <li className="nav-item add_hcp">
+                                    <a
+                                      onClick={addMoreHcp}
+                                      className="nav-link active btn-bordered"
+                                      data-bs-toggle="tab"
+                                      href="javascript:;"
+                                    >
+                                      {localStorage.getItem("user_id") == userId
+                                        ? "Add User +"
+                                        : "Add HCP +"}
+                                    </a>
+                                  </li>
 
-                                {/*
+                                  {/*
                                     <li className="nav-item add-file">
                                       <a
                                         onClick={(e) => addFile(e)}
@@ -3307,16 +3376,16 @@ const Table = (props, ref) => {
                                       </a>
                                     </li>
                                     */}
-                              </ul>
+                                </ul>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </>
-                    );
-                  })}
-                </form>
+                        </>
+                      );
+                    })}
+                  </form>
 
-                {/*
+                  {/*
                   <form id="add_file" className={"tab-pane" + activeExcel}>
                     <div className="form-group files">
                       <div className="box">
@@ -3343,20 +3412,21 @@ const Table = (props, ref) => {
                     </div>
                   </form>
                   */}
+                </div>
               </div>
             </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-primary save btn-filled"
+                onClick={saveClicked}
+              >
+                Save
+              </button>
+            </div>
           </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-primary save btn-filled"
-              onClick={saveClicked}
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </Modal>}
+        </Modal>
+      )}
 
       <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
         <Modal.Header closeButton>
@@ -3423,7 +3493,7 @@ const Table = (props, ref) => {
                 // setUpdatedData(update + 1);
               }}
             >
-              Yes Please!
+              Yes please!
             </button>
 
             <button
