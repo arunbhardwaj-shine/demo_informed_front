@@ -7575,6 +7575,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .trigger_content_image img {
   max-width: 73px;
   max-height: 72px;
+  width:100%;
 }
 
 .auto_mail_trigger_right
