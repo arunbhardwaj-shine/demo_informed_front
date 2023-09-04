@@ -41,7 +41,7 @@ const CountryRegistration = () => {
     });
     startMonth.setMonth(startMonth.getMonth() + 1);
   }
-console.log("months",months);
+
   months.reverse();
   const [monthYear, setMonthYear] = useState(months[0]?.value);
 

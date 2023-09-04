@@ -1233,7 +1233,7 @@ const EditConsentOptions = (props) => {
                     
 
                     let link=`https://onesource.informed.pro/api/track-links`;
-                    let link2=`http://192.168.0.162:5000/api/track-links`;
+                    // let link2=`http://192.168.0.162:5000/api/track-links`;
                     axios
       .post(link, payload)
       .then((res) => {
