@@ -1675,6 +1675,8 @@ templateIdRef.current=template.id
           header.querySelector(".tox-dialog__title");
 
         if (text.innerText == "Insert/Edit Link") {
+          let uploadIcon=  document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span")
+          uploadIcon.style.display = "none";
           let newButton =
             document.createElement("button");
           newButton.innerText = "Add Tracking";
@@ -1748,6 +1750,10 @@ templateIdRef.current=template.id
 
           header.insertBefore(newButton, closeButton);
         }
+        else if(text.innerText == "Insert/Edit Media"){
+          document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label").innerText+=" (Max size: 1GB)"
+
+        }
       }
     });
 
@@ -1773,9 +1779,14 @@ templateIdRef.current=template.id
         console.error("Image upload failed");
         return null;
       }
+      
     } catch (error) {
       console.error("Image upload error:", error);
       return null;
+    }
+    finally{
+      loader("hide");
+
     }
   };
 
@@ -2126,10 +2137,52 @@ templateIdRef.current=template.id
                       image_caption: true,
                       contextmenu:
                         "link image imagetools table configurepermanentpen",
-                      file_picker_types: "image",
+                      file_picker_types: "file image media",
                       init_instance_callback: (editor)=>addTracking(editor),
                       file_picker_callback: function (callback, value, meta) {
                         const input = document.createElement("input");
+
+                        if(meta.filetype === 'media'){
+                          input.setAttribute("type", "file");
+                      input.setAttribute("accept", "video/*");
+      
+      
+      
+      
+                      input.onchange = async () => {
+      
+      
+                          const file = input.files[0];
+                          if (file) {
+                              let uploadedImageUrl;
+      
+                              try {
+                                  if (meta && meta.width && meta.height) {
+                                      uploadedImageUrl = await uploadImageToServer(file, meta.width, meta.height);
+                                  } else {
+                                      uploadedImageUrl = await uploadImageToServer(file);
+                                  }
+                                
+      
+                                  if (uploadedImageUrl) {
+                                      callback(uploadedImageUrl, {
+                                          width: 500,
+                                          height: 500,
+                                      });
+      
+      
+                                  } else {
+                                      console.error("Failed to upload image");
+                                  }
+                              } catch (error) {
+                                  console.error("Error uploading image:", error);
+                              } finally {
+                        
+                              }
+                          }
+                      };
+      
+                      }else{
                         input.setAttribute("type", "file");
                         input.setAttribute("accept", "image/*");
 
@@ -2175,7 +2228,7 @@ templateIdRef.current=template.id
                             }
                           }
                         };
-
+                      }
                         input.click();
                       },
                     }}
