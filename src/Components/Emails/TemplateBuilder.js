@@ -1634,7 +1634,7 @@ const TemplateBuilder = (props) => {
       formData.append("image", file);
 
       const response = await fetch(
-        "https://onesource.informed.pro/api/upload-image",
+        "http://192.168.0.162:5000/api/upload-image",
         {
           method: "POST",
           body: formData,
@@ -1652,27 +1652,40 @@ const TemplateBuilder = (props) => {
       console.error("Image upload error:", error);
       return null;
     }
+    finally{
+      loader("hide");
+
+    }
   };
 
-  const addTracking = function (editor) {
+  const addTracking=function (editor) {
     editor.on("OpenWindow", function (e) {
-      let dialog = document.getElementsByClassName("tox-dialog")[0];
+      let dialog =
+        document.getElementsByClassName("tox-dialog")[0];
 
       if (dialog) {
-        let header = dialog.querySelector(".tox-dialog__header");
-        const closeButton = header.querySelector('[aria-label="Close"]');
-        let text = header.querySelector(".tox-dialog__title");
+        let header = dialog.querySelector(
+          ".tox-dialog__header"
+        );
+        const closeButton = header.querySelector(
+          '[aria-label="Close"]'
+        );
+        let text =
+          header.querySelector(".tox-dialog__title");
 
         if (text.innerText == "Insert/Edit Link") {
-          let newButton = document.createElement("button");
+          let uploadIcon=  document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span")
+          uploadIcon.style.display = "none";
+          let newButton =
+            document.createElement("button");
           newButton.innerText = "Add Tracking";
-          newButton.classList.add("tox-button");
-          newButton.classList.add("tox-button--icon");
-          newButton.classList.add("tox-button--naked");
-          newButton.classList.add("track");
+          newButton.classList.add("tox-button")
+          newButton.classList.add("tox-button--icon")
+          newButton.classList.add("tox-button--naked")
+          newButton.classList.add("track")
           newButton.onclick = function () {
         if(templateIdRef.current==''){
-          alert("Please save the template before adding the link");
+          alert("Please select the template first before adding the link");
           return;
         }
             // alert(templateId);
@@ -1686,10 +1699,15 @@ const TemplateBuilder = (props) => {
               alert("Please enter a link");
               return;
             }
+            
           
             const baseLink =
               "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            if (firstToxControlWrap.value.startsWith(baseLink)) {
+            if (
+              firstToxControlWrap.value.startsWith(
+                baseLink
+              )
+            ) {
               alert("Traking already added");
               return;
             }
@@ -1711,8 +1729,11 @@ const TemplateBuilder = (props) => {
 
                     
 
+                    
+
                     let link=`https://onesource.informed.pro/api/track-links`;
-                    // let link2=`http://192.168.0.162:5000/api/track-links`;
+                    
+                    
                     axios
       .post(link, payload)
       .then((res) => {
@@ -1727,6 +1748,10 @@ const TemplateBuilder = (props) => {
           };
 
           header.insertBefore(newButton, closeButton);
+        }
+        else if(text.innerText == "Insert/Edit Media"){
+          document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label").innerText+=" (Max size: 1GB)"
+
         }
       }
     });
@@ -2139,56 +2164,100 @@ const TemplateBuilder = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                        file_picker_callback: function (callback, value, meta) {
-                          const input = document.createElement("input");
-                          input.setAttribute("type", "file");
-                          input.setAttribute("accept", "image/*");
+                          file_picker_types: "file image media",
 
-                          // Create a loading indicator element (e.g., a spinner)
-                          const loadingIndicator =
-                            document.createElement("div");
-                          loadingIndicator.className = "loading-indicator";
-                          loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
-
+                          file_picker_callback: function (callback, value, meta) {
+                            const input = document.createElement("input");
+    
+                            if(meta.filetype === 'media'){
+                              input.setAttribute("type", "file");
+                          input.setAttribute("accept", "video/*");
+          
+          
+          
+          
                           input.onchange = async () => {
-                            document.body.appendChild(loadingIndicator); // Show loading indicator
-
-                            const file = input.files[0];
-                            if (file) {
-                              let uploadedImageUrl;
-
-                              try {
-                                if (meta && meta.width && meta.height) {
-                                  uploadedImageUrl = await uploadImageToServer(
-                                    file,
-                                    meta.width,
-                                    meta.height
-                                  );
-                                } else {
-                                  uploadedImageUrl = await uploadImageToServer(
-                                    file
-                                  );
-                                }
-
-                                if (uploadedImageUrl) {
-                                  callback(uploadedImageUrl, {
-                                    width: 500,
-                                    height: 500,
-                                  });
-                                  loader("hide");
-                                } else {
-                                  console.error("Failed to upload image");
-                                }
-                              } catch (error) {
-                                console.error("Error uploading image:", error);
-                              } finally {
-                                document.body.removeChild(loadingIndicator); // Hide loading indicator
+          
+          
+                              const file = input.files[0];
+                              if (file) {
+                                  let uploadedImageUrl;
+          
+                                  try {
+                                      if (meta && meta.width && meta.height) {
+                                          uploadedImageUrl = await uploadImageToServer(file, meta.width, meta.height);
+                                      } else {
+                                          uploadedImageUrl = await uploadImageToServer(file);
+                                      }
+                                    
+          
+                                      if (uploadedImageUrl) {
+                                          callback(uploadedImageUrl, {
+                                              width: 500,
+                                              height: 500,
+                                          });
+          
+          
+                                      } else {
+                                          console.error("Failed to upload image");
+                                      }
+                                  } catch (error) {
+                                      console.error("Error uploading image:", error);
+                                  } finally {
+                            
+                                  }
                               }
-                            }
                           };
-
-                          input.click();
-                        },
+          
+                          }else{
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "image/*");
+    
+                            // Create a loading indicator element (e.g., a spinner)
+                            const loadingIndicator =
+                              document.createElement("div");
+                            loadingIndicator.className = "loading-indicator";
+                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+    
+                            input.onchange = async () => {
+                              document.body.appendChild(loadingIndicator); // Show loading indicator
+    
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
+    
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl = await uploadImageToServer(
+                                      file,
+                                      meta.width,
+                                      meta.height
+                                    );
+                                  } else {
+                                    uploadedImageUrl = await uploadImageToServer(
+                                      file
+                                    );
+                                  }
+    
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                    loader("hide");
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error("Error uploading image:", error);
+                                } finally {
+                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                }
+                              }
+                            };
+                          }
+                            input.click();
+                          },
                         init_instance_callback: (editor) => addTracking(editor),
                       }}
                       onEditorChange={(content) => {
@@ -2215,41 +2284,100 @@ const TemplateBuilder = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                        file_picker_callback: function (callback, value, meta) {
-                          const input = document.createElement("input");
-                          input.setAttribute("type", "file");
-                          input.setAttribute("accept", "image/*");
+                          file_picker_types: "file image media",
+
+                          file_picker_callback: function (callback, value, meta) {
+                            const input = document.createElement("input");
+    
+                            if(meta.filetype === 'media'){
+                              input.setAttribute("type", "file");
+                          input.setAttribute("accept", "video/*");
+          
+          
+          
+          
                           input.onchange = async () => {
-                            const file = input.files[0];
-                            if (file) {
-                              let uploadedImageUrl;
-
-                              if (meta && meta.width && meta.height) {
-                                // Use existing dimensions for update
-                                uploadedImageUrl = await uploadImageToServer(
-                                  file,
-                                  meta.width,
-                                  meta.height
-                                );
-                              } else {
-                                uploadedImageUrl = await uploadImageToServer(
-                                  file
-                                );
+          
+          
+                              const file = input.files[0];
+                              if (file) {
+                                  let uploadedImageUrl;
+          
+                                  try {
+                                      if (meta && meta.width && meta.height) {
+                                          uploadedImageUrl = await uploadImageToServer(file, meta.width, meta.height);
+                                      } else {
+                                          uploadedImageUrl = await uploadImageToServer(file);
+                                      }
+                                    
+          
+                                      if (uploadedImageUrl) {
+                                          callback(uploadedImageUrl, {
+                                              width: 500,
+                                              height: 500,
+                                          });
+          
+          
+                                      } else {
+                                          console.error("Failed to upload image");
+                                      }
+                                  } catch (error) {
+                                      console.error("Error uploading image:", error);
+                                  } finally {
+                            
+                                  }
                               }
-
-                              if (uploadedImageUrl) {
-                                callback(uploadedImageUrl, {
-                                  width: 500,
-                                  height: 500,
-                                });
-                                loader("hide");
-                              } else {
-                                console.error("Failed to upload image");
-                              }
-                            }
                           };
-                          input.click();
-                        },
+          
+                          }else{
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "image/*");
+    
+                            // Create a loading indicator element (e.g., a spinner)
+                            const loadingIndicator =
+                              document.createElement("div");
+                            loadingIndicator.className = "loading-indicator";
+                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+    
+                            input.onchange = async () => {
+                              document.body.appendChild(loadingIndicator); // Show loading indicator
+    
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
+    
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl = await uploadImageToServer(
+                                      file,
+                                      meta.width,
+                                      meta.height
+                                    );
+                                  } else {
+                                    uploadedImageUrl = await uploadImageToServer(
+                                      file
+                                    );
+                                  }
+    
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                    loader("hide");
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error("Error uploading image:", error);
+                                } finally {
+                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                }
+                              }
+                            };
+                          }
+                            input.click();
+                          },
                         init_instance_callback: (editor) => addTracking(editor),
                       }}
                       onEditorChange={(content) => {
@@ -2276,40 +2404,100 @@ const TemplateBuilder = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                        file_picker_callback: function (callback, value, meta) {
-                          const input = document.createElement("input");
-                          input.setAttribute("type", "file");
-                          input.setAttribute("accept", "image/*");
+                          file_picker_types: "file image media",
+
+                          file_picker_callback: function (callback, value, meta) {
+                            const input = document.createElement("input");
+    
+                            if(meta.filetype === 'media'){
+                              input.setAttribute("type", "file");
+                          input.setAttribute("accept", "video/*");
+          
+          
+          
+          
                           input.onchange = async () => {
-                            const file = input.files[0];
-                            if (file) {
-                              let uploadedImageUrl;
-
-                              if (meta && meta.width && meta.height) {
-                                uploadedImageUrl = await uploadImageToServer(
-                                  file,
-                                  meta.width,
-                                  meta.height
-                                );
-                              } else {
-                                uploadedImageUrl = await uploadImageToServer(
-                                  file
-                                );
+          
+          
+                              const file = input.files[0];
+                              if (file) {
+                                  let uploadedImageUrl;
+          
+                                  try {
+                                      if (meta && meta.width && meta.height) {
+                                          uploadedImageUrl = await uploadImageToServer(file, meta.width, meta.height);
+                                      } else {
+                                          uploadedImageUrl = await uploadImageToServer(file);
+                                      }
+                                    
+          
+                                      if (uploadedImageUrl) {
+                                          callback(uploadedImageUrl, {
+                                              width: 500,
+                                              height: 500,
+                                          });
+          
+          
+                                      } else {
+                                          console.error("Failed to upload image");
+                                      }
+                                  } catch (error) {
+                                      console.error("Error uploading image:", error);
+                                  } finally {
+                            
+                                  }
                               }
-
-                              if (uploadedImageUrl) {
-                                callback(uploadedImageUrl, {
-                                  width: 500,
-                                  height: 500,
-                                });
-                                loader("hide");
-                              } else {
-                                console.error("Failed to upload image");
-                              }
-                            }
                           };
-                          input.click();
-                        },
+          
+                          }else{
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "image/*");
+    
+                            // Create a loading indicator element (e.g., a spinner)
+                            const loadingIndicator =
+                              document.createElement("div");
+                            loadingIndicator.className = "loading-indicator";
+                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+    
+                            input.onchange = async () => {
+                              document.body.appendChild(loadingIndicator); // Show loading indicator
+    
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
+    
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl = await uploadImageToServer(
+                                      file,
+                                      meta.width,
+                                      meta.height
+                                    );
+                                  } else {
+                                    uploadedImageUrl = await uploadImageToServer(
+                                      file
+                                    );
+                                  }
+    
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                    loader("hide");
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error("Error uploading image:", error);
+                                } finally {
+                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                }
+                              }
+                            };
+                          }
+                            input.click();
+                          },
                         init_instance_callback: (editor) => addTracking(editor),
                       }}
                       onEditorChange={(content) => {
