@@ -27,15 +27,15 @@ var dxr = 0;
 var state_object = {};
 
 const CreateEmail = (props) => {
-  
   const editorRef = useRef(null);
   const [totalData, setTotalData] = useState({});
-   const linkingPayload = useRef();
-  const templateIdRef= useRef('');
+  const linkingPayload = useRef();
+  const templateIdRef = useRef("");
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -169,11 +169,17 @@ const CreateEmail = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-      optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
+      role:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      optIRT:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? "yes"
+          : "",
+      institutionType: "",
     },
   ]);
-
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [addListOpen, setAddListOpen] = useState(false);
@@ -290,6 +296,13 @@ const CreateEmail = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
+
+              let instution_type = res?.data?.response?.data?.institution_type;
+              let newInstitutionType = [];
+              Object.keys(instution_type)?.map((item, i) => {
+                newInstitutionType.push({ label: item, value: item });
+              });
+              setInstitutionType(newInstitutionType);
               setRole(newType);
               setIrtRole(newIrtType);
             }
@@ -397,7 +410,7 @@ const CreateEmail = (props) => {
         setFinalTags(props.getDraftData.tags);
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
-        templateIdRef.current=props.getDraftData.campaign_data.template_id
+        templateIdRef.current = props.getDraftData.campaign_data.template_id;
         setIsApprovedStatus(props.getDraftData.status);
         setTemplate(props.getDraftData.source_code);
       }
@@ -449,10 +462,18 @@ const CreateEmail = (props) => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (data?.email == "" || data?.institutionType == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       } else {
-        return "true";
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       }
     });
     if (status.every((element) => element == "true")) {
@@ -465,12 +486,23 @@ const CreateEmail = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
-          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          optIRT:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "yes"
+              : "",
+          role:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          institutionType: "",
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        toast.warning("Please input the email and Institution");
+      } else {
+        toast.warning("Please input the email atleast");
+      }
     }
   };
 
@@ -799,7 +831,7 @@ const CreateEmail = (props) => {
     }
 
     setTemplateId(template.id);
-templateIdRef.current=template.id
+    templateIdRef.current = template.id;
 
     setTemplateName(template.name);
     setTemplate(template.source_code);
@@ -1018,7 +1050,27 @@ templateIdRef.current=template.id
       setHpc(list);
     }
   };
-
+  const onInstitutionChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].institutionType = "";
+      list[i].optIRT = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].institutionType;
+      list[i].institutionType = value;
+      setHpc(list);
+      if (e?.value == "Study site") {
+        onIRTChange("yes", i);
+      } else {
+        onIRTChange("no", i);
+      }
+    }
+  };
   const onIRTChange = (e, i) => {
     if (e == "") {
       const list = [...hpc];
@@ -1027,7 +1079,7 @@ templateIdRef.current=template.id
       list[i].country = "";
       setHpc(list);
     } else {
-      const value = e?.value;
+      const value = e;
       const list = [...hpc];
       const name = hpc[i].optIRT;
       list[i].optIRT = value;
@@ -1074,14 +1126,14 @@ templateIdRef.current=template.id
       });
       let alltemp_tags = [];
 
-      if(typeof(allTags) != "undefined"){
-          Object.entries(allTags)?.map((data) => {
-            return alltemp_tags.push(...data);
-          });
-          alltemp_tags = alltemp_tags?.map((data) => {
-            return data.toLowerCase();
-          });
-          // console.log(alltemp_tags);
+      if (typeof allTags != "undefined") {
+        Object.entries(allTags)?.map((data) => {
+          return alltemp_tags.push(...data);
+        });
+        alltemp_tags = alltemp_tags?.map((data) => {
+          return data.toLowerCase();
+        });
+        // console.log(alltemp_tags);
       }
 
       if (
@@ -1155,8 +1207,15 @@ templateIdRef.current=template.id
         contact_type: "",
         country: "",
         countryIndex: "",
-        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-        optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
+        role:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIRT:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
+        institutionType: "",
       },
     ]);
     setActiveManual("active");
@@ -1196,30 +1255,29 @@ templateIdRef.current=template.id
 
     if (name == "" && email == "") {
       toast.warning("Please enter name or email first");
-    }
-    else {
+    } else {
       const body = {
         user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
       };
-    // let error = {};
-    // if (name == "") {
-    //   error.name = "Please enter name";
-    // }
-    // if (email == "") {
-    //   error.email = "Please enter email";
-    // }
-    // if (Object.keys(error)?.length) {
-    //   toast.error(error[Object.keys(error)[0]]);
-    //   setValidationError(error);
-    //   return;
-    // } else {
-    //   const body = {
-    //     user_id: localStorage.getItem("user_id"),
-    //     name: name,
-    //     email: email,
-    //   };
+      // let error = {};
+      // if (name == "") {
+      //   error.name = "Please enter name";
+      // }
+      // if (email == "") {
+      //   error.email = "Please enter email";
+      // }
+      // if (Object.keys(error)?.length) {
+      //   toast.error(error[Object.keys(error)[0]]);
+      //   setValidationError(error);
+      //   return;
+      // } else {
+      //   const body = {
+      //     user_id: localStorage.getItem("user_id"),
+      //     name: name,
+      //     email: email,
+      //   };
       //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
@@ -1376,6 +1434,9 @@ templateIdRef.current=template.id
             siteName: data?.siteName ? data.siteName : "",
             investigator_type: data?.role,
             siteIrt: data?.optIRT == "yes" ? 1 : 0,
+            institution_type: data?.institutionType
+              ? data?.institutionType
+              : "",
           };
         } else {
           return {
@@ -1395,29 +1456,41 @@ templateIdRef.current=template.id
       };
 
       const status = body.data.map((data) => {
-        if (data.email == "") {
-          setValidationError({ newHcpEmail: "Please enter the email atleast" });
+        if (data.email == "" || data?.institution_type == "") {
+          if (data.email == "") {
+            setValidationError({
+              newHcpEmail: "Please enter the email atleast",
+            });
 
-          return;
-        } else if (data.email != "") {
-          let email = data.email;
-          let useremail = email.trim();
-          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = selectedHcp.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
+            return;
+          } else if (data.email != "") {
+            let email = data.email;
+            let useremail = email.trim();
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (regex.test(String(useremail).toLowerCase())) {
+              let prev_obj = selectedHcp.find((x) => x.email === useremail);
+              if (typeof prev_obj != "undefined") {
+                setValidationError({
+                  newHcpEmail: "User with same email already added in list.",
+                });
+
+                return;
+              }
+            } else {
               setValidationError({
-                newHcpEmail: "User with same email already added in list.",
+                newHcpEmail: "Email format is not valid",
               });
 
               return;
-            } else {
-              return "true";
             }
-          } else {
-            setValidationError({ newHcpEmail: "Email format is not valid" });
-
-            return;
+          }
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (data.institution_type == "") {
+              setValidationError({
+                newHcpInstitution: "Please enter the email atleast",
+              });
+              return;
+            }
           }
         } else {
           return "true";
@@ -1558,7 +1631,7 @@ templateIdRef.current=template.id
             if (res.data.status_code === 200) {
               getTemplateListData(1);
               setTemplateId(res.data.response.data.last_id);
-              templateIdRef.current=res.data.response.data.last_id
+              templateIdRef.current = res.data.response.data.last_id;
             } else {
               loader("hide");
               toast.warning("Template not selected.");
@@ -1659,54 +1732,45 @@ templateIdRef.current=template.id
       toast.warning("Template not selected.");
     }
   };
-  const addTracking=function (editor) {
+  const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-      let dialog =
-        document.getElementsByClassName("tox-dialog")[0];
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
 
       if (dialog) {
-        let header = dialog.querySelector(
-          ".tox-dialog__header"
-        );
-        const closeButton = header.querySelector(
-          '[aria-label="Close"]'
-        );
-        let text =
-          header.querySelector(".tox-dialog__title");
+        let header = dialog.querySelector(".tox-dialog__header");
+        const closeButton = header.querySelector('[aria-label="Close"]');
+        let text = header.querySelector(".tox-dialog__title");
 
         if (text.innerText == "Insert/Edit Link") {
-          let newButton =
-            document.createElement("button");
+          let uploadIcon = document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+          );
+          uploadIcon.style.display = "none";
+          let newButton = document.createElement("button");
           newButton.innerText = "Add Tracking";
-          newButton.classList.add("tox-button")
-          newButton.classList.add("tox-button--icon")
-          newButton.classList.add("tox-button--naked")
-          newButton.classList.add("track")
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
           newButton.onclick = function () {
-        if(templateIdRef.current==''){
-          alert("Please select the template first before adding the link");
-          return;
-        }
+            if (templateIdRef.current == "") {
+              alert("Please select the template first before adding the link");
+              return;
+            }
             // alert(templateId);
-            let firstToxControlWrap =
-              document.querySelector(
-                "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-              );
-          
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
+
             // let text =dialog.querySelector(".tox-form__group");
             if (!firstToxControlWrap.value) {
               alert("Please enter a link");
               return;
             }
-            
-          
+
             const baseLink =
               "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            if (
-              firstToxControlWrap.value.startsWith(
-                baseLink
-              )
-            ) {
+            if (firstToxControlWrap.value.startsWith(baseLink)) {
               alert("Traking already added");
               return;
             }
@@ -1714,44 +1778,43 @@ templateIdRef.current=template.id
 
             const currentTimestamp = Date.now();
             // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-            let payload={
-              slug_value:slugValue,
-             template_id: templateIdRef.current,
-             url_code:`clicked_track_doc_${currentTimestamp}`
-            }
-            linkingPayload.current=payload
+            let payload = {
+              slug_value: slugValue,
+              template_id: templateIdRef.current,
+              url_code: `clicked_track_doc_${currentTimestamp}`,
+            };
+            linkingPayload.current = payload;
             let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-                  firstToxControlWrap.value = link;
-                  var saveButton = document.querySelector('.tox-button[title="Save"]');
-             
-                  saveButton.addEventListener('click', function () {
+            firstToxControlWrap.value = link;
+            var saveButton = document.querySelector(
+              '.tox-button[title="Save"]'
+            );
 
-                    
+            saveButton.addEventListener("click", function () {
+              let link = `https://onesource.informed.pro/api/track-links`;
 
-                    
-
-                    let link=`https://onesource.informed.pro/api/track-links`;
-                    
-                    
-                    axios
-      .post(link, payload)
-      .then((res) => {
-       console.log("done");
-      })
-      .catch((err) => {
-        loader("hide");
-        console.log(err);
-      });
-                  });
+              axios
+                .post(link, payload)
+                .then((res) => {
+                  console.log("done");
+                })
+                .catch((err) => {
+                  loader("hide");
+                  console.log(err);
+                });
+            });
             alert("Traking added");
           };
 
           header.insertBefore(newButton, closeButton);
+        } else if (text.innerText == "Insert/Edit Media") {
+          document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+          ).innerText += " (Max size: 1GB)";
         }
       }
     });
-
-  }
+  };
   const uploadImageToServer = async (file) => {
     try {
       loader("show");
@@ -1776,6 +1839,8 @@ templateIdRef.current=template.id
     } catch (error) {
       console.error("Image upload error:", error);
       return null;
+    } finally {
+      loader("hide");
     }
   };
 
@@ -2126,56 +2191,94 @@ templateIdRef.current=template.id
                       image_caption: true,
                       contextmenu:
                         "link image imagetools table configurepermanentpen",
-                      file_picker_types: "image",
-                      init_instance_callback: (editor)=>addTracking(editor),
+                      file_picker_types: "file image media",
+                      init_instance_callback: (editor) => addTracking(editor),
                       file_picker_callback: function (callback, value, meta) {
                         const input = document.createElement("input");
-                        input.setAttribute("type", "file");
-                        input.setAttribute("accept", "image/*");
 
-                        // Create a loading indicator element (e.g., a spinner)
-                        const loadingIndicator =
-                          document.createElement("div");
-                        loadingIndicator.className = "loading-indicator";
-                        loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+                        if (meta.filetype === "media") {
+                          input.setAttribute("type", "file");
+                          input.setAttribute("accept", "video/*");
 
-                        input.onchange = async () => {
-                          document.body.appendChild(loadingIndicator); // Show loading indicator
+                          input.onchange = async () => {
+                            const file = input.files[0];
+                            if (file) {
+                              let uploadedImageUrl;
 
-                          const file = input.files[0];
-                          if (file) {
-                            let uploadedImageUrl;
+                              try {
+                                if (meta && meta.width && meta.height) {
+                                  uploadedImageUrl = await uploadImageToServer(
+                                    file,
+                                    meta.width,
+                                    meta.height
+                                  );
+                                } else {
+                                  uploadedImageUrl = await uploadImageToServer(
+                                    file
+                                  );
+                                }
 
-                            try {
-                              if (meta && meta.width && meta.height) {
-                                uploadedImageUrl = await uploadImageToServer(
-                                  file,
-                                  meta.width,
-                                  meta.height
-                                );
-                              } else {
-                                uploadedImageUrl = await uploadImageToServer(
-                                  file
-                                );
+                                if (uploadedImageUrl) {
+                                  callback(uploadedImageUrl, {
+                                    width: 500,
+                                    height: 500,
+                                  });
+                                } else {
+                                  console.error("Failed to upload image");
+                                }
+                              } catch (error) {
+                                console.error("Error uploading image:", error);
+                              } finally {
                               }
-
-                              if (uploadedImageUrl) {
-                                callback(uploadedImageUrl, {
-                                  width: 500,
-                                  height: 500,
-                                });
-                                loader("hide");
-                              } else {
-                                console.error("Failed to upload image");
-                              }
-                            } catch (error) {
-                              console.error("Error uploading image:", error);
-                            } finally {
-                              document.body.removeChild(loadingIndicator); // Hide loading indicator
                             }
-                          }
-                        };
+                          };
+                        } else {
+                          input.setAttribute("type", "file");
+                          input.setAttribute("accept", "image/*");
 
+                          // Create a loading indicator element (e.g., a spinner)
+                          const loadingIndicator =
+                            document.createElement("div");
+                          loadingIndicator.className = "loading-indicator";
+                          loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                          input.onchange = async () => {
+                            document.body.appendChild(loadingIndicator); // Show loading indicator
+
+                            const file = input.files[0];
+                            if (file) {
+                              let uploadedImageUrl;
+
+                              try {
+                                if (meta && meta.width && meta.height) {
+                                  uploadedImageUrl = await uploadImageToServer(
+                                    file,
+                                    meta.width,
+                                    meta.height
+                                  );
+                                } else {
+                                  uploadedImageUrl = await uploadImageToServer(
+                                    file
+                                  );
+                                }
+
+                                if (uploadedImageUrl) {
+                                  callback(uploadedImageUrl, {
+                                    width: 500,
+                                    height: 500,
+                                  });
+                                  loader("hide");
+                                } else {
+                                  console.error("Failed to upload image");
+                                }
+                              } catch (error) {
+                                console.error("Error uploading image:", error);
+                              } finally {
+                                document.body.removeChild(loadingIndicator); // Hide loading indicator
+                              }
+                            }
+                          };
+                        }
                         input.click();
                       },
                     }}
@@ -2323,9 +2426,7 @@ templateIdRef.current=template.id
                     <div className="col-12 col-md-8">
                       <div className="row justify-content-between align-items-center">
                         <div className="form-group col-sm-5">
-                          <label htmlFor="hcp-name">
-                            Name
-                          </label>
+                          <label htmlFor="hcp-name">Name</label>
                           <input
                             type="text"
                             className={
@@ -2343,9 +2444,7 @@ templateIdRef.current=template.id
                           ) : null}
                         </div>
                         <div className="form-group col-sm-5">
-                          <label htmlFor="hcp-email">
-                            Email
-                          </label>
+                          <label htmlFor="hcp-email">Email</label>
                           <input
                             type="mail"
                             onChange={(e) => emailChanged(e)}
@@ -2811,8 +2910,17 @@ templateIdRef.current=template.id
                     contact_type: "",
                     country: "",
                     countryIndex: "",
-                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-                    optIRT:localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?"yes":"",
+                    role:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? irtRole?.[0]?.value
+                        : "",
+                    optIRT:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "yes"
+                        : "",
+                    institutionType: "",
                   },
                 ]);
                 if (document.querySelector("#file-4")) {
@@ -2896,15 +3004,69 @@ templateIdRef.current=template.id
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={institutionType}
+                                        className={
+                                          validationError?.newHcpInstitution
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        defaultValue={
+                                          val?.institutionType
+                                            ? {
+                                                label: val?.institutionType,
+                                                value: val?.institutionType,
+                                              }
+                                            : ""
+                                        }
+                                        placeholder="Select institution"
+                                      />
+                                      {validationError?.newHcpInstitution ? (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpInstitution}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT mandatory training</label>
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
+
                                       <Select
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onIRTChange(event, i)
+                                          onIRTChange(event?.value, i)
                                         }
-                                        defaultValue={val?.optIRT?{label:"Yes",value:val?.optIRT}:""}
+                                        defaultValue={
+                                          val?.optIRT == "yes"
+                                            ? {
+                                                label: "Yes",
+                                                value: val?.optIRT,
+                                              }
+                                            : ""
+                                        }
+                                        value={
+                                          optIRT.findIndex(
+                                            (el) => el.value == val?.optIRT
+                                          ) == -1
+                                            ? ""
+                                            : optIRT[
+                                                optIRT.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.optIRT
+                                                )
+                                              ]
+                                        }
                                         placeholder="Select IRT"
                                       />
                                     </div>
@@ -3427,8 +3589,8 @@ templateIdRef.current=template.id
                         </>
                       ) : (
                         <>
-                        <th scope="col">Business unit</th>
-                        <th scope="col">Contact type</th>
+                          <th scope="col">Business unit</th>
+                          <th scope="col">Contact type</th>
                         </>
                       )}
 
@@ -3455,12 +3617,12 @@ templateIdRef.current=template.id
                               <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                               <td>{rr?.country ? rr?.country : "N/A"}</td>
                               <td>
-                              {localStorage.getItem("user_id") ==
+                                {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr.irt
                                     ? "Yes"
                                     : "No"
-                                  :rr.ibu
+                                  : rr.ibu
                                   ? rr.ibu
                                   : "N/A"}
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}

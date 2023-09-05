@@ -74,7 +74,7 @@ const TemplateBuilder = (props) => {
   const [emailSubject, setEmailSubject] = useState("");
   const [templateId, setTemplateId] = useState();
   const linkingPayload = useRef();
-  const templateIdRef= useRef();
+  const templateIdRef = useRef();
   const [templateName, setTemplateName] = useState("");
   const [renderAfterValidation, setRenderAfterValidation] = useState(0);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
@@ -94,6 +94,7 @@ const TemplateBuilder = (props) => {
   const [irtCountry, setIRTCountry] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -131,6 +132,7 @@ const TemplateBuilder = (props) => {
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
           ? "yes"
           : "",
+      institutionType: "",
     },
   ]);
 
@@ -149,7 +151,7 @@ const TemplateBuilder = (props) => {
   const [templateClickedd, setTemplateClicked] = useState(false);
   const [validationError, setValidationError] = useState({});
   const [selectType, setSelectType] = useState([
-    { label: "Placeholder", value: "Placeholder" },
+    { label: "Article", value: "Placeholder" },
     { label: "Pure text", value: "Puretext" },
   ]);
   const [userTemplateType, setUserTemplateType] = useState(
@@ -242,6 +244,12 @@ const TemplateBuilder = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
+              let instution_type = res?.data?.response?.data?.institution_type;
+              let newInstitutionType = [];
+              Object.keys(instution_type)?.map((item, i) => {
+                newInstitutionType.push({ label: item, value: item });
+              });
+              setInstitutionType(newInstitutionType);
               setRole(newType);
               setIrtRole(newIrtType);
             }
@@ -429,11 +437,20 @@ const TemplateBuilder = (props) => {
   };
 
   const addMoreHcp = () => {
+    console.log("hpc-->", hpc);
     const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (data?.email == "" || data?.institutionType == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       } else {
-        return "true";
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       }
     });
 
@@ -454,10 +471,15 @@ const TemplateBuilder = (props) => {
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
               ? "yes"
               : "",
+          institutionType: "",
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        toast.warning("Please input the email and Institution");
+      } else {
+        toast.warning("Please input the email atleast");
+      }
     }
   };
 
@@ -540,7 +562,7 @@ const TemplateBuilder = (props) => {
     setTemplateClicked(false);
     setTemplateId();
     setTemplateName();
-    templateIdRef.current='';
+    templateIdRef.current = "";
     setNewTemplateName();
     setTemplate();
   };
@@ -735,8 +757,8 @@ const TemplateBuilder = (props) => {
     }
     setTemplateClicked(true);
     setTemplateId(template.id);
-    templateIdRef.current=template.id
-   
+    templateIdRef.current = template.id;
+
     setTemplateName(template.name);
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
@@ -828,6 +850,7 @@ const TemplateBuilder = (props) => {
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
             ? "yes"
             : "",
+        institutionType: "",
       },
     ]);
     setActiveManual("active");
@@ -923,7 +946,27 @@ const TemplateBuilder = (props) => {
       setHpc(list);
     }
   };
-
+  const onInstitutionChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].institutionType = "";
+      list[i].optIRT = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].institutionType;
+      list[i].institutionType = value;
+      setHpc(list);
+      if (e?.value == "Study site") {
+        onIRTChange("yes", i);
+      } else {
+        onIRTChange("no", i);
+      }
+    }
+  };
   const onIRTChange = (e, i) => {
     if (e == "") {
       const list = [...hpc];
@@ -932,7 +975,7 @@ const TemplateBuilder = (props) => {
       list[i].country = "";
       setHpc(list);
     } else {
-      const value = e?.value;
+      const value = e;
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
@@ -1080,6 +1123,9 @@ const TemplateBuilder = (props) => {
             contact_type: data.contact_type,
             siteNumber: data?.siteNumber ? data.siteNumber : "",
             siteName: data.siteName ? data.siteName : "",
+            institution_type: data?.institutionType
+              ? data?.institutionType
+              : "",
           };
         } else {
           return {
@@ -1099,30 +1145,38 @@ const TemplateBuilder = (props) => {
       console.log("-test", body);
 
       const status = body.data.map((data) => {
-        if (data.email == "") {
-          setValidationError({
-            newHcpEmail: "Please enter the email atleast",
-          });
-          return;
-        } else if (data.email != "") {
-          let email = data.email;
-          let useremail = email.trim();
-          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = selectedHcp.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
-              setValidationError({
-                newHcpEmail: "User with same email already added in list.",
-              });
-              return;
-            } else {
-              return "true";
-            }
-          } else {
+        if (data.email == "" || data.institution_type == "") {
+          if (data.email == "") {
             setValidationError({
-              newHcpEmail: "Email format is not valid",
+              newHcpEmail: "Please enter the email atleast",
             });
             return;
+          } else if (data.email != "") {
+            let email = data.email;
+            let useremail = email.trim();
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (regex.test(String(useremail).toLowerCase())) {
+              let prev_obj = selectedHcp.find((x) => x.email === useremail);
+              if (typeof prev_obj != "undefined") {
+                setValidationError({
+                  newHcpEmail: "User with same email already added in list.",
+                });
+                return;
+              }
+            } else {
+              setValidationError({
+                newHcpEmail: "Email format is not valid",
+              });
+              return;
+            }
+          }
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (data.institution_type == "") {
+              setValidationError({
+                newHcpInstitution: "Please enter the email atleast",
+              });
+              return;
+            }
           }
         } else {
           return "true";
@@ -1271,7 +1325,7 @@ const TemplateBuilder = (props) => {
       const body = {
         user_id: localStorage.getItem("user_id"),
         source_code: template,
-        template_id: "",
+        template_id: templateId,
         name: template_name,
         ibu: selectedIbu,
         status: 1,
@@ -1350,7 +1404,7 @@ const TemplateBuilder = (props) => {
               userTemplateType
             );
             setTemplateId(res.data.response.data.last_id);
-            templateIdRef.current=res.data.response.data.last_id
+            templateIdRef.current = res.data.response.data.last_id;
             setTemplateName(newTemplateNamee);
           } else {
             loader("hide");
@@ -1498,8 +1552,6 @@ const TemplateBuilder = (props) => {
   }, [ref, templateId]);
 
   const updateTemplate = async (e) => {
-
-
     e.preventDefault();
     let template_id = templateId;
     if (
@@ -1529,7 +1581,7 @@ const TemplateBuilder = (props) => {
                 userTemplateType
               );
               setTemplate(templateSaving);
-              templateIdRef.current=templateId
+              templateIdRef.current = templateId;
             } else {
               loader("hide");
               toast.warning("Template not selected.");
@@ -1651,6 +1703,8 @@ const TemplateBuilder = (props) => {
     } catch (error) {
       console.error("Image upload error:", error);
       return null;
+    } finally {
+      loader("hide");
     }
   };
 
@@ -1664,6 +1718,10 @@ const TemplateBuilder = (props) => {
         let text = header.querySelector(".tox-dialog__title");
 
         if (text.innerText == "Insert/Edit Link") {
+          let uploadIcon = document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+          );
+          uploadIcon.style.display = "none";
           let newButton = document.createElement("button");
           newButton.innerText = "Add Tracking";
           newButton.classList.add("tox-button");
@@ -1671,22 +1729,21 @@ const TemplateBuilder = (props) => {
           newButton.classList.add("tox-button--naked");
           newButton.classList.add("track");
           newButton.onclick = function () {
-        if(templateIdRef.current==''){
-          alert("Please save the template before adding the link");
-          return;
-        }
+            if (templateIdRef.current == "") {
+              alert("Please select the template first before adding the link");
+              return;
+            }
             // alert(templateId);
-            let firstToxControlWrap =
-              document.querySelector(
-                "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-              );
-          
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
+
             // let text =dialog.querySelector(".tox-form__group");
             if (!firstToxControlWrap.value) {
               alert("Please enter a link");
               return;
             }
-          
+
             const baseLink =
               "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
             if (firstToxControlWrap.value.startsWith(baseLink)) {
@@ -1697,41 +1754,43 @@ const TemplateBuilder = (props) => {
 
             const currentTimestamp = Date.now();
             // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-            let payload={
-              slug_value:slugValue,
-             template_id: templateIdRef.current,
-             url_code:`clicked_track_doc_${currentTimestamp}`
-            }
-            linkingPayload.current=payload
+            let payload = {
+              slug_value: slugValue,
+              template_id: templateIdRef.current,
+              url_code: `clicked_track_doc_${currentTimestamp}`,
+            };
+            linkingPayload.current = payload;
             let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-                  firstToxControlWrap.value = link;
-                  var saveButton = document.querySelector('.tox-button[title="Save"]');
-             
-                  saveButton.addEventListener('click', function () {
+            firstToxControlWrap.value = link;
+            var saveButton = document.querySelector(
+              '.tox-button[title="Save"]'
+            );
 
-                    
+            saveButton.addEventListener("click", function () {
+              let link = `https://onesource.informed.pro/api/track-links`;
 
-                    let link=`https://onesource.informed.pro/api/track-links`;
-                    // let link2=`http://192.168.0.162:5000/api/track-links`;
-                    axios
-      .post(link, payload)
-      .then((res) => {
-       console.log("done");
-      })
-      .catch((err) => {
-        loader("hide");
-        console.log(err);
-      });
-                  });
+              axios
+                .post(link, payload)
+                .then((res) => {
+                  console.log("done");
+                })
+                .catch((err) => {
+                  loader("hide");
+                  console.log(err);
+                });
+            });
             alert("Traking added");
           };
 
           header.insertBefore(newButton, closeButton);
+        } else if (text.innerText == "Insert/Edit Media") {
+          document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+          ).innerText += " (Max size: 1GB)";
         }
       }
     });
-
-  }
+  };
   return (
     <>
       <div className="col right-sidebar">
@@ -2139,54 +2198,100 @@ const TemplateBuilder = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        file_picker_types: "file image media",
+
                         file_picker_callback: function (callback, value, meta) {
                           const input = document.createElement("input");
-                          input.setAttribute("type", "file");
-                          input.setAttribute("accept", "image/*");
 
-                          // Create a loading indicator element (e.g., a spinner)
-                          const loadingIndicator =
-                            document.createElement("div");
-                          loadingIndicator.className = "loading-indicator";
-                          loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+                          if (meta.filetype === "media") {
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "video/*");
 
-                          input.onchange = async () => {
-                            document.body.appendChild(loadingIndicator); // Show loading indicator
+                            input.onchange = async () => {
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
 
-                            const file = input.files[0];
-                            if (file) {
-                              let uploadedImageUrl;
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(
+                                        file,
+                                        meta.width,
+                                        meta.height
+                                      );
+                                  } else {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(file);
+                                  }
 
-                              try {
-                                if (meta && meta.width && meta.height) {
-                                  uploadedImageUrl = await uploadImageToServer(
-                                    file,
-                                    meta.width,
-                                    meta.height
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error(
+                                    "Error uploading image:",
+                                    error
                                   );
-                                } else {
-                                  uploadedImageUrl = await uploadImageToServer(
-                                    file
-                                  );
+                                } finally {
                                 }
-
-                                if (uploadedImageUrl) {
-                                  callback(uploadedImageUrl, {
-                                    width: 500,
-                                    height: 500,
-                                  });
-                                  loader("hide");
-                                } else {
-                                  console.error("Failed to upload image");
-                                }
-                              } catch (error) {
-                                console.error("Error uploading image:", error);
-                              } finally {
-                                document.body.removeChild(loadingIndicator); // Hide loading indicator
                               }
-                            }
-                          };
+                            };
+                          } else {
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "image/*");
 
+                            // Create a loading indicator element (e.g., a spinner)
+                            const loadingIndicator =
+                              document.createElement("div");
+                            loadingIndicator.className = "loading-indicator";
+                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                            input.onchange = async () => {
+                              document.body.appendChild(loadingIndicator); // Show loading indicator
+
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
+
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(
+                                        file,
+                                        meta.width,
+                                        meta.height
+                                      );
+                                  } else {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(file);
+                                  }
+
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                    loader("hide");
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error(
+                                    "Error uploading image:",
+                                    error
+                                  );
+                                } finally {
+                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                }
+                              }
+                            };
+                          }
                           input.click();
                         },
                         init_instance_callback: (editor) => addTracking(editor),
@@ -2215,39 +2320,100 @@ const TemplateBuilder = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        file_picker_types: "file image media",
+
                         file_picker_callback: function (callback, value, meta) {
                           const input = document.createElement("input");
-                          input.setAttribute("type", "file");
-                          input.setAttribute("accept", "image/*");
-                          input.onchange = async () => {
-                            const file = input.files[0];
-                            if (file) {
-                              let uploadedImageUrl;
 
-                              if (meta && meta.width && meta.height) {
-                                // Use existing dimensions for update
-                                uploadedImageUrl = await uploadImageToServer(
-                                  file,
-                                  meta.width,
-                                  meta.height
-                                );
-                              } else {
-                                uploadedImageUrl = await uploadImageToServer(
-                                  file
-                                );
-                              }
+                          if (meta.filetype === "media") {
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "video/*");
 
-                              if (uploadedImageUrl) {
-                                callback(uploadedImageUrl, {
-                                  width: 500,
-                                  height: 500,
-                                });
-                                loader("hide");
-                              } else {
-                                console.error("Failed to upload image");
+                            input.onchange = async () => {
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
+
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(
+                                        file,
+                                        meta.width,
+                                        meta.height
+                                      );
+                                  } else {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(file);
+                                  }
+
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error(
+                                    "Error uploading image:",
+                                    error
+                                  );
+                                } finally {
+                                }
                               }
-                            }
-                          };
+                            };
+                          } else {
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "image/*");
+
+                            // Create a loading indicator element (e.g., a spinner)
+                            const loadingIndicator =
+                              document.createElement("div");
+                            loadingIndicator.className = "loading-indicator";
+                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                            input.onchange = async () => {
+                              document.body.appendChild(loadingIndicator); // Show loading indicator
+
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
+
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(
+                                        file,
+                                        meta.width,
+                                        meta.height
+                                      );
+                                  } else {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(file);
+                                  }
+
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                    loader("hide");
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error(
+                                    "Error uploading image:",
+                                    error
+                                  );
+                                } finally {
+                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                }
+                              }
+                            };
+                          }
                           input.click();
                         },
                         init_instance_callback: (editor) => addTracking(editor),
@@ -2276,38 +2442,100 @@ const TemplateBuilder = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        file_picker_types: "file image media",
+
                         file_picker_callback: function (callback, value, meta) {
                           const input = document.createElement("input");
-                          input.setAttribute("type", "file");
-                          input.setAttribute("accept", "image/*");
-                          input.onchange = async () => {
-                            const file = input.files[0];
-                            if (file) {
-                              let uploadedImageUrl;
 
-                              if (meta && meta.width && meta.height) {
-                                uploadedImageUrl = await uploadImageToServer(
-                                  file,
-                                  meta.width,
-                                  meta.height
-                                );
-                              } else {
-                                uploadedImageUrl = await uploadImageToServer(
-                                  file
-                                );
-                              }
+                          if (meta.filetype === "media") {
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "video/*");
 
-                              if (uploadedImageUrl) {
-                                callback(uploadedImageUrl, {
-                                  width: 500,
-                                  height: 500,
-                                });
-                                loader("hide");
-                              } else {
-                                console.error("Failed to upload image");
+                            input.onchange = async () => {
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
+
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(
+                                        file,
+                                        meta.width,
+                                        meta.height
+                                      );
+                                  } else {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(file);
+                                  }
+
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error(
+                                    "Error uploading image:",
+                                    error
+                                  );
+                                } finally {
+                                }
                               }
-                            }
-                          };
+                            };
+                          } else {
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "image/*");
+
+                            // Create a loading indicator element (e.g., a spinner)
+                            const loadingIndicator =
+                              document.createElement("div");
+                            loadingIndicator.className = "loading-indicator";
+                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                            input.onchange = async () => {
+                              document.body.appendChild(loadingIndicator); // Show loading indicator
+
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
+
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(
+                                        file,
+                                        meta.width,
+                                        meta.height
+                                      );
+                                  } else {
+                                    uploadedImageUrl =
+                                      await uploadImageToServer(file);
+                                  }
+
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                    loader("hide");
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error(
+                                    "Error uploading image:",
+                                    error
+                                  );
+                                } finally {
+                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                }
+                              }
+                            };
+                          }
                           input.click();
                         },
                         init_instance_callback: (editor) => addTracking(editor),
@@ -2568,6 +2796,7 @@ const TemplateBuilder = (props) => {
                       "56Ek4feL/1A8mZgIKQWEqg=="
                         ? "yes"
                         : "",
+                    institutionType: "",
                   },
                 ]);
                 setActiveManual("active");
@@ -2648,6 +2877,38 @@ const TemplateBuilder = (props) => {
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={institutionType}
+                                        className={
+                                          validationError?.newHcpInstitution
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        defaultValue={
+                                          val?.institutionType
+                                            ? {
+                                                label: val?.institutionType,
+                                                value: val?.institutionType,
+                                              }
+                                            : ""
+                                        }
+                                        placeholder="Select institution"
+                                      />
+                                      {validationError?.newHcpInstitution ? (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpInstitution}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">
                                         IRT mandatory training
@@ -2657,7 +2918,7 @@ const TemplateBuilder = (props) => {
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onIRTChange(event, i)
+                                          onIRTChange(event?.value, i)
                                         }
                                         defaultValue={
                                           val?.optIrt
@@ -2666,6 +2927,18 @@ const TemplateBuilder = (props) => {
                                                 value: val?.optIrt,
                                               }
                                             : ""
+                                        }
+                                        value={
+                                          optIRT.findIndex(
+                                            (el) => el.value == val?.optIrt
+                                          ) == -1
+                                            ? ""
+                                            : optIRT[
+                                                optIRT.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.optIrt
+                                                )
+                                              ]
                                         }
                                         placeholder="Select IRT"
                                       />

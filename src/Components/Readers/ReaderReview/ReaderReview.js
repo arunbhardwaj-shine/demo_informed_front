@@ -307,6 +307,14 @@ const ReaderReview = () => {
                                 : "N/A"}
                             </td>
                           </tr>
+                          <tr>
+                            <th className="tab-content-title">Institution</th>
+                            <td>
+                              {readerData?.institute
+                                ? readerData?.institute
+                                : "N/A"}
+                            </td>
+                          </tr>
                         </>
                       ) : (
                         <>
