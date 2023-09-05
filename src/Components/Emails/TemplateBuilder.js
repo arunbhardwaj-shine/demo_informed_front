@@ -1693,7 +1693,7 @@ const TemplateBuilder = (props) => {
       formData.append("image", file);
 
       const response = await fetch(
-        "http://192.168.0.162:5000/api/upload-image",
+        "https://onesource.informed.pro/api/upload-image",
         {
           method: "POST",
           body: formData,

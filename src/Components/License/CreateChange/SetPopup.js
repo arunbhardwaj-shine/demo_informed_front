@@ -423,6 +423,7 @@ const SetPopup = (props) => {
         }
       );
 
+      
       if (response.ok) {
         const uploadedData = await response.json();
         return uploadedData.imageUrl;
