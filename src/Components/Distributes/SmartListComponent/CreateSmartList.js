@@ -269,7 +269,7 @@ const CreateSmartList = () => {
     ) {
       link.href = "https://webinar.informed.pro/sample_st.xls";
     } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
-      link.href = "https://webinar.informed.pro/R_D_sample.xlsx";
+      link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xls";
     }
