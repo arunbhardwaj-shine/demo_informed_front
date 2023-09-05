@@ -20,6 +20,7 @@ const SelectSmartListUsers = (props) => {
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -63,8 +64,15 @@ const SelectSmartListUsers = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-      optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+      role:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      optIrt:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? "yes"
+          : "",
+      institutionType: "",
     },
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -213,6 +221,12 @@ const SelectSmartListUsers = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
+              let instution_type = res?.data?.response?.data?.institution_type;
+              let newInstitutionType = [];
+              Object.keys(instution_type)?.map((item, i) => {
+                newInstitutionType.push({ label: item, value: item });
+              });
+              setInstitutionType(newInstitutionType);
 
               setRole(newType);
               setIrtRole(newIrtType);
@@ -386,6 +400,28 @@ const SelectSmartListUsers = (props) => {
     }
   };
 
+  const onInstitutionChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].institutionType = "";
+      list[i].optIRT = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].institutionType;
+      list[i].institutionType = value;
+      setHpc(list);
+      if (e?.value == "Study site") {
+        onIRTChange("yes", i);
+      } else {
+        onIRTChange("no", i);
+      }
+    }
+  };
+
   const onIRTChange = (e, i) => {
     if (e == "") {
       const list = [...hpc];
@@ -394,7 +430,7 @@ const SelectSmartListUsers = (props) => {
       list[i].country = "";
       setHpc(list);
     } else {
-      const value = e?.value;
+      const value = e;
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
@@ -525,8 +561,15 @@ const SelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+        role:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIrt:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
+        institutionType: "",
       },
     ]);
     setActiveManual("active");
@@ -576,10 +619,18 @@ const SelectSmartListUsers = (props) => {
   };
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (data?.email == "" || data?.institutionType == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       } else {
-        return "true";
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       }
     });
 
@@ -593,12 +644,23 @@ const SelectSmartListUsers = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-         optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+          role:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          optIrt:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "yes"
+              : "",
+          institutionType: "",
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        toast.warning("Please input the email and Institution");
+      } else {
+        toast.warning("Please input the email atleast");
+      }
     }
   };
 
@@ -1131,13 +1193,13 @@ const SelectSmartListUsers = (props) => {
                         {localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <>
-                          <th scope="col">IRT mandatory training</th>
-                          <th scope="col">IRT role</th>
+                            <th scope="col">IRT mandatory training</th>
+                            <th scope="col">IRT role</th>
                           </>
                         ) : (
                           <>
-                          <th scope="col">Business unit</th>
-                          <th scope="col">Contact type</th>
+                            <th scope="col">Business unit</th>
+                            <th scope="col">Contact type</th>
                           </>
                         )}
 
@@ -1172,13 +1234,13 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? rr?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    :rr.ibu
-                                    ? rr.ibu
-                                    : "N/A"}
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : rr.ibu
+                                  ? rr.ibu
+                                  : "N/A"}
                               </td>
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1337,13 +1399,13 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 {/*readers.ibu ? readers.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? readers?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    :readers.ibu
-                                    ? readers.ibu
-                                    : "N/A"}
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? readers?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : readers.ibu
+                                  ? readers.ibu
+                                  : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
@@ -1481,13 +1543,13 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 {/*readers.ibu ? readers.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? readers?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    :readers.ibu
-                                    ? readers.ibu
-                                    : "N/A"}
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? readers?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : readers.ibu
+                                  ? readers.ibu
+                                  : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
@@ -1603,8 +1665,17 @@ const SelectSmartListUsers = (props) => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
-                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+                    role:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? irtRole?.[0]?.value
+                        : "",
+                    optIrt:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "yes"
+                        : "",
+                    institutionType: "",
                   },
                 ]);
                 setActiveManual("active");
@@ -1679,22 +1750,75 @@ const SelectSmartListUsers = (props) => {
                                   ) : null}
                                 </div>
                               </div>
-                              {console.log("--tetetet",val)}
+                              {console.log("--tetetet", val)}
 
                               {localStorage.getItem("user_id") ===
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={institutionType}
+                                        className={
+                                          validationError?.newHcpInstitution
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        defaultValue={
+                                          val?.institutionType
+                                            ? {
+                                                label: val?.institutionType,
+                                                value: val?.institutionType,
+                                              }
+                                            : ""
+                                        }
+                                        placeholder="Select institution"
+                                      />
+                                      {validationError?.newHcpInstitution ? (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpInstitution}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT mandatory training</label>
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
                                       <Select
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onIRTChange(event, i)
+                                          onIRTChange(event?.value, i)
                                         }
-                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
+                                        defaultValue={
+                                          val?.optIrt
+                                            ? {
+                                                label: "Yes",
+                                                value: val?.optIrt,
+                                              }
+                                            : ""
+                                        }
+                                        value={
+                                          optIRT.findIndex(
+                                            (el) => el.value == val?.optIrt
+                                          ) == -1
+                                            ? ""
+                                            : optIRT[
+                                                optIRT.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.optIrt
+                                                )
+                                              ]
+                                        }
                                         placeholder="Select IRT"
                                       />
                                     </div>
