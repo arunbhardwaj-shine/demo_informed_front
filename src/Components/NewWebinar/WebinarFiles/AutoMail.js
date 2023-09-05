@@ -1289,7 +1289,7 @@ const AutoMail = (props) => {
         const uploadedData = await response.json();
         return uploadedData.imageUrl;
       } else {
-        console.error("Image upload failed");
+        console.error("Image upload  failed");
         return null;
       }
     } catch (error) {
