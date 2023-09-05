@@ -40,6 +40,20 @@ const NewReaders = () => {
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
+  const institutionData = [
+    {
+      label:"Study site",value:"Study site"
+    },
+    {
+      label:"Premier Research",value:"Premier Research"
+    },
+    {
+      label:"Comac",value:"Comac"
+    },
+    {
+      label:"Octapharma",value:"Octapharma"
+    }
+  ]
   const [totalCount, setCount] = useState(0);
   const [appliedFilter, setAppliedFilter] = useState({
     status: ["Registered"],
@@ -121,6 +135,8 @@ const NewReaders = () => {
   const [apiCallStatus, setApiCallStatus] = useState(false);
   const [deletestatus, setDeleteStatus] = useState(false);
   const [resetDataId, setResetDataId] = useState();
+  const [instituteValue, setInstitute] = useState([]);
+
 
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [popupMessage, setPopupMessage] = useState({
@@ -724,6 +740,137 @@ const NewReaders = () => {
       );
     }
   };
+
+  const institutionFun = (e, i, index) =>{
+    let insitutedData = {
+      index: i,
+      value: e?.value,
+    };
+      const instituteIndex = instituteValue.findIndex((el) => el.index === i);
+      console.log("-- ini",instituteIndex)
+      if (instituteIndex === -1) {
+        setInstitute((oldarray) => [...oldarray, insitutedData]);
+      } else {
+        setInstitute((oldarray) =>
+          oldarray.map((el) => {
+            if (el.index === i) {
+              return { ...el, value: insitutedData };
+            }
+            return el;
+          })
+        );
+      }
+      let consent1 = {
+        index: i,
+        value: "",
+      };
+      if(selectedCountry?.length && Object.keys(selectedCountry[index])?.length){
+          let newAr = selectedCountry
+            newAr[index] = {
+              
+            }
+            setSelectedCountry(newAr)
+      }else{
+        let newAr = selectedCountry
+        newAr[index] = {
+          // label:"",
+          // value:""
+        }
+        setSelectedCountry(newAr)
+      }
+      // setSelectedCountry((prev) => {
+      //   const newSelectedCountry = [...prev];
+      //   newSelectedCountry[i] = {
+      //     value:"",
+      //     label: "",
+      //   };
+      //   return newSelectedCountry;
+      // });
+      const found2 = changeSiteNumberType.some((el) => el.index === i);
+      if (!found2) {
+        setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
+      } else {
+        const updatedArray = changeSiteNumberType.map((el) =>
+          el.index === i ? { ...el, value: consent1.value } : el
+        );
+        setChangeSiteNumberType(updatedArray);
+      }
+
+      let consent2 = {
+        index: i,
+        value: "",
+      };
+      const found3 = changeSiteNameType.some((el) => el.index === i);
+      if (!found3) {
+        setChangeSiteNameType((oldarray) => [...oldarray, consent2.value]);
+      } else {
+        const updatedArray = changeSiteNameType.map((el) =>
+          el.index === i ? { ...el, value: consent2.value } : el
+        );
+        setChangeSiteNameType(updatedArray);
+      }
+      setSelectedSiteNumber((prev) => {
+        const newSelectedSiteNumber = [...prev];
+        newSelectedSiteNumber[index] = true;
+        return newSelectedSiteNumber;
+      });
+
+      setSelectedSiteName((prev) => {
+        const newSelectedSiteName = [...prev];
+        newSelectedSiteName[index] = true;
+        return newSelectedSiteName;
+      });
+
+      // console.log(selectedSiteName[0].length);
+      let consetValue = e.value;
+      const filteredData = change.sideData.filter(
+        (item) => item.country === consetValue
+      );
+
+      const siteNumbers = filteredData.map((item) => ({
+        label: item.site_number,
+        value: item.site_number,
+      }));
+      const siteNames = filteredData.map((item) => ({
+        label: item.site_name,
+        value: item.site_name,
+      }));
+      setSiteNumber((prevSiteNumbers) => ({
+        ...prevSiteNumbers,
+        [index]: siteNumbers,
+      }));
+      setSiteName((prevSiteNumbers) => ({
+        ...prevSiteNumbers,
+        [index]: siteNames,
+      }));
+      
+      setSelectedRole((prev) => {
+        const newSelectedSiteName = [...prev];
+        newSelectedSiteName[index] = true;
+        return newSelectedSiteName;
+      });
+      let consetValueType = e.value == "Study site"?1:0;
+      let consent = {
+        index: i,
+        value: parseInt(consetValueType),
+      };
+  
+      const foundIndex = changeIRTType.findIndex((el) => el.index === i);
+      if (foundIndex === -1) {
+        setChangeIRTType((oldarray) => [...oldarray, consent]);
+      } else {
+        setChangeIRTType((oldarray) =>
+          oldarray.map((el) => {
+            if (el.index === i) {
+              return { ...el, value: parseInt(consetValue) };
+            }
+            return el;
+          })
+        );
+      }
+
+    // console.log("-e",e.value)
+  }
   const handleTimeLine = (data) => {
     window.open("/timeline-detail");
     localStorage.setItem("myData", data);
@@ -907,6 +1054,7 @@ const NewReaders = () => {
       let siteName = "";
 
       let binded = "";
+      let institute = ""
 
       if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
         const roleIndex = changeRoleType.findIndex(
@@ -930,6 +1078,14 @@ const NewReaders = () => {
           binded = changeBlindedType[blindedIndex].value;
         }
 
+        const instituteIndex = instituteValue.findIndex((el)=>el.index === reader_id)
+
+        if (instituteIndex > -1) {
+          console.log("test",instituteIndex > -1)
+
+          institute = instituteValue[instituteIndex]?instituteValue[instituteIndex].value?.value:"";
+        }
+
         const siteNumberIndex = changeSiteNumberType.findIndex(
           (el) => el.index === reader_id
         );
@@ -945,13 +1101,14 @@ const NewReaders = () => {
         }
 
         if (
-          country !== "" ||
+          (country !== "" ||
           type !== "" ||
           role !== "" ||
           irt !== "" ||
           binded !== "" ||
           siteNumber !== "" ||
-          siteName !== ""
+          siteName !== "" ) &&
+          institute !== ""
         ) {
           body = {
             type: 1,
@@ -961,6 +1118,7 @@ const NewReaders = () => {
             binded: binded,
             irt: irt,
             role: role,
+            institute:institute,
             siteNumber: siteNumber,
             siteName: siteName,
           };
@@ -1021,7 +1179,15 @@ const NewReaders = () => {
           redirect: "",
         });
       } else {
-        toast.warning("Nothing to update.");
+        if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+          if(institute == ""){
+            toast.warning("Please select insitute value");
+          }else{
+            toast.warning("Nothing to update.");
+          }
+        }else{
+          toast.warning("Nothing to update.");
+        }
       }
     } catch (err) {
       console.log("err", err);
@@ -1213,9 +1379,11 @@ const NewReaders = () => {
     <>
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
+          {console.log("instituteValue",instituteValue)}
           <Row>
             <div className="top-sticky">
               <div className="top-header reader_list">
+
                 <div className="page-title">
                   {localStorage.getItem("user_id") ==
                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1813,6 +1981,12 @@ const NewReaders = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
+                                     <li>
+                                        <h6 className="tab-content-title">
+                                          Institution
+                                        </h6>
+                                        <h6>{data?.institute ? data?.institute : "N/A"}</h6>
+                                      </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           IRT mandatory training
@@ -2331,8 +2505,10 @@ const NewReaders = () => {
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
                                               <Select
-                                                options={change?.blind_type}
-                                                value={
+
+                                              options={change?.blind_type}
+
+                                              value={
                                                   changeBlindedType?.[
                                                     changeBlindedType.findIndex(
                                                       (el) =>
@@ -2364,6 +2540,32 @@ const NewReaders = () => {
                                             </div>
                                           </div>
                                         </li>*/}
+                                            <li>
+                                          <h6 className="tab-content-title">
+                                          Institution                       
+                                            </h6>
+                                          <div className="select-dropdown-wrapper">
+                                            <div className="select">
+                                              <Select
+                                                options={institutionData}
+                                                defaultValue={
+                                                  institutionData?.[
+                                                    institutionData.findIndex(
+                                                      (el) =>
+                                                        el.value == data?.institute
+                                                    )
+                                                  ]
+                                                }
+                                                onChange={(e)=>institutionFun(e,
+                                                  data.id,
+                                                  index)}
+                                                id={"irt_type" + data?.id}
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            </div>
+                                          </div>
+                                        </li>
                                         <li>
                                           <h6 className="tab-content-title">
                                             IRT mandatory training

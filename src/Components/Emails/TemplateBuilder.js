@@ -149,7 +149,7 @@ const TemplateBuilder = (props) => {
   const [templateClickedd, setTemplateClicked] = useState(false);
   const [validationError, setValidationError] = useState({});
   const [selectType, setSelectType] = useState([
-    { label: "Placeholder", value: "Placeholder" },
+    { label: "Article", value: "Placeholder" },
     { label: "Pure text", value: "Puretext" },
   ]);
   const [userTemplateType, setUserTemplateType] = useState(
@@ -1271,7 +1271,7 @@ const TemplateBuilder = (props) => {
       const body = {
         user_id: localStorage.getItem("user_id"),
         source_code: template,
-        template_id: "",
+        template_id: templateId,
         name: template_name,
         ibu: selectedIbu,
         status: 1,
