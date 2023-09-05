@@ -1347,7 +1347,7 @@ const Table = (props, ref) => {
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (data.email == "") {
           return "Please enter the email atleast";
-        }else if(data.institute == ""){
+        }else if(data.institution_type == ""){
           return "Please select Institution";
         } else if (data.email != "") {
           let email = data.email;
