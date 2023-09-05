@@ -354,6 +354,7 @@ const ReadersListAdd = () => {
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
+  const [instituions, setInstituions] = useState([]);
   const [irtCountry, setIRTCountry] = useState([]);
   const [userTypeAll, setUserTypeAll] = useState([]);
   const [subUserTypeAll, setSubUserTypeAll] = useState([]);
@@ -399,7 +400,9 @@ const ReadersListAdd = () => {
             let arrSitePostCode;
             let arrSiteIrt;
             let irt_user_type;
-            let arrIrtUserType = [];
+            let institutions;
+            let arrIrtUserType  = [];
+            let arrinstitutions = [];
 
             let arr = [];
 
@@ -413,6 +416,7 @@ const ReadersListAdd = () => {
               site_postcode = res.data.response.data.site_post_code;
               site_city = res.data.response.data.site_city;
               irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
+              institutions  = res?.data?.response?.data?.institution_type;
 
               arrUserType = [];
               arrSubRole = [];
@@ -517,11 +521,21 @@ const ReadersListAdd = () => {
                   value: item,
                 });
               });
+
+              Object.entries(institutions)?.map(([item, index]) => {
+                arrinstitutions.push({
+                  label: item,
+                  value: item,
+                });
+              });
+
+              
             }
 
             setCountryall(arr);
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
               setIrtRole(arrIrtUserType);
+              setInstituions(arrinstitutions);
               setUserTypeAll(arrUserType);
               setSubUserTypeAll(arrSubRole);
               setSiteNumberAll(arrSiteNumber);
@@ -628,6 +642,37 @@ const ReadersListAdd = () => {
 
       let index = subUserTypeAll.findIndex((x) => x.value === value);
       list[i].subUserTypeIndex = index;
+      setHpc(list);
+    }
+  };
+
+  const onInstitutionChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].institute = "";
+      list[i].institute = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      
+      const list = [...hpc];
+      if(value == "Study site"){
+        list[i].siteIrtIndex = 0;
+        list[i].siteIrt = "Yes";
+      }else{
+        list[i].siteIrtIndex = 1;
+        list[i].siteIrt = "No";
+      }
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      list[i].country = "";
+      const name = hpc[i].institute;
+      list[i].institute = value;
+
+      let index = instituions.findIndex((x) => x.value === value);
+      list[i].instituteIndex = index;
       setHpc(list);
     }
   };
@@ -1076,10 +1121,18 @@ const ReadersListAdd = () => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
-      } else {
-        return "true";
+      if(localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="){
+        if (data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") {
+          return "false";
+        } else {
+          return "true";
+        }
+      }else{
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       }
     });
 
@@ -1100,7 +1153,12 @@ const ReadersListAdd = () => {
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      if(localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="){
+        toast.warning("Please input the required fields.");
+      }else{
+        toast.warning("Please input the email atleast.");
+      }
+      
     }
   };
   const saveClickedRd = async (e) => {
@@ -1127,12 +1185,15 @@ const ReadersListAdd = () => {
           irt:
             data.siteIrt == "Yes" ? "Yes" : data.siteIrt == "Training" ? 2 : "No",
             "contact_type": "HCP",
+          institute: data.institute ? data.institute : "",
         };
       });
 console.log(body_data);
       const status = body_data.map((data) => {
         if (data.email == "") {
           return "Please enter the email atleast";
+        }else if(data.institute == ""){
+          return "Please select Institution";
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -1152,7 +1213,7 @@ console.log(body_data);
           return "true";
         }
       });
-
+      console.log(status,"status")
       if (status.every((element) => element == "true")) {
         let old_data = readersData;
         let new_data = body_data;
@@ -1169,7 +1230,8 @@ console.log(body_data);
         setUpdatedData(old_data);
         setIsOpenAdd(false);
       } else {
-        toast.warning(status[0]);
+        const filteredArray = status.filter(value => value !== 'true');
+        toast.warning(filteredArray?.[0]);
       }
     } else {
       let formData = new FormData();
@@ -1894,6 +1956,32 @@ console.log(body_data);
                                   <hr />
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
+                                      <label for="">Institution <span>*</span></label>
+                                      <Select
+                                        options={instituions}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        defaultValue={
+                                          instituions[
+                                            hpc[i].instituteIndex
+                                          ]
+                                        }
+                                        placeholder={
+                                          typeof instituions[
+                                            hpc[i].instituteIndex
+                                          ] === "undefined"
+                                            ? "Select Institutions"
+                                            : instituions[
+                                                hpc[i].instituteIndex
+                                              ]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
                                       <label for="">IRT mandatory training</label>
                                       <Select
                                         options={siteIrtAll}
@@ -1905,7 +1993,7 @@ console.log(body_data);
                                             i
                                           )
                                         }
-                                        defaultValue={
+                                        value={
                                           siteIrtAll[hpc[i].siteIrtIndex]
                                         }
                                         placeholder={
