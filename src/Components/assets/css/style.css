@@ -4809,7 +4809,18 @@ h2 {
 .modal .download-sample {
   margin-bottom: 16px;
 }
+.selected-hcp-list .table tr.no_found {
+  display: table-row;
+}
 
+.selected-hcp-list .table tr.no_found td {
+  text-align: center;
+  font-size: 20px;
+  padding: 30px 0;
+  border-radius: 13px;
+  color:var(--light-blue);
+  font-weight: 500;
+}
 /*Css for email filters end*/
 #smart_list_popup_id.modal-dialog {
   max-width: 1200px;
