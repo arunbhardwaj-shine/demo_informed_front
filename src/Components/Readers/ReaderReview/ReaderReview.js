@@ -136,7 +136,7 @@ const ReaderReview = () => {
                               IRT mandatory training{" "}
                             </th>
                             <td>
-                              {readerData?.irt
+                              {readerData?.irt || readerData?.irt == 0
                                 ? readerData?.irt == 1 ||
                                   readerData?.irt == "Yes"
                                   ? "Yes"

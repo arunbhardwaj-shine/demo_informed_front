@@ -437,7 +437,6 @@ const TemplateBuilder = (props) => {
   };
 
   const addMoreHcp = () => {
-    console.log("hpc-->", hpc);
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
         if (data.email == "" || data?.institutionType == "") {
@@ -476,7 +475,7 @@ const TemplateBuilder = (props) => {
       ]);
     } else {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        toast.warning("Please input the email and institution");
+        toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast");
       }
@@ -951,7 +950,7 @@ const TemplateBuilder = (props) => {
     if (e == "") {
       const list = [...hpc];
       list[i].institutionType = "";
-      list[i].optIRT = "";
+      list[i].optIrt = "";
       list[i].role = "";
       list[i].country = "";
       setHpc(list);
@@ -1123,6 +1122,8 @@ const TemplateBuilder = (props) => {
             country: data.country,
             contact_type: data.contact_type,
             siteNumber: data?.siteNumber ? data.siteNumber : "",
+            investigator_type: data?.role,
+            siteIrt: data?.optIrt == "yes" ? 1 : 0,
             siteName: data.siteName ? data.siteName : "",
             institution_type: data?.institutionType
               ? data?.institutionType
@@ -1143,7 +1144,7 @@ const TemplateBuilder = (props) => {
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
-      console.log("-test", body);
+    
 
       const status = body.data.map((data, index) => {
         if (data.email == "" || data.institution_type == "") {
