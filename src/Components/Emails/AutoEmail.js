@@ -42,11 +42,11 @@ const AutoEmail = () => {
   const [addListOpen, setAddListOpen] = useState(false);
   const [activeExcel, setActiveExcel] = useState("");
   const [searchedUsers, setSearchedUsers] = useState([]);
-const [selectedHcp, setSelectedHcp] = useState([]);
-const [email, setEmail] = useState("");
-const [isOpenAdd, setIsOpenAdd] = useState(false);
-const [name, setName] = useState("");
-const [siteNameAll, setSiteNameAll] = useState([]);
+  const [selectedHcp, setSelectedHcp] = useState([]);
+  const [email, setEmail] = useState("");
+  const [isOpenAdd, setIsOpenAdd] = useState(false);
+  const [name, setName] = useState("");
+  const [siteNameAll, setSiteNameAll] = useState([]);
   const [siteNumberAll, setSiteNumberAll] = useState([]);
 
   const [hide, setHide] = useState(false);
@@ -74,11 +74,20 @@ const [siteNameAll, setSiteNameAll] = useState([]);
   ]);
   const [hpc, setHpc] = useState([
     {
-      firstname: "", lastname: "", email: "", contact_type: "", country: "",
-      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
-      optIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+      firstname: "",
+      lastname: "",
+      email: "",
+      contact_type: "",
+      country: "",
+      role:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      optIrt:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? "yes"
+          : "",
       institutionType: "",
-
     },
   ]);
   const [irtCountry, setIRTCountry] = useState([]);
@@ -153,19 +162,18 @@ const [siteNameAll, setSiteNameAll] = useState([]);
               });
               setRole(newType);
               setIrtRole(newIrtType);
-              
-            let institution_type = res?.data?.response?.data?.institution_type;
-         
-            let newInstitution = [];
-            Object.keys(institution_type)?.map((item, i) => {
-              newInstitution.push({ label: item, value: item });
-            });
 
-            setInstitutionType(newInstitution);
+              let institution_type =
+                res?.data?.response?.data?.institution_type;
+
+              let newInstitution = [];
+              Object.keys(institution_type)?.map((item, i) => {
+                newInstitution.push({ label: item, value: item });
+              });
+
+              setInstitutionType(newInstitution);
             }
             setTotalData(res.data.response.data);
-
-
           }
         })
         .catch((err) => {
@@ -339,8 +347,14 @@ const [siteNameAll, setSiteNameAll] = useState([]);
         email: "",
         contact_type: "",
         country: "",
-        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
-        optIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+        role:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIrt:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
         institutionType: "",
       },
     ]);
@@ -585,35 +599,31 @@ const [siteNameAll, setSiteNameAll] = useState([]);
     }
   };
 
- const onInstitionTypeChange = (e,i) => {
-   console.log("e--->", e);
-  if (e == "") {
-
-    const list = [...hpc];
-    console.log("list",list);
-    list[i].institutionType = "";
-    list[i].optIrt = "";
-    list[i].role = "";
-    list[i].country = "";
-    setHpc(list);
-  } else {
-    const value = e?.value;
-    const list = [...hpc];
-    console.log("list else",list);
-    const name = hpc[i].institutionType;
-    list[i].institutionType = value;
-    setHpc(list);
-    if (e?.value == "Study site") {
-      onIRTChange("yes", i);
+  const onInstitionTypeChange = (e, i) => {
+    console.log("e--->", e);
+    if (e == "") {
+      const list = [...hpc];
+      console.log("list", list);
+      list[i].institutionType = "";
+      list[i].optIrt = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
     } else {
-      onIRTChange("no", i);
+      const value = e?.value;
+      const list = [...hpc];
+      console.log("list else", list);
+      const name = hpc[i].institutionType;
+      list[i].institutionType = value;
+      setHpc(list);
+      if (e?.value == "Study site") {
+        onIRTChange("yes", i);
+      } else {
+        onIRTChange("no", i);
+      }
+      console.log("list", list[i].optIrt);
     }
-    console.log("list", list[i].optIrt);
-  }
-
- }
-
-
+  };
 
   const onIRTChange = (e, i) => {
     if (e == "") {
@@ -750,7 +760,6 @@ const [siteNameAll, setSiteNameAll] = useState([]);
               ? data?.institutionType
               : "",
           };
-         
         } else {
           return {
             first_name: data.firstname,
@@ -761,22 +770,20 @@ const [siteNameAll, setSiteNameAll] = useState([]);
           };
         }
       });
-console.log("body_dat",body_data);
+      console.log("body_dat", body_data);
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
 
-
-      
       const status = body.data.map((data) => {
-        console.log("data",data);
+        console.log("data", data);
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if(data?.institution_type == ""){
+        } else if (data?.institution_type == "") {
           return "Please select the institution type";
-      }else if (data.email != "") {
+        } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -790,8 +797,7 @@ console.log("body_dat",body_data);
           } else {
             return "Email format is not valid";
           }
-          
-        } else{
+        } else {
           return "true";
         }
       });
@@ -882,27 +888,23 @@ console.log("body_dat",body_data);
   //     }
   //   });
 
-
-    const addMoreHcp = () => {
-     
-      const status = hpc.map((data) => {
-         console.log("hpc-->", hpc);
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-          if (data?.email == "" || data?.institutionType == "") {
-            return "false";
-          } else {
-            return "true";
-          }
+  const addMoreHcp = () => {
+    const status = hpc.map((data) => {
+      console.log("hpc-->", hpc);
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (data?.email == "" || data?.institutionType == "") {
+          return "false";
         } else {
-          if (data.email == "") {
-            return "false";
-          } else {
-            return "true";
-          }
+          return "true";
         }
-      });
-
-
+      } else {
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
+      }
+    });
 
     if (status.every((element) => element == "true")) {
       setHpc([
@@ -913,14 +915,20 @@ console.log("body_dat",body_data);
           email: "",
           contact_type: "",
           country: "",
-          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
-          optIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+          role:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          optIrt:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "yes"
+              : "",
           institutionType: "",
         },
       ]);
     } else {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        toast.warning("Please input the email and Institution");
+        toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast");
       }
@@ -1080,34 +1088,28 @@ console.log("body_dat",body_data);
 
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-      let dialog =
-        document.getElementsByClassName("tox-dialog")[0];
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
 
       if (dialog) {
-        let header = dialog.querySelector(
-          ".tox-dialog__header"
-        );
-        const closeButton = header.querySelector(
-          '[aria-label="Close"]'
-        );
-        let text =
-          header.querySelector(".tox-dialog__title");
+        let header = dialog.querySelector(".tox-dialog__header");
+        const closeButton = header.querySelector('[aria-label="Close"]');
+        let text = header.querySelector(".tox-dialog__title");
 
         if (text.innerText == "Insert/Edit Link") {
-          let uploadIcon=  document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span")
+          let uploadIcon = document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+          );
           uploadIcon.style.display = "none";
-          let newButton =
-            document.createElement("button");
+          let newButton = document.createElement("button");
           newButton.innerText = "Add Tracking";
-          newButton.classList.add("tox-button")
-          newButton.classList.add("tox-button--icon")
-          newButton.classList.add("tox-button--naked")
-          newButton.classList.add("track")
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
           newButton.onclick = function () {
-            let firstToxControlWrap =
-              document.querySelector(
-                "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-              );
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
 
             // let text =dialog.querySelector(".tox-form__group");
             if (!firstToxControlWrap.value) {
@@ -1116,11 +1118,7 @@ console.log("body_dat",body_data);
             }
             const baseLink =
               "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            if (
-              firstToxControlWrap.value.startsWith(
-                baseLink
-              )
-            ) {
+            if (firstToxControlWrap.value.startsWith(baseLink)) {
               alert("Traking already added");
               return;
             }
@@ -1137,7 +1135,7 @@ console.log("body_dat",body_data);
         }
       }
     });
-  }
+  };
 
   const uploadImageToServer = async (file) => {
     try {
@@ -1163,10 +1161,8 @@ console.log("body_dat",body_data);
     } catch (error) {
       console.error("Image upload error:", error);
       return null;
-    }
-    finally{
+    } finally {
       loader("hide");
-
     }
   };
 
@@ -1180,18 +1176,18 @@ console.log("body_dat",body_data);
                 {/* <h2>Auto Email</h2> */}
                 {localStorage.getItem("user_id") ==
                   "B7SHpAc XDXSH NXkN0rdQ==" && (
-                    <div className="template_language">
-                      <span>Language</span>
-                      <div className="form-group">
-                        <Select
-                          options={getTemplateLanguage}
-                          defaultValue={getTemplateLanguage[0]}
-                          onChange={(e) => changeLanguage(e)}
-                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                        />
-                      </div>
+                  <div className="template_language">
+                    <span>Language</span>
+                    <div className="form-group">
+                      <Select
+                        options={getTemplateLanguage}
+                        defaultValue={getTemplateLanguage[0]}
+                        onChange={(e) => changeLanguage(e)}
+                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                      />
                     </div>
-                  )}
+                  </div>
+                )}
               </div>
               <div className="top-right-action">
                 {templateClicked ? (
@@ -1203,7 +1199,7 @@ console.log("body_dat",body_data);
                       Cancel
                     </button>
                     {templateName == "Reset password" ||
-                      templateName == "Welcome mail" ? null : (
+                    templateName == "Welcome mail" ? null : (
                       <button
                         className="btn btn-primary btn-filled next"
                         onClick={(e) => {
@@ -1234,44 +1230,44 @@ console.log("body_dat",body_data);
                     <div className="mail_trigger_content">
                       {typeof templates !== "undefined" && templates.length > 0
                         ? templates.map((template, index) => {
-                          return (
-                            <>
-                              <div
-                                className={
-                                  indexClicked == index
-                                    ? "trigger_content_box d-flex active"
-                                    : "trigger_content_box d-flex"
-                                }
-                              >
-                                <div className="trigger_content_image">
-                                  <img
-                                    src={template.template_img}
-                                    alt="Preview"
-                                  />
-                                </div>
-                                <div className="trigger_content">
-                                  <h6>
-                                    {template.name} ({template.language_code})
-                                  </h6>
-                                  <p>
-                                    When New content add to the user library
-                                  </p>
+                            return (
+                              <>
+                                <div
+                                  className={
+                                    indexClicked == index
+                                      ? "trigger_content_box d-flex active"
+                                      : "trigger_content_box d-flex"
+                                  }
+                                >
+                                  <div className="trigger_content_image">
+                                    <img
+                                      src={template.template_img}
+                                      alt="Preview"
+                                    />
+                                  </div>
+                                  <div className="trigger_content">
+                                    <h6>
+                                      {template.name} ({template.language_code})
+                                    </h6>
+                                    <p>
+                                      When New content add to the user library
+                                    </p>
 
-                                  {indexClicked !== index ? (
-                                    <button
-                                      onClick={() =>
-                                        viewButtonClicked(template, index)
-                                      }
-                                      className="btn btn-primary btn-filled  d-flex justify-content-center"
-                                    >
-                                      View
-                                    </button>
-                                  ) : null}
+                                    {indexClicked !== index ? (
+                                      <button
+                                        onClick={() =>
+                                          viewButtonClicked(template, index)
+                                        }
+                                        className="btn btn-primary btn-filled  d-flex justify-content-center"
+                                      >
+                                        View
+                                      </button>
+                                    ) : null}
+                                  </div>
                                 </div>
-                              </div>
-                            </>
-                          );
-                        })
+                              </>
+                            );
+                          })
                         : null}
                     </div>
                   </div>
@@ -1382,9 +1378,9 @@ console.log("body_dat",body_data);
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
                             {templateName == "Welcome mail" ||
-                              templateName ==
+                            templateName ==
                               "Reset password" ? null : approveClickedd ===
-                                true ? (
+                              true ? (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
                                 onClick={(e) => updateTemplate(e, 2)}
@@ -1433,81 +1429,99 @@ console.log("body_dat",body_data);
                                   "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                                 content_style:
                                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                                  init_instance_callback: (editor)=>addTracking(editor),
-                                    file_picker_types: 'file image media',
-                                  file_picker_callback: function (callback, value, meta) {
-                                    const input = document.createElement("input");
-            
-                                    if(meta.filetype === 'media'){
-                                      input.setAttribute("type", "file");
-                                  input.setAttribute("accept", "video/*");
-                  
-                  
-                  
-                  
-                                  input.onchange = async () => {
-                  
-                  
-                                      const file = input.files[0];
-                                      if (file) {
-                                          let uploadedImageUrl;
-                  
-                                          try {
-                                              if (meta && meta.width && meta.height) {
-                                                  uploadedImageUrl = await uploadImageToServer(file, meta.width, meta.height);
-                                              } else {
-                                                  uploadedImageUrl = await uploadImageToServer(file);
-                                              }
-                                            
-                  
-                                              if (uploadedImageUrl) {
-                                                  callback(uploadedImageUrl, {
-                                                      width: 500,
-                                                      height: 500,
-                                                  });
-                  
-                  
-                                              } else {
-                                                  console.error("Failed to upload image");
-                                              }
-                                          } catch (error) {
-                                              console.error("Error uploading image:", error);
-                                          } finally {
-                                    
-                                          }
-                                      }
-                                  };
-                  
-                                  }else{
+                                init_instance_callback: (editor) =>
+                                  addTracking(editor),
+                                file_picker_types: "file image media",
+                                file_picker_callback: function (
+                                  callback,
+                                  value,
+                                  meta
+                                ) {
+                                  const input = document.createElement("input");
+
+                                  if (meta.filetype === "media") {
                                     input.setAttribute("type", "file");
-                                    input.setAttribute("accept", "image/*");
-            
-                                    // Create a loading indicator element (e.g., a spinner)
-                                    const loadingIndicator =
-                                      document.createElement("div");
-                                    loadingIndicator.className = "loading-indicator";
-                                    loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
-            
+                                    input.setAttribute("accept", "video/*");
+
                                     input.onchange = async () => {
-                                      document.body.appendChild(loadingIndicator); // Show loading indicator
-            
                                       const file = input.files[0];
                                       if (file) {
                                         let uploadedImageUrl;
-            
+
                                         try {
-                                          if (meta && meta.width && meta.height) {
-                                            uploadedImageUrl = await uploadImageToServer(
-                                              file,
-                                              meta.width,
-                                              meta.height
-                                            );
+                                          if (
+                                            meta &&
+                                            meta.width &&
+                                            meta.height
+                                          ) {
+                                            uploadedImageUrl =
+                                              await uploadImageToServer(
+                                                file,
+                                                meta.width,
+                                                meta.height
+                                              );
                                           } else {
-                                            uploadedImageUrl = await uploadImageToServer(
-                                              file
+                                            uploadedImageUrl =
+                                              await uploadImageToServer(file);
+                                          }
+
+                                          if (uploadedImageUrl) {
+                                            callback(uploadedImageUrl, {
+                                              width: 500,
+                                              height: 500,
+                                            });
+                                          } else {
+                                            console.error(
+                                              "Failed to upload image"
                                             );
                                           }
-            
+                                        } catch (error) {
+                                          console.error(
+                                            "Error uploading image:",
+                                            error
+                                          );
+                                        } finally {
+                                        }
+                                      }
+                                    };
+                                  } else {
+                                    input.setAttribute("type", "file");
+                                    input.setAttribute("accept", "image/*");
+
+                                    // Create a loading indicator element (e.g., a spinner)
+                                    const loadingIndicator =
+                                      document.createElement("div");
+                                    loadingIndicator.className =
+                                      "loading-indicator";
+                                    loadingIndicator.textContent =
+                                      "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                                    input.onchange = async () => {
+                                      document.body.appendChild(
+                                        loadingIndicator
+                                      ); // Show loading indicator
+
+                                      const file = input.files[0];
+                                      if (file) {
+                                        let uploadedImageUrl;
+
+                                        try {
+                                          if (
+                                            meta &&
+                                            meta.width &&
+                                            meta.height
+                                          ) {
+                                            uploadedImageUrl =
+                                              await uploadImageToServer(
+                                                file,
+                                                meta.width,
+                                                meta.height
+                                              );
+                                          } else {
+                                            uploadedImageUrl =
+                                              await uploadImageToServer(file);
+                                          }
+
                                           if (uploadedImageUrl) {
                                             callback(uploadedImageUrl, {
                                               width: 500,
@@ -1515,18 +1529,25 @@ console.log("body_dat",body_data);
                                             });
                                             loader("hide");
                                           } else {
-                                            console.error("Failed to upload image");
+                                            console.error(
+                                              "Failed to upload image"
+                                            );
                                           }
                                         } catch (error) {
-                                          console.error("Error uploading image:", error);
+                                          console.error(
+                                            "Error uploading image:",
+                                            error
+                                          );
                                         } finally {
-                                          document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                          document.body.removeChild(
+                                            loadingIndicator
+                                          ); // Hide loading indicator
                                         }
                                       }
                                     };
                                   }
-                                    input.click();
-                                  },
+                                  input.click();
+                                },
                               }}
                               onEditorChange={(content) => {
                                 setTemplateSaving(content);
@@ -1549,57 +1570,70 @@ console.log("body_dat",body_data);
                                   "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                                 content_style:
                                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                                  init_instance_callback: (editor)=>addTracking(editor),
-                                  file_picker_callback: function (callback, value, meta) {
-                                    const input = document.createElement("input");
-                                    input.setAttribute("type", "file");
-                                    input.setAttribute("accept", "image/*");
-          
-                                    // Create a loading indicator element (e.g., a spinner)
-                                    const loadingIndicator =
-                                      document.createElement("div");
-                                    loadingIndicator.className = "loading-indicator";
-                                    loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
-          
-                                    input.onchange = async () => {
-                                      document.body.appendChild(loadingIndicator); // Show loading indicator
-          
-                                      const file = input.files[0];
-                                      if (file) {
-                                        let uploadedImageUrl;
-          
-                                        try {
-                                          if (meta && meta.width && meta.height) {
-                                            uploadedImageUrl = await uploadImageToServer(
+                                init_instance_callback: (editor) =>
+                                  addTracking(editor),
+                                file_picker_callback: function (
+                                  callback,
+                                  value,
+                                  meta
+                                ) {
+                                  const input = document.createElement("input");
+                                  input.setAttribute("type", "file");
+                                  input.setAttribute("accept", "image/*");
+
+                                  // Create a loading indicator element (e.g., a spinner)
+                                  const loadingIndicator =
+                                    document.createElement("div");
+                                  loadingIndicator.className =
+                                    "loading-indicator";
+                                  loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                                  input.onchange = async () => {
+                                    document.body.appendChild(loadingIndicator); // Show loading indicator
+
+                                    const file = input.files[0];
+                                    if (file) {
+                                      let uploadedImageUrl;
+
+                                      try {
+                                        if (meta && meta.width && meta.height) {
+                                          uploadedImageUrl =
+                                            await uploadImageToServer(
                                               file,
                                               meta.width,
                                               meta.height
                                             );
-                                          } else {
-                                            uploadedImageUrl = await uploadImageToServer(
-                                              file
-                                            );
-                                          }
-          
-                                          if (uploadedImageUrl) {
-                                            callback(uploadedImageUrl, {
-                                              width: 500,
-                                              height: 500,
-                                            });
-                                            loader("hide");
-                                          } else {
-                                            console.error("Failed to upload image");
-                                          }
-                                        } catch (error) {
-                                          console.error("Error uploading image:", error);
-                                        } finally {
-                                          document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                        } else {
+                                          uploadedImageUrl =
+                                            await uploadImageToServer(file);
                                         }
+
+                                        if (uploadedImageUrl) {
+                                          callback(uploadedImageUrl, {
+                                            width: 500,
+                                            height: 500,
+                                          });
+                                          loader("hide");
+                                        } else {
+                                          console.error(
+                                            "Failed to upload image"
+                                          );
+                                        }
+                                      } catch (error) {
+                                        console.error(
+                                          "Error uploading image:",
+                                          error
+                                        );
+                                      } finally {
+                                        document.body.removeChild(
+                                          loadingIndicator
+                                        ); // Hide loading indicator
                                       }
-                                    };
-          
-                                    input.click();
-                                  },
+                                    }
+                                  };
+
+                                  input.click();
+                                },
                               }}
                               onEditorChange={(content) => {
                                 setTemplateSaving(content);
@@ -1824,8 +1858,16 @@ console.log("body_dat",body_data);
                     email: "",
                     contact_type: "",
                     country: "",
-                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
-                    optIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+                    role:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? irtRole?.[0]?.value
+                        : "",
+                    optIrt:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "yes"
+                        : "",
                     institutionType: "",
                   },
                 ]);
@@ -1894,41 +1936,39 @@ console.log("body_dat",body_data);
                                 </div>
                               </div>
 
-
-
                               {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
-
-
                                   <div className="col-12 col-md-6">
-                                <div className="form-group bottom">
-                                  <label for="">Institution <span>*</span>                      
-                                  </label>
-                                  <Select
-                                    options={institutionType}
-                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                  //  id="institution-desc"
-                                  onChange={(event) =>
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={institutionType}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        //  id="institution-desc"
+                                        onChange={(event) =>
                                           onInstitionTypeChange(event, i)
                                         }
-
-                                        defaultValue = {
-                                          val?.institutionType ? {
-                                            label:val?.institutionType,
-                                            value:val?.institutionType,
-                                          }
-                                          : ""
+                                        defaultValue={
+                                          val?.institutionType
+                                            ? {
+                                                label: val?.institutionType,
+                                                value: val?.institutionType,
+                                              }
+                                            : ""
                                         }
-                                        placeholder="Select Institution"   
-                                  />
-                                </div>
-                              </div>
-
+                                        placeholder="Select Institution"
+                                      />
+                                    </div>
+                                  </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT mandatory training</label>
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
 
                                       <Select
                                         options={optIRT}
@@ -1936,7 +1976,14 @@ console.log("body_dat",body_data);
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt ? { label: "Yes", value: val?.optIrt } : ""}
+                                        defaultValue={
+                                          val?.optIrt
+                                            ? {
+                                                label: "Yes",
+                                                value: val?.optIrt,
+                                              }
+                                            : ""
+                                        }
                                         value={
                                           optIRT.findIndex(
                                             (el) => el.value == val?.optIrt
@@ -1950,7 +1997,6 @@ console.log("body_dat",body_data);
                                               ]
                                         }
                                         placeholder="Select IRT"
-                                        
                                       />
                                     </div>
                                   </div>
@@ -1970,11 +2016,11 @@ console.log("body_dat",body_data);
                                             ) == -1
                                               ? ""
                                               : irtRole[
-                                              irtRole?.findIndex(
-                                                (el) =>
-                                                  el.value == val?.role
-                                              )
-                                              ]
+                                                  irtRole?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -1992,11 +2038,11 @@ console.log("body_dat",body_data);
                                             ) == -1
                                               ? ""
                                               : role[
-                                              role?.findIndex(
-                                                (el) =>
-                                                  el.value == val?.role
-                                              )
-                                              ]
+                                                  role?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -2019,7 +2065,7 @@ console.log("body_dat",body_data);
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
                                           hpc[i].contact_type != "" &&
-                                            hpc[i].contact_type != "undefined"
+                                          hpc[i].contact_type != "undefined"
                                             ? hpc[i].contact_type
                                             : "Select Type"
                                         }
@@ -2078,10 +2124,10 @@ console.log("body_dat",body_data);
                                         ) == -1
                                           ? ""
                                           : irtCountry[
-                                          irtCountry.findIndex(
-                                            (el) => el.value == val?.country
-                                          )
-                                          ]
+                                              irtCountry.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
                                       }
                                       placeholder="Select Country"
                                       filterOption={createFilter(filterConfig)}
@@ -2100,10 +2146,10 @@ console.log("body_dat",body_data);
                                         ) == -1
                                           ? ""
                                           : countryall[
-                                          countryall.findIndex(
-                                            (el) => el.value == val?.country
-                                          )
-                                          ]
+                                              countryall.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
                                       }
                                       placeholder="Select Country"
                                       filterOption={createFilter(filterConfig)}
@@ -2157,7 +2203,7 @@ console.log("body_dat",body_data);
                                 </div>
                               </div> */}
                               {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -2172,8 +2218,8 @@ console.log("body_dat",body_data);
                                         value={
                                           siteNumberAll[hpc[i].siteNumberIndex]
                                             ? siteNumberAll[
-                                            hpc[i].siteNumberIndex
-                                            ]
+                                                hpc[i].siteNumberIndex
+                                              ]
                                             : ""
                                         }
                                         placeholder={
@@ -2182,8 +2228,8 @@ console.log("body_dat",body_data);
                                           ] === "undefined"
                                             ? "Select Site Number"
                                             : siteNumberAll[
-                                            hpc[i].siteNumberIndex
-                                            ]
+                                                hpc[i].siteNumberIndex
+                                              ]
                                         }
                                       />
                                     </div>
@@ -2324,7 +2370,7 @@ console.log("body_dat",body_data);
             </div>
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
-                smartListData.length > 0 ? (
+              smartListData.length > 0 ? (
                 smartListData.map((data) => {
                   return (
                     <>
@@ -2339,8 +2385,8 @@ console.log("body_dat",body_data);
                                 onClick={(e) => handleSelect(data, e)}
                                 checked={
                                   typeof getSmartListId !== "undefined" &&
-                                    getSmartListId !== 0 &&
-                                    getSmartListId == data.id
+                                  getSmartListId !== 0 &&
+                                  getSmartListId == data.id
                                     ? "checked"
                                     : ""
                                 }
