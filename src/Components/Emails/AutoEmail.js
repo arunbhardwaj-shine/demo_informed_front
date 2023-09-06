@@ -599,16 +599,25 @@ const AutoEmail = () => {
     }
   };
 
-  const onInstitionTypeChange = (e, i) => {
-    console.log("e--->", e);
-    if (e == "") {
-      const list = [...hpc];
-      console.log("list", list);
-      list[i].institutionType = "";
-      list[i].optIrt = "";
-      list[i].role = "";
-      list[i].country = "";
-      setHpc(list);
+ const onInstitionTypeChange = (e,i) => {
+   console.log("e--->", e);
+  if (e == "") {
+
+    const list = [...hpc];
+    console.log("list",list);
+    list[i].institutionType = "";
+    list[i].optIrt = "";
+    list[i].role = "";
+    list[i].country = "";
+    setHpc(list);
+  } else {
+    const value = e?.value;
+    const list = [...hpc];
+    const name = hpc[i].institutionType;
+    list[i].institutionType = value;
+    setHpc(list);
+    if (e?.value == "Study site") {
+      onIRTChange("yes", i);
     } else {
       const value = e?.value;
       const list = [...hpc];
@@ -623,7 +632,10 @@ const AutoEmail = () => {
       }
       console.log("list", list[i].optIrt);
     }
-  };
+  }
+ }
+
+
 
   const onIRTChange = (e, i) => {
     if (e == "") {
@@ -1941,15 +1953,14 @@ const AutoEmail = () => {
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">
-                                        Institution <span>*</span>
-                                      </label>
-                                      <Select
-                                        options={institutionType}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        //  id="institution-desc"
-                                        onChange={(event) =>
+                                <div className="form-group bottom">
+                                  <label for="">Institution <span>*</span>                      
+                                  </label>
+                                  <Select
+                                    options={institutionType}
+                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                  //  id="institution-desc"
+                                     onChange={(event) =>
                                           onInstitionTypeChange(event, i)
                                         }
                                         defaultValue={
@@ -1974,7 +1985,7 @@ const AutoEmail = () => {
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onIRTChange(event, i)
+                                          onIRTChange(event?.value, i)
                                         }
                                         defaultValue={
                                           val?.optIrt
