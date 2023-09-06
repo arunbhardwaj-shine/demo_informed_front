@@ -21,6 +21,9 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Select, { createFilter } from "react-select";
+import { ProgressBar } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 var dxr = 0;
 var state_object = {};
 const TemplateBuilder = (props) => {
@@ -29,6 +32,10 @@ const TemplateBuilder = (props) => {
 
   let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [progress, setProgress] = useState(0);
+  const [percent, setPercent] = useState(0);
+  const [showProgress, setShowProgress] = useState(false);
+
   const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
   const [newTemplateNamee, setNewTemplateNamee] = useState("");
@@ -1679,35 +1686,70 @@ const TemplateBuilder = (props) => {
     );
     return modifiedString;
   };
-  const uploadImageToServer = async (file) => {
+  const uploadImageToServer =    async function uploadImageToServer(file) {
     try {
-      loader("show");
       const formData = new FormData();
       formData.append("image", file);
+  
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+      
+        let tox= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog") 
+         let tox1=document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop")
+  
+        xhr.upload.addEventListener("progress", (event) => {
+          setShowProgress(true)
+         tox.style.opacity = 0
+         tox1.style.opacity = 0
+          if (event.lengthComputable) {
+            const percentComplete = (event.loaded / event.total) * 100;
+    
 
-      const response = await fetch(
-        "https://onesource.informed.pro/api/upload-image",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+  setProgress(parseInt(event.loaded / event.total) );
+  setPercent(parseInt(percentComplete));
+  
+          }
+        });
+  
+        xhr.addEventListener("load", () => {
+          if (xhr.status === 200) {
+            try {
+              const uploadedData = JSON.parse(xhr.responseText);
+              const imageUrl = uploadedData.imageUrl;
+              resolve(imageUrl);
+            } catch (parseError) {
+              console.error("Failed to parse response JSON:", parseError);
+              reject(null);
+            }
+            finally{
+              setShowProgress(false)
+         tox1.style.opacity = 1
+         tox.style.opacity = 1
 
-      if (response.ok) {
-        const uploadedData = await response.json();
-        return uploadedData.imageUrl;
-      } else {
-        console.error("Image upload failed");
-        return null;
-      }
+              setProgress(0);
+              setPercent(0);
+              
+
+            }
+          } else {
+            console.error("Image upload failed");
+            reject(null);
+          }
+        });
+  
+        xhr.addEventListener("error", (error) => {
+          console.error("Image upload error:", error);
+          reject(null);
+        });
+  
+        xhr.open("POST", "https://onesource.informed.pro/api/upload-image");
+        xhr.send(formData);
+      });
     } catch (error) {
       console.error("Image upload error:", error);
       return null;
-    } finally {
-      loader("hide");
     }
-  };
-
+  }
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
       let dialog = document.getElementsByClassName("tox-dialog")[0];
@@ -1793,6 +1835,8 @@ const TemplateBuilder = (props) => {
   };
   return (
     <>
+         
+
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
@@ -2180,7 +2224,26 @@ const TemplateBuilder = (props) => {
                 </div>
 
                 <div className="row">
+               
+                {showProgress?  <div className="progressloader"> <div
+            className="circular-progressbar"
+            style={{
+              position:"absolute",
+              top:"50%",
+              left:"0",
+              right:"0",
+              margin:"0 auto",
+              width: 200,
+              height: 200,
+              zIndex: "999999",
+            }}
+          > <CircularProgressbar
+              value={percent}
+              text={`${percent}%`}
+              strokeWidth={5}
+            /></div></div>:""}
                   {templateClickedd ? (
+                    
                     <Editor
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
