@@ -1287,6 +1287,13 @@ const ViewTable = (props) => {
 
       let index = instituions.findIndex((x) => x.value === value);
       list[i].instituteIndex = index;
+
+      if(value != "Study site"){
+        let arr = [];
+        setSiteNumberAll(arr);
+        setSiteNameAll(arr);
+        setForceRender(!forceRender);
+      }
       setHpc(list);
     }
   };
