@@ -110,6 +110,7 @@ const ReaderEdit = () => {
     title: "",
     ibu: "",
     hospitalData: {},
+    institution: "",
   });
   const [userDetail, setUserDetail] = useState({
     speciality: [
@@ -249,6 +250,7 @@ const ReaderEdit = () => {
       siteNumber: hasData?.data?.data?.siteNumber,
       sideData: hasData?.data?.data?.sideData,
       irt: hasData?.data?.data?.irt,
+      institution: hasData?.data?.data?.institution,
     });
     loader("hide");
   };
@@ -272,6 +274,7 @@ const ReaderEdit = () => {
         userType: obj[hasData?.data?.data.userType]
           ? obj[hasData?.data?.data.userType]
           : hasData?.data?.data.userType,
+        irt: hasData?.data?.data.irt == "Yes" ? 1 : 0,
       });
       // setAddReaderInputs({...hasData?.data?.data,"userType":obj[hasData?.data?.data.user_status]?obj[hasData?.data?.data.user_status]:""});
       loader("hide");
@@ -526,7 +529,24 @@ const ReaderEdit = () => {
         siteName: newSiteName,
         siteNumber: newSiteNumber,
       });
-    } else {
+    }else if(isSelectedName == "institution") {
+      if(e == "Study site"){
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+          ["role"]: "Site User-Blinded",
+          ["irt"]: 1,
+        });
+      }else{
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+          ["irt"]: 0,
+          ["siteName"]: "",
+          ["siteNumber"]: "",
+        });
+      }
+     } else {
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -600,6 +620,7 @@ const ReaderEdit = () => {
           irt: userInputs?.irt,
           ibu: userInputs?.ibu,
           userType: userInputs?.userType,
+          institute: userInputs?.institution,
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
@@ -621,6 +642,34 @@ const ReaderEdit = () => {
       <>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
+            Institution <span>*</span>
+          </Form.Label>
+          <Select
+            options={userDetail?.institution}
+            placeholder={"Select Institution"}
+            defaultValue={{
+              label: userInputs?.institution,
+              value: userInputs?.institution,
+            }}
+            name="institution"
+            className={
+              error?.institution
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
+            isClearable
+            onChange={(e) => handleChange(e?.value, "institution")}
+          />
+
+          {error?.institution ? (
+            <div className="login-validation">{error?.institution}</div>
+             ) : (
+            ""
+          )}
+        </Form.Group>
+         
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
               ? "IRT mandatory training"
               : "IRT"}
@@ -631,6 +680,17 @@ const ReaderEdit = () => {
               label: userInputs?.irt,
               value: userInputs?.irt,
             }}
+            value={
+              userDetail?.irt.findIndex(
+                (el) => el.value == userInputs?.irt
+              ) == -1
+                ? ""
+                : userDetail?.irt[
+                    userDetail?.irt.findIndex(
+                      (el) => el.value == userInputs?.irt
+                    )
+                  ]
+            }
             placeholder="Select IRT"
             name="irt"
             className={

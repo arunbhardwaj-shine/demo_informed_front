@@ -273,6 +273,7 @@ const ReaderAdd = () => {
         { label: "Test users", value: "Test users" },
       ],
       userIrtRoles: hasData?.data?.data?.userIrtRoles,
+      institution: hasData?.data?.data?.institution,
       sub_role: hasData?.data?.data?.sub_role,
       blind_type: hasData?.data?.data?.blind_type,
       siteName: [],
@@ -454,6 +455,7 @@ const ReaderAdd = () => {
   // };
 
   const handleChange = (e, isSelectedName) => {
+    // console.log(e,isSelectedName);
     // selectedCategory.push(isSelectedName);
     setUpdateFlag(1);
     if (e?.target?.files?.length < 1) {
@@ -544,6 +546,22 @@ const ReaderAdd = () => {
         siteName: newSiteName,
         siteNumber: newSiteNumber,
       });
+    } else if(isSelectedName == "institution") {
+        if(e == "Study site"){
+          setAddReaderInputs({
+            ...userInputs,
+            [isSelectedName]: e,
+            ["irt"]: 1,
+          });
+        }else{
+          setAddReaderInputs({
+            ...userInputs,
+            [isSelectedName]: e,
+            ["irt"]: 0,
+            ["siteName"]: "",
+            ["siteNumber"]: "",
+          });
+        }
     } else {
       setAddReaderInputs({
         ...userInputs,
@@ -639,6 +657,7 @@ const ReaderAdd = () => {
           sub_role: userInputs?.sub_role,
           ibu: userInputs?.ibu,
           userType: userInputs?.UserType,
+          institute: userInputs?.institution,
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
@@ -660,7 +679,7 @@ const ReaderAdd = () => {
     let link = document.createElement("a");
 
     if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
-      link.href = "https://webinar.informed.pro/R_D_sample.xlsx";
+      link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xls";
     }
@@ -676,6 +695,30 @@ const ReaderAdd = () => {
       <>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
+            Institution <span>*</span>
+          </Form.Label>
+          <Select
+            options={userDetail?.institution}
+            placeholder={"Select Institution"}
+            name="institution"
+            className={
+              error?.institution
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
+            isClearable
+            onChange={(e) => handleChange(e?.value, "institution")}
+          />
+
+          {error?.institution ? (
+            <div className="login-validation">{error?.institution}</div>
+             ) : (
+            ""
+          )}
+        </Form.Group>
+
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
               ? "IRT mandatory training"
               : "IRT"}
@@ -686,6 +729,17 @@ const ReaderAdd = () => {
               label: "Yes",
               value: "Yes",
             }}
+            value={
+              userDetail?.irt.findIndex(
+                (el) => el.value == userInputs?.irt
+              ) == -1
+                ? ""
+                : userDetail?.irt[
+                    userDetail?.irt.findIndex(
+                      (el) => el.value == userInputs?.irt
+                    )
+                  ]
+            }
             placeholder={
               localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                 ? "Select IRT mandatory training"
@@ -707,54 +761,61 @@ const ReaderAdd = () => {
               ? "IRT role"
               : "Role"}
           </Form.Label>
-
-          {userInputs?.irt && userInputs.irt == 1 ? (
-            <Select
-              options={userDetail?.userIrtRoles}
-              placeholder="Select Role"
-              name="role"
-              // defaultValue={userDetail?.userIrtRoles[0]}
-              className="dropdown-basic-button split-button-dropup"
-              value={
-                userDetail?.userIrtRoles.findIndex(
-                  (el) => el.value == userInputs?.role
-                ) == -1
-                  ? userDetail?.userIrtRoles[0]
-                  : userDetail?.userIrtRoles[
-                      userDetail?.userIrtRoles.findIndex(
-                        (el) => el.value == userInputs?.role
-                      )
-                    ]
-              }
-              isClearable
-              onChange={(e) => handleChange(e?.value, "role")}
-            />
-          ) : userInputs?.irt && userInputs.irt == 0 ? (
-            <Select
-              options={userDetail?.role}
-              placeholder="Select Role"
-              name="role"
-              className="dropdown-basic-button split-button-dropup"
-              value={
-                userDetail?.role.findIndex(
-                  (el) => el.value == userInputs?.role
-                ) == -1
-                  ? ""
-                  : userDetail?.role[
-                      userDetail?.role.findIndex(
-                        (el) => el.value == userInputs?.role
-                      )
-                    ]
-              }
-              isClearable
-              onChange={(e) => handleChange(e?.value, "role")}
-            />
-          ) : (
-            <Select
-              className="dropdown-basic-button split-button-dropup"
-              placeholder="Select Role"
-            />
-          )}
+          
+          
+            {userInputs?.irt && userInputs.irt == 1 ? (
+              <>
+              <Select
+                options={userDetail?.userIrtRoles}
+                placeholder="Select Role"
+                name="role"
+                // defaultValue={userDetail?.userIrtRoles[0]}
+                className="dropdown-basic-button split-button-dropup"
+                value={
+                  userDetail?.userIrtRoles.findIndex(
+                    (el) => el.value == userInputs?.role
+                  ) == -1
+                    ? userDetail?.userIrtRoles[0]
+                    : userDetail?.userIrtRoles[
+                        userDetail?.userIrtRoles.findIndex(
+                          (el) => el.value == userInputs?.role
+                        )
+                      ]
+                }
+                isClearable
+                onChange={(e) => handleChange(e?.value, "role")}
+              />
+              </>
+            ) : userInputs.irt == 0 ? (
+              <>
+              <Select
+                options={userDetail?.role}
+                placeholder="Select Role"
+                name="role"
+                className="dropdown-basic-button split-button-dropup"
+                value={
+                  userDetail?.role.findIndex(
+                    (el) => el.value == userInputs?.role
+                  ) == -1
+                    ? ""
+                    : userDetail?.role[
+                        userDetail?.role.findIndex(
+                          (el) => el.value == userInputs?.role
+                        )
+                      ]
+                }
+                isClearable
+                onChange={(e) => handleChange(e?.value, "role")}
+              />
+              </>
+            ) : (
+              <>
+              <Select
+                className="dropdown-basic-button split-button-dropup"
+                placeholder="Select Role"
+              />
+              </>
+            )}
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">

@@ -854,7 +854,7 @@ const NewReaders = () => {
         index: i,
         value: parseInt(consetValueType),
       };
-  
+      
       const foundIndex = changeIRTType.findIndex((el) => el.index === i);
       if (foundIndex === -1) {
         setChangeIRTType((oldarray) => [...oldarray, consent]);
@@ -862,7 +862,7 @@ const NewReaders = () => {
         setChangeIRTType((oldarray) =>
           oldarray.map((el) => {
             if (el.index === i) {
-              return { ...el, value: parseInt(consetValue) };
+              return { ...el, value: parseInt(consetValueType) };
             }
             return el;
           })
