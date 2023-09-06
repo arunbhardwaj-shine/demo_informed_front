@@ -1449,7 +1449,7 @@ const CreateEmail = (props) => {
           };
         }
       });
-      console.log(body_data);
+
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
@@ -3082,7 +3082,6 @@ const CreateEmail = (props) => {
                                       />
                                     </div>
                                   </div>
-                                  
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">IRT role</label>
@@ -3093,7 +3092,6 @@ const CreateEmail = (props) => {
                                           onChange={(event) =>
                                             onRoleChange(event, i, "role")
                                           }
-                                         
                                           value={
                                             irtRole.findIndex(
                                               (el) => el.value == val?.role
