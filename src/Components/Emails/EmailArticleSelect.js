@@ -120,18 +120,7 @@ const EmailArticleSelect = (props) => {
   };
 
   const handleOnfilterMandatory = (data) => {
-    console.log("data--->", data);
-
     setFilterMandatory(data);
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("mandatory")) {
-      getfilter.mandatory = data;
-    }
-    // else {
-    //   getfilter = Object.assign({ mandatory: data }, filter);
-    // }
-    setFilter(getfilter);
 
     let up = updateflag + 1;
     setUpdateFlag(up);
@@ -541,7 +530,7 @@ const EmailArticleSelect = (props) => {
                           filterdata.mandatory_training.length > 0 && (
                             <Accordion.Item className="card" eventKey="4">
                               <Accordion.Header className="card-header">
-                                Mandatory
+                                IRT Mandatory Training
                               </Accordion.Header>
                               <Accordion.Body className="card-body">
                                 <ul>
@@ -682,7 +671,7 @@ const EmailArticleSelect = (props) => {
                         "56Ek4feL/1A8mZgIKQWEqg==" && filterMandatory ? (
                         <div className="filter-div">
                           <div className="filter-div-title">
-                            <span>Mandatory |</span>
+                            <span>IRT Mandatory Training |</span>
                           </div>
                           <div className="filter-div-list">
                             <div
