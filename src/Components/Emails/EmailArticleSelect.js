@@ -202,6 +202,7 @@ const EmailArticleSelect = (props) => {
     setFilterTags([]);
     setFilterlng([]);
     setFilterDate([]);
+    setFilterMandatory("");
     setFilter([]);
     let up = updateflag + 1;
     setUpdateFlag(up);
@@ -676,10 +677,7 @@ const EmailArticleSelect = (props) => {
                           <div className="filter-div-list">
                             <div
                               className="filter-result"
-                              onClick={(event) =>
-                                // removeindividualfilter("mandatory", item)
-                                setFilterMandatory("")
-                              }
+                              onClick={(event) => setFilterMandatory("")}
                             >
                               {filterMandatory}
                               <img
