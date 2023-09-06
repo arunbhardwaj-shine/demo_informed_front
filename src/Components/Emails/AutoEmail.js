@@ -42,18 +42,18 @@ const AutoEmail = () => {
   const [addListOpen, setAddListOpen] = useState(false);
   const [activeExcel, setActiveExcel] = useState("");
   const [searchedUsers, setSearchedUsers] = useState([]);
-  const [selectedHcp, setSelectedHcp] = useState([]);
-  const [email, setEmail] = useState("");
-  const [isOpenAdd, setIsOpenAdd] = useState(false);
-  const [name, setName] = useState("");
-  const [siteNameAll, setSiteNameAll] = useState([]);
+const [selectedHcp, setSelectedHcp] = useState([]);
+const [email, setEmail] = useState("");
+const [isOpenAdd, setIsOpenAdd] = useState(false);
+const [name, setName] = useState("");
+const [siteNameAll, setSiteNameAll] = useState([]);
   const [siteNumberAll, setSiteNumberAll] = useState([]);
 
   const [hide, setHide] = useState(false);
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
-  
+
   const [getTemplateLanguage, setTemplateLanguage] = useState([
     { value: "0", label: "English" },
     { value: "4", label: "Russian" },
@@ -67,16 +67,19 @@ const AutoEmail = () => {
   const [validationError, setValidationError] = useState({});
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
   ]);
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" ,
-    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
-  
-  },
+    {
+      firstname: "", lastname: "", email: "", contact_type: "", country: "",
+      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
+      optIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+      institutionType: "",
+
+    },
   ]);
   const [irtCountry, setIRTCountry] = useState([]);
 
@@ -150,8 +153,19 @@ const AutoEmail = () => {
               });
               setRole(newType);
               setIrtRole(newIrtType);
+              
+            let institution_type = res?.data?.response?.data?.institution_type;
+         
+            let newInstitution = [];
+            Object.keys(institution_type)?.map((item, i) => {
+              newInstitution.push({ label: item, value: item });
+            });
+
+            setInstitutionType(newInstitution);
             }
             setTotalData(res.data.response.data);
+
+
           }
         })
         .catch((err) => {
@@ -325,8 +339,9 @@ const AutoEmail = () => {
         email: "",
         contact_type: "",
         country: "",
-        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
+        optIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+        institutionType: "",
       },
     ]);
     setActiveManual("active");
@@ -509,7 +524,7 @@ const AutoEmail = () => {
     if (ev.target.scrollTop > 20) {
       const mailViewElement = document.querySelector("#mail-view");
       if (mailViewElement) {
-          mailViewElement.setAttribute("custom-atr", "scroll");
+        mailViewElement.setAttribute("custom-atr", "scroll");
       }
       // document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
     } else {
@@ -517,10 +532,10 @@ const AutoEmail = () => {
       //   .querySelector("#mail-view")
       //   .setAttribute("custom-atr", "non-scroll");
 
-        const mailViewElement = document.querySelector("#mail-view");
-        if (mailViewElement) {
-            mailViewElement.setAttribute("custom-atr", "non-scroll");
-        }
+      const mailViewElement = document.querySelector("#mail-view");
+      if (mailViewElement) {
+        mailViewElement.setAttribute("custom-atr", "non-scroll");
+      }
     }
   };
 
@@ -570,6 +585,36 @@ const AutoEmail = () => {
     }
   };
 
+ const onInstitionTypeChange = (e,i) => {
+   console.log("e--->", e);
+  if (e == "") {
+
+    const list = [...hpc];
+    console.log("list",list);
+    list[i].institutionType = "";
+    list[i].optIrt = "";
+    list[i].role = "";
+    list[i].country = "";
+    setHpc(list);
+  } else {
+    const value = e?.value;
+    const list = [...hpc];
+    console.log("list else",list);
+    const name = hpc[i].institutionType;
+    list[i].institutionType = value;
+    setHpc(list);
+    if (e?.value == "Study site") {
+      onIRTChange("yes", i);
+    } else {
+      onIRTChange("no", i);
+    }
+    console.log("list", list[i].optIrt);
+  }
+
+ }
+
+
+
   const onIRTChange = (e, i) => {
     if (e == "") {
       const list = [...hpc];
@@ -578,7 +623,7 @@ const AutoEmail = () => {
       list[i].country = "";
       setHpc(list);
     } else {
-      const value = e?.value;
+      const value = e;
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
@@ -699,7 +744,13 @@ const AutoEmail = () => {
             contact_type: data.contact_type,
             siteNumber: data?.siteNumber ? data.siteNumber : "",
             siteName: data.siteName ? data.siteName : "",
+            investigator_type: data?.role,
+            siteIrt: data?.optIrt == "yes" ? 1 : 0,
+            institution_type: data?.institutionType
+              ? data?.institutionType
+              : "",
           };
+         
         } else {
           return {
             first_name: data.firstname,
@@ -710,17 +761,22 @@ const AutoEmail = () => {
           };
         }
       });
-
+console.log("body_dat",body_data);
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
 
+
+      
       const status = body.data.map((data) => {
+        console.log("data",data);
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if (data.email != "") {
+        } else if(data?.institution_type == ""){
+          return "Please select the institution type";
+      }else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -734,7 +790,8 @@ const AutoEmail = () => {
           } else {
             return "Email format is not valid";
           }
-        } else {
+          
+        } else{
           return "true";
         }
       });
@@ -816,14 +873,36 @@ const AutoEmail = () => {
     setSmartListId(data.id);
   };
 
-  const addMoreHcp = () => {
-    const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
-      } else {
-        return "true";
-      }
-    });
+  // const addMoreHcp = () => {
+  //   const status = hpc.map((data) => {
+  //     if (data.email == "") {
+  //       return "false";
+  //     } else {
+  //       return "true";
+  //     }
+  //   });
+
+
+    const addMoreHcp = () => {
+     
+      const status = hpc.map((data) => {
+         console.log("hpc-->", hpc);
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          if (data?.email == "" || data?.institutionType == "") {
+            return "false";
+          } else {
+            return "true";
+          }
+        } else {
+          if (data.email == "") {
+            return "false";
+          } else {
+            return "true";
+          }
+        }
+      });
+
+
 
     if (status.every((element) => element == "true")) {
       setHpc([
@@ -834,12 +913,17 @@ const AutoEmail = () => {
           email: "",
           contact_type: "",
           country: "",
-          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
+          optIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+          institutionType: "",
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        toast.warning("Please input the email and Institution");
+      } else {
+        toast.warning("Please input the email atleast");
+      }
     }
   };
 
@@ -994,7 +1078,7 @@ const AutoEmail = () => {
     setIndexClicked();
   };
 
-  const addTracking= function (editor) {
+  const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
       let dialog =
         document.getElementsByClassName("tox-dialog")[0];
@@ -1045,7 +1129,7 @@ const AutoEmail = () => {
             // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
             let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
             firstToxControlWrap.value = link;
-          
+
             alert("Traking added");
           };
 
@@ -1096,18 +1180,18 @@ const AutoEmail = () => {
                 {/* <h2>Auto Email</h2> */}
                 {localStorage.getItem("user_id") ==
                   "B7SHpAc XDXSH NXkN0rdQ==" && (
-                  <div className="template_language">
-                    <span>Language</span>
-                    <div className="form-group">
-                      <Select
-                        options={getTemplateLanguage}
-                        defaultValue={getTemplateLanguage[0]}
-                        onChange={(e) => changeLanguage(e)}
-                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                      />
+                    <div className="template_language">
+                      <span>Language</span>
+                      <div className="form-group">
+                        <Select
+                          options={getTemplateLanguage}
+                          defaultValue={getTemplateLanguage[0]}
+                          onChange={(e) => changeLanguage(e)}
+                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                        />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
               <div className="top-right-action">
                 {templateClicked ? (
@@ -1119,7 +1203,7 @@ const AutoEmail = () => {
                       Cancel
                     </button>
                     {templateName == "Reset password" ||
-                    templateName == "Welcome mail" ? null : (
+                      templateName == "Welcome mail" ? null : (
                       <button
                         className="btn btn-primary btn-filled next"
                         onClick={(e) => {
@@ -1150,44 +1234,44 @@ const AutoEmail = () => {
                     <div className="mail_trigger_content">
                       {typeof templates !== "undefined" && templates.length > 0
                         ? templates.map((template, index) => {
-                            return (
-                              <>
-                                <div
-                                  className={
-                                    indexClicked == index
-                                      ? "trigger_content_box d-flex active"
-                                      : "trigger_content_box d-flex"
-                                  }
-                                >
-                                  <div className="trigger_content_image">
-                                    <img
-                                      src={template.template_img}
-                                      alt="Preview"
-                                    />
-                                  </div>
-                                  <div className="trigger_content">
-                                    <h6>
-                                      {template.name} ({template.language_code})
-                                    </h6>
-                                    <p>
-                                      When New content add to the user library
-                                    </p>
-
-                                    {indexClicked !== index ? (
-                                      <button
-                                        onClick={() =>
-                                          viewButtonClicked(template, index)
-                                        }
-                                        className="btn btn-primary btn-filled  d-flex justify-content-center"
-                                      >
-                                        View
-                                      </button>
-                                    ) : null}
-                                  </div>
+                          return (
+                            <>
+                              <div
+                                className={
+                                  indexClicked == index
+                                    ? "trigger_content_box d-flex active"
+                                    : "trigger_content_box d-flex"
+                                }
+                              >
+                                <div className="trigger_content_image">
+                                  <img
+                                    src={template.template_img}
+                                    alt="Preview"
+                                  />
                                 </div>
-                              </>
-                            );
-                          })
+                                <div className="trigger_content">
+                                  <h6>
+                                    {template.name} ({template.language_code})
+                                  </h6>
+                                  <p>
+                                    When New content add to the user library
+                                  </p>
+
+                                  {indexClicked !== index ? (
+                                    <button
+                                      onClick={() =>
+                                        viewButtonClicked(template, index)
+                                      }
+                                      className="btn btn-primary btn-filled  d-flex justify-content-center"
+                                    >
+                                      View
+                                    </button>
+                                  ) : null}
+                                </div>
+                              </div>
+                            </>
+                          );
+                        })
                         : null}
                     </div>
                   </div>
@@ -1298,9 +1382,9 @@ const AutoEmail = () => {
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
                             {templateName == "Welcome mail" ||
-                            templateName ==
+                              templateName ==
                               "Reset password" ? null : approveClickedd ===
-                              true ? (
+                                true ? (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
                                 onClick={(e) => updateTemplate(e, 2)}
@@ -1740,8 +1824,9 @@ const AutoEmail = () => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
+                    optIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+                    institutionType: "",
                   },
                 ]);
                 // document.querySelector("#file-4").value = "";
@@ -1808,10 +1893,39 @@ const AutoEmail = () => {
                                   />
                                 </div>
                               </div>
+
+
+
                               {localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
+
+
+                                  <div className="col-12 col-md-6">
+                                <div className="form-group bottom">
+                                  <label for="">Institution <span>*</span>                      
+                                  </label>
+                                  <Select
+                                    options={institutionType}
+                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                  //  id="institution-desc"
+                                  onChange={(event) =>
+                                          onInstitionTypeChange(event, i)
+                                        }
+
+                                        defaultValue = {
+                                          val?.institutionType ? {
+                                            label:val?.institutionType,
+                                            value:val?.institutionType,
+                                          }
+                                          : ""
+                                        }
+                                        placeholder="Select Institution"   
+                                  />
+                                </div>
+                              </div>
+
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">IRT mandatory training</label>
@@ -1822,8 +1936,21 @@ const AutoEmail = () => {
                                         onChange={(event) =>
                                           onIRTChange(event, i)
                                         }
-                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
+                                        defaultValue={val?.optIrt ? { label: "Yes", value: val?.optIrt } : ""}
+                                        value={
+                                          optIRT.findIndex(
+                                            (el) => el.value == val?.optIrt
+                                          ) == -1
+                                            ? ""
+                                            : optIRT[
+                                                optIRT.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.optIrt
+                                                )
+                                              ]
+                                        }
                                         placeholder="Select IRT"
+                                        
                                       />
                                     </div>
                                   </div>
@@ -1843,11 +1970,11 @@ const AutoEmail = () => {
                                             ) == -1
                                               ? ""
                                               : irtRole[
-                                                  irtRole?.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
+                                              irtRole?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -1865,11 +1992,11 @@ const AutoEmail = () => {
                                             ) == -1
                                               ? ""
                                               : role[
-                                                  role?.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
+                                              role?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -1892,7 +2019,7 @@ const AutoEmail = () => {
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
                                           hpc[i].contact_type != "" &&
-                                          hpc[i].contact_type != "undefined"
+                                            hpc[i].contact_type != "undefined"
                                             ? hpc[i].contact_type
                                             : "Select Type"
                                         }
@@ -1951,10 +2078,10 @@ const AutoEmail = () => {
                                         ) == -1
                                           ? ""
                                           : irtCountry[
-                                              irtCountry.findIndex(
-                                                (el) => el.value == val?.country
-                                              )
-                                            ]
+                                          irtCountry.findIndex(
+                                            (el) => el.value == val?.country
+                                          )
+                                          ]
                                       }
                                       placeholder="Select Country"
                                       filterOption={createFilter(filterConfig)}
@@ -1973,10 +2100,10 @@ const AutoEmail = () => {
                                         ) == -1
                                           ? ""
                                           : countryall[
-                                              countryall.findIndex(
-                                                (el) => el.value == val?.country
-                                              )
-                                            ]
+                                          countryall.findIndex(
+                                            (el) => el.value == val?.country
+                                          )
+                                          ]
                                       }
                                       placeholder="Select Country"
                                       filterOption={createFilter(filterConfig)}
@@ -2030,7 +2157,7 @@ const AutoEmail = () => {
                                 </div>
                               </div> */}
                               {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -2045,8 +2172,8 @@ const AutoEmail = () => {
                                         value={
                                           siteNumberAll[hpc[i].siteNumberIndex]
                                             ? siteNumberAll[
-                                                hpc[i].siteNumberIndex
-                                              ]
+                                            hpc[i].siteNumberIndex
+                                            ]
                                             : ""
                                         }
                                         placeholder={
@@ -2055,8 +2182,8 @@ const AutoEmail = () => {
                                           ] === "undefined"
                                             ? "Select Site Number"
                                             : siteNumberAll[
-                                                hpc[i].siteNumberIndex
-                                              ]
+                                            hpc[i].siteNumberIndex
+                                            ]
                                         }
                                       />
                                     </div>
@@ -2197,7 +2324,7 @@ const AutoEmail = () => {
             </div>
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
-              smartListData.length > 0 ? (
+                smartListData.length > 0 ? (
                 smartListData.map((data) => {
                   return (
                     <>
@@ -2212,8 +2339,8 @@ const AutoEmail = () => {
                                 onClick={(e) => handleSelect(data, e)}
                                 checked={
                                   typeof getSmartListId !== "undefined" &&
-                                  getSmartListId !== 0 &&
-                                  getSmartListId == data.id
+                                    getSmartListId !== 0 &&
+                                    getSmartListId == data.id
                                     ? "checked"
                                     : ""
                                 }
