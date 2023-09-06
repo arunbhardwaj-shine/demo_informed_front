@@ -20,11 +20,17 @@ import { toPng } from "html-to-image";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-
+import { ProgressBar } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 var dxr = 0;
 var state_object = {};
 const AutoMail = (props) => {
+  const [progress, setProgress] = useState(0);
+  const [percent, setPercent] = useState(0);
+  const [showProgress, setShowProgress] = useState(false);
+  const templateIdRef = useRef();
+    const linkingPayload = useRef();
   const [eventSelected, setEventSelected] = useState("testing");
 
   const editorRef = useRef(null);
@@ -573,6 +579,7 @@ const AutoMail = (props) => {
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
     e.target.classList.toggle("select_mm");
+    templateIdRef.current=template.id;
   };
 
   const emailSubjectChanged = (e) => {
@@ -1210,97 +1217,154 @@ const AutoMail = (props) => {
       toast.warning("Template not selected.");
     }
   };
-  const addTracking= function (editor) {
+  const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-      let dialog =
-        document.getElementsByClassName("tox-dialog")[0];
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
 
       if (dialog) {
-        let header = dialog.querySelector(
-          ".tox-dialog__header"
-        );
-        const closeButton = header.querySelector(
-          '[aria-label="Close"]'
-        );
-        let text =
-          header.querySelector(".tox-dialog__title");
+        let header = dialog.querySelector(".tox-dialog__header");
+        const closeButton = header.querySelector('[aria-label="Close"]');
+        let text = header.querySelector(".tox-dialog__title");
 
         if (text.innerText == "Insert/Edit Link") {
-          let uploadIcon=  document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span")
+          let uploadIcon = document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+          );
           uploadIcon.style.display = "none";
-          let newButton =
-            document.createElement("button");
+          let newButton = document.createElement("button");
           newButton.innerText = "Add Tracking";
-          newButton.classList.add("tox-button")
-          newButton.classList.add("tox-button--icon")
-          newButton.classList.add("tox-button--naked")
-          newButton.classList.add("track")
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
           newButton.onclick = function () {
-            let firstToxControlWrap =
-              document.querySelector(
-                "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-              );
+            if (templateIdRef.current == "") {
+              alert("Please select the template first before adding the link");
+              return;
+            }
+            // alert(templateId);
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
 
             // let text =dialog.querySelector(".tox-form__group");
             if (!firstToxControlWrap.value) {
               alert("Please enter a link");
               return;
             }
+
             const baseLink =
               "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            if (
-              firstToxControlWrap.value.startsWith(
-                baseLink
-              )
-            ) {
+            if (firstToxControlWrap.value.startsWith(baseLink)) {
               alert("Traking already added");
               return;
             }
+            let slugValue = prompt("Enter a slug value");
 
             const currentTimestamp = Date.now();
             // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+            let payload = {
+              slug_value: slugValue,
+              template_id: templateIdRef.current,
+              url_code: `clicked_track_doc_${currentTimestamp}`,
+            };
+            linkingPayload.current = payload;
             let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
             firstToxControlWrap.value = link;
-          
+            var saveButton = document.querySelector(
+              '.tox-button[title="Save"]'
+            );
+
+            saveButton.addEventListener("click", function () {
+              let link = `https://onesource.informed.pro/api/track-links`;
+
+              axios
+                .post(link, payload)
+                .then((res) => {
+                  console.log("done");
+                })
+                .catch((err) => {
+                  loader("hide");
+                  console.log(err);
+                });
+            });
             alert("Traking added");
           };
 
           header.insertBefore(newButton, closeButton);
+        } else if (text.innerText == "Insert/Edit Media") {
+          document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+          ).innerText += " (Max size: 1GB)";
         }
       }
     });
-  }
+  };
 
-  const uploadImageToServer = async (file) => {
+  const uploadImageToServer =    async function uploadImageToServer(file) {
     try {
-      loader("show");
       const formData = new FormData();
       formData.append("image", file);
+  
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+      
+        let tox= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog") 
+         let tox1=document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop")
+  
+        xhr.upload.addEventListener("progress", (event) => {
+          setShowProgress(true)
+         tox.style.opacity = 0
+         tox1.style.opacity = 0
+          if (event.lengthComputable) {
+            const percentComplete = (event.loaded / event.total) * 100;
+    
 
-      const response = await fetch(
-        "https://onesource.informed.pro/api/upload-image",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+  setProgress(parseInt(event.loaded / event.total) );
+  setPercent(parseInt(percentComplete));
+  
+          }
+        });
+  
+        xhr.addEventListener("load", () => {
+          if (xhr.status === 200) {
+            try {
+              const uploadedData = JSON.parse(xhr.responseText);
+              const imageUrl = uploadedData.imageUrl;
+              resolve(imageUrl);
+            } catch (parseError) {
+              console.error("Failed to parse response JSON:", parseError);
+              reject(null);
+            }
+            finally{
+              setShowProgress(false)
+         tox1.style.opacity = 1
+         tox.style.opacity = 1
 
-      if (response.ok) {
-        const uploadedData = await response.json();
-        return uploadedData.imageUrl;
-      } else {
-        console.error("Image upload  failed");
-        return null;
-      }
+              setProgress(0);
+              setPercent(0);
+              
+
+            }
+          } else {
+            console.error("Image upload failed");
+            reject(null);
+          }
+        });
+  
+        xhr.addEventListener("error", (error) => {
+          console.error("Image upload error:", error);
+          reject(null);
+        });
+  
+        xhr.open("POST", "https://onesource.informed.pro/api/upload-image");
+        xhr.send(formData);
+      });
     } catch (error) {
       console.error("Image upload error:", error);
       return null;
     }
-    finally{
-      loader("hide");
-
-    }
-  };
+  }
   return (
     <>
       <div className="col right-sidebar">
@@ -1508,7 +1572,23 @@ const AutoMail = (props) => {
                 </div>
 
                 <div className="row">
-                  {templateClickedd ? (
+                {showProgress?  <div className="progressloader"> <div
+            className="circular-progressbar"
+            style={{
+              position:"absolute",
+              top:"50%",
+              left:"0",
+              right:"0",
+              margin:"0 auto",
+              width: 200,
+              height: 200,
+              zIndex: "999999",
+            }}
+          > <CircularProgressbar
+              value={percent}
+              text={`${percent}%`}
+              strokeWidth={5}
+            /></div></div>:""}          {templateClickedd ? (
                     <Editor
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
