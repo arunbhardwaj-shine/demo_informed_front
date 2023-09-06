@@ -408,6 +408,13 @@ const Table = (props, ref) => {
 
       let index = instituions.findIndex((x) => x.value === value);
       list[i].instituteIndex = index;
+
+      if(value != "Study site"){
+        let arr = [];
+        setSiteNumberAll(arr);
+        setSiteNameAll(arr);
+        setForceRender(!forceRender);
+      }
       setHpc(list);
     }
   };
@@ -798,11 +805,11 @@ const Table = (props, ref) => {
       props.data.length > 0
     ) {
       //Parent Child FLow
-      const profile_user_id_array = fdata.map((data) => {
+      const profile_user_id_array = fdata?.map((data) => {
         return data.profile_user_id;
       });
 
-      const new_user_id_array = newReaders.map((data) => {
+      const new_user_id_array = newReaders?.map((data) => {
         return data.profile_user_id;
       });
       body = {
