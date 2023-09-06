@@ -476,7 +476,7 @@ const TemplateBuilder = (props) => {
       ]);
     } else {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        toast.warning("Please input the email and institution");
+        toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast");
       }
