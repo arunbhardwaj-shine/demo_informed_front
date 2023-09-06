@@ -503,7 +503,7 @@ const CreateEmail = (props) => {
       ]);
     } else {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        toast.warning("Please input the email and Institution");
+        toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast");
       }
@@ -1203,6 +1203,7 @@ const CreateEmail = (props) => {
   const addNewContactClicked = () => {
     setIsOpenAdd(true);
     setIsOpensend(false);
+    setValidationError({});
     setHpc([
       {
         firstname: "",
@@ -1459,11 +1460,12 @@ const CreateEmail = (props) => {
         smart_list_id: "",
       };
 
-      const status = body.data.map((data) => {
+      const status = body.data.map((data, index) => {
         if (data.email == "" || data?.institution_type == "") {
           if (data.email == "") {
             setValidationError({
               newHcpEmail: "Please enter the email atleast",
+              index: index,
             });
 
             return;
@@ -1476,6 +1478,7 @@ const CreateEmail = (props) => {
               if (typeof prev_obj != "undefined") {
                 setValidationError({
                   newHcpEmail: "User with same email already added in list.",
+                  index: index,
                 });
 
                 return;
@@ -1483,6 +1486,7 @@ const CreateEmail = (props) => {
             } else {
               setValidationError({
                 newHcpEmail: "Email format is not valid",
+                index: index,
               });
 
               return;
@@ -1491,7 +1495,8 @@ const CreateEmail = (props) => {
           if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
             if (data.institution_type == "") {
               setValidationError({
-                newHcpInstitution: "Please enter the email atleast",
+                newHcpInstitution: "Please enter the institution ",
+                index: index,
               });
               return;
             }
@@ -1527,7 +1532,9 @@ const CreateEmail = (props) => {
             loader("hide");
           });
       } else {
-        toast.warning(status[0]);
+        const filteredArray = status.filter((value) => value !== "true");
+        toast.warning(filteredArray?.[0]);
+        // toast.warning(status[0]);
       }
     } else {
       let formData = new FormData();
@@ -3036,7 +3043,8 @@ const CreateEmail = (props) => {
                                   <input
                                     type="email"
                                     className={
-                                      validationError?.newHcpEmail
+                                      validationError?.newHcpEmail &&
+                                      validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3047,7 +3055,8 @@ const CreateEmail = (props) => {
                                     }
                                     value={val.email}
                                   />
-                                  {validationError?.newHcpEmail ? (
+                                  {validationError?.newHcpEmail &&
+                                  validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpEmail}
                                     </div>
@@ -3067,6 +3076,7 @@ const CreateEmail = (props) => {
                                       <Select
                                         options={institutionType}
                                         className={
+                                          validationError?.index == i &&
                                           validationError?.newHcpInstitution
                                             ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                             : "dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -3084,7 +3094,8 @@ const CreateEmail = (props) => {
                                         }
                                         placeholder="Select institution"
                                       />
-                                      {validationError?.newHcpInstitution ? (
+                                      {validationError?.newHcpInstitution &&
+                                      validationError?.index == i ? (
                                         <div className="login-validation">
                                           {validationError?.newHcpInstitution}
                                         </div>

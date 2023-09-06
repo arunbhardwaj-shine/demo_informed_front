@@ -112,6 +112,20 @@ const ReaderEdit = () => {
     hospitalData: {},
     institution: "",
   });
+  const institutionData = [
+    {
+      label:"Study site",value:"Study site"
+    },
+    {
+      label:"Premier Research",value:"Premier Research"
+    },
+    {
+      label:"Comac",value:"Comac"
+    },
+    {
+      label:"Octapharma",value:"Octapharma"
+    }
+  ]
   const [userDetail, setUserDetail] = useState({
     speciality: [
       { value: "speciality1", label: "speciality1" },
@@ -276,7 +290,6 @@ const ReaderEdit = () => {
           : hasData?.data?.data.userType,
         irt: hasData?.data?.data.irt == "Yes" ? 1 : 0,
       });
-      // setAddReaderInputs({...hasData?.data?.data,"userType":obj[hasData?.data?.data.user_status]?obj[hasData?.data?.data.user_status]:""});
       loader("hide");
     } catch (err) {
       console.log(err);
@@ -436,11 +449,14 @@ const ReaderEdit = () => {
           });
         }
       });
+      console.log("--- inside changes Site Data",newSite)
       setUserDetail({
         ...userDetail,
         siteName: newSite,
         siteNumber: newSiteNumber,
       });
+    }else{
+      console.log("-- im here inside changes")
     }
   };
 
@@ -643,11 +659,12 @@ const ReaderEdit = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Institution <span>*</span>
+
           </Form.Label>
           <Select
-            options={userDetail?.institution}
+            options={institutionData}
             placeholder={"Select Institution"}
-            defaultValue={{
+            value={{
               label: userInputs?.institution,
               value: userInputs?.institution,
             }}
@@ -1186,6 +1203,7 @@ const ReaderEdit = () => {
                                 }
                               />
                             </Form.Group>
+
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Site name </Form.Label>
                               <Select

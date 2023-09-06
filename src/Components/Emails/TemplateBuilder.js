@@ -444,10 +444,9 @@ const TemplateBuilder = (props) => {
   };
 
   const addMoreHcp = () => {
-    console.log("hpc-->", hpc);
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (data?.email == "" || data?.institutionType == "") {
+        if (data.email == "" || data?.institutionType == "") {
           return "false";
         } else {
           return "true";
@@ -483,7 +482,7 @@ const TemplateBuilder = (props) => {
       ]);
     } else {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        toast.warning("Please input the email and Institution");
+        toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast");
       }
@@ -842,6 +841,7 @@ const TemplateBuilder = (props) => {
   const addNewContactClicked = () => {
     setIsOpenAdd(true);
     setIsOpensend(false);
+    setValidationError({});
     setHpc([
       {
         firstname: "",
@@ -957,7 +957,7 @@ const TemplateBuilder = (props) => {
     if (e == "") {
       const list = [...hpc];
       list[i].institutionType = "";
-      list[i].optIRT = "";
+      list[i].optIrt = "";
       list[i].role = "";
       list[i].country = "";
       setHpc(list);
@@ -1129,6 +1129,8 @@ const TemplateBuilder = (props) => {
             country: data.country,
             contact_type: data.contact_type,
             siteNumber: data?.siteNumber ? data.siteNumber : "",
+            investigator_type: data?.role,
+            siteIrt: data?.optIrt == "yes" ? 1 : 0,
             siteName: data.siteName ? data.siteName : "",
             institution_type: data?.institutionType
               ? data?.institutionType
@@ -1149,13 +1151,14 @@ const TemplateBuilder = (props) => {
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
-      console.log("-test", body);
+    
 
-      const status = body.data.map((data) => {
+      const status = body.data.map((data, index) => {
         if (data.email == "" || data.institution_type == "") {
           if (data.email == "") {
             setValidationError({
               newHcpEmail: "Please enter the email atleast",
+              index: index,
             });
             return;
           } else if (data.email != "") {
@@ -1167,12 +1170,14 @@ const TemplateBuilder = (props) => {
               if (typeof prev_obj != "undefined") {
                 setValidationError({
                   newHcpEmail: "User with same email already added in list.",
+                  index: index,
                 });
                 return;
               }
             } else {
               setValidationError({
                 newHcpEmail: "Email format is not valid",
+                index: index,
               });
               return;
             }
@@ -1180,7 +1185,8 @@ const TemplateBuilder = (props) => {
           if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
             if (data.institution_type == "") {
               setValidationError({
-                newHcpInstitution: "Please enter the email atleast",
+                newHcpInstitution: "Please enter the institution",
+                index: index,
               });
               return;
             }
@@ -1216,7 +1222,9 @@ const TemplateBuilder = (props) => {
             loader("hide");
           });
       } else {
-        toast.warning(status[0]);
+        const filteredArray = status.filter((value) => value !== "true");
+        toast.warning(filteredArray?.[0]);
+        // toast.warning(status[0]);
       }
     } else {
       let formData = new FormData();
@@ -2916,7 +2924,8 @@ const TemplateBuilder = (props) => {
                                   <input
                                     type="email"
                                     className={
-                                      validationError?.newHcpEmail
+                                      validationError?.newHcpEmail &&
+                                      validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -2927,7 +2936,8 @@ const TemplateBuilder = (props) => {
                                     }
                                     value={val.email}
                                   />
-                                  {validationError?.newHcpEmail ? (
+                                  {validationError?.newHcpEmail &&
+                                  validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpEmail}
                                     </div>
@@ -2947,7 +2957,8 @@ const TemplateBuilder = (props) => {
                                       <Select
                                         options={institutionType}
                                         className={
-                                          validationError?.newHcpInstitution
+                                          validationError?.newHcpInstitution &&
+                                          validationError?.index == i
                                             ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                             : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         }
@@ -2964,7 +2975,8 @@ const TemplateBuilder = (props) => {
                                         }
                                         placeholder="Select institution"
                                       />
-                                      {validationError?.newHcpInstitution ? (
+                                      {validationError?.newHcpInstitution &&
+                                      validationError?.index == i ? (
                                         <div className="login-validation">
                                           {validationError?.newHcpInstitution}
                                         </div>

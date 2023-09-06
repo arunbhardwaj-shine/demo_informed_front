@@ -192,7 +192,7 @@ const SelectSmartListUsers = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
-            console.log("country", res.data.response.data.country);
+          
             let country = res.data.response.data.country;
             let arr = [];
 
@@ -333,7 +333,7 @@ const SelectSmartListUsers = (props) => {
   const axiosFun = async () => {
     try {
       const result = await axios.get(`emailapi/get_site`);
-      console.log("-result", result?.data?.response?.data?.site_country_data);
+    
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -553,6 +553,7 @@ const SelectSmartListUsers = (props) => {
 
   const addNewUser = () => {
     setIsOpenAdd(true);
+    setValidationError({});
     setHpc([
       {
         firstname: "",
@@ -657,7 +658,7 @@ const SelectSmartListUsers = (props) => {
       ]);
     } else {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        toast.warning("Please input the email and Institution");
+        toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast");
       }
@@ -891,6 +892,9 @@ const SelectSmartListUsers = (props) => {
             siteName: data.siteName ? data.siteName : "",
             investigator_type: data?.role,
             siteIrt: data?.optIrt == "yes" ? 1 : 0,
+            institution_type: data?.institutionType
+              ? data?.institutionType
+              : "",
           };
         } else {
           return {
@@ -909,28 +913,43 @@ const SelectSmartListUsers = (props) => {
         smart_list_id: "",
       };
 
-      const status = body.data.map((data) => {
-        if (data.email == "") {
-          setValidationError({ newHcpEmail: "Please enter the email atleast" });
-          return;
-        } else if (data.email != "") {
-          let email = data.email;
-          let useremail = email.trim();
-          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = readers.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
+      const status = body.data.map((data, index) => {
+        if (data.email == "" || data?.institution_type == "") {
+          if (data.email == "") {
+            setValidationError({
+              newHcpEmail: "Please enter the email atleast",
+              index: index,
+            });
+            return;
+          } else if (data.email != "") {
+            let email = data.email;
+            let useremail = email.trim();
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (regex.test(String(useremail).toLowerCase())) {
+              let prev_obj = readers.find((x) => x.email === useremail);
+              if (typeof prev_obj != "undefined") {
+                setValidationError({
+                  newHcpEmail: "User with same email already added in list.",
+                  index: index,
+                });
+                return;
+              }
+            } else {
               setValidationError({
-                newHcpEmail: "User with same email already added in list.",
+                newHcpEmail: "Email format is not valid",
+                index: index,
               });
               return;
-            } else {
-              return "true";
             }
-            return "true";
-          } else {
-            setValidationError({ newHcpEmail: "Email format is not valid" });
-            return;
+          }
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (data.institution_type == "") {
+              setValidationError({
+                newHcpInstitution: "Please enter the institution ",
+                index: index,
+              });
+              return;
+            }
           }
         } else {
           return "true";
@@ -964,7 +983,9 @@ const SelectSmartListUsers = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.warning(status[0]);
+        const filteredArray = status.filter((value) => value !== "true");
+        toast.warning(filteredArray?.[0]);
+        // toast.warning(status[0]);
       }
 
       //  setIsOpen(false);
@@ -1732,7 +1753,8 @@ const SelectSmartListUsers = (props) => {
                                   <input
                                     type="email"
                                     className={
-                                      validationError?.newHcpEmail
+                                      validationError?.newHcpEmail &&
+                                      validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -1743,14 +1765,15 @@ const SelectSmartListUsers = (props) => {
                                     }
                                     value={val.email}
                                   />
-                                  {validationError?.newHcpEmail ? (
+                                  {validationError?.newHcpEmail &&
+                                  validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpEmail}
                                     </div>
                                   ) : null}
                                 </div>
                               </div>
-                              {console.log("--tetetet", val)}
+                            
 
                               {localStorage.getItem("user_id") ===
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1764,7 +1787,8 @@ const SelectSmartListUsers = (props) => {
                                       <Select
                                         options={institutionType}
                                         className={
-                                          validationError?.newHcpInstitution
+                                          validationError?.newHcpInstitution &&
+                                          validationError?.index == i
                                             ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                             : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         }
@@ -1781,7 +1805,8 @@ const SelectSmartListUsers = (props) => {
                                         }
                                         placeholder="Select institution"
                                       />
-                                      {validationError?.newHcpInstitution ? (
+                                      {validationError?.newHcpInstitution &&
+                                      validationError?.index == i ? (
                                         <div className="login-validation">
                                           {validationError?.newHcpInstitution}
                                         </div>

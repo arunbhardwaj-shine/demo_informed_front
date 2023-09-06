@@ -28,6 +28,7 @@ const VerifyHCP = (props) => {
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -85,9 +86,15 @@ const VerifyHCP = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-      optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
-
+      role:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      optIrt:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? "yes"
+          : "",
+      institutionType: "",
     },
   ]);
   const [updateCounter, setUpdateCounter] = useState(0);
@@ -227,6 +234,12 @@ const VerifyHCP = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
+              let instution_type = res?.data?.response?.data?.institution_type;
+              let newInstitutionType = [];
+              Object.keys(instution_type)?.map((item, i) => {
+                newInstitutionType.push({ label: item, value: item });
+              });
+              setInstitutionType(newInstitutionType);
               setRole(newType);
               setIrtRole(newIrtType);
             }
@@ -285,8 +298,15 @@ const VerifyHCP = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+        role:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIrt:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
+        institutionType: "",
       },
     ]);
     setActiveManual("active");
@@ -418,6 +438,27 @@ const VerifyHCP = (props) => {
       setHpc(list);
     }
   };
+  const onInstitutionChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].institutionType = "";
+      list[i].optIRT = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].institutionType;
+      list[i].institutionType = value;
+      setHpc(list);
+      if (e?.value == "Study site") {
+        onIRTChange("yes", i);
+      } else {
+        onIRTChange("no", i);
+      }
+    }
+  };
 
   const onIRTChange = (e, i) => {
     if (e == "") {
@@ -427,7 +468,7 @@ const VerifyHCP = (props) => {
       list[i].country = "";
       setHpc(list);
     } else {
-      const value = e?.value;
+      const value = e;
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
@@ -563,6 +604,9 @@ const VerifyHCP = (props) => {
             siteName: data?.siteName ? data.siteName : "",
             investigator_type: data?.role,
             siteIrt: data?.optIrt == "yes" ? 1 : 0,
+            institution_type: data?.institutionType
+              ? data?.institutionType
+              : "",
           };
         } else {
           return {
@@ -582,21 +626,26 @@ const VerifyHCP = (props) => {
       };
 
       const status = body.data.map((data) => {
-        if (data.email == "") {
-          return "Please enter the email atleast";
-        } else if (data.email != "") {
-          let email = data.email;
-          let useremail = email.trim();
-          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = selectedHcp.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
+        if (data.email == "" || data?.institution_type == "") {
+          if (data.email == "") {
+            return "Please enter the email atleast";
+          } else if (data.email != "") {
+            let email = data.email;
+            let useremail = email.trim();
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (regex.test(String(useremail).toLowerCase())) {
+              let prev_obj = selectedHcp.find((x) => x.email === useremail);
+              if (typeof prev_obj != "undefined") {
+                return "User with same email already added in list.";
+              }
             } else {
-              return "true";
+              return "Email format is not valid";
             }
-          } else {
-            return "Email format is not valid";
+          }
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (data.institution_type == "") {
+              return "Please enter the institution ";
+            }
           }
         } else {
           return "true";
@@ -628,7 +677,9 @@ const VerifyHCP = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.warning(status[0]);
+        const filteredArray = status.filter((value) => value !== "true");
+        toast.warning(filteredArray?.[0]);
+        // toast.warning(status[0]);
       }
       // setIsOpen(false);
     } else {
@@ -670,10 +721,18 @@ const VerifyHCP = (props) => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (data?.email == "" || data?.institutionType == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       } else {
-        return "true";
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       }
     });
 
@@ -687,12 +746,23 @@ const VerifyHCP = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+          role:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          optIrt:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "yes"
+              : "",
+          institutionType: "",
         },
       ]);
     } else {
-      toast.error("Please input the email atleast");
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        toast.warning("Please input the required fields.");
+      } else {
+        toast.warning("Please input the email atleast");
+      }
     }
   };
 
@@ -1092,13 +1162,13 @@ const VerifyHCP = (props) => {
                           {localStorage.getItem("user_id") ===
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
                             <>
-                            <th scope="col">IRT mandatory training</th>
-                            <th scope="col">IRT role</th>
+                              <th scope="col">IRT mandatory training</th>
+                              <th scope="col">IRT role</th>
                             </>
                           ) : (
                             <>
-                            <th scope="col">Business unit</th>
-                            <th scope="col">Contact type</th>
+                              <th scope="col">Business unit</th>
+                              <th scope="col">Contact type</th>
                             </>
                           )}
 
@@ -1121,13 +1191,13 @@ const VerifyHCP = (props) => {
                                 <td>{users.country}</td>
                                 <td>
                                   {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                      ? users?.irt
-                                        ? "Yes"
-                                        : "No"
-                                      :users.ibu
-                                      ? users.ibu
-                                      : "N/A"}
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? users?.irt
+                                      ? "Yes"
+                                      : "No"
+                                    : users.ibu
+                                    ? users.ibu
+                                    : "N/A"}
                                 </td>
                                 <td>
                                   {localStorage.getItem("user_id") ===
@@ -1288,13 +1358,13 @@ const VerifyHCP = (props) => {
                           {localStorage.getItem("user_id") ===
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
                             <>
-                            <th scope="col">IRT mandatory training</th>
-                            <th scope="col">IRT role</th>
+                              <th scope="col">IRT mandatory training</th>
+                              <th scope="col">IRT role</th>
                             </>
                           ) : (
                             <>
-                            <th scope="col">Business unit</th>
-                            <th scope="col">Interest</th>
+                              <th scope="col">Business unit</th>
+                              <th scope="col">Interest</th>
                             </>
                           )}
                           <th scope="col">Consent</th>
@@ -1362,14 +1432,14 @@ const VerifyHCP = (props) => {
                                 <td>
                                   {/*data?.ibu ? data?.ibu : "N/A"*/}
                                   {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                      ? data.irt
-                                        ? "Yes"
-                                        : "No"
-                                      :data.ibu
-                                      ? data.ibu
-                                      : "N/A"}
-                                  </td>
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? data.irt
+                                      ? "Yes"
+                                      : "No"
+                                    : data.ibu
+                                    ? data.ibu
+                                    : "N/A"}
+                                </td>
                                 <td>
                                   {localStorage.getItem("user_id") ===
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1536,16 +1606,60 @@ const VerifyHCP = (props) => {
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={institutionType}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        defaultValue={
+                                          val?.institutionType
+                                            ? {
+                                                label: val?.institutionType,
+                                                value: val?.institutionType,
+                                              }
+                                            : ""
+                                        }
+                                        placeholder="Select institution"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT mandatory training</label>
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
 
                                       <Select
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onIRTChange(event, i)
+                                          onIRTChange(event?.value, i)
                                         }
-                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
+                                        defaultValue={
+                                          val?.optIrt
+                                            ? {
+                                                label: "Yes",
+                                                value: val?.optIrt,
+                                              }
+                                            : ""
+                                        }
+                                        value={
+                                          optIRT.findIndex(
+                                            (el) => el.value == val?.optIrt
+                                          ) == -1
+                                            ? ""
+                                            : optIRT[
+                                                optIRT.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.optIrt
+                                                )
+                                              ]
+                                        }
                                         placeholder="Select IRT"
                                       />
                                     </div>
