@@ -1406,8 +1406,8 @@ const ViewTable = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          setValidationError({ newHcpEmail: "Please enter the email atleast" });
-          return;
+          // setValidationError({ newHcpEmail: "Please enter the email atleast" });
+          return "Please enter the email atleast";
         }
         else if(data.institution_type == "" && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="){
           
@@ -1421,16 +1421,16 @@ const ViewTable = (props) => {
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = editList.find((x) => x.email === useremail);
             if (typeof prev_obj != "undefined") {
-              setValidationError({
-                newHcpEmail: "User with same email already added in list.",
-              });
-              return;
+              // setValidationError({
+              //   newHcpEmail: "User with same email already added in list.",
+              // });
+              return "User with same email already added in list.";
             } else {
               return "true";
             }
           } else {
-            setValidationError({ newHcpEmail: "Email format is not valid" });
-            return;
+            // setValidationError({ newHcpEmail: "Email format is not valid" });
+            return "Email format is not valid";
           }
         } else {
           return "true";
