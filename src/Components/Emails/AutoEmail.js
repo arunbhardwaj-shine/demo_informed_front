@@ -599,7 +599,6 @@ const [siteNameAll, setSiteNameAll] = useState([]);
   } else {
     const value = e?.value;
     const list = [...hpc];
-    console.log("list else",list);
     const name = hpc[i].institutionType;
     list[i].institutionType = value;
     setHpc(list);
@@ -608,9 +607,7 @@ const [siteNameAll, setSiteNameAll] = useState([]);
     } else {
       onIRTChange("no", i);
     }
-    console.log("list", list[i].optIrt);
   }
-
  }
 
 
@@ -1910,7 +1907,7 @@ console.log("body_dat",body_data);
                                     options={institutionType}
                                     className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                   //  id="institution-desc"
-                                  onChange={(event) =>
+                                     onChange={(event) =>
                                           onInstitionTypeChange(event, i)
                                         }
 
@@ -1934,7 +1931,7 @@ console.log("body_dat",body_data);
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onIRTChange(event, i)
+                                          onIRTChange(event?.value, i)
                                         }
                                         defaultValue={val?.optIrt ? { label: "Yes", value: val?.optIrt } : ""}
                                         value={
