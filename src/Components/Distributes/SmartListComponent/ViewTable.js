@@ -1409,7 +1409,7 @@ const ViewTable = (props) => {
           setValidationError({ newHcpEmail: "Please enter the email atleast" });
           return;
         }
-        else if(data.institution_type == ""){
+        else if(data.institution_type == "" && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="){
           
           return "Please select Institution";
         } else if (data.email != "") {
