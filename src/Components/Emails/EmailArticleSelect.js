@@ -29,6 +29,7 @@ const EmailArticleSelect = (props) => {
 
   const [showfilter, setShowFilter] = useState(false);
   const [filtertags, setFilterTags] = useState([]);
+  const [filterMandatory, setFilterMandatory] = useState("");
   const [filterdate, setFilterDate] = useState([]);
   const [filterlng, setFilterlng] = useState([]);
   const [updateflag, setUpdateFlag] = useState(0);
@@ -104,6 +105,13 @@ const EmailArticleSelect = (props) => {
     event.preventDefault();
     return false;
   };
+
+  const handleOnfilterMandatory = (data) =>{
+    // const [filterMandatory, setFilterMandatory] = useState("");
+
+    
+     setFilterMandatory(filterMandatory)
+  }
 
   const handleOnFilterTags = (ftag) => {
     let tag_index = filtertags.indexOf(ftag);
@@ -381,7 +389,7 @@ const EmailArticleSelect = (props) => {
                       </svg>
                     )}
                   </button>
-
+                    
                   {showfilter && (
                     <div
                       className="dropdown-menu filter-options"
@@ -502,6 +510,45 @@ const EmailArticleSelect = (props) => {
                               </Accordion.Body>
                             </Accordion.Item>
                           )}
+                         
+                           {filterdata.hasOwnProperty("mandatory_training") &&
+                          filterdata.mandatory_training.length > 0 && (
+                            <Accordion.Item className="card" eventKey="4">
+                              <Accordion.Header className="card-header">
+                                Mandatory
+                              </Accordion.Header>
+                              <Accordion.Body className="card-body">
+                                <ul>
+                                  {Object.entries(filterdata.mandatory_training).map(
+                                    ([index, item]) => (
+                                      <li>
+                                        <label className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id={`custom-checkbox-lng-${index}`}
+                                            name="language[]"
+                                            value={item}
+                                            checked={
+                                              filterMandatory?filterMandatory == item?true:false:""
+
+                                            }
+                                            onChange={() =>
+                                              handleOnfilterMandatory(item)
+                                            }
+                                          />
+                                          {item}
+                                          <span className="checkmark"></span>
+                                        </label>
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+                              </Accordion.Body>
+                            </Accordion.Item>
+                          )}
+
+
+
                       </Accordion>
                       <div className="filter-footer">
                         <button
