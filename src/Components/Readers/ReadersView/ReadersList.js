@@ -747,7 +747,6 @@ const NewReaders = () => {
       value: e?.value,
     };
       const instituteIndex = instituteValue.findIndex((el) => el.index === i);
-      console.log("-- ini",instituteIndex)
       if (instituteIndex === -1) {
         setInstitute((oldarray) => [...oldarray, insitutedData]);
       } else {
@@ -1081,7 +1080,6 @@ const NewReaders = () => {
         const instituteIndex = instituteValue.findIndex((el)=>el.index === reader_id)
 
         if (instituteIndex > -1) {
-          console.log("test",instituteIndex > -1)
 
           institute = instituteValue[instituteIndex]?instituteValue[instituteIndex].value?.value:"";
         }
@@ -1379,7 +1377,6 @@ const NewReaders = () => {
     <>
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
-          {console.log("instituteValue",instituteValue)}
           <Row>
             <div className="top-sticky">
               <div className="top-header reader_list">

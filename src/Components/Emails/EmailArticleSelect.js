@@ -43,11 +43,12 @@ const EmailArticleSelect = (props) => {
     getContentData(0, 1);
   }, [props]);
 
-  const getContentData = (flag, page) => {
+  const getContentData = (flag, page,value = "") => {
     let filterData = { ...filter };
+    let data =  value?"":filterMandatory
     if (
       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
-      filterMandatory
+      data
     ) {
       let obj = {
         Yes: 1,
@@ -147,6 +148,11 @@ const EmailArticleSelect = (props) => {
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
+
+  const handleMandatory = () =>{
+    getContentData(1,1,"data")
+  
+  }
 
   const handleOnFilterDate = (fdate) => {
     let tag_index = filterdate.indexOf(fdate);
@@ -677,7 +683,11 @@ const EmailArticleSelect = (props) => {
                           <div className="filter-div-list">
                             <div
                               className="filter-result"
-                              onClick={(event) => setFilterMandatory("")}
+                              onClick={(event) => {
+                                setFilterMandatory("")
+                                handleMandatory()
+                                
+                              }}
                             >
                               {filterMandatory}
                               <img
