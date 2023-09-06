@@ -20,6 +20,7 @@ const SelectSmartListUsers = (props) => {
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -63,8 +64,15 @@ const SelectSmartListUsers = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-      optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+      role:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      optIrt:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? "yes"
+          : "",
+      institutionType: "",
     },
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -184,7 +192,7 @@ const SelectSmartListUsers = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
-            console.log("country", res.data.response.data.country);
+          
             let country = res.data.response.data.country;
             let arr = [];
 
@@ -213,6 +221,12 @@ const SelectSmartListUsers = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
+              let instution_type = res?.data?.response?.data?.institution_type;
+              let newInstitutionType = [];
+              Object.keys(instution_type)?.map((item, i) => {
+                newInstitutionType.push({ label: item, value: item });
+              });
+              setInstitutionType(newInstitutionType);
 
               setRole(newType);
               setIrtRole(newIrtType);
@@ -319,7 +333,7 @@ const SelectSmartListUsers = (props) => {
   const axiosFun = async () => {
     try {
       const result = await axios.get(`emailapi/get_site`);
-      console.log("-result", result?.data?.response?.data?.site_country_data);
+    
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -386,6 +400,28 @@ const SelectSmartListUsers = (props) => {
     }
   };
 
+  const onInstitutionChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].institutionType = "";
+      list[i].optIRT = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].institutionType;
+      list[i].institutionType = value;
+      setHpc(list);
+      if (e?.value == "Study site") {
+        onIRTChange("yes", i);
+      } else {
+        onIRTChange("no", i);
+      }
+    }
+  };
+
   const onIRTChange = (e, i) => {
     if (e == "") {
       const list = [...hpc];
@@ -394,7 +430,7 @@ const SelectSmartListUsers = (props) => {
       list[i].country = "";
       setHpc(list);
     } else {
-      const value = e?.value;
+      const value = e;
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
@@ -517,6 +553,7 @@ const SelectSmartListUsers = (props) => {
 
   const addNewUser = () => {
     setIsOpenAdd(true);
+    setValidationError({});
     setHpc([
       {
         firstname: "",
@@ -525,8 +562,15 @@ const SelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+        role:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIrt:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
+        institutionType: "",
       },
     ]);
     setActiveManual("active");
@@ -576,10 +620,18 @@ const SelectSmartListUsers = (props) => {
   };
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (data?.email == "" || data?.institutionType == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       } else {
-        return "true";
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       }
     });
 
@@ -593,12 +645,23 @@ const SelectSmartListUsers = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-         optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+          role:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          optIrt:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "yes"
+              : "",
+          institutionType: "",
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        toast.warning("Please input the required fields.");
+      } else {
+        toast.warning("Please input the email atleast");
+      }
     }
   };
 
@@ -829,6 +892,9 @@ const SelectSmartListUsers = (props) => {
             siteName: data.siteName ? data.siteName : "",
             investigator_type: data?.role,
             siteIrt: data?.optIrt == "yes" ? 1 : 0,
+            institution_type: data?.institutionType
+              ? data?.institutionType
+              : "",
           };
         } else {
           return {
@@ -847,28 +913,43 @@ const SelectSmartListUsers = (props) => {
         smart_list_id: "",
       };
 
-      const status = body.data.map((data) => {
-        if (data.email == "") {
-          setValidationError({ newHcpEmail: "Please enter the email atleast" });
-          return;
-        } else if (data.email != "") {
-          let email = data.email;
-          let useremail = email.trim();
-          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = readers.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
+      const status = body.data.map((data, index) => {
+        if (data.email == "" || data?.institution_type == "") {
+          if (data.email == "") {
+            setValidationError({
+              newHcpEmail: "Please enter the email atleast",
+              index: index,
+            });
+            return;
+          } else if (data.email != "") {
+            let email = data.email;
+            let useremail = email.trim();
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (regex.test(String(useremail).toLowerCase())) {
+              let prev_obj = readers.find((x) => x.email === useremail);
+              if (typeof prev_obj != "undefined") {
+                setValidationError({
+                  newHcpEmail: "User with same email already added in list.",
+                  index: index,
+                });
+                return;
+              }
+            } else {
               setValidationError({
-                newHcpEmail: "User with same email already added in list.",
+                newHcpEmail: "Email format is not valid",
+                index: index,
               });
               return;
-            } else {
-              return "true";
             }
-            return "true";
-          } else {
-            setValidationError({ newHcpEmail: "Email format is not valid" });
-            return;
+          }
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (data.institution_type == "") {
+              setValidationError({
+                newHcpInstitution: "Please enter the institution ",
+                index: index,
+              });
+              return;
+            }
           }
         } else {
           return "true";
@@ -902,7 +983,9 @@ const SelectSmartListUsers = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.warning(status[0]);
+        const filteredArray = status.filter((value) => value !== "true");
+        toast.warning(filteredArray?.[0]);
+        // toast.warning(status[0]);
       }
 
       //  setIsOpen(false);
@@ -1131,13 +1214,13 @@ const SelectSmartListUsers = (props) => {
                         {localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <>
-                          <th scope="col">IRT mandatory training</th>
-                          <th scope="col">IRT role</th>
+                            <th scope="col">IRT mandatory training</th>
+                            <th scope="col">IRT role</th>
                           </>
                         ) : (
                           <>
-                          <th scope="col">Business unit</th>
-                          <th scope="col">Contact type</th>
+                            <th scope="col">Business unit</th>
+                            <th scope="col">Contact type</th>
                           </>
                         )}
 
@@ -1172,13 +1255,13 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? rr?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    :rr.ibu
-                                    ? rr.ibu
-                                    : "N/A"}
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : rr.ibu
+                                  ? rr.ibu
+                                  : "N/A"}
                               </td>
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1337,13 +1420,13 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 {/*readers.ibu ? readers.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? readers?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    :readers.ibu
-                                    ? readers.ibu
-                                    : "N/A"}
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? readers?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : readers.ibu
+                                  ? readers.ibu
+                                  : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
@@ -1481,13 +1564,13 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 {/*readers.ibu ? readers.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? readers?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    :readers.ibu
-                                    ? readers.ibu
-                                    : "N/A"}
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? readers?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : readers.ibu
+                                  ? readers.ibu
+                                  : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
@@ -1603,8 +1686,17 @@ const SelectSmartListUsers = (props) => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
-                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+                    role:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? irtRole?.[0]?.value
+                        : "",
+                    optIrt:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "yes"
+                        : "",
+                    institutionType: "",
                   },
                 ]);
                 setActiveManual("active");
@@ -1661,7 +1753,8 @@ const SelectSmartListUsers = (props) => {
                                   <input
                                     type="email"
                                     className={
-                                      validationError?.newHcpEmail
+                                      validationError?.newHcpEmail &&
+                                      validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -1672,29 +1765,85 @@ const SelectSmartListUsers = (props) => {
                                     }
                                     value={val.email}
                                   />
-                                  {validationError?.newHcpEmail ? (
+                                  {validationError?.newHcpEmail &&
+                                  validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpEmail}
                                     </div>
                                   ) : null}
                                 </div>
                               </div>
-                              {console.log("--tetetet",val)}
+                            
 
                               {localStorage.getItem("user_id") ===
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={institutionType}
+                                        className={
+                                          validationError?.newHcpInstitution &&
+                                          validationError?.index == i
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        defaultValue={
+                                          val?.institutionType
+                                            ? {
+                                                label: val?.institutionType,
+                                                value: val?.institutionType,
+                                              }
+                                            : ""
+                                        }
+                                        placeholder="Select institution"
+                                      />
+                                      {validationError?.newHcpInstitution &&
+                                      validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpInstitution}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT mandatory training</label>
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
                                       <Select
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onIRTChange(event, i)
+                                          onIRTChange(event?.value, i)
                                         }
-                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
+                                        defaultValue={
+                                          val?.optIrt
+                                            ? {
+                                                label: "Yes",
+                                                value: val?.optIrt,
+                                              }
+                                            : ""
+                                        }
+                                        value={
+                                          optIRT.findIndex(
+                                            (el) => el.value == val?.optIrt
+                                          ) == -1
+                                            ? ""
+                                            : optIRT[
+                                                optIRT.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.optIrt
+                                                )
+                                              ]
+                                        }
                                         placeholder="Select IRT"
                                       />
                                     </div>

@@ -136,7 +136,7 @@ const ReaderReview = () => {
                               IRT mandatory training{" "}
                             </th>
                             <td>
-                              {readerData?.irt
+                              {readerData?.irt || readerData?.irt == 0
                                 ? readerData?.irt == 1 ||
                                   readerData?.irt == "Yes"
                                   ? "Yes"
@@ -304,6 +304,14 @@ const ReaderReview = () => {
                             <td>
                               {readerData?.siteName
                                 ? readerData?.siteName
+                                : "N/A"}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="tab-content-title">Institution</th>
+                            <td>
+                              {readerData?.institute
+                                ? readerData?.institute
                                 : "N/A"}
                             </td>
                           </tr>

@@ -28,6 +28,9 @@ const ViewTable = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
+  const [instituions, setInstituions] = useState([]);
+
+
   const [editable, setEditable] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -128,6 +131,8 @@ const ViewTable = (props) => {
             let arrSiteIrt;
             let irt_user_type;
             let arrIrtUserType = [];
+                   let institutions;
+            let arrinstitutions = [];
 
             let arr = [];
 
@@ -141,6 +146,7 @@ const ViewTable = (props) => {
               site_postcode = res.data.response.data.site_post_code;
               site_city = res.data.response.data.site_city;
               irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
+              institutions  = res?.data?.response?.data?.institution_type;
 
               arrUserType = [];
               arrSubRole = [];
@@ -245,11 +251,19 @@ const ViewTable = (props) => {
                   value: item,
                 });
               });
+         Object.entries(institutions)?.map(([item, index]) => {
+                arrinstitutions.push({
+                  label: item,
+                  value: item,
+                });
+              });
+
             }
 
             setCountryall(arr);
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
               setIrtRole(arrIrtUserType);
+               setInstituions(arrinstitutions);
               setUserTypeAll(arrUserType);
               setSubUserTypeAll(arrSubRole);
               // setSiteNumberAll(arrSiteNumber);
@@ -605,7 +619,7 @@ const ViewTable = (props) => {
   const addMoreHcp = (e) => {
     e.preventDefault();
     const status = hpc.map((data) => {
-      if (data.email == "") {
+      if (data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") {
         return "false";
       } else {
         return "true";
@@ -1246,7 +1260,43 @@ const ViewTable = (props) => {
       setHpc(list);
     }
   };
+  const onInstitutionChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].institute = "";
+      list[i].institute = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      
+      const list = [...hpc];
+      if(value == "Study site"){
+        list[i].siteIrtIndex = 0;
+        list[i].siteIrt = "Yes";
+      }else{
+        list[i].siteIrtIndex = 1;
+        list[i].siteIrt = "No";
+      }
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      list[i].country = "";
+      const name = hpc[i].institute;
+      list[i].institute = value;
 
+      let index = instituions.findIndex((x) => x.value === value);
+      list[i].instituteIndex = index;
+
+      if(value != "Study site"){
+        let arr = [];
+        setSiteNumberAll(arr);
+        setSiteNameAll(arr);
+        setForceRender(!forceRender);
+      }
+      setHpc(list);
+    }
+  };
   const onSubUserTypeChange = (e, i) => {
     if (e == null) {
       const list = [...hpc];
@@ -1339,6 +1389,7 @@ const ViewTable = (props) => {
           siteStreet: data.siteStreet ? data.siteStreet : "",
           sitePostalCode: data.sitePostCode ? data.sitePostCode : "",
           siteCity: data.siteCity ? data.siteCity : "",
+          institution_type: data.institute ? data.institute : "",
           siteIrt:
             data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
         };
@@ -1351,11 +1402,16 @@ const ViewTable = (props) => {
         user_id: localStorage.getItem("user_id"),
         smart_list_id: getlistid,
       };
+   
 
       const status = body.data.map((data) => {
         if (data.email == "") {
           setValidationError({ newHcpEmail: "Please enter the email atleast" });
           return;
+        }
+        else if(data.institution_type == ""){
+          
+          return "Please select Institution";
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -1413,7 +1469,9 @@ const ViewTable = (props) => {
             loader("hide");
           });
       } else {
-        toast.warning(status[0]);
+        const filteredArray = status.filter(value => value !== 'true');
+
+        toast.warning(filteredArray?.[0]);
       }
     } else {
       let formData = new FormData();
@@ -1514,7 +1572,7 @@ const ViewTable = (props) => {
   return (
     <>
       <div className="page-top-nav smart_list_names sticky">
-        {console.log("props.data",props.data)}
+        {/* {console.log("props.data",props.data)} */}
         <div className="row justify-content-end align-items-center">
           <div className="col-12 col-md-1">
             <div className="header-btn-left">
@@ -2248,7 +2306,34 @@ const ViewTable = (props) => {
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
+                                
                                   <hr />
+                                  <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Institution <span>*</span></label>
+                                        <Select
+                                          options={instituions}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onInstitutionChange(event, i)
+                                          }
+                                          value={
+                                            instituions[
+                                              hpc[i].instituteIndex
+                                            ]
+                                          }
+                                          placeholder={
+                                            typeof instituions[
+                                              hpc[i].instituteIndex
+                                            ] === "undefined"
+                                              ? "Select Institutions"
+                                              : instituions[
+                                                  hpc[i].instituteIndex
+                                                ]
+                                          }
+                                        />
+                                      </div>
+                                    </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">IRT mandatory training</label>
@@ -2261,7 +2346,7 @@ const ViewTable = (props) => {
                                             i
                                           )
                                         }
-                                        defaultValue={
+                                        value={
                                           siteIrtAll[hpc[i].siteIrtIndex]
                                         }
                                         placeholder={

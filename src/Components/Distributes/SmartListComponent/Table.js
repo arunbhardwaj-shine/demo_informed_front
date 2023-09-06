@@ -45,6 +45,7 @@ const Table = (props, ref) => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
+  const [instituions, setInstituions] = useState([]);
   const [activeManual, setActiveManual] = useState("active");
   const [sorting, setSorting] = useState(0);
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -129,6 +130,8 @@ const Table = (props, ref) => {
             let arrSiteIrt;
             let irt_user_type;
             let arrIrtUserType = [];
+            let institutions;
+            let arrinstitutions = [];
 
             let arr = [];
 
@@ -142,6 +145,7 @@ const Table = (props, ref) => {
               site_postcode = res.data.response.data.site_post_code;
               site_city = res.data.response.data.site_city;
               irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
+              institutions  = res?.data?.response?.data?.institution_type;
 
               arrUserType = [];
               arrSubRole = [];
@@ -246,11 +250,19 @@ const Table = (props, ref) => {
                   value: item,
                 });
               });
+
+              Object.entries(institutions)?.map(([item, index]) => {
+                arrinstitutions.push({
+                  label: item,
+                  value: item,
+                });
+              });
             }
 
             setCountryall(arr);
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
               setIrtRole(arrIrtUserType);
+              setInstituions(arrinstitutions);
               setUserTypeAll(arrUserType);
               setSubUserTypeAll(arrSubRole);
               setSiteNumberAll(arrSiteNumber);
@@ -369,6 +381,44 @@ const Table = (props, ref) => {
     }
   };
 
+  const onInstitutionChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].institute = "";
+      list[i].institute = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      
+      const list = [...hpc];
+      if(value == "Study site"){
+        list[i].siteIrtIndex = 0;
+        list[i].siteIrt = "Yes";
+      }else{
+        list[i].siteIrtIndex = 1;
+        list[i].siteIrt = "No";
+      }
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      list[i].country = "";
+      const name = hpc[i].institute;
+      list[i].institute = value;
+
+      let index = instituions.findIndex((x) => x.value === value);
+      list[i].instituteIndex = index;
+
+      if(value != "Study site"){
+        let arr = [];
+        setSiteNumberAll(arr);
+        setSiteNameAll(arr);
+        setForceRender(!forceRender);
+      }
+      setHpc(list);
+    }
+  };
+
   const onSiteNumberChange = (e, i) => {
     if (e == null) {
       const list = [...hpc];
@@ -437,6 +487,7 @@ const Table = (props, ref) => {
     }
   };
   const onSiteIrtChange = (e, i) => {
+    
     if (e == null) {
       const list = [...hpc];
       list[i].siteIrt = "";
@@ -452,6 +503,7 @@ const Table = (props, ref) => {
       list[i].siteIrt = value;
 
       let index = siteIrtAll.findIndex((x) => x.value === value);
+      console.log(index,value);
       list[i].siteIrtIndex = index;
       list[i].userType = "";
       list[i].userTypeIndex = "";
@@ -753,11 +805,11 @@ const Table = (props, ref) => {
       props.data.length > 0
     ) {
       //Parent Child FLow
-      const profile_user_id_array = fdata.map((data) => {
+      const profile_user_id_array = fdata?.map((data) => {
         return data.profile_user_id;
       });
 
-      const new_user_id_array = newReaders.map((data) => {
+      const new_user_id_array = newReaders?.map((data) => {
         return data.profile_user_id;
       });
       body = {
@@ -1059,10 +1111,18 @@ const Table = (props, ref) => {
     console.log(hpc);
 
     const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
-      } else {
-        return "true";
+      if(localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="){
+        if (data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") {
+          return "false";
+        } else {
+          return "true";
+        }
+      }else{
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       }
     });
 
@@ -1095,7 +1155,11 @@ const Table = (props, ref) => {
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      if(localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="){
+        toast.warning("Please input the required fields.");
+      }else{
+        toast.warning("Please input the email atleast.");
+      }
     }
   };
 
@@ -1274,7 +1338,8 @@ const Table = (props, ref) => {
           sitePostalCode: data.sitePostCode ? data.sitePostCode : "",
           siteCity: data.siteCity ? data.siteCity : "",
           siteIrt:
-            data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
+          data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
+          institution_type: data.institute ? data.institute : "",
         };
       });
       // console.log(body_data);
@@ -1289,6 +1354,8 @@ const Table = (props, ref) => {
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (data.email == "") {
           return "Please enter the email atleast";
+        }else if(data.institution_type == ""){
+          return "Please select Institution";
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -1349,7 +1416,9 @@ const Table = (props, ref) => {
             loader("hide");
           });
       } else {
-        toast.warning(status[0]);
+        // toast.warning(status[0]);
+        const filteredArray = status.filter(value => value !== 'true');
+        toast.warning(filteredArray?.[0]);
       }
 
       //setIsOpen(false);
@@ -2442,21 +2511,47 @@ const Table = (props, ref) => {
                                     <hr />
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
+                                        <label for="">Institution <span>*</span></label>
+                                        <Select
+                                          options={instituions}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onInstitutionChange(event, i)
+                                          }
+                                          defaultValue={
+                                            instituions[
+                                              hpc[i].instituteIndex
+                                            ]
+                                          }
+                                          placeholder={
+                                            typeof instituions[
+                                              hpc[i].instituteIndex
+                                            ] === "undefined"
+                                              ? "Select Institutions"
+                                              : instituions[
+                                                  hpc[i].instituteIndex
+                                                ]
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
                                         <label for="">
                                           IRT mandatory training
                                         </label>
-                                        {console.log(
+                                        {/*console.log(
                                           siteIrtAll[hpc[i].siteIrtIndex],
                                           siteIrtAll,
                                           hpc[i]
-                                        )}
+                                        )*/}
                                         <Select
                                           options={siteIrtAll}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                           onChange={(event) =>
                                             onSiteIrtChange(event, i)
                                           }
-                                          defaultValue={
+                                          value={
                                             siteIrtAll[hpc[i].siteIrtIndex]
                                           }
                                           placeholder={

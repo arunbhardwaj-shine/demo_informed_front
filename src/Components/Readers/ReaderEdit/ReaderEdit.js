@@ -110,7 +110,22 @@ const ReaderEdit = () => {
     title: "",
     ibu: "",
     hospitalData: {},
+    institution: "",
   });
+  const institutionData = [
+    {
+      label:"Study site",value:"Study site"
+    },
+    {
+      label:"Premier Research",value:"Premier Research"
+    },
+    {
+      label:"Comac",value:"Comac"
+    },
+    {
+      label:"Octapharma",value:"Octapharma"
+    }
+  ]
   const [userDetail, setUserDetail] = useState({
     speciality: [
       { value: "speciality1", label: "speciality1" },
@@ -249,6 +264,7 @@ const ReaderEdit = () => {
       siteNumber: hasData?.data?.data?.siteNumber,
       sideData: hasData?.data?.data?.sideData,
       irt: hasData?.data?.data?.irt,
+      institution: hasData?.data?.data?.institution,
     });
     loader("hide");
   };
@@ -272,8 +288,8 @@ const ReaderEdit = () => {
         userType: obj[hasData?.data?.data.userType]
           ? obj[hasData?.data?.data.userType]
           : hasData?.data?.data.userType,
+        irt: hasData?.data?.data.irt == "Yes" ? 1 : 0,
       });
-      // setAddReaderInputs({...hasData?.data?.data,"userType":obj[hasData?.data?.data.user_status]?obj[hasData?.data?.data.user_status]:""});
       loader("hide");
     } catch (err) {
       console.log(err);
@@ -433,11 +449,14 @@ const ReaderEdit = () => {
           });
         }
       });
+      console.log("--- inside changes Site Data",newSite)
       setUserDetail({
         ...userDetail,
         siteName: newSite,
         siteNumber: newSiteNumber,
       });
+    }else{
+      console.log("-- im here inside changes")
     }
   };
 
@@ -526,7 +545,24 @@ const ReaderEdit = () => {
         siteName: newSiteName,
         siteNumber: newSiteNumber,
       });
-    } else {
+    }else if(isSelectedName == "institution") {
+      if(e == "Study site"){
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+          ["role"]: "Site User-Blinded",
+          ["irt"]: 1,
+        });
+      }else{
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+          ["irt"]: 0,
+          ["siteName"]: "",
+          ["siteNumber"]: "",
+        });
+      }
+     } else {
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -600,6 +636,7 @@ const ReaderEdit = () => {
           irt: userInputs?.irt,
           ibu: userInputs?.ibu,
           userType: userInputs?.userType,
+          institute: userInputs?.institution,
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
@@ -621,6 +658,35 @@ const ReaderEdit = () => {
       <>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
+            Institution <span>*</span>
+
+          </Form.Label>
+          <Select
+            options={institutionData}
+            placeholder={"Select Institution"}
+            value={{
+              label: userInputs?.institution,
+              value: userInputs?.institution,
+            }}
+            name="institution"
+            className={
+              error?.institution
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
+            isClearable
+            onChange={(e) => handleChange(e?.value, "institution")}
+          />
+
+          {error?.institution ? (
+            <div className="login-validation">{error?.institution}</div>
+             ) : (
+            ""
+          )}
+        </Form.Group>
+         
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
               ? "IRT mandatory training"
               : "IRT"}
@@ -631,6 +697,17 @@ const ReaderEdit = () => {
               label: userInputs?.irt,
               value: userInputs?.irt,
             }}
+            value={
+              userDetail?.irt.findIndex(
+                (el) => el.value == userInputs?.irt
+              ) == -1
+                ? ""
+                : userDetail?.irt[
+                    userDetail?.irt.findIndex(
+                      (el) => el.value == userInputs?.irt
+                    )
+                  ]
+            }
             placeholder="Select IRT"
             name="irt"
             className={
@@ -1126,6 +1203,7 @@ const ReaderEdit = () => {
                                 }
                               />
                             </Form.Group>
+
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Site name </Form.Label>
                               <Select

@@ -53,7 +53,7 @@ const AutoEmail = () => {
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
-  
+
   const [getTemplateLanguage, setTemplateLanguage] = useState([
     { value: "0", label: "English" },
     { value: "4", label: "Russian" },
@@ -67,16 +67,28 @@ const AutoEmail = () => {
   const [validationError, setValidationError] = useState({});
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
   ]);
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" ,
-    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
-  
-  },
+    {
+      firstname: "",
+      lastname: "",
+      email: "",
+      contact_type: "",
+      country: "",
+      role:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      optIrt:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? "yes"
+          : "",
+      institutionType: "",
+    },
   ]);
   const [irtCountry, setIRTCountry] = useState([]);
 
@@ -150,6 +162,16 @@ const AutoEmail = () => {
               });
               setRole(newType);
               setIrtRole(newIrtType);
+
+              let institution_type =
+                res?.data?.response?.data?.institution_type;
+
+              let newInstitution = [];
+              Object.keys(institution_type)?.map((item, i) => {
+                newInstitution.push({ label: item, value: item });
+              });
+
+              setInstitutionType(newInstitution);
             }
             setTotalData(res.data.response.data);
           }
@@ -325,8 +347,15 @@ const AutoEmail = () => {
         email: "",
         contact_type: "",
         country: "",
-        role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-        optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+        role:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIrt:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
+        institutionType: "",
       },
     ]);
     setActiveManual("active");
@@ -509,7 +538,7 @@ const AutoEmail = () => {
     if (ev.target.scrollTop > 20) {
       const mailViewElement = document.querySelector("#mail-view");
       if (mailViewElement) {
-          mailViewElement.setAttribute("custom-atr", "scroll");
+        mailViewElement.setAttribute("custom-atr", "scroll");
       }
       // document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
     } else {
@@ -517,10 +546,10 @@ const AutoEmail = () => {
       //   .querySelector("#mail-view")
       //   .setAttribute("custom-atr", "non-scroll");
 
-        const mailViewElement = document.querySelector("#mail-view");
-        if (mailViewElement) {
-            mailViewElement.setAttribute("custom-atr", "non-scroll");
-        }
+      const mailViewElement = document.querySelector("#mail-view");
+      if (mailViewElement) {
+        mailViewElement.setAttribute("custom-atr", "non-scroll");
+      }
     }
   };
 
@@ -570,6 +599,44 @@ const AutoEmail = () => {
     }
   };
 
+ const onInstitionTypeChange = (e,i) => {
+   console.log("e--->", e);
+  if (e == "") {
+
+    const list = [...hpc];
+    console.log("list",list);
+    list[i].institutionType = "";
+    list[i].optIrt = "";
+    list[i].role = "";
+    list[i].country = "";
+    setHpc(list);
+  } else {
+    const value = e?.value;
+    const list = [...hpc];
+    const name = hpc[i].institutionType;
+    list[i].institutionType = value;
+    setHpc(list);
+    if (e?.value == "Study site") {
+      onIRTChange("yes", i);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      console.log("list else", list);
+      const name = hpc[i].institutionType;
+      list[i].institutionType = value;
+      setHpc(list);
+      if (e?.value == "Study site") {
+        onIRTChange("yes", i);
+      } else {
+        onIRTChange("no", i);
+      }
+      console.log("list", list[i].optIrt);
+    }
+  }
+ }
+
+
+
   const onIRTChange = (e, i) => {
     if (e == "") {
       const list = [...hpc];
@@ -578,7 +645,7 @@ const AutoEmail = () => {
       list[i].country = "";
       setHpc(list);
     } else {
-      const value = e?.value;
+      const value = e;
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
@@ -699,6 +766,11 @@ const AutoEmail = () => {
             contact_type: data.contact_type,
             siteNumber: data?.siteNumber ? data.siteNumber : "",
             siteName: data.siteName ? data.siteName : "",
+            investigator_type: data?.role,
+            siteIrt: data?.optIrt == "yes" ? 1 : 0,
+            institution_type: data?.institutionType
+              ? data?.institutionType
+              : "",
           };
         } else {
           return {
@@ -710,7 +782,7 @@ const AutoEmail = () => {
           };
         }
       });
-
+      console.log("body_dat", body_data);
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
@@ -718,8 +790,11 @@ const AutoEmail = () => {
       };
 
       const status = body.data.map((data) => {
+        console.log("data", data);
         if (data.email == "") {
           return "Please enter the email atleast";
+        } else if (data?.institution_type == "") {
+          return "Please select the institution type";
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -816,12 +891,30 @@ const AutoEmail = () => {
     setSmartListId(data.id);
   };
 
+  // const addMoreHcp = () => {
+  //   const status = hpc.map((data) => {
+  //     if (data.email == "") {
+  //       return "false";
+  //     } else {
+  //       return "true";
+  //     }
+  //   });
+
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
+      console.log("hpc-->", hpc);
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (data?.email == "" || data?.institutionType == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       } else {
-        return "true";
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       }
     });
 
@@ -834,12 +927,23 @@ const AutoEmail = () => {
           email: "",
           contact_type: "",
           country: "",
-          role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-          optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+          role:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          optIrt:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "yes"
+              : "",
+          institutionType: "",
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        toast.warning("Please input the required fields.");
+      } else {
+        toast.warning("Please input the email atleast");
+      }
     }
   };
 
@@ -994,36 +1098,30 @@ const AutoEmail = () => {
     setIndexClicked();
   };
 
-  const addTracking= function (editor) {
+  const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-      let dialog =
-        document.getElementsByClassName("tox-dialog")[0];
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
 
       if (dialog) {
-        let header = dialog.querySelector(
-          ".tox-dialog__header"
-        );
-        const closeButton = header.querySelector(
-          '[aria-label="Close"]'
-        );
-        let text =
-          header.querySelector(".tox-dialog__title");
+        let header = dialog.querySelector(".tox-dialog__header");
+        const closeButton = header.querySelector('[aria-label="Close"]');
+        let text = header.querySelector(".tox-dialog__title");
 
         if (text.innerText == "Insert/Edit Link") {
-          let uploadIcon=  document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span")
+          let uploadIcon = document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+          );
           uploadIcon.style.display = "none";
-          let newButton =
-            document.createElement("button");
+          let newButton = document.createElement("button");
           newButton.innerText = "Add Tracking";
-          newButton.classList.add("tox-button")
-          newButton.classList.add("tox-button--icon")
-          newButton.classList.add("tox-button--naked")
-          newButton.classList.add("track")
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
           newButton.onclick = function () {
-            let firstToxControlWrap =
-              document.querySelector(
-                "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-              );
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
 
             // let text =dialog.querySelector(".tox-form__group");
             if (!firstToxControlWrap.value) {
@@ -1032,11 +1130,7 @@ const AutoEmail = () => {
             }
             const baseLink =
               "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            if (
-              firstToxControlWrap.value.startsWith(
-                baseLink
-              )
-            ) {
+            if (firstToxControlWrap.value.startsWith(baseLink)) {
               alert("Traking already added");
               return;
             }
@@ -1045,7 +1139,7 @@ const AutoEmail = () => {
             // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
             let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
             firstToxControlWrap.value = link;
-          
+
             alert("Traking added");
           };
 
@@ -1053,7 +1147,7 @@ const AutoEmail = () => {
         }
       }
     });
-  }
+  };
 
   const uploadImageToServer = async (file) => {
     try {
@@ -1079,10 +1173,8 @@ const AutoEmail = () => {
     } catch (error) {
       console.error("Image upload error:", error);
       return null;
-    }
-    finally{
+    } finally {
       loader("hide");
-
     }
   };
 
@@ -1349,81 +1441,99 @@ const AutoEmail = () => {
                                   "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                                 content_style:
                                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                                  init_instance_callback: (editor)=>addTracking(editor),
-                                    file_picker_types: 'file image media',
-                                  file_picker_callback: function (callback, value, meta) {
-                                    const input = document.createElement("input");
-            
-                                    if(meta.filetype === 'media'){
-                                      input.setAttribute("type", "file");
-                                  input.setAttribute("accept", "video/*");
-                  
-                  
-                  
-                  
-                                  input.onchange = async () => {
-                  
-                  
-                                      const file = input.files[0];
-                                      if (file) {
-                                          let uploadedImageUrl;
-                  
-                                          try {
-                                              if (meta && meta.width && meta.height) {
-                                                  uploadedImageUrl = await uploadImageToServer(file, meta.width, meta.height);
-                                              } else {
-                                                  uploadedImageUrl = await uploadImageToServer(file);
-                                              }
-                                            
-                  
-                                              if (uploadedImageUrl) {
-                                                  callback(uploadedImageUrl, {
-                                                      width: 500,
-                                                      height: 500,
-                                                  });
-                  
-                  
-                                              } else {
-                                                  console.error("Failed to upload image");
-                                              }
-                                          } catch (error) {
-                                              console.error("Error uploading image:", error);
-                                          } finally {
-                                    
-                                          }
-                                      }
-                                  };
-                  
-                                  }else{
+                                init_instance_callback: (editor) =>
+                                  addTracking(editor),
+                                file_picker_types: "file image media",
+                                file_picker_callback: function (
+                                  callback,
+                                  value,
+                                  meta
+                                ) {
+                                  const input = document.createElement("input");
+
+                                  if (meta.filetype === "media") {
                                     input.setAttribute("type", "file");
-                                    input.setAttribute("accept", "image/*");
-            
-                                    // Create a loading indicator element (e.g., a spinner)
-                                    const loadingIndicator =
-                                      document.createElement("div");
-                                    loadingIndicator.className = "loading-indicator";
-                                    loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
-            
+                                    input.setAttribute("accept", "video/*");
+
                                     input.onchange = async () => {
-                                      document.body.appendChild(loadingIndicator); // Show loading indicator
-            
                                       const file = input.files[0];
                                       if (file) {
                                         let uploadedImageUrl;
-            
+
                                         try {
-                                          if (meta && meta.width && meta.height) {
-                                            uploadedImageUrl = await uploadImageToServer(
-                                              file,
-                                              meta.width,
-                                              meta.height
-                                            );
+                                          if (
+                                            meta &&
+                                            meta.width &&
+                                            meta.height
+                                          ) {
+                                            uploadedImageUrl =
+                                              await uploadImageToServer(
+                                                file,
+                                                meta.width,
+                                                meta.height
+                                              );
                                           } else {
-                                            uploadedImageUrl = await uploadImageToServer(
-                                              file
+                                            uploadedImageUrl =
+                                              await uploadImageToServer(file);
+                                          }
+
+                                          if (uploadedImageUrl) {
+                                            callback(uploadedImageUrl, {
+                                              width: 500,
+                                              height: 500,
+                                            });
+                                          } else {
+                                            console.error(
+                                              "Failed to upload image"
                                             );
                                           }
-            
+                                        } catch (error) {
+                                          console.error(
+                                            "Error uploading image:",
+                                            error
+                                          );
+                                        } finally {
+                                        }
+                                      }
+                                    };
+                                  } else {
+                                    input.setAttribute("type", "file");
+                                    input.setAttribute("accept", "image/*");
+
+                                    // Create a loading indicator element (e.g., a spinner)
+                                    const loadingIndicator =
+                                      document.createElement("div");
+                                    loadingIndicator.className =
+                                      "loading-indicator";
+                                    loadingIndicator.textContent =
+                                      "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                                    input.onchange = async () => {
+                                      document.body.appendChild(
+                                        loadingIndicator
+                                      ); // Show loading indicator
+
+                                      const file = input.files[0];
+                                      if (file) {
+                                        let uploadedImageUrl;
+
+                                        try {
+                                          if (
+                                            meta &&
+                                            meta.width &&
+                                            meta.height
+                                          ) {
+                                            uploadedImageUrl =
+                                              await uploadImageToServer(
+                                                file,
+                                                meta.width,
+                                                meta.height
+                                              );
+                                          } else {
+                                            uploadedImageUrl =
+                                              await uploadImageToServer(file);
+                                          }
+
                                           if (uploadedImageUrl) {
                                             callback(uploadedImageUrl, {
                                               width: 500,
@@ -1431,18 +1541,25 @@ const AutoEmail = () => {
                                             });
                                             loader("hide");
                                           } else {
-                                            console.error("Failed to upload image");
+                                            console.error(
+                                              "Failed to upload image"
+                                            );
                                           }
                                         } catch (error) {
-                                          console.error("Error uploading image:", error);
+                                          console.error(
+                                            "Error uploading image:",
+                                            error
+                                          );
                                         } finally {
-                                          document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                          document.body.removeChild(
+                                            loadingIndicator
+                                          ); // Hide loading indicator
                                         }
                                       }
                                     };
                                   }
-                                    input.click();
-                                  },
+                                  input.click();
+                                },
                               }}
                               onEditorChange={(content) => {
                                 setTemplateSaving(content);
@@ -1465,57 +1582,70 @@ const AutoEmail = () => {
                                   "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                                 content_style:
                                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                                  init_instance_callback: (editor)=>addTracking(editor),
-                                  file_picker_callback: function (callback, value, meta) {
-                                    const input = document.createElement("input");
-                                    input.setAttribute("type", "file");
-                                    input.setAttribute("accept", "image/*");
-          
-                                    // Create a loading indicator element (e.g., a spinner)
-                                    const loadingIndicator =
-                                      document.createElement("div");
-                                    loadingIndicator.className = "loading-indicator";
-                                    loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
-          
-                                    input.onchange = async () => {
-                                      document.body.appendChild(loadingIndicator); // Show loading indicator
-          
-                                      const file = input.files[0];
-                                      if (file) {
-                                        let uploadedImageUrl;
-          
-                                        try {
-                                          if (meta && meta.width && meta.height) {
-                                            uploadedImageUrl = await uploadImageToServer(
+                                init_instance_callback: (editor) =>
+                                  addTracking(editor),
+                                file_picker_callback: function (
+                                  callback,
+                                  value,
+                                  meta
+                                ) {
+                                  const input = document.createElement("input");
+                                  input.setAttribute("type", "file");
+                                  input.setAttribute("accept", "image/*");
+
+                                  // Create a loading indicator element (e.g., a spinner)
+                                  const loadingIndicator =
+                                    document.createElement("div");
+                                  loadingIndicator.className =
+                                    "loading-indicator";
+                                  loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                                  input.onchange = async () => {
+                                    document.body.appendChild(loadingIndicator); // Show loading indicator
+
+                                    const file = input.files[0];
+                                    if (file) {
+                                      let uploadedImageUrl;
+
+                                      try {
+                                        if (meta && meta.width && meta.height) {
+                                          uploadedImageUrl =
+                                            await uploadImageToServer(
                                               file,
                                               meta.width,
                                               meta.height
                                             );
-                                          } else {
-                                            uploadedImageUrl = await uploadImageToServer(
-                                              file
-                                            );
-                                          }
-          
-                                          if (uploadedImageUrl) {
-                                            callback(uploadedImageUrl, {
-                                              width: 500,
-                                              height: 500,
-                                            });
-                                            loader("hide");
-                                          } else {
-                                            console.error("Failed to upload image");
-                                          }
-                                        } catch (error) {
-                                          console.error("Error uploading image:", error);
-                                        } finally {
-                                          document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                        } else {
+                                          uploadedImageUrl =
+                                            await uploadImageToServer(file);
                                         }
+
+                                        if (uploadedImageUrl) {
+                                          callback(uploadedImageUrl, {
+                                            width: 500,
+                                            height: 500,
+                                          });
+                                          loader("hide");
+                                        } else {
+                                          console.error(
+                                            "Failed to upload image"
+                                          );
+                                        }
+                                      } catch (error) {
+                                        console.error(
+                                          "Error uploading image:",
+                                          error
+                                        );
+                                      } finally {
+                                        document.body.removeChild(
+                                          loadingIndicator
+                                        ); // Hide loading indicator
                                       }
-                                    };
-          
-                                    input.click();
-                                  },
+                                    }
+                                  };
+
+                                  input.click();
+                                },
                               }}
                               onEditorChange={(content) => {
                                 setTemplateSaving(content);
@@ -1740,8 +1870,17 @@ const AutoEmail = () => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-                    optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+                    role:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? irtRole?.[0]?.value
+                        : "",
+                    optIrt:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "yes"
+                        : "",
+                    institutionType: "",
                   },
                 ]);
                 // document.querySelector("#file-4").value = "";
@@ -1808,21 +1947,66 @@ const AutoEmail = () => {
                                   />
                                 </div>
                               </div>
+
                               {localStorage.getItem("user_id") ===
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
+                                <div className="form-group bottom">
+                                  <label for="">Institution <span>*</span>                      
+                                  </label>
+                                  <Select
+                                    options={institutionType}
+                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                  //  id="institution-desc"
+                                     onChange={(event) =>
+                                          onInstitionTypeChange(event, i)
+                                        }
+                                        defaultValue={
+                                          val?.institutionType
+                                            ? {
+                                                label: val?.institutionType,
+                                                value: val?.institutionType,
+                                              }
+                                            : ""
+                                        }
+                                        placeholder="Select Institution"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT mandatory training</label>
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
 
                                       <Select
                                         options={optIRT}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onIRTChange(event, i)
+                                          onIRTChange(event?.value, i)
                                         }
-                                        defaultValue={val?.optIrt?{label:"Yes",value:val?.optIrt}:""}
+                                        defaultValue={
+                                          val?.optIrt
+                                            ? {
+                                                label: "Yes",
+                                                value: val?.optIrt,
+                                              }
+                                            : ""
+                                        }
+                                        value={
+                                          optIRT.findIndex(
+                                            (el) => el.value == val?.optIrt
+                                          ) == -1
+                                            ? ""
+                                            : optIRT[
+                                                optIRT.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.optIrt
+                                                )
+                                              ]
+                                        }
                                         placeholder="Select IRT"
                                       />
                                     </div>
