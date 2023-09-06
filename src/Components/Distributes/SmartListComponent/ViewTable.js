@@ -1276,6 +1276,8 @@ const ViewTable = (props) => {
       }else{
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
+        list[i].userType = "";
+        list[i].userTypeIndex = "";
       }
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
