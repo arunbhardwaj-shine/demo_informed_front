@@ -505,7 +505,7 @@ const CreateEmail = (props) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
         toast.warning("Please input the required fields.");
       } else {
-        toast.warning("Please input the email atleast");
+        toast.warning("Please input the required fields.");
       }
     }
   };
@@ -1826,31 +1826,33 @@ const CreateEmail = (props) => {
       }
     });
   };
-  const uploadImageToServer =    async function uploadImageToServer(file) {
+  const uploadImageToServer = async function uploadImageToServer(file) {
     try {
       const formData = new FormData();
       formData.append("image", file);
-  
+
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-      
-        let tox= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog") 
-         let tox1=document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop")
-  
+
+        let tox = document.querySelector(
+          "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog"
+        );
+        let tox1 = document.querySelector(
+          "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop"
+        );
+
         xhr.upload.addEventListener("progress", (event) => {
-          setShowProgress(true)
-         tox.style.opacity = 0
-         tox1.style.opacity = 0
+          setShowProgress(true);
+          tox.style.opacity = 0;
+          tox1.style.opacity = 0;
           if (event.lengthComputable) {
             const percentComplete = (event.loaded / event.total) * 100;
-    
 
-  setProgress(parseInt(event.loaded / event.total) );
-  setPercent(parseInt(percentComplete));
-  
+            setProgress(parseInt(event.loaded / event.total));
+            setPercent(parseInt(percentComplete));
           }
         });
-  
+
         xhr.addEventListener("load", () => {
           if (xhr.status === 200) {
             try {
@@ -1860,28 +1862,25 @@ const CreateEmail = (props) => {
             } catch (parseError) {
               console.error("Failed to parse response JSON:", parseError);
               reject(null);
-            }
-            finally{
-              setShowProgress(false)
-         tox1.style.opacity = 1
-         tox.style.opacity = 1
+            } finally {
+              setShowProgress(false);
+              tox1.style.opacity = 1;
+              tox.style.opacity = 1;
 
               setProgress(0);
               setPercent(0);
-              
-
             }
           } else {
             console.error("Image upload failed");
             reject(null);
           }
         });
-  
+
         xhr.addEventListener("error", (error) => {
           console.error("Image upload error:", error);
           reject(null);
         });
-  
+
         xhr.open("POST", "https://onesource.informed.pro/api/upload-image");
         xhr.send(formData);
       });
@@ -1889,7 +1888,7 @@ const CreateEmail = (props) => {
       console.error("Image upload error:", error);
       return null;
     }
-  }
+  };
 
   return (
     <>
@@ -2221,23 +2220,34 @@ const CreateEmail = (props) => {
                   </div>
                 </div>
                 <div className="row">
-                {showProgress?  <div className="progressloader"> <div
-            className="circular-progressbar"
-            style={{
-              position:"absolute",
-              top:"50%",
-              left:"0",
-              right:"0",
-              margin:"0 auto",
-              width: 200,
-              height: 200,
-              zIndex: "999999",
-            }}
-          > <CircularProgressbar
-              value={percent}
-              text={`${percent}%`}
-              strokeWidth={5}
-            /></div></div>:""}              <Editor
+                  {showProgress ? (
+                    <div className="progressloader">
+                      {" "}
+                      <div
+                        className="circular-progressbar"
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "0",
+                          right: "0",
+                          margin: "0 auto",
+                          width: 200,
+                          height: 200,
+                          zIndex: "999999",
+                        }}
+                      >
+                        {" "}
+                        <CircularProgressbar
+                          value={percent}
+                          text={`${percent}%`}
+                          strokeWidth={5}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}{" "}
+                  <Editor
                     apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                     onInit={(evt, editor) => (editorRef.current = editor)}
                     initialValue={template}
@@ -2349,7 +2359,6 @@ const CreateEmail = (props) => {
                       setTemplateSaving(content);
                     }}
                   />
-
                   {/*
 
               <CKEditor
