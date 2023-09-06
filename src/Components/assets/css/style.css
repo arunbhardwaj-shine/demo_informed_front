@@ -5797,6 +5797,11 @@ input:-webkit-autofill {
   background-size: 16px;
   height: 45px;
 }
+.modal .bottom .split-button-dropup.edit-country-dropdown > div:nth-child(4) {
+  top: 45px;
+  bottom:auto;
+}
+
 
 .modal .split-button-dropup.edit-country-dropdown>div:nth-child(4) {
   bottom: 45px;
