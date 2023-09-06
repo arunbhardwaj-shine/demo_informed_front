@@ -192,7 +192,7 @@ const SelectSmartListUsers = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
-            console.log("country", res.data.response.data.country);
+          
             let country = res.data.response.data.country;
             let arr = [];
 
@@ -333,7 +333,7 @@ const SelectSmartListUsers = (props) => {
   const axiosFun = async () => {
     try {
       const result = await axios.get(`emailapi/get_site`);
-      console.log("-result", result?.data?.response?.data?.site_country_data);
+    
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -658,7 +658,7 @@ const SelectSmartListUsers = (props) => {
       ]);
     } else {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        toast.warning("Please input the email and Institution");
+        toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast");
       }
@@ -1773,7 +1773,7 @@ const SelectSmartListUsers = (props) => {
                                   ) : null}
                                 </div>
                               </div>
-                              {console.log("--tetetet", val)}
+                            
 
                               {localStorage.getItem("user_id") ===
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
