@@ -31,6 +31,7 @@ const EmailArticleSelect = (props) => {
   const [filtertags, setFilterTags] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
   const [filterlng, setFilterlng] = useState([]);
+  const [filterMandatory, setFilterMandatory] = useState("");
   const [updateflag, setUpdateFlag] = useState(0);
   const [getloadmore, setloadmore] = useState(0);
   const [filterapplied, setFilterApply] = useState(false);
@@ -43,10 +44,23 @@ const EmailArticleSelect = (props) => {
   }, [props]);
 
   const getContentData = (flag, page) => {
+    let filterData = { ...filter };
+    if (
+      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
+      filterMandatory
+    ) {
+      let obj = {
+        Yes: 1,
+        No: 0,
+        no: 0,
+        yes: 1,
+      };
+      filterData["mandatory_training"] = obj[filterMandatory];
+    }
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: search,
-      filter: filter,
+      filter: filterData,
     };
     loader("show");
     axios
@@ -103,6 +117,13 @@ const EmailArticleSelect = (props) => {
     setShowFilter(false);
     event.preventDefault();
     return false;
+  };
+
+  const handleOnfilterMandatory = (data) => {
+    setFilterMandatory(data);
+
+    let up = updateflag + 1;
+    setUpdateFlag(up);
   };
 
   const handleOnFilterTags = (ftag) => {
@@ -181,6 +202,7 @@ const EmailArticleSelect = (props) => {
     setFilterTags([]);
     setFilterlng([]);
     setFilterDate([]);
+    setFilterMandatory("");
     setFilter([]);
     let up = updateflag + 1;
     setUpdateFlag(up);
@@ -502,6 +524,47 @@ const EmailArticleSelect = (props) => {
                               </Accordion.Body>
                             </Accordion.Item>
                           )}
+
+                        {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" &&
+                          filterdata.hasOwnProperty("mandatory_training") &&
+                          filterdata.mandatory_training.length > 0 && (
+                            <Accordion.Item className="card" eventKey="4">
+                              <Accordion.Header className="card-header">
+                                IRT Mandatory Training
+                              </Accordion.Header>
+                              <Accordion.Body className="card-body">
+                                <ul>
+                                  {Object.entries(
+                                    filterdata.mandatory_training
+                                  ).map(([index, item]) => (
+                                    <li>
+                                      <label className="select-multiple-option">
+                                        <input
+                                          type="radio"
+                                          id={`custom-checkbox-lng-${index}`}
+                                          name="language[]"
+                                          value={item}
+                                          checked={
+                                            filterMandatory
+                                              ? filterMandatory == item
+                                                ? true
+                                                : false
+                                              : ""
+                                          }
+                                          onChange={() =>
+                                            handleOnfilterMandatory(item)
+                                          }
+                                        />
+                                        {item}
+                                        <span className="checkmark"></span>
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </Accordion.Body>
+                            </Accordion.Item>
+                          )}
                       </Accordion>
                       <div className="filter-footer">
                         <button
@@ -527,7 +590,8 @@ const EmailArticleSelect = (props) => {
             {updateflag > 0 &&
               (filtertags.length > 0 ||
                 filterlng.length > 0 ||
-                filterdate.length > 0) && (
+                filterdate.length > 0 ||
+                filterMandatory) && (
                 <div className="apply-filter">
                   <h6>Applied filters</h6>
                   <div className="filter-block">
@@ -602,6 +666,29 @@ const EmailArticleSelect = (props) => {
                             ))}
                           </div>
                         </div>
+                      )}
+
+                      {localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" && filterMandatory ? (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>IRT Mandatory Training |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            <div
+                              className="filter-result"
+                              onClick={(event) => setFilterMandatory("")}
+                            >
+                              {filterMandatory}
+                              <img
+                                src={path_image + "filter-close.svg"}
+                                alt="Close-filter"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
                       )}
                     </div>
                     <div className="clear-filter">

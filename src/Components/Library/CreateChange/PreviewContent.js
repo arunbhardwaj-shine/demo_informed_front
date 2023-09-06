@@ -1,7 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { Editor } from "@tinymce/tinymce-react";
 import AliceCarousel from "react-alice-carousel";
 import { Link, useLocation } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
