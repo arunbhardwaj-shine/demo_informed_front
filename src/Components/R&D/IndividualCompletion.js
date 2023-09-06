@@ -104,7 +104,7 @@ const entering = (e) => {
               name: "Completed",
               y: result?.data?.data?.completed
                 ? result?.data?.data?.completed
-                : "",
+                : 0,
 
               color: colors[0],
             },
@@ -112,7 +112,7 @@ const entering = (e) => {
               name: "Not Completed",
               y: result?.data?.data?.notcompleted
                 ? result?.data?.data?.notcompleted
-                : "",
+                : 0,
 
               color: colors[1],
             },
