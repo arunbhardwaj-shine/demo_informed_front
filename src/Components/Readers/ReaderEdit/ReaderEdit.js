@@ -440,7 +440,10 @@ const ReaderEdit = () => {
     if (typeof userDetail?.sideData !== "undefined") {
       let newSite = [],
         newSiteNumber = [];
+        console.log("-userInputs?.country",userInputs?.country)
+        console.log("--userDatea",userDetail?.sideData)
       userDetail?.sideData?.forEach((item) => {
+        console.log("--dfdf",item?.country)
         if (item?.country == userInputs?.country) {
           newSite.push({ label: item?.site_name, value: item?.site_name });
           newSiteNumber.push({
