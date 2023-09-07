@@ -19,6 +19,7 @@ const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const colorArray =['#0E9B8E','#00003C','#FFBE2C','#FFBE2C','#F58289','#D61975','#0066BE'];
   const queryParams = queryString.parse(window.location.search);
 
   const [SendListData, setSendListData] = useState([]);
@@ -128,12 +129,29 @@ const EmailList = (props) => {
       let getSpecificKeyData = SendListData.filter((p) => p.id == id);
       let valueupdate = options_ch;
       valueupdate?.xAxis?.categories.push(getSpecificKeyData[0].click_name);
+
+      if(getSpecificKeyData[0]?.multi_ctr?.length > 0){
+        getSpecificKeyData[0]?.multi_ctr.map((multilinkdata) => {
+          valueupdate?.xAxis?.categories.push(multilinkdata?.click_name);
+        });
+      }
       setCTRName(getSpecificKeyData[0].click_name);
       valueupdate.series[0].data = [
         { y: getSpecificKeyData[0].total_Sent, color: "#8a4e9c" },
         { y: getSpecificKeyData[0].total_Opened, color: "#ffbe2c" },
         { y: getSpecificKeyData[0].total_Click, color: "#39cabc" },
       ];
+
+      if(getSpecificKeyData[0]?.multi_ctr?.length > 0){
+        getSpecificKeyData[0]?.multi_ctr.map((multilinkdata,index) => {
+          let obj = {
+            y: multilinkdata?.total_Click,
+            color: colorArray?.[index]
+          }
+          valueupdate.series[0].data.push(obj);
+        });
+      }
+
       setOptions_ch(valueupdate);
       setviewEmailData(getSpecificKeyData);
     }
@@ -604,11 +622,11 @@ const EmailList = (props) => {
       type: type,
     };
     setviewEmailModal(false);
-    if(type == "ctr"){
-      setDetailPopupName(viewEmailData?.[0]?.click_name);
-    }else{
+    // if(type == "ctr"){
+    //   setDetailPopupName(name);
+    // }else{
       setDetailPopupName(name);
-    }
+    // }
     setPopupHeadingColor(color_code);
     loader("show");
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -1562,7 +1580,7 @@ const EmailList = (props) => {
                     </ul>
                   </div>
                   <div className="mail-stats">
-                    <ul>
+                    <ul className="mail-stats-ul">
                       <li
                         onClick={() => {
                           getReaderData("unique", "Emails sent", "#8a4e9c");
@@ -1709,7 +1727,7 @@ const EmailList = (props) => {
                       </li>
                       <li
                         onClick={() => {
-                          getReaderData("ctr", "CTR 1", "#39cabc",viewEmailData[0]?.click_key);
+                          getReaderData("ctr", viewEmailData[0]?.click_name, "#39cabc",viewEmailData[0]?.click_key);
                         }}
                       >
                         <div className="mail_click">
@@ -1749,16 +1767,16 @@ const EmailList = (props) => {
                       {
                          viewEmailData[0]?.multi_ctr && viewEmailData[0]?.multi_ctr?.length > 0 
                          ?
-                          viewEmailData[0]?.multi_ctr.map((ctr) => {
+                          viewEmailData[0]?.multi_ctr.map((ctr,index) => {
                                return (
                                 <li
                                   onClick={() => {
-                                    getReaderData("ctr", "CTR 1", "#39cabc",ctr?.click_key);
+                                    getReaderData("ctr", ctr?.click_name, colorArray?.[index],ctr?.click_key);
                                   }}
                                 >
                                   <div className="mail_click">
                                     <div className="mail_click_box">
-                                      <h6>{ctr?.click_name}</h6>
+                                      <h6 style={{color: colorArray?.[index]}}>{ctr?.click_name}</h6>
                                       <div className="mail_click_box_content">
                                         <svg
                                           width="40"
@@ -1771,17 +1789,17 @@ const EmailList = (props) => {
                                             cx="20"
                                             cy="20"
                                             r="18.5"
-                                            stroke="#39CABC"
+                                            stroke={colorArray?.[index]}
                                             stroke-width="3"
                                             stroke-linejoin="round"
                                           />
                                           <path
                                             d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
-                                            fill="#39CABC"
+                                            fill={colorArray?.[index]}
                                           />
                                           <path
                                             d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
-                                            fill="#39CABC"
+                                            fill={colorArray?.[index]}
                                           />
                                         </svg>
                                         <span>{ctr?.total_Click_pr}%</span>
