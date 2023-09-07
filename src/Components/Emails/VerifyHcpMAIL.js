@@ -115,6 +115,7 @@ const VerifyHcpMAIL = (props) => {
       typeof pdf_id !== "undefined" &&
       pdf_id != 0 &&
       pdf_id != 13 &&
+      pdf_id != 14 &&
       pdf_id != 16
     ) {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -451,10 +452,10 @@ const VerifyHcpMAIL = (props) => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <div className="col right-sidebar custom-change">
         <div className="custom-container">
           <div className="row">
-            <div className="page-top-nav">
+            <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
@@ -619,6 +620,7 @@ const VerifyHcpMAIL = (props) => {
                           </p>
                           {typeof getpdfdata !== "undefined" &&
                             getSelectedPdfId != 13 &&
+                            getSelectedPdfId != 14 &&
                             getSelectedPdfId != 16 && (
                               <div className="mail-content-select-box">
                                 <div className="mail-content-select-top">
@@ -652,7 +654,7 @@ const VerifyHcpMAIL = (props) => {
                                   <table>
                                     <tbody>
                                       <tr>
-                                        <th>Upload Date</th>
+                                        <th>Upload date</th>
                                         <td>{getpdfdata.pdf_created}</td>
                                       </tr>
                                       <tr>
@@ -668,7 +670,7 @@ const VerifyHcpMAIL = (props) => {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <th>Last Email</th>
+                                        <th>Last email</th>
                                         <td>
                                           {getpdfdata.pdf_last_sent == ""
                                             ? "N/A"
@@ -732,6 +734,30 @@ const VerifyHcpMAIL = (props) => {
                                       <p>
                                         Select this when you don't want to
                                         include a content to your email
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          )}
+
+                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
+                            <>
+                              <div className="mail-content-select-box">
+                                <div className="mail-content-select-top">
+                                  <div className="mail-preview-img">
+                                    <img
+                                      src={path_image + "dummy-img.png"}
+                                      alt="Preview "
+                                    />
+                                  </div>
+                                  <div className="mail-box-content">
+                                    <h5>Site user</h5>
+                                    <p>Empty Content</p>
+                                    <div className="mailbox-tags">
+                                      <p>
+                                        Select this when you want to send content to Site user
                                       </p>
                                     </div>
                                   </div>
@@ -990,15 +1016,25 @@ const VerifyHcpMAIL = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      <th scope="col">Business Unit</th>
-                      <th scope="col">Contact Type</th>
+                      {localStorage.getItem("user_id") ===
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <>
+                        <th scope="col">IRT mandatory training</th>
+                        <th scope="col">IRT role</th>
+                        </>
+                      ) : (
+                        <>
+                        <th scope="col">Business unit</th>
+                        <th scope="col">Contact type</th>
+                        </>
+                      )}
                       {showLessInfo == false ? (
                         <>
                           <th scope="col">Consent</th>
-                          <th scope="col">Email Received</th>
+                          <th scope="col">Email received</th>
                           <th scope="col">Openings</th>
                           <th scope="col">Registrations</th>
-                          <th scope="col">Last Email</th>
+                          <th scope="col">Last email</th>
                         </>
                       ) : null}
                     </tr>
@@ -1014,8 +1050,22 @@ const VerifyHcpMAIL = (props) => {
                               <td>{rr.email}</td>
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
-                              <td>{rr.ibu}</td>
-                              <td>{rr.contact_type}</td>
+                              <td>
+                                {localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? rr?.irt
+                                      ? "Yes"
+                                      : "No"
+                                    :rr.ibu
+                                    ? rr.ibu
+                                    : "N/A"}
+                              </td>
+                              <td>
+                                {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr.user_type != 0 ? rr.user_type : "N/A"
+                                  : rr.contact_type
+                                }
+                              </td>
                               {showLessInfo == false ? (
                                 <td>
                                   <span>{rr.consent}</span>{" "}

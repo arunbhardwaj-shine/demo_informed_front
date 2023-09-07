@@ -1,0 +1,376 @@
+import React, { useState, useEffect, useRef } from "react";
+import { Col, Row, Tab, Tabs, Image, Button } from "react-bootstrap";
+
+import Highcharts from "highcharts";
+import { loader } from "../../loader";
+
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
+import exporting from "highcharts/modules/exporting";
+import exportData from "highcharts/modules/export-data";
+
+import HighchartsReact from "highcharts-react-official";
+import highchartsMore from "highcharts/highcharts-more";
+import solidGauge from "highcharts/modules/solid-gauge";
+
+const TrendingContentOcta = () => {
+  const [data, setData] = useState({});
+  const [isDataFound, setIsDataFound] = useState(false);
+
+  Highcharts.setOptions({
+    colors: [
+      "#FFBE2C",
+      "#F58289",
+      "#00D4C0",
+      "#D61975",
+      "#0066BE",
+      "#FFBE2C",
+      "#F0EEE4",
+      "#00003C",
+    ],
+  });
+
+  const [isLoaded, setIsLoaded] = useState(false);
+  const activeTab = useRef(1);
+
+  useEffect(() => {
+    getDataFromApi();
+  }, []);
+
+  const getDataFromApi = async (type = "all") => {
+    loader("show");
+
+    try {
+      //   let requestBody
+      //   if(localStorage.getItem("user_id")=="iSnEsKu5gB/DRlycxB6G4g=="){
+
+      //   }
+
+      const requestBody = {
+        type: "octa",
+      };
+      const response = await postData(ENDPOINT.CONTENTTYPE, requestBody);
+      const hadData = response?.data?.data;
+      if (hadData.length <= 0) {
+        setIsDataFound(false);
+      }
+
+      setData(hadData);
+      setIsDataFound(true);
+      setIsLoaded(true);
+
+      loader("hide");
+    } catch (err) {
+      setIsDataFound(false);
+      // console.log(err);
+      loader("hide");
+    }
+    // console.log(chart.current)
+  };
+
+  return (
+    <>
+      <Col className="right-sidebar">
+        {isDataFound ? (
+          <div className="custom-container">
+            <Row>
+              <div className="top-header">
+                {/* <div className="page-title d-flex">
+                  <h2>Trending content based on Read Through Rate</h2>
+                </div> */}
+              </div>
+              <div className="create-change-content spc-content analytic-charts">
+                <div className="delivery-trends space-added">
+                  <div className="custom-container">
+                    <DocintelAccount data={data} />
+                  </div>
+                </div>
+              </div>
+            </Row>
+          </div>
+        ) : isLoaded ? (
+          <h4>No Data Found</h4>
+        ) : null}
+      </Col>
+    </>
+  );
+};
+export default TrendingContentOcta;
+const DocintelAccount = ({ data }) => {
+  Highcharts.setOptions({
+    colors: [
+      "#0066BE",
+      "#F58289",
+      "#FFBE2C",
+      "#00D4C0",
+      "#0066BE",
+      "#FFBE2C",
+      "#F0EEE4",
+      "#00003C",
+    ],
+  });
+
+  return (
+    <>
+      {data != null
+        ? data.map((element, index) => {
+            const dataForGraph =
+              element.country == 0 || element.country.length == 0
+                ? [{}]
+                : JSON.parse(element.country);
+
+            // alert(element.pdf_data.Pdf.code)
+            // alert(index)
+
+            return (
+              <Row key={index}>
+                {/* {index == 0 ? (
+                  <Row>
+                    <h3>Trending content based on Read Through Rates</h3>{" "}
+                  </Row>
+                ) : null} */}
+
+                <Col sm={2} md={2} className="img-box justify-content-center">
+                  <span>{index + 1}</span>
+                  <div style={{ width: "100px", height: "100px" }}>
+                    <Image
+                      src={
+                        element?.pdf_data?.Pdf?.image ||
+                        "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png"
+                      }
+                      alt="Image not available"
+                      fluid
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src =
+                          "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/docintel_new_pdf.png";
+                      }}
+                    />
+                  </div>
+                </Col>
+                <Col>
+                  <h3> {element?.pdf_data?.Pdf?.title.toUpperCase()}</h3>
+                  <br />
+                  <br />
+                  <h5>{element?.pdf_data?.Pdf?.pdf_sub_title}</h5>
+                  <a
+                    className="btn next-content btn-filled"
+                    href={element?.pdf_data?.Pdf?.pdfLink}
+                    target="_blank"
+                  >
+                    Preview Article
+                  </a>
+                  {element?.pdf_data?.Pdf?.product != undefined ? (
+                    <span>{element?.pdf_data?.Pdf?.product}</span>
+                  ) : null}
+                </Col>
+
+                <Col>
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={{
+                      chart: {
+                        type: "solidgauge",
+                        height: "60%",
+                      },
+                      title: {
+                        text: "",
+                        style: {
+                          fontSize: "11px",
+                        },
+                      },
+                      exporting: {
+                        enabled: false,
+                      },
+                      tooltip: {
+                        borderWidth: 0,
+                        backgroundColor: "none",
+                        shadow: false,
+                        style: {
+                          fontSize: "10px",
+                        },
+                        valueSuffix: "%",
+                        pointFormat:
+                          '{series.name}<br><span style="font-size:2em;  font-weight: bold">{point.z}</span>',
+                        positioner: function (labelWidth) {
+                          return {
+                            x: (this.chart.chartWidth - labelWidth) / 2,
+                            y: this.chart.plotHeight / 2 + 15,
+                          };
+                        },
+                      },
+                      pane: {
+                        startAngle: 0,
+                        endAngle: 360,
+                        background: [
+                          {
+                            outerRadius: "95%",
+                            innerRadius: "70%",
+                            backgroundColor: Highcharts.color(
+                              Highcharts.getOptions().colors[1]
+                            )
+                              .setOpacity(0.3)
+                              .get(),
+                            borderWidth: 0,
+                          },
+                          {
+                            outerRadius: "71%",
+                            innerRadius: "47%",
+                            backgroundColor: Highcharts.color(
+                              Highcharts.getOptions().colors[2]
+                            )
+                              .setOpacity(0.3)
+                              .get(),
+                            borderWidth: 0,
+                          },
+                          {
+                            outerRadius: "43%",
+                            innerRadius: "18%",
+                            backgroundColor: Highcharts.color(
+                              Highcharts.getOptions().colors[3]
+                            )
+                              .setOpacity(0.3)
+                              .get(),
+                            borderWidth: 0,
+                          },
+                        ],
+                      },
+                      yAxis: {
+                        min: 0,
+                        max: 100,
+                        lineWidth: 0,
+                        tickPositions: [],
+                      },
+                      plotOptions: {
+                        solidgauge: {
+                          dataLabels: {
+                            enabled: false,
+                          },
+                          linecap: "round",
+                          stickyTracking: false,
+                          rounded: true,
+                        },
+                      },
+                      series: [
+                        {
+                          name: "Registration",
+                          data: [
+                            {
+                              color: Highcharts.getOptions().colors[1],
+                              radius: "95%",
+                              innerRadius: "70%",
+                              y: element.distribute,
+
+                              z: element.distribute,
+                            },
+                          ],
+                        },
+                        {
+                          name: "Openings",
+                          data: [
+                            {
+                              color: Highcharts.getOptions().colors[2],
+                              radius: "69%",
+                              innerRadius: "44%",
+                              // y: Math.round(
+                              //   (element.opened / 100) * element.distribute
+                              // ),
+                              y: element.opened,
+                              z: element.opened,
+                            },
+                          ],
+                        },
+                        {
+                          name: "Actual Readers",
+                          data: [
+                            {
+                              color: Highcharts.getOptions().colors[3],
+                              radius: "44%",
+                              innerRadius: "18%",
+                              y: element.rtr,
+
+                              // y: Math.round(
+                              //   (element.rtr * 100) / element.distribute
+                              //   // (element.rtr / 100) * element.opened
+                              // ),
+                              z: element.rtr,
+                            },
+                          ],
+                        },
+                      ],
+                    }}
+                  />
+                </Col>
+                <Col>
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={{
+                      chart: {
+                        type: "column",
+                        height: "80%",
+                      },
+                      title: {
+                        text: "",
+                      },
+                      exporting: {
+                        enabled: false,
+                      },
+                      xAxis: {
+                        categories: dataForGraph.map((c) => c.name),
+                      },
+                      yAxis: {
+                        title: {
+                          text: "",
+                        },
+                      },
+                      plotOptions: {
+                        column: {
+                          colorByPoint: true,
+                          colors: [
+                            "#0066BE",
+                            "#00D4C0",
+                            "#FFBE2C",
+                            "#F58289",
+                            "#00003C",
+                            "#F0EEE4",
+                            "#D61975",
+                          ],
+                          dataLabels: {
+                            enabled: true,
+                            inside: false,
+                            format: "{y}", // this will display the y value on top of the column
+                            style: {
+                              textOutline: "none", // to remove the border around the text
+                              fontSize: "12px",
+                            },
+                          },
+                          pointWidth: 35,
+                        },
+                      },
+                      series: [
+                        {
+                          name: "",
+                          data: dataForGraph.map((c) => parseInt(c.y)),
+                          showInLegend: false,
+                          dataLabels: {
+                            enabled: true,
+                            inside: false,
+                            format: "{y}", // this will display the y value on top of the column
+                            style: {
+                              textOutline: "none", // to remove the border around the text
+                              fontSize: "12px",
+                            },
+                          },
+                          pointWidth: 35,
+                        },
+                      ],
+                    }}
+                  />
+                </Col>
+              </Row>
+            );
+          })
+        : null}
+    </>
+  );
+};

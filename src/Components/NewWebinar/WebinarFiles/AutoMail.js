@@ -20,11 +20,17 @@ import { toPng } from "html-to-image";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-
+import { ProgressBar } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 var dxr = 0;
 var state_object = {};
 const AutoMail = (props) => {
+  const [progress, setProgress] = useState(0);
+  const [percent, setPercent] = useState(0);
+  const [showProgress, setShowProgress] = useState(false);
+  const templateIdRef = useRef();
+    const linkingPayload = useRef();
   const [eventSelected, setEventSelected] = useState("testing");
 
   const editorRef = useRef(null);
@@ -48,7 +54,7 @@ const AutoMail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
-
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [subject, setSubject] = useState("");
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
@@ -573,6 +579,7 @@ const AutoMail = (props) => {
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
     e.target.classList.toggle("select_mm");
+    templateIdRef.current=template.id;
   };
 
   const emailSubjectChanged = (e) => {
@@ -1012,7 +1019,7 @@ const AutoMail = (props) => {
 
   const downloadFile = () => {
     let link = document.createElement("a");
-    link.href = "https://informed.pro/sample.xls";
+    link.href = "https://webinar.informed.pro/sample.xls";
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";
@@ -1210,7 +1217,154 @@ const AutoMail = (props) => {
       toast.warning("Template not selected.");
     }
   };
+  const addTracking = function (editor) {
+    editor.on("OpenWindow", function (e) {
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
 
+      if (dialog) {
+        let header = dialog.querySelector(".tox-dialog__header");
+        const closeButton = header.querySelector('[aria-label="Close"]');
+        let text = header.querySelector(".tox-dialog__title");
+
+        if (text.innerText == "Insert/Edit Link") {
+          let uploadIcon = document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+          );
+          uploadIcon.style.display = "none";
+          let newButton = document.createElement("button");
+          newButton.innerText = "Add Tracking";
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
+          newButton.onclick = function () {
+            if (templateIdRef.current == "") {
+              alert("Please select the template first before adding the link");
+              return;
+            }
+            // alert(templateId);
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
+
+            // let text =dialog.querySelector(".tox-form__group");
+            if (!firstToxControlWrap.value) {
+              alert("Please enter a link");
+              return;
+            }
+
+            const baseLink =
+              "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+            if (firstToxControlWrap.value.startsWith(baseLink)) {
+              alert("Traking already added");
+              return;
+            }
+            let slugValue = prompt("Enter a slug value");
+
+            const currentTimestamp = Date.now();
+            // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+            let payload = {
+              slug_value: slugValue,
+              template_id: templateIdRef.current,
+              url_code: `clicked_track_doc_${currentTimestamp}`,
+            };
+            linkingPayload.current = payload;
+            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+            firstToxControlWrap.value = link;
+            var saveButton = document.querySelector(
+              '.tox-button[title="Save"]'
+            );
+
+            saveButton.addEventListener("click", function () {
+              let link = `https://onesource.informed.pro/api/track-links`;
+
+              axios
+                .post(link, payload)
+                .then((res) => {
+                  console.log("done");
+                })
+                .catch((err) => {
+                  loader("hide");
+                  console.log(err);
+                });
+            });
+            alert("Traking added");
+          };
+
+          header.insertBefore(newButton, closeButton);
+        } else if (text.innerText == "Insert/Edit Media") {
+          document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+          ).innerText += " (Max size: 1GB)";
+        }
+      }
+    });
+  };
+
+  const uploadImageToServer =    async function uploadImageToServer(file) {
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+  
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+      
+        let tox= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog") 
+         let tox1=document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop")
+  
+        xhr.upload.addEventListener("progress", (event) => {
+          setShowProgress(true)
+         tox.style.opacity = 0
+         tox1.style.opacity = 0
+          if (event.lengthComputable) {
+            const percentComplete = (event.loaded / event.total) * 100;
+    
+
+  setProgress(parseInt(event.loaded / event.total) );
+  setPercent(parseInt(percentComplete));
+  
+          }
+        });
+  
+        xhr.addEventListener("load", () => {
+          if (xhr.status === 200) {
+            try {
+              const uploadedData = JSON.parse(xhr.responseText);
+              const imageUrl = uploadedData.imageUrl;
+              resolve(imageUrl);
+            } catch (parseError) {
+              console.error("Failed to parse response JSON:", parseError);
+              reject(null);
+            }
+            finally{
+              setShowProgress(false)
+         tox1.style.opacity = 1
+         tox.style.opacity = 1
+
+              setProgress(0);
+              setPercent(0);
+              
+
+            }
+          } else {
+            console.error("Image upload failed");
+            reject(null);
+          }
+        });
+  
+        xhr.addEventListener("error", (error) => {
+          console.error("Image upload error:", error);
+          reject(null);
+        });
+  
+        xhr.open("POST", "https://onesource.informed.pro/api/upload-image");
+        xhr.send(formData);
+      });
+    } catch (error) {
+      console.error("Image upload error:", error);
+      return null;
+    }
+  }
   return (
     <>
       <div className="col right-sidebar">
@@ -1294,7 +1448,7 @@ const AutoMail = (props) => {
                     <form>
                       <div className="form-inline row justify-content-between align-items-center">
                         <div className="form-group col-12 col-md-4">
-                          <label for="exampleInputEmail1">Name </label>
+                          <label htmlFor="exampleInputEmail1">Name </label>
                           <input
                             onChange={(e) => setName(e.target.value)}
                             type="text"
@@ -1305,7 +1459,7 @@ const AutoMail = (props) => {
                           {validator.message("name", name, "required")}
                         </div>
                         <div className="form-group right-side col-12 col-md-4">
-                          <label for="exampleInputEmail1">Email</label>
+                          <label htmlFor="exampleInputEmail1">Email</label>
                           <input
                             //     onChange={(e) => emailCreatorChange(e)}
                             onChange={(e) => setEmail(e.target.value)}
@@ -1318,7 +1472,9 @@ const AutoMail = (props) => {
                           {validator.message("email", email, "required")}
                         </div>
                         <div className="form-group col-12 col-md-4">
-                          <label for="exampleInputEmail1">Email Subject</label>
+                          <label htmlFor="exampleInputEmail1">
+                            Email Subject
+                          </label>
                           <input
                             type="text"
                             className="form-control"
@@ -1416,7 +1572,23 @@ const AutoMail = (props) => {
                 </div>
 
                 <div className="row">
-                  {templateClickedd ? (
+                {showProgress?  <div className="progressloader"> <div
+            className="circular-progressbar"
+            style={{
+              position:"absolute",
+              top:"50%",
+              left:"0",
+              right:"0",
+              margin:"0 auto",
+              width: 200,
+              height: 200,
+              zIndex: "999999",
+            }}
+          > <CircularProgressbar
+              value={percent}
+              text={`${percent}%`}
+              strokeWidth={5}
+            /></div></div>:""}          {templateClickedd ? (
                     <Editor
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
@@ -1431,6 +1603,101 @@ const AutoMail = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+
+                          init_instance_callback: (editor)=>addTracking(editor),
+                          file_picker_types: 'file image media',
+                          file_picker_callback: function (callback, value, meta) {
+                            const input = document.createElement("input");
+    
+                            if(meta.filetype === 'media'){
+                              input.setAttribute("type", "file");
+                          input.setAttribute("accept", "video/*");
+          
+          
+          
+          
+                          input.onchange = async () => {
+          
+          
+                              const file = input.files[0];
+                              if (file) {
+                                  let uploadedImageUrl;
+          
+                                  try {
+                                      if (meta && meta.width && meta.height) {
+                                          uploadedImageUrl = await uploadImageToServer(file, meta.width, meta.height);
+                                      } else {
+                                          uploadedImageUrl = await uploadImageToServer(file);
+                                      }
+                                    
+          
+                                      if (uploadedImageUrl) {
+                                          callback(uploadedImageUrl, {
+                                              width: 500,
+                                              height: 500,
+                                          });
+          
+          
+                                      } else {
+                                          console.error("Failed to upload image");
+                                      }
+                                  } catch (error) {
+                                      console.error("Error uploading image:", error);
+                                  } finally {
+                            
+                                  }
+                              }
+                          };
+          
+                          }else{
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", "image/*");
+    
+                            // Create a loading indicator element (e.g., a spinner)
+                            const loadingIndicator =
+                              document.createElement("div");
+                            loadingIndicator.className = "loading-indicator";
+                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+    
+                            input.onchange = async () => {
+                              document.body.appendChild(loadingIndicator); // Show loading indicator
+    
+                              const file = input.files[0];
+                              if (file) {
+                                let uploadedImageUrl;
+    
+                                try {
+                                  if (meta && meta.width && meta.height) {
+                                    uploadedImageUrl = await uploadImageToServer(
+                                      file,
+                                      meta.width,
+                                      meta.height
+                                    );
+                                  } else {
+                                    uploadedImageUrl = await uploadImageToServer(
+                                      file
+                                    );
+                                  }
+    
+                                  if (uploadedImageUrl) {
+                                    callback(uploadedImageUrl, {
+                                      width: 500,
+                                      height: 500,
+                                    });
+                                    loader("hide");
+                                  } else {
+                                    console.error("Failed to upload image");
+                                  }
+                                } catch (error) {
+                                  console.error("Error uploading image:", error);
+                                } finally {
+                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                }
+                              }
+                            };
+                          }
+                            input.click();
+                          },
                       }}
                       onEditorChange={(content) => {
                         setTemplateSaving(content);
@@ -1487,7 +1754,7 @@ const AutoMail = (props) => {
                   id="popup_subject"
                 >
                   <div className="form-group col-12 col-md-7">
-                    <label for="exampleInputEmail1">Subject</label>
+                    <label htmlFor="exampleInputEmail1">Subject</label>
                     <input
                       type="text"
                       className="form-control"
@@ -1502,7 +1769,7 @@ const AutoMail = (props) => {
                   <div className="col-12 col-md-7">
                     <div className="row justify-content-between align-items-center">
                       <div className="form-group col-sm-6">
-                        <label for="hcp-name">Name</label>
+                        <label htmlFor="hcp-name">Name</label>
                         <input
                           type="text"
                           className="form-control"
@@ -1511,7 +1778,7 @@ const AutoMail = (props) => {
                         />
                       </div>
                       <div className="form-group col-sm-6">
-                        <label for="hcp-email">Email </label>
+                        <label htmlFor="hcp-email">Email </label>
                         <input
                           type="mail"
                           onChange={(e) => emailChanged(e)}
@@ -1567,7 +1834,7 @@ const AutoMail = (props) => {
                           Email | <span>{data.email}</span>
                         </p>
                         <p className="send-hcp-box-title">
-                          Contact Type | <span>{data.contact_type}</span>
+                          Contact type | <span>{data.contact_type}</span>
                         </p>
                         <div
                           className="add-new-field"
@@ -1587,7 +1854,7 @@ const AutoMail = (props) => {
             <div className="selected-hcp-table">
               <div className="table-title">
                 <h4>
-                  Selected Contact <span>| {selectedHcp.length}</span>
+                  Selected contact <span>| {selectedHcp.length}</span>
                 </h4>
               </div>
               <div className="selected-hcp-list">
@@ -1608,7 +1875,7 @@ const AutoMail = (props) => {
                               Email | <span>{data.email}</span>
                             </p>
                             <p className="send-hcp-box-title">
-                              Contact Type | <span>{data.contact_type}</span>
+                              Contact type | <span>{data.contact_type}</span>
                             </p>
                             <div className="remove-existing-field">
                               <img
@@ -1702,7 +1969,7 @@ const AutoMail = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1715,7 +1982,7 @@ const AutoMail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1728,7 +1995,7 @@ const AutoMail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Email *</label>
+                                  <label htmlFor="">Email <span>*</span></label>
                                   <input
                                     type="email"
                                     className="form-control"
@@ -1743,7 +2010,7 @@ const AutoMail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Contact Type</label>
+                                  <label htmlFor="">Contact type</label>
                                   <DropdownButton
                                     className="dropdown-basic-button split-button-dropup"
                                     title={
@@ -1791,7 +2058,7 @@ const AutoMail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Country</label>
+                                  <label htmlFor="">Country</label>
                                   <DropdownButton
                                     className="dropdown-basic-button split-button-dropup country"
                                     title={
@@ -1865,7 +2132,7 @@ const AutoMail = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    Add HCP +
+                                   {localStorage.getItem("user_id") == userId?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>
@@ -1966,7 +2233,7 @@ const AutoMail = (props) => {
                               <table>
                                 <tbody>
                                   <tr>
-                                    <th>Contact Type</th>
+                                    <th>Contact type</th>
                                     <td>{data.contact_type}</td>
                                   </tr>
                                   <tr>

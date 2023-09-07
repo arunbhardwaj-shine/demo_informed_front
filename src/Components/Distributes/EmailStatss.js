@@ -96,8 +96,7 @@ const EmailStats = (props) => {
       .post(`distributes/resend_campaign_with_all_pending_readers`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
-          console.log(res.data.response.data.campaign_id);
-          draftNavigate(res.data.response.data.campaign_id);
+          draftNavigate(res.data.response.data.campaign_id, res?.data?.response?.data?.user_data);
         } else {
           toast.warning(res.data.message);
           loader("hide");
@@ -109,7 +108,7 @@ const EmailStats = (props) => {
       });
   };
 
-  const draftNavigate = async (campaign_id) => {
+  const draftNavigate = async (campaign_id,readerData) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: campaign_id,
@@ -121,6 +120,7 @@ const EmailStats = (props) => {
       .then((res) => {
         if (res.data.status_code == 200) {
           let campaign_data = res.data.response.data;
+          campaign_data.campaign_data.selectedHcp =  readerData;
           let route = res.data.response.data.route_location;
           props.getDraftData(campaign_data);
           if (campaign_data?.smart_list_data) {
@@ -234,12 +234,7 @@ const EmailStats = (props) => {
               <h4>
                 Total Result <span>| {totalCount}</span>
               </h4>
-            </div>
-            <div className="selected-hcp-list search_view" id="analytics-hcp-table">
-              <div className="table_xls search_view">
-                <div className="smart-list-btns">
-                  <div className="top-right-action">
-                    <div className="search-bar">
+              <div className="search-bar">
                       <form
                         className="d-flex"
                         onSubmit={(e) => submitHandler(e)}
@@ -272,6 +267,15 @@ const EmailStats = (props) => {
                         ) : null}
                       </form>
                     </div>
+            </div>
+            <div
+              className="selected-hcp-list search_view"
+              id="analytics-hcp-table"
+            >
+              <div className="table_xls search_view">
+                <div className="smart-list-btns">
+                  <div className="top-right-action">
+
                   </div>
                 </div>
               </div>
@@ -324,7 +328,7 @@ const EmailStats = (props) => {
                       </th>
                       <th scope="col">Subject</th>
                       <th scope="col">
-                        Article Title{" "}
+                        Article title{" "}
                         <div className="hcp-sort">
                           {sortingCount == 0 ? (
                             <>
@@ -367,13 +371,13 @@ const EmailStats = (props) => {
                       </th>
 
                       <th className="smartlistth" scope="col">
-                        Smart List
+                        Smart list
                       </th>
                       <th scope="col">Total mail sent</th>
-                      <th scope="col">Email Read</th>
-                      <th scope="col">Pending Read Email</th>
+                      <th scope="col">Email read</th>
+                      <th scope="col">Pending read email</th>
 
-                      <th scope="col">Bounce Count</th>
+                      <th scope="col">Bounce count</th>
                       <th scope="col">Details</th>
                       <th scope="col">Sent to pending</th>
                       <th scope="col">Sent to all</th>
@@ -385,7 +389,7 @@ const EmailStats = (props) => {
                     campaignData.length > 0 ? (
                       campaignData.map((item, index) => (
                         <>
-                          <tr>
+                          <tr key={index}>
                             <td> {item.c_id}</td>
                             <td> {item.sent_data}</td>
                             <td className="smartlistth"> {item.subject}</td>

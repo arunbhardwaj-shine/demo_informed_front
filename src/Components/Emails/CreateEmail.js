@@ -22,14 +22,28 @@ import { Editor } from "@tinymce/tinymce-react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-
+import { ProgressBar } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 var dxr = 0;
 var state_object = {};
 
 const CreateEmail = (props) => {
+  const [progress, setProgress] = useState(0);
+  const [percent, setPercent] = useState(0);
+  const [showProgress, setShowProgress] = useState(false);
   const editorRef = useRef(null);
-  // console.log(state_object);
-  // console.log(props);
+  const [totalData, setTotalData] = useState({});
+  const linkingPayload = useRef();
+  const templateIdRef = useRef("");
+  const [siteNumberAll, setSiteNumberAll] = useState([]);
+  const [siteNameAll, setSiteNameAll] = useState([]);
+  const [role, setRole] = useState([]);
+  const [irtRole, setIrtRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
+  const [optIRT, setoptIRT] = useState([
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ]);
   const filterConfig = {
     matchFrom: "start",
   };
@@ -63,6 +77,7 @@ const CreateEmail = (props) => {
       ? props.getDraftData.source_code
       : ""
   );
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [templateSaving, setTemplateSaving] = useState("");
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
@@ -130,9 +145,11 @@ const CreateEmail = (props) => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
   const [validator] = React.useState(new SimpleReactValidator());
+  const [validationError, setValidationError] = useState({});
 
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
   const [message, setMessage] = useState("");
   const [reRender, setReRender] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -156,11 +173,19 @@ const CreateEmail = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
+      role:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      optIRT:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? "yes"
+          : "",
+      institutionType: "",
     },
   ]);
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
-
   const [addListOpen, setAddListOpen] = useState(false);
   const [smartListData, setSmartListData] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
@@ -197,9 +222,9 @@ const CreateEmail = (props) => {
     axios
       .post(`distributes/get_smart_list`, body)
       .then((res) => {
-        setSmartListData(res.data.response.data);
+        setSmartListData(res.data.response?.data);
         if (flag == 0) {
-          setPrevSmartListData(res.data.response.data);
+          setPrevSmartListData(res.data.response?.data);
         } else {
           loader("hide");
         }
@@ -209,9 +234,33 @@ const CreateEmail = (props) => {
         console.log(err);
       });
   };
+  const axiosFun = async () => {
+    try {
+      const result = await axios.get(`emailapi/get_site`);
+
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+      setIRTCountry(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
+  };
 
   useEffect(() => {
     loader("show");
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
     const getalCountry = async () => {
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -225,6 +274,7 @@ const CreateEmail = (props) => {
           // setCountryall(res.data.response.data.country);
           if (res.data.status_code == 200) {
             let country = res.data.response.data.country;
+
             let arr = [];
             Object.entries(country).map(([index, item]) => {
               let label = item;
@@ -236,7 +286,34 @@ const CreateEmail = (props) => {
                 label: label,
               });
             });
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              let investigator_type =
+                res?.data?.response?.data?.investigator_type;
+              let newType = [];
+              Object.keys(investigator_type)?.map((item, i) => {
+                newType.push({ label: item, value: item });
+              });
+
+              let irt_inverstigator_type =
+                res?.data?.response?.data?.irt_inverstigator_type;
+              let newIrtType = [];
+              Object.keys(irt_inverstigator_type)?.map((item, i) => {
+                newIrtType.push({ label: item, value: item });
+              });
+
+              let instution_type = res?.data?.response?.data?.institution_type;
+              let newInstitutionType = [];
+              Object.keys(instution_type)?.map((item, i) => {
+                newInstitutionType.push({ label: item, value: item });
+              });
+              setInstitutionType(newInstitutionType);
+              setRole(newType);
+              setIrtRole(newIrtType);
+            }
+
             setCountryall(arr);
+
+            setTotalData(res.data.response.data);
           }
         })
         .catch((err) => {
@@ -250,11 +327,20 @@ const CreateEmail = (props) => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag) => {
     let pdf_id = state_object?.PdfSelected
-      ? state_object.PdfSelected
-      : props.getDraftData.pdf_id;
+      ? state_object?.PdfSelected
+      : props.getDraftData?.pdf_id;
 
     let content_included = 1;
     if (pdf_id == 16) {
+      content_included = 0;
+    }
+
+    let siteContent = 0;
+    if (
+      pdf_id == 14 &&
+      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+    ) {
+      siteContent = 1;
       content_included = 0;
     }
     const body = {
@@ -262,6 +348,7 @@ const CreateEmail = (props) => {
       language: "",
       ibu: "",
       content_included: content_included,
+      siteContent: siteContent,
     };
 
     loader("show");
@@ -274,11 +361,14 @@ const CreateEmail = (props) => {
       })
       .catch((err) => {
         console.log(err);
+        loader("hide");
       });
     if (flag == 1) {
       loader("hide");
+
       toast.success("Template saved successfully");
     }
+    loader("hide");
   };
 
   useEffect(() => {
@@ -295,15 +385,15 @@ const CreateEmail = (props) => {
       await axios
         .post(`emailapi/get_tags`, body)
         .then((res) => {
-          setAllTags(res.data.response.data);
+          setAllTags(res?.data?.response?.data);
           // console.log(campaign_id_st);
           // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
-          loader("hide");
+          // loader("hide");
           // }
         })
         .catch((err) => {
           loader("hide");
-          //console.log(err);
+          console.log(err);
         });
     };
     getAllTags();
@@ -324,6 +414,7 @@ const CreateEmail = (props) => {
         setFinalTags(props.getDraftData.tags);
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
+        templateIdRef.current = props.getDraftData.campaign_data.template_id;
         setIsApprovedStatus(props.getDraftData.status);
         setTemplate(props.getDraftData.source_code);
       }
@@ -375,13 +466,20 @@ const CreateEmail = (props) => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (data?.email == "" || data?.institutionType == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       } else {
-        return "true";
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       }
     });
-
     if (status.every((element) => element == "true")) {
       setHpc([
         ...hpc,
@@ -392,10 +490,23 @@ const CreateEmail = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
+          optIRT:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "yes"
+              : "",
+          role:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          institutionType: "",
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        toast.warning("Please input the required fields.");
+      } else {
+        toast.warning("Please input the email atleast");
+      }
     }
   };
 
@@ -641,7 +752,6 @@ const CreateEmail = (props) => {
   };
 
   const closeModal = () => {
-    //console.log("closed");
     setIsOpen(false);
   };
 
@@ -657,6 +767,12 @@ const CreateEmail = (props) => {
 
     if (typeof campaign !== "undefined" && campaign !== "") {
       console.log(props.getDraftData);
+
+      let up_temp = template;
+      if (editorRef.current) {
+        up_temp = editorRef.current.getContent();
+      }
+
       const body = {
         user_id: localStorage.getItem("user_id"),
         pdf_id: state_object?.PdfSelected
@@ -679,7 +795,7 @@ const CreateEmail = (props) => {
         },
 
         campaign_id: campaign_id_st,
-        source_code: template,
+        source_code: up_temp,
         status: 2,
       };
 
@@ -719,12 +835,19 @@ const CreateEmail = (props) => {
     }
 
     setTemplateId(template.id);
+    templateIdRef.current = template.id;
+
     setTemplateName(template.name);
     setTemplate(template.source_code);
     e.target.classList.toggle("select_mm");
   };
 
   const emailSubjectChanged = (e) => {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      setemailCampaign(e.target.value);
+      setEmailCreator("Octapharma R&D");
+      setEmailDescription(e.target.value);
+    }
     setEmailSubject(e.target.value);
   };
 
@@ -734,7 +857,7 @@ const CreateEmail = (props) => {
     });
 
     if (validator.allValid()) {
-      console.log(PdfSelected);
+      // console.log(PdfSelected);
       props.getEmailData({
         //uniqueId: uniqueId,
         status: getIsApprovedStatus,
@@ -751,8 +874,6 @@ const CreateEmail = (props) => {
 
       navigate("/SelectHCP");
     } else {
-      //console.log("show error messages");
-      //console.log(validator.errorMessages);
       validator.showMessages();
       setRenderAfterValidation(renderAfterValidation + 1);
     }
@@ -828,6 +949,157 @@ const CreateEmail = (props) => {
     setIsOpen(true);
     setModalCounter(modalCounter + 1);
   };
+  const onSiteNumberChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+
+      list[i].siteNumber = "";
+
+      setHpc(list);
+    } else {
+      let getSiteData = totalData.site_data;
+      let site_name_value = getSiteData[e.value];
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteNumber;
+      list[i].siteNumber = value;
+      list[i].siteName = site_name_value;
+      let snameindex = siteNameAll.findIndex(
+        (x) => x.value === site_name_value
+      );
+      list[i].siteNameIndex = snameindex;
+      let index = siteNumberAll.findIndex((x) => x.value === value);
+      list[i].siteNumberIndex = index;
+      setHpc(list);
+    }
+
+    // e.preventDefault();
+
+    // if (index != 0) {
+
+    //   const { value } = e.target;
+
+    //   const old_hpc = hpc;
+
+    //   old_hpc[i].siteDetails[index].siteNumber = value;
+
+    //   setHpc(old_hpc);
+
+    //   setUpdate(update + 1);
+
+    // } else if (index == 0) {
+
+    //   const { value } = e;
+
+    //   const old_hpc = hpc;
+
+    //   old_hpc[i].siteDetails[index].siteNumber = value;
+
+    //   setHpc(old_hpc);
+
+    //   setUpdate(update + 1);
+
+    // }
+  };
+
+  const onSiteNameChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+
+      list[i].siteName = "";
+
+      setHpc(list);
+    } else {
+      const value = e.value;
+
+      let getSiteData = totalData.site_data;
+
+      let site_number_value = Object.keys(getSiteData).find(
+        (key) => getSiteData[key] === e.value
+      );
+
+      const list = [...hpc];
+
+      const name = hpc[i].siteName;
+
+      list[i].siteName = value;
+
+      list[i].siteNumber = site_number_value;
+
+      let snameindex = siteNumberAll.findIndex(
+        (x) => x.value === site_number_value
+      );
+
+      list[i].siteNumberIndex = snameindex;
+
+      let index = siteNameAll.findIndex((x) => x.value === value);
+
+      list[i].siteNameIndex = index;
+
+      setHpc(list);
+    }
+  };
+
+  const onRoleChange = (e, i, statemsg) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].role = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].role;
+      list[i].role = value;
+
+      setHpc(list);
+    }
+  };
+  const onInstitutionChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].institutionType = "";
+      list[i].optIRT = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].institutionType;
+      list[i].institutionType = value;
+      setHpc(list);
+      if (e?.value == "Study site") {
+        onIRTChange("yes", i);
+      } else {
+        onIRTChange("no", i);
+      }
+    }
+  };
+  const onIRTChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].optIRT = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e;
+      const list = [...hpc];
+      const name = hpc[i].optIRT;
+      list[i].optIRT = value;
+      list[i].role = "";
+      list[i].country = "";
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      setHpc(list);
+    }
+    let arr = [];
+    setSiteNumberAll(arr);
+    setSiteNameAll(arr);
+    setCounterFlag(counterFlag + 1);
+  };
 
   const newTagChanged = (e) => {
     setNewTag(e.target.value);
@@ -856,15 +1128,17 @@ const CreateEmail = (props) => {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
-      //  console.log(allTags)
       let alltemp_tags = [];
-      Object.entries(allTags).map((data) => {
-        return alltemp_tags.push(...data);
-      });
-      alltemp_tags = alltemp_tags.map((data) => {
-        return data.toLowerCase();
-      });
-      console.log(alltemp_tags);
+
+      if (typeof allTags != "undefined") {
+        Object.entries(allTags)?.map((data) => {
+          return alltemp_tags.push(...data);
+        });
+        alltemp_tags = alltemp_tags?.map((data) => {
+          return data.toLowerCase();
+        });
+        // console.log(alltemp_tags);
+      }
 
       if (
         !temp_tags.includes(newTag.toLowerCase()) &&
@@ -886,6 +1160,7 @@ const CreateEmail = (props) => {
             loader("hide");
           })
           .catch((err) => {
+            loader("hide");
             console.log(err);
           });
       } else {
@@ -908,10 +1183,18 @@ const CreateEmail = (props) => {
     //  console.log(selectedHcp);
 
     event.preventDefault();
+    let error = {};
+
     if (templateId == "" || templateId == 0) {
-      toast.warning("Please select email template first");
-    } else if (emailSubject == "" || emailSubject == 0) {
-      toast.warning("Please select email subject first");
+      error.templateId = "Please select email template first";
+    }
+    if (emailSubject == "" || emailSubject == 0) {
+      error.emailSubject = "The email subject field is required.";
+    }
+    if (Object.keys(error)?.length) {
+      setValidationError(error);
+      toast.error(error[Object.keys(error)[0]]);
+      return;
     } else {
       setIsOpensend(true);
     }
@@ -920,6 +1203,7 @@ const CreateEmail = (props) => {
   const addNewContactClicked = () => {
     setIsOpenAdd(true);
     setIsOpensend(false);
+    setValidationError({});
     setHpc([
       {
         firstname: "",
@@ -928,21 +1212,30 @@ const CreateEmail = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        role:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIRT:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
+        institutionType: "",
       },
     ]);
     setActiveManual("active");
     setActiveExcel("");
-    //console.log("hi");
   };
 
   const removeTag = (index) => {
-    //console.log(index);
     const tags = tagClickedFirst;
 
     tags.splice(index, 1);
     //console.log(tags);
     setTagClickedFirst(tags);
+    setFinalTags(tags);
     setTagsReRender(tagsReRender + 1);
+
     // tagClickedFirst.splice(index, 1);
   };
 
@@ -964,6 +1257,7 @@ const CreateEmail = (props) => {
 
   const searchHcp = async (e) => {
     e.preventDefault();
+
     if (name == "" && email == "") {
       toast.warning("Please enter name or email first");
     } else {
@@ -972,7 +1266,23 @@ const CreateEmail = (props) => {
         name: name,
         email: email,
       };
-
+      // let error = {};
+      // if (name == "") {
+      //   error.name = "Please enter name";
+      // }
+      // if (email == "") {
+      //   error.email = "Please enter email";
+      // }
+      // if (Object.keys(error)?.length) {
+      //   toast.error(error[Object.keys(error)[0]]);
+      //   setValidationError(error);
+      //   return;
+      // } else {
+      //   const body = {
+      //     user_id: localStorage.getItem("user_id"),
+      //     name: name,
+      //     email: email,
+      //   };
       //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
@@ -1046,7 +1356,6 @@ const CreateEmail = (props) => {
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
     setHpc(list);
-    console.log(hpc);
   };
 
   const onCountryChange = (e, i) => {
@@ -1056,6 +1365,25 @@ const CreateEmail = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        let consetValue = e.value;
+        if (e.value == "B&H") {
+          consetValue = "Bosnia and Herzegovina";
+        }
+        const matchingKeys = Object.entries(totalData.site_country_data)
+          .filter(([key, value]) => value === consetValue)
+          .map(([key, value]) => key);
+        const filteredSiteNames = matchingKeys.map((key) => ({
+          label: totalData.site_data[key],
+          value: totalData.site_data[key],
+        }));
+        const siteNumbers = matchingKeys.map((key) => ({
+          label: key,
+          value: key,
+        }));
+        setSiteNumberAll(siteNumbers);
+        setSiteNameAll(filteredSiteNames);
+      }
       const value = e.value;
       const list = [...hpc];
       const name = hpc[i].country;
@@ -1063,7 +1391,10 @@ const CreateEmail = (props) => {
 
       let index = countryall.findIndex((x) => x.value === value);
       list[i].countryIndex = index;
-
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
       setHpc(list);
     }
   };
@@ -1095,19 +1426,32 @@ const CreateEmail = (props) => {
   };
 
   const saveClicked = async () => {
-    //  console.log(validator);
-
-    // setIsOpenAdd(false);
-
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        return {
-          first_name: data.firstname,
-          last_name: data.lastname,
-          email: data.email,
-          country: data.country,
-          contact_type: data.contact_type,
-        };
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          return {
+            first_name: data?.firstname,
+            last_name: data?.lastname,
+            email: data?.email,
+            country: data?.country,
+            // contact_type: data?.contact_type,
+            siteNumber: data?.siteNumber ? data.siteNumber : "",
+            siteName: data?.siteName ? data.siteName : "",
+            investigator_type: data?.role,
+            siteIrt: data?.optIRT == "yes" ? 1 : 0,
+            institution_type: data?.institutionType
+              ? data?.institutionType
+              : "",
+          };
+        } else {
+          return {
+            first_name: data?.firstname,
+            last_name: data?.lastname,
+            email: data?.email,
+            country: data?.country,
+            contact_type: data?.contact_type,
+          };
+        }
       });
 
       const body = {
@@ -1116,22 +1460,46 @@ const CreateEmail = (props) => {
         smart_list_id: "",
       };
 
-      const status = body.data.map((data) => {
-        if (data.email == "") {
-          return "Please enter the email atleast";
-        } else if (data.email != "") {
-          let email = data.email;
-          let useremail = email.trim();
-          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = selectedHcp.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
+      const status = body.data.map((data, index) => {
+        if (data.email == "" || data?.institution_type == "") {
+          if (data.email == "") {
+            setValidationError({
+              newHcpEmail: "Please enter the email atleast",
+              index: index,
+            });
+
+            return;
+          } else if (data.email != "") {
+            let email = data.email;
+            let useremail = email.trim();
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (regex.test(String(useremail).toLowerCase())) {
+              let prev_obj = selectedHcp.find((x) => x.email === useremail);
+              if (typeof prev_obj != "undefined") {
+                setValidationError({
+                  newHcpEmail: "User with same email already added in list.",
+                  index: index,
+                });
+
+                return;
+              }
             } else {
-              return "true";
+              setValidationError({
+                newHcpEmail: "Email format is not valid",
+                index: index,
+              });
+
+              return;
             }
-          } else {
-            return "Email format is not valid";
+          }
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (data.institution_type == "") {
+              setValidationError({
+                newHcpInstitution: "Please enter the institution ",
+                index: index,
+              });
+              return;
+            }
           }
         } else {
           return "true";
@@ -1164,7 +1532,9 @@ const CreateEmail = (props) => {
             loader("hide");
           });
       } else {
-        toast.warning(status[0]);
+        const filteredArray = status.filter((value) => value !== "true");
+        toast.warning(filteredArray?.[0]);
+        // toast.warning(status[0]);
       }
     } else {
       let formData = new FormData();
@@ -1272,6 +1642,7 @@ const CreateEmail = (props) => {
             if (res.data.status_code === 200) {
               getTemplateListData(1);
               setTemplateId(res.data.response.data.last_id);
+              templateIdRef.current = res.data.response.data.last_id;
             } else {
               loader("hide");
               toast.warning("Template not selected.");
@@ -1293,7 +1664,7 @@ const CreateEmail = (props) => {
 
   const downloadFile = () => {
     let link = document.createElement("a");
-    link.href = "https://informed.pro/sample.xls";
+    link.href = "https://webinar.informed.pro/sample.xls";
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";
@@ -1372,13 +1743,160 @@ const CreateEmail = (props) => {
       toast.warning("Template not selected.");
     }
   };
+  const addTracking = function (editor) {
+    editor.on("OpenWindow", function (e) {
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
+
+      if (dialog) {
+        let header = dialog.querySelector(".tox-dialog__header");
+        const closeButton = header.querySelector('[aria-label="Close"]');
+        let text = header.querySelector(".tox-dialog__title");
+
+        if (text.innerText == "Insert/Edit Link") {
+          let uploadIcon = document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+          );
+          uploadIcon.style.display = "none";
+          let newButton = document.createElement("button");
+          newButton.innerText = "Add Tracking";
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
+          newButton.onclick = function () {
+            if (templateIdRef.current == "") {
+              alert("Please select the template first before adding the link");
+              return;
+            }
+            // alert(templateId);
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
+
+            // let text =dialog.querySelector(".tox-form__group");
+            if (!firstToxControlWrap.value) {
+              alert("Please enter a link");
+              return;
+            }
+
+            const baseLink =
+              "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+            if (firstToxControlWrap.value.startsWith(baseLink)) {
+              alert("Traking already added");
+              return;
+            }
+            let slugValue = prompt("Enter a slug value");
+
+            const currentTimestamp = Date.now();
+            // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+            let payload = {
+              slug_value: slugValue,
+              template_id: templateIdRef.current,
+              url_code: `clicked_track_doc_${currentTimestamp}`,
+            };
+            linkingPayload.current = payload;
+            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+            firstToxControlWrap.value = link;
+            var saveButton = document.querySelector(
+              '.tox-button[title="Save"]'
+            );
+
+            saveButton.addEventListener("click", function () {
+              let link = `https://onesource.informed.pro/api/track-links`;
+
+              axios
+                .post(link, payload)
+                .then((res) => {
+                  console.log("done");
+                })
+                .catch((err) => {
+                  loader("hide");
+                  console.log(err);
+                });
+            });
+            alert("Traking added");
+          };
+
+          header.insertBefore(newButton, closeButton);
+        } else if (text.innerText == "Insert/Edit Media") {
+          document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+          ).innerText += " (Max size: 1GB)";
+        }
+      }
+    });
+  };
+  const uploadImageToServer =    async function uploadImageToServer(file) {
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+  
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+      
+        let tox= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog") 
+         let tox1=document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop")
+  
+        xhr.upload.addEventListener("progress", (event) => {
+          setShowProgress(true)
+         tox.style.opacity = 0
+         tox1.style.opacity = 0
+          if (event.lengthComputable) {
+            const percentComplete = (event.loaded / event.total) * 100;
+    
+
+  setProgress(parseInt(event.loaded / event.total) );
+  setPercent(parseInt(percentComplete));
+  
+          }
+        });
+  
+        xhr.addEventListener("load", () => {
+          if (xhr.status === 200) {
+            try {
+              const uploadedData = JSON.parse(xhr.responseText);
+              const imageUrl = uploadedData.imageUrl;
+              resolve(imageUrl);
+            } catch (parseError) {
+              console.error("Failed to parse response JSON:", parseError);
+              reject(null);
+            }
+            finally{
+              setShowProgress(false)
+         tox1.style.opacity = 1
+         tox.style.opacity = 1
+
+              setProgress(0);
+              setPercent(0);
+              
+
+            }
+          } else {
+            console.error("Image upload failed");
+            reject(null);
+          }
+        });
+  
+        xhr.addEventListener("error", (error) => {
+          console.error("Image upload error:", error);
+          reject(null);
+        });
+  
+        xhr.open("POST", "https://onesource.informed.pro/api/upload-image");
+        xhr.send(formData);
+      });
+    } catch (error) {
+      console.error("Image upload error:", error);
+      return null;
+    }
+  }
 
   return (
     <>
-      <div className="col right-sidebar">
+      <div className="col right-sidebar custom-change">
         <div className="custom-container">
           <div className="row">
-            <div className="page-top-nav">
+            <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
@@ -1396,7 +1914,11 @@ const CreateEmail = (props) => {
                       <a href="">Create Your Email</a>
                     </li>
                     <li className="">
-                      <a href="">Select HCPs</a>
+                      <a href="">
+                        {localStorage.getItem("user_id") == userId
+                          ? "Select Users"
+                          : "Select HCPs"}
+                      </a>
                     </li>
                     <li className="">
                       <a href="">Verify your list</a>
@@ -1452,10 +1974,11 @@ const CreateEmail = (props) => {
                     responsive={responsive}
                     onSlideChanged={syncActiveIndex}
                   >
-                    {templateList.map((template) => {
+                    {templateList.map((template, index) => {
                       return (
                         <>
                           <div
+                            key={index}
                             className="item"
                             onClick={(e) => templateClicked(template, e)}
                           >
@@ -1479,59 +2002,96 @@ const CreateEmail = (props) => {
 
                   <input type="hidden" id="mail_template" value={templateId} />
                   {validator.message("Templates", templateId, "required")}
+
                   <div className="email-form">
                     <form>
-                      <div className="form-inline row justify-content-between align-items-center">
-                        <div className="form-group col-12 col-md-7">
-                          <label for="exampleInputEmail1">
-                            Email Description{" "}
-                          </label>
-                          <input
-                            onChange={(e) => emailDescriptionChange(e)}
-                            type="text"
-                            className="form-control"
-                            id="email-desc"
-                            value={emailDescription}
-                          />
-                          {validator.message(
-                            "emailDesc",
-                            emailDescription,
-                            "required"
-                          )}
-                        </div>
-                        <div className="form-group right-side col-12 col-md-5">
-                          <label for="exampleInputEmail1">Email Creator</label>
-                          <input
-                            onChange={(e) => emailCreatorChange(e)}
-                            type="text"
-                            className="form-control"
-                            id="email-address"
-                            value={emailCreator}
-                          />
-                          {validator.message(
-                            "creator",
-                            emailCreator,
-                            "required"
-                          )}
-                        </div>
-                      </div>
-                      <div className="form-inline row justify-content-between align-items-center">
-                        <div className="form-group">
-                          <label for="exampleInputEmail1">Email Campaign</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="email-campaign"
-                            value={emailCampaign}
-                            onChange={changeEmailCampaign}
-                          />
-                          {validator.message(
-                            "emailCampaign",
-                            emailCampaign,
-                            "required"
-                          )}
-                        </div>
-                      </div>
+                      {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <>
+                          <div className="form-inline row justify-content-between align-items-center">
+                            <div className="form-group col-12 col-md-7">
+                              <label htmlFor="exampleInputEmail1">
+                                Email Description <span>*</span>{" "}
+                              </label>
+
+                              <input
+                                onChange={(e) => emailDescriptionChange(e)}
+                                type="text"
+                                className={
+                                  validator?.message(
+                                    "emailDesc",
+                                    emailDescription,
+                                    "required"
+                                  )
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                id="email-desc"
+                                value={emailDescription}
+                              />
+                              {validator.message(
+                                "emailDesc",
+                                emailDescription,
+                                "required"
+                              )}
+                            </div>
+                            <div className="form-group right-side col-12 col-md-5">
+                              <label htmlFor="exampleInputEmail1">
+                                Email Creator <span>*</span>
+                              </label>
+
+                              <input
+                                onChange={(e) => emailCreatorChange(e)}
+                                type="text"
+                                className={
+                                  validator.message(
+                                    "creator",
+                                    emailCreator,
+                                    "required"
+                                  )
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                id="email-address"
+                                value={emailCreator}
+                              />
+                              {validator.message(
+                                "creator",
+                                emailCreator,
+                                "required"
+                              )}
+                            </div>
+                          </div>
+                          <div className="form-inline row justify-content-between align-items-center">
+                            <div className="form-group">
+                              <label htmlFor="exampleInputEmail1">
+                                Email Campaign <span>*</span>
+                              </label>
+
+                              <input
+                                type="text"
+                                className={
+                                  validator.message(
+                                    "emailCampaign",
+                                    emailCampaign,
+                                    "required"
+                                  )
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                id="email-campaign"
+                                value={emailCampaign}
+                                onChange={changeEmailCampaign}
+                              />
+                              {validator.message(
+                                "emailCampaign",
+                                emailCampaign,
+                                "required"
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      ) : null}
                       <div className="input-group w-100">
                         <div className="input-group-prepend">
                           <button
@@ -1550,7 +2110,7 @@ const CreateEmail = (props) => {
                             {finalTags.map((tags, index) => {
                               return (
                                 <>
-                                  <li className="list1">
+                                  <li className="list1" key={index}>
                                     {tags.innerHTML || tags}{" "}
                                     <img
                                       src={path_image + "filter-close.svg"}
@@ -1564,23 +2124,50 @@ const CreateEmail = (props) => {
                           </ul>
                         </div>
                       </div>
+
                       <div className="form-inline row justify-content-end align-items-center">
-                        <div className="form-group col-12 col-md-7">
-                          <label for="exampleInputEmail1">Email Subject</label>
+                        <div className="form-group col-12 col-md-5">
+                          <label htmlFor="exampleInputEmail1">
+                            Email Subject <span>*</span>
+                          </label>
+
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              validator.message(
+                                "emailSubject",
+                                emailSubject,
+                                "required"
+                              ) || validationError?.emailSubject
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             id="email-subject"
                             onChange={(e) => emailSubjectChanged(e)}
                             value={emailSubject}
                           />
-                          {validator.message(
+                          {validationError?.emailSubject ? (
+                            <div className="login-validation">
+                              {validationError?.emailSubject}
+                            </div>
+                          ) : validator.message(
+                              "emailSubject",
+                              emailSubject,
+                              "required"
+                            ) ? (
+                            validator.message(
+                              "emailSubject",
+                              emailSubject,
+                              "required"
+                            )
+                          ) : null}
+                          {/* {validator.message(
                             "emailSubject",
                             emailSubject,
                             "required"
-                          )}
+                          )} */}
                         </div>
-                        <div className="form-buttons right-side col-12 col-md-5">
+                        <div className="form-buttons right-side col-12 col-md-7">
                           <button
                             className="btn btn-primary btn-filled"
                             onClick={(e) => updateTemplate(e)}
@@ -1634,7 +2221,23 @@ const CreateEmail = (props) => {
                   </div>
                 </div>
                 <div className="row">
-                  <Editor
+                {showProgress?  <div className="progressloader"> <div
+            className="circular-progressbar"
+            style={{
+              position:"absolute",
+              top:"50%",
+              left:"0",
+              right:"0",
+              margin:"0 auto",
+              width: 200,
+              height: 200,
+              zIndex: "999999",
+            }}
+          > <CircularProgressbar
+              value={percent}
+              text={`${percent}%`}
+              strokeWidth={5}
+            /></div></div>:""}              <Editor
                     apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                     onInit={(evt, editor) => (editorRef.current = editor)}
                     initialValue={template}
@@ -1644,9 +2247,103 @@ const CreateEmail = (props) => {
                       plugins:
                         "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
                       toolbar:
-                        "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                        "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | ltr rtl",
                       content_style:
                         "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                      automatic_uploads: true,
+                      image_caption: true,
+                      contextmenu:
+                        "link image imagetools table configurepermanentpen",
+                      file_picker_types: "file image media",
+                      init_instance_callback: (editor) => addTracking(editor),
+                      file_picker_callback: function (callback, value, meta) {
+                        const input = document.createElement("input");
+
+                        if (meta.filetype === "media") {
+                          input.setAttribute("type", "file");
+                          input.setAttribute("accept", "video/*");
+
+                          input.onchange = async () => {
+                            const file = input.files[0];
+                            if (file) {
+                              let uploadedImageUrl;
+
+                              try {
+                                if (meta && meta.width && meta.height) {
+                                  uploadedImageUrl = await uploadImageToServer(
+                                    file,
+                                    meta.width,
+                                    meta.height
+                                  );
+                                } else {
+                                  uploadedImageUrl = await uploadImageToServer(
+                                    file
+                                  );
+                                }
+
+                                if (uploadedImageUrl) {
+                                  callback(uploadedImageUrl, {
+                                    width: 500,
+                                    height: 500,
+                                  });
+                                } else {
+                                  console.error("Failed to upload image");
+                                }
+                              } catch (error) {
+                                console.error("Error uploading image:", error);
+                              } finally {
+                              }
+                            }
+                          };
+                        } else {
+                          input.setAttribute("type", "file");
+                          input.setAttribute("accept", "image/*");
+
+                          // Create a loading indicator element (e.g., a spinner)
+                          const loadingIndicator =
+                            document.createElement("div");
+                          loadingIndicator.className = "loading-indicator";
+                          loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                          input.onchange = async () => {
+                            document.body.appendChild(loadingIndicator); // Show loading indicator
+
+                            const file = input.files[0];
+                            if (file) {
+                              let uploadedImageUrl;
+
+                              try {
+                                if (meta && meta.width && meta.height) {
+                                  uploadedImageUrl = await uploadImageToServer(
+                                    file,
+                                    meta.width,
+                                    meta.height
+                                  );
+                                } else {
+                                  uploadedImageUrl = await uploadImageToServer(
+                                    file
+                                  );
+                                }
+
+                                if (uploadedImageUrl) {
+                                  callback(uploadedImageUrl, {
+                                    width: 500,
+                                    height: 500,
+                                  });
+                                  loader("hide");
+                                } else {
+                                  console.error("Failed to upload image");
+                                }
+                              } catch (error) {
+                                console.error("Error uploading image:", error);
+                              } finally {
+                                document.body.removeChild(loadingIndicator); // Hide loading indicator
+                              }
+                            }
+                          };
+                        }
+                        input.click();
+                      },
                     }}
                     onEditorChange={(content) => {
                       setTemplateSaving(content);
@@ -1696,13 +2393,17 @@ const CreateEmail = (props) => {
               <h6>Select Tag :</h6>
               <div className="tag-lists">
                 <div className="tag-lists-view">
-                  {Object.values(allTags).map((data) => {
-                    return (
-                      <>
-                        <div onClick={(event) => tagClicked(data)}>{data} </div>
-                      </>
-                    );
-                  })}
+                  {allTags
+                    ? Object.values(allTags)?.map((data, index) => {
+                        return (
+                          <>
+                            <div key={index} onClick={() => tagClicked(data)}>
+                              {data}{" "}
+                            </div>
+                          </>
+                        );
+                      })
+                    : ""}
                 </div>
               </div>
             </div>
@@ -1715,7 +2416,7 @@ const CreateEmail = (props) => {
                 {tagClickedFirst.map((data, index) => {
                   return (
                     <>
-                      <div className="tag-cross">
+                      <div className="tag-cross" key={index}>
                         {data.innerHTML || data}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -1732,7 +2433,7 @@ const CreateEmail = (props) => {
           <Modal.Footer>
             <form>
               <div className="form-group">
-                <label for="new-tag">New Tag</label>
+                <label htmlFor="new-tag">New Tag</label>
                 <input
                   type="text"
                   className="form-control"
@@ -1771,6 +2472,7 @@ const CreateEmail = (props) => {
                 setIsOpensend(false);
                 setSelectedHcp([]);
                 setSearchedUsers([]);
+                setValidationError({});
               }}
             ></button>
           </Modal.Header>
@@ -1787,22 +2489,40 @@ const CreateEmail = (props) => {
                     <div className="col-12 col-md-8">
                       <div className="row justify-content-between align-items-center">
                         <div className="form-group col-sm-5">
-                          <label for="hcp-name">Name</label>
+                          <label htmlFor="hcp-name">Name</label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              validationError?.name
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             onChange={(e) => nameChanged(e)}
                             id=""
                           />
+                          {validationError?.name ? (
+                            <div className="login-validation">
+                              {validationError?.name}
+                            </div>
+                          ) : null}
                         </div>
                         <div className="form-group col-sm-5">
-                          <label for="hcp-email">Email </label>
+                          <label htmlFor="hcp-email">Email</label>
                           <input
                             type="mail"
                             onChange={(e) => emailChanged(e)}
-                            className="form-control"
+                            className={
+                              validationError?.email
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             id=""
                           />
+                          {validationError?.email ? (
+                            <div className="login-validation">
+                              {validationError?.email}
+                            </div>
+                          ) : null}
                         </div>
                         <div className="form-group col-sm-2">
                           <button
@@ -1846,7 +2566,7 @@ const CreateEmail = (props) => {
                   ) : (
                     searchedUsers.map((data, index) => {
                       return (
-                        <div className="search-hcp-box">
+                        <div className="search-hcp-box" key={index}>
                           <p className="send-hcp-box-title">
                             Name | <span>{data.name}</span>
                           </p>
@@ -1854,7 +2574,7 @@ const CreateEmail = (props) => {
                             Email | <span>{data.email}</span>
                           </p>
                           <p className="send-hcp-box-title">
-                            Contact Type | <span>{data.contact_type}</span>
+                            Contact type | <span>{data.contact_type}</span>
                           </p>
                           <div
                             className="add-new-field"
@@ -1874,7 +2594,7 @@ const CreateEmail = (props) => {
               <div className="selected-hcp-table">
                 <div className="table-title">
                   <h4>
-                    Selected Contact <span>| {selectedHcp.length}</span>
+                    Selected contact <span>| {selectedHcp.length}</span>
                   </h4>
                 </div>
                 <div className="selected-hcp-list">
@@ -1887,7 +2607,7 @@ const CreateEmail = (props) => {
                       {selectedHcp.map((data, index2) => {
                         return (
                           <>
-                            <div className="search-hcp-box">
+                            <div className="search-hcp-box" key={index2}>
                               <p className="send-hcp-box-title">
                                 Name |{" "}
                                 <span>{data.name || data.first_name}</span>
@@ -1895,9 +2615,30 @@ const CreateEmail = (props) => {
                               <p className="send-hcp-box-title">
                                 Email | <span>{data.email}</span>
                               </p>
-                              <p className="send-hcp-box-title">
-                                Contact Type | <span>{data.contact_type}</span>
-                              </p>
+
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <p className="send-hcp-box-title">
+                                  {" "}
+                                  Role |{" "}
+                                  <span>
+                                    {data?.user_type != 0
+                                      ? data?.user_type
+                                      : "N/A"}
+                                  </span>
+                                </p>
+                              ) : (
+                                <p className="send-hcp-box-title">
+                                  {" "}
+                                  Contact type |{" "}
+                                  <span>
+                                    {data?.contact_type
+                                      ? data?.contact_type
+                                      : "N/A"}
+                                  </span>
+                                </p>
+                              )}
+
                               <div className="remove-existing-field">
                                 <img
                                   src={path_image + "delete.svg"}
@@ -1924,7 +2665,7 @@ const CreateEmail = (props) => {
                     //     {selectedHcp.map((data, index2) => {
                     //       return (
                     //         <>
-                    //           <tr>
+                    //           <tr key={index2}>
                     //             <td>{data.name || data.first_name}</td>
                     //             <td>{data.email}</td>
                     //
@@ -2047,10 +2788,10 @@ const CreateEmail = (props) => {
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
               smartListData.length > 0 ? (
-                smartListData.map((data) => {
+                smartListData.map((data, index) => {
                   return (
                     <>
-                      <div className="smartlist_box_block">
+                      <div className="smartlist_box_block" key={index}>
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <h5>{data.name}</h5>
@@ -2073,7 +2814,7 @@ const CreateEmail = (props) => {
                               <table>
                                 <tbody>
                                   <tr>
-                                    <th>Contact Type</th>
+                                    <th>Contact type</th>
                                     <td>{data.contact_type}</td>
                                   </tr>
                                   <tr>
@@ -2101,7 +2842,7 @@ const CreateEmail = (props) => {
                                     <td>{data.registered}</td>
                                   </tr>
                                   <tr>
-                                    <th>Created By</th>
+                                    <th>Created by</th>
                                     <td>
                                       <span>{data.creator}</span>
                                     </td>
@@ -2223,6 +2964,7 @@ const CreateEmail = (props) => {
               onClick={() => {
                 setIsOpenAdd(false);
                 setIsOpensend(true);
+                setValidationError({});
                 setHpc([
                   {
                     firstname: "",
@@ -2231,9 +2973,22 @@ const CreateEmail = (props) => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
+                    role:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? irtRole?.[0]?.value
+                        : "",
+                    optIRT:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "yes"
+                        : "",
+                    institutionType: "",
                   },
                 ]);
-                document.querySelector("#file-4").value = "";
+                if (document.querySelector("#file-4")) {
+                  document.querySelector("#file-4").value = "";
+                }
                 setActiveManual("active");
                 setActiveExcel("");
               }}
@@ -2251,12 +3006,12 @@ const CreateEmail = (props) => {
                     const fieldName = `hpc[${i}]`;
                     return (
                       <>
-                        <div className="add_hcp_boxes">
+                        <div className="add_hcp_boxes" key={i}>
                           <div className="form_action">
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2269,7 +3024,7 @@ const CreateEmail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2282,10 +3037,17 @@ const CreateEmail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Email *</label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpEmail &&
+                                      validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     id="email-desc"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
@@ -2293,77 +3055,247 @@ const CreateEmail = (props) => {
                                     }
                                     value={val.email}
                                   />
+                                  {validationError?.newHcpEmail &&
+                                  validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpEmail}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
+
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={institutionType}
+                                        className={
+                                          validationError?.index == i &&
+                                          validationError?.newHcpInstitution
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        defaultValue={
+                                          val?.institutionType
+                                            ? {
+                                                label: val?.institutionType,
+                                                value: val?.institutionType,
+                                              }
+                                            : ""
+                                        }
+                                        placeholder="Select institution"
+                                      />
+                                      {validationError?.newHcpInstitution &&
+                                      validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpInstitution}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
+
+                                      <Select
+                                        options={optIRT}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onIRTChange(event?.value, i)
+                                        }
+                                        defaultValue={
+                                          val?.optIRT == "yes"
+                                            ? {
+                                                label: "Yes",
+                                                value: val?.optIRT,
+                                              }
+                                            : ""
+                                        }
+                                        value={
+                                          optIRT.findIndex(
+                                            (el) => el.value == val?.optIRT
+                                          ) == -1
+                                            ? ""
+                                            : optIRT[
+                                                optIRT.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.optIRT
+                                                )
+                                              ]
+                                        }
+                                        placeholder="Select IRT"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT role</label>
+                                      {val.optIRT == "yes" ? (
+                                        <Select
+                                          options={irtRole}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i, "role")
+                                          }
+                                          value={
+                                            irtRole.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : irtRole[
+                                                  irtRole.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : val.optIRT == "no" ? (
+                                        <Select
+                                          options={role}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i, "irtRole")
+                                          }
+                                          value={
+                                            role.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : role[
+                                                  role.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          placeholder="Select Role"
+                                        />
+                                      )}
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label htmlFor="">Contact type</label>
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          hpc[i].contact_type != "" &&
+                                          hpc[i].contact_type != "undefined"
+                                            ? hpc[i].contact_type
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onContactTypeChange(event, i)
+                                        }
+                                      >
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          HCP
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </DropdownButton>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Contact Type</label>
-                                  <DropdownButton
-                                    className="dropdown-basic-button split-button-dropup"
-                                    title={
-                                      hpc[i].contact_type != "" &&
-                                      hpc[i].contact_type != "undefined"
-                                        ? hpc[i].contact_type
-                                        : "Select Type"
-                                    }
-                                    onSelect={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                  >
-                                    <Dropdown.Item
-                                      eventKey="HCP"
-                                      className={
-                                        hpc[i].contact_type == "HCP"
-                                          ? "active"
-                                          : ""
+                                  <label htmlFor="">Country</label>
+                                  {val.optIRT == "yes" ? (
+                                    <Select
+                                      options={irtCountry}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
                                       }
-                                    >
-                                      HCP
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Staff"
-                                      className={
-                                        hpc[i].contact_type == "Staff"
-                                          ? "active"
-                                          : ""
+                                      value={
+                                        irtCountry.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : irtCountry[
+                                              irtCountry.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
                                       }
-                                    >
-                                      Staff
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      eventKey="Test Users"
-                                      className={
-                                        hpc[i].contact_type == "Test Users"
-                                          ? "active"
-                                          : ""
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  ) : (
+                                    <Select
+                                      options={countryall}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
                                       }
-                                    >
-                                      Test Users
-                                    </Dropdown.Item>
-                                  </DropdownButton>
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Country</label>
-                                  <Select
-                                    options={countryall}
-                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                    onChange={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                    defaultValue={
-                                      countryall[hpc[i].countryIndex]
-                                    }
-                                    placeholder={
-                                      typeof countryall[hpc[i].countryIndex] ===
-                                      "undefined"
-                                        ? "Select Country"
-                                        : countryall[hpc[i].countryIndex]
-                                    }
-                                    filterOption={createFilter(filterConfig)}
-                                    isClearable
-                                  />
+                                      value={
+                                        countryall.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : countryall[
+                                              countryall.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  )}
+
                                   {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                    onSelect={(event) => onCountryChange(event, i)}
@@ -2401,7 +3333,7 @@ const CreateEmail = (props) => {
                                             ([index, item]) => {
                                               return (
                                                 <>
-                                                  <option value={index}>
+                                                  <option value={index} key={index}>
                                                     {item}
                                                   </option>
                                                 </>
@@ -2425,6 +3357,54 @@ const CreateEmail = (props) => {
                                   )}
                                 </div>
                               </div>*/}
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site number</label>
+
+                                      <Select
+                                        options={siteNumberAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNumberChange(event, i)
+                                        }
+                                        value={
+                                          siteNumberAll[hpc[i]?.siteNumberIndex]
+                                            ? siteNumberAll[
+                                                hpc[i]?.siteNumberIndex
+                                              ]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Number"}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site name</label>
+
+                                      <Select
+                                        options={siteNameAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNameChange(event, i)
+                                        }
+                                        value={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Name"}
+                                      />
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
 
@@ -2457,7 +3437,9 @@ const CreateEmail = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    Add HCP +
+                                    {localStorage.getItem("user_id") == userId
+                                      ? "Add User +"
+                                      : "Add HCP +"}
                                   </a>
                                 </li>
                                 {/*<li className="nav-item add-file">
@@ -2492,7 +3474,7 @@ const CreateEmail = (props) => {
                           onChange={onFileChange}
                           ref={file_name}
                         />
-                        {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                        {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label htmlFor="file-4"><span>Choose Your File</span></label>
                         <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
 
 
@@ -2665,15 +3647,27 @@ const CreateEmail = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      <th scope="col">Business Unit</th>
-                      <th scope="col">Contact Type</th>
+
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <>
+                          <th scope="col">IRT mandatory training</th>
+                          <th scope="col">IRT role</th>
+                        </>
+                      ) : (
+                        <>
+                          <th scope="col">Business unit</th>
+                          <th scope="col">Contact type</th>
+                        </>
+                      )}
+
                       {showLessInfo == false ? (
                         <>
                           <th scope="col">Consent</th>
-                          <th scope="col">Email Received</th>
+                          <th scope="col">Email received</th>
                           <th scope="col">Openings</th>
                           <th scope="col">Registrations</th>
-                          <th scope="col">Last Email</th>
+                          <th scope="col">Last email</th>
                         </>
                       ) : null}
                     </tr>
@@ -2684,36 +3678,71 @@ const CreateEmail = (props) => {
                       getReaderDetails.map((rr, i) => {
                         return (
                           <>
-                            <tr>
-                              <td>{rr.first_name}</td>
-                              <td>{rr.email}</td>
-                              <td>{rr.bounce}</td>
-                              <td>{rr.country}</td>
-                              <td>{rr.ibu}</td>
-                              <td>{rr.contact_type}</td>
+                            <tr key={i}>
+                              <td>{rr?.first_name ? rr?.first_name : "N/A"}</td>
+                              <td>{rr?.email ? rr?.email : "N/A"}</td>
+                              <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
+                              <td>{rr?.country ? rr?.country : "N/A"}</td>
+                              <td>
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : rr.ibu
+                                  ? rr.ibu
+                                  : "N/A"}
+                                {/*rr?.ibu ? rr?.ibu : "N/A"*/}
+                              </td>
+                              <td>
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr?.user_type != 0
+                                    ? rr?.user_type
+                                    : "N/A"
+                                  : rr?.contact_type
+                                  ? rr?.contact_type
+                                  : "N/A"}
+                              </td>
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.consent}</span>{" "}
+                                  <span>
+                                    {rr?.consent ? rr?.consent : "N/A"}
+                                  </span>{" "}
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.email_received}</span>
+                                  <span>
+                                    {rr?.email_received
+                                      ? rr?.email_recieved
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.email_opening}</span>
+                                  <span>
+                                    {rr?.email_opening
+                                      ? rr?.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.registration}</span>
+                                  <span>
+                                    {rr?.registration
+                                      ? rr?.registration
+                                      : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.last_email}</span>
+                                  <span>
+                                    {rr?.last_email ? rr?.last_email : "N/A"}
+                                  </span>
                                 </td>
                               ) : null}
                               <td className="add-new-hcp" colspan="12"></td>

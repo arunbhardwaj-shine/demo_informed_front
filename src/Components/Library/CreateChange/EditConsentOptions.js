@@ -22,12 +22,18 @@ import "react-circular-progressbar/dist/styles.css";
 import { popup_alert } from "../../../popup_alert";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { ProgressBar } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 var dxr = 0;
 var state_object = {};
 const EditConsentOptions = (props) => {
+  const [progress, setProgress] = useState(0);
+  const [percent, setPercent] = useState(0);
+  const [showProgress, setShowProgress] = useState(false);
   const editorRef = useRef(null);
   const ref = useRef(null);
-
+  const linkingPayload = useRef();
+ const templateIdRef= useRef();
   let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
@@ -58,6 +64,7 @@ const EditConsentOptions = (props) => {
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateSaving, setTemplateSaving] = useState("");
+
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
   const [getConsentType, setConsentType] = useState([
     { value: "Online", label: "Online" },
@@ -73,7 +80,7 @@ const EditConsentOptions = (props) => {
   const [counter, setCounter] = useState(0);
   const [modalCounter, setModalCounter] = useState(0);
   const [emailSubject, setEmailSubject] = useState("");
-  const [templateId, setTemplateId] = useState();
+  const [templateId, setTemplateId] = useState('');
   const [templateName, setTemplateName] = useState("");
   const [renderAfterValidation, setRenderAfterValidation] = useState(0);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
@@ -87,7 +94,7 @@ const EditConsentOptions = (props) => {
   const [countryOption, setCountryOption] = useState(0);
   const [ibuOption, setIbuOption] = useState("");
   const [validator] = React.useState(new SimpleReactValidator());
-
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [message, setMessage] = useState("");
@@ -177,9 +184,6 @@ const EditConsentOptions = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           setCountryall(res.data.response.data.country);
-          //console.log(res.data.response.data.country);
-          // console.log(countryall);
-          // setCounter(counter + 1);
         })
         .catch((err) => {
           console.log(err);
@@ -241,10 +245,7 @@ const EditConsentOptions = (props) => {
 
         let index = lng_arr.findIndex((x) => x.value === selectedLanguage);
         setCountryOption(index);
-        console.log(lng_arr);
-
         setTemplateLanguage(lng_arr);
-
         setTemplateIbu(ibu_arr);
         setTemplateList(res.data.response.data);
         getSelectedTemplateSource(res.data.response.data);
@@ -259,6 +260,7 @@ const EditConsentOptions = (props) => {
       toast.success("Template saved successfully");
     } else if (flag == 2) {
       setTemplateId();
+      templateIdRef.current=''
       setTemplateName("");
       setNewTemplateName("");
       setTemplate("");
@@ -266,9 +268,7 @@ const EditConsentOptions = (props) => {
     }
   };
 
-  useEffect(() => {
-    //console.log("sdsdsd");
-  }, [selectedHcp]);
+  useEffect(() => {}, [selectedHcp]);
 
   useEffect(() => {
     const body = {
@@ -281,18 +281,14 @@ const EditConsentOptions = (props) => {
         .post(`emailapi/get_tags`, body)
         .then((res) => {
           setAllTags(res.data.response.data);
-          // console.log(campaign_id_st);
-          // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
           loader("hide");
-          // }
         })
         .catch((err) => {
           loader("hide");
-          //console.log(err);
+          console.log(err);
         });
     };
     getAllTags();
-    // getCampaignData();
   }, []);
 
   const getSelectedTemplateSource = (dd) => {
@@ -309,7 +305,6 @@ const EditConsentOptions = (props) => {
           getSpecificKeyData &&
           getSpecificKeyData.hasOwnProperty("source_code")
         ) {
-          console.log(state_object);
           if (state_object != null && state_object?.template != "") {
             if (state_object.template !== "") {
               setTemplate("state_object.template");
@@ -443,7 +438,6 @@ const EditConsentOptions = (props) => {
         (number) => number["user_id"] || number["profile_user_id"]
       );
 
-      //  loader("show");
       setShowProgressBar(true);
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -455,13 +449,11 @@ const EditConsentOptions = (props) => {
         source_code: template,
       };
 
-      //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
       axios
         .post(`emailapi/send_sample_email`, body)
         .then((res) => {
-          //console.log(res);
           loader("hide");
           if (res.data.status_code === 200) {
             setUploadOrDownloadCount(100);
@@ -490,8 +482,6 @@ const EditConsentOptions = (props) => {
 
             setShowProgressBar(false);
           }
-
-          //toast.success("Test Mail sent successfuly");
         })
         .catch((err) => {
           clearInterval(timer);
@@ -532,7 +522,6 @@ const EditConsentOptions = (props) => {
   };
 
   const closeModal = () => {
-    //console.log("closed");
     setIsOpen(false);
   };
 
@@ -548,6 +537,8 @@ const EditConsentOptions = (props) => {
     }
     setTemplateClicked(true);
     setTemplateId(template.id);
+ templateIdRef.current=template.id
+
     setTemplateName(template.name);
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
@@ -608,8 +599,6 @@ const EditConsentOptions = (props) => {
   };
 
   const sendSample = (event) => {
-    //  console.log(selectedHcp);
-
     event.preventDefault();
     if (templateId == "" || templateId == 0) {
       toast.warning("Please select email template first");
@@ -632,7 +621,6 @@ const EditConsentOptions = (props) => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
-    //console.log("hi");
   };
 
   const responsive = {
@@ -652,22 +640,17 @@ const EditConsentOptions = (props) => {
         email: email,
       };
 
-      //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          console.log(res);
-          // console.log(res.data.response.data);
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
           } else {
             toast.warning(res.data.message);
           }
-          // if (res.data.message) {
-          //   setMessage(res.data.message);
-          // }
+
           loader("hide");
         })
         .catch((err) => {
@@ -697,7 +680,6 @@ const EditConsentOptions = (props) => {
     const name = hpc[i].firstname;
     list[i].firstname = value;
     setHpc(list);
-    // console.log(hpc);
   };
 
   const onLastNameChange = (e, i) => {
@@ -706,7 +688,6 @@ const EditConsentOptions = (props) => {
     const name = hpc[i].lastname;
     list[i].lastname = value;
     setHpc(list);
-    //console.log(hpc);
   };
 
   const onEmailChange = (e, i) => {
@@ -715,8 +696,6 @@ const EditConsentOptions = (props) => {
     const name = hpc[i].email;
     list[i].email = value;
     setHpc(list);
-    // setEmailData(e.target.value);
-    //console.log(hpc);
   };
 
   const onContactTypeChange = (e, i) => {
@@ -725,27 +704,19 @@ const EditConsentOptions = (props) => {
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
     setHpc(list);
-    console.log(hpc);
   };
 
   const getCountrySelected = (e) => {
-    // const { value } = e.target;
-
     setSelectedCountry(e);
-
     const value = e;
-    // const list = [...hpc];
-    console.log(value);
   };
 
   const onCountryChange = (e, i) => {
-    // const { value } = e.target;
     const value = e;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
     setHpc(list);
-    console.log(hpc);
   };
 
   const deleteRecord = (i) => {
@@ -833,7 +804,6 @@ const EditConsentOptions = (props) => {
               loader("hide");
             }
             loader("hide");
-            //setSelectedHcp(res.data.response.data);
           })
           .catch((err) => {
             toast.error("Something went wrong");
@@ -848,8 +818,6 @@ const EditConsentOptions = (props) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
-
-      console.log(formData);
 
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -925,7 +893,6 @@ const EditConsentOptions = (props) => {
 
   const languageSelected = (e) => {
     loader("show");
-    console.log(e);
     setSelectedLanguage(e.value);
     getTemplateListData(2, e.value, selectedIbu);
   };
@@ -973,6 +940,7 @@ const EditConsentOptions = (props) => {
           if (res.data.status_code === 200) {
             getTemplateListData(1, selectedLanguage, selectedIbu);
             setTemplateId(res.data.response.data.last_id);
+            templateIdRef.current=res.data.response.data.last_id
             setTemplateName(template_name);
           } else {
             loader("hide");
@@ -992,7 +960,7 @@ const EditConsentOptions = (props) => {
 
   const downloadFile = () => {
     let link = document.createElement("a");
-    link.href = "https://informed.pro/sample.xls";
+    link.href = "https://webinar.informed.pro/sample.xls";
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";
@@ -1033,10 +1001,8 @@ const EditConsentOptions = (props) => {
 
   const handleScroll = (ev) => {
     if (ev.target.scrollTop > 20) {
-      // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
       document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
     } else {
-      // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
       document
         .querySelector("#mail-view")
         .setAttribute("custom-atr", "non-scroll");
@@ -1060,7 +1026,6 @@ const EditConsentOptions = (props) => {
       templateId != "" &&
       templateId != 0
     ) {
-      console.log(templateId);
       setviewEmailModal(true);
     } else {
       toast.warning("Template not selected.");
@@ -1170,6 +1135,7 @@ const EditConsentOptions = (props) => {
             setshowConfirmation(false);
             getTemplateListData(0, selectedLanguage, selectedIbu);
             setTemplateId();
+            templateIdRef.current=''
             setTemplateName("");
             setNewTemplateName("");
             setTemplate("");
@@ -1203,7 +1169,170 @@ const EditConsentOptions = (props) => {
       </OverlayTrigger>
     );
   }
+  const addTracking=function (editor) {
+    editor.on("OpenWindow", function (e) {
+      let dialog =
+        document.getElementsByClassName("tox-dialog")[0];
 
+      if (dialog) {
+        let header = dialog.querySelector(
+          ".tox-dialog__header"
+        );
+        const closeButton = header.querySelector(
+          '[aria-label="Close"]'
+        );
+        let text =
+          header.querySelector(".tox-dialog__title");
+
+        if (text.innerText == "Insert/Edit Link") {
+          let uploadIcon=  document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span")
+          uploadIcon.style.display = "none";
+          let newButton =
+            document.createElement("button");
+          newButton.innerText = "Add Tracking";
+          newButton.classList.add("tox-button")
+          newButton.classList.add("tox-button--icon")
+          newButton.classList.add("tox-button--naked")
+          newButton.classList.add("track")
+          newButton.onclick = function () {
+        if(templateIdRef.current==''){
+          alert("Please select the template first before adding the link");
+          return;
+        }
+            // alert(templateId);
+            let firstToxControlWrap =
+              document.querySelector(
+                "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+              );
+          
+            // let text =dialog.querySelector(".tox-form__group");
+            if (!firstToxControlWrap.value) {
+              alert("Please enter a link");
+              return;
+            }
+            
+          
+            const baseLink =
+              "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+            if (
+              firstToxControlWrap.value.startsWith(
+                baseLink
+              )
+            ) {
+              alert("Traking already added");
+              return;
+            }
+            let slugValue = prompt("Enter a slug value");
+
+            const currentTimestamp = Date.now();
+            // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+            let payload={
+              slug_value:slugValue,
+             template_id: templateIdRef.current,
+             url_code:`clicked_track_doc_${currentTimestamp}`
+            }
+            linkingPayload.current=payload
+            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+                  firstToxControlWrap.value = link;
+                  var saveButton = document.querySelector('.tox-button[title="Save"]');
+             
+                  saveButton.addEventListener('click', function () {
+
+                    
+
+                    
+
+                    let link=`https://onesource.informed.pro/api/track-links`;
+                    
+                    
+                    axios
+      .post(link, payload)
+      .then((res) => {
+       console.log("done");
+      })
+      .catch((err) => {
+        loader("hide");
+        console.log(err);
+      });
+                  });
+            alert("Traking added");
+          };
+
+          header.insertBefore(newButton, closeButton);
+        }
+        else if(text.innerText == "Insert/Edit Media"){
+          document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label").innerText+=" (Max size: 1GB)"
+
+        }
+      }
+    });
+
+  }
+
+  const uploadImageToServer =    async function uploadImageToServer(file) {
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+  
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+      
+        let tox= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog") 
+         let tox1=document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop")
+  
+        xhr.upload.addEventListener("progress", (event) => {
+          setShowProgress(true)
+         tox.style.opacity = 0
+         tox1.style.opacity = 0
+          if (event.lengthComputable) {
+            const percentComplete = (event.loaded / event.total) * 100;
+    
+
+  setProgress(parseInt(event.loaded / event.total) );
+  setPercent(parseInt(percentComplete));
+  
+          }
+        });
+  
+        xhr.addEventListener("load", () => {
+          if (xhr.status === 200) {
+            try {
+              const uploadedData = JSON.parse(xhr.responseText);
+              const imageUrl = uploadedData.imageUrl;
+              resolve(imageUrl);
+            } catch (parseError) {
+              console.error("Failed to parse response JSON:", parseError);
+              reject(null);
+            }
+            finally{
+              setShowProgress(false)
+         tox1.style.opacity = 1
+         tox.style.opacity = 1
+
+              setProgress(0);
+              setPercent(0);
+              
+
+            }
+          } else {
+            console.error("Image upload failed");
+            reject(null);
+          }
+        });
+  
+        xhr.addEventListener("error", (error) => {
+          console.error("Image upload error:", error);
+          reject(null);
+        });
+  
+        xhr.open("POST", "https://onesource.informed.pro/api/upload-image");
+        xhr.send(formData);
+      });
+    } catch (error) {
+      console.error("Image upload error:", error);
+      return null;
+    }
+  }
   return (
     <>
       <div className="col right-sidebar">
@@ -1241,7 +1370,7 @@ const EditConsentOptions = (props) => {
                   <div className="template_language">
                     <span>
                       Consent type{" "}
-                      <LinkWithTooltip tooltip="Consent Type" href="#">
+                      <LinkWithTooltip tooltip="Consent Type">
                         <img
                           src={path_image + "info_circle_icon.svg"}
                           alt="refresh-btn"
@@ -1264,7 +1393,7 @@ const EditConsentOptions = (props) => {
                   <div className="template_language">
                     <span>
                       Language{" "}
-                      <LinkWithTooltip tooltip="Language" href="#">
+                      <LinkWithTooltip tooltip="Language">
                         <img
                           src={path_image + "info_circle_icon.svg"}
                           alt="refresh-btn"
@@ -1322,7 +1451,7 @@ const EditConsentOptions = (props) => {
                   <div className="template_language">
                     <span>
                       Time{" "}
-                      <LinkWithTooltip tooltip="Time" href="#">
+                      <LinkWithTooltip tooltip="Time">
                         <img
                           src={path_image + "info_circle_icon.svg"}
                           alt="refresh-btn"
@@ -1446,7 +1575,23 @@ const EditConsentOptions = (props) => {
                 </div>
 
                 <div className="row">
-                  {templateClickedd ? (
+                {showProgress?  <div className="progressloader"> <div
+            className="circular-progressbar"
+            style={{
+              position:"absolute",
+              top:"50%",
+              left:"0",
+              right:"0",
+              margin:"0 auto",
+              width: 200,
+              height: 200,
+              zIndex: "999999",
+            }}
+          > <CircularProgressbar
+              value={percent}
+              text={`${percent}%`}
+              strokeWidth={5}
+            /></div></div>:""}              {templateClickedd ? (
                     <Editor
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
@@ -1461,6 +1606,100 @@ const EditConsentOptions = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                          init_instance_callback: (editor)=>addTracking(editor),
+                          file_picker_types: 'file image media',
+                        file_picker_callback: function (callback, value, meta) {
+                        const input = document.createElement("input");
+
+                        if(meta.filetype === 'media'){
+                          input.setAttribute("type", "file");
+                      input.setAttribute("accept", "video/*");
+      
+      
+      
+      
+                      input.onchange = async () => {
+      
+      
+                          const file = input.files[0];
+                          if (file) {
+                              let uploadedImageUrl;
+      
+                              try {
+                                  if (meta && meta.width && meta.height) {
+                                      uploadedImageUrl = await uploadImageToServer(file, meta.width, meta.height);
+                                  } else {
+                                      uploadedImageUrl = await uploadImageToServer(file);
+                                  }
+                                
+      
+                                  if (uploadedImageUrl) {
+                                      callback(uploadedImageUrl, {
+                                          width: 500,
+                                          height: 500,
+                                      });
+      
+      
+                                  } else {
+                                      console.error("Failed to upload image");
+                                  }
+                              } catch (error) {
+                                  console.error("Error uploading image:", error);
+                              } finally {
+                        
+                              }
+                          }
+                      };
+      
+                      }else{
+                        input.setAttribute("type", "file");
+                        input.setAttribute("accept", "image/*");
+
+                        // Create a loading indicator element (e.g., a spinner)
+                        const loadingIndicator =
+                          document.createElement("div");
+                        loadingIndicator.className = "loading-indicator";
+                        loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                        input.onchange = async () => {
+                          document.body.appendChild(loadingIndicator); // Show loading indicator
+
+                          const file = input.files[0];
+                          if (file) {
+                            let uploadedImageUrl;
+
+                            try {
+                              if (meta && meta.width && meta.height) {
+                                uploadedImageUrl = await uploadImageToServer(
+                                  file,
+                                  meta.width,
+                                  meta.height
+                                );
+                              } else {
+                                uploadedImageUrl = await uploadImageToServer(
+                                  file
+                                );
+                              }
+
+                              if (uploadedImageUrl) {
+                                callback(uploadedImageUrl, {
+                                  width: 500,
+                                  height: 500,
+                                });
+                                loader("hide");
+                              } else {
+                                console.error("Failed to upload image");
+                              }
+                            } catch (error) {
+                              console.error("Error uploading image:", error);
+                            } finally {
+                              document.body.removeChild(loadingIndicator); // Hide loading indicator
+                            }
+                          }
+                        };
+                      }
+                        input.click();
+                      },
                       }}
                       onEditorChange={(content) => {
                         setTemplateSaving(content);
@@ -1517,7 +1756,7 @@ const EditConsentOptions = (props) => {
                   id="popup_subject"
                 >
                   <div className="form-group col-12 col-md-7">
-                    <label for="exampleInputEmail1">Subject</label>
+                    <label htmlFor="exampleInputEmail1">Subject</label>
                     <input
                       type="text"
                       className="form-control"
@@ -1532,7 +1771,7 @@ const EditConsentOptions = (props) => {
                   <div className="col-12 col-md-7">
                     <div className="row justify-content-between align-items-center">
                       <div className="form-group col-sm-6">
-                        <label for="hcp-name">Name</label>
+                        <label htmlFor="hcp-name">Name</label>
                         <input
                           type="text"
                           className="form-control"
@@ -1541,7 +1780,7 @@ const EditConsentOptions = (props) => {
                         />
                       </div>
                       <div className="form-group col-sm-6">
-                        <label for="hcp-email">Email </label>
+                        <label htmlFor="hcp-email">Email </label>
                         <input
                           type="mail"
                           onChange={(e) => emailChanged(e)}
@@ -1597,7 +1836,7 @@ const EditConsentOptions = (props) => {
                           Email | <span>{data.email}</span>
                         </p>
                         <p className="send-hcp-box-title">
-                          Contact Type | <span>{data.contact_type}</span>
+                          Contact type | <span>{data.contact_type}</span>
                         </p>
                         <div
                           className="add-new-field"
@@ -1617,7 +1856,7 @@ const EditConsentOptions = (props) => {
             <div className="selected-hcp-table">
               <div className="table-title">
                 <h4>
-                  Selected Contact <span>| {selectedHcp.length}</span>
+                  Selected contact <span>| {selectedHcp.length}</span>
                 </h4>
               </div>
               <div className="selected-hcp-list">
@@ -1638,7 +1877,7 @@ const EditConsentOptions = (props) => {
                               Email | <span>{data.email}</span>
                             </p>
                             <p className="send-hcp-box-title">
-                              Contact Type | <span>{data.contact_type}</span>
+                              Contact type | <span>{data.contact_type}</span>
                             </p>
                             <div className="remove-existing-field">
                               <img
@@ -1732,7 +1971,7 @@ const EditConsentOptions = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1745,7 +1984,7 @@ const EditConsentOptions = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1758,7 +1997,9 @@ const EditConsentOptions = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Email *</label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
                                     className="form-control"
@@ -1773,7 +2014,7 @@ const EditConsentOptions = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Contact Type</label>
+                                  <label htmlFor="">Contact type</label>
                                   <DropdownButton
                                     className="dropdown-basic-button split-button-dropup"
                                     title={
@@ -1821,7 +2062,7 @@ const EditConsentOptions = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Country</label>
+                                  <label htmlFor="">Country</label>
                                   <DropdownButton
                                     className="dropdown-basic-button split-button-dropup country"
                                     title={
@@ -1895,7 +2136,9 @@ const EditConsentOptions = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    Add HCP +
+                                    {localStorage.getItem("user_id") == userId
+                                      ? "Add User +"
+                                      : "Add HCP +"}
                                   </a>
                                 </li>
                               </ul>
@@ -1996,7 +2239,7 @@ const EditConsentOptions = (props) => {
                               <table>
                                 <tbody>
                                   <tr>
-                                    <th>Contact Type</th>
+                                    <th>Contact type</th>
                                     <td>{data.contact_type}</td>
                                   </tr>
                                   <tr>
@@ -2024,7 +2267,7 @@ const EditConsentOptions = (props) => {
                                     <td>{data.registered}</td>
                                   </tr>
                                   <tr>
-                                    <th>Created By</th>
+                                    <th>Created by</th>
                                     <td>
                                       <span>{data.creator}</span>
                                     </td>

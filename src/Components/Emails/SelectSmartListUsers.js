@@ -9,14 +9,24 @@ import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { Modal, Dropdown } from "react-bootstrap";
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
-import Select, { createFilter } from 'react-select';
+import Select, { createFilter } from "react-select";
 var old_object = {};
 const SelectSmartListUsers = (props) => {
+  const [totalData, setTotalData] = useState({});
+  const [siteNumberAll, setSiteNumberAll] = useState([]);
+  const [siteNameAll, setSiteNameAll] = useState([]);
+  const [role, setRole] = useState([]);
+  const [irtRole, setIrtRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
+  const [optIRT, setoptIRT] = useState([
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ]);
   const filterConfig = {
-      matchFrom: 'start',
+    matchFrom: "start",
   };
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -31,6 +41,7 @@ const SelectSmartListUsers = (props) => {
   const [removedReaders, setRemovedReaders] = useState([]);
   const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
   const [reRender, setReRender] = useState(0);
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [update, setUpdate] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
@@ -39,16 +50,34 @@ const SelectSmartListUsers = (props) => {
   const [sorting, setSorting] = useState(0);
   const [counterFlag, setCounterFlag] = useState(0);
   const [countryall, setCountryall] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
   const [addFileReRender, setAddFileReRender] = useState(0);
   const [saveOpen, setSaveOpen] = useState(false);
   const [editable, setEditable] = useState(0);
   const [updateCounter, setUpdateCounter] = useState(0);
   const [sortingCount, setSortingCount] = useState(0);
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: ""},
+    {
+      firstname: "",
+      lastname: "",
+      email: "",
+      contact_type: "",
+      country: "",
+      countryIndex: "",
+      role:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      optIrt:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? "yes"
+          : "",
+      institutionType: "",
+    },
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [validationError, setValidationError] = useState({});
 
   // const smartListSelected = location.state
   //   ? location.state.smartListSelected
@@ -56,20 +85,26 @@ const SelectSmartListUsers = (props) => {
 
   useEffect(() => {
     let campaign_id =
-      typeof old_object === "object" && old_object !== null && old_object?.campaign_id
+      typeof old_object === "object" &&
+      old_object !== null &&
+      old_object?.campaign_id
         ? old_object.campaign_id
-        : props.getDraftData?.campaign_id ? props.getDraftData.campaign_id : "";
+        : props.getDraftData?.campaign_id
+        ? props.getDraftData.campaign_id
+        : "";
     setCampaign_id(campaign_id);
 
-// removedHcp
-    if(old_object?.removedHcp){
-      if(old_object.removedHcp.length > 0){
-        console.log(old_object.removedHcp);
+    // removedHcp
+    if (old_object?.removedHcp) {
+      if (old_object.removedHcp.length > 0) {
         setRemovedReaders(old_object.removedHcp);
       }
-    }else{
-      if(props?.getDraftData && props.getDraftData.campaign_data?.removedHcp){
-        if(typeof props.getDraftData.campaign_data.removedHcp != "undefined" && props.getDraftData.campaign_data.removedHcp != ""){
+    } else {
+      if (props?.getDraftData && props.getDraftData.campaign_data?.removedHcp) {
+        if (
+          typeof props.getDraftData.campaign_data.removedHcp != "undefined" &&
+          props.getDraftData.campaign_data.removedHcp != ""
+        ) {
           setRemovedReaders(props.getDraftData.campaign_data.removedHcp);
         }
       }
@@ -86,54 +121,58 @@ const SelectSmartListUsers = (props) => {
         : props.getDraftData.campaign_data.smart_list_id,
     };
 
-
-    if(props.getSelectedSmartListData?.id){
-
+    if (props.getSelectedSmartListData?.id) {
       loader("show");
       axios
-      .post(`distributes/get_reders_list`, body)
-      .then((res) => {
-          // console.log(removedReaders)
-          if(old_object?.removedHcp){
-            if(old_object.removedHcp.length > 0){
+        .post(`distributes/get_reders_list`, body)
+        .then((res) => {
+          if (old_object?.removedHcp) {
+            if (old_object.removedHcp.length > 0) {
               var removedUsers = old_object.removedHcp;
               var allUsers = res.data.response.data;
-              var pendingUsers = allUsers.filter(function(objFromA) {
-                return !removedUsers.find(function(objFromB) {
-                  return objFromA.profile_id === objFromB.profile_id
-                })
-              })
+              var pendingUsers = allUsers.filter(function (objFromA) {
+                return !removedUsers.find(function (objFromB) {
+                  return objFromA.profile_id === objFromB.profile_id;
+                });
+              });
+
               setReaders(pendingUsers);
-            }else{
+            } else {
               setReaders(res.data.response.data);
             }
-          }else if(props?.getDraftData && props.getDraftData.campaign_data?.removedHcp){
-            if(typeof props.getDraftData.campaign_data.removedHcp != "undefined" && props.getDraftData.campaign_data.removedHcp != ""){
+          } else if (
+            props?.getDraftData &&
+            props.getDraftData.campaign_data?.removedHcp
+          ) {
+            if (
+              typeof props.getDraftData.campaign_data.removedHcp !=
+                "undefined" &&
+              props.getDraftData.campaign_data.removedHcp != ""
+            ) {
               var removedUsers = props.getDraftData.campaign_data.removedHcp;
               var allUsers = res.data.response.data;
-              var pendingUsers = allUsers.filter(function(objFromA) {
-                return !removedUsers.find(function(objFromB) {
-                  return objFromA.profile_id === objFromB.profile_id
-                })
-              })
+              var pendingUsers = allUsers.filter(function (objFromA) {
+                return !removedUsers.find(function (objFromB) {
+                  return objFromA.profile_id === objFromB.profile_id;
+                });
+              });
+
               setReaders(pendingUsers);
-            }else{
+            } else {
               setReaders(res.data.response.data);
             }
-          }else{
+          } else {
             setReaders(res.data.response.data);
           }
 
-        loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    }else{
+          loader("hide");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
       setReaders(props.getDraftData.campaign_data.selectedHcp);
     }
-
   }, []);
 
   const backClicked = () => {
@@ -141,6 +180,10 @@ const SelectSmartListUsers = (props) => {
   };
 
   useEffect(() => {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
+
     const getalCountry = async () => {
       let body = {
         user_id: localStorage.getItem("user_id"),
@@ -149,22 +192,50 @@ const SelectSmartListUsers = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
+          
             let country = res.data.response.data.country;
             let arr = [];
+
             Object.entries(country).map(([index, item]) => {
               let label = item;
-                if(index == "B&H"){
-                  label = "Bosnia and Herzegovina";
-                }
-                arr.push({
-                    value: item,
-                    label: label,
-                });
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
+              });
             });
             setCountryall(arr);
-         }
+
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              let investigator_type =
+                res?.data?.response?.data?.investigator_type;
+              let newType = [];
+              Object.keys(investigator_type)?.map((item, i) => {
+                newType.push({ label: item, value: item });
+              });
+              let irt_inverstigator_type =
+                res?.data?.response?.data?.irt_inverstigator_type;
+              let newIrtType = [];
+              Object.keys(irt_inverstigator_type)?.map((item, i) => {
+                newIrtType.push({ label: item, value: item });
+              });
+              let instution_type = res?.data?.response?.data?.institution_type;
+              let newInstitutionType = [];
+              Object.keys(instution_type)?.map((item, i) => {
+                newInstitutionType.push({ label: item, value: item });
+              });
+              setInstitutionType(newInstitutionType);
+
+              setRole(newType);
+              setIrtRole(newIrtType);
+            }
+
+            setTotalData(res.data.response.data);
+          }
           // setCountryall(res.data.response.data.country);
-          //console.log(countryall)
+
           // setCounter(counter + 1);
         })
         .catch((err) => {
@@ -182,10 +253,14 @@ const SelectSmartListUsers = (props) => {
         : props.getDraftData.pdf_id,
       description: old_object?.emailDescription
         ? old_object.emailDescription
-        : props.getDraftData?.description ? props.getDraftData.description : '',
+        : props.getDraftData?.description
+        ? props.getDraftData.description
+        : "",
       creator: old_object?.emailCreator
         ? old_object.emailCreator
-        : props.getDraftData?.creator ? props.getDraftData.creator : '',
+        : props.getDraftData?.creator
+        ? props.getDraftData.creator
+        : "",
       campaign_name: old_object?.emailCampaign
         ? old_object.emailCampaign
         : props.getDraftData.campaign,
@@ -193,9 +268,7 @@ const SelectSmartListUsers = (props) => {
         ? old_object.emailSubject
         : props.getDraftData.subject,
       route_location: "SelectSmartListUsers",
-      tags: old_object?.tags
-        ? old_object.tags
-        : props.getDraftData.tags,
+      tags: old_object?.tags ? old_object.tags : props.getDraftData.tags,
       campaign_data: {
         template_id: old_object?.templateId
           ? old_object.templateId
@@ -220,7 +293,6 @@ const SelectSmartListUsers = (props) => {
       status: 2,
     };
 
-    // console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -248,15 +320,36 @@ const SelectSmartListUsers = (props) => {
   };
 
   const nextClicked = () => {
-    console.log(removedReaders);
     navigate("/verifyMAIL", {
       // data: data,
       // smartListName: smartListName,
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],
-        removedHcp: removedReaders
+        removedHcp: removedReaders,
       },
     });
+  };
+
+  const axiosFun = async () => {
+    try {
+      const result = await axios.get(`emailapi/get_site`);
+    
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+      setIRTCountry(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
   };
 
   const onFileChange = (event) => {
@@ -293,6 +386,67 @@ const SelectSmartListUsers = (props) => {
     setHpc(list);
     // setEmailData(e.target.value);
   };
+  const onRoleChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].role = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].role;
+      list[i].role = value;
+      setHpc(list);
+    }
+  };
+
+  const onInstitutionChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].institutionType = "";
+      list[i].optIRT = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e?.value;
+      const list = [...hpc];
+      const name = hpc[i].institutionType;
+      list[i].institutionType = value;
+      setHpc(list);
+      if (e?.value == "Study site") {
+        onIRTChange("yes", i);
+      } else {
+        onIRTChange("no", i);
+      }
+    }
+  };
+
+  const onIRTChange = (e, i) => {
+    if (e == "") {
+      const list = [...hpc];
+      list[i].optIrt = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e;
+      const list = [...hpc];
+      const name = hpc[i].optIrt;
+      list[i].optIrt = value;
+      list[i].role = "";
+      list[i].country = "";
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      setHpc(list);
+    }
+    let arr = [];
+    setSiteNumberAll(arr);
+    setSiteNameAll(arr);
+    setCounterFlag(counterFlag + 1);
+  };
 
   const onContactTypeChange = (e, i) => {
     const value = e;
@@ -303,16 +457,87 @@ const SelectSmartListUsers = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    if(e == null){
+    if (e == null) {
       const list = [...hpc];
       list[i].country = "";
       list[i].countryIndex = "";
       setHpc(list);
-    }else{
+    } else {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        let consetValue = e.value;
+        if (e.value == "B&H") {
+          consetValue = "Bosnia and Herzegovina";
+        }
+        const matchingKeys = Object.entries(totalData.site_country_data)
+          .filter(([key, value]) => value === consetValue)
+          .map(([key, value]) => key);
+        const filteredSiteNames = matchingKeys.map((key) => ({
+          label: totalData.site_data[key],
+          value: totalData.site_data[key],
+        }));
+        const siteNumbers = matchingKeys.map((key) => ({
+          label: key,
+          value: key,
+        }));
+        setSiteNumberAll(siteNumbers);
+        setSiteNameAll(filteredSiteNames);
+      }
       const value = e.value;
       const list = [...hpc];
       const name = hpc[i].country;
       list[i].country = value;
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      setHpc(list);
+    }
+  };
+
+  const onSiteNumberChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteNumber = "";
+      setHpc(list);
+    } else {
+      let getSiteData = totalData.site_data;
+      let site_name_value = getSiteData[e.value];
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteNumber;
+      list[i].siteNumber = value;
+      list[i].siteName = site_name_value;
+      let snameindex = siteNameAll.findIndex(
+        (x) => x.value === site_name_value
+      );
+      list[i].siteNameIndex = snameindex;
+      let index = siteNumberAll.findIndex((x) => x.value === value);
+      list[i].siteNumberIndex = index;
+      setHpc(list);
+    }
+  };
+
+  const onSiteNameChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteName = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      let getSiteData = totalData.site_data;
+      let site_number_value = Object.keys(getSiteData).find(
+        (key) => getSiteData[key] === e.value
+      );
+      const list = [...hpc];
+      const name = hpc[i].siteName;
+      list[i].siteName = value;
+      list[i].siteNumber = site_number_value;
+      let snameindex = siteNumberAll.findIndex(
+        (x) => x.value === site_number_value
+      );
+      list[i].siteNumberIndex = snameindex;
+      let index = siteNameAll.findIndex((x) => x.value === value);
+      list[i].siteNameIndex = index;
       setHpc(list);
     }
   };
@@ -328,6 +553,7 @@ const SelectSmartListUsers = (props) => {
 
   const addNewUser = () => {
     setIsOpenAdd(true);
+    setValidationError({});
     setHpc([
       {
         firstname: "",
@@ -336,6 +562,15 @@ const SelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        role:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIrt:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
+        institutionType: "",
       },
     ]);
     setActiveManual("active");
@@ -352,16 +587,15 @@ const SelectSmartListUsers = (props) => {
     const newlyAdded = readersNewlyAdded;
     newlyAdded.splice(i, 1);
     setReadersNewlyAdded(newlyAdded);
-    let merged_array = [reader,...readersRemoved];
+    let merged_array = [reader, ...readersRemoved];
     old_object.removedHcp = merged_array;
 
-    if(props.getDraftData?.campaign_data){
-      if(props.getDraftData.campaign_data?.removedHcp){
+    if (props.getDraftData?.campaign_data) {
+      if (props.getDraftData.campaign_data?.removedHcp) {
         props.getDraftData.campaign_data.removedHcp = merged_array;
       }
     }
     setUpdate(update + 1);
-    // console.log(old_object);
   };
 
   const handleInputChange = (event, selected) => {
@@ -380,18 +614,24 @@ const SelectSmartListUsers = (props) => {
     readersRemoved.splice(i, 1);
     setRemovedReaders(readersRemoved);
     setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
-    // console.log(readersNewlyAdded);
+
     //setReaders((oldArray) => [reader, ...oldArray]);
     setReRender(reRender + 1);
-
-    // console.log(readers);
   };
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (data?.email == "" || data?.institutionType == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       } else {
-        return "true";
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
       }
     });
 
@@ -405,10 +645,23 @@ const SelectSmartListUsers = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
+          role:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          optIrt:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "yes"
+              : "",
+          institutionType: "",
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        toast.warning("Please input the required fields.");
+      } else {
+        toast.warning("Please input the email atleast");
+      }
     }
   };
 
@@ -428,8 +681,6 @@ const SelectSmartListUsers = (props) => {
   };
 
   const sortSelectedUsers = () => {
-    console.log("hi");
-    console.log(readers);
     let normalArr = [];
     normalArr = readers;
     if (sorting === 0) {
@@ -480,31 +731,46 @@ const SelectSmartListUsers = (props) => {
     names,
     contact_type
   ) => {
-    if(editable != 0){
-      const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
-      const country_edit = document.getElementById("field_country" + profile_user_id).value;
-      const contact_type_edit = document.getElementById("field_contact_type" + profile_user_id).value;
+    if (editable != 0) {
+      const name_edit = document.getElementById(
+        "field_name" + profile_user_id
+      ).innerText;
+      const country_edit = document.getElementById(
+        "field_country" + profile_user_id
+      ).value;
+      {
+      }
 
-        const arr = [];
-        arr.push({
-          profile_id: profile_id,
-          profile_user_id: profile_user_id,
-          email: email,
-          jobTitle: jobTitle,
-          company: company,
-          country: country_edit,
-          username: name_edit,
-          contact_type:contact_type_edit,
-        });
+      const contact_type_edit =
+        localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+          ? document.getElementById("field_contact_type" + profile_user_id)
+              .value
+          : "";
 
-        let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
-        if(typeof (prev_obj) != "undefined") {
-            //update existing
-           editableData.map(obj => arr.find(o => o.profile_user_id === profile_user_id) || obj);
-        }else{
-          //create new
-          setEditableData((oldArray) => [...oldArray, ...arr]);
-        }
+      const arr = [];
+      arr.push({
+        profile_id: profile_id,
+        profile_user_id: profile_user_id,
+        email: email,
+        jobTitle: jobTitle,
+        company: company,
+        country: country_edit,
+        username: name_edit,
+        contact_type: contact_type_edit,
+      });
+
+      let prev_obj = editableData.find(
+        (x) => x.profile_user_id === profile_user_id
+      );
+      if (typeof prev_obj != "undefined") {
+        //update existing
+        editableData.map(
+          (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
+        );
+      } else {
+        //create new
+        setEditableData((oldArray) => [...oldArray, ...arr]);
+      }
     }
   };
   const deleteReader = (i) => {
@@ -513,11 +779,11 @@ const SelectSmartListUsers = (props) => {
     const removedReader = readersList.splice(i, 1);
     setReaders(readersList);
     setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-    let merged_array = [...previous_removed_users,...removedReader];
+    let merged_array = [...previous_removed_users, ...removedReader];
     old_object.removedHcp = merged_array;
 
-    if(props.getDraftData?.campaign_data){
-      if(props.getDraftData.campaign_data?.removedHcp){
+    if (props.getDraftData?.campaign_data) {
+      if (props.getDraftData.campaign_data?.removedHcp) {
         props.getDraftData.campaign_data.removedHcp = merged_array;
       }
     }
@@ -525,27 +791,39 @@ const SelectSmartListUsers = (props) => {
 
   const saveEditClicked = async () => {
     setEditable(0);
-    if(editableData.length > 0){
-
+    if (editableData.length > 0) {
       editableData.map((data) => {
-        const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
-        const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
-        const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
-        const contact_type_edit = document.getElementById("field_contact_type" + data.profile_user_id).value;
+        const name_edit = document.getElementById(
+          "field_name" + data.profile_user_id
+        ).innerText;
+        const country_edit = document.getElementById(
+          "field_country" + data.profile_user_id
+        ).value;
+        const edit_index = document.getElementById(
+          "field_index" + data.profile_user_id
+        ).value;
+        const contact_type_edit =
+          localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+            ? document.getElementById(
+                "field_contact_type" + data.profile_user_id
+              ).value
+            : "";
 
-        let prev_obj = readers.find(x => x.profile_user_id === data.profile_user_id);
-        if(typeof prev_obj != "undefined"){
-          if(typeof readers[edit_index] != "undefined"){
-              readers[edit_index].country = country_edit;
+        let prev_obj = readers.find(
+          (x) => x.profile_user_id === data.profile_user_id
+        );
+        if (typeof prev_obj != "undefined") {
+          if (typeof readers[edit_index] != "undefined") {
+            readers[edit_index].country = country_edit;
           }
-          if(typeof readers[edit_index] != "undefined"){
-              readers[edit_index].contact_type = contact_type_edit;
+          if (typeof readers[edit_index] != "undefined") {
+            readers[edit_index].contact_type = contact_type_edit;
           }
-        }else{
-          if(typeof readersNewlyAdded[edit_index] != "undefined"){
+        } else {
+          if (typeof readersNewlyAdded[edit_index] != "undefined") {
             readersNewlyAdded[edit_index].country = country_edit;
           }
-          if(typeof readersNewlyAdded[edit_index] != "undefined"){
+          if (typeof readersNewlyAdded[edit_index] != "undefined") {
             readersNewlyAdded[edit_index].contact_type = contact_type_edit;
           }
         }
@@ -561,25 +839,26 @@ const SelectSmartListUsers = (props) => {
       setSaveOpen(false);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
+
       await axios
-      .post(`distributes/update_reders_details`, body)
-      .then((res) => {
-        loader("hide");
-        if (res.data.status_code === 200) {
-          toast.success("List updated");
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
-        }
-      })
-      .catch((err) => {
-        toast.error("Something went wrong");
-      });
+        .post(`distributes/update_reders_details`, body)
+        .then((res) => {
+          loader("hide");
+          if (res.data.status_code === 200) {
+            toast.success("List updated");
+          } else {
+            popup_alert({
+              visible: "show",
+              message: res.data.message,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
       setEditableData([]);
-    }else{
+    } else {
       setSaveOpen(false);
       toast.warning("No row update");
     }
@@ -599,15 +878,33 @@ const SelectSmartListUsers = (props) => {
 
   const saveClicked = async () => {
     //   setIsOpenAdd(false);
+
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        return {
-          first_name: data.firstname,
-          last_name: data.lastname,
-          email: data.email,
-          country: data.country,
-          contact_type: data.contact_type,
-        };
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data?.contact_type ? data?.contact_type : "",
+            siteNumber: data?.siteNumber ? data.siteNumber : "",
+            siteName: data.siteName ? data.siteName : "",
+            investigator_type: data?.role,
+            siteIrt: data?.optIrt == "yes" ? 1 : 0,
+            institution_type: data?.institutionType
+              ? data?.institutionType
+              : "",
+          };
+        } else {
+          return {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            email: data.email,
+            country: data.country,
+            contact_type: data.contact_type,
+          };
+        }
       });
 
       const body = {
@@ -616,23 +913,43 @@ const SelectSmartListUsers = (props) => {
         smart_list_id: "",
       };
 
-      const status = body.data.map((data) => {
-        if (data.email == "") {
-          return "Please enter the email atleast";
-        } else if(data.email != ""){
-          let email = data.email;
-          let useremail = email.trim();
-          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = readers.find(x => x.email === useremail);
-            if(typeof prev_obj != "undefined"){
-              return "User with same email already added in list.";
-            }else{
-              return "true";
+      const status = body.data.map((data, index) => {
+        if (data.email == "" || data?.institution_type == "") {
+          if (data.email == "") {
+            setValidationError({
+              newHcpEmail: "Please enter the email atleast",
+              index: index,
+            });
+            return;
+          } else if (data.email != "") {
+            let email = data.email;
+            let useremail = email.trim();
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (regex.test(String(useremail).toLowerCase())) {
+              let prev_obj = readers.find((x) => x.email === useremail);
+              if (typeof prev_obj != "undefined") {
+                setValidationError({
+                  newHcpEmail: "User with same email already added in list.",
+                  index: index,
+                });
+                return;
+              }
+            } else {
+              setValidationError({
+                newHcpEmail: "Email format is not valid",
+                index: index,
+              });
+              return;
             }
-            return "true";
-          }else{
-            return "Email format is not valid";
+          }
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (data.institution_type == "") {
+              setValidationError({
+                newHcpInstitution: "Please enter the institution ",
+                index: index,
+              });
+              return;
+            }
           }
         } else {
           return "true";
@@ -666,18 +983,18 @@ const SelectSmartListUsers = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.warning(status[0]);
+        const filteredArray = status.filter((value) => value !== "true");
+        toast.warning(filteredArray?.[0]);
+        // toast.warning(status[0]);
       }
 
       //  setIsOpen(false);
     } else {
       let formData = new FormData();
-      let user_id =  localStorage.getItem("user_id");
+      let user_id = localStorage.getItem("user_id");
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
-
-      console.log(formData);
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
@@ -720,221 +1037,281 @@ const SelectSmartListUsers = (props) => {
 
   return (
     <>
-      <div className="col right-sidebar">
-      <div className="custom-container">
-        <div className="row">
-        <div className="page-top-nav">
-          <div className="row justify-content-end align-items-center">
-            <div className="col-12 col-md-1">
-              <div className="header-btn-left">
-                <button
-                  className="btn btn-primary btn-bordered back"
-                  onClick={backClicked}
-                >
-                  Back
-                </button>
-              </div>
-            </div>
-            <div className="col-12 col-md-9">
-              <ul className="tabnav-link">
-                <li className="active">
-                  <Link to="/EmailArticleSelect">Select Content</Link>
-                </li>
-                <li className="active">
-                  <Link to="/CreateEmail">Create Your Email</Link>
-                </li>
-                <li className="active">
-                  <Link to="/SelectSmartList">Select HCPs</Link>
-                </li>
-                {
-                  /*
+      <div className="col right-sidebar custom-change">
+        <div className="custom-container">
+          <div className="row">
+            <div className="page-top-nav sticky">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left">
+                    <button
+                      className="btn btn-primary btn-bordered back"
+                      onClick={backClicked}
+                    >
+                      Back
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-md-9">
+                  <ul className="tabnav-link">
+                    <li className="active">
+                      <Link to="/EmailArticleSelect">Select Content</Link>
+                    </li>
+                    <li className="active">
+                      <Link to="/CreateEmail">Create Your Email</Link>
+                    </li>
+                    <li className="active">
+                      <Link to="/SelectSmartList">
+                        {localStorage.getItem("user_id") == userId
+                          ? "Select Users"
+                          : "Select HCPs"}
+                      </Link>
+                    </li>
+                    {/*
                   <li className="active">
                     <Link to="/SelectSmartList">Select Smart List</Link>
                   </li>
-                  */
-                }
+                  */}
 
-                <li className="active active-main">
-                  <Link to="/SelectSmartListUsers">Verify Your List</Link>
-                </li>
+                    <li className="active active-main">
+                      <Link to="/SelectSmartListUsers">Verify Your List</Link>
+                    </li>
 
-                <li className="">
-                  <a href="javascript:void(0)">Verify Your Email</a>
-                </li>
-              </ul>
-            </div>
-            <div className="col-12 col-md-2">
-              <div className="header-btn">
-                <button
-                  className="btn btn-primary btn-bordered move-draft"
-                  onClick={saveAsDraft}
-                >
-                  Save As Draft
-                </button>
-                <button
-                  className="btn btn-primary btn-filled next"
-                  onClick={nextClicked}
-                >
-                  Next
-                </button>
+                    <li className="">
+                      <a href="javascript:void(0)">Verify Your Email</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <button
+                      className="btn btn-primary btn-bordered move-draft"
+                      onClick={saveAsDraft}
+                    >
+                      Save As Draft
+                    </button>
+                    <button
+                      className="btn btn-primary btn-filled next"
+                      onClick={nextClicked}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <section className="search-hcp">
-          <div className="result-hcp-table">
-            <div className="table-title">
-              <h4>
-                {/* HCPs <span>| {smartListSelected.readers_count}</span> */}
-              </h4>
-              <div className="selected-hcp-table-action">
-                {editable == false ? (
-                  <>
-                    <a
-                      className="show-less-info"
-                      onClick={(e) => showMoreInfo(e)}
-                    >
-                      {showLessInfo == true ? (
-                        <p className="show_more">Show More information</p>
-                      ) : (
-                        <p className="show_less">Show less information</p>
-                      )}{" "}
-                    </a>
-                    <div className="hcp-new-user">
-                      <button
-                        className="btn btn-outline-primary"
-                        onClick={addNewUser}
-                      >
-                        <img src={path_image + "new-user.svg"} alt="New User" />
-                      </button>
-                    </div>
-                    <div className="hcp-added">
-                      <button
-                        className="btn btn-outline-primary"
-                        onClick={editButtonClicked}
-                      >
-                        <img src={path_image + "edit.svg"} alt="Edit" />
-                      </button>
-                    </div>
-                    <div className="hcp-sort">
-                      {sortingCount == 0 ? (
-                        <>
+            <section className="search-hcp">
+              <div className="result-hcp-table">
+                <div className="table-title">
+                  <h4>
+                    {/* HCPs <span>| {smartListSelected.readers_count}</span> */}
+                  </h4>
+                  <div className="selected-hcp-table-action">
+                    {editable == false ? (
+                      <>
+                        <a
+                          className="show-less-info"
+                          onClick={(e) => showMoreInfo(e)}
+                        >
+                          {showLessInfo == true ? (
+                            <p className="show_more">Show More information</p>
+                          ) : (
+                            <p className="show_less">Show less information</p>
+                          )}{" "}
+                        </a>
+                        <div className="hcp-new-user">
                           <button
                             className="btn btn-outline-primary"
-                            onClick={sortSelectedUsers}
+                            onClick={addNewUser}
                           >
-                            Sort By{" "}
-                            <img src={path_image + "sort.svg"} alt="Shorting" />
-                          </button>
-                        </>
-                      ) : sorting == 0 ? (
-                        <>
-                          <button
-                            className="btn btn-outline-primary desc"
-                            onClick={sortSelectedUsers}
-                          >
-                            Sort By{" "}
                             <img
-                              src={path_image + "sort-decending.svg"}
-                              alt="Shorting"
+                              src={path_image + "new-user.svg"}
+                              alt="New User"
                             />
                           </button>
-                        </>
-                      ) : (
-                        <>
+                        </div>
+                        <div className="hcp-added">
                           <button
-                            className="btn btn-outline-primary asc"
-                            onClick={sortSelectedUsers}
+                            className="btn btn-outline-primary"
+                            onClick={editButtonClicked}
                           >
-                            Sort By{" "}
-                            <img
-                              src={path_image + "sort-assending.svg"}
-                              alt="Shorting"
-                            />
+                            <img src={path_image + "edit.svg"} alt="Edit" />
                           </button>
-                        </>
-                      )}
-                    </div>
-                  </>
-                ) : null}
-                {saveOpen ? (
-                  <>
-                    <button
-                      className="btn btn-primary btn-filled"
-                      onClick={closeClicked}
-                    >
-                      Close
-                    </button>
-
-                    <button
-                      className="btn btn-primary btn-bordered"
-                      onClick={saveEditClicked}
-                    >
-                      Save
-                    </button>
-                  </>
-                ) : null}
-              </div>
-            </div>
-            <div className="selected-hcp-list">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Bounced</th>
-                    <th scope="col">Country</th>
-                    <th scope="col">Business Unit</th>
-                    <th scope="col">Contact Type</th>
-                    {showLessInfo == false ? (
-                      <>
-                        <th scope="col">Consent</th>
-                        <th scope="col">Email Received</th>
-                        <th scope="col">Openings</th>
-                        <th scope="col">Registrations</th>
-                        <th scope="col">Last Email</th>
+                        </div>
+                        <div className="hcp-sort">
+                          {sortingCount == 0 ? (
+                            <>
+                              <button
+                                className="btn btn-outline-primary"
+                                onClick={sortSelectedUsers}
+                              >
+                                Sort By{" "}
+                                <img
+                                  src={path_image + "sort.svg"}
+                                  alt="Shorting"
+                                />
+                              </button>
+                            </>
+                          ) : sorting == 0 ? (
+                            <>
+                              <button
+                                className="btn btn-outline-primary desc"
+                                onClick={sortSelectedUsers}
+                              >
+                                Sort By{" "}
+                                <img
+                                  src={path_image + "sort-decending.svg"}
+                                  alt="Shorting"
+                                />
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                className="btn btn-outline-primary asc"
+                                onClick={sortSelectedUsers}
+                              >
+                                Sort By{" "}
+                                <img
+                                  src={path_image + "sort-assending.svg"}
+                                  alt="Shorting"
+                                />
+                              </button>
+                            </>
+                          )}
+                        </div>
                       </>
                     ) : null}
-                  </tr>
-                </thead>
-                <tbody>
-                  {removedReaders.map((rr, i) => {
-                    return (
+                    {saveOpen ? (
                       <>
-                        <tr className="hcps-deleted">
-                          <td><span>{rr.first_name + " " + rr.last_name}</span></td>
-                          <td>{rr.email}</td>
-                          <td>{rr.bounce}</td>
-                          <td><span>{rr.country}</span></td>
-                          <td>{rr.ibu}</td>
-                          <td>{rr.contact_type}</td>
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{rr.consent}</span>{" "}
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{rr.email_received}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{rr.email_opening}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{rr.registration}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{rr.last_email}</span>
-                            </td>
-                          ) : null}
-                          {/* <td>NA</td>
+                        <button
+                          className="btn btn-primary btn-filled"
+                          onClick={closeClicked}
+                        >
+                          Close
+                        </button>
+
+                        <button
+                          className="btn btn-primary btn-bordered"
+                          onClick={saveEditClicked}
+                        >
+                          Save
+                        </button>
+                      </>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="selected-hcp-list">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Bounced</th>
+                        <th scope="col">Country</th>
+
+                        {localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          <>
+                            <th scope="col">IRT mandatory training</th>
+                            <th scope="col">IRT role</th>
+                          </>
+                        ) : (
+                          <>
+                            <th scope="col">Business unit</th>
+                            <th scope="col">Contact type</th>
+                          </>
+                        )}
+
+                        {showLessInfo == false ? (
+                          <>
+                            <th scope="col">Consent</th>
+                            <th scope="col">Email received</th>
+                            <th scope="col">Openings</th>
+                            <th scope="col">Registrations</th>
+                            <th scope="col">Last email</th>
+                          </>
+                        ) : null}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {removedReaders.map((rr, i) => {
+                        return (
+                          <>
+                            <tr className="hcps-deleted">
+                              <td>
+                                <span>
+                                  {rr?.first_name
+                                    ? rr?.first_name + " " + rr?.last_name
+                                    : "N/A"}
+                                </span>
+                              </td>
+                              <td>{rr.email ? rr.email : "N/A"}</td>
+                              <td>{rr.bounce ? rr.bounce : "N/A"}</td>
+                              <td>
+                                <span>{rr.country ? rr.country : "N/A"}</span>
+                              </td>
+                              <td>
+                                {/*rr?.ibu ? rr?.ibu : "N/A"*/}
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? rr?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : rr.ibu
+                                  ? rr.ibu
+                                  : "N/A"}
+                              </td>
+                              {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <td>
+                                  {rr?.user_type != 0 ? rr.user_type : "N/A"}
+                                </td>
+                              ) : (
+                                <td>
+                                  {rr.contact_type ? rr.contact_type : "N/A"}
+                                </td>
+                              )}
+
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.consent ? rr.consent : "N/A"}</span>{" "}
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {rr.email_received
+                                      ? rr.email_received
+                                      : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {rr.email_opening
+                                      ? rr.email_opening
+                                      : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {rr.registration ? rr.registration : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {rr.last_email ? rr.last_email : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {/* <td>NA</td>
                           <td>
                             <span>NA</span>
                           </td>
@@ -950,18 +1327,18 @@ const SelectSmartListUsers = (props) => {
                           <td>
                             <span>NA</span>
                           </td> */}
-                          <td className="add-new-hcp" colspan="12">
-                            <img
-                              src={path_image + "add-row.png"}
-                              alt="Add Row"
-                              onClick={() => readersAdded(rr, i)}
-                            />
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                  {/* <tr className="hcps-added">
+                              <td className="add-new-hcp" colSpan="12">
+                                <img
+                                  src={path_image + "add-row.png"}
+                                  alt="Add Row"
+                                  onClick={() => readersAdded(rr, i)}
+                                />
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                      {/* <tr className="hcps-added">
                     <td>Jacob Flindt</td>
                     <td>User@docintel.app</td>
                     <td>No</td>
@@ -988,168 +1365,295 @@ const SelectSmartListUsers = (props) => {
                       <img src="assets/images/delete.svg" alt="Delete Row" />
                     </td>
                   </tr>*/}
-                  <tr className="seprator-add">
-                    <td colspan="13"></td>
-                  </tr>
-                  {readersNewlyAdded.map((readers, i) => {
-                    return (
-                      <>
-                        <tr className="hcps-added"
-                        onClick={(e) =>
-                          editing(
-                            readers.profile_id,
-                            readers.profile_user_id,
-                            readers.email,
-                            readers.jobTitle,
-                            readers.company,
-                            readers.country,
-                            readers.first_name + " " + readers.last_name,
-                            readers.contact_type,
-                          )
-                        }
-                        >
-                          <td
-                            id={`field_name` + readers.profile_user_id}
-                            contenteditable={editable === 0 ? "false" : "true"}
-                          >
-                            <span>{readers.first_name + " " + readers.last_name}</span>
-                          </td>
-                          <td>{readers.email}</td>
-                          <input type="hidden" id={`field_index` + readers.profile_user_id} value={i} />
-                          <td>{readers.bounce}</td>
-                          <td>
-                          {
-                            editable ? <EditCountry selected_country={readers.country} profile_user={readers.profile_user_id}></EditCountry> : <span>{readers.country}</span>
-                          }
-                          </td>
-                          <td>{readers.ibu}</td>
-                          <td>
-                            {
-                              editable ? <EditContactType selected_ibu={readers.contact_type} profile_user={readers.profile_user_id}></EditContactType> : <span>{readers.contact_type}</span>
-                            }
-                          </td>
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.consent}</span>{" "}
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.email_received}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.email_opening}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.registration}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.last_email}</span>
-                            </td>
-                          ) : null}
-                          <td className="delete_row" colspan="12">
-                            <img
-                              src={path_image + "delete.svg"}
-                              alt="Delete Row"
-                              onClick={() => newlyAddedRemoved(readers, i)}
-                            />
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                  {readers.map((readers, i) => {
-                    return (
-                      <>
-                        <tr
-                          id={`row-selected` + i}
-                          onClick={(e) =>
-                            editing(
-                              readers.profile_id,
-                              readers.profile_user_id,
-                              readers.email,
-                              readers.jobTitle,
-                              readers.company,
-                              readers.country,
-                              readers.first_name + " " + readers.last_name,
-                              readers.contact_type,
-                            )
-                          }
-                        >
-                          <td
-                            id={`field_name` + readers.profile_user_id}
-                            contenteditable={editable === 0 ? "false" : "true"}
-                          >
-                            <span>
-                              {" "}
-                              {readers.first_name +
-                                " " +
-                                readers.last_name}{" "}
-                            </span>
-                          </td>
-                          <td id={`field_email` + readers.profile_user_id}>{readers.email}</td>
-                          <input type="hidden" id={`field_index` + readers.profile_user_id} value={i} />
-                          <td id={`field_bounced` + readers.profile_user_id}>{readers.bounce}</td>
-                          <td>
-                          {
-                            editable ? <EditCountry selected_country={readers.country} profile_user={readers.profile_user_id}></EditCountry> : <span>{readers.country}</span>
-                          }
-                          </td>
-                          <td>{readers.ibu}</td>
-                          <td>
-                            {
-                              editable ? <EditContactType selected_ibu={readers.contact_type} profile_user={readers.profile_user_id}></EditContactType> : <span>{readers.contact_type}</span>
-                            }
-                          </td>
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.consent}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.email_received}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.email_opening}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.registration}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.last_email}</span>
-                            </td>
-                          ) : null}
-                          <td className="delete_row" colspan="12">
-                            <img
-                              src={path_image + "delete.svg"}
-                              alt="Add Row"
-                              onClick={() => deleteReader(i)}
-                            />
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                      <tr className="seprator-add">
+                        <td colSpan="13"></td>
+                      </tr>
+                      {readersNewlyAdded.map((readers, i) => {
+                        return (
+                          <>
+                            <tr
+                              className="hcps-added"
+                              onClick={(e) =>
+                                editing(
+                                  readers.profile_id,
+                                  readers.profile_user_id,
+                                  readers.email,
+                                  readers.jobTitle,
+                                  readers.company,
+                                  readers.country,
+                                  readers.first_name + " " + readers.last_name,
+                                  readers.contact_type
+                                )
+                              }
+                            >
+                              <td
+                                id={`field_name` + readers.profile_user_id}
+                                contentEditable={
+                                  editable === 0 ? "false" : "true"
+                                }
+                              >
+                                <span>
+                                  {readers.first_name
+                                    ? readers.first_name +
+                                      " " +
+                                      readers.last_name
+                                    : "N/A"}
+                                </span>
+                              </td>
+                              <td>{readers.email ? readers.email : "N/A"}</td>
+                              <input
+                                type="hidden"
+                                id={`field_index` + readers.profile_user_id}
+                                value={i}
+                              />
+                              <td>{readers.bounce ? readers.bounce : "N/A"}</td>
+                              <td>
+                                {editable ? (
+                                  <EditCountry
+                                    selected_country={readers.country}
+                                    profile_user={readers.profile_user_id}
+                                  ></EditCountry>
+                                ) : (
+                                  <span>{readers.country}</span>
+                                )}
+                              </td>
+                              <td>
+                                {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? readers?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : readers.ibu
+                                  ? readers.ibu
+                                  : "N/A"}
+                              </td>
+                              <td>
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  <span>
+                                    {readers.user_type != 0
+                                      ? readers?.user_type
+                                      : "N/A"}
+                                  </span>
+                                ) : editable ? (
+                                  <EditContactType
+                                    selected_ibu={readers.contact_type}
+                                    profile_user={readers.profile_user_id}
+                                  ></EditContactType>
+                                ) : (
+                                  <span>
+                                    {readers.contact_type
+                                      ? readers.contact_type
+                                      : "N/A"}
+                                  </span>
+                                )}
+                              </td>
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {readers.consent ? readers.consent : "N/A"}
+                                  </span>{" "}
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {readers.email_received
+                                      ? readers.email_received
+                                      : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {readers.email_opening
+                                      ? readers.email_opening
+                                      : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {readers.registration
+                                      ? readers.registration
+                                      : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {readers.last_email
+                                      ? readers.last_email
+                                      : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              <td className="delete_row" colSpan="12">
+                                <img
+                                  src={path_image + "delete.svg"}
+                                  alt="Delete Row"
+                                  onClick={() => newlyAddedRemoved(readers, i)}
+                                />
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                      {readers.map((readers, i) => {
+                        return (
+                          <>
+                            <tr
+                              id={`row-selected` + i}
+                              onClick={(e) =>
+                                editing(
+                                  readers.profile_id,
+                                  readers.profile_user_id,
+                                  readers.email,
+                                  readers.jobTitle,
+                                  readers.company,
+                                  readers.country,
+                                  readers.first_name + " " + readers.last_name,
+                                  readers.contact_type
+                                )
+                              }
+                            >
+                              <td
+                                id={`field_name` + readers.profile_user_id}
+                                contentEditable={
+                                  editable === 0 ? "false" : "true"
+                                }
+                              >
+                                <span>
+                                  {" "}
+                                  {readers.first_name
+                                    ? readers.first_name +
+                                      " " +
+                                      readers.last_name
+                                    : "N/A"}{" "}
+                                </span>
+                              </td>
+                              <td id={`field_email` + readers.profile_user_id}>
+                                {readers.email ? readers.email : "N/A"}
+                              </td>
+                              <input
+                                type="hidden"
+                                id={`field_index` + readers.profile_user_id}
+                                value={i}
+                              />
+                              <td
+                                id={`field_bounced` + readers.profile_user_id}
+                              >
+                                {readers.bounce ? readers.bounce : "N/A"}
+                              </td>
+                              <td>
+                                {editable ? (
+                                  <EditCountry
+                                    selected_country={readers.country}
+                                    profile_user={readers.profile_user_id}
+                                  ></EditCountry>
+                                ) : (
+                                  <span>
+                                    {readers.country ? readers.country : "N/A"}
+                                  </span>
+                                )}
+                              </td>
+                              <td>
+                                {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? readers?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : readers.ibu
+                                  ? readers.ibu
+                                  : "N/A"}
+                              </td>
+                              <td>
+                                {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  <span>
+                                    {readers.user_type != 0
+                                      ? readers?.user_type
+                                      : "N/A"}
+                                  </span>
+                                ) : editable ? (
+                                  <EditContactType
+                                    selected_ibu={readers.contact_type}
+                                    profile_user={readers.profile_user_id}
+                                  ></EditContactType>
+                                ) : (
+                                  <span>
+                                    {readers.contact_type
+                                      ? readers.contact_type
+                                      : "N/A"}
+                                  </span>
+                                )}
+                              </td>
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {readers.consent ? readers.consent : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {readers.email_received
+                                      ? readers.email_received
+                                      : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {readers.email_opening
+                                      ? readers.email_opening
+                                      : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {readers.registration
+                                      ? readers.registration
+                                      : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>
+                                    {readers.last_email
+                                      ? readers.last_email
+                                      : "N/A"}
+                                  </span>
+                                </td>
+                              ) : null}
+                              <td className="delete_row" colSpan="12">
+                                <img
+                                  src={path_image + "delete.svg"}
+                                  alt="Add Row"
+                                  onClick={() => deleteReader(i)}
+                                />
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
-      </div>
-      </div>
+        </div>
       </div>
 
       <Modal
@@ -1162,12 +1666,14 @@ const SelectSmartListUsers = (props) => {
         <div
           data-bs-backdrop="static"
           data-bs-keyboard="false"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add New HCP
+              {localStorage.getItem("user_id") == userId
+                ? "Add New User +"
+                : "Add New HCP"}
             </h5>
             <button
               onClick={() => {
@@ -1179,7 +1685,18 @@ const SelectSmartListUsers = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    countryIndex: ""
+                    countryIndex: "",
+                    role:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? irtRole?.[0]?.value
+                        : "",
+                    optIrt:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "yes"
+                        : "",
+                    institutionType: "",
                   },
                 ]);
                 setActiveManual("active");
@@ -1204,7 +1721,7 @@ const SelectSmartListUsers = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1217,7 +1734,7 @@ const SelectSmartListUsers = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1230,10 +1747,17 @@ const SelectSmartListUsers = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Email *</label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpEmail &&
+                                      validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     id="email-desc"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
@@ -1241,32 +1765,247 @@ const SelectSmartListUsers = (props) => {
                                     }
                                     value={val.email}
                                   />
+                                  {validationError?.newHcpEmail &&
+                                  validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpEmail}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
+                            
+
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={institutionType}
+                                        className={
+                                          validationError?.newHcpInstitution &&
+                                          validationError?.index == i
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        defaultValue={
+                                          val?.institutionType
+                                            ? {
+                                                label: val?.institutionType,
+                                                value: val?.institutionType,
+                                              }
+                                            : ""
+                                        }
+                                        placeholder="Select institution"
+                                      />
+                                      {validationError?.newHcpInstitution &&
+                                      validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpInstitution}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
+                                      <Select
+                                        options={optIRT}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onIRTChange(event?.value, i)
+                                        }
+                                        defaultValue={
+                                          val?.optIrt
+                                            ? {
+                                                label: "Yes",
+                                                value: val?.optIrt,
+                                              }
+                                            : ""
+                                        }
+                                        value={
+                                          optIRT.findIndex(
+                                            (el) => el.value == val?.optIrt
+                                          ) == -1
+                                            ? ""
+                                            : optIRT[
+                                                optIRT.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.optIrt
+                                                )
+                                              ]
+                                        }
+                                        placeholder="Select IRT"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT role</label>
+                                      {val?.optIrt == "yes" ? (
+                                        <Select
+                                          options={irtRole}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i)
+                                          }
+                                          value={
+                                            irtRole?.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : irtRole[
+                                                  irtRole?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : val?.optIrt == "no" ? (
+                                        <Select
+                                          options={role}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i)
+                                          }
+                                          value={
+                                            role?.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : role[
+                                                  role?.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.role
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          placeholder="Select Role"
+                                        />
+                                      )}
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label htmlFor="">Contact type</label>
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          hpc[i].contact_type != "" &&
+                                          hpc[i].contact_type != "undefined"
+                                            ? hpc[i].contact_type
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onContactTypeChange(event, i)
+                                        }
+                                      >
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          HCP
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </DropdownButton>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Contact Type</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
-                                   title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
-                                   onSelect={(event) => onContactTypeChange(event, i)}
-                                   >
-                                    <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
-                                  </DropdownButton>
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Country</label>
-                                  <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
-                                    defaultValue  = {countryall[hpc[i].countryIndex]}
-                                    placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
-                                    filterOption  = {createFilter(filterConfig)}
-                                    isClearable
-                                  />
-                                  {
-                                    /*
+                                  <label htmlFor="">Country</label>
+                                  {val?.optIrt == "yes" ? (
+                                    <Select
+                                      options={irtCountry}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      value={
+                                        irtCountry.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : irtCountry[
+                                              irtCountry.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  ) : (
+                                    <Select
+                                      options={countryall}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      value={
+                                        countryall.findIndex(
+                                          (el) => el.value == val?.country
+                                        ) == -1
+                                          ? ""
+                                          : countryall[
+                                              countryall.findIndex(
+                                                (el) => el.value == val?.country
+                                              )
+                                            ]
+                                      }
+                                      placeholder="Select Country"
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                  )}
+                                  {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                             title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                             onSelect={(event) => onCountryChange(event, i)}
@@ -1285,8 +2024,7 @@ const SelectSmartListUsers = (props) => {
                                       )}
                                       </div>
                                       </DropdownButton>
-                                    */
-                                  }
+                                    */}
                                 </div>
                               </div>
                               {/*
@@ -1304,6 +2042,54 @@ const SelectSmartListUsers = (props) => {
                                 </div>
                               </div>
                               */}
+                              {localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site number</label>
+
+                                      <Select
+                                        options={siteNumberAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNumberChange(event, i)
+                                        }
+                                        value={
+                                          siteNumberAll[hpc[i]?.siteNumberIndex]
+                                            ? siteNumberAll[
+                                                hpc[i]?.siteNumberIndex
+                                              ]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Number"}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site name</label>
+
+                                      <Select
+                                        options={siteNameAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNameChange(event, i)
+                                        }
+                                        value={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Name"}
+                                      />
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
                           <div className="hcp-modal-action">
@@ -1336,7 +2122,9 @@ const SelectSmartListUsers = (props) => {
                                     data-bs-toggle="tab"
                                     href="#add_hcp_form"
                                   >
-                                    Add HCP +
+                                    {localStorage.getItem("user_id") == userId
+                                      ? "Add User +"
+                                      : "Add HCP +"}
                                   </a>
                                 </li>
                                 {/*
@@ -1391,7 +2179,7 @@ const SelectSmartListUsers = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  old_object =  state.getEmailData ? state.getEmailData : {};
+  old_object = state.getEmailData ? state.getEmailData : {};
   return state;
 };
 

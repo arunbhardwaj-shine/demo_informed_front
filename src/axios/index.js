@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from "react-toastify";
+import { Navigate } from "react-router-dom";
 
 // For GET requests
 const requestHelper = axios.create({
@@ -10,8 +12,11 @@ const requestHelper = axios.create({
 
 requestHelper.interceptors.request.use(
   (req) => {
-    // const token = localStorage.getItem("loginToken");
-    // req.headers["Authorization"] = token;
+    req.timeout = 600000;
+    const token = localStorage.getItem("user_id");
+    const jt    = localStorage.getItem("decrypted_token");
+    req.headers["token"] = token;
+    req.headers["auth"]  = jt;
     return req;
   },
   (err) => {
@@ -21,22 +26,29 @@ requestHelper.interceptors.request.use(
 // For POST requests
 requestHelper.interceptors.response.use(
   (res) => {
-    if (res.status === 201 || res.status === 200) {
-      console.log("Posted Successfully");
-    }
     return res;
   },
   (err) => {
     switch (err?.response?.status) {
+      case 400:
+        if(err?.response?.data?.message != "Invalid Credentials! please try again."){
+          toast.error(err?.response.data.message)
+        }
+        break;
       case 401:
-        // logout();
-        // window.location.href = "/login";
+        localStorage.clear();
+        window.location.href = "/";
+        break;
+      case 500:
+        toast.warning(err?.response.data.message)
         break;
       default:
+        toast.error(err?.response.data.message)
         break;
     }
     return Promise.reject(err);
   }
+
 );
 
 export default requestHelper;

@@ -19,7 +19,7 @@ import "react-circular-progressbar/dist/styles.css";
 const CreateSmartList = () => {
   const percentage = 98;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
-  const [fileLength, setFileLength] = useState();
+  const [fileLength, setFileLength] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
   const [showPreogressBar, setShowProgressBar] = useState(false);
@@ -38,6 +38,8 @@ const CreateSmartList = () => {
   const [dataRetrieved, setDataRetrieved] = useState(false);
   const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [validator] = React.useState(new SimpleReactValidator());
+  const [validationError, setValidationError] = useState({});
+  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -47,10 +49,18 @@ const CreateSmartList = () => {
   };
   const handleShow = () => {
     setShowAlertPopup(false);
+    let error = {};
     if (!smartListName.trim()) {
-      toast.warning("Please enter the smart list name first");
-    } else if (!creatorName.trim()) {
-      toast.warning("Please enter the creator name");
+      error.smartListName = "Please enter the smart list name first";
+    }
+    if (!creatorName.trim()) {
+      error.creatorName = "Please enter the creator name";
+    }
+
+    if (Object.keys(error)?.length) {
+      setValidationError(error);
+      toast.error(error[Object.keys(error)[0]]);
+      return;
     } else {
       setShow(true);
       var element = document.querySelector(".upload-opt");
@@ -83,8 +93,6 @@ const CreateSmartList = () => {
       const ws = readedData.Sheets[wsname];
 
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      console.log(dataParse);
-
       setFileLength(dataParse.length);
     };
     reader.readAsBinaryString(f);
@@ -92,7 +100,6 @@ const CreateSmartList = () => {
   };
 
   const saveButtonClicked = () => {
-    console.log(data);
     if (selectedFile != null) {
       setShow(false);
       setFileName(selectedFile.name);
@@ -115,11 +122,19 @@ const CreateSmartList = () => {
     var element = document.querySelector("." + elm);
     var element2 = document.querySelector(".upload-opt");
     element2.classList.remove("active");
-
+    let error = {};
     if (!smartListName.trim()) {
-      toast.warning("Please enter the smart list name first.");
-    } else if (!creatorName.trim()) {
-      toast.warning("Please enter the creator name");
+      error.smartListName = "Please enter the smart list name first";
+      // toast.warning("Please enter the smart list name first.");
+    }
+    if (!creatorName.trim()) {
+      error.creatorName = "Please enter the creator name";
+      // toast.warning("Please enter the creator name");
+    }
+    if (Object.keys(error)?.length) {
+      setValidationError(error);
+      toast.error(error[Object.keys(error)[0]]);
+      return;
     } else {
       if (element.classList.contains("active")) {
         element.classList.remove("active");
@@ -246,10 +261,17 @@ const CreateSmartList = () => {
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
-    if(user_id == "wW0geGtDPvig5gF 6KbJrg==" || user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||  user_id == "z2TunmZQf3QwCsICFTLGGQ==" || user_id == "UbCJcnLM9fe HsRMgX8c1A=="){
-      link.href = "https://informed.pro/sample_st.xls";
-    }else{
-      link.href = "https://informed.pro/sample.xls";
+    if (
+      user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
+      user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||
+      user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
+      user_id == "UbCJcnLM9fe HsRMgX8c1A=="
+    ) {
+      link.href = "https://webinar.informed.pro/sample_st.xls";
+    } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+      link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
+    } else {
+      link.href = "https://webinar.informed.pro/sample.xls";
     }
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
@@ -260,10 +282,10 @@ const CreateSmartList = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <div className="col right-sidebar custom-change">
         <div className="custom-container">
           <div className="row">
-            <div className="page-top-nav smart_list_names">
+            <div className="page-top-nav smart_list_names sticky">
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-11">
                   <ul className="tabnav-link">
@@ -271,7 +293,9 @@ const CreateSmartList = () => {
                       <a href="javascript:void(0)">Create smart list</a>
                     </li>
                     <li className="">
-                      <a href="javascript:void(0)">Select & Verify Your HCPs</a>
+                      <a href="javascript:void(0)">
+                      {localStorage.getItem("user_id") == userId?" Select & Verify Your Users":" Select & Verify Your HCPs"}
+                       </a>
                     </li>
                   </ul>
                 </div>
@@ -293,51 +317,75 @@ const CreateSmartList = () => {
                   <h2>STEP1</h2>
                   <div className="create-smart-step-box">
                     <form>
-                      <div className="row justify-content-between align-items-center">
+                      <div className="row justify-content-between align-items-start">
                         <div className="form-group col">
-                          <label for="smart-list-name">
-                            Enter smart list name
+                          <label htmlFor="smart-list-name">
+                            Enter smart list name <span>*</span>
                           </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              validationError?.smartListName
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             value={smartListName}
                             onChange={(event) => handleSmartListName(event)}
                           />
+                          {validationError?.smartListName ? (
+                            <div className="login-validation">
+                              {validationError?.smartListName}
+                            </div>
+                          ) : null}
                         </div>
 
                         <div className="form-group col">
-                          <label for="creator-name">Creator’s Name</label>
+                          <label htmlFor="creator-name">
+                            Creator’s name <span>*</span>
+                          </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              validationError?.creatorName
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             value={creatorName}
                             onChange={(event) => handleCreatorName(event)}
                           />
+                          {validationError?.creatorName ? (
+                            <div className="login-validation">
+                              {validationError?.creatorName}
+                            </div>
+                          ) : null}
                         </div>
 
-                        <div className="form-group col-sm-12">
-                          <div className="form-group-content">
-                            <p>
-                              I want this to be a <span>Demo list</span>
-                            </p>
-                            <div className="select-demo-option">
-                              <input type="checkbox" name="cherk" />
-                              <span className="checkmark"></span>
+                        {
+                          /*<div className="form-group col-sm-12">
+                            <div className="form-group-content">
+                              <p>
+                                I want this to be a <span>Demo list</span>
+                              </p>
+                              <div className="select-demo-option">
+                                <input type="checkbox" name="cherk" />
+                                <span className="checkmark"></span>
+                              </div>
+                              <a
+                                href="#"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                              >
+                                <img src={path + "question.svg"} alt="" />
+                              </a>
+                              <div className="tooltip">
+                                A list that will appeare when you select smart
+                                list to <span>send a sample.</span>
+                              </div>
                             </div>
-                            <a
-                              href="#"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                            >
-                              <img src={path + "question.svg"} alt="" />
-                            </a>
-                            <div className="tooltip">
-                              A list that will appeare when you select smart
-                              list to <span>send a sample.</span>
-                            </div>
-                          </div>
-                        </div>
+                          </div>*/
+                        }
+
+
                       </div>
                     </form>
                   </div>
@@ -374,13 +422,20 @@ const CreateSmartList = () => {
                           <img src={path + "upload-btn.svg"} alt="Single HCP" />{" "}
                           {filename != "" ? <p>{filename}</p> : null}
                         </div>
-                        <p>Upload new HCPs</p>
+
+                        <p>
+                          {localStorage.getItem("user_id") == userId?"Upload new Users":"Upload new HCPs"}
+                            </p>
                       </li>
                     </ul>
                   </div>
                 </div>
                 <div className="download-sample">
-                  <p>Download sample Excel file to upload new HCPs</p>
+                  <p>
+                  {localStorage.getItem("user_id") == userId?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
+
+
+                   </p>
                   <div className="upload-btn" onClick={downloadFile}>
                     Download File
                   </div>
@@ -443,7 +498,7 @@ const CreateSmartList = () => {
                 {file_name.current?.files === undefined ||
                 file_name.current.files?.length === 0 ? (
                   <>
-                    <label for="file-4">
+                    <label htmlFor="file-4">
                       <span>Choose Your File</span>
                     </label>
                     <p>Upload your new list file</p>

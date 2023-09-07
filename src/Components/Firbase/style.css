@@ -1,0 +1,363 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="search"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+input[type="submit"],
+button {
+    cursor: pointer;
+}
+
+input[type="submit"]::-moz-focus-inner,
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+textarea {
+    overflow: auto;
+}
+
+input,
+button,
+textarea {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+div,
+input,
+textarea,
+select,
+button,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+span,
+a:focus {
+    outline: none;
+}
+
+ul,
+ol {
+    list-style-type: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Roboto';
+}
+
+h1 {
+    font-size: 45px;
+}
+
+h2 {
+    font-size: 34px;
+}
+
+h3 {
+    font-size: 30px;
+}
+
+h4 {
+    font-size: 26px;
+}
+
+h5 {
+    font-size: 22px;
+}
+
+h6 {
+    font-size: 20px;
+}
+
+p {
+    font-size: 18px;
+}
+
+:root {
+    --color-white: #ffffff;
+    --color-primary: #0066BE;
+    --color-red: #f00;
+    --color-green: #00D4C0;
+    --color-black: #000000;
+}
+
+body {
+    font-family: 'Roboto';
+    color: var(--color-primary);
+}
+
+
+/* .center-sided-inside label {
+    font-size: 18px;
+    line-height: 27px;
+    color: var(--color-primary);
+    width: 100%;
+    font-family: 'Poppins-semibold';
+    padding: 0 0 9px 14px;
+} */
+
+/* .dropdown-toggle.dropdown-label,
+.center-sided-inside .form-control {
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    padding: 18px 32px;
+    font-size: 16px;
+    font-family: 'Poppins-medium';
+    color: #9C9B9B;
+    height: auto;
+    line-height: 25px;
+    width: 100%;
+    background: var(--color-white);
+    border: 0;
+} */
+
+
+/* .checkmark {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    height: 24px;
+    width: 24px;
+    background-color: var(--color-white);
+    border-radius: 50%;
+    border: 2px solid var(--color-primary);
+}
+
+.form-check .checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.form-check input:checked~.checkmark::after {
+    display: block;
+}
+
+.form-check .checkmark::after {
+    top: 4px;
+    left: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-primary);
+} */
+
+
+#pollModel .modal-header,
+#pollModel1 .modal-header,
+#pollAnswerModel .modal-header,
+#socketConnect .modal-header {
+    padding: 15px 25px;
+    border: 0;
+    background: #64b8b0;
+}
+
+#pollModel1 .modal-content {
+    border-radius: 0.3rem;
+}
+
+#pollModel {
+    max-width: 700px;
+}
+
+#pollModel .modal-body {
+    padding: 20px 15px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#pollModel .modal-body p,
+#pollModel1 .modal-body p {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #1b6194;
+    width: 100%;
+    font-weight: 500;
+}
+
+#pollAnswerModel .detail-box.form_box p#questionText {
+    margin-bottom: 30px;
+}
+
+#pollModel .modal-header .close,
+#pollAnswerModel .modal-header .close,
+#socketConnect .modal-header .close {
+    position: absolute;
+    right: 0;
+    color: var(--color-white);
+    opacity: 1;
+    box-shadow: none;
+    text-shadow: none;
+    font-size: 34px;
+    font-weight: 300;
+    padding: 0 16px;
+    margin: 0;
+}
+
+#pollModel .form-check.form-check-inline {
+    width: 50%;
+    margin: 0 0 5px;
+    align-items: flex-start;
+}
+
+#pollModel .form-check.form-check-inline .form-radio-input {
+    margin: 3px 5px 0 0;
+}
+
+#pollModel textarea.form-control {
+    height: 100px;
+    border: 1px solid #1b6194;
+    resize: none;
+    margin-top: 10px;
+}
+
+#pollModel .modal-footer #submitPollAnswer {
+    margin: 0;
+    padding: 7px 13px;
+    background: #1b6194;
+    border: 1px solid #1b6194;
+}
+
+#pollModel .modal-footer #submitPollAnswer:hover {
+    background: var(--color-white);
+    color: #1b6194;
+}
+
+#pollModel .form-check.form-check-inline label {
+    color: #1b6194;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+#pollModel .modal-dialog .modal-content,
+#pollAnswerModel .modal-dialog .modal-content,
+#socketConnect .modal-dialog .modal-content {
+    border: 0;
+    box-shadow: 0px 0px 16px rgb(0 0 0 / 16%);
+}
+
+
+#pollModel.modal-dialog .modal-content {
+    border-radius: 0.3rem;
+}
+
+#pollModel .form-check.form-check-inline.full {
+    width: 100%;
+    padding: 0px;
+}
+
+#pollModel .form-check.form-check-inline.full textarea {
+    border: 1px solid #dadada;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#pollModel.modal-dialog .modal-header .btn-close,
+#pollModel1.modal-dialog .modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+#pollModel .modal-header {
+    display: flex;
+    justify-content: center;
+}
+
+#pollModel .error {
+    color: #f00;
+    font-size: 14px;
+}
+tr.poll_graph{display:none}
+tr.poll_graph.active-graph{display:table-row}
+
+.highcharts-container {
+    margin: 0 auto;
+}
+.webinar-question-results .btn-bordered {
+    border: 1px solid var(--light-blue);
+    margin-right: 5px;
+}
+.webinar-question-results th, .webinar-question-results td {
+    max-width: 500px;
+}
+.webinar-question-results th:last-child, .webinar-question-results td:last-child {
+    text-align: right;
+}
+tr.poll_graph .highcharts-container {
+    text-align: center;
+    margin: 0 auto 30px;
+}
+@media only screen and (max-width:767px) {
+
+    #pollModel,
+    #pollModel1 {
+        max-width: 90%;
+        margin: 5px auto;
+    }
+
+    #pollModel .form-check.form-check-inline label {
+        font-size: 14px;
+    }
+
+    #pollModel .modal-body,
+    #pollModel1 .modal-body {
+        padding: 20px 20px;
+    }
+
+    #pollModel .modal-body p,
+    #pollModel1 .modal-body p {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    #pollModel .form-check.form-check-inline {
+        width: 100%;
+    }
+
+    #pollModel.modal-dialog .modal-header .btn-close,
+    #pollModel1.modal-dialog .modal-header .btn-close {
+        right: 9px;
+        top: 17px;
+    }
+
+    #pollModel .modal-footer button,
+    #pollModel1 .modal-footer button {
+        padding: 7px 10px;
+        font-size: 15px;
+    }
+
+    #pollModel.modal-dialog .modal-content,
+    #pollModel1.modal-dialog .modal-content {
+        padding: 0;
+    }
+}

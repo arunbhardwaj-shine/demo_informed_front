@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useLocation } from "react-router-dom";
-import { Modal, ModalDialog } from "react-bootstrap";
+import { Button, Modal, ModalDialog } from "react-bootstrap";
 import { Player, BigPlayButton } from "video-react";
+import { useSidebar } from "../LoginLayout";
 
 let title = "";
 let video_url = "";
@@ -18,12 +19,15 @@ const Sidebar = () => {
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
   const [get_user_id, set_user_id] = useState();
 
+  const { selectedItem } = useSidebar();
+
   useEffect(() => {
+    console.log("id--->", selectedItem);
     let user_id = localStorage.getItem("user_id");
     if (user_id) {
       set_user_id(user_id);
     }
-  }, []);
+  }, [selectedItem]);
 
   const toggleClassToBody = () => {
     document.body.classList.toggle("toggle_sidebar");
@@ -43,36 +47,50 @@ const Sidebar = () => {
 
   if (location.pathname == "/EmailList") {
     title = "Email overview";
-    video_url = "https://informed.pro/react_help/videos/email_page_1.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_1.png";
+    video_url =
+      "https://webinar.informed.pro/react_help/videos/email_page_1.mp4";
+    video_poster =
+      "https://webinar.informed.pro/react_help/poster/email_page_1.png";
   } else if (location.pathname == "/EmailArticleSelect") {
     title = "Selecting content for your email";
-    video_url = "https://informed.pro/react_help/videos/email_page_2.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_2.png";
+    video_url =
+      "https://webinar.informed.pro/react_help/videos/email_page_2.mp4";
+    video_poster =
+      "https://webinar.informed.pro/react_help/poster/email_page_2.png";
   } else if (location.pathname == "/CreateEmail") {
     title = "Writing your email";
-    video_url = "https://informed.pro/react_help/videos/email_page_3.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_3.png";
+    video_url =
+      "https://webinar.informed.pro/react_help/videos/email_page_3.mp4";
+    video_poster =
+      "https://webinar.informed.pro/react_help/poster/email_page_3.png";
   } else if (location.pathname == "/SelectHCP") {
     title = "Select HCPs to mail";
-    video_url = "https://informed.pro/react_help/videos/email_page_4.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_4.png";
+    video_url =
+      "https://webinar.informed.pro/react_help/videos/email_page_4.mp4";
+    video_poster =
+      "https://webinar.informed.pro/react_help/poster/email_page_4.png";
   } else if (location.pathname == "/VerifyHCP") {
     title = "Select HCPs to mail";
-    video_url = "https://informed.pro/react_help/videos/email_page_5.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_5.png";
+    video_url =
+      "https://webinar.informed.pro/react_help/videos/email_page_5.mp4";
+    video_poster =
+      "https://webinar.informed.pro/react_help/poster/email_page_5.png";
   } else if (
     location.pathname == "/verifyMAIL" ||
     location.pathname == "/VerifyMAIL" ||
     location.pathname == "/VerifyHcpMAIL"
   ) {
     title = "Sending your email";
-    video_url = "https://informed.pro/react_help/videos/email_page_8.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_8.png";
+    video_url =
+      "https://webinar.informed.pro/react_help/videos/email_page_8.mp4";
+    video_poster =
+      "https://webinar.informed.pro/react_help/poster/email_page_8.png";
   } else if (location.pathname == "/SelectSmartListUsers") {
     title = "Verify & adjust your SmartList";
-    video_url = "https://informed.pro/react_help/videos/email_page_6.mp4";
-    video_poster = "https://informed.pro/react_help/poster/email_page_6.png";
+    video_url =
+      "https://webinar.informed.pro/react_help/videos/email_page_6.mp4";
+    video_poster =
+      "https://webinar.informed.pro/react_help/poster/email_page_6.png";
   } else if (location.pathname == "/SelectSmartList") {
     title = "Select HCPs to mail";
     video_url = "";
@@ -83,9 +101,9 @@ const Sidebar = () => {
   } else if (location.pathname == "/CreateSmartList") {
     title = "Creating new SmartList";
     video_url =
-      "https://informed.pro/react_help/videos/smart_list_uploading_excel.mp4";
+      "https://webinar.informed.pro/react_help/videos/smart_list_uploading_excel.mp4";
     video_poster =
-      "https://informed.pro/react_help/poster/smart_list_uploading_excel.png";
+      "https://webinar.informed.pro/react_help/poster/smart_list_uploading_excel.png";
     if (localStorage.getItem("sd_i")) {
       c_id = localStorage.getItem("sd_i");
     }
@@ -97,9 +115,10 @@ const Sidebar = () => {
     video_url = "";
   } else if (location.pathname == "/SmartListFilter") {
     title = "Creating new SmartList";
-    video_url = "https://informed.pro/react_help/videos/smart_list_sagment.mp4";
+    video_url =
+      "https://webinar.informed.pro/react_help/videos/smart_list_sagment.mp4";
     video_poster =
-      "https://informed.pro/react_help/poster/smart_list_sagment.png";
+      "https://webinar.informed.pro/react_help/poster/smart_list_sagment.png";
     if (localStorage.getItem("sd_i")) {
       c_id = localStorage.getItem("sd_i");
     }
@@ -109,6 +128,36 @@ const Sidebar = () => {
     if (localStorage.getItem("sd_i")) {
       c_id = localStorage.getItem("sd_i");
     }
+  } else if (location.pathname == "/EmailArticleSelect") {
+    title = "Selecting content for your email";
+    video_url =
+      "https://webinar.informed.pro/react_help/videos/email_page_2.mp4";
+    video_poster =
+      "https://webinar.informed.pro/react_help/poster/email_page_2.png";
+  } else if (location.pathname == "/library-content") {
+    title = "Library overview";
+    video_url = "/componentAssets/images/library.mp4";
+    video_poster = "/componentAssets/images/library-page-poster.png";
+  } else if (location.pathname == "/set-popup") {
+    title = "Set Pop-up";
+    video_url = "/componentAssets/images/set-popup.mp4";
+    video_poster = "/componentAssets/images/popup-screenshot.png";
+  } else if (location.pathname == "/library-sublink") {
+    title = "New SubLink";
+    video_url = "/componentAssets/images/new-sublink.mp4";
+    video_poster = "/componentAssets/images/new-sublink.png";
+  } else if (location.pathname == "/products") {
+    title = "Products and Tags";
+    video_url = "/componentAssets/images/products-tags.mp4";
+    video_poster = "/componentAssets/images/products-tags.png";
+  } else if (
+    location.pathname == "/library-create-user" ||
+    location.pathname == "/preview-content" ||
+    location.pathname == "/content-detail"
+  ) {
+    title = "Create content";
+    video_url = "/componentAssets/images/create_content.mp4";
+    video_poster = "/componentAssets/images/create-content.png";
   }
 
   return (
@@ -132,6 +181,7 @@ const Sidebar = () => {
           window.location.pathname == "/SelectHCP" ||
           window.location.pathname == "/VerifyHCP" ||
           window.location.pathname == "/VerifyMAIL" ||
+          window.location.pathname == "/verifyMAIL" ||
           window.location.pathname == "/VerifyHcpMAIL" ||
           window.location.pathname == "/SelectSmartListUsers" ||
           window.location.pathname == "/VerifySmartList" ||
@@ -140,6 +190,7 @@ const Sidebar = () => {
           window.location.pathname == "/UpdatedTable" ||
           window.location.pathname == "/ViewTable" ||
           window.location.pathname == "/EmailStatss" ||
+          window.location.pathname == "/bounced-email" ||
           window.location.pathname == "/get-details" ? (
             <ul>
               <li
@@ -251,36 +302,36 @@ const Sidebar = () => {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0_2612_34718)">
+                    <g clipPath="url(#clip0_2612_34718)">
                       <path
                         d="M14.7656 12.7676H19.0834V15.5121H14.7656V12.7676Z"
                         fill="#0066BE"
-                        fill-opacity="0.6"
+                        fillOpacity="0.6"
                       />
                       <path
                         d="M14.6797 18.3516L19.11 18.3518V21.2443H14.6842L14.6797 18.3516Z"
                         fill="#0066BE"
-                        fill-opacity="0.6"
+                        fillOpacity="0.6"
                       />
                       <path
                         d="M5 12.8048L12 12.8047V21L5 21.0001V12.8048Z"
                         fill="#0066BE"
-                        fill-opacity="0.6"
+                        fillOpacity="0.6"
                       />
                       <path
                         d="M3.45312 1.82092e-05C2.34855 1.92626e-05 1.45312 0.895449 1.45312 2.00002V2.8594H22.5469V2C22.5469 0.895431 21.6514 8.5395e-07 20.5469 1.90735e-06L3.45312 1.82092e-05Z"
                         fill="#0066BE"
-                        fill-opacity="0.6"
+                        fillOpacity="0.6"
                       />
                       <path
                         d="M5 7H19V10H5V7Z"
                         fill="#0066BE"
-                        fill-opacity="0.6"
+                        fillOpacity="0.6"
                       />
                       <path
                         d="M1.4533 21.9998C1.45321 23.1045 2.34866 24 3.4533 24H20.5486C21.6532 24 22.5486 23.1046 22.5486 22V4.26562H1.45489L1.4533 21.9998ZM19.7361 21.1406C19.7361 21.5292 19.4216 21.8438 19.033 21.8438H14.8143C14.4257 21.8438 14.1111 21.5292 14.1111 21.1406V18.3281C14.1111 17.9396 14.4257 17.625 14.8143 17.625H19.033C19.4216 17.625 19.7361 17.9396 19.7361 18.3281V21.1406ZM19.7361 15.5156C19.7361 15.9042 19.4216 16.2188 19.033 16.2188H14.8143C14.4257 16.2188 14.1111 15.9042 14.1111 15.5156V12.7031C14.1111 12.3146 14.4257 12 14.8143 12H19.033C19.4216 12 19.7361 12.3146 19.7361 12.7031V15.5156ZM4.26739 7.07812C4.26739 6.68958 4.58196 6.375 4.97051 6.375H19.033C19.4216 6.375 19.7361 6.68958 19.7361 7.07812V9.89062C19.7361 10.2792 19.4216 10.5938 19.033 10.5938H4.97051C4.58196 10.5938 4.26739 10.2792 4.26739 9.89062V7.07812ZM4.26739 12.7031C4.26739 12.3146 4.58196 12 4.97051 12H12.0018C12.3903 12 12.7049 12.3146 12.7049 12.7031V21.1406C12.7049 21.5292 12.3903 21.8438 12.0018 21.8438H4.97051C4.58196 21.8438 4.26739 21.5292 4.26739 21.1406V12.7031Z"
                         fill="#0066BE"
-                        fill-opacity="0.6"
+                        fillOpacity="0.6"
                       />
                     </g>
                     <defs>
@@ -343,50 +394,89 @@ const Sidebar = () => {
                     <path
                       d="M23.7924 9.57792L21.2929 7.56503V0.547555C21.2929 0.243409 21.0496 9.2425e-05 20.7454 9.2425e-05H20.7399H3.26534C2.9612 -0.0054375 2.71788 0.237879 2.71235 0.542025V0.547555V7.56503L0.218353 9.57239H0.212823C0.0801045 9.67746 0.00268555 9.8323 0.00268555 10.0037V21.2405C0.00821547 22.7668 1.24692 24 2.77318 24H21.2265C22.7528 24 23.9915 22.7668 23.997 21.2405V10.0037C24.0026 9.83783 23.9252 9.67746 23.7924 9.57792ZM21.2929 8.98622L22.515 9.97055L21.2929 10.8111V8.98622ZM3.81834 1.10608H20.1869V11.5742L12.9427 16.5567C12.3731 16.9438 11.6321 16.9438 11.0625 16.5567L3.81834 11.5742V1.10608ZM2.71235 8.98622V10.8111L1.49024 9.97055L2.71235 8.98622ZM22.8966 21.2405C22.8911 22.1585 22.1445 22.894 21.2321 22.894H2.77318C1.85521 22.894 1.1142 22.1585 1.10867 21.2405V11.0599L10.4321 17.4691C11.3777 18.1161 12.622 18.1161 13.5731 17.4691L22.8966 11.0599V21.2405Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                     <path
                       d="M22.8966 21.2405C22.8911 22.1585 22.1445 22.894 21.2321 22.894H2.77318C1.85521 22.894 1.1142 22.1585 1.10867 21.2405V11.0599L10.4321 17.4691C11.3777 18.1161 12.622 18.1161 13.5731 17.4691L22.8966 11.0599V21.2405Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                     <path
                       d="M12.7861 5.53076H11C10.7816 5.53076 10.603 5.77961 10.603 6.08376V11.4478C10.603 11.7519 10.7816 12.0008 11 12.0008H12.7861C13.0044 12.0008 13.183 11.7519 13.183 11.4478V6.08376C13.183 5.77961 13.0044 5.53076 12.7861 5.53076Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                     <path
                       d="M15.7896 12H17.5757C17.794 12 17.9727 11.7512 17.9727 11.447V3.2627C17.9727 2.95855 17.794 2.70971 17.5757 2.70971H15.7896C15.5713 2.70971 15.3927 2.95855 15.3927 3.2627V11.447C15.3927 11.7512 15.5713 12 15.7896 12Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                     <path
                       d="M8.00049 7.52221L6.52809 7.521C6.22394 7.521 5.9751 7.76984 5.9751 8.07399V11.4473C5.9751 11.7514 6.22394 12.0003 6.52809 12.0003L8.00049 12.0015C8.30463 12.0015 8.55348 11.7526 8.55348 11.4485V8.0752C8.55348 7.77106 8.30463 7.52221 8.00049 7.52221Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                   </svg>
-                  <p>Email Analytics</p>
+                  <p>Email Results</p>
                 </Link>
               </li>
+
+              {localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? (
+                <li
+                  className={
+                    location.pathname === "/bounced-email" && c_id == 0
+                      ? "active"
+                      : "side_li"
+                  }
+                >
+                  <Link to={"/bounced-email"}>
+                    <svg
+                      version="1.0"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="512.000000pt"
+                      height="512.000000pt"
+                      viewBox="0 0 512.000000 512.000000"
+                      preserveAspectRatio="xMidYMid meet"
+                    >
+                      {" "}
+                      <g
+                        transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                        stroke="none"
+                      >
+                        {" "}
+                        <path d="M2325 5109 c-882 -82 -1661 -616 -2054 -1410 -414 -832 -349 -1805 171 -2577 126 -187 339 -416 523 -564 253 -202 589 -374 904 -463 796 -223 1652 -46 2299 474 119 96 297 275 394 396 202 253 374 589 463 904 223 796 46 1655 -475 2299 -227 282 -524 519 -851 681 -431 215 -903 304 -1374 260z m552 -354 c138 -21 311 -64 438 -110 112 -40 345 -150 345 -162 0 -4 -120 -128 -267 -275 l-266 -267 -66 25 c-168 63 -337 88 -552 82 -166 -6 -308 -30 -433 -75 l-69 -25 -268 268 c-148 148 -269 272 -269 275 0 11 236 119 346 158 177 63 394 109 589 125 95 7 364 -3 472 -19z m-186 -1050 c160 -12 364 -87 521 -192 93 -61 239 -208 301 -300 137 -206 198 -409 198 -653 0 -186 -30 -328 -106 -488 -149 -314 -416 -539 -745 -626 -615 -164 -1252 202 -1414 814 -86 322 -27 669 161 952 62 93 208 239 301 301 102 68 242 132 355 162 94 25 261 45 322 39 17 -2 64 -6 106 -9z m-1779 -312 l267 -266 -20 -51 c-28 -72 -66 -226 -80 -324 -7 -53 -10 -143 -6 -245 6 -175 27 -297 73 -426 l27 -73 -269 -269 c-148 -148 -272 -269 -275 -269 -3 0 -33 57 -67 127 -293 618 -292 1314 3 1931 35 72 67 132 72 132 4 0 128 -120 275 -267z m3646 130 c253 -532 288 -1116 100 -1678 -40 -122 -160 -385 -175 -385 -4 0 -128 120 -275 267 l-267 266 20 51 c28 72 66 226 80 324 7 53 10 143 6 245 -6 175 -27 297 -73 426 l-27 73 269 269 c148 148 272 269 275 269 3 0 33 -57 67 -127z m-2459 -2383 c283 -95 670 -92 945 7 l69 25 268 -268 c148 -148 269 -272 269 -275 0 -11 -254 -127 -356 -162 -247 -86 -461 -121 -734 -121 -275 0 -492 36 -735 121 -111 39 -365 157 -365 170 0 13 524 533 537 533 6 0 52 -14 102 -30z" />{" "}
+                      </g>{" "}
+                    </svg>
+                    <p>Bounced Email</p>
+                  </Link>
+                </li>
+              ) : null}
             </ul>
           ) : window.location.pathname == "/library-content" ||
             location.pathname == "/create-docintel-link" ||
-            window.location.pathname == "/library-create" ||
             window.location.pathname == "/library-edit" ||
+            window.location.pathname == "/library-create" ||
             window.location.pathname == "/library-sublink" ||
             window.location.pathname == "/library-topics" ||
             window.location.pathname == "/library-campaign" ||
             window.location.pathname == "/spc" ||
             window.location.pathname == "/set-popup" ||
+            window.location.pathname == "/preview-content" ||
             window.location.pathname == "/spc-edit" ||
+            window.location.pathname == "/spc-view" ||
+            window.location.pathname == "/spc-render" ||
             window.location.pathname == "/spc-delete" ||
             window.location.pathname == "/spc-create" ||
             window.location.pathname == "/products" ||
             window.location.pathname == "/library-delete" ||
             window.location.pathname == "/library-create-user" ||
+            window.location.pathname == "/library-add-link" ||
             window.location.pathname == "/edit-Consent-Options" ||
-            window.location.pathname == "/library-create-pharma" ? (
+            window.location.pathname == "/library-create-pharma" ||
+            window.location.pathname == "/library-edit-listing" ||
+            window.location.pathname == "/content-detail" ? (
             <ul>
               <li
                 className={
@@ -396,8 +486,8 @@ const Sidebar = () => {
                 <Link to={"/library-content"}>
                   <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M0.499305 1.99992C0.499347 0.895384 1.39477 0 2.49931 0H14.489C15.5936 0 16.489 0.895429 16.489 2V19C16.489 20.1046 15.5936 21 14.489 21H2.49866C1.39406 21 0.498615 20.1045 0.498657 18.9999L0.499305 1.99992ZM2.69955 3.4375C2.69955 3.32146 2.74391 3.21018 2.82287 3.12814C2.90184 3.04609 3.00893 3 3.1206 3H6.91008C7.02175 3 7.12884 3.04609 7.20781 3.12814C7.28677 3.21018 7.33113 3.32146 7.33113 3.4375V6.5C7.33113 6.61603 7.28677 6.72731 7.20781 6.80936C7.12884 6.8914 7.02175 6.9375 6.91008 6.9375H3.1206C3.00893 6.9375 2.90184 6.8914 2.82287 6.80936C2.74391 6.72731 2.69955 6.61603 2.69955 6.5V3.4375ZM14.3657 12.0594C14.2867 12.1414 14.1796 12.1875 14.068 12.1875H3.1206C3.00893 12.1875 2.90184 12.1414 2.82287 12.0594C2.74391 11.9773 2.69955 11.866 2.69955 11.75C2.69955 11.634 2.74391 11.5227 2.82287 11.4406C2.90184 11.3586 3.00893 11.3125 3.1206 11.3125H14.068C14.1796 11.3125 14.2867 11.3586 14.3657 11.4406C14.4447 11.5227 14.489 11.634 14.489 11.75C14.489 11.866 14.4447 11.9773 14.3657 12.0594ZM14.068 9.5625H3.1206C3.00893 9.5625 2.90184 9.51641 2.82287 9.43436C2.74391 9.35231 2.69955 9.24103 2.69955 9.125C2.69955 9.00897 2.74391 8.89769 2.82287 8.81564C2.90184 8.73359 3.00893 8.6875 3.1206 8.6875H14.068C14.1796 8.6875 14.2867 8.73359 14.3657 8.81564C14.4447 8.89769 14.489 9.00897 14.489 9.125C14.489 9.24103 14.4447 9.35231 14.3657 9.43436C14.2867 9.51641 14.1796 9.5625 14.068 9.5625ZM14.068 6.9375H9.01534C8.90367 6.9375 8.79657 6.8914 8.71761 6.80936C8.63865 6.72731 8.59429 6.61603 8.59429 6.5C8.59429 6.38396 8.63865 6.27268 8.71761 6.19064C8.79657 6.10859 8.90367 6.0625 9.01534 6.0625H14.068C14.1796 6.0625 14.2867 6.10859 14.3657 6.19064C14.4447 6.27268 14.489 6.38396 14.489 6.5C14.489 6.61603 14.4447 6.72731 14.3657 6.80936C14.2867 6.8914 14.1796 6.9375 14.068 6.9375ZM14.068 3.875H9.01534C8.90367 3.875 8.79657 3.8289 8.71761 3.74686C8.63865 3.66481 8.59429 3.55353 8.59429 3.4375C8.59429 3.32146 8.63865 3.21018 8.71761 3.12814C8.79657 3.04609 8.90367 3 9.01534 3H14.068C14.1796 3 14.2867 3.04609 14.3657 3.12814C14.4447 3.21018 14.489 3.32146 14.489 3.4375C14.489 3.55353 14.4447 3.66481 14.3657 3.74686C14.2867 3.8289 14.1796 3.875 14.068 3.875ZM2.82287 14.6844C2.90184 14.7664 3.00893 14.8125 3.1206 14.8125H14.068C14.1796 14.8125 14.2867 14.7664 14.3657 14.6844C14.4447 14.6023 14.489 14.491 14.489 14.375C14.489 14.259 14.4447 14.1477 14.3657 14.0656C14.2867 13.9836 14.1796 13.9375 14.068 13.9375H3.1206C3.00893 13.9375 2.90184 13.9836 2.82287 14.0656C2.74391 14.1477 2.69955 14.259 2.69955 14.375C2.69955 14.491 2.74391 14.6023 2.82287 14.6844ZM8.59429 17.4375H3.1206C3.00893 17.4375 2.90184 17.3914 2.82287 17.3094C2.74391 17.2273 2.69955 17.116 2.69955 17C2.69955 16.884 2.74391 16.7727 2.82287 16.6906C2.90184 16.6086 3.00893 16.5625 3.1206 16.5625H8.59429C8.70596 16.5625 8.81305 16.6086 8.89201 16.6906C8.97098 16.7727 9.01534 16.884 9.01534 17C9.01534 17.116 8.97098 17.2273 8.89201 17.3094C8.81305 17.3914 8.70596 17.4375 8.59429 17.4375Z"
                       fill="rgba(0, 102, 190, 0.6)"
                     />
@@ -417,9 +507,14 @@ const Sidebar = () => {
                     location.pathname == "/library-sublink" ||
                     location.pathname == "/library-topics" ||
                     location.pathname == "/set-popup" ||
+                    location.pathname == "/preview-content" ||
                     location.pathname == "/library-create-user" ||
+                    location.pathname == "/library-add-link" ||
                     location.pathname == "/edit-Consent-Options" ||
-                    location.pathname == "/create-docintel-link") &&
+                    location.pathname == "/auto_popup" ||
+                    location.pathname == "/create-docintel-link" ||
+                    location.pathname == "/library-edit-listing" ||
+                    location.pathname == "/content-detail") &&
                   c_id == 0
                     ? "active"
                     : "side_li"
@@ -433,28 +528,293 @@ const Sidebar = () => {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0_301_44)">
+                    <g clipPath="url(#clip0_301_44)">
                       <path
                         d="M8.50001 13.5C8.22387 13.5 8.00001 13.2761 8.00001 13V11.5H6.50001C6.22387 11.5 6.00001 11.2761 6.00001 11C6.00001 10.7239 6.22387 10.5 6.50001 10.5H8.00001V9.00001C8.00001 8.72387 8.22387 8.50001 8.50001 8.50001C8.77615 8.50001 9.00001 8.72387 9.00001 9.00001V10.5H10.5C10.7762 10.5 11 10.7239 11 11C11 11.2761 10.7762 11.5 10.5 11.5H9.00001V13C9.00001 13.2761 8.77615 13.5 8.50001 13.5Z"
                         fill="#0066BE"
-                        fill-opacity="0.6"
+                        fillOpacity="0.6"
                       />
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M0.000305177 2.00005C0.00027582 0.895463 0.895715 0 2.00031 0H15C16.1046 0 17 0.895429 17 2V15.6654L13.4225 20.9994C13.374 21.0717 13.3452 21.1554 13.339 21.2423L13.2849 22H2.00078C0.896235 22 0.000812916 21.1046 0.000783561 20.0001L0.000305177 2.00005ZM8.50001 15C10.7092 15 12.5 13.2091 12.5 11C12.5 8.79087 10.7092 7.00001 8.50001 7.00001C6.29087 7.00001 4.50001 8.79087 4.50001 11C4.50001 13.2091 6.29087 15 8.50001 15Z"
                         fill="#0066BE"
-                        fill-opacity="0.6"
+                        fillOpacity="0.6"
                       />
                       <path
                         d="M14.4467 23.9681C14.3081 24.0368 14.1473 23.929 14.1583 23.7747L14.3392 21.2423C14.3454 21.1554 14.3741 21.0717 14.4226 20.9994L20.4074 12.0762L22.8989 13.7473L16.9141 22.6704C16.8656 22.7427 16.7991 22.8011 16.7211 22.8398L14.4467 23.9681Z"
                         fill="#0066BE"
-                        fill-opacity="0.6"
+                        fillOpacity="0.6"
                       />
                       <path
                         d="M23.1774 13.3321L23.5886 12.7191C23.9757 12.1419 23.8251 11.3583 23.2534 10.9748L22.8381 10.6963C22.2663 10.3128 21.4842 10.4708 21.0971 11.048L20.686 11.661L23.1774 13.3321Z"
                         fill="#0066BE"
-                        fill-opacity="0.6"
+                        fillOpacity="0.6"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_301_44">
+                        <rect width="24" height="24" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+
+                  <p>Create &amp; Change</p>
+                </Link>
+              </li>
+
+              {localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" ||
+              localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg==" ||
+              localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ==" ||
+              localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ==" ||
+              localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ||
+              localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A==" ||
+              localStorage.getItem("user_id") == "59A m0rrvmC9UrYZKZXJxA==" ? (
+                <li
+                  className={
+                    (location.pathname == "/spc" ||
+                      location.pathname == "/spc-create" ||
+                      location.pathname == "/spc-edit" ||
+                      location.pathname == "/spc-view" ||
+                      location.pathname == "/spc-render" ||
+                      location.pathname == "/spc-delete") &&
+                    c_id == 0
+                      ? "active"
+                      : "side_li"
+                  }
+                >
+                  <Link to={"/spc"}>
+                    <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M2.7407 0C1.63616 0 0.740741 0.895384 0.740699 1.99992L0.740051 18.9999C0.740009 20.1045 1.63545 21 2.74005 21H7.33966V15.5C7.33966 13.8431 8.68281 12.5 10.3397 12.5C11.9159 12.5 13.2081 13.7156 13.3302 15.2604C13.9173 15.0207 14.5607 14.8885 15.2352 14.8885C15.756 14.8885 16.2583 14.9673 16.7304 15.1136V2C16.7304 0.895429 15.835 0 14.7304 0H2.7407ZM14.3094 9.875C14.421 9.875 14.5281 9.82891 14.6071 9.74686C14.6861 9.66481 14.7304 9.55353 14.7304 9.4375C14.7304 9.32147 14.6861 9.21019 14.6071 9.12814C14.5281 9.04609 14.421 9 14.3094 9H3.36199C3.25032 9 3.14323 9.04609 3.06426 9.12814C2.9853 9.21019 2.94094 9.32147 2.94094 9.4375C2.94094 9.55353 2.9853 9.66481 3.06426 9.74686C3.14323 9.82891 3.25032 9.875 3.36199 9.875H14.3094ZM3.36199 7.25H14.3094C14.421 7.25 14.5281 7.20391 14.6071 7.12186C14.6861 7.03981 14.7304 6.92853 14.7304 6.8125C14.7304 6.69647 14.6861 6.58519 14.6071 6.50314C14.5281 6.42109 14.421 6.375 14.3094 6.375H3.36199C3.25032 6.375 3.14323 6.42109 3.06426 6.50314C2.9853 6.58519 2.94094 6.69647 2.94094 6.8125C2.94094 6.92853 2.9853 7.03981 3.06426 7.12186C3.14323 7.20391 3.25032 7.25 3.36199 7.25ZM5.1611 4H12.3219C12.4335 4 12.5406 3.95391 12.6196 3.87186C12.6986 3.78981 12.7429 3.67853 12.7429 3.5625C12.7429 3.44647 12.6986 3.33519 12.6196 3.25314C12.5406 3.17109 12.4335 3.125 12.3219 3.125H5.1611C5.04943 3.125 4.94234 3.17109 4.86337 3.25314C4.78441 3.33519 4.74005 3.44647 4.74005 3.5625C4.74005 3.67853 4.78441 3.78981 4.86337 3.87186C4.94234 3.95391 5.04943 4 5.1611 4Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        d="M10.3494 13.4C9.18632 13.4 8.24005 14.3464 8.24005 15.5096V18.0879H12.4588V15.5096C12.4588 14.3464 11.5125 13.4 10.3494 13.4Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        d="M8.24005 21.1038C8.24005 22.267 9.18632 23.2134 10.3494 23.2134C11.5125 23.2134 12.4588 22.267 12.4588 21.1038V18.9942H8.24005V21.1038Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        d="M13.2401 16.4902V21.2788L17.8406 16.6779C16.4771 15.7076 14.6618 15.645 13.2401 16.4902Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        d="M18.4592 17.3004L12.5779 23.1822C13.3065 23.7008 14.1634 23.9614 15.0212 23.9614C18.4519 23.9614 20.4354 20.078 18.4592 17.3004Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                    </svg>
+                    <p>SPC</p>
+                  </Link>
+                </li>
+              ) : null}
+              {localStorage.getItem("user_id") ==
+              "56Ek4feL/1A8mZgIKQWEqg==" ? null : localStorage.getItem(
+                  "group_id"
+                ) == 2 ? null : (
+                <li
+                  className={
+                    location.pathname == "/products" && c_id == 0
+                      ? "active"
+                      : "side_li"
+                  }
+                >
+                  <Link to={"/products"}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M2.10988 0.703674V2.81433C2.10988 3.20288 2.42485 3.51801 2.81321 3.51801H8.43913C8.82749 3.51801 9.14228 3.20288 9.14228 2.81433V0.703674C9.14228 0.315124 8.82749 0 8.43913 0H2.81321C2.42485 0 2.10988 0.315124 2.10988 0.703674Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        d="M21.188 5.48778L23.0051 5.49567C23.5556 5.49807 24.0007 5.945 24.0007 6.49555L24.0008 7.5H12.749L12.7488 6.48808C12.7487 5.9356 13.1965 5.48915 13.7489 5.49231C14.358 5.49579 15.0005 5.50001 15.0005 5.50001L21.188 5.48778Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        d="M12.749 9L12.749 10.6767H14.8106C15.1301 10.6767 15.389 10.9876 15.389 11.371V13.8768C15.389 14.2601 15.389 14.5711 15.1393 14.5711L15.1391 14.718V15.1486C15.1391 15.486 15.431 15.7605 15.7899 15.7605C16.8664 15.7605 17.4136 16.5839 17.4136 17.596V21.5H21.8912C23.0546 21.5 24.0009 20.5532 24.0009 19.3893L24.0008 9H12.749Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        d="M11.2519 7.88111L11.2521 10.6767H9.60376C9.28428 10.6767 9.02518 10.9876 9.02518 11.371V13.8768C9.02518 14.2601 9.02518 14.5711 9.28397 14.5711V15.1486C9.28397 15.486 8.99196 15.7605 8.63305 15.7605C7.55648 15.7605 7.00043 16.5839 7.00043 17.596V21.4624H2.11006C0.946804 21.4624 0.000427246 20.5155 0.000427246 19.3517V7.89307C0.000427246 6.72925 0.946804 5.78241 2.11006 5.78241C2.49787 5.78241 2.81339 5.46674 2.81339 5.07874V4.61328L8.43913 4.60133V5.06678C8.43913 5.45478 8.75447 5.77046 9.14228 5.77046C10.3055 5.77046 11.2519 6.71729 11.2519 7.88111Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        d="M9.70062 11.9001V13.6999C9.70062 14.0313 9.92457 14.3 10.2007 14.3H14.2007C14.4768 14.3 14.7006 14.0313 14.7006 13.6999V11.9001C14.7006 11.5687 14.4768 11.3 14.2007 11.3H10.2007C9.92457 11.3 9.70062 11.5687 9.70062 11.9001Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M15.0132 16.2788C14.703 16.2788 14.4507 16.0415 14.4507 15.7499V15.4001H9.95066V15.7499C9.95066 16.0415 9.69828 16.2788 9.38808 16.2788C8.45761 16.2788 7.70062 16.9904 7.70062 17.8652V22.4136C7.70062 23.2884 8.45761 24 9.38808 24H15.0132C15.9436 24 16.7006 23.2884 16.7006 22.4136V17.8652C16.7006 16.9904 15.9436 16.2788 15.0132 16.2788ZM13.6132 20.2327H12.7507V21.0733C12.7507 21.3653 12.4989 21.6022 12.1882 21.6022C11.8776 21.6022 11.6257 21.3653 11.6257 21.0733V20.2327H10.7631C10.4525 20.2327 10.2007 19.996 10.2007 19.7039C10.2007 19.4119 10.4525 19.1751 10.7631 19.1751H11.6257V18.3939C11.6257 18.1019 11.8776 17.8652 12.1882 17.8652C12.4989 17.8652 12.7507 18.1019 12.7507 18.3939V19.1751H13.6132C13.9239 19.1751 14.1758 19.4119 14.1758 19.7039C14.1758 19.996 13.9239 20.2327 13.6132 20.2327Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                    </svg>
+                    {/* {localStorage.getItem("group_id") == 3 &&
+                    localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      <p>Products & Tags</p>
+                    ) : (
+                      <>
+                        {localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          <p>Topics</p>
+                        ) : null}
+                      </>
+                    )} */}
+                    {localStorage.getItem("group_id") == 3 ? (
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <p>Topics</p>
+                      ) : localStorage.getItem("user_id") ==
+                        "B7SHpAc XDXSH NXkN0rdQ==" ? (
+                        <p>Products & Topics</p>
+                      ) : (
+                        <p>Products & Tags</p>
+                      )
+                    ) : null}
+                  </Link>
+                </li>
+              )}
+              {/*
+                localStorage.getItem("group_id") != 2 && (
+
+                )
+                */}
+
+              {/*
+                <li
+                className={
+                location.pathname == "/library-delete" && c_id == 0
+                ? "active"
+                : "side_li"
+              }
+              >
+              <Link to={"/library-delete"}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+              d="M14.9165 19.0566C15.0817 19.2206 15.3049 19.314 15.5386 19.3171C15.7723 19.314 15.9955 19.2206 16.1607 19.0566C16.326 18.8925 16.4202 18.671 16.4232 18.439V9.07317C16.4232 8.8403 16.33 8.61696 16.1641 8.4523C15.9982 8.28763 15.7732 8.19512 15.5386 8.19512C15.304 8.19512 15.079 8.28763 14.9131 8.4523C14.7472 8.61696 14.654 8.8403 14.654 9.07317V18.439C14.657 18.671 14.7512 18.8925 14.9165 19.0566Z"
+              fill="#0066BE"
+              fillOpacity="0.6"
+              />
+              <path
+              d="M8.46161 19.3171C8.22795 19.314 8.00471 19.2206 7.83947 19.0566C7.67423 18.8925 7.58004 18.671 7.57699 18.439V9.07317C7.57699 8.8403 7.67019 8.61696 7.83609 8.4523C8.00199 8.28763 8.227 8.19512 8.46161 8.19512C8.69623 8.19512 8.92124 8.28763 9.08714 8.4523C9.25303 8.61696 9.34624 8.8403 9.34624 9.07317V18.439C9.34318 18.671 9.249 18.8925 9.08376 19.0566C8.91852 19.2206 8.69528 19.314 8.46161 19.3171Z"
+              fill="#0066BE"
+              fillOpacity="0.6"
+              />
+              <path
+              d="M11.378 19.0566C11.5432 19.2206 11.7664 19.314 12.0001 19.3171C12.2338 19.314 12.457 19.2206 12.6223 19.0566C12.7875 18.8925 12.8817 18.671 12.8847 18.439V9.07317C12.8847 8.8403 12.7915 8.61696 12.6256 8.4523C12.4597 8.28763 12.2347 8.19512 12.0001 8.19512C11.7655 8.19512 11.5405 8.28763 11.3746 8.4523C11.2087 8.61696 11.1155 8.8403 11.1155 9.07317V18.439C11.1185 18.671 11.2127 18.8925 11.378 19.0566Z"
+              fill="#0066BE"
+              fillOpacity="0.6"
+              />
+              <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M16.4232 2.34151V3.5122H22.6154C22.85 3.5122 23.075 3.6047 23.2409 3.76937C23.4068 3.93404 23.5 4.15737 23.5 4.39024C23.5 4.62312 23.4068 4.84645 23.2409 5.01112C23.075 5.17578 22.85 5.26829 22.6154 5.26829H21.0893L20.1151 20.6517C20.0581 21.5576 19.6557 22.408 18.9896 23.03C18.3235 23.6519 17.4438 23.9988 16.5293 24H7.4707C6.56439 23.987 5.69642 23.6349 5.04037 23.0141C4.38432 22.3933 3.98854 21.5496 3.93217 20.6517L2.9131 5.26829H1.38462C1.15 5.26829 0.924995 5.17578 0.759098 5.01112C0.5932 4.84645 0.5 4.62312 0.5 4.39024C0.5 4.15737 0.5932 3.93404 0.759098 3.76937C0.924995 3.6047 1.15 3.5122 1.38462 3.5122H7.57699V2.28297C7.59194 1.68216 7.83906 1.11006 8.2672 0.685098C8.69534 0.260133 9.27171 0.0148415 9.87701 0H14.1232C14.7386 0.0152749 15.3235 0.268696 15.7533 0.70617C16.183 1.14364 16.4234 1.73051 16.4232 2.34151ZM14.654 2.34151V3.5122H9.34624V2.34151C9.34624 2.20178 9.40216 2.06778 9.5017 1.96898C9.60124 1.87018 9.73624 1.81467 9.87701 1.81467H14.1232C14.264 1.81467 14.399 1.87018 14.4985 1.96898C14.5981 2.06778 14.654 2.20178 14.654 2.34151ZM5.64246 20.5463L4.73423 5.2683L19.313 5.32683L18.3576 20.5463C18.3249 21.006 18.1182 21.4365 17.7792 21.7513C17.4401 22.0661 16.9937 22.2421 16.5293 22.2439H7.4707C7.00558 22.2449 6.55758 22.0698 6.21792 21.7544C5.87825 21.4391 5.67247 21.007 5.64246 20.5463Z"
+              fill="#0066BE"
+              fillOpacity="0.6"
+              />
+              </svg>
+              <p>Delete</p>
+              </Link>
+              </li>
+                */}
+            </ul>
+          ) : window.location.pathname == "/license-content" ||
+            window.location.pathname == "/license-edit" ||
+            window.location.pathname == "/license-create" ||
+            window.location.pathname == "/license-sublink" ||
+            window.location.pathname == "/license-topics" ||
+            window.location.pathname == "/license-set-popup" ||
+            window.location.pathname == "/license-preview-content" ||
+            window.location.pathname == "/license-delete" ||
+            window.location.pathname == "/license-create-user" ||
+            window.location.pathname == "/license-edit-listing" ||
+            window.location.pathname == "/license-content-detail" ||
+            window.location.pathname == "/license-add-link" ? (
+            <ul>
+              <li
+                className={
+                  location.pathname == "/license-content" ? "active" : "side_li"
+                }
+              >
+                <Link to={"/license-content"}>
+                  <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M0.499305 1.99992C0.499347 0.895384 1.39477 0 2.49931 0H14.489C15.5936 0 16.489 0.895429 16.489 2V19C16.489 20.1046 15.5936 21 14.489 21H2.49866C1.39406 21 0.498615 20.1045 0.498657 18.9999L0.499305 1.99992ZM2.69955 3.4375C2.69955 3.32146 2.74391 3.21018 2.82287 3.12814C2.90184 3.04609 3.00893 3 3.1206 3H6.91008C7.02175 3 7.12884 3.04609 7.20781 3.12814C7.28677 3.21018 7.33113 3.32146 7.33113 3.4375V6.5C7.33113 6.61603 7.28677 6.72731 7.20781 6.80936C7.12884 6.8914 7.02175 6.9375 6.91008 6.9375H3.1206C3.00893 6.9375 2.90184 6.8914 2.82287 6.80936C2.74391 6.72731 2.69955 6.61603 2.69955 6.5V3.4375ZM14.3657 12.0594C14.2867 12.1414 14.1796 12.1875 14.068 12.1875H3.1206C3.00893 12.1875 2.90184 12.1414 2.82287 12.0594C2.74391 11.9773 2.69955 11.866 2.69955 11.75C2.69955 11.634 2.74391 11.5227 2.82287 11.4406C2.90184 11.3586 3.00893 11.3125 3.1206 11.3125H14.068C14.1796 11.3125 14.2867 11.3586 14.3657 11.4406C14.4447 11.5227 14.489 11.634 14.489 11.75C14.489 11.866 14.4447 11.9773 14.3657 12.0594ZM14.068 9.5625H3.1206C3.00893 9.5625 2.90184 9.51641 2.82287 9.43436C2.74391 9.35231 2.69955 9.24103 2.69955 9.125C2.69955 9.00897 2.74391 8.89769 2.82287 8.81564C2.90184 8.73359 3.00893 8.6875 3.1206 8.6875H14.068C14.1796 8.6875 14.2867 8.73359 14.3657 8.81564C14.4447 8.89769 14.489 9.00897 14.489 9.125C14.489 9.24103 14.4447 9.35231 14.3657 9.43436C14.2867 9.51641 14.1796 9.5625 14.068 9.5625ZM14.068 6.9375H9.01534C8.90367 6.9375 8.79657 6.8914 8.71761 6.80936C8.63865 6.72731 8.59429 6.61603 8.59429 6.5C8.59429 6.38396 8.63865 6.27268 8.71761 6.19064C8.79657 6.10859 8.90367 6.0625 9.01534 6.0625H14.068C14.1796 6.0625 14.2867 6.10859 14.3657 6.19064C14.4447 6.27268 14.489 6.38396 14.489 6.5C14.489 6.61603 14.4447 6.72731 14.3657 6.80936C14.2867 6.8914 14.1796 6.9375 14.068 6.9375ZM14.068 3.875H9.01534C8.90367 3.875 8.79657 3.8289 8.71761 3.74686C8.63865 3.66481 8.59429 3.55353 8.59429 3.4375C8.59429 3.32146 8.63865 3.21018 8.71761 3.12814C8.79657 3.04609 8.90367 3 9.01534 3H14.068C14.1796 3 14.2867 3.04609 14.3657 3.12814C14.4447 3.21018 14.489 3.32146 14.489 3.4375C14.489 3.55353 14.4447 3.66481 14.3657 3.74686C14.2867 3.8289 14.1796 3.875 14.068 3.875ZM2.82287 14.6844C2.90184 14.7664 3.00893 14.8125 3.1206 14.8125H14.068C14.1796 14.8125 14.2867 14.7664 14.3657 14.6844C14.4447 14.6023 14.489 14.491 14.489 14.375C14.489 14.259 14.4447 14.1477 14.3657 14.0656C14.2867 13.9836 14.1796 13.9375 14.068 13.9375H3.1206C3.00893 13.9375 2.90184 13.9836 2.82287 14.0656C2.74391 14.1477 2.69955 14.259 2.69955 14.375C2.69955 14.491 2.74391 14.6023 2.82287 14.6844ZM8.59429 17.4375H3.1206C3.00893 17.4375 2.90184 17.3914 2.82287 17.3094C2.74391 17.2273 2.69955 17.116 2.69955 17C2.69955 16.884 2.74391 16.7727 2.82287 16.6906C2.90184 16.6086 3.00893 16.5625 3.1206 16.5625H8.59429C8.70596 16.5625 8.81305 16.6086 8.89201 16.6906C8.97098 16.7727 9.01534 16.884 9.01534 17C9.01534 17.116 8.97098 17.2273 8.89201 17.3094C8.81305 17.3914 8.70596 17.4375 8.59429 17.4375Z"
+                      fill="rgba(0, 102, 190, 0.6)"
+                    />
+                    <path
+                      d="M5.10922 24C4.04883 24 3.18922 22.08 3.18922 22.08H15.5898C16.6943 22.08 17.5898 21.1846 17.5898 20.08V2.88001C18.6502 2.88001 19.5098 3.73962 19.5098 4.80001V22C19.5098 23.1046 18.6143 24 17.5098 24H5.10922Z"
+                      fill="rgba(0, 102, 190, 0.6)"
+                    />
+                  </svg>
+                  <p>Content</p>
+                </Link>
+              </li>
+
+              <li
+                className={
+                  (location.pathname == "/license-create" ||
+                    location.pathname == "/license-edit" ||
+                    location.pathname == "/license-sublink" ||
+                    location.pathname == "/license-set-popup" ||
+                    location.pathname == "/license-preview-content" ||
+                    location.pathname == "/license-create-user" ||
+                    location.pathname == "/edit-Consent-Options" ||
+                    location.pathname == "/license-edit-listing" ||
+                    location.pathname == "/license-content-detail" ||
+                    location.pathname == "/license-add-link") &&
+                  c_id == 0
+                    ? "active"
+                    : "side_li"
+                }
+              >
+                <Link to={"/license-create"}>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clipPath="url(#clip0_301_44)">
+                      <path
+                        d="M8.50001 13.5C8.22387 13.5 8.00001 13.2761 8.00001 13V11.5H6.50001C6.22387 11.5 6.00001 11.2761 6.00001 11C6.00001 10.7239 6.22387 10.5 6.50001 10.5H8.00001V9.00001C8.00001 8.72387 8.22387 8.50001 8.50001 8.50001C8.77615 8.50001 9.00001 8.72387 9.00001 9.00001V10.5H10.5C10.7762 10.5 11 10.7239 11 11C11 11.2761 10.7762 11.5 10.5 11.5H9.00001V13C9.00001 13.2761 8.77615 13.5 8.50001 13.5Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M0.000305177 2.00005C0.00027582 0.895463 0.895715 0 2.00031 0H15C16.1046 0 17 0.895429 17 2V15.6654L13.4225 20.9994C13.374 21.0717 13.3452 21.1554 13.339 21.2423L13.2849 22H2.00078C0.896235 22 0.000812916 21.1046 0.000783561 20.0001L0.000305177 2.00005ZM8.50001 15C10.7092 15 12.5 13.2091 12.5 11C12.5 8.79087 10.7092 7.00001 8.50001 7.00001C6.29087 7.00001 4.50001 8.79087 4.50001 11C4.50001 13.2091 6.29087 15 8.50001 15Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        d="M14.4467 23.9681C14.3081 24.0368 14.1473 23.929 14.1583 23.7747L14.3392 21.2423C14.3454 21.1554 14.3741 21.0717 14.4226 20.9994L20.4074 12.0762L22.8989 13.7473L16.9141 22.6704C16.8656 22.7427 16.7991 22.8011 16.7211 22.8398L14.4467 23.9681Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                      <path
+                        d="M23.1774 13.3321L23.5886 12.7191C23.9757 12.1419 23.8251 11.3583 23.2534 10.9748L22.8381 10.6963C22.2663 10.3128 21.4842 10.4708 21.0971 11.048L20.686 11.661L23.1774 13.3321Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
                       />
                     </g>
                     <defs>
@@ -470,213 +830,1115 @@ const Sidebar = () => {
 
               <li
                 className={
-                  (location.pathname == "/spc" ||
-                    location.pathname == "/spc-create" ||
-                    location.pathname == "/spc-edit" ||
-                    location.pathname == "/spc-delete") &&
-                  c_id == 0
+                  location.pathname == "/license-topics" && c_id == 0
                     ? "active"
                     : "side_li"
                 }
               >
-                <Link to={"/spc"}>
-                  <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M2.7407 0C1.63616 0 0.740741 0.895384 0.740699 1.99992L0.740051 18.9999C0.740009 20.1045 1.63545 21 2.74005 21H7.33966V15.5C7.33966 13.8431 8.68281 12.5 10.3397 12.5C11.9159 12.5 13.2081 13.7156 13.3302 15.2604C13.9173 15.0207 14.5607 14.8885 15.2352 14.8885C15.756 14.8885 16.2583 14.9673 16.7304 15.1136V2C16.7304 0.895429 15.835 0 14.7304 0H2.7407ZM14.3094 9.875C14.421 9.875 14.5281 9.82891 14.6071 9.74686C14.6861 9.66481 14.7304 9.55353 14.7304 9.4375C14.7304 9.32147 14.6861 9.21019 14.6071 9.12814C14.5281 9.04609 14.421 9 14.3094 9H3.36199C3.25032 9 3.14323 9.04609 3.06426 9.12814C2.9853 9.21019 2.94094 9.32147 2.94094 9.4375C2.94094 9.55353 2.9853 9.66481 3.06426 9.74686C3.14323 9.82891 3.25032 9.875 3.36199 9.875H14.3094ZM3.36199 7.25H14.3094C14.421 7.25 14.5281 7.20391 14.6071 7.12186C14.6861 7.03981 14.7304 6.92853 14.7304 6.8125C14.7304 6.69647 14.6861 6.58519 14.6071 6.50314C14.5281 6.42109 14.421 6.375 14.3094 6.375H3.36199C3.25032 6.375 3.14323 6.42109 3.06426 6.50314C2.9853 6.58519 2.94094 6.69647 2.94094 6.8125C2.94094 6.92853 2.9853 7.03981 3.06426 7.12186C3.14323 7.20391 3.25032 7.25 3.36199 7.25ZM5.1611 4H12.3219C12.4335 4 12.5406 3.95391 12.6196 3.87186C12.6986 3.78981 12.7429 3.67853 12.7429 3.5625C12.7429 3.44647 12.6986 3.33519 12.6196 3.25314C12.5406 3.17109 12.4335 3.125 12.3219 3.125H5.1611C5.04943 3.125 4.94234 3.17109 4.86337 3.25314C4.78441 3.33519 4.74005 3.44647 4.74005 3.5625C4.74005 3.67853 4.78441 3.78981 4.86337 3.87186C4.94234 3.95391 5.04943 4 5.1611 4Z"
-                      fill="#0066BE"
-                      fill-opacity="0.6"
-                    />
-                    <path
-                      d="M10.3494 13.4C9.18632 13.4 8.24005 14.3464 8.24005 15.5096V18.0879H12.4588V15.5096C12.4588 14.3464 11.5125 13.4 10.3494 13.4Z"
-                      fill="#0066BE"
-                      fill-opacity="0.6"
-                    />
-                    <path
-                      d="M8.24005 21.1038C8.24005 22.267 9.18632 23.2134 10.3494 23.2134C11.5125 23.2134 12.4588 22.267 12.4588 21.1038V18.9942H8.24005V21.1038Z"
-                      fill="#0066BE"
-                      fill-opacity="0.6"
-                    />
-                    <path
-                      d="M13.2401 16.4902V21.2788L17.8406 16.6779C16.4771 15.7076 14.6618 15.645 13.2401 16.4902Z"
-                      fill="#0066BE"
-                      fill-opacity="0.6"
-                    />
-                    <path
-                      d="M18.4592 17.3004L12.5779 23.1822C13.3065 23.7008 14.1634 23.9614 15.0212 23.9614C18.4519 23.9614 20.4354 20.078 18.4592 17.3004Z"
-                      fill="#0066BE"
-                      fill-opacity="0.6"
-                    />
-                  </svg>
-                  <p>SPC</p>
-                </Link>
-              </li>
-              <li
-                className={
-                  location.pathname == "/products" && c_id == 0
-                    ? "active"
-                    : "side_li"
-                }
-              >
-                <Link to={"/products"}>
+                <Link to={"/license-topics"}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path
                       d="M2.10988 0.703674V2.81433C2.10988 3.20288 2.42485 3.51801 2.81321 3.51801H8.43913C8.82749 3.51801 9.14228 3.20288 9.14228 2.81433V0.703674C9.14228 0.315124 8.82749 0 8.43913 0H2.81321C2.42485 0 2.10988 0.315124 2.10988 0.703674Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                     <path
                       d="M21.188 5.48778L23.0051 5.49567C23.5556 5.49807 24.0007 5.945 24.0007 6.49555L24.0008 7.5H12.749L12.7488 6.48808C12.7487 5.9356 13.1965 5.48915 13.7489 5.49231C14.358 5.49579 15.0005 5.50001 15.0005 5.50001L21.188 5.48778Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                     <path
                       d="M12.749 9L12.749 10.6767H14.8106C15.1301 10.6767 15.389 10.9876 15.389 11.371V13.8768C15.389 14.2601 15.389 14.5711 15.1393 14.5711L15.1391 14.718V15.1486C15.1391 15.486 15.431 15.7605 15.7899 15.7605C16.8664 15.7605 17.4136 16.5839 17.4136 17.596V21.5H21.8912C23.0546 21.5 24.0009 20.5532 24.0009 19.3893L24.0008 9H12.749Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                     <path
                       d="M11.2519 7.88111L11.2521 10.6767H9.60376C9.28428 10.6767 9.02518 10.9876 9.02518 11.371V13.8768C9.02518 14.2601 9.02518 14.5711 9.28397 14.5711V15.1486C9.28397 15.486 8.99196 15.7605 8.63305 15.7605C7.55648 15.7605 7.00043 16.5839 7.00043 17.596V21.4624H2.11006C0.946804 21.4624 0.000427246 20.5155 0.000427246 19.3517V7.89307C0.000427246 6.72925 0.946804 5.78241 2.11006 5.78241C2.49787 5.78241 2.81339 5.46674 2.81339 5.07874V4.61328L8.43913 4.60133V5.06678C8.43913 5.45478 8.75447 5.77046 9.14228 5.77046C10.3055 5.77046 11.2519 6.71729 11.2519 7.88111Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                     <path
                       d="M9.70062 11.9001V13.6999C9.70062 14.0313 9.92457 14.3 10.2007 14.3H14.2007C14.4768 14.3 14.7006 14.0313 14.7006 13.6999V11.9001C14.7006 11.5687 14.4768 11.3 14.2007 11.3H10.2007C9.92457 11.3 9.70062 11.5687 9.70062 11.9001Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M15.0132 16.2788C14.703 16.2788 14.4507 16.0415 14.4507 15.7499V15.4001H9.95066V15.7499C9.95066 16.0415 9.69828 16.2788 9.38808 16.2788C8.45761 16.2788 7.70062 16.9904 7.70062 17.8652V22.4136C7.70062 23.2884 8.45761 24 9.38808 24H15.0132C15.9436 24 16.7006 23.2884 16.7006 22.4136V17.8652C16.7006 16.9904 15.9436 16.2788 15.0132 16.2788ZM13.6132 20.2327H12.7507V21.0733C12.7507 21.3653 12.4989 21.6022 12.1882 21.6022C11.8776 21.6022 11.6257 21.3653 11.6257 21.0733V20.2327H10.7631C10.4525 20.2327 10.2007 19.996 10.2007 19.7039C10.2007 19.4119 10.4525 19.1751 10.7631 19.1751H11.6257V18.3939C11.6257 18.1019 11.8776 17.8652 12.1882 17.8652C12.4989 17.8652 12.7507 18.1019 12.7507 18.3939V19.1751H13.6132C13.9239 19.1751 14.1758 19.4119 14.1758 19.7039C14.1758 19.996 13.9239 20.2327 13.6132 20.2327Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                   </svg>
                   <p>Products</p>
-                </Link>
-              </li>
-              <li
-                className={
-                  location.pathname == "/library-delete" && c_id == 0
-                    ? "active"
-                    : "side_li"
-                }
-              >
-                <Link to={"/library-delete"}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M14.9165 19.0566C15.0817 19.2206 15.3049 19.314 15.5386 19.3171C15.7723 19.314 15.9955 19.2206 16.1607 19.0566C16.326 18.8925 16.4202 18.671 16.4232 18.439V9.07317C16.4232 8.8403 16.33 8.61696 16.1641 8.4523C15.9982 8.28763 15.7732 8.19512 15.5386 8.19512C15.304 8.19512 15.079 8.28763 14.9131 8.4523C14.7472 8.61696 14.654 8.8403 14.654 9.07317V18.439C14.657 18.671 14.7512 18.8925 14.9165 19.0566Z"
-                      fill="#0066BE"
-                      fill-opacity="0.6"
-                    />
-                    <path
-                      d="M8.46161 19.3171C8.22795 19.314 8.00471 19.2206 7.83947 19.0566C7.67423 18.8925 7.58004 18.671 7.57699 18.439V9.07317C7.57699 8.8403 7.67019 8.61696 7.83609 8.4523C8.00199 8.28763 8.227 8.19512 8.46161 8.19512C8.69623 8.19512 8.92124 8.28763 9.08714 8.4523C9.25303 8.61696 9.34624 8.8403 9.34624 9.07317V18.439C9.34318 18.671 9.249 18.8925 9.08376 19.0566C8.91852 19.2206 8.69528 19.314 8.46161 19.3171Z"
-                      fill="#0066BE"
-                      fill-opacity="0.6"
-                    />
-                    <path
-                      d="M11.378 19.0566C11.5432 19.2206 11.7664 19.314 12.0001 19.3171C12.2338 19.314 12.457 19.2206 12.6223 19.0566C12.7875 18.8925 12.8817 18.671 12.8847 18.439V9.07317C12.8847 8.8403 12.7915 8.61696 12.6256 8.4523C12.4597 8.28763 12.2347 8.19512 12.0001 8.19512C11.7655 8.19512 11.5405 8.28763 11.3746 8.4523C11.2087 8.61696 11.1155 8.8403 11.1155 9.07317V18.439C11.1185 18.671 11.2127 18.8925 11.378 19.0566Z"
-                      fill="#0066BE"
-                      fill-opacity="0.6"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M16.4232 2.34151V3.5122H22.6154C22.85 3.5122 23.075 3.6047 23.2409 3.76937C23.4068 3.93404 23.5 4.15737 23.5 4.39024C23.5 4.62312 23.4068 4.84645 23.2409 5.01112C23.075 5.17578 22.85 5.26829 22.6154 5.26829H21.0893L20.1151 20.6517C20.0581 21.5576 19.6557 22.408 18.9896 23.03C18.3235 23.6519 17.4438 23.9988 16.5293 24H7.4707C6.56439 23.987 5.69642 23.6349 5.04037 23.0141C4.38432 22.3933 3.98854 21.5496 3.93217 20.6517L2.9131 5.26829H1.38462C1.15 5.26829 0.924995 5.17578 0.759098 5.01112C0.5932 4.84645 0.5 4.62312 0.5 4.39024C0.5 4.15737 0.5932 3.93404 0.759098 3.76937C0.924995 3.6047 1.15 3.5122 1.38462 3.5122H7.57699V2.28297C7.59194 1.68216 7.83906 1.11006 8.2672 0.685098C8.69534 0.260133 9.27171 0.0148415 9.87701 0H14.1232C14.7386 0.0152749 15.3235 0.268696 15.7533 0.70617C16.183 1.14364 16.4234 1.73051 16.4232 2.34151ZM14.654 2.34151V3.5122H9.34624V2.34151C9.34624 2.20178 9.40216 2.06778 9.5017 1.96898C9.60124 1.87018 9.73624 1.81467 9.87701 1.81467H14.1232C14.264 1.81467 14.399 1.87018 14.4985 1.96898C14.5981 2.06778 14.654 2.20178 14.654 2.34151ZM5.64246 20.5463L4.73423 5.2683L19.313 5.32683L18.3576 20.5463C18.3249 21.006 18.1182 21.4365 17.7792 21.7513C17.4401 22.0661 16.9937 22.2421 16.5293 22.2439H7.4707C7.00558 22.2449 6.55758 22.0698 6.21792 21.7544C5.87825 21.4391 5.67247 21.007 5.64246 20.5463Z"
-                      fill="#0066BE"
-                      fill-opacity="0.6"
-                    />
-                  </svg>
-                  <p>Delete</p>
                 </Link>
               </li>
             </ul>
           ) : window.location.pathname == "/readers-view" ||
             window.location.pathname == "/reader-add" ||
             window.location.pathname == "/reader-edit" ||
-            window.location.pathname == "/reader-add" ||
-            window.location.pathname == "/smart-list-add" ||
+            window.location.pathname == "/readers-list" ||
             window.location.pathname == "/reader-review" ||
+            window.location.pathname == "/site" ||
+            window.location.pathname == "/add-site" ||
+            window.location.pathname == "/edit-site" ||
+            window.location.pathname == "/site-listing" ||
             window.location.pathname == "/timeline-detail" ? (
             <ul>
               <li
                 className={
-                  location.pathname == "/readers-view" ? "active" : "side_li"
+                  location.pathname == "/readers-view" ||
+                  location.pathname == "/timeline-detail"
+                    ? "active"
+                    : "side_li"
                 }
               >
                 <Link to={"/readers-view"}>
                   <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
+                    width="25"
+                    height="22"
+                    viewBox="0 0 25 22"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M16.1655 13.4586C19.8919 13.4586 22.9123 10.4454 22.9123 6.72902C22.9123 3.01263 19.8914 0 16.1655 0C12.4396 0 9.41758 3.0132 9.41758 6.72959C9.41758 10.446 12.4396 13.4586 16.1655 13.4586ZM19.0274 13.9173H13.3025C8.53921 13.9173 4.66406 17.7831 4.66406 22.5343V29.5176L4.68186 29.6269L5.1641 29.7775C9.70979 31.1942 13.659 31.6667 16.9095 31.6667C23.2584 31.6667 26.9384 29.8611 27.1652 29.746L27.6158 29.5187H27.6641V22.5343C27.6658 17.7831 23.7906 13.9173 19.0274 13.9173Z"
+                      d="M14.4843 4.36793C15.594 5.0637 16.3721 6.24109 16.5138 7.60777C16.9664 7.81923 17.4687 7.94083 18.0012 7.94083C19.9453 7.94083 21.5211 6.36509 21.5211 4.42125C21.5211 2.47711 19.9453 0.901367 18.0012 0.901367C16.0756 0.901966 14.5137 2.44955 14.4843 4.36793ZM12.1784 11.5748C14.1225 11.5748 15.6982 9.99878 15.6982 8.05494C15.6982 6.1111 14.1222 4.53536 12.1784 4.53536C10.2345 4.53536 8.65788 6.1114 8.65788 8.05524C8.65788 9.99908 10.2345 11.5748 12.1784 11.5748ZM13.6714 11.8147H10.6847C8.19962 11.8147 6.17791 13.8367 6.17791 16.3218V19.9744L6.18719 20.0316L6.43878 20.1104C8.81033 20.8513 10.8707 21.0984 12.5665 21.0984C15.8788 21.0984 17.7987 20.1541 17.917 20.0939L18.1521 19.975H18.1773V16.3218C18.1782 13.8367 16.1565 11.8147 13.6714 11.8147ZM19.4949 8.18104H16.5312C16.4991 9.36681 15.993 10.4346 15.1924 11.2025C17.4013 11.8594 19.0174 13.9077 19.0174 16.3272V17.4528C21.9437 17.3455 23.6299 16.5162 23.7411 16.4605L23.9762 16.3413H24.0013V12.6875C24.0013 10.2028 21.9796 8.18104 19.4949 8.18104ZM6.00209 7.94143C6.69067 7.94143 7.33133 7.74045 7.87405 7.39811C8.04657 6.27284 8.64979 5.28954 9.51149 4.61982C9.51508 4.55393 9.52137 4.48864 9.52137 4.42215C9.52137 2.47801 7.94533 0.902266 6.00209 0.902266C4.05765 0.902266 2.48221 2.47801 2.48221 4.42215C2.48221 6.36539 4.05765 7.94143 6.00209 7.94143ZM9.16316 11.2025C8.36645 10.4385 7.86207 9.3764 7.82523 8.19781C7.71531 8.18972 7.60658 8.18104 7.49457 8.18104H4.50812C2.02306 8.18104 0.00134277 10.2028 0.00134277 12.6875V16.3407L0.0106277 16.397L0.262219 16.4764C2.16473 17.0703 3.86267 17.344 5.33747 17.4303V16.3272C5.33807 13.9077 6.95365 11.86 9.16316 11.2025Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                   </svg>
-                  <p>Readers</p>
+                  <p>CRM</p>
                 </Link>
               </li>
 
               <li
                 className={
-                  location.pathname == "/reader-add" && c_id == 0
+                  location.pathname == "/reader-add" ||
+                  location.pathname == "/reader-review" ||
+                  location.pathname == "/reader-edit" ||
+                  (location.pathname == "/readers-list" && c_id == 0)
                     ? "active"
                     : "side_li"
                 }
               >
                 <Link to={"/reader-add"}>
                   <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
+                    width="20"
+                    height="24"
+                    viewBox="0 0 20 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M5.72415 7.96597C5.72415 3.56339 9.30303 0 13.7083 0C18.1138 0 21.6914 3.56296 21.6914 7.9654C21.6914 10.4295 20.5707 12.631 18.8112 14.0917C20.9152 14.5855 22.761 15.7531 24.1053 17.3499C24.5599 17.8898 24.4906 18.696 23.9507 19.1506C23.4107 19.6051 22.6046 19.5359 22.15 18.9959C20.8063 17.3997 18.7956 16.3872 16.5525 16.3872H10.863C6.83198 16.3872 3.5559 19.66 3.5559 23.673V30.5099L3.55699 30.5166C3.67035 31.2132 3.19751 31.8699 2.50088 31.9832C1.80426 32.0966 1.14763 31.6237 1.03428 30.9271L1.01659 30.8184C1.00555 30.7506 1 30.6819 1 30.6132V23.673C1 19.0183 4.25196 15.1125 8.60475 14.0915C6.84521 12.631 5.72415 10.43 5.72415 7.96597ZM13.7083 2.5559C10.7079 2.5559 8.28004 4.98168 8.28004 7.96597C8.28004 10.9501 10.7078 13.3755 13.7083 13.3755C16.709 13.3755 19.1355 10.95 19.1355 7.9654C19.1355 4.98097 16.7086 2.5559 13.7083 2.5559Z"
+                      d="M7.67544 8.8322C10.0807 8.8322 12.0301 6.85457 12.0301 4.41542C12.0301 1.97627 10.0803 -0.000976562 7.67544 -0.000976562C5.27057 -0.000976562 3.31999 1.97665 3.31999 4.4158C3.31999 6.85495 5.27057 8.8322 7.67544 8.8322Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
                     />
                     <path
-                      d="M25.3231 21.2036C26.0289 21.2036 26.601 21.7758 26.601 22.4816V25.3214H29.4413C30.1471 25.3214 30.7193 25.8936 30.7193 26.5994C30.7193 27.3051 30.1471 27.8773 29.4413 27.8773H26.601V30.7219C26.601 31.4277 26.0289 31.9998 25.3231 31.9998C24.6173 31.9998 24.0451 31.4277 24.0451 30.7219V27.8773H21.1906C20.4848 27.8773 19.9126 27.3051 19.9126 26.5994C19.9126 25.8936 20.4848 25.3214 21.1906 25.3214H24.0451V22.4816C24.0451 21.7758 24.6173 21.2036 25.3231 21.2036Z"
+                      d="M9.52263 9.13324H5.8275C2.75305 9.13324 0.251831 11.6705 0.251831 14.7888V19.372L0.263318 19.4438L0.574581 19.5427C3.5086 20.4725 6.05762 20.7825 8.15567 20.7825C8.81319 20.7825 9.33459 20.8341 9.90132 20.7825C9.25681 20.4366 8.91259 19.6915 8.91259 18.9302C8.91259 17.8118 9.85364 16.9052 11.0145 16.9052H12.6333V15.2152C12.6333 14.0969 13.5743 13.1902 14.7351 13.1902C14.781 13.1902 14.8267 13.1916 14.8721 13.1944C14.1925 10.8498 12.0515 9.13324 9.52263 9.13324Z"
                       fill="#0066BE"
-                      fill-opacity="0.6"
+                      fillOpacity="0.6"
+                    />
+                    <path
+                      d="M16.1209 15.4918C16.1209 14.8609 15.61 14.3495 14.9798 14.3495C14.3496 14.3495 13.8387 14.8609 13.8387 15.4918V18.03H11.2898C10.6596 18.03 10.1487 18.5414 10.1487 19.1722C10.1487 19.803 10.6596 20.3144 11.2898 20.3144H13.8387V22.8568C13.8387 23.4876 14.3496 23.999 14.9798 23.999C15.61 23.999 16.1209 23.4876 16.1209 22.8568V20.3144H18.6571C19.2873 20.3144 19.7982 19.803 19.7982 19.1722C19.7982 18.5414 19.2873 18.03 18.6571 18.03H16.1209V15.4918Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
                     />
                   </svg>
-                  <p>Add Reader</p>
+                  <p>Add Contact</p>
                 </Link>
               </li>
-              <li
-                className={
-                  location.pathname == "/smart-list-add" ? "active" : "side_li"
-                }
-              >
-                <Link to={"/smart-list-add"}>
-                  <svg
-                    width="24"
-                    height="22"
-                    viewBox="0 0 24 22"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14.483 4.36793C15.5927 5.0637 16.3708 6.24109 16.5125 7.60777C16.965 7.81923 17.4673 7.94083 17.9999 7.94083C19.944 7.94083 21.5197 6.36509 21.5197 4.42125C21.5197 2.47711 19.944 0.901367 17.9999 0.901367C16.0743 0.901966 14.5123 2.44955 14.483 4.36793ZM12.177 11.5748C14.1212 11.5748 15.6969 9.99878 15.6969 8.05494C15.6969 6.1111 14.1209 4.53536 12.177 4.53536C10.2332 4.53536 8.65653 6.1114 8.65653 8.05524C8.65653 9.99908 10.2332 11.5748 12.177 11.5748ZM13.6701 11.8147H10.6833C8.19828 11.8147 6.17656 13.8367 6.17656 16.3218V19.9744L6.18585 20.0316L6.43744 20.1104C8.80899 20.8513 10.8693 21.0984 12.5652 21.0984C15.8775 21.0984 17.7974 20.1541 17.9157 20.0939L18.1508 19.975H18.176V16.3218C18.1769 13.8367 16.1551 11.8147 13.6701 11.8147ZM19.4935 8.18104H16.5298C16.4978 9.36681 15.9916 10.4346 15.191 11.2025C17.3999 11.8594 19.0161 13.9077 19.0161 16.3272V17.4528C21.9423 17.3455 23.6286 16.5162 23.7397 16.4605L23.9748 16.3413H24V12.6875C24 10.2028 21.9783 8.18104 19.4935 8.18104ZM6.00075 7.94143C6.68933 7.94143 7.32999 7.74045 7.87271 7.39811C8.04523 6.27284 8.64845 5.28954 9.51015 4.61982C9.51374 4.55393 9.52003 4.48864 9.52003 4.42215C9.52003 2.47801 7.94399 0.902266 6.00075 0.902266C4.05631 0.902266 2.48087 2.47801 2.48087 4.42215C2.48087 6.36539 4.05631 7.94143 6.00075 7.94143ZM9.16181 11.2025C8.36511 10.4385 7.86073 9.3764 7.82389 8.19781C7.71397 8.18972 7.60524 8.18104 7.49322 8.18104H4.50678C2.02171 8.18104 0 10.2028 0 12.6875V16.3407L0.00928491 16.397L0.260876 16.4764C2.16338 17.0703 3.86133 17.344 5.33613 17.4303V16.3272C5.33673 13.9077 6.9523 11.86 9.16181 11.2025Z"
-                      fill="rgba(0, 102, 190, 0.6)"
-                    ></path>
-                  </svg>
-                  <p>Create Smart List</p>
-                </Link>
-              </li>
+
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                <li
+                  className={
+                    location.pathname == "/add-site" ||
+                    location.pathname == "/site" ||
+                    location.pathname == "/site-listing" ||
+                    location.pathname == "/edit-site"
+                      ? "active"
+                      : "side_li"
+                  }
+                >
+                  <Link to={"/site"}>
+                    <svg
+                      style={{ width: "22", height: "22" }}
+                      version="1.0"
+                      width="512.000000pt"
+                      height="512.000000pt"
+                      viewBox="0 0 512.000000 512.000000"
+                    >
+                      <g
+                        transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                        stroke="none"
+                      >
+                        {" "}
+                        <path d="M790 5105 c-195 -36 -349 -116 -497 -258 -111 -107 -194 -236 -242 -374 -52 -155 -51 -105 -51 -1913 0 -1808 -1 -1758 51 -1913 93 -271 325 -503 596 -596 155 -52 105 -51 1913 -51 1808 0 1758 -1 1913 51 271 93 503 325 596 596 52 155 51 105 51 1913 0 1808 1 1758 -51 1913 -93 271 -325 503 -596 596 -155 52 -103 51 -1922 50 -1371 -1 -1700 -3 -1761 -14z m2070 -859 c49 -26 79 -55 103 -101 22 -39 22 -49 25 -597 l3 -557 557 -3 c521 -3 559 -4 592 -22 49 -26 79 -55 103 -101 21 -38 22 -53 22 -305 0 -252 -1 -267 -22 -305 -24 -46 -54 -75 -103 -101 -33 -18 -71 -19 -592 -22 l-557 -3 -3 -557 c-3 -548 -3 -558 -25 -597 -24 -46 -54 -75 -103 -101 -32 -17 -60 -19 -300 -19 -240 0 -268 2 -300 19 -49 26 -79 55 -103 101 -22 39 -22 49 -25 597 l-3 557 -557 3 c-548 3 -558 3 -597 25 -46 24 -75 54 -101 103 -17 32 -19 60 -19 300 0 240 2 268 19 300 26 49 55 79 101 103 39 22 49 22 597 25 l557 3 3 557 c3 521 4 559 22 592 35 66 81 103 151 121 17 4 140 7 275 6 218 -2 249 -4 280 -21z" />{" "}
+                      </g>{" "}
+                    </svg>
+                    <p>Add Site</p>
+                  </Link>
+                </li>
+              ) : null}
             </ul>
+          ) : localStorage.getItem("group_id") == 2 ? (
+            window.location.pathname == "/LEX-210-analytics" ||
+            window.location.pathname == "/registration-type" ||
+            window.location.pathname == "/top-sales" ||
+            window.location.pathname == "/top-reseller" ||
+            window.location.pathname == "/top-clients" ||
+            window.location.pathname == "/sales-by-country" ||
+            window.location.pathname == "/content-analytics" ||
+            window.location.pathname == "/openings-by-country" ? (
+              <>
+                <ul>
+                  <li
+                    className={
+                      location.pathname == "/content-analytics"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/content-analytics"}>
+                      <svg
+                        width="20"
+                        height="24"
+                        viewBox="0 0 20 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M2.74061 0C1.44752 0 0.399245 1.0233 0.399196 2.28563L0.398438 21.7142C0.398388 22.9766 1.44669 24 2.73985 24H17.2586C18.5517 24 19.6 22.9767 19.6 21.7143V2.28571C19.6 1.02335 18.5517 0 17.2586 0H2.74061ZM15.1584 4.8H17.3184C17.4139 4.8 17.5055 4.76207 17.573 4.69456C17.6405 4.62704 17.6784 4.53548 17.6784 4.44C17.6784 3.77165 17.4129 3.13068 16.9403 2.65809C16.4678 2.1855 15.8268 1.92 15.1584 1.92C15.063 1.92 14.9714 1.95793 14.9039 2.02544C14.8364 2.09295 14.7984 2.18452 14.7984 2.28V4.2636C14.7984 4.638 14.9604 4.8 15.1584 4.8ZM12.1459 7.47552C11.8645 7.19701 11.6574 6.85238 11.5435 6.47314C11.4286 6.09536 11.4076 5.69525 11.4822 5.3075C11.5569 4.91974 11.7249 4.55607 11.9719 4.248C12.1973 3.97001 12.482 3.74598 12.8052 3.59233C13.1283 3.43868 13.4818 3.3593 13.8396 3.36C13.9304 3.36 14.0176 3.39613 14.0819 3.46043C14.1462 3.52472 14.1823 3.61193 14.1823 3.70286V4.90286C14.1823 5.03926 14.2364 5.17007 14.3328 5.26651C14.4292 5.36296 14.56 5.41714 14.6963 5.41714H15.8957C15.9866 5.41714 16.0738 5.45327 16.1381 5.51757C16.2023 5.58186 16.2384 5.66907 16.2384 5.76C16.2384 6.39652 15.9857 7.00697 15.5358 7.45706C15.0859 7.90714 14.4758 8.16 13.8396 8.16C13.608 8.16026 13.3774 8.12912 13.1542 8.06743C12.7739 7.95753 12.4272 7.75403 12.1459 7.47552ZM15.1184 11.3478C15.1192 10.648 15.6919 10.0808 16.3984 10.08C17.1053 10.08 17.6784 10.6477 17.6784 11.3478C17.6784 12.048 17.1053 12.6157 16.3984 12.6157C16.16 12.6149 15.9267 12.5476 15.7253 12.4215L13.4022 13.7894C13.4031 13.8022 13.4049 13.8147 13.4066 13.8272C13.4092 13.8457 13.4117 13.8643 13.4117 13.8835C13.4125 14.5294 12.9225 15.0722 12.2745 15.1437C11.6266 15.2152 11.028 14.7923 10.8852 14.1623L8.74283 13.1113C8.3458 13.4923 7.74361 13.5705 7.2608 13.3038L4.79268 15.1283C4.8483 15.2706 4.87736 15.4215 4.87846 15.5741C4.87846 16.2742 4.30533 16.8419 3.59846 16.8419C2.89159 16.8419 2.31846 16.2742 2.31846 15.5741C2.31846 14.8737 2.89159 14.3062 3.59846 14.3062C3.82409 14.3075 4.04534 14.3684 4.23908 14.4828L6.68283 12.6764C6.48424 12.2023 6.59377 11.6566 6.96033 11.2938C7.32674 10.9311 7.87783 10.8229 8.35627 11.0197C8.8347 11.2168 9.14611 11.6798 9.14517 12.193C9.14314 12.248 9.13767 12.3028 9.12845 12.3571L11.0124 13.2814C11.2047 12.9241 11.5588 12.6805 11.9639 12.6268C12.3689 12.5731 12.7753 12.7158 13.0556 13.0104L15.1916 11.7527C15.1448 11.6227 15.1202 11.4859 15.1184 11.3478ZM15.5452 15.1514H17.2517C17.4874 15.1514 17.6785 15.3407 17.6785 15.5741L17.6784 21.6573C17.6784 21.8907 17.4873 22.08 17.2517 22.08H15.5452C15.3095 22.08 15.1184 21.8907 15.1184 21.6573L15.1185 15.5741C15.1185 15.3407 15.3096 15.1514 15.5452 15.1514ZM8.71848 15.9966H7.01177C6.77614 15.9966 6.58521 16.1859 6.58521 16.4193L6.58518 21.6573C6.58518 21.8907 6.77612 22.08 7.01174 22.08H8.71846C8.95408 22.08 9.14518 21.8907 9.14518 21.6573L9.1452 16.4193C9.1452 16.1859 8.95411 15.9966 8.71848 15.9966ZM2.31846 19.8001C2.31846 19.5668 2.50956 19.3776 2.74518 19.3776H4.45174C4.68737 19.3776 4.87846 19.5668 4.87846 19.8001L4.87843 21.6573C4.87843 21.8907 4.68734 22.08 4.45171 22.08H2.74516C2.50953 22.08 2.31844 21.8907 2.31844 21.6573L2.31846 19.8001ZM11.2784 17.6871H12.9852C13.2208 17.6871 13.4117 17.8764 13.4117 18.1098L13.4117 21.6573C13.4117 21.8907 13.2208 22.08 12.9851 22.08H11.2784C11.0428 22.08 10.8517 21.8907 10.8517 21.6573L10.8517 18.1098C10.8517 17.8764 11.0428 17.6871 11.2784 17.6871ZM2.79844 2.4C2.53334 2.4 2.31844 2.6149 2.31844 2.88C2.31844 3.1451 2.53334 3.36 2.79844 3.36H9.99844C10.2635 3.36 10.4784 3.1451 10.4784 2.88C10.4784 2.6149 10.2635 2.4 9.99844 2.4H2.79844ZM2.31844 5.28C2.31844 5.0149 2.53334 4.8 2.79844 4.8H7.11844C7.38353 4.8 7.59844 5.0149 7.59844 5.28C7.59844 5.5451 7.38353 5.76 7.11844 5.76H2.79844C2.53334 5.76 2.31844 5.5451 2.31844 5.28Z"
+                          fill="#0066BE"
+                          fill-opacity="0.6"
+                        />
+                      </svg>
+                      <p>Content Analytics</p>
+                    </Link>
+                  </li>
+                  {localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? null : localStorage.getItem(
+                      "group_id"
+                    ) == 2 ? null : (
+                    <li
+                      className={
+                        location.pathname == "/LEX-210-analytics"
+                          ? "active"
+                          : "side_li"
+                      }
+                    >
+                      <Link to={"/LEX-210-analytics"}>
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clip-path="url(#clip0_605_8499)">
+                            <path
+                              d="M13.8744 18.375H12.5563L7.69967 12.2224C7.8317 12.0112 7.88983 11.7622 7.8649 11.5144C7.83997 11.2667 7.7334 11.0342 7.56196 10.8536C7.39051 10.673 7.1639 10.5545 6.91777 10.5167C6.67163 10.479 6.41992 10.5241 6.20221 10.645C5.9845 10.7658 5.81313 10.9557 5.71506 11.1845C5.61699 11.4134 5.59776 11.6684 5.66042 11.9094C5.72307 12.1505 5.86404 12.3638 6.06117 12.516C6.2583 12.6681 6.5004 12.7504 6.74942 12.75C6.8723 12.7487 6.99409 12.7269 7.1098 12.6855L7.58755 13.2907C7.32902 13.4268 7.04154 13.4986 6.74942 13.5C6.34949 13.5065 5.95765 13.387 5.62939 13.1584C5.30113 12.9299 5.05309 12.6039 4.92038 12.2265C4.78767 11.8492 4.77702 11.4397 4.88995 11.056C5.00287 10.6723 5.23364 10.3338 5.54958 10.0885C5.86552 9.84322 6.25062 9.70353 6.65035 9.68922C7.05008 9.67491 7.44418 9.78672 7.77685 10.0088C8.10952 10.2309 8.3639 10.552 8.50396 10.9266C8.64403 11.3013 8.66269 11.7105 8.55729 12.0964L9.37442 13.1321V8.25L11.0244 12.2119C11.1122 12.4267 11.2817 12.598 11.4957 12.6878C11.7097 12.7777 11.9507 12.7789 12.1655 12.6911C12.3804 12.6034 12.5516 12.4338 12.6415 12.2198C12.7314 12.0058 12.7326 11.7649 12.6448 11.55L10.6903 6.6645C10.5233 6.24695 10.235 5.88902 9.86264 5.63689C9.49026 5.38476 9.05088 5.25 8.60117 5.25H4.52267C4.07296 5.25 3.63358 5.38476 3.2612 5.63689C2.88882 5.88902 2.60054 6.24695 2.43355 6.6645L0.479046 11.55C0.391275 11.7649 0.392459 12.0058 0.482336 12.2198C0.572213 12.4338 0.74342 12.6034 0.958295 12.6911C1.17317 12.7789 1.41411 12.7777 1.62811 12.6878C1.84212 12.598 2.01165 12.4267 2.09942 12.2119L3.74942 8.25V22.4876C3.75051 22.7864 3.86913 23.0728 4.07964 23.2848C4.29015 23.4968 4.57564 23.6175 4.87441 23.6208C5.17318 23.624 5.46123 23.5096 5.6763 23.3022C5.89138 23.0948 6.0162 22.8111 6.0238 22.5124L6.18692 15H6.93692L7.10005 22.5124C7.10764 22.8111 7.23246 23.0948 7.44754 23.3022C7.66261 23.5096 7.95066 23.624 8.24943 23.6208C8.5482 23.6175 8.83369 23.4968 9.0442 23.2848C9.25471 23.0728 9.37333 22.7864 9.37442 22.4876V15.5546L12.08 18.9821C12.1151 19.0266 12.1598 19.0626 12.2108 19.0874C12.2618 19.1121 12.3177 19.125 12.3744 19.125H13.8744V18.375Z"
+                              fill="#0066BE"
+                              fill-opacity="0.6"
+                            />
+                            <path
+                              d="M15.1875 5.0625H17.0625V7.875H15.1875V5.0625Z"
+                              fill="#0066BE"
+                              fill-opacity="0.6"
+                            />
+                            <path
+                              d="M18.1875 3.09375H20.0625V7.875H18.1875V3.09375Z"
+                              fill="#0066BE"
+                              fill-opacity="0.6"
+                            />
+                            <path
+                              d="M21.1875 1.125H23.0625V7.875H21.1875V1.125Z"
+                              fill="#0066BE"
+                              fill-opacity="0.6"
+                            />
+                            <path
+                              d="M14.625 8.625H23.625V9.375H14.625V8.625Z"
+                              fill="#0066BE"
+                              fill-opacity="0.6"
+                            />
+                            <path
+                              d="M18.6041 16.9519C18.394 16.8233 18.1608 16.7374 17.9176 16.699C17.6743 16.6606 17.4259 16.6704 17.1865 16.728C16.9471 16.7856 16.7214 16.8898 16.5223 17.0346C16.3231 17.1795 16.1545 17.3621 16.0259 17.5721L14.0681 20.7705C13.809 21.1947 13.7288 21.7043 13.845 22.1875C13.9612 22.6708 14.2643 23.0882 14.6879 23.3482C14.898 23.4768 15.1313 23.5627 15.3745 23.6011C15.6177 23.6395 15.8661 23.6295 16.1055 23.5719C16.3449 23.5143 16.5706 23.4101 16.7698 23.2652C16.9689 23.1203 17.1375 22.9377 17.2661 22.7276L19.2243 19.5296C19.4832 19.1054 19.5633 18.5958 19.4471 18.1125C19.3308 17.6293 19.0276 17.2119 18.6041 16.9519ZM18.5846 19.1385L17.8008 20.4187L15.8816 19.2442L16.6657 17.9625C16.7425 17.8358 16.8436 17.7256 16.9631 17.6381C17.0827 17.5506 17.2183 17.4876 17.3622 17.4527C17.5062 17.4177 17.6556 17.4116 17.802 17.4345C17.9483 17.4575 18.0887 17.5092 18.215 17.5865C18.3413 17.6639 18.4511 17.7654 18.5381 17.8853C18.6251 18.0052 18.6876 18.1411 18.7219 18.2852C18.7563 18.4293 18.7618 18.5787 18.7382 18.725C18.7147 18.8712 18.6624 19.0114 18.5846 19.1374V19.1385Z"
+                              fill="#0066BE"
+                              fill-opacity="0.6"
+                            />
+                            <path
+                              d="M18.2852 22.5C18.5659 22.8519 18.9224 23.136 19.3281 23.3309C19.7339 23.5259 20.1784 23.6269 20.6286 23.6262C21.0787 23.6255 21.5229 23.5232 21.9281 23.327C22.3332 23.1308 22.6889 22.8456 22.9685 22.4929L19.5602 20.4172L18.2852 22.5Z"
+                              fill="#0066BE"
+                              fill-opacity="0.6"
+                            />
+                            <path
+                              d="M20.6259 17.625C20.4487 17.6258 20.2719 17.6424 20.0976 17.6745C20.2184 18.0155 20.2673 18.3779 20.2411 18.7388C20.2149 19.0996 20.1142 19.4511 19.9453 19.7711L23.3608 21.8513C23.5669 21.3948 23.6551 20.8939 23.6175 20.3945C23.5799 19.8951 23.4176 19.413 23.1455 18.9926C22.8734 18.5721 22.5002 18.2266 22.06 17.9877C21.6198 17.7488 21.1268 17.6241 20.6259 17.625Z"
+                              fill="#0066BE"
+                              fill-opacity="0.6"
+                            />
+                            <path
+                              d="M6.5625 4.875C7.80514 4.875 8.8125 3.86764 8.8125 2.625C8.8125 1.38236 7.80514 0.375 6.5625 0.375C5.31986 0.375 4.3125 1.38236 4.3125 2.625C4.3125 3.86764 5.31986 4.875 6.5625 4.875Z"
+                              fill="#0066BE"
+                              fill-opacity="0.6"
+                            />
+                            <path
+                              d="M12.9437 2.25H14.3196C14.408 2.50021 14.5821 2.71109 14.811 2.84536C15.0399 2.97964 15.3089 3.02868 15.5705 2.9838C15.832 2.93892 16.0693 2.80303 16.2404 2.60012C16.4114 2.39722 16.5052 2.14039 16.5052 1.875C16.5052 1.60962 16.4114 1.35278 16.2404 1.14988C16.0693 0.946979 15.832 0.811081 15.5705 0.766204C15.3089 0.721327 15.0399 0.770362 14.811 0.904641C14.5821 1.03892 14.408 1.2498 14.3196 1.5H12.7506C12.6908 1.5 12.632 1.51425 12.5789 1.54158C12.5258 1.56891 12.48 1.60853 12.4453 1.65713L10.5703 4.28213L11.1808 4.71788L12.9437 2.25Z"
+                              fill="#0066BE"
+                              fill-opacity="0.6"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_605_8499">
+                              <rect width="24" height="24" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                        <p>Trials</p>
+                      </Link>
+                    </li>
+                  )}
+                  <li
+                    className={
+                      location.pathname == "/registration-type"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/registration-type"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z" />{" "}
+                          <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Top Content</p>
+                    </Link>
+                  </li>
+
+                  {localStorage.getItem("user_id") !==
+                  "wPqk14Be1HbMIrzS0wqN3Q==" ? (
+                    <>
+                      <li
+                        className={
+                          location.pathname == "/top-sales"
+                            ? "active"
+                            : "side_li"
+                        }
+                      >
+                        <Link to={"/top-sales"}>
+                          <svg
+                            version="1.0"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="512.000000pt"
+                            height="512.000000pt"
+                            viewBox="0 0 512.000000 512.000000"
+                          >
+                            {" "}
+                            <g
+                              transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                              fill="#0066be"
+                              fill-opacity="0.6"
+                              stroke="none"
+                            >
+                              {" "}
+                              <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z" />{" "}
+                              <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                              <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                              <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                            </g>{" "}
+                          </svg>
+                          <p>Top Sales</p>
+                        </Link>
+                      </li>
+
+                      <li
+                        className={
+                          location.pathname == "/top-reseller"
+                            ? "active"
+                            : "side_li"
+                        }
+                      >
+                        <Link to={"/top-reseller"}>
+                          <svg
+                            version="1.0"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="512.000000pt"
+                            height="512.000000pt"
+                            viewBox="0 0 512.000000 512.000000"
+                          >
+                            {" "}
+                            <g
+                              transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                              fill="#0066be"
+                              fill-opacity="0.6"
+                              stroke="none"
+                            >
+                              {" "}
+                              <path d="M4283 5035 c-68 -29 -559 -318 -581 -342 -17 -19 -22 -34 -19 -52 8 -38 322 -572 353 -599 18 -16 32 -20 52 -16 41 9 57 35 82 126 12 46 24 87 27 91 6 11 124 -55 192 -108 131 -101 249 -254 310 -400 54 -129 72 -216 78 -374 6 -160 15 -181 72 -181 41 0 73 33 109 115 60 134 77 229 76 425 0 155 -3 186 -26 271 -88 327 -295 591 -580 740 -43 22 -78 46 -78 54 0 7 10 55 21 105 21 91 21 93 2 118 -26 34 -53 42 -90 27z" />{" "}
+                              <path d="M1212 5026 c-367 -70 -669 -293 -831 -613 -17 -35 -37 -63 -44 -63 -6 0 -46 9 -87 20 -41 11 -87 20 -102 20 -32 0 -68 -41 -68 -79 0 -30 309 -575 342 -603 43 -38 72 -26 365 143 153 88 284 166 291 173 7 7 15 28 18 48 9 51 -15 70 -122 98 -49 13 -90 24 -92 26 -2 1 9 26 24 56 112 222 326 405 571 487 92 31 224 51 334 51 90 0 99 2 113 22 20 29 20 62 0 93 -18 28 -131 74 -257 106 -107 27 -349 35 -455 15z" />{" "}
+                              <path d="M2128 5018 c-23 -20 -37 -59 -97 -279 -39 -141 -71 -264 -71 -272 0 -9 10 -27 23 -41 18 -20 69 -38 278 -95 140 -39 267 -71 281 -71 14 0 37 9 52 21 35 28 34 68 -4 136 -16 29 -30 57 -30 62 0 4 28 17 63 27 86 25 296 26 387 1 139 -37 259 -107 377 -219 81 -76 113 -86 151 -45 43 46 20 129 -76 275 -126 193 -308 328 -539 399 -81 25 -102 27 -258 27 -157 0 -177 -2 -260 -28 -49 -15 -91 -23 -93 -18 -1 4 -21 37 -45 73 -37 56 -46 64 -77 67 -25 2 -43 -4 -62 -20z" />{" "}
+                              <path d="M2435 4090 c-366 -31 -701 -191 -956 -456 -201 -210 -323 -436 -391 -729 -30 -130 -37 -401 -13 -550 51 -328 214 -632 463 -865 530 -497 1357 -529 1937 -75 457 357 666 929 549 1502 -78 385 -341 753 -689 963 -265 160 -591 236 -900 210z m333 -166 c271 -40 525 -164 727 -356 237 -224 379 -515 415 -848 39 -357 -101 -769 -350 -1032 l-69 -73 -1 105 c0 116 -13 178 -55 260 -47 92 -111 144 -329 265 -239 132 -244 137 -253 273 l-6 91 59 64 c97 106 184 299 184 407 0 19 4 50 10 68 6 25 5 44 -5 70 -7 21 -21 63 -31 96 -50 168 -214 312 -399 351 -88 18 -122 18 -210 0 -195 -41 -344 -176 -411 -375 -23 -69 -23 -208 1 -300 31 -121 114 -270 189 -339 24 -23 26 -31 26 -105 0 -89 -19 -145 -61 -182 -13 -11 -109 -67 -212 -124 -156 -86 -197 -113 -242 -161 -91 -99 -125 -196 -125 -362 l-1 -92 -58 63 c-124 132 -234 328 -286 507 -81 281 -71 603 28 866 172 457 580 789 1062 865 113 17 279 17 403 -2z m132 -744 c46 -24 50 -43 25 -148 -34 -144 -144 -295 -253 -349 -114 -56 -218 -30 -327 81 -62 63 -135 188 -151 259 -6 26 -5 27 21 17 14 -5 60 -10 101 -10 94 0 192 31 304 96 134 78 206 92 280 54z" />{" "}
+                              <path d="M773 3550 c-84 -30 -165 -77 -249 -145 -154 -123 -259 -280 -321 -481 -25 -82 -27 -102 -27 -259 0 -157 2 -177 28 -260 15 -49 23 -91 18 -93 -4 -1 -37 -21 -73 -45 -58 -38 -64 -46 -67 -79 -6 -66 13 -75 306 -156 278 -78 310 -81 336 -39 25 41 157 543 150 571 -16 63 -79 72 -164 22 -67 -40 -62 -43 -86 67 -21 100 -18 257 6 353 38 150 107 268 224 386 67 68 73 102 27 149 -34 34 -38 34 -108 9z" />{" "}
+                              <path d="M4433 3150 c-12 -5 -26 -17 -32 -28 -17 -31 -151 -524 -151 -554 0 -37 32 -68 71 -68 17 0 57 15 89 34 67 40 62 43 86 -67 21 -100 18 -257 -6 -352 -39 -152 -98 -256 -214 -376 -76 -78 -85 -111 -40 -156 22 -22 32 -25 69 -21 94 11 256 109 371 223 107 108 192 252 241 412 25 81 27 101 27 258 0 156 -3 177 -28 259 -14 49 -25 90 -24 91 2 1 29 16 60 34 32 18 65 42 73 54 18 26 20 77 2 100 -8 12 -104 43 -282 92 -149 41 -274 75 -280 74 -5 0 -20 -4 -32 -9z" />{" "}
+                              <path d="M233 1930 c-31 -13 -90 -134 -121 -249 -23 -85 -26 -116 -26 -271 -1 -149 3 -188 22 -263 85 -337 297 -607 595 -758 42 -22 77 -42 77 -46 0 -3 -12 -50 -26 -104 -25 -93 -26 -100 -10 -124 20 -30 60 -42 97 -28 35 14 549 310 572 330 36 33 22 68 -144 357 -89 155 -171 291 -182 304 -25 27 -79 30 -105 4 -9 -9 -28 -59 -41 -110 -27 -107 -18 -104 -134 -34 -205 123 -361 328 -432 567 -22 72 -28 116 -32 225 -5 169 -7 176 -43 195 -33 17 -36 17 -67 5z" />{" "}
+                              <path d="M4355 1269 c-154 -88 -291 -171 -304 -184 -27 -27 -31 -79 -8 -102 8 -8 56 -26 108 -40 52 -14 96 -27 98 -29 2 -2 -11 -29 -29 -61 -186 -332 -518 -523 -909 -523 -99 0 -121 -12 -121 -67 0 -50 10 -63 67 -89 297 -131 678 -122 965 22 215 108 408 298 514 507 19 37 41 67 49 67 8 0 53 -9 100 -20 106 -25 101 -25 130 5 45 44 38 65 -136 366 -89 154 -171 286 -182 294 -12 8 -31 15 -42 15 -11 0 -147 -72 -300 -161z" />{" "}
+                              <path d="M1587 899 c-45 -27 -40 -96 18 -211 114 -227 331 -404 592 -485 81 -25 101 -27 258 -27 156 0 177 3 259 28 49 14 90 25 91 24 1 -2 19 -31 39 -66 21 -34 46 -67 56 -72 33 -18 78 -12 94 12 16 26 156 524 156 556 0 52 -32 67 -305 141 -143 39 -272 71 -287 71 -33 0 -68 -35 -68 -68 0 -14 16 -53 35 -88 l35 -63 -52 -17 c-78 -24 -284 -30 -375 -11 -149 32 -265 94 -384 205 -81 76 -124 95 -162 71z" />{" "}
+                            </g>{" "}
+                          </svg>
+                          <p>Top Reseller</p>
+                        </Link>
+                      </li>
+                    </>
+                  ) : null}
+
+                  <li
+                    className={
+                      location.pathname == "/top-clients" ? "active" : "side_li"
+                    }
+                  >
+                    <Link to={"/top-clients"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M2455 4510 c-254 -51 -435 -273 -435 -534 0 -165 44 -270 160 -387 113 -114 229 -162 390 -161 256 1 482 188 531 440 26 136 -7 299 -83 410 -123 180 -352 274 -563 232z" />{" "}
+                          <path d="M1520 4369 c-97 -26 -212 -98 -266 -166 -36 -45 -80 -125 -89 -164 -6 -23 -1 -31 37 -57 124 -86 220 -240 244 -391 4 -22 8 -41 9 -41 1 0 28 9 61 21 73 26 218 36 294 20 30 -6 82 -23 115 -36 l60 -25 29 30 29 29 -26 40 c-72 109 -102 217 -101 366 1 92 5 122 27 185 l27 75 -27 23 c-39 32 -108 67 -172 86 -60 18 -194 20 -251 5z" />{" "}
+                          <path d="M3370 4361 c-74 -24 -127 -52 -176 -95 l-42 -36 20 -62 c47 -150 31 -326 -42 -472 l-39 -79 29 -37 30 -38 67 25 c96 36 238 42 350 16 l83 -20 6 36 c23 136 74 232 179 336 44 45 95 87 113 94 29 12 33 18 27 39 -3 14 -17 44 -30 67 -61 103 -155 179 -274 221 -84 30 -218 32 -301 5z" />{" "}
+                          <path d="M4195 4004 c-86 -20 -117 -31 -170 -57 -72 -36 -173 -134 -207 -202 -31 -62 -55 -136 -61 -193 -5 -41 -4 -43 38 -72 62 -43 139 -133 178 -209 35 -67 67 -162 67 -200 0 -58 222 -93 351 -55 220 65 369 259 369 483 0 221 -135 409 -346 481 -55 19 -181 33 -219 24z" />{" "}
+                          <path d="M740 3974 c-336 -89 -488 -475 -300 -761 126 -192 369 -278 579 -205 l55 18 12 60 c14 67 37 129 73 193 29 52 126 158 176 192 32 22 34 27 29 64 -19 128 -66 225 -150 308 -125 124 -309 175 -474 131z" />{" "}
+                          <path d="M1580 3482 c-97 -28 -164 -66 -228 -130 -100 -100 -152 -222 -152 -357 0 -226 149 -423 367 -486 115 -32 231 -23 344 27 56 25 57 26 74 92 29 105 79 193 157 277 l71 76 -7 52 c-17 127 -63 226 -144 310 -124 128 -320 185 -482 139z" />{" "}
+                          <path d="M3350 3494 c-208 -40 -363 -186 -415 -389 -23 -92 -22 -95 53 -157 109 -88 197 -240 218 -374 6 -39 9 -42 57 -59 29 -9 91 -19 138 -22 145 -9 273 41 381 149 124 124 173 298 132 467 -54 220 -239 374 -464 386 -41 2 -86 1 -100 -1z" />{" "}
+                          <path d="M2270 3384 c-86 -10 -84 -7 -45 -77 36 -65 75 -196 75 -250 0 -24 3 -28 18 -21 109 48 159 58 272 58 87 -1 130 -6 177 -21 l61 -20 6 51 c9 66 48 178 80 226 23 35 24 39 8 46 -18 8 -592 15 -652 8z" />{" "}
+                          <path d="M2520 2974 c-113 -22 -207 -71 -285 -149 -100 -99 -148 -214 -148 -350 0 -281 223 -505 503 -505 276 0 500 222 500 496 0 50 -7 110 -16 142 -45 158 -172 290 -326 341 -63 21 -181 34 -228 25z" />{" "}
+                          <path d="M4045 2923 c-23 -147 -64 -244 -140 -338 l-46 -55 48 -20 c225 -94 378 -254 456 -478 28 -79 31 -101 35 -237 2 -82 7 -153 11 -157 10 -11 206 8 333 32 95 18 310 85 361 111 18 10 18 26 15 332 -4 302 -5 326 -27 392 -64 199 -213 351 -413 423 -71 26 -80 27 -350 30 l-277 4 -6 -39z" />{" "}
+                          <path d="M564 2939 c-210 -27 -399 -162 -493 -353 -64 -128 -71 -177 -71 -518 l0 -297 79 -30 c175 -68 355 -107 537 -118 l102 -6 4 159 c5 129 10 171 28 224 73 214 210 370 408 468 l98 48 -44 54 c-75 96 -114 192 -137 343 l-6 37 -222 -1 c-122 -1 -250 -5 -283 -10z" />{" "}
+                          <path d="M1323 2430 c-215 -56 -383 -217 -454 -435 -22 -66 -23 -88 -27 -396 l-3 -325 133 -37 c214 -59 483 -107 599 -107 l39 0 0 123 c0 67 7 152 14 188 55 258 243 471 503 570 22 8 21 10 -27 74 -78 103 -113 186 -128 300 l-7 60 -285 2 c-251 2 -293 0 -357 -17z" />{" "}
+                          <path d="M3210 2418 c-1 -97 -58 -239 -137 -341 l-44 -57 48 -20 c207 -87 358 -237 437 -434 41 -102 56 -187 56 -323 l0 -123 63 6 c248 21 420 58 586 126 l73 31 -5 316 c-5 348 -8 369 -71 496 -83 165 -235 290 -411 335 -68 17 -111 20 -337 20 l-258 0 0 -32z" />{" "}
+                          <path d="M2230 1915 c-227 -50 -421 -240 -480 -471 -18 -69 -20 -111 -20 -385 l0 -308 68 -20 c566 -169 1161 -172 1564 -9 l83 34 0 319 c0 307 -1 323 -23 395 -62 200 -211 354 -414 428 -73 27 -74 27 -393 29 -247 2 -335 -1 -385 -12z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Top Clients</p>
+                    </Link>
+                  </li>
+
+                  <li
+                    className={
+                      location.pathname == "/sales-by-country"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/sales-by-country"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M2360 5114 c-114 -11 -328 -47 -434 -75 -352 -90 -701 -266 -982 -495 -85 -69 -360 -342 -352 -349 2 -2 80 19 173 46 137 41 216 57 407 84 l237 33 102 57 103 57 117 -32 117 -33 188 9 189 9 66 100 c36 55 70 100 75 100 5 0 50 -6 99 -14 81 -12 113 -11 314 9 l224 21 65 71 c36 38 105 96 152 128 l87 58 128 -19 c86 -13 141 -17 168 -12 l41 8 -74 34 c-176 79 -443 154 -665 187 -97 15 -453 26 -545 18z m653 -152 c42 -24 77 -46 77 -50 0 -7 -195 -157 -228 -176 -9 -5 -66 -14 -128 -20 l-112 -12 -52 34 -52 33 73 46 c97 60 333 192 339 190 3 -1 40 -21 83 -45z m-1056 -144 l53 -22 75 24 c41 13 76 22 78 19 18 -24 77 -133 74 -136 -3 -2 -81 -24 -173 -48 l-169 -44 -83 47 -83 47 32 25 c17 14 55 44 83 67 28 23 53 42 56 42 2 1 28 -9 57 -21z" />{" "}
+                          <path d="M3120 4547 l0 -52 101 -100 c118 -117 239 -251 239 -265 0 -5 -27 -23 -60 -40 -60 -30 -61 -30 -112 -15 -28 8 -87 29 -130 47 l-78 32 0 67 0 66 -52 21 c-29 11 -76 29 -104 40 l-51 21 -34 -150 -34 -149 -99 -22 c-54 -12 -100 -28 -103 -35 -3 -7 -1 -45 4 -85 l8 -73 135 -26 c74 -14 136 -26 137 -25 1 1 12 60 24 131 12 72 23 131 24 133 1 1 51 -5 111 -14 80 -12 123 -24 160 -45 46 -26 61 -29 138 -29 l86 0 56 -112 c53 -106 65 -121 211 -272 l154 -160 -6 -41 c-14 -86 -3 -82 -160 -61 l-100 13 -211 -106 -212 -106 -154 -185 c-154 -185 -155 -186 -174 -265 l-20 -80 -47 -3 c-40 -3 -66 5 -158 47 l-110 50 -87 -43 c-48 -23 -93 -45 -99 -49 -8 -5 -6 -28 7 -79 10 -40 21 -86 25 -103 l7 -30 43 50 43 50 77 3 77 4 -7 -95 -7 -96 62 -18 c56 -15 68 -24 127 -89 l64 -71 101 29 100 29 107 -16 c58 -9 174 -34 257 -56 83 -21 179 -42 214 -46 37 -3 70 -13 79 -22 9 -9 62 -69 119 -133 l103 -116 219 -129 c121 -70 219 -133 218 -138 -2 -6 -66 -131 -143 -277 l-139 -267 -151 -69 -150 -69 -59 -157 -59 -157 -210 -142 c-116 -78 -214 -145 -220 -148 -12 -9 -56 -163 -47 -167 12 -5 185 47 295 89 877 331 1510 1126 1630 2049 66 505 -12 989 -231 1449 -65 135 -169 311 -184 311 -5 0 -20 -4 -33 -9 -13 -5 -111 -17 -218 -26 -107 -9 -203 -20 -214 -25 -11 -4 -45 -46 -74 -94 -30 -47 -55 -86 -56 -86 -1 0 -21 7 -45 15 -28 10 -92 60 -198 156 l-157 141 -41 117 c-71 201 -70 199 -179 297 l-100 90 -110 22 c-60 12 -116 22 -122 22 -9 0 -13 -17 -13 -53z" />{" "}
+                          <path d="M455 3875 c-27 -7 -62 -16 -77 -19 -30 -7 -74 -81 -152 -254 -243 -541 -290 -1148 -131 -1725 83 -305 229 -600 428 -866 93 -124 365 -396 490 -490 513 -383 1142 -567 1747 -510 63 6 116 12 118 14 2 1 -3 70 -10 153 l-12 151 58 240 58 240 -57 203 c-54 192 -62 213 -152 380 l-94 176 80 169 c45 93 81 173 81 179 0 6 -35 21 -77 34 -75 21 -82 26 -178 121 l-100 98 -212 47 -211 48 -71 145 -71 146 0 -88 0 -88 -32 3 c-29 3 -48 25 -215 251 l-183 248 0 204 0 205 -131 213 c-72 116 -133 215 -137 218 -4 4 -101 -11 -217 -32 -180 -33 -231 -39 -353 -39 l-143 0 -70 45 c-38 24 -69 48 -69 52 1 5 40 38 87 76 89 70 90 73 8 52z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Sales By Country</p>
+                    </Link>
+                  </li>
+
+                  <li
+                    className={
+                      location.pathname == "/openings-by-country"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/openings-by-country"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M1723 4889 c-70 -27 -137 -94 -175 -176 -41 -88 -44 -187 -7 -276 22 -53 294 -436 311 -437 12 0 290 382 312 429 32 71 30 207 -5 282 -37 79 -93 137 -164 171 -51 24 -72 28 -140 27 -55 0 -96 -6 -132 -20z m202 -83 c97 -41 155 -126 155 -228 0 -69 -16 -111 -60 -162 -50 -57 -103 -80 -180 -80 -255 0 -337 344 -108 458 60 30 138 35 193 12z" />{" "}
+                          <path d="M1760 4708 c-52 -36 -72 -70 -73 -124 -1 -97 59 -159 153 -159 95 1 152 60 152 158 0 83 -66 147 -152 147 -32 0 -57 -7 -80 -22z" />{" "}
+                          <path d="M2478 4413 c-16 -2 -28 -6 -28 -9 0 -2 56 -86 125 -186 141 -203 161 -250 152 -354 -6 -78 -38 -148 -114 -243 -40 -51 -75 -84 -113 -105 -55 -31 -56 -31 -187 -28 -159 3 -172 -2 -242 -91 -57 -73 -126 -115 -198 -123 -26 -3 -102 1 -167 10 -134 18 -177 12 -233 -30 -55 -42 -80 -112 -62 -177 12 -46 119 -218 165 -266 26 -27 42 -35 83 -39 47 -4 60 0 166 54 112 56 117 58 198 58 45 1 98 -2 118 -7 l35 -7 17 53 c79 251 355 375 582 263 220 -109 314 -369 208 -580 -14 -28 -47 -81 -74 -117 -27 -37 -49 -70 -49 -74 0 -9 47 -69 142 -182 104 -123 118 -147 118 -208 0 -80 -27 -114 -195 -244 -175 -135 -178 -140 -250 -371 -43 -141 -47 -148 -120 -240 -73 -92 -96 -139 -111 -225 -14 -82 -65 -150 -136 -179 -50 -21 -83 -20 -134 5 -71 34 -81 60 -125 326 -22 137 -47 255 -58 278 -10 22 -83 123 -161 225 -78 102 -150 201 -160 221 -11 20 -42 119 -70 219 -70 252 -86 279 -188 316 -26 9 -66 26 -90 36 -57 27 -261 214 -316 291 -59 83 -93 113 -145 132 -67 23 -125 18 -256 -23 -118 -37 -119 -38 -127 -72 -40 -187 -50 -508 -22 -699 138 -944 869 -1673 1802 -1796 131 -17 410 -20 532 -5 472 59 894 264 1231 600 176 175 296 342 405 565 142 291 214 598 214 915 l0 121 -77 -6 c-158 -12 -176 -21 -224 -116 -40 -81 -87 -130 -161 -170 -63 -34 -63 -34 -218 -37 -147 -3 -157 -2 -200 21 -68 36 -98 86 -115 191 -16 97 -16 97 -97 176 -67 65 -82 107 -76 220 6 121 23 146 220 321 93 83 178 165 189 183 52 86 -9 216 -109 231 -174 27 -272 123 -260 255 4 40 24 82 98 211 89 155 92 163 74 176 -39 29 -342 173 -434 207 -128 46 -305 92 -431 110 -114 16 -298 26 -341 19z" />{" "}
+                          <path d="M2230 4363 c-12 -21 -97 -138 -188 -260 -131 -176 -171 -223 -189 -223 -18 0 -49 35 -139 155 -64 85 -122 155 -128 155 -15 0 -188 -106 -274 -168 -47 -33 -61 -49 -56 -61 69 -163 69 -274 0 -408 -27 -54 -339 -474 -361 -485 -24 -14 -43 3 -131 120 l-87 116 -33 -71 c-73 -161 -141 -373 -120 -373 7 0 52 14 102 31 188 64 330 19 438 -139 55 -81 243 -258 300 -282 23 -9 62 -25 87 -34 57 -21 122 -75 153 -129 14 -23 48 -125 76 -227 29 -102 62 -204 75 -227 12 -22 87 -125 165 -228 79 -103 151 -208 160 -234 10 -25 35 -149 56 -276 32 -196 41 -233 61 -252 58 -58 142 -4 161 104 16 92 49 158 124 251 66 82 69 89 119 246 73 233 79 241 289 401 63 48 121 94 128 103 17 23 15 83 -5 112 -10 14 -54 68 -99 121 -44 53 -88 107 -97 119 -9 13 -18 22 -20 19 -2 -2 -41 -53 -86 -114 -87 -116 -100 -129 -125 -119 -22 8 -335 430 -369 496 -15 31 -33 84 -39 117 l-11 60 -50 12 c-87 20 -151 8 -278 -56 -107 -53 -118 -57 -174 -53 -98 6 -143 39 -223 161 -105 162 -125 207 -125 275 1 71 34 144 87 190 84 74 145 86 317 65 187 -24 188 -23 318 122 53 58 126 87 214 84 160 -6 184 -4 220 21 40 27 136 154 154 202 19 55 15 137 -10 190 -12 26 -78 128 -147 227 l-125 180 -47 1 c-43 0 -48 -3 -68 -37z" />{" "}
+                          <path d="M795 4091 c-93 -24 -177 -96 -222 -189 -23 -49 -27 -70 -28 -147 0 -73 4 -99 23 -139 23 -51 298 -426 312 -426 4 0 72 87 151 193 167 224 196 285 185 395 -11 126 -93 246 -201 293 -54 24 -167 34 -220 20z m141 -96 c130 -39 201 -175 162 -309 -16 -55 -99 -138 -154 -154 -136 -40 -268 30 -311 166 -39 123 32 250 166 298 48 17 77 17 137 -1z" />{" "}
+                          <path d="M805 3906 c-86 -38 -119 -139 -72 -220 77 -135 287 -81 287 74 0 62 -28 110 -80 137 -49 26 -91 29 -135 9z" />{" "}
+                          <path d="M3687 3861 c-74 -127 -87 -156 -87 -194 0 -75 49 -118 157 -138 71 -13 119 -37 159 -81 97 -102 96 -244 0 -341 -24 -23 -106 -98 -184 -166 -158 -139 -172 -160 -172 -267 0 -80 7 -94 80 -164 63 -61 85 -106 95 -204 6 -50 12 -65 41 -94 l34 -34 147 4 c141 3 150 4 195 31 45 26 90 81 115 138 18 42 73 98 116 121 33 17 140 33 240 38 22 1 -75 533 -103 563 -4 4 -20 -11 -35 -33 -33 -47 -59 -64 -80 -53 -25 15 -277 357 -303 413 -39 84 -42 186 -8 272 l27 66 -53 50 c-97 91 -266 222 -285 222 -5 0 -48 -67 -96 -149z" />{" "}
+                          <path d="M4370 3811 c-158 -33 -250 -204 -195 -361 16 -44 230 -340 246 -340 13 0 218 277 240 325 25 54 25 166 0 221 -52 114 -173 179 -291 155z m127 -75 c124 -58 156 -210 67 -314 -119 -139 -354 -56 -355 125 -1 88 36 149 113 187 64 32 108 33 175 2z" />{" "}
+                          <path d="M4361 3657 c-39 -20 -63 -61 -63 -105 1 -73 45 -112 123 -112 50 0 94 39 104 93 17 90 -83 166 -164 124z" />{" "}
+                          <path d="M2505 3127 c-64 -22 -97 -42 -141 -89 -54 -57 -69 -84 -90 -153 -22 -76 -15 -165 19 -236 26 -57 291 -419 306 -419 15 0 289 373 313 426 34 74 32 199 -4 276 -58 125 -163 198 -291 204 -42 2 -89 -2 -112 -9z m199 -115 c102 -56 148 -170 114 -284 -15 -51 -82 -126 -133 -149 -112 -51 -258 2 -317 115 -29 54 -31 155 -4 206 71 136 211 182 340 112z" />{" "}
+                          <path d="M2536 2950 c-58 -18 -106 -85 -106 -150 0 -44 36 -108 73 -130 43 -27 121 -26 165 0 101 62 94 218 -13 270 -44 21 -72 24 -119 10z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Opening By Country</p>
+                    </Link>
+                  </li>
+                </ul>
+              </>
+            ) : null
+          ) : localStorage.getItem("group_id") == 3 ? (
+            localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ||
+            localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A==" ||
+            localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg==" ||
+            localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ==" ||
+            localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ==" ? (
+              window.location.pathname == "/totalhcp" ||
+              window.location.pathname == "/country-registration" ||
+              window.location.pathname == "/delivery-stats" ||
+              window.location.pathname == "/trending-topics" ||
+              window.location.pathname == "/trending-content" ||
+              window.location.pathname == "/content-type" ||
+              window.location.pathname == "/content-analytics" ||
+              window.location.pathname == "/analytic-trending-topics" ||
+              window.location.pathname == "/analytic-delivery-registration" ||
+              window.location.pathname == "/analytic-delivery-trends" ||
+              window.location.pathname == "/analytic-trending-content" ||
+              window.location.pathname == "/analytic-content-type" ||
+              window.location.pathname == "/campaign-stats" ? (
+                <ul>
+                  <li
+                    className={
+                      location.pathname == "/totalhcp" ? "active" : "side_li"
+                    }
+                  >
+                    <Link to={"/totalhcp"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M2440 5114 c-14 -2 -52 -9 -85 -15 -136 -23 -299 -90 -420 -172 -87 -59 -225 -197 -285 -283 -70 -101 -136 -243 -167 -361 -24 -88 -27 -115 -27 -273 0 -157 3 -185 26 -272 108 -399 405 -700 797 -806 87 -24 113 -26 281 -26 168 0 194 2 282 26 391 106 688 407 796 806 23 87 26 115 26 272 0 158 -3 185 -27 273 -53 199 -156 374 -304 518 -161 157 -331 249 -547 295 -69 15 -296 27 -346 18z" />{" "}
+                          <path d="M2240 2720 c-93 -10 -214 -33 -302 -57 l-56 -15 -60 -152 c-130 -327 -219 -657 -287 -1058 -4 -24 1 -29 60 -57 91 -42 167 -117 213 -210 36 -73 37 -78 37 -185 0 -104 -2 -115 -32 -179 -44 -93 -119 -169 -212 -215 -73 -36 -78 -37 -186 -37 -108 0 -113 1 -186 37 -93 46 -168 122 -212 215 -30 64 -32 75 -32 178 0 103 2 114 32 178 43 91 118 168 206 212 38 19 75 35 81 35 7 0 22 66 39 166 37 218 121 552 195 772 33 97 59 178 57 180 -6 6 -118 -60 -220 -129 -198 -134 -356 -295 -496 -503 -184 -273 -285 -568 -309 -902 -13 -188 -13 -868 1 -917 7 -26 21 -44 42 -57 31 -20 68 -20 1947 -20 1879 0 1916 0 1947 20 21 13 35 31 42 57 14 50 14 743 1 923 -51 662 -426 1224 -1019 1529 -57 29 -104 51 -107 49 -2 -3 5 -47 17 -99 34 -154 59 -347 59 -454 l0 -100 108 -110 c318 -326 453 -642 387 -900 -32 -123 -131 -240 -259 -305 -120 -60 -191 -47 -217 40 -18 59 8 96 99 141 40 20 87 49 103 65 158 149 70 443 -230 774 -40 44 -88 92 -107 106 l-34 26 -101 -57 c-186 -105 -359 -251 -442 -372 -75 -109 -97 -233 -56 -323 12 -27 48 -72 92 -112 69 -65 72 -70 72 -114 0 -39 -5 -50 -33 -75 -48 -43 -96 -40 -159 10 -158 125 -232 293 -204 463 24 144 85 258 211 391 132 140 307 267 493 358 l67 33 0 58 c0 108 -65 492 -103 605 -14 42 -16 43 -187 74 -95 18 -163 22 -395 24 -154 2 -318 0 -365 -5z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Total HCPs </p>
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      location.pathname == "/country-registration"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/country-registration"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M2360 5114 c-114 -11 -328 -47 -434 -75 -352 -90 -701 -266 -982 -495 -85 -69 -360 -342 -352 -349 2 -2 80 19 173 46 137 41 216 57 407 84 l237 33 102 57 103 57 117 -32 117 -33 188 9 189 9 66 100 c36 55 70 100 75 100 5 0 50 -6 99 -14 81 -12 113 -11 314 9 l224 21 65 71 c36 38 105 96 152 128 l87 58 128 -19 c86 -13 141 -17 168 -12 l41 8 -74 34 c-176 79 -443 154 -665 187 -97 15 -453 26 -545 18z m653 -152 c42 -24 77 -46 77 -50 0 -7 -195 -157 -228 -176 -9 -5 -66 -14 -128 -20 l-112 -12 -52 34 -52 33 73 46 c97 60 333 192 339 190 3 -1 40 -21 83 -45z m-1056 -144 l53 -22 75 24 c41 13 76 22 78 19 18 -24 77 -133 74 -136 -3 -2 -81 -24 -173 -48 l-169 -44 -83 47 -83 47 32 25 c17 14 55 44 83 67 28 23 53 42 56 42 2 1 28 -9 57 -21z" />{" "}
+                          <path d="M3120 4547 l0 -52 101 -100 c118 -117 239 -251 239 -265 0 -5 -27 -23 -60 -40 -60 -30 -61 -30 -112 -15 -28 8 -87 29 -130 47 l-78 32 0 67 0 66 -52 21 c-29 11 -76 29 -104 40 l-51 21 -34 -150 -34 -149 -99 -22 c-54 -12 -100 -28 -103 -35 -3 -7 -1 -45 4 -85 l8 -73 135 -26 c74 -14 136 -26 137 -25 1 1 12 60 24 131 12 72 23 131 24 133 1 1 51 -5 111 -14 80 -12 123 -24 160 -45 46 -26 61 -29 138 -29 l86 0 56 -112 c53 -106 65 -121 211 -272 l154 -160 -6 -41 c-14 -86 -3 -82 -160 -61 l-100 13 -211 -106 -212 -106 -154 -185 c-154 -185 -155 -186 -174 -265 l-20 -80 -47 -3 c-40 -3 -66 5 -158 47 l-110 50 -87 -43 c-48 -23 -93 -45 -99 -49 -8 -5 -6 -28 7 -79 10 -40 21 -86 25 -103 l7 -30 43 50 43 50 77 3 77 4 -7 -95 -7 -96 62 -18 c56 -15 68 -24 127 -89 l64 -71 101 29 100 29 107 -16 c58 -9 174 -34 257 -56 83 -21 179 -42 214 -46 37 -3 70 -13 79 -22 9 -9 62 -69 119 -133 l103 -116 219 -129 c121 -70 219 -133 218 -138 -2 -6 -66 -131 -143 -277 l-139 -267 -151 -69 -150 -69 -59 -157 -59 -157 -210 -142 c-116 -78 -214 -145 -220 -148 -12 -9 -56 -163 -47 -167 12 -5 185 47 295 89 877 331 1510 1126 1630 2049 66 505 -12 989 -231 1449 -65 135 -169 311 -184 311 -5 0 -20 -4 -33 -9 -13 -5 -111 -17 -218 -26 -107 -9 -203 -20 -214 -25 -11 -4 -45 -46 -74 -94 -30 -47 -55 -86 -56 -86 -1 0 -21 7 -45 15 -28 10 -92 60 -198 156 l-157 141 -41 117 c-71 201 -70 199 -179 297 l-100 90 -110 22 c-60 12 -116 22 -122 22 -9 0 -13 -17 -13 -53z" />{" "}
+                          <path d="M455 3875 c-27 -7 -62 -16 -77 -19 -30 -7 -74 -81 -152 -254 -243 -541 -290 -1148 -131 -1725 83 -305 229 -600 428 -866 93 -124 365 -396 490 -490 513 -383 1142 -567 1747 -510 63 6 116 12 118 14 2 1 -3 70 -10 153 l-12 151 58 240 58 240 -57 203 c-54 192 -62 213 -152 380 l-94 176 80 169 c45 93 81 173 81 179 0 6 -35 21 -77 34 -75 21 -82 26 -178 121 l-100 98 -212 47 -211 48 -71 145 -71 146 0 -88 0 -88 -32 3 c-29 3 -48 25 -215 251 l-183 248 0 204 0 205 -131 213 c-72 116 -133 215 -137 218 -4 4 -101 -11 -217 -32 -180 -33 -231 -39 -353 -39 l-143 0 -70 45 c-38 24 -69 48 -69 52 1 5 40 38 87 76 89 70 90 73 8 52z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Country Registration</p>
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      location.pathname == "/campaign-stats" ||
+                      location.pathname == "/analytic-delivery-registration"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link
+                      to={
+                        localStorage.getItem("user_id") ==
+                        "B7SHpAc XDXSH NXkN0rdQ=="
+                          ? "/campaign-stats"
+                          : "/analytic-delivery-registration"
+                      }
+                    >
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z" />{" "}
+                          <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Delivery Registration </p>
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      location.pathname == "/delivery-stats" ||
+                      location.pathname == "/analytic-delivery-trends"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link
+                      to={
+                        localStorage.getItem("user_id") ==
+                        "B7SHpAc XDXSH NXkN0rdQ=="
+                          ? "/delivery-stats"
+                          : "/analytic-delivery-trends"
+                      }
+                    >
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z" />{" "}
+                          <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Delivery Trends</p>
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      location.pathname == "/trending-topics" ||
+                      location.pathname == "/analytic-trending-topics"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link
+                      to={
+                        localStorage.getItem("user_id") ==
+                        "B7SHpAc XDXSH NXkN0rdQ=="
+                          ? "/trending-topics"
+                          : "/analytic-trending-topics"
+                      }
+                    >
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z" />{" "}
+                          <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Trending Topics</p>
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      location.pathname == "/trending-content" ||
+                      location.pathname == "/analytic-trending-content"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link
+                      to={
+                        localStorage.getItem("user_id") ==
+                        "B7SHpAc XDXSH NXkN0rdQ=="
+                          ? "/trending-content"
+                          : "/analytic-trending-content"
+                      }
+                    >
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z" />{" "}
+                          <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Trending Content</p>
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      location.pathname == "/content-type" ||
+                      location.pathname == "/analytic-content-type"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link
+                      to={
+                        localStorage.getItem("user_id") ==
+                        "B7SHpAc XDXSH NXkN0rdQ=="
+                          ? "/content-type"
+                          : "/analytic-content-type"
+                      }
+                    >
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        {" "}
+                        <g clipPath="url(#clip0_301_44)">
+                          {" "}
+                          <path
+                            d="M8.50001 13.5C8.22387 13.5 8.00001 13.2761 8.00001 13V11.5H6.50001C6.22387 11.5 6.00001 11.2761 6.00001 11C6.00001 10.7239 6.22387 10.5 6.50001 10.5H8.00001V9.00001C8.00001 8.72387 8.22387 8.50001 8.50001 8.50001C8.77615 8.50001 9.00001 8.72387 9.00001 9.00001V10.5H10.5C10.7762 10.5 11 10.7239 11 11C11 11.2761 10.7762 11.5 10.5 11.5H9.00001V13C9.00001 13.2761 8.77615 13.5 8.50001 13.5Z"
+                            fill="#0066BE"
+                            fillOpacity="0.6"
+                          />{" "}
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M0.000305177 2.00005C0.00027582 0.895463 0.895715 0 2.00031 0H15C16.1046 0 17 0.895429 17 2V15.6654L13.4225 20.9994C13.374 21.0717 13.3452 21.1554 13.339 21.2423L13.2849 22H2.00078C0.896235 22 0.000812916 21.1046 0.000783561 20.0001L0.000305177 2.00005ZM8.50001 15C10.7092 15 12.5 13.2091 12.5 11C12.5 8.79087 10.7092 7.00001 8.50001 7.00001C6.29087 7.00001 4.50001 8.79087 4.50001 11C4.50001 13.2091 6.29087 15 8.50001 15Z"
+                            fill="#0066BE"
+                            fillOpacity="0.6"
+                          />{" "}
+                          <path
+                            d="M14.4467 23.9681C14.3081 24.0368 14.1473 23.929 14.1583 23.7747L14.3392 21.2423C14.3454 21.1554 14.3741 21.0717 14.4226 20.9994L20.4074 12.0762L22.8989 13.7473L16.9141 22.6704C16.8656 22.7427 16.7991 22.8011 16.7211 22.8398L14.4467 23.9681Z"
+                            fill="#0066BE"
+                            fillOpacity="0.6"
+                          />{" "}
+                          <path
+                            d="M23.1774 13.3321L23.5886 12.7191C23.9757 12.1419 23.8251 11.3583 23.2534 10.9748L22.8381 10.6963C22.2663 10.3128 21.4842 10.4708 21.0971 11.048L20.686 11.661L23.1774 13.3321Z"
+                            fill="#0066BE"
+                            fillOpacity="0.6"
+                          />{" "}
+                        </g>{" "}
+                        <defs>
+                          {" "}
+                          <clipPath id="clip0_301_44">
+                            {" "}
+                            <rect width="24" height="24" fill="white" />{" "}
+                          </clipPath>{" "}
+                        </defs>{" "}
+                      </svg>
+                      <p>Content Type</p>
+                    </Link>
+                  </li>
+                </ul>
+              ) : null
+            ) : localStorage.getItem("user_id") ==
+              "iSnEsKu5gB/DRlycxB6G4g==" ? (
+              window.location.pathname == "/octalatch-totalhcp" ||
+              window.location.pathname == "/octa-country" ||
+              window.location.pathname == "/octa-country-registration" ||
+              window.location.pathname == "/octalatch-deliveryregistration" ||
+              window.location.pathname == "/octa-trending-content" ||
+              window.location.pathname == "/content-analytics" ||
+              window.location.pathname == "/octa-trending-contenty" ? (
+                <ul>
+                  <li
+                    className={
+                      location.pathname == "/octalatch-totalhcp"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/octalatch-totalhcp"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M2440 5114 c-14 -2 -52 -9 -85 -15 -136 -23 -299 -90 -420 -172 -87 -59 -225 -197 -285 -283 -70 -101 -136 -243 -167 -361 -24 -88 -27 -115 -27 -273 0 -157 3 -185 26 -272 108 -399 405 -700 797 -806 87 -24 113 -26 281 -26 168 0 194 2 282 26 391 106 688 407 796 806 23 87 26 115 26 272 0 158 -3 185 -27 273 -53 199 -156 374 -304 518 -161 157 -331 249 -547 295 -69 15 -296 27 -346 18z" />{" "}
+                          <path d="M2240 2720 c-93 -10 -214 -33 -302 -57 l-56 -15 -60 -152 c-130 -327 -219 -657 -287 -1058 -4 -24 1 -29 60 -57 91 -42 167 -117 213 -210 36 -73 37 -78 37 -185 0 -104 -2 -115 -32 -179 -44 -93 -119 -169 -212 -215 -73 -36 -78 -37 -186 -37 -108 0 -113 1 -186 37 -93 46 -168 122 -212 215 -30 64 -32 75 -32 178 0 103 2 114 32 178 43 91 118 168 206 212 38 19 75 35 81 35 7 0 22 66 39 166 37 218 121 552 195 772 33 97 59 178 57 180 -6 6 -118 -60 -220 -129 -198 -134 -356 -295 -496 -503 -184 -273 -285 -568 -309 -902 -13 -188 -13 -868 1 -917 7 -26 21 -44 42 -57 31 -20 68 -20 1947 -20 1879 0 1916 0 1947 20 21 13 35 31 42 57 14 50 14 743 1 923 -51 662 -426 1224 -1019 1529 -57 29 -104 51 -107 49 -2 -3 5 -47 17 -99 34 -154 59 -347 59 -454 l0 -100 108 -110 c318 -326 453 -642 387 -900 -32 -123 -131 -240 -259 -305 -120 -60 -191 -47 -217 40 -18 59 8 96 99 141 40 20 87 49 103 65 158 149 70 443 -230 774 -40 44 -88 92 -107 106 l-34 26 -101 -57 c-186 -105 -359 -251 -442 -372 -75 -109 -97 -233 -56 -323 12 -27 48 -72 92 -112 69 -65 72 -70 72 -114 0 -39 -5 -50 -33 -75 -48 -43 -96 -40 -159 10 -158 125 -232 293 -204 463 24 144 85 258 211 391 132 140 307 267 493 358 l67 33 0 58 c0 108 -65 492 -103 605 -14 42 -16 43 -187 74 -95 18 -163 22 -395 24 -154 2 -318 0 -365 -5z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Total HCPs </p>
+                    </Link>
+                  </li>
+
+                  <li
+                    className={
+                      location.pathname == "/octa-country-registration"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/octa-country-registration"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M2360 5114 c-114 -11 -328 -47 -434 -75 -352 -90 -701 -266 -982 -495 -85 -69 -360 -342 -352 -349 2 -2 80 19 173 46 137 41 216 57 407 84 l237 33 102 57 103 57 117 -32 117 -33 188 9 189 9 66 100 c36 55 70 100 75 100 5 0 50 -6 99 -14 81 -12 113 -11 314 9 l224 21 65 71 c36 38 105 96 152 128 l87 58 128 -19 c86 -13 141 -17 168 -12 l41 8 -74 34 c-176 79 -443 154 -665 187 -97 15 -453 26 -545 18z m653 -152 c42 -24 77 -46 77 -50 0 -7 -195 -157 -228 -176 -9 -5 -66 -14 -128 -20 l-112 -12 -52 34 -52 33 73 46 c97 60 333 192 339 190 3 -1 40 -21 83 -45z m-1056 -144 l53 -22 75 24 c41 13 76 22 78 19 18 -24 77 -133 74 -136 -3 -2 -81 -24 -173 -48 l-169 -44 -83 47 -83 47 32 25 c17 14 55 44 83 67 28 23 53 42 56 42 2 1 28 -9 57 -21z" />{" "}
+                          <path d="M3120 4547 l0 -52 101 -100 c118 -117 239 -251 239 -265 0 -5 -27 -23 -60 -40 -60 -30 -61 -30 -112 -15 -28 8 -87 29 -130 47 l-78 32 0 67 0 66 -52 21 c-29 11 -76 29 -104 40 l-51 21 -34 -150 -34 -149 -99 -22 c-54 -12 -100 -28 -103 -35 -3 -7 -1 -45 4 -85 l8 -73 135 -26 c74 -14 136 -26 137 -25 1 1 12 60 24 131 12 72 23 131 24 133 1 1 51 -5 111 -14 80 -12 123 -24 160 -45 46 -26 61 -29 138 -29 l86 0 56 -112 c53 -106 65 -121 211 -272 l154 -160 -6 -41 c-14 -86 -3 -82 -160 -61 l-100 13 -211 -106 -212 -106 -154 -185 c-154 -185 -155 -186 -174 -265 l-20 -80 -47 -3 c-40 -3 -66 5 -158 47 l-110 50 -87 -43 c-48 -23 -93 -45 -99 -49 -8 -5 -6 -28 7 -79 10 -40 21 -86 25 -103 l7 -30 43 50 43 50 77 3 77 4 -7 -95 -7 -96 62 -18 c56 -15 68 -24 127 -89 l64 -71 101 29 100 29 107 -16 c58 -9 174 -34 257 -56 83 -21 179 -42 214 -46 37 -3 70 -13 79 -22 9 -9 62 -69 119 -133 l103 -116 219 -129 c121 -70 219 -133 218 -138 -2 -6 -66 -131 -143 -277 l-139 -267 -151 -69 -150 -69 -59 -157 -59 -157 -210 -142 c-116 -78 -214 -145 -220 -148 -12 -9 -56 -163 -47 -167 12 -5 185 47 295 89 877 331 1510 1126 1630 2049 66 505 -12 989 -231 1449 -65 135 -169 311 -184 311 -5 0 -20 -4 -33 -9 -13 -5 -111 -17 -218 -26 -107 -9 -203 -20 -214 -25 -11 -4 -45 -46 -74 -94 -30 -47 -55 -86 -56 -86 -1 0 -21 7 -45 15 -28 10 -92 60 -198 156 l-157 141 -41 117 c-71 201 -70 199 -179 297 l-100 90 -110 22 c-60 12 -116 22 -122 22 -9 0 -13 -17 -13 -53z" />{" "}
+                          <path d="M455 3875 c-27 -7 -62 -16 -77 -19 -30 -7 -74 -81 -152 -254 -243 -541 -290 -1148 -131 -1725 83 -305 229 -600 428 -866 93 -124 365 -396 490 -490 513 -383 1142 -567 1747 -510 63 6 116 12 118 14 2 1 -3 70 -10 153 l-12 151 58 240 58 240 -57 203 c-54 192 -62 213 -152 380 l-94 176 80 169 c45 93 81 173 81 179 0 6 -35 21 -77 34 -75 21 -82 26 -178 121 l-100 98 -212 47 -211 48 -71 145 -71 146 0 -88 0 -88 -32 3 c-29 3 -48 25 -215 251 l-183 248 0 204 0 205 -131 213 c-72 116 -133 215 -137 218 -4 4 -101 -11 -217 -32 -180 -33 -231 -39 -353 -39 l-143 0 -70 45 c-38 24 -69 48 -69 52 1 5 40 38 87 76 89 70 90 73 8 52z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Country Registration</p>
+                    </Link>
+                  </li>
+
+                  <li
+                    className={
+                      location.pathname == "/octalatch-deliveryregistration"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/octalatch-deliveryregistration"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z" />{" "}
+                          <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Delivery Registration</p>
+                    </Link>
+                  </li>
+
+                  <li
+                    className={
+                      location.pathname == "/octa-trending-content"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/octa-trending-content"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z" />{" "}
+                          <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Trending Content </p>
+                    </Link>
+                  </li>
+
+                  <li
+                    className={
+                      location.pathname == "/octa-country"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/octa-country"}>
+                      <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="512.000000pt"
+                        height="512.000000pt"
+                        viewBox="0 0 512.000000 512.000000"
+                      >
+                        {" "}
+                        <g
+                          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                          fill="#0066be"
+                          fill-opacity="0.6"
+                          stroke="none"
+                        >
+                          {" "}
+                          <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z" />{" "}
+                          <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                          <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                        </g>{" "}
+                      </svg>
+                      <p>Stats By Region</p>
+                    </Link>
+                  </li>
+                </ul>
+              ) : null
+            ) : localStorage.getItem("user_id") ==
+              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+              window.location.pathname == "/content-analytics" ||
+              window.location.pathname == "/LEX-210-analytics" ? (
+                <ul>
+                  <li
+                    className={
+                      location.pathname == "/LEX-210-analytics"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/LEX-210-analytics"}>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g clip-path="url(#clip0_605_8499)">
+                          <path
+                            d="M13.8744 18.375H12.5563L7.69967 12.2224C7.8317 12.0112 7.88983 11.7622 7.8649 11.5144C7.83997 11.2667 7.7334 11.0342 7.56196 10.8536C7.39051 10.673 7.1639 10.5545 6.91777 10.5167C6.67163 10.479 6.41992 10.5241 6.20221 10.645C5.9845 10.7658 5.81313 10.9557 5.71506 11.1845C5.61699 11.4134 5.59776 11.6684 5.66042 11.9094C5.72307 12.1505 5.86404 12.3638 6.06117 12.516C6.2583 12.6681 6.5004 12.7504 6.74942 12.75C6.8723 12.7487 6.99409 12.7269 7.1098 12.6855L7.58755 13.2907C7.32902 13.4268 7.04154 13.4986 6.74942 13.5C6.34949 13.5065 5.95765 13.387 5.62939 13.1584C5.30113 12.9299 5.05309 12.6039 4.92038 12.2265C4.78767 11.8492 4.77702 11.4397 4.88995 11.056C5.00287 10.6723 5.23364 10.3338 5.54958 10.0885C5.86552 9.84322 6.25062 9.70353 6.65035 9.68922C7.05008 9.67491 7.44418 9.78672 7.77685 10.0088C8.10952 10.2309 8.3639 10.552 8.50396 10.9266C8.64403 11.3013 8.66269 11.7105 8.55729 12.0964L9.37442 13.1321V8.25L11.0244 12.2119C11.1122 12.4267 11.2817 12.598 11.4957 12.6878C11.7097 12.7777 11.9507 12.7789 12.1655 12.6911C12.3804 12.6034 12.5516 12.4338 12.6415 12.2198C12.7314 12.0058 12.7326 11.7649 12.6448 11.55L10.6903 6.6645C10.5233 6.24695 10.235 5.88902 9.86264 5.63689C9.49026 5.38476 9.05088 5.25 8.60117 5.25H4.52267C4.07296 5.25 3.63358 5.38476 3.2612 5.63689C2.88882 5.88902 2.60054 6.24695 2.43355 6.6645L0.479046 11.55C0.391275 11.7649 0.392459 12.0058 0.482336 12.2198C0.572213 12.4338 0.74342 12.6034 0.958295 12.6911C1.17317 12.7789 1.41411 12.7777 1.62811 12.6878C1.84212 12.598 2.01165 12.4267 2.09942 12.2119L3.74942 8.25V22.4876C3.75051 22.7864 3.86913 23.0728 4.07964 23.2848C4.29015 23.4968 4.57564 23.6175 4.87441 23.6208C5.17318 23.624 5.46123 23.5096 5.6763 23.3022C5.89138 23.0948 6.0162 22.8111 6.0238 22.5124L6.18692 15H6.93692L7.10005 22.5124C7.10764 22.8111 7.23246 23.0948 7.44754 23.3022C7.66261 23.5096 7.95066 23.624 8.24943 23.6208C8.5482 23.6175 8.83369 23.4968 9.0442 23.2848C9.25471 23.0728 9.37333 22.7864 9.37442 22.4876V15.5546L12.08 18.9821C12.1151 19.0266 12.1598 19.0626 12.2108 19.0874C12.2618 19.1121 12.3177 19.125 12.3744 19.125H13.8744V18.375Z"
+                            fill="#0066BE"
+                            fill-opacity="0.6"
+                          />
+                          <path
+                            d="M15.1875 5.0625H17.0625V7.875H15.1875V5.0625Z"
+                            fill="#0066BE"
+                            fill-opacity="0.6"
+                          />
+                          <path
+                            d="M18.1875 3.09375H20.0625V7.875H18.1875V3.09375Z"
+                            fill="#0066BE"
+                            fill-opacity="0.6"
+                          />
+                          <path
+                            d="M21.1875 1.125H23.0625V7.875H21.1875V1.125Z"
+                            fill="#0066BE"
+                            fill-opacity="0.6"
+                          />
+                          <path
+                            d="M14.625 8.625H23.625V9.375H14.625V8.625Z"
+                            fill="#0066BE"
+                            fill-opacity="0.6"
+                          />
+                          <path
+                            d="M18.6041 16.9519C18.394 16.8233 18.1608 16.7374 17.9176 16.699C17.6743 16.6606 17.4259 16.6704 17.1865 16.728C16.9471 16.7856 16.7214 16.8898 16.5223 17.0346C16.3231 17.1795 16.1545 17.3621 16.0259 17.5721L14.0681 20.7705C13.809 21.1947 13.7288 21.7043 13.845 22.1875C13.9612 22.6708 14.2643 23.0882 14.6879 23.3482C14.898 23.4768 15.1313 23.5627 15.3745 23.6011C15.6177 23.6395 15.8661 23.6295 16.1055 23.5719C16.3449 23.5143 16.5706 23.4101 16.7698 23.2652C16.9689 23.1203 17.1375 22.9377 17.2661 22.7276L19.2243 19.5296C19.4832 19.1054 19.5633 18.5958 19.4471 18.1125C19.3308 17.6293 19.0276 17.2119 18.6041 16.9519ZM18.5846 19.1385L17.8008 20.4187L15.8816 19.2442L16.6657 17.9625C16.7425 17.8358 16.8436 17.7256 16.9631 17.6381C17.0827 17.5506 17.2183 17.4876 17.3622 17.4527C17.5062 17.4177 17.6556 17.4116 17.802 17.4345C17.9483 17.4575 18.0887 17.5092 18.215 17.5865C18.3413 17.6639 18.4511 17.7654 18.5381 17.8853C18.6251 18.0052 18.6876 18.1411 18.7219 18.2852C18.7563 18.4293 18.7618 18.5787 18.7382 18.725C18.7147 18.8712 18.6624 19.0114 18.5846 19.1374V19.1385Z"
+                            fill="#0066BE"
+                            fill-opacity="0.6"
+                          />
+                          <path
+                            d="M18.2852 22.5C18.5659 22.8519 18.9224 23.136 19.3281 23.3309C19.7339 23.5259 20.1784 23.6269 20.6286 23.6262C21.0787 23.6255 21.5229 23.5232 21.9281 23.327C22.3332 23.1308 22.6889 22.8456 22.9685 22.4929L19.5602 20.4172L18.2852 22.5Z"
+                            fill="#0066BE"
+                            fill-opacity="0.6"
+                          />
+                          <path
+                            d="M20.6259 17.625C20.4487 17.6258 20.2719 17.6424 20.0976 17.6745C20.2184 18.0155 20.2673 18.3779 20.2411 18.7388C20.2149 19.0996 20.1142 19.4511 19.9453 19.7711L23.3608 21.8513C23.5669 21.3948 23.6551 20.8939 23.6175 20.3945C23.5799 19.8951 23.4176 19.413 23.1455 18.9926C22.8734 18.5721 22.5002 18.2266 22.06 17.9877C21.6198 17.7488 21.1268 17.6241 20.6259 17.625Z"
+                            fill="#0066BE"
+                            fill-opacity="0.6"
+                          />
+                          <path
+                            d="M6.5625 4.875C7.80514 4.875 8.8125 3.86764 8.8125 2.625C8.8125 1.38236 7.80514 0.375 6.5625 0.375C5.31986 0.375 4.3125 1.38236 4.3125 2.625C4.3125 3.86764 5.31986 4.875 6.5625 4.875Z"
+                            fill="#0066BE"
+                            fill-opacity="0.6"
+                          />
+                          <path
+                            d="M12.9437 2.25H14.3196C14.408 2.50021 14.5821 2.71109 14.811 2.84536C15.0399 2.97964 15.3089 3.02868 15.5705 2.9838C15.832 2.93892 16.0693 2.80303 16.2404 2.60012C16.4114 2.39722 16.5052 2.14039 16.5052 1.875C16.5052 1.60962 16.4114 1.35278 16.2404 1.14988C16.0693 0.946979 15.832 0.811081 15.5705 0.766204C15.3089 0.721327 15.0399 0.770362 14.811 0.904641C14.5821 1.03892 14.408 1.2498 14.3196 1.5H12.7506C12.6908 1.5 12.632 1.51425 12.5789 1.54158C12.5258 1.56891 12.48 1.60853 12.4453 1.65713L10.5703 4.28213L11.1808 4.71788L12.9437 2.25Z"
+                            fill="#0066BE"
+                            fill-opacity="0.6"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_605_8499">
+                            <rect width="24" height="24" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p>Trials</p>
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      location.pathname == "/content-analytics"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/content-analytics"}>
+                      <svg
+                        width="20"
+                        height="24"
+                        viewBox="0 0 20 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M2.74061 0C1.44752 0 0.399245 1.0233 0.399196 2.28563L0.398438 21.7142C0.398388 22.9766 1.44669 24 2.73985 24H17.2586C18.5517 24 19.6 22.9767 19.6 21.7143V2.28571C19.6 1.02335 18.5517 0 17.2586 0H2.74061ZM15.1584 4.8H17.3184C17.4139 4.8 17.5055 4.76207 17.573 4.69456C17.6405 4.62704 17.6784 4.53548 17.6784 4.44C17.6784 3.77165 17.4129 3.13068 16.9403 2.65809C16.4678 2.1855 15.8268 1.92 15.1584 1.92C15.063 1.92 14.9714 1.95793 14.9039 2.02544C14.8364 2.09295 14.7984 2.18452 14.7984 2.28V4.2636C14.7984 4.638 14.9604 4.8 15.1584 4.8ZM12.1459 7.47552C11.8645 7.19701 11.6574 6.85238 11.5435 6.47314C11.4286 6.09536 11.4076 5.69525 11.4822 5.3075C11.5569 4.91974 11.7249 4.55607 11.9719 4.248C12.1973 3.97001 12.482 3.74598 12.8052 3.59233C13.1283 3.43868 13.4818 3.3593 13.8396 3.36C13.9304 3.36 14.0176 3.39613 14.0819 3.46043C14.1462 3.52472 14.1823 3.61193 14.1823 3.70286V4.90286C14.1823 5.03926 14.2364 5.17007 14.3328 5.26651C14.4292 5.36296 14.56 5.41714 14.6963 5.41714H15.8957C15.9866 5.41714 16.0738 5.45327 16.1381 5.51757C16.2023 5.58186 16.2384 5.66907 16.2384 5.76C16.2384 6.39652 15.9857 7.00697 15.5358 7.45706C15.0859 7.90714 14.4758 8.16 13.8396 8.16C13.608 8.16026 13.3774 8.12912 13.1542 8.06743C12.7739 7.95753 12.4272 7.75403 12.1459 7.47552ZM15.1184 11.3478C15.1192 10.648 15.6919 10.0808 16.3984 10.08C17.1053 10.08 17.6784 10.6477 17.6784 11.3478C17.6784 12.048 17.1053 12.6157 16.3984 12.6157C16.16 12.6149 15.9267 12.5476 15.7253 12.4215L13.4022 13.7894C13.4031 13.8022 13.4049 13.8147 13.4066 13.8272C13.4092 13.8457 13.4117 13.8643 13.4117 13.8835C13.4125 14.5294 12.9225 15.0722 12.2745 15.1437C11.6266 15.2152 11.028 14.7923 10.8852 14.1623L8.74283 13.1113C8.3458 13.4923 7.74361 13.5705 7.2608 13.3038L4.79268 15.1283C4.8483 15.2706 4.87736 15.4215 4.87846 15.5741C4.87846 16.2742 4.30533 16.8419 3.59846 16.8419C2.89159 16.8419 2.31846 16.2742 2.31846 15.5741C2.31846 14.8737 2.89159 14.3062 3.59846 14.3062C3.82409 14.3075 4.04534 14.3684 4.23908 14.4828L6.68283 12.6764C6.48424 12.2023 6.59377 11.6566 6.96033 11.2938C7.32674 10.9311 7.87783 10.8229 8.35627 11.0197C8.8347 11.2168 9.14611 11.6798 9.14517 12.193C9.14314 12.248 9.13767 12.3028 9.12845 12.3571L11.0124 13.2814C11.2047 12.9241 11.5588 12.6805 11.9639 12.6268C12.3689 12.5731 12.7753 12.7158 13.0556 13.0104L15.1916 11.7527C15.1448 11.6227 15.1202 11.4859 15.1184 11.3478ZM15.5452 15.1514H17.2517C17.4874 15.1514 17.6785 15.3407 17.6785 15.5741L17.6784 21.6573C17.6784 21.8907 17.4873 22.08 17.2517 22.08H15.5452C15.3095 22.08 15.1184 21.8907 15.1184 21.6573L15.1185 15.5741C15.1185 15.3407 15.3096 15.1514 15.5452 15.1514ZM8.71848 15.9966H7.01177C6.77614 15.9966 6.58521 16.1859 6.58521 16.4193L6.58518 21.6573C6.58518 21.8907 6.77612 22.08 7.01174 22.08H8.71846C8.95408 22.08 9.14518 21.8907 9.14518 21.6573L9.1452 16.4193C9.1452 16.1859 8.95411 15.9966 8.71848 15.9966ZM2.31846 19.8001C2.31846 19.5668 2.50956 19.3776 2.74518 19.3776H4.45174C4.68737 19.3776 4.87846 19.5668 4.87846 19.8001L4.87843 21.6573C4.87843 21.8907 4.68734 22.08 4.45171 22.08H2.74516C2.50953 22.08 2.31844 21.8907 2.31844 21.6573L2.31846 19.8001ZM11.2784 17.6871H12.9852C13.2208 17.6871 13.4117 17.8764 13.4117 18.1098L13.4117 21.6573C13.4117 21.8907 13.2208 22.08 12.9851 22.08H11.2784C11.0428 22.08 10.8517 21.8907 10.8517 21.6573L10.8517 18.1098C10.8517 17.8764 11.0428 17.6871 11.2784 17.6871ZM2.79844 2.4C2.53334 2.4 2.31844 2.6149 2.31844 2.88C2.31844 3.1451 2.53334 3.36 2.79844 3.36H9.99844C10.2635 3.36 10.4784 3.1451 10.4784 2.88C10.4784 2.6149 10.2635 2.4 9.99844 2.4H2.79844ZM2.31844 5.28C2.31844 5.0149 2.53334 4.8 2.79844 4.8H7.11844C7.38353 4.8 7.59844 5.0149 7.59844 5.28C7.59844 5.5451 7.38353 5.76 7.11844 5.76H2.79844C2.53334 5.76 2.31844 5.5451 2.31844 5.28Z"
+                          fill="#0066BE"
+                          fill-opacity="0.6"
+                        />
+                      </svg>
+                      <p>Content Analytics</p>
+                    </Link>
+                  </li>
+                </ul>
+              ) : null
+            ) : localStorage.getItem("user_id") !==
+              "ref9i5kQrBab/lRKV9H1JA==" ? (
+              <ul>
+                <li
+                  className={
+                    location.pathname == "/content-analytics"
+                      ? "active"
+                      : "side_li"
+                  }
+                >
+                  <Link to={"/content-analytics"}>
+                    <svg
+                      width="20"
+                      height="24"
+                      viewBox="0 0 20 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M2.74061 0C1.44752 0 0.399245 1.0233 0.399196 2.28563L0.398438 21.7142C0.398388 22.9766 1.44669 24 2.73985 24H17.2586C18.5517 24 19.6 22.9767 19.6 21.7143V2.28571C19.6 1.02335 18.5517 0 17.2586 0H2.74061ZM15.1584 4.8H17.3184C17.4139 4.8 17.5055 4.76207 17.573 4.69456C17.6405 4.62704 17.6784 4.53548 17.6784 4.44C17.6784 3.77165 17.4129 3.13068 16.9403 2.65809C16.4678 2.1855 15.8268 1.92 15.1584 1.92C15.063 1.92 14.9714 1.95793 14.9039 2.02544C14.8364 2.09295 14.7984 2.18452 14.7984 2.28V4.2636C14.7984 4.638 14.9604 4.8 15.1584 4.8ZM12.1459 7.47552C11.8645 7.19701 11.6574 6.85238 11.5435 6.47314C11.4286 6.09536 11.4076 5.69525 11.4822 5.3075C11.5569 4.91974 11.7249 4.55607 11.9719 4.248C12.1973 3.97001 12.482 3.74598 12.8052 3.59233C13.1283 3.43868 13.4818 3.3593 13.8396 3.36C13.9304 3.36 14.0176 3.39613 14.0819 3.46043C14.1462 3.52472 14.1823 3.61193 14.1823 3.70286V4.90286C14.1823 5.03926 14.2364 5.17007 14.3328 5.26651C14.4292 5.36296 14.56 5.41714 14.6963 5.41714H15.8957C15.9866 5.41714 16.0738 5.45327 16.1381 5.51757C16.2023 5.58186 16.2384 5.66907 16.2384 5.76C16.2384 6.39652 15.9857 7.00697 15.5358 7.45706C15.0859 7.90714 14.4758 8.16 13.8396 8.16C13.608 8.16026 13.3774 8.12912 13.1542 8.06743C12.7739 7.95753 12.4272 7.75403 12.1459 7.47552ZM15.1184 11.3478C15.1192 10.648 15.6919 10.0808 16.3984 10.08C17.1053 10.08 17.6784 10.6477 17.6784 11.3478C17.6784 12.048 17.1053 12.6157 16.3984 12.6157C16.16 12.6149 15.9267 12.5476 15.7253 12.4215L13.4022 13.7894C13.4031 13.8022 13.4049 13.8147 13.4066 13.8272C13.4092 13.8457 13.4117 13.8643 13.4117 13.8835C13.4125 14.5294 12.9225 15.0722 12.2745 15.1437C11.6266 15.2152 11.028 14.7923 10.8852 14.1623L8.74283 13.1113C8.3458 13.4923 7.74361 13.5705 7.2608 13.3038L4.79268 15.1283C4.8483 15.2706 4.87736 15.4215 4.87846 15.5741C4.87846 16.2742 4.30533 16.8419 3.59846 16.8419C2.89159 16.8419 2.31846 16.2742 2.31846 15.5741C2.31846 14.8737 2.89159 14.3062 3.59846 14.3062C3.82409 14.3075 4.04534 14.3684 4.23908 14.4828L6.68283 12.6764C6.48424 12.2023 6.59377 11.6566 6.96033 11.2938C7.32674 10.9311 7.87783 10.8229 8.35627 11.0197C8.8347 11.2168 9.14611 11.6798 9.14517 12.193C9.14314 12.248 9.13767 12.3028 9.12845 12.3571L11.0124 13.2814C11.2047 12.9241 11.5588 12.6805 11.9639 12.6268C12.3689 12.5731 12.7753 12.7158 13.0556 13.0104L15.1916 11.7527C15.1448 11.6227 15.1202 11.4859 15.1184 11.3478ZM15.5452 15.1514H17.2517C17.4874 15.1514 17.6785 15.3407 17.6785 15.5741L17.6784 21.6573C17.6784 21.8907 17.4873 22.08 17.2517 22.08H15.5452C15.3095 22.08 15.1184 21.8907 15.1184 21.6573L15.1185 15.5741C15.1185 15.3407 15.3096 15.1514 15.5452 15.1514ZM8.71848 15.9966H7.01177C6.77614 15.9966 6.58521 16.1859 6.58521 16.4193L6.58518 21.6573C6.58518 21.8907 6.77612 22.08 7.01174 22.08H8.71846C8.95408 22.08 9.14518 21.8907 9.14518 21.6573L9.1452 16.4193C9.1452 16.1859 8.95411 15.9966 8.71848 15.9966ZM2.31846 19.8001C2.31846 19.5668 2.50956 19.3776 2.74518 19.3776H4.45174C4.68737 19.3776 4.87846 19.5668 4.87846 19.8001L4.87843 21.6573C4.87843 21.8907 4.68734 22.08 4.45171 22.08H2.74516C2.50953 22.08 2.31844 21.8907 2.31844 21.6573L2.31846 19.8001ZM11.2784 17.6871H12.9852C13.2208 17.6871 13.4117 17.8764 13.4117 18.1098L13.4117 21.6573C13.4117 21.8907 13.2208 22.08 12.9851 22.08H11.2784C11.0428 22.08 10.8517 21.8907 10.8517 21.6573L10.8517 18.1098C10.8517 17.8764 11.0428 17.6871 11.2784 17.6871ZM2.79844 2.4C2.53334 2.4 2.31844 2.6149 2.31844 2.88C2.31844 3.1451 2.53334 3.36 2.79844 3.36H9.99844C10.2635 3.36 10.4784 3.1451 10.4784 2.88C10.4784 2.6149 10.2635 2.4 9.99844 2.4H2.79844ZM2.31844 5.28C2.31844 5.0149 2.53334 4.8 2.79844 4.8H7.11844C7.38353 4.8 7.59844 5.0149 7.59844 5.28C7.59844 5.5451 7.38353 5.76 7.11844 5.76H2.79844C2.53334 5.76 2.31844 5.5451 2.31844 5.28Z"
+                        fill="#0066BE"
+                        fill-opacity="0.6"
+                      />
+                    </svg>
+                    <p>Content Analytics</p>
+                  </Link>
+                </li>
+              </ul>
+            ) : null
           ) : null}
         </div>
 
@@ -702,7 +1964,7 @@ const Sidebar = () => {
                   <path
                     d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
                     fill="#0066BE"
-                    fill-opacity="0.6"
+                    fillOpacity="0.6"
                   />
                 </svg>
               </div>
@@ -739,7 +2001,7 @@ const Sidebar = () => {
                         <li>Auto Email</li>
                         <li>Template Builder</li>
                         <li>Smart List</li>
-                        <li>Email Analytics </li>
+                        <li>Email Results </li>
                       </ul>
                     </div>
                     <div className="help-popup-content-library-inside">
@@ -848,7 +2110,7 @@ const Sidebar = () => {
                   <path
                     d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
                     fill="#0066BE"
-                    fill-opacity="0.6"
+                    fillOpacity="0.6"
                   />
                 </svg>
               </div>
@@ -1038,7 +2300,7 @@ const Sidebar = () => {
                   <path
                     d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
                     fill="#0066BE"
-                    fill-opacity="0.6"
+                    fillOpacity="0.6"
                   />
                 </svg>
               </div>
@@ -1263,7 +2525,7 @@ const Sidebar = () => {
                   <path
                     d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
                     fill="#0066BE"
-                    fill-opacity="0.6"
+                    fillOpacity="0.6"
                   />
                 </svg>
               </div>
@@ -1399,7 +2661,7 @@ const Sidebar = () => {
                   <path
                     d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
                     fill="#0066BE"
-                    fill-opacity="0.6"
+                    fillOpacity="0.6"
                   />
                 </svg>
               </div>
@@ -1611,7 +2873,7 @@ const Sidebar = () => {
                   <path
                     d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
                     fill="#0066BE"
-                    fill-opacity="0.6"
+                    fillOpacity="0.6"
                   />
                 </svg>
               </div>
@@ -1824,7 +3086,7 @@ const Sidebar = () => {
                   <path
                     d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
                     fill="#0066BE"
-                    fill-opacity="0.6"
+                    fillOpacity="0.6"
                   />
                 </svg>
               </div>
@@ -1976,7 +3238,7 @@ const Sidebar = () => {
                   <path
                     d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
                     fill="#0066BE"
-                    fill-opacity="0.6"
+                    fillOpacity="0.6"
                   />
                 </svg>
               </div>
@@ -2013,19 +3275,22 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-content-library-inside">
-                      <img src={path_image + "help/creator_name.png"} alt="" />
+                      <img
+                        src={path_image + "help/creator_name_t.png"}
+                        alt=""
+                      />
                       <p>
                         Creator name is automatically what is account name, but
                         you can change it if needed.
                       </p>
                     </div>
 
-                    <div className="help-popup-content-library-inside">
-                      <p>
-                        Demo list is the people you frequently email samples to
-                        for review and approval.
-                      </p>
-                    </div>
+                    {/*<div className="help-popup-content-library-inside">
+                        <p>
+                          Demo list is the people you frequently email samples to
+                          for review and approval.
+                        </p>
+                      </div>*/}
 
                     <div className="help-popup-content-list">
                       <p className="help-popup-title">
@@ -2135,7 +3400,7 @@ const Sidebar = () => {
                   <path
                     d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
                     fill="#0066BE"
-                    fill-opacity="0.6"
+                    fillOpacity="0.6"
                   />
                 </svg>
               </div>
@@ -2251,6 +3516,3978 @@ const Sidebar = () => {
           </>
         )}
         {/*Help Pages for filter segment end*/}
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/set-popup" && (
+          <>
+            {localStorage.getItem("group_id") == 3 && selectedItem ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      <div className="help-popup-content-video">
+                        <h6>Create content</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Steps 2 :</strong> “Edit Consent Options”
+                        </p>
+                        <p>
+                          Proceed to the next step to customise settings like{" "}
+                        </p>
+                        <ul style={{ margin: "0 0 9px" }}>
+                          <li>consent type</li>
+                          <li>language</li>
+                          <li>pop-up appearance time</li>
+                        </ul>
+                        <p>Select the pop-up and edit text if needed.</p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-filled">Save</Button>
+                        <p>
+                          <span>
+                            Click “Save”, when you do any editing to the pop-up.{" "}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <div className="d-flex align-items-center justify-content-center button-group">
+                          <Button className="btn-bordered small">Back</Button>
+                          <Button className="btn-filled small">Next</Button>
+                        </div>
+
+                        <p>
+                          <span>
+                            Click “Next” to proceed to the final step or “Back”
+                            to go back to the previous step.
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : localStorage.getItem("group_id") == 3 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div>
+                      <div className="help-popup-content-library-inside library-p publisher">
+                        <p>
+                          <strong>
+                            This page allows you to make changes to your
+                            standard consent and pop-up texts
+                          </strong>
+                        </p>
+                        <br />
+                        <p>
+                          <strong>To set your pop-up:</strong>
+                        </p>
+                        <ul>
+                          <li>
+                            Select the language you want your pop-ups to appear
+                            in
+                          </li>
+                          <li>
+                            Choose the type of pop-up you wish to create or
+                            modify
+                          </li>
+                          <li>Edit the text of the pop-up if needed</li>
+                        </ul>
+                        <br />
+                        <Button className="btn-filled small">Save</Button>
+                        <p style={{ textAlign: "center" }}>
+                          <span>Once completed, click “Save”.</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            {localStorage.getItem("group_id") == 2 && selectedItem ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      {/* <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div> */}
+                      <div className="help-popup-content-library-inside">
+                        <h6>Create content</h6>
+                        <br />
+                        <p>
+                          <strong>Steps 2 :</strong> “Edit Consent Options”
+                        </p>
+                        <p>
+                          Proceed to the next step to customise settings like{" "}
+                        </p>
+                        <ul style={{ margin: "0 0 9px" }}>
+                          <li>consent type</li>
+                          <li>language</li>
+                          <li>pop-up appearance time</li>
+                        </ul>
+                        <p>Select the pop-up and edit text if needed.</p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-filled">Save</Button>
+                        <p>
+                          <span>
+                            Click “Save”, when you do any editing to the pop-up.{" "}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <div className="d-flex align-items-center justify-content-center button-group">
+                          <Button className="btn-bordered small">Back</Button>
+                          <Button className="btn-filled small">Next</Button>
+                        </div>
+
+                        <p>
+                          <span>
+                            Click “Next” to proceed to the final step or “Back”
+                            to go back to the previous step.
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : localStorage.getItem("group_id") == 2 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+                      <div className="help-popup-content-library-inside">
+                        <h6>Set Popup</h6>
+                        <br />
+                        <p>
+                          <strong>
+                            This page allows you to make changes to your
+                            standard consent and pop-up texts
+                          </strong>
+                        </p>
+                        <br />
+                        <p>
+                          <strong>To set your pop-up:</strong>
+                        </p>
+                        <ul>
+                          <li>
+                            Select the language you want your pop-ups to appear
+                            in
+                          </li>
+                          <li>
+                            Choose the type of pop-up you wish to create or
+                            modify
+                          </li>
+                          <li>Edit the text of the pop-up if needed</li>
+                        </ul>
+                        <br />
+                        <Button className="btn-filled small">Save</Button>
+                        <p style={{ textAlign: "center" }}>
+                          <span>Once completed, click “Save”.</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/library-sublink" && (
+          <>
+            {localStorage.getItem("group_id") == 3 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>
+                            A Sublink is a unique link that leads to the main
+                            link, and can be tracked separately. It can be
+                            useful for events, promotion, social media etc.
+                          </strong>
+                        </p>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>
+                            To create new sublink for your content:
+                          </strong>
+                        </p>
+                        <p>
+                          By choosing the content you wish to create a sub-link
+                          of, either from the:
+                        </p>
+                        <ul>
+                          <li>Title</li>
+                          <li>Content URL</li>
+                        </ul>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          On the right-hand side of the screen, you'll find a
+                          list of all the sub-links you've previously created.
+                          Each sub-link will feature with:
+                        </p>
+                        <img src={path_image + "docintel-link.png"} alt="" />
+                        <ul>
+                          <li>Title and link</li>
+                          <li>Copy icon to copy the link quickly</li>
+                        </ul>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <img
+                          className="qr-download"
+                          src={path_image + "qr-code-download.png"}
+                          alt=""
+                        />
+                        <p>
+                          <span>
+                            Click on the download icon to download the sublink
+                            QR
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Analytics
+                        </Button>
+                        <p>
+                          <span>
+                            Your “Analytics” button will take you to the
+                            analytics page of the sublink.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-filled">
+                          Create New Link +
+                        </Button>
+                        <p>
+                          <span>
+                            Click on “Create New Link” to reveal a pop-up that
+                            allows you to create a new sublink for the selected
+                            content.
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            {localStorage.getItem("group_id") == 2 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      {/* <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div> */}
+                      <div className="help-popup-content-library-inside library-p publisher">
+                        <p>
+                          <strong>
+                            A Sublink is a unique link that leads to the main
+                            link, and can be tracked separately. It can be
+                            useful for events, promotion, social media etc.
+                          </strong>
+                        </p>
+                        <br />
+                        <p>
+                          <strong>
+                            To create new sublink for your content:
+                          </strong>
+                          <br />
+                          By choosing the content you wish to create a sub-link
+                          of, either from the:
+                        </p>
+                        <ul>
+                          <li>Title</li>
+                          <li>Content URL</li>
+                        </ul>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          On the right-hand side of the screen, you'll find a
+                          list of all the sub-links you've previously created.
+                          Each sub-link will feature with:
+                        </p>
+                        <img src={path_image + "docintel-link.png"} alt="" />
+                        <ul>
+                          <li>Title and link</li>
+                          <li>Copy icon to copy the link quickly</li>
+                        </ul>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <img
+                          className="qr-download"
+                          src={path_image + "qr-code-download.png"}
+                          alt=""
+                        />
+                        <p>
+                          <span>
+                            Click on the download icon to download the sublink
+                            QR
+                          </span>
+                        </p>
+                        <Button className="btn-bordered">Analytics</Button>
+                        <p>
+                          <span>
+                            Your “Analytics” button will take you to the
+                            analytics page of the sublink.{" "}
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-filled">
+                          Create New Link +
+                        </Button>
+                        <p>
+                          <span>
+                            Click on “Create New Link” to reveal a pop-up that
+                            allows you to create a new sublink for the selected
+                            content.
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/library-content" && (
+          <>
+            {localStorage.getItem("group_id") == 3 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div>
+
+                      <div className="help-popup-content-library-inside pharma">
+                        <p>
+                          <strong>Three main Sections:</strong>
+                        </p>
+                        <ul>
+                          <li>Content</li>
+                          <li>Create & Change</li>
+                          <li>Products and Tags</li>
+                        </ul>
+                      </div>
+
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Content Section</strong>
+                          <br />
+                          In this page, you can access the all the content you
+                          have created. Each content card includes: 
+                        </p>
+                        <ul>
+                          <li>Content cover</li>
+                          <li>Title</li>
+                          <li>Subtitle</li>
+                          <li>Author name</li>
+                          <li>Selected tag</li>
+                        </ul>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>On your content cards you will find four tabs:</p>
+                        <img
+                          src={path_image + "pharma-content-card.png"}
+                          alt=""
+                        />
+                      </div>
+
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Docintel Link Tab</strong>
+                        </p>
+                        <ul>
+                          <li>
+                            <strong>The main Docintel link to share</strong>
+                          </li>
+                          <li>
+                            <strong>Upload date</strong>
+                          </li>
+                          <li>
+                            <strong>inforMedGO link</strong> - When entered in
+                            the inforMedGO app (free in the app store) it allows
+                            sharing the content with a HCP and gathering
+                            consent.
+                          </li>
+                          <li>
+                            <strong>Docintel Code</strong> - When entered in the
+                            Docintel app (free in the app stores and online in
+                            browsers) it ask the HCP to give consent and gives
+                            access the content through their private Docintel
+                            account.
+                          </li>
+                          <li>
+                            <strong>Language of the content</strong>
+                          </li>
+                          <li>
+                            <strong>Link Type</strong> - Tells the level of
+                            consent requested from the HCP.
+                          </li>
+                          <li>
+                            <strong>Enhanced</strong> - Identifying if the
+                            content contains: SPC{" "}
+                            <img src={path_image + "spc-img.png"} alt="" />,
+                            videos{" "}
+                            <img src={path_image + "video-img.png"} alt="" />{" "}
+                            and links{" "}
+                            <img src={path_image + "link-img.png"} alt="" />.
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          At the bottom of the content card you will find three
+                          buttons:
+                        </p>
+                        <Button className="btn-bordered white">
+                          Preview article
+                        </Button>
+                        <p>
+                          <span>
+                            Opens content in a new tab for preview. Usage is not
+                            tracked.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Download QR
+                        </Button>
+                        <p>
+                          <span>
+                            To generate and download a QR code for the content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Send in email
+                        </Button>
+                        <p>
+                          <span>
+                            Directs you to the email engine to send the content
+                            via email.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Data Tab</strong>
+                          <br />
+                          Click to access detailed analytics of the selected
+                          content including. See{" "}
+                          <img
+                            src={path_image + "info_circle_icon.svg"}
+                            alt=""
+                          />{" "}
+                          for details :
+                        </p>
+                        <ul>
+                          <li>Total Openings</li>
+                          <li>Total Unique Readers</li>
+                          <li>Registered Readers</li>
+                          <li>SubLinks</li>
+                          <li>Downloaded (if enabled)</li>
+                          <li>Printed (if enabled)</li>
+                        </ul>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>At the bottom of the Data tab are two buttons:</p>
+
+                        <Button className="btn-bordered white">
+                          Analytics
+                        </Button>
+                        <p>
+                          <span>
+                            This takes you to the analytics page, revealing the
+                            analytics of the selected content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered btn-voilet white">
+                          Reset the collected data
+                        </Button>
+                        <p className="voilet-text">
+                          Deletes usage, users and any other collected data for
+                          the selected content. Be careful.
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Change Tab</strong>
+                          <br />
+                          This tab allows you to make changes to your content.
+                        </p>
+                        <Button className="btn-filled">Update</Button>
+                        <p>
+                          <span>
+                            You can change the consent type and clicking
+                            “Update” to secure your changes.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>At the bottom three buttons:</p>
+                        <Button className="btn-bordered white">
+                          Edit Docintel link
+                        </Button>
+                        <p>
+                          <span>
+                            Redirects you to the creation page, allowing you to
+                            make changes to the content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Add / remove tags
+                        </Button>
+                        <p>
+                          <span>
+                            Opens Tags pop-up where you can add new or remove
+                            tags from your content. Tags are useful for users to
+                            filter content by if they have a library, for
+                            tracking usage, and for AI to learn from.{" "}
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          New sublink
+                        </Button>
+                        <p>
+                          <span>
+                            Redirects you to the New Sublinks page to create a
+                            new sublink for your content.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>About Tab</strong>
+                          <br />
+                          Provides further information about the content.
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Search and Filter</strong>
+                        </p>
+                        <img src={path_image + "searchbar.png"} alt="" />
+                        <p>
+                          <span>
+                            On the right of the page, you will find the search
+                            bar and filter by to locate specific content by
+                            title or other criteria.
+                          </span>
+                        </p>
+                        <img
+                          className="filter-tags"
+                          src={path_image + "tag-selected.png"}
+                          alt=""
+                        />
+                        <p>
+                          <span>
+                            After filtering you can undo a filter by clicking
+                            the purple <d>x</d> for each filter criteria (it
+                            re-filters then).
+                          </span>
+                        </p>
+                        <Button className="btn-bordered">Remove All</Button>
+                        <p>
+                          <span>
+                            Or click the “Remove All” button to see everything
+                            again.
+                          </span>
+                        </p>
+                        <p>
+                          Should have need for more custom filters please open a
+                          ticket in the upper right corner, or email your
+                          contact.
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Delete content</strong>
+                        </p>
+                        <img
+                          className="dleete-btn"
+                          src={path_image + "delete-button.png"}
+                          alt=""
+                        />
+                        <p>
+                          <span>
+                            Besides the search bar and filter you will find a
+                            rubbish bin for your deletion purposes. Once
+                            clicked, this will activate the ability to delete
+                            any content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered small">Cancel</Button>
+                        <p>
+                          <span>
+                            By clicking “Cancel” to leave deletion mode.
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            {localStorage.getItem("group_id") == 2 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+                      <div className="help-popup-content-library-inside library-p publisher">
+                        <p>
+                          <strong>Library overview</strong>
+                        </p>
+                        <p>
+                          The Library is for you to create samples to share with
+                          clients.
+                          <br />
+                          If it’s a sale please go to <strong>
+                            Licensed
+                          </strong>{" "}
+                          and use Create & Change.
+                        </p>
+                        <p>
+                          <strong>Two main Sections:</strong>
+                        </p>
+                        <ul>
+                          <li>Content</li>
+                          <li>Create & Change</li>
+                        </ul>
+                      </div>
+
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Content Section</strong>
+                          <br />
+                          In this page, you can access the all the content you
+                          have created. Each content card includes: 
+                        </p>
+                        <ul>
+                          <li>Content cover</li>
+                          <li>Title</li>
+                          <li>Subtitle</li>
+                          <li>Author name</li>
+                        </ul>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>On your content cards you will find four tabs:</p>
+                        <img
+                          src={path_image + "pharma-content-card.png"}
+                          alt=""
+                        />
+                      </div>
+
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Docintel Link Tab</strong>
+                        </p>
+                        <ul>
+                          <li>
+                            <strong>The main Docintel link to share</strong>
+                          </li>
+                          <li>
+                            <strong>Upload date</strong>
+                          </li>
+                          <li>
+                            <strong>inforMedGO link</strong> - When entered in
+                            the inforMedGO app (free in the app store) it allows
+                            sharing the content with a HCP and gathering
+                            consent.
+                          </li>
+                          <li>
+                            <strong>Docintel Code</strong> - When entered in the
+                            Docintel app (free in the app stores and online in
+                            browsers) it ask the HCP to give consent and gives
+                            access the content through their private Docintel
+                            account.
+                          </li>
+                          <li>
+                            <strong>Language of the content</strong>
+                          </li>
+                          <li>
+                            <strong>Link Type</strong> - Tells the level of
+                            consent requested from the HCP.
+                          </li>
+                          <li>
+                            <strong>Enhanced</strong> - Identifying if the
+                            content contains: SPC{" "}
+                            <img src={path_image + "spc-img.png"} alt="" />,
+                            videos{" "}
+                            <img src={path_image + "video-img.png"} alt="" />{" "}
+                            and links{" "}
+                            <img src={path_image + "link-img.png"} alt="" />.
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          At the bottom of the content card you will find three
+                          buttons:
+                        </p>
+
+                        <Button className="btn-bordered white">
+                          Preview article
+                        </Button>
+                        <p>
+                          <span>
+                            Opens content in a new tab for preview. Usage is not
+                            tracked.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Download QR
+                        </Button>
+                        <p>
+                          <span>
+                            To generate and download a QR code for the content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Send in email
+                        </Button>
+                        <p>
+                          <span>
+                            Directs you to the email engine to send the content
+                            via email.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Data Tab</strong>
+                          <br />
+                          Click to access detailed analytics of the selected
+                          content including. See{" "}
+                          <img
+                            src={path_image + "info_circle_icon.svg"}
+                            alt=""
+                          />{" "}
+                          for details :
+                        </p>
+                        <ul>
+                          <li>Total Openings</li>
+                          <li>Total Unique Readers</li>
+                          <li>Registered Readers</li>
+                          <li>SubLinks</li>
+                          <li>Downloaded (if enabled)</li>
+                          <li>Printed (if enabled)</li>
+                        </ul>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>At the bottom of the Data tab are two buttons:</p>
+
+                        <Button className="btn-bordered white">
+                          Analytics
+                        </Button>
+                        <p>
+                          <span>
+                            This takes you to the analytics page, revealing the
+                            analytics of the selected content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered btn-voilet white">
+                          Reset the collected data
+                        </Button>
+                        <p className="voilet-text">
+                          Deletes usage, users and any other collected data for
+                          the selected content. Be careful.
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Change Tab</strong>
+                          <br />
+                          This tab allows you to make changes to your content.
+                        </p>
+                        <Button className="btn-filled">Update</Button>
+                        <p>
+                          <span>
+                            You can change the consent type and clicking
+                            “Update” to secure your changes.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>At the bottom three buttons:</p>
+                        <Button className="btn-bordered white">
+                          Edit Docintel link
+                        </Button>
+                        <p>
+                          <span>
+                            Redirects you to the creation page, allowing you to
+                            make changes to the content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          Add / remove tags
+                        </Button>
+                        <p>
+                          <span>
+                            Opens Tags pop-up where you can add new or remove
+                            tags from your content. Tags are useful for users to
+                            filter content by if they have a library, for
+                            tracking usage, and for AI to learn from.{" "}
+                          </span>
+                        </p>
+                        <Button className="btn-bordered white">
+                          New sublink
+                        </Button>
+                        <p>
+                          <span>
+                            Redirects you to the New Sublinks page to create a
+                            new sublink for your content.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>About Tab</strong>
+                          <br />
+                          Provides further information about the content.
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Search and Filter</strong>
+                        </p>
+                        <img src={path_image + "searchbar.png"} alt="" />
+                        <p>
+                          <span>
+                            On the right of the page, you will find the search
+                            bar and filter by to locate specific content by
+                            title or other criteria.
+                          </span>
+                        </p>
+                        <img
+                          className="filter-tags"
+                          src={path_image + "tag-selected.png"}
+                          alt=""
+                        />
+                        <p>
+                          <span>
+                            After filtering you can undo a filter by clicking
+                            the purple <d>x</d> for each filter criteria (it
+                            re-filters then).
+                          </span>
+                        </p>
+                        <Button className="btn-bordered">Remove All</Button>
+                        <p>
+                          <span>
+                            Or click the “Remove All” button to see everything
+                            again.
+                          </span>
+                        </p>
+                        <p>
+                          Should have need for more custom filters please open a
+                          ticket in the upper right corner, or email your
+                          contact.
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Delete content</strong>
+                        </p>
+                        <img
+                          className="dleete-btn"
+                          src={path_image + "delete-button.png"}
+                          alt=""
+                        />
+                        <p>
+                          <span>
+                            Besides the search bar and filter you will find a
+                            rubbish bin for your deletion purposes. Once
+                            clicked, this will activate the ability to delete
+                            any content.
+                          </span>
+                        </p>
+                        <Button className="btn-bordered small">Cancel</Button>
+                        <p>
+                          <span>
+                            By clicking “Cancel” to leave deletion mode.
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/license-content" && (
+          <>
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+
+                    <div className="help-popup-content-library-inside library-p publisher">
+                      <h6>Licensed content</h6>
+                      <p>
+                        This module is for all your sales. Here you can set the
+                        limits you’ve agreed with your client. When the limits
+                        are near (date and/or usage) you will get alerted via
+                        email.
+                      </p>
+                      <br />
+                      <p>
+                        <strong>Two main Sections:</strong>
+                      </p>
+                      <ul>
+                        <li>Content</li>
+                        <li>Create & Change</li>
+                      </ul>
+                      <br />
+                    </div>
+
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Content Section</strong>
+                        <br />
+                        In this page, you can access the all the content you
+                        have created. Each content card includes: 
+                      </p>
+                      <ul>
+                        <li>Content cover</li>
+                        <li>Title</li>
+                        <li>Subtitle</li>
+                        <li>Author name</li>
+                      </ul>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <p>On your content cards you will find four tabs:</p>
+                      <img
+                        src={path_image + "pharma-content-card.png"}
+                        alt=""
+                      />
+                    </div>
+
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Docintel Link Tab</strong>
+                      </p>
+                      <ul>
+                        <li>Displays the link for sharing</li>
+                        <li>Upload date</li>
+                        <li>inforMedGO link</li>
+                        <li>Docintel Code</li>
+                        <li>Language of the content</li>
+                        <li>Link Type</li>
+                        <li>
+                          Enhanced (Identifying if the content
+                          contains: SPC{" "}
+                          <img src={path_image + "spc-img.png"} alt="" />,
+                          videos{" "}
+                          <img src={path_image + "video-img.png"} alt="" /> and
+                          links <img src={path_image + "link-img.png"} alt="" />
+                          .)
+                        </li>
+                      </ul>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        At the bottom of the content card you will find three
+                        buttons:
+                      </p>
+                      <Button className="btn-bordered">Preview article</Button>
+                      <p>
+                        <span>
+                          Opens content in a new tab for preview. Usage is not
+                          tracked.
+                        </span>
+                      </p>
+                      <Button className="btn-bordered">Download QR</Button>
+                      <p>
+                        <span>
+                          To generate and download a QR code for the content.
+                        </span>
+                      </p>
+                      <Button className="btn-bordered">Send in email</Button>
+                      <p>
+                        <span>
+                          Directs you to the email engine to send the content
+                          via email.
+                        </span>
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Data Tab</strong>
+                        <br />
+                        Click to access detailed analytics of the selected
+                        content including. See{" "}
+                        <img
+                          src={path_image + "info_circle_icon.svg"}
+                          alt=""
+                        />{" "}
+                        for details :
+                      </p>
+                      <ul>
+                        <li>Total Openings</li>
+                        <li>Total Unique Readers</li>
+                        <li>Registered Readers</li>
+                        <li>SubLinks</li>
+                        <li>Downloaded (if enabled)</li>
+                        <li>Printed (if enabled)</li>
+                      </ul>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <p>At the bottom of the Data tab are two buttons:</p>
+                      <Button className="btn-bordered">Analytics</Button>
+                      <p>
+                        <span>
+                          This takes you to the analytics page, revealing the
+                          analytics of the selected content.
+                        </span>
+                      </p>
+                      <Button className="btn-bordered btn-voilet">
+                        Reset the collected data
+                      </Button>
+                      <p className="voilet-text">
+                        Deletes usage, users and any other collected data for
+                        the selected content. Be careful.
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Change Tab</strong>
+                        <br />
+                        This tab allows you to make changes to your content.
+                      </p>
+                      <Button className="btn-filled">Update</Button>
+                      <p>
+                        <span>
+                          You can change the consent type and clicking “Update”
+                          to secure your changes.
+                        </span>
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <p>At the bottom three buttons:</p>
+                      <Button className="btn-bordered">
+                        Edit Docintel link
+                      </Button>
+                      <p>
+                        <span>
+                          Redirects you to the creation page, allowing you to
+                          make changes to the content.
+                        </span>
+                      </p>
+                      <Button className="btn-bordered">
+                        Add / remove tags
+                      </Button>
+                      <p>
+                        <span>
+                          Opens Tags pop-up where you can add new or remove tags
+                          from your content. Tags are useful for users to filter
+                          content by if they have a library, for tracking usage,
+                          and for AI to learn from.{" "}
+                        </span>
+                      </p>
+                      <Button className="btn-bordered">New sublink</Button>
+                      <p>
+                        <span>
+                          Redirects you to the New Sublinks page to create a new
+                          sublink for your content.
+                        </span>
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>About Tab</strong>
+                        <br />
+                        Provides further information about the content.
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Search and Filter</strong>
+                      </p>
+                      <img src={path_image + "searchbar.png"} alt="" />
+                      <p>
+                        <span>
+                          On the right of the page, you will find the search bar
+                          and filter by to locate specific content by title or
+                          other criteria.
+                        </span>
+                      </p>
+                      <img
+                        className="filter-tags"
+                        src={path_image + "tag-selected.png"}
+                        alt=""
+                      />
+                      <p>
+                        <span>
+                          After filtering you can undo a filter by clicking the
+                          purple <d>x</d> for each filter criteria (it
+                          re-filters then).
+                        </span>
+                      </p>
+                      <Button className="btn-bordered">Remove All</Button>
+                      <p>
+                        <span>
+                          Or click the “Remove All” button to see everything
+                          again.
+                        </span>
+                      </p>
+                      <p>
+                        Should have need for more custom filters please open a
+                        ticket in the upper right corner, or email your contact.
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Delete content</strong>
+                      </p>
+                      <img
+                        className="dleete-btn"
+                        src={path_image + "delete-button.png"}
+                        alt=""
+                      />
+                      <p>
+                        <span>
+                          Besides the search bar and filter you will find a
+                          rubbish bin for your deletion purposes. Once clicked,
+                          this will activate the ability to delete any content.
+                        </span>
+                      </p>
+                      <Button className="btn-bordered">Cancel</Button>
+                      <p>
+                        <span>
+                          By clicking “Cancel” to leave deletion mode.
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/license-set-popup" && selectedItem ? (
+          <>
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Steps 2 :</strong> “Edit Consent Options”
+                      </p>
+                      <p>
+                        Proceed to the next step to customise settings like{" "}
+                      </p>
+                      <ul style={{ margin: "0 0 9px" }}>
+                        <li>consent type</li>
+                        <li>language</li>
+                        <li>pop-up appearance time</li>
+                      </ul>
+                      <p>Select the pop-up and edit text if needed.</p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-filled">Save</Button>
+                      <p>
+                        <span>
+                          Click “Save”, when you do any editing to the pop-up.{" "}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <div className="d-flex align-items-center justify-content-center button-group">
+                        <Button className="btn-bordered small">Back</Button>
+                        <Button className="btn-filled small">Next</Button>
+                      </div>
+
+                      <p>
+                        <span>
+                          Click “Next” to proceed to the final step or “Back” to
+                          go back to the previous step.
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+                <div
+                  className="help-popup-close"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <a href="javascript:;">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                        fill="#8A4E9C"
+                      />
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                        fill="#8A4E9C"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : location.pathname == "/license-set-popup" ? (
+          <>
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+                    <div className="help-popup-content-library-inside">
+                      <h6>Set Popup</h6>
+                      <br />
+                      <p>
+                        <strong>
+                          This page allows you to make changes to your standard
+                          consent and pop-up texts
+                        </strong>
+                      </p>
+                      <br />
+                      <p>
+                        <strong>To set your pop-up:</strong>
+                      </p>
+                      <ul>
+                        <li>
+                          Select the language you want your pop-ups to appear in
+                        </li>
+                        <li>
+                          Choose the type of pop-up you wish to create or modify
+                        </li>
+                        <li>Edit the text of the pop-up if needed</li>
+                      </ul>
+                      <br />
+                      <Button className="btn-filled small">Save</Button>
+                      <p style={{ textAlign: "center" }}>
+                        <span>Once completed, click “Save”.</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+                <div
+                  className="help-popup-close"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <a href="javascript:;">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                        fill="#8A4E9C"
+                      />
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                        fill="#8A4E9C"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          ""
+        )}
+
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/license-preview-content" && (
+          <>
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+                    <div className="help-popup-content-library-inside">
+                      <h6>Create content</h6>
+                      <br />
+                      <p>
+                        <strong>Steps 3 :</strong> “Preview your content &
+                        publish"
+                      </p>
+                      <p></p>
+                      <p>
+                        Review your content details and make necessary edits.
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <img
+                        className="dleete-btn"
+                        src={path_image + "edit-button-white.png"}
+                        alt=""
+                      />
+                      <p></p>
+                      <p>
+                        <span>
+                          If needed, change the title by clicking on the pen
+                          icon.
+                        </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered">
+                        Change content file
+                      </Button>
+                      <p>
+                        <span>
+                          Click “Change content file” to change the uploaded
+                          content file.
+                        </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <p className="voilet-text">
+                        You have to scroll to the bottom to complete previewing
+                        your file and that will enable the “Publish” button. 
+                      </p>
+                      <Button className="btn-filled publish">Publish</Button>
+                      <p>
+                        <span>Click “Publish” to finalise your content. </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered back">Back</Button>
+                      <p></p>
+                      <p>
+                        <span>
+                          Or click “Back” to go back to the previous step.
+                        </span>
+                      </p>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/license-sublink" && (
+          <>
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner library-p">
+                  {/* <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div> */}
+                  <div className="help-popup-content-library-inside">
+                    <p>
+                      <strong>
+                        A Sublink is a unique link that leads to the main link,
+                        and can be tracked separately. It can be useful for
+                        events, promotion, social media etc.
+                      </strong>
+                    </p>
+                  </div>
+                  <div className="help-popup-content-library-inside">
+                    <p>
+                      <strong>To create new sublink for your content:</strong>
+                    </p>
+                    <p>
+                      By choosing the content you wish to create a sub-link of,
+                      either from the:
+                    </p>
+                    <ul>
+                      <li>Title</li>
+                      <li>Content URL</li>
+                    </ul>
+                  </div>
+                  <div className="help-popup-content-library-inside">
+                    <p>
+                      On the right-hand side of the screen, you'll find a list
+                      of all the sub-links you've previously created. Each
+                      sub-link will feature with:
+                    </p>
+                    <img src={path_image + "docintel-link.png"} alt="" />
+                    <ul>
+                      <li>Title and link</li>
+                      <li>Copy icon to copy the link quickly</li>
+                    </ul>
+                  </div>
+                  <div className="help-popup-content-library-inside">
+                    <img
+                      className="qr-download"
+                      src={path_image + "qr-code-download.png"}
+                      alt=""
+                    />
+                    <p>
+                      <span>
+                        Click on the download icon to download the sublink QR
+                      </span>
+                    </p>
+                    <Button className="btn-bordered white">Analytics</Button>
+                    <p>
+                      <span>
+                        Your “Analytics” button will take you to the analytics
+                        page of the sublink.
+                      </span>
+                    </p>
+                  </div>
+                  <div className="dotted-line">&nbsp;</div>
+                  <div className="help-popup-content-library-inside">
+                    <Button className="btn-filled">Create New Link +</Button>
+                    <p>
+                      <span>
+                        Click on “Create New Link” to reveal a pop-up that
+                        allows you to create a new sublink for the selected
+                        content.
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div
+                  className="help-popup-close"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <a href="javascript:;">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                        fill="#8A4E9C"
+                      />
+                      <rect
+                        width="2.72751"
+                        height="19.7402"
+                        rx="1.36376"
+                        transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                        fill="#8A4E9C"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/library-create-user" && (
+          <>
+            {localStorage.getItem("group_id") == 3 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div>
+
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Three Steps to Create Your Content</strong>
+                        </p>
+                        <p></p>
+                        <img
+                          src={path_image + "create-content-steps.png"}
+                          alt=""
+                        />
+                        <p>
+                          <strong>Steps 1 : </strong>“Create Your Content”
+                        </p>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Start by filling in the information about{" "}
+                          <strong>Who is involved</strong> and if they can print
+                          or download the sample.
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-purple btn-bordered">
+                          Add new product +
+                        </Button>
+                        <p>
+                          <span>
+                            Next add the product. To add a new product, click
+                            “Add a New Product” found to the right of the
+                            “Product” bar. This will reveal a pop-up.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <img src={path_image + "group-topics.png"} alt="" />
+                        <p></p>
+                        <p>
+                          <span>
+                            To add topic tags, click “Add Topic” and select one
+                            or more from the predefined list or create your own.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Next <strong>Create the Docintel link</strong> for
+                          your content.
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Select the Docintel format, such as PDF, Video and
+                          E-book.
+                        </p>
+                        <img src={path_image + "select-format.png"} alt="" />
+                        <p>
+                          <span>
+                            <strong>E-book</strong> allows you to upload
+                            individual chapters by clicking “Choose Your File”
+                            and type chapter title.{" "}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <img src={path_image + "select-cover-img.png"} alt="" />
+                        <p>
+                          <span>
+                            {" "}
+                            The last thing is uploading the content cover by
+                            clicking “Choose Your File”.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-filled cancel">Next</Button>
+                        <p>
+                          <span>Click “Next” to move to the next step.</span>
+                        </p>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Something else</strong>
+                          <br />
+                          If you have any special requirements that are not
+                          available here please open a ticket in the upper right
+                          corner or email/call your inforMed.pro contact.
+                        </p>
+                      </div>
+
+                      <div
+                        className="help-popup-close"
+                        onClick={() =>
+                          setHideShowSideContent(
+                            (getHideShowSideContent) => !getHideShowSideContent
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                              fill="#8A4E9C"
+                            />
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                              fill="#8A4E9C"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            {localStorage.getItem("group_id") == 2 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+                      <div className="help-popup-content-library-inside">
+                        <h6>Create content</h6>
+                        <br />
+                        <p>
+                          <strong>Three Steps to Create Your Content</strong>
+                        </p>
+                        <p></p>
+                        <img
+                          src={path_image + "create-content-steps.png"}
+                          alt=""
+                        />
+                        <p>
+                          <strong>Steps 1 : </strong>“Create Your Content”
+                        </p>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Start by filling in the information about{" "}
+                          <strong>Who is involved</strong> and if they can print
+                          or download the sample.
+                        </p>
+                      </div>
+                      <hr />
+
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Next <strong>Create the Docintel link</strong> for
+                          your content.
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          Select the Docintel format, such as PDF, Video and
+                          E-book.
+                        </p>
+                        <p></p>
+                        <img src={path_image + "select-format.png"} alt="" />
+                        <p></p>
+                        <p>
+                          <span>
+                            <strong>E-book</strong> allows you to upload
+                            individual chapters by clicking “Choose Your File”
+                            and type chapter title.{" "}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <img src={path_image + "select-cover-img.png"} alt="" />
+                        <p></p>
+                        <p>
+                          <span>
+                            {" "}
+                            The last thing is uploading the content cover by
+                            clicking “Choose Your File”.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-filled cancel">Next</Button>
+                        <p>
+                          <span>Click “Next” to move to the next step.</span>
+                        </p>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Something else</strong>
+                          <br />
+                          If you have any special requirements that are not
+                          available here please open a ticket in the upper right
+                          corner or email/call your inforMed.pro contact.
+                        </p>
+                      </div>
+                      <div
+                        className="help-popup-close"
+                        onClick={() =>
+                          setHideShowSideContent(
+                            (getHideShowSideContent) => !getHideShowSideContent
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                              fill="#8A4E9C"
+                            />
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                              fill="#8A4E9C"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/license-create-user" && (
+          <>
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+                    <div className="help-popup-content-library-inside">
+                      <h6>Create content</h6>
+                      <br />
+                      <p>
+                        <strong>Three Steps to Create Your Content</strong>
+                      </p>
+                      <img
+                        src={path_image + "create-content-steps.png"}
+                        alt=""
+                      />
+                      <p>
+                        <strong>Steps 1 : </strong>“Create Your Content”
+                      </p>
+                    </div>
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        Start by filling in the information about{" "}
+                        <strong>Who is involved</strong> and if they can print
+                        or download the sample.
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Limits agreed</strong>
+                        <br />
+                        Is your chance to set the limits you've agreed with your
+                        client. When those limits are near you will get alerted
+                        via email.
+                      </p>
+                      <img src={path_image + "set-limit.png"} alt="" />
+                      <p>
+                        Usage refer to Unique Readers, not just quantity of
+                        openings.
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        Next <strong>Create the Docintel link</strong> for your
+                        content.
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        Select the Docintel format, such as PDF, Video and
+                        E-book.
+                      </p>
+                      <p></p>
+                      <img src={path_image + "select-format.png"} alt="" />
+                      <p></p>
+                      <p>
+                        <span>
+                          <strong>E-book</strong> allows you to upload
+                          individual chapters by clicking “Choose Your File” and
+                          type chapter title.{" "}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <img src={path_image + "select-cover-img.png"} alt="" />
+                      <p></p>
+                      <p>
+                        <span>
+                          {" "}
+                          The last thing is uploading the content cover by
+                          clicking “Choose Your File”.
+                        </span>
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-filled cancel">Next</Button>
+                      <p>
+                        <span>Click “Next” to move to the next step.</span>
+                      </p>
+                    </div>
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Something else</strong>
+                        <br />
+                        If you have any special requirements that are not
+                        available here please open a ticket in the upper right
+                        corner or email/call your inforMed.pro contact.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/preview-content" && (
+          <>
+            {localStorage.getItem("group_id") == 3 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Steps 3 :</strong> “Preview your content &
+                          publish
+                        </p>
+                        <p></p>
+                        <p>
+                          Review your content details and make necessary edits.
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <img
+                          className="dleete-btn"
+                          src={path_image + "edit-button-white.png"}
+                          alt=""
+                        />
+                        <p></p>
+                        <p>
+                          <span>
+                            If needed, change the title by clicking on the pen
+                            icon.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-bordered">
+                          Change content file
+                        </Button>
+                        <p>
+                          <span>
+                            Click “Change content file” to change the uploaded
+                            content file.
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <p className="voilet-text">
+                          You have to scroll to the bottom to complete
+                          previewing your file and that will enable the
+                          “Publish” button. 
+                        </p>
+                        <Button className="btn-filled publish">Publish</Button>
+                        <p>
+                          <span>
+                            Click “Publish” to finalise your content. 
+                          </span>
+                        </p>
+                      </div>
+                      <hr />
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-bordered back">Back</Button>
+                        <p></p>
+                        <p>
+                          <span>
+                            Or click “Back” to go back to the previous step.
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            {localStorage.getItem("group_id") == 2 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      {/* <div className="help-popup-content-video">
+                          <h6>{title}</h6>
+                          <div
+                            className="help-content-popup"
+                            onClick={() =>
+                              setOpenVideoPopup(
+                                (getOpenVideoPopup) => !getOpenVideoPopup
+                              )
+                            }
+                          >
+                            <a href="javascript:;">
+                              <img src={video_poster} alt="" />
+                            </a>
+                          </div>
+                        </div> */}
+                      <div className="help-popup-content-library-inside library-p publisher">
+                        <div className="help-popup-content-library-inside">
+                          <h6>Create content</h6>
+                        </div>
+                        <div className="help-popup-content-library-inside">
+                          <p>
+                            <strong>Steps 3 :</strong> “Preview your content &
+                            publish
+                          </p>
+                          <p></p>
+                          <p>
+                            Review your content details and make necessary
+                            edits.
+                          </p>
+                        </div>
+                        <hr />
+                        <div className="help-popup-content-library-inside">
+                          <img
+                            className="dleete-btn"
+                            src={path_image + "edit-button-white.png"}
+                            alt=""
+                          />
+                          <p></p>
+                          <p>
+                            <span>
+                              If needed, change the title by clicking on the pen
+                              icon.
+                            </span>
+                          </p>
+                        </div>
+                        <hr />
+                        <div className="help-popup-content-library-inside">
+                          <Button className="btn-bordered">
+                            Change content file
+                          </Button>
+                          <p>
+                            <span>
+                              Click “Change content file” to change the uploaded
+                              content file.
+                            </span>
+                          </p>
+                        </div>
+                        <hr />
+                        <div className="help-popup-content-library-inside">
+                          <p className="voilet-text">
+                            You have to scroll to the bottom to complete
+                            previewing your file and that will enable the
+                            “Publish” button. 
+                          </p>
+                          <Button className="btn-filled publish">
+                            Publish
+                          </Button>
+                          <p>
+                            <span>
+                              Click “Publish” to finalise your content. 
+                            </span>
+                          </p>
+                        </div>
+                        <hr />
+                        <div className="help-popup-content-library-inside">
+                          <Button className="btn-bordered back">Back</Button>
+                          <p></p>
+                          <p>
+                            <span>
+                              Or click “Back” to go back to the previous step.
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        className="help-popup-close"
+                        onClick={() =>
+                          setHideShowSideContent(
+                            (getHideShowSideContent) => !getHideShowSideContent
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                              fill="#8A4E9C"
+                            />
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                              fill="#8A4E9C"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/content-detail" && (
+          <>
+            {localStorage.getItem("group_id") == 3 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      <div className="help-popup-content-video">
+                        <h6>{title}</h6>
+                        <div
+                          className="help-content-popup"
+                          onClick={() =>
+                            setOpenVideoPopup(
+                              (getOpenVideoPopup) => !getOpenVideoPopup
+                            )
+                          }
+                        >
+                          <a href="javascript:;">
+                            <img src={video_poster} alt="" />
+                          </a>
+                        </div>
+                      </div>
+                      <div className="help-popup-content-library-inside">
+                        <p>
+                          <strong>Content Details </strong>
+                          <br />A summary of your content to review.
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <img
+                          className="dleete-btn small"
+                          src={path_image + "copy-content.png"}
+                          alt=""
+                        />
+                        <p></p>
+                        <p>
+                          <span>
+                            To copy the Docintel link you can click on the copy
+                            icon to copy it.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-bordered small">Close</Button>
+                        <p>
+                          <span>
+                            Once happy with your content, click “Close” to
+                            finish.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="dotted-line">&nbsp;</div>
+                      <div className="help-popup-content-library-inside">
+                        <Button className="btn-bordered small disabled">
+                          Edit
+                        </Button>
+                        <p>
+                          <span>
+                            Or click “Edit” to make any final adjustments.  
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="help-popup-close"
+                      onClick={() =>
+                        setHideShowSideContent(
+                          (getHideShowSideContent) => !getHideShowSideContent
+                        )
+                      }
+                    >
+                      <a href="javascript:;">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                            fill="#8A4E9C"
+                          />
+                          <rect
+                            width="2.72751"
+                            height="19.7402"
+                            rx="1.36376"
+                            transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                            fill="#8A4E9C"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            {localStorage.getItem("group_id") == 2 ? (
+              <div className="help-popup">
+                <div
+                  className="help-popup-view"
+                  onClick={() =>
+                    setHideShowSideContent(
+                      (getHideShowSideContent) => !getHideShowSideContent
+                    )
+                  }
+                >
+                  <svg
+                    width="16"
+                    height="38"
+                    viewBox="0 0 16 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className={
+                    getHideShowSideContent
+                      ? "help-popup-content show"
+                      : "help-popup-content"
+                  }
+                >
+                  <div className="help-popup-content-inner">
+                    <div className="help-popup-content-library library-p">
+                      {/* <div className="help-popup-content-video">
+                          <h6>{title}</h6>
+                          <div
+                            className="help-content-popup"
+                            onClick={() =>
+                              setOpenVideoPopup(
+                                (getOpenVideoPopup) => !getOpenVideoPopup
+                              )
+                            }
+                          >
+                            <a href="javascript:;">
+                              <img src={video_poster} alt="" />
+                            </a>
+                          </div>
+                        </div> */}
+                      <div className="help-popup-content-library-inside library-p publisher">
+                        <div className="help-popup-content-library-inside">
+                          <h6>Create content</h6>
+                        </div>
+                        <div className="help-popup-content-library-inside">
+                          <p>
+                            <strong>Content Details </strong>
+                            <br />A summary of your content to review.
+                          </p>
+                        </div>
+                        <hr />
+                        <div className="help-popup-content-library-inside">
+                          <img
+                            className="dleete-btn small"
+                            src={path_image + "copy-content.png"}
+                            alt=""
+                          />
+                          <p></p>
+                          <p>
+                            <span>
+                              To copy the Docintel link you can click on the
+                              copy icon to copy it.
+                            </span>
+                          </p>
+                        </div>
+                        <hr />
+                        <div className="help-popup-content-library-inside">
+                          <Button className="btn-bordered small">Close</Button>
+                          <p>
+                            <span>
+                              Once happy with your content, click “Close” to
+                              finish.
+                            </span>
+                          </p>
+                        </div>
+                        <hr />
+                        <div className="help-popup-content-library-inside">
+                          <Button className="btn-bordered small disabled">
+                            Edit
+                          </Button>
+                          <p>
+                            <span>
+                              Or click “Edit” to make any final adjustments.
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        className="help-popup-close"
+                        onClick={() =>
+                          setHideShowSideContent(
+                            (getHideShowSideContent) => !getHideShowSideContent
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                              fill="#8A4E9C"
+                            />
+                            <rect
+                              width="2.72751"
+                              height="19.7402"
+                              rx="1.36376"
+                              transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                              fill="#8A4E9C"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/license-content-detail" && (
+          <>
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    {/* <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div> */}
+                    <div className="help-popup-content-library-inside">
+                      <h6>Create content</h6>
+                      <br />
+                      <p>
+                        <strong>Content Details </strong>
+                        <br />A summary of your content to review.
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <img
+                        className="dleete-btn small"
+                        src={path_image + "copy-content.png"}
+                        alt=""
+                      />
+                      <p></p>
+                      <p>
+                        <span>
+                          This is the link to send to your client. To copy the
+                          Docintel link you can click on the copy icon to copy
+                          it.
+                          <br />
+                          <br />
+                          They can use it right away, or review and you can
+                          Reset data back to zero when they have approved.
+                          <br /> <br />
+                          If you need amend anything go back to Create & Change,
+                          find the eprint and change the parts that needs
+                          changing.
+                        </span>
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered small">Close</Button>
+                      <p>
+                        <span>
+                          Once happy with your content, click “Close” to finish.
+                        </span>
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered small disabled">
+                        Edit
+                      </Button>
+                      <p>
+                        <span>
+                          Or click “Edit” to make any final adjustments.  
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
+        {/*Help Pages for filter segment start*/}
+        {location.pathname == "/products" && (
+          <>
+            <div className="help-popup">
+              <div
+                className="help-popup-view"
+                onClick={() =>
+                  setHideShowSideContent(
+                    (getHideShowSideContent) => !getHideShowSideContent
+                  )
+                }
+              >
+                <svg
+                  width="16"
+                  height="38"
+                  viewBox="0 0 16 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z"
+                    fill="#0066BE"
+                    fillOpacity="0.6"
+                  />
+                </svg>
+              </div>
+              <div
+                className={
+                  getHideShowSideContent
+                    ? "help-popup-content show"
+                    : "help-popup-content"
+                }
+              >
+                <div className="help-popup-content-inner">
+                  <div className="help-popup-content-library library-p">
+                    <div className="help-popup-content-video">
+                      <h6>{title}</h6>
+                      <div
+                        className="help-content-popup"
+                        onClick={() =>
+                          setOpenVideoPopup(
+                            (getOpenVideoPopup) => !getOpenVideoPopup
+                          )
+                        }
+                      >
+                        <a href="javascript:;">
+                          <img src={video_poster} alt="" />
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="help-popup-content-library-inside">
+                      <p>
+                        <strong>Selecting Type</strong>
+                        <br />
+                        At the top of the page, you'll find the “Select Type”
+                        bar. Click to select “Products” or “Tags”.
+                      </p>
+                      <p>
+                        If you’ve selected “Products or Tags” you’ll see a list
+                        of all your products or tags at the bottom of the page.
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <img
+                        className="dleete-btn"
+                        src={path_image + "edit-button.png"}
+                        alt=""
+                      />
+                      <p>
+                        <span>
+                          To edit a product or tag, click the “Edit” button
+                          (Pictured as a pencil), next to that product or tag.{" "}
+                        </span>
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered btn-purple">
+                        Add New Product +
+                      </Button>
+                      <Button className="btn-bordered btn-purple">
+                        Add New Topic +
+                      </Button>
+                      <p>
+                        <span>
+                          To add a new product or topic, click the “Add New
+                          Product/topic” button at the top right-hand corner.
+                        </span>
+                      </p>
+                    </div>
+                    <hr />
+                    <div className="help-popup-content-library-inside">
+                      <img
+                        className="dleete-btn"
+                        src={path_image + "edit-button.png"}
+                        alt=""
+                      />
+                      <p>
+                        <span>
+                          To edit a product or tag, click the “Edit” button
+                          (Pictured as a pencil), next to that product or tag.{" "}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <Button className="btn-bordered btn-purple">
+                        Add New Product +
+                      </Button>
+                      <Button className="btn-bordered btn-purple">
+                        Add New Topic +
+                      </Button>
+                      <p>
+                        <span>
+                          To add a new product or topic, click the “Add New
+                          Product/topic” button at the top right-hand corner.
+                        </span>
+                      </p>
+                    </div>
+                    <div className="dotted-line">&nbsp;</div>
+                    <div className="help-popup-content-library-inside">
+                      <img
+                        className="dleete-btn"
+                        src={path_image + "delete-button.png"}
+                        alt=""
+                      />
+                      <p>
+                        <span>
+                          If you wish to remove a product, click the “Delete”
+                          button found below the “Add New Product/topic” button.
+                          This will activate delete buttons for all products or
+                          topics. Select the products or topics you want to
+                          delete by clicking their respective delete buttons.
+                        </span>
+                      </p>
+                      <Button className="btn-filled cancel">Cancel</Button>
+                      <p>
+                        <span>
+                          To exit the deletion mode without removing any
+                          products or topics, click the “Cancel” button. This
+                          will send you back to the original page.
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className="help-popup-close"
+                    onClick={() =>
+                      setHideShowSideContent(
+                        (getHideShowSideContent) => !getHideShowSideContent
+                      )
+                    }
+                  >
+                    <a href="javascript:;">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)"
+                          fill="#8A4E9C"
+                        />
+                        <rect
+                          width="2.72751"
+                          height="19.7402"
+                          rx="1.36376"
+                          transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)"
+                          fill="#8A4E9C"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {/*Help Pages for filter segment end*/}
 
         {/*
           (location.pathname == "/EmailArticleSelect"  || location.pathname == "/CreateEmail") && (
@@ -2258,7 +7495,7 @@ const Sidebar = () => {
             <div className="help-popup">
             <div className="help-popup-view" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
               <svg width="16" height="38" viewBox="0 0 16 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z" fill="#0066BE" fill-opacity="0.6"/>
+                <path d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z" fill="#0066BE" fillOpacity="0.6"/>
               </svg>
             </div>
             <div className= {getHideShowSideContent ? "help-popup-content show" : "help-popup-content"}>

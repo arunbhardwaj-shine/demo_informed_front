@@ -3,7 +3,11 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { loader } from "../../loader";
 import { connect } from "react-redux";
-import { getCampaignId, getEmailData,getSelectedSmartListData  } from "../../actions";
+import {
+  getCampaignId,
+  getEmailData,
+  getSelectedSmartListData,
+} from "../../actions";
 import { getDraftData } from "../../actions";
 import { getSelected } from "../../actions";
 import { toast } from "react-toastify";
@@ -21,6 +25,7 @@ const SelectHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [selection, setSelection] = useState(0);
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
 
   // const [templateId, setTemplateId] = useState(
   //   props.getDraftData ? props.getDraftData.campaign_data.list_selection : 0
@@ -57,7 +62,7 @@ const SelectHCP = (props) => {
       props.getEmailData({ selected: selectede });
     }
 
-    if(selectede===2){
+    if (selectede === 2) {
       props.getSelectedSmartListData(null);
     }
 
@@ -75,16 +80,17 @@ const SelectHCP = (props) => {
   };
 
   const backClicked = () => {
-    let pdfSelectedId = props.getEmailData ? props.getEmailData.pdf_id : props.getDraftData.pdf_id;
+    let pdfSelectedId = props.getEmailData
+      ? props.getEmailData.pdf_id
+      : props.getDraftData.pdf_id;
     navigate("/CreateEmail", {
-     state: { PdfSelected: pdfSelectedId},
-   });
+      state: { PdfSelected: pdfSelectedId },
+    });
   };
 
   // console.log(props.getEmailData);
   // console.log(props.getDraftData);
   const saveAsDraft = async () => {
-
     const body = {
       user_id: localStorage.getItem("user_id"),
       pdf_id: old_object?.PdfSelected
@@ -92,10 +98,14 @@ const SelectHCP = (props) => {
         : props.getDraftData.pdf_id,
       description: old_object?.emailDescription
         ? old_object.emailDescription
-        : props.getDraftData?.description ? props.getDraftData.description : '',
+        : props.getDraftData?.description
+        ? props.getDraftData.description
+        : "",
       creator: old_object?.emailCreator
         ? old_object.emailCreator
-        : props.getDraftData?.creator ? props.getDraftData.creator : '',
+        : props.getDraftData?.creator
+        ? props.getDraftData.creator
+        : "",
       campaign_name: old_object?.emailCampaign
         ? old_object.emailCampaign
         : props.getDraftData.campaign,
@@ -144,12 +154,11 @@ const SelectHCP = (props) => {
   const nextClicked = (selected) => {
     props.getEmailData(old_object);
     props.getSelected(null);
-    console.log(selected);
-    if(selected == 1){
+    if (selected == 1) {
       navigate("/SelectSmartList", {
         state: { UserSelected: selected },
       });
-    }else if(selected == 2){
+    } else if (selected == 2) {
       navigate("/VerifyHCP", {
         state: { UserSelected: selected },
       });
@@ -159,141 +168,151 @@ const SelectHCP = (props) => {
   return (
     <>
       <div className="col right-sidebar">
-      <div className="custom-container">
-        <div className="row">
-        <div className="page-top-nav">
-          <div className="row justify-content-end align-items-center">
-            <div className="col-12 col-md-1">
-              <div className="header-btn-left">
-                <button
-                  className="btn btn-primary btn-bordered back"
-                  onClick={backClicked}
-                >
-                  Back
-                </button>
-              </div>
-            </div>
-            <div className="col-12 col-md-9">
-              <ul className="tabnav-link">
-                <li className="active">
-                  <Link to="/EmailArticleSelect">Select Content</Link>
-                </li>
-                <li className="active">
-                  <Link to="/CreateEmail">Create Your Email</Link>
-                </li>
-                <li className="active active-main">
-                  <a href="javascript:void(0)">Select HCPs</a>
-                </li>
-                <li className="">
-                  <a href="javascript:void(0)">Verify your list</a>
-                </li>
-                <li className="">
-                  <a href="javascript:void(0)">Verify your Email</a>
-                </li>
-              </ul>
-            </div>
-            <div className="col-12 col-md-2">
-              <div className="header-btn">
-                <button
-                  className="btn btn-primary btn-bordered move-draft"
-                  onClick={saveAsDraft}
-                >
-                  Save As Draft
-                </button>
-                {templateId === 0 ? (
-                  <button className="btn btn-primary btn-filled next disabled">
-                    Next{" "}
-                  </button>
-                ) : (
-                  <Link
-                    to={templateId === 2 ? "/VerifyHCP" : "/SelectSmartList"}
-                    state={{ UserSelected: templateId }}
-                  >
+        <div className="custom-container">
+          <div className="row">
+            <div className="page-top-nav">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left">
                     <button
-                      className="btn btn-primary btn-filled next"
-                      onClick={(event) => nextClicked(templateId)}
+                      className="btn btn-primary btn-bordered back"
+                      onClick={backClicked}
                     >
-                      Next
+                      Back
                     </button>
-                  </Link>
-                )}
+                  </div>
+                </div>
+                <div className="col-12 col-md-9">
+                  <ul className="tabnav-link">
+                    <li className="active">
+                      <Link to="/EmailArticleSelect">Select Content</Link>
+                    </li>
+                    <li className="active">
+                      <Link to="/CreateEmail">Create Your Email</Link>
+                    </li>
+                    <li className="active active-main">
+                      <a href="javascript:void(0)">Select HCPs</a>
+                    </li>
+                    <li className="">
+                      <a href="javascript:void(0)">Verify your list</a>
+                    </li>
+                    <li className="">
+                      <a href="javascript:void(0)">Verify your Email</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <button
+                      className="btn btn-primary btn-bordered move-draft"
+                      onClick={saveAsDraft}
+                    >
+                      Save As Draft
+                    </button>
+                    {templateId === 0 ? (
+                      <button className="btn btn-primary btn-filled next disabled">
+                        Next{" "}
+                      </button>
+                    ) : (
+                      <Link
+                        to={
+                          templateId === 2 ? "/VerifyHCP" : "/SelectSmartList"
+                        }
+                        state={{ UserSelected: templateId }}
+                      >
+                        <button
+                          className="btn btn-primary btn-filled next"
+                          onClick={(event) => nextClicked(templateId)}
+                        >
+                          Next
+                        </button>
+                      </Link>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
+            <section className="send-mail-options">
+              <div className="container">
+                <div className="row">
+                  <div className="send-option-list">
+                    <h5>Do you want to send to</h5>
+                    <ul>
+                      <li>
+                        <div
+                          className={
+                            templateId === 1
+                              ? "send-option-img active"
+                              : "send-option-img"
+                          }
+                          onClick={(event) => handleInputChange(event, 1)}
+                        >
+                          <input
+                            type="radio"
+                            name="select-option-hcp"
+                            value="group of HCPs"
+
+                            // onChange={(event) => handleInputChange(event)}
+                          />
+
+                          <img
+                            src={path_image + "group-hcp.svg"}
+                            alt="Group HCPs"
+                          />
+                        </div>
+
+                        <p>
+                          {localStorage.getItem("user_id") == userId
+                            ? "Group of Users"
+                            : "Group of HCPs"}{" "}
+                        </p>
+                      </li>
+                      <li>
+                        <div
+                          className={
+                            templateId === 2
+                              ? "send-option-img active"
+                              : "send-option-img"
+                          }
+                          onClick={(e) => handleInputChange(e, 2)}
+                        >
+                          <input
+                            type="radio"
+                            name="select-option-hcp"
+                            value="Single HCP"
+
+                            // onChange={(event) => handleInputChange(event)}
+                          />
+                          <img
+                            src={path_image + "single-hcp.svg"}
+                            alt="Single HCP"
+                          />
+                        </div>
+                        <p>
+                          {localStorage.getItem("user_id") == userId
+                            ? "Single User"
+                            : "Single HCP"}{" "}
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
-        <section className="send-mail-options">
-          <div className="container">
-            <div className="row">
-              <div className="send-option-list">
-                <h5>Do you want to send to</h5>
-                <ul>
-                  <li>
-                    <div
-                      className={
-                        templateId === 1
-                          ? "send-option-img active"
-                          : "send-option-img"
-                      }
-                      onClick={(event) => handleInputChange(event, 1)}
-                    >
-                      <input
-                        type="radio"
-                        name="select-option-hcp"
-                        value="group of HCPs"
-
-                        // onChange={(event) => handleInputChange(event)}
-                      />
-
-                      <img
-                        src={path_image + "group-hcp.svg"}
-                        alt="Group HCPs"
-                      />
-                    </div>
-                    <p>Group of HCPs</p>
-                  </li>
-                  <li>
-                    <div
-                      className={
-                        templateId === 2
-                          ? "send-option-img active"
-                          : "send-option-img"
-                      }
-                      onClick={(e) => handleInputChange(e, 2)}
-                    >
-                      <input
-                        type="radio"
-                        name="select-option-hcp"
-                        value="Single HCP"
-
-                        // onChange={(event) => handleInputChange(event)}
-                      />
-                      <img
-                        src={path_image + "single-hcp.svg"}
-                        alt="Single HCP"
-                      />
-                    </div>
-                    <p>Single HCP</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-      </div>
       </div>
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-
-
   old_object = state.getEmailData;
-  console.log(old_object);
   return state;
 };
 
-export default connect(mapStateToProps, { getEmailData, getSelected,getSelectedSmartListData  })(
-  SelectHCP
-);
+export default connect(mapStateToProps, {
+  getEmailData,
+  getSelected,
+  getSelectedSmartListData,
+})(SelectHCP);

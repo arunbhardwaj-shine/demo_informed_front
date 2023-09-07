@@ -7,7 +7,6 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const CreateDocintelLink = () => {
   const [startDate, setStartDate] = useState(new Date());
-  console.log("in create docintel link");
   return (
     <>
       <div className="col right-sidebar">
@@ -60,7 +59,7 @@ const CreateDocintelLink = () => {
                 <div className="row">
                   <div className="col-12 col-md-6">
                     <div className="form-group">
-                      <label for="">Category</label>
+                      <label htmlFor="">Category</label>
                       <Select
                         // options={countryAll}
                         // onChange={(event) => onCountryChange(event)}
@@ -73,7 +72,7 @@ const CreateDocintelLink = () => {
                     </div>
 
                     <div className="form-group">
-                      <label for="">Format</label>
+                      <label htmlFor="">Format</label>
                       <Select
                         //options={productionAll}
                         // onChange={(event) => onProductionChange(event)}
@@ -87,7 +86,7 @@ const CreateDocintelLink = () => {
                       ) : null} */}
                     </div>
                     <div className="form-group">
-                      <label for="">Product</label>
+                      <label htmlFor="">Product</label>
                       <Select
                         // options={salesAll}
                         // onChange={(event) => onSalesChange(event)}
@@ -99,7 +98,7 @@ const CreateDocintelLink = () => {
                       ) : null} */}
                     </div>
                     <div className="form-group">
-                      <label for="">Business Unit</label>
+                      <label htmlFor="">Business Unit</label>
                       <Select
                         // options={salesAll}
                         // onChange={(event) => onSalesChange(event)}
@@ -113,7 +112,7 @@ const CreateDocintelLink = () => {
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
                     <div className="form-group justify-content-end">
-                      <label for="">Reseller</label>
+                      <label htmlFor="">Reseller</label>
                       <div className="form-check-group">
                         <div className="form-check">
                           <input
@@ -124,7 +123,7 @@ const CreateDocintelLink = () => {
                           />
                           <label
                             className="form-check-label"
-                            for="flexCheckDefault"
+                            htmlFor="flexCheckDefault"
                           >
                             N/A
                           </label>
@@ -138,7 +137,7 @@ const CreateDocintelLink = () => {
                           />
                           <label
                             className="form-check-label"
-                            for="flexCheckReseller"
+                            htmlFor="flexCheckReseller"
                           >
                             Reseller Name
                           </label>
@@ -152,7 +151,7 @@ const CreateDocintelLink = () => {
                           />
                           <label
                             className="form-check-label"
-                            for="flexCheckReseller1"
+                            htmlFor="flexCheckReseller1"
                           >
                             Reseller Name
                           </label>
@@ -166,7 +165,7 @@ const CreateDocintelLink = () => {
                           />
                           <label
                             className="form-check-label"
-                            for="flexCheckReseller2"
+                            htmlFor="flexCheckReseller2"
                           >
                             Reseller Name
                           </label>
@@ -184,7 +183,7 @@ const CreateDocintelLink = () => {
                 <div className="row">
                   <div className="col-12 col-md-6">
                     <div className="form-group val">
-                      <label for="">Content title *</label>
+                      <label htmlFor="">Content title *</label>
                       <input
                         type="text"
                         className="form-control"
@@ -192,29 +191,29 @@ const CreateDocintelLink = () => {
                       />
                     </div>
                     <div className="form-group">
-                      <label for="">Sub title</label>
+                      <label htmlFor="">Sub title</label>
                       <input type="text" className="form-control" />
                     </div>
                     <div className="form-group">
-                      <label for="">Author</label>
+                      <label htmlFor="">Author</label>
                       <input type="text" className="form-control" />
                     </div>
                     <div className="form-group val">
-                      <label for="">Enable</label>
+                      <label htmlFor="">Enable</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                       />
                     </div>
                     <div className="form-group val">
-                      <label for="">Docintel type</label>
+                      <label htmlFor="">Docintel type</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                       />
                     </div>
                     <div className="form-group val">
-                      <label for="">Upload PDF</label>
+                      <label htmlFor="">Upload PDF</label>
                       <div className="upload-file-box">
                         <div className="box">
                           <input
@@ -225,7 +224,7 @@ const CreateDocintelLink = () => {
                             accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                             //   onChange={(e) => handleFileChange(e)}
                           />
-                          <label for="file-6">
+                          <label htmlFor="file-6">
                             <span>Choose Your File</span>
                           </label>
                           <p>Upload your PDF</p>
@@ -233,7 +232,7 @@ const CreateDocintelLink = () => {
                       </div>
                     </div>
                     <div className="form-group val">
-                      <label for="">Upload Cover Image</label>
+                      <label htmlFor="">Upload Cover Image</label>
                       <div className="upload-file-box">
                         <div className="box">
                           <input
@@ -244,7 +243,7 @@ const CreateDocintelLink = () => {
                             accept="image/png, image/jpeg"
                             //   onChange={handleImageChange}
                           />
-                          <label for="file-5">
+                          <label htmlFor="file-5">
                             <span>Choose Your File</span>
                           </label>
                           <p>
@@ -258,7 +257,9 @@ const CreateDocintelLink = () => {
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
                     <div className="form-group justify-content-end">
-                      <label for="">Production notes to Docintel team</label>
+                      <label htmlFor="">
+                        Production notes for Docintel team
+                      </label>
                       <textarea
                         className="form-control"
                         id="formControlTextarea"

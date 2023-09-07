@@ -1,212 +1,1770 @@
-import React, { useState } from 'react'
-import { Col, Dropdown, DropdownButton, Form, Row, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import Modal from 'react-bootstrap/Modal';
+import React, { useState, useEffect, useRef } from "react";
+import { Col, Row, Button, Modal, Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
+import Select from "react-select";
+import CommonModel from "../../../Model/CommonModel";
+import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
+import { getData, postData, postFormData } from "../../../axios/apiHelper";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { loader } from "../../../loader";
+import { toast } from "react-toastify";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 const ReaderAdd = () => {
-    const [field, setField] = useState([]);
-    const [show, setShow] = useState(false);
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const [commonShow, setCommonShow] = useState(false);
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const [groupId, setGroupId] = useState();
+  const [flag, setFlag] = useState();
+  const [pharmaData, setPharmaData] = useState();
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  const [countryAll, setCountryAll] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
+
+  const [productionAll, setProductionAll] = useState([
+    {
+      value: "Anaesthesia & Intensive care",
+      label: "Anaesthesia & Intensive care",
+    },
+    { value: "CIDP and MMN", label: "CIDP and MMN" },
+    { value: "Cardiac surgery", label: "Cardiac surgery" },
+    { value: "GBS", label: "GBS" },
+    { value: "General Haematology", label: "General Haematology" },
+    {
+      value: "Haematological malignancies",
+      label: "Haematological malignancies",
+    },
+    { value: "Haemophilia and VWD", label: "Haemophilia and VWD" },
+    { value: "Immunology", label: "Immunology" },
+    { value: "Neurology", label: "Neurology" },
+    { value: "Transplantation", label: "Transplantation" },
+    { value: "Trauma", label: "Trauma" },
+    { value: "Other", label: "Other" },
+  ]);
+  const [ibu, setIbu] = useState([
+    {
+      label: "Critical Care",
+      value: "Critical Care",
+    },
+    { label: "Haematology", value: "Haematology" },
+    { label: "Immunotherapy", value: "Immunotherapy" },
+  ]);
+  const [hospital, setHospital] = useState([]);
+  const [countryCode, setCountryCode] = useState([
+    { value: "Afghanistan", label: "+93" },
+
+    { value: "Albania", label: "+355" },
+
+    { value: "Algeria", label: "+213" },
+
+    { value: "American Samoa", label: "+1-684" },
+
+    { value: "Andorra", label: "+376" },
+
+    { value: "Angola", label: "+244" },
+
+    { value: "Anguilla", label: "+1-264" },
+
+    { value: "Antarctica", label: "+672" },
+
+    { value: "Antigua and Barbuda", label: "+1-268" },
+
+    { value: "Argentina", label: "+54" },
+
+    { value: "Armenia", label: "+374" },
+
+    { value: "India", label: "+91" },
+
+    { value: "Azerbaijan", label: "+994" },
+
+    { value: "Bahamas", label: "+1-242" },
+
+    { value: "Bahrain", label: "+973" },
+
+    { value: "Bangladesh", label: "+880" },
+
+    { value: "Barbados", label: "+1-246" },
+
+    { value: "Belarus", label: "+375" },
+
+    { value: "Belgium", label: "+32" },
+  ]);
+  const [id, setId] = useState(localStorage.getItem("user_id"));
+
+  const [error, setError] = useState({});
+  const [commonHeader, setCommonHeader] = useState("");
+  const [commonFooter, setCommonFooter] = useState("");
+  // const [selectedCategory, setSelectedCategory] = useState([]);
+  const [data, setData] = useState([]);
+
+  const [newProduct, setNewProduct] = useState({
+    label: "",
+    value: "",
+  });
+  const [userDetail, setUserDetail] = useState({
+    speciality: [],
+    discipline: [],
+    product: [],
+    ibu: [],
+    irt: [],
+    userType: [],
+    blind_type: [],
+    hospital: [],
+    province: [],
+    siteNumber: [],
+    siteName: [],
+  });
+
+  const [userInputs, setAddReaderInputs] = useState({
+    alternativeEmail: "",
+    alternativePhone: "",
+    blind_type: "",
+    country: "",
+    countryCode: "",
+    createdBy: "",
+    discipline: "",
+    email: "",
+    firstName: "",
+    hospital: "",
+    interestArea: "",
+    irt: "",
+    lastName: "",
+    middleName: "",
+    notes: "",
+    primary_phone: "",
+    product: "",
+    province: "",
+    repContact: "",
+    role: "",
+    siteName: "",
+    siteNumber: "",
+    speciality: "",
+    sub_role: "",
+    title: "",
+    ibu: "",
+    hospitalData: {},
+  });
+
+  const [uploadShow, setUploadShow] = useState(false);
+  const [updateFlag, setUpdateFlag] = useState(0);
+
+  const handleModelFun = (e) => {
+    setNewProduct({
+      label: e?.target?.name?.trim(),
+      value: e?.target?.value?.trim(),
+    });
+  };
+
+  const handleShow = () => {
+    setUploadShow(true);
+  };
+
+  const handleClose = () => {
+    setUploadShow(false);
+  };
+
+  const handleSubmitModelFun = async (e) => {
+    if (newProduct?.value?.length) {
+      const newArr = userDetail[newProduct?.label];
+      loader("show");
+      try {
+        if (commonHeader != "Add New Hospital") {
+          await postData(`${ENDPOINT.READER_ADD_FEATURES}`, {
+            label: newProduct?.label,
+            value: newProduct?.value,
+          });
+        } else {
+          setAddReaderInputs({
+            ...userInputs,
+            hospitalData: {
+              label: newProduct?.value,
+              value: newProduct?.value,
+            },
+            hospital: "",
+          });
+          loader("hide");
+          return;
+        }
+        let checkIndex = newArr.findIndex(
+          (el) => el.value == newProduct?.value
+        );
+        if (commonFooter == "Add") {
+          if (checkIndex == -1) {
+            newArr.unshift({
+              value: newProduct?.value,
+              label: newProduct?.value,
+            });
+
+            setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
+          } else {
+            toast.error(newProduct?.label + " already in list.");
+          }
+        }
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log(err);
+      }
+    }
+  };
+  const axiosFun = async () => {
+    try {
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      const result = await axios.get(`emailapi/get_site`);
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+
+      setIRTCountry(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
+  };
+
+  const initalFun = async () => {
+    loader("show");
+    const hasData = await getData(`${ENDPOINT.READER_USER_DROP}`);
+
+    let country = [];
+    hasData?.data?.data?.country.reduce((objEntries, key) => {
+      country.push({
+        label: key,
+        value: key,
+      });
+    });
+
+    setCountryAll(country);
+
+    // setProvince(hasData?.data?.data?.province);
+    setHospital(hasData?.data?.data?.hospital);
+    setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
+    setFlag(hasData?.data?.data?.user?.[0]?.flag);
+    setPharmaData(hasData?.data?.data?.user?.[0]?.pharmaData);
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      setAddReaderInputs({
+        ...userInputs,
+        role: hasData?.data?.data?.userIrtRoles?.[0]?.value,
+        irt: 1,
+      });
+    }
+
+    setUserDetail({
+      ...userDetail,
+      discipline: hasData?.data?.data?.discipline,
+      speciality: hasData?.data?.data?.speciality,
+      province: hasData?.data?.data?.province,
+      product: hasData?.data?.data?.product,
+      role: hasData?.data?.data?.role,
+      userType: [
+        { label: "Hcp", value: "Hcp" },
+        { label: "Staff users", value: "Staff users" },
+        { label: "Test users", value: "Test users" },
+      ],
+      userIrtRoles: hasData?.data?.data?.userIrtRoles,
+      institution: hasData?.data?.data?.institution,
+      sub_role: hasData?.data?.data?.sub_role,
+      blind_type: hasData?.data?.data?.blind_type,
+      siteName: [],
+      sideData: hasData?.data?.data?.sideData,
+      siteNumber: [],
+      irt: hasData?.data?.data?.irt,
+    });
+    loader("hide");
+  };
+
+  // const editProductClicked = (statusMsg, e) => {
+  //   // setSelectedCategory(statusMsg);
+
+  //   // e.preventDefault();
+  //   setCommonShow(true);
+  //   setCommonFooter("Update");
+  //   setNewProduct("");
+  //   if (statusMsg == "speciality") {
+  //     setData(() => [
+  //       {
+  //         name: "speciality",
+  //         label: "Speciality",
+  //         type: "input",
+  //         placeholder: "Type your speciality",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Speciality");
+  //   }
+  //   if (statusMsg == "discipline") {
+  //     setData(() => [
+  //       {
+  //         name: "discipline",
+  //         label: "discipline",
+  //         type: "input",
+  //         placeholder: "Type your discipline",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Discipline");
+  //   }
+  //   if (statusMsg == "product") {
+  //     setData(() => [
+  //       {
+  //         name: "product",
+  //         label: "product",
+  //         type: "input",
+  //         placeholder: "Type your product",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Product");
+  //   }
+  //   if (statusMsg == "province") {
+  //     setData(() => [
+  //       {
+  //         name: "province",
+  //         label: "province",
+  //         type: "input",
+  //         placeholder: "Type your province",
+  //         value: userInputs[statusMsg],
+  //       },
+  //     ]);
+  //     setCommonHeader("Edit Product");
+  //   }
+  // };
+
+  const addNewProductClicked = (statusMsg, e) => {
+    e.preventDefault();
+    setCommonShow(true);
+
+    if (statusMsg == "speciality") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "speciality",
+          label: "Speciality",
+          type: "input",
+          placeholder: "Type your speciality",
+        },
+      ]);
+      setCommonHeader("Add New Speciality");
+    }
+    if (statusMsg == "discipline") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "discipline",
+          label: "Discipline",
+          type: "input",
+          placeholder: "Type your discipline",
+        },
+      ]);
+
+      setCommonHeader("Add New Discipline");
+    }
+    if (statusMsg == "product") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "product",
+          label: "Product",
+          type: "input",
+          placeholder: "Type your product name",
+        },
+      ]);
+
+      setCommonHeader("Add New Product");
+    }
+    if (statusMsg == "province") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "province",
+          label: "Province",
+          type: "input",
+          placeholder: "Type your province ",
+        },
+      ]);
+
+      setCommonHeader("Add New Province");
+    }
+
+    if (statusMsg == "hospital") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "hospital",
+          label: "Hospital",
+          type: "input",
+          placeholder: "Type your hospital ",
+        },
+      ]);
+
+      setCommonHeader("Add New Hospital");
+    }
+
+    setCommonFooter("Add");
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
+    initalFun();
+  }, []);
+
+  // const addSpecialityClicked = () => {
+  //   setCommonShow(false);
+  //   if (newProduct != "") {
+  //     console.log("Speciality Clicked");
+  //     setSpecialityAll((oldArray) => [
+  //       ...oldArray,
+  //       { value: newProduct, label: newProduct },
+  //     ]);
+  //   }
+  // };
+
+  // const addDisciplineClicked = () => {
+  //   setCommonShow(false);
+  //   if (newProduct != "") {
+  //     console.log("dicipline clicked");
+  //     setDisciplineAll((oldArray) => [
+  //       ...oldArray,
+  //       { value: newProduct, label: newProduct },
+  //     ]);
+  //   }
+  // };
+
+  // const addProductClicked = () => {
+  //   setCommonShow(false);
+  //   if (newProduct != "") {
+  //     console.log("ProductClicked");
+  //     setProductionAll((oldArray) => [
+  //       ...oldArray,
+  //       { value: newProduct, label: newProduct },
+  //     ]);
+  //   }
+  // };
+
+  const handleChange = (e, isSelectedName) => {
+    // console.log(e,isSelectedName);
+    // selectedCategory.push(isSelectedName);
+    setUpdateFlag(1);
+    if (e?.target?.files?.length < 1) {
+      return;
+    }
+    if (isSelectedName == "hospital") {
+      setAddReaderInputs({
+        ...userInputs,
+        hospitalData: {},
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e?.target?.files
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    } else if (isSelectedName == "country") {
+      // if(!userDetail?.flag){
+      let newSite = [],
+        newSiteNumber = [];
+      userDetail?.sideData?.forEach((item) => {
+        let countryUpdated = e;
+        if (countryUpdated == "Bosnia and Herzegovina") {
+          countryUpdated = "B&H";
+        }
+        if (item?.country == e) {
+          newSite.push({ label: item?.site_name, value: item?.site_name });
+          newSiteNumber.push({
+            label: item.site_number,
+            value: item?.site_number,
+          });
+        }
+      });
+      setUserDetail({
+        ...userDetail,
+        flag: 1,
+        siteName: newSite,
+        siteNumber: newSiteNumber,
+      });
+      // setAddReaderInputs({...userInputs,["siteNumber"]:"",["siteName"]:""})
+
+      // }
+
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["siteNumber"]: "",
+        ["siteName"]: "",
+      });
+    } else if (isSelectedName == "siteNumber") {
+      let siteName = "";
+      userDetail?.sideData?.forEach((item) => {
+        if (item?.site_number == e) {
+          siteName = item?.site_name;
+        }
+      });
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["siteName"]: siteName,
+      });
+    } else if (isSelectedName == "siteName") {
+      let siteNum = "";
+      userDetail?.sideData?.forEach((item) => {
+        if (item?.site_name == e) {
+          siteNum = item?.site_number;
+        }
+      });
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["siteNumber"]: siteNum,
+      });
+    } else if (isSelectedName == "irt") {
+      let country = "";
+      let newSiteName = [],
+        newSiteNumber = [];
+
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName]: e,
+        ["country"]: country,
+        ["siteName"]: "",
+        ["siteNumber"]: "",
+      });
+      setUserDetail({
+        ...userDetail,
+        flag: 1,
+        siteName: newSiteName,
+        siteNumber: newSiteNumber,
+      });
+    } else if(isSelectedName == "institution") {
+        if(e == "Study site"){
+          setAddReaderInputs({
+            ...userInputs,
+            [isSelectedName]: e,
+            ["irt"]: 1,
+          });
+        }else{
+          setAddReaderInputs({
+            ...userInputs,
+            [isSelectedName]: e,
+            ["irt"]: 0,
+            ["siteName"]: "",
+            ["siteNumber"]: "",
+          });
+        }
+    } else {
+      setAddReaderInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e?.target?.files
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    }
+  };
+
+  const handleFileUpload = async (e) => {
+    loader("show");
+    try {
+      handleClose();
+      setUpdateFlag(0);
+      let formData = new FormData();
+      formData.append("file", userInputs?.uploadFile?.[0]);
+      formData.append("createdBy", localStorage.getItem("user_id"));
+      const response = await postFormData(
+        ENDPOINT.UPLOAD_READER_FILE,
+        formData,
+        {
+          header: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      loader("hide");
+      if (response?.data?.data) {
+        navigate("/readers-list", {
+          state: {
+            readersData: response?.data?.data,
+          },
+        });
+      }
+    } catch (err) {
+      handleClose();
+      setUpdateFlag(0);
+      console.log(err);
+      loader("hide");
+    }
+    loader("hide");
+  };
+
+  const nextButtonClicked = async (e) => {
+    e.preventDefault();
+
+    const result = AddReaderValidation(userInputs, groupId, flag);
+
+    if (Object.keys(result)?.length) {
+      if (Object.keys(result)[0] == "firstName") {
+        nameRef.current.focus();
+      } else if (Object.keys(result)[0] == "email") {
+        emailRef.current.focus();
+      }
+      toast.error(result[Object.keys(result)[0]]);
+      setError(result);
+      return;
+    } else {
+      loader("hide");
+      try {
+        loader("show");
+        let data = {
+          createdBy: localStorage.getItem("user_id"),
+          firstName: userInputs?.firstName,
+          middleName: userInputs?.middleName,
+          lastName: userInputs?.lastName,
+          email: userInputs?.email,
+          alternativeEmail: userInputs?.alternativeEmail,
+
+          primary_phone: `${
+            userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+          }-informed-${userInputs?.primary_phone}`,
+
+          alternativePhone: userInputs?.alternativePhone,
+          country: userInputs?.country,
+          province: userInputs?.province,
+          hospital: userInputs?.hospital
+            ? userInputs?.hospital
+            : userInputs?.hospitalData?.value,
+          title: userInputs?.title,
+          speciality: userInputs?.speciality,
+          discipline: userInputs?.discipline,
+          product: userInputs?.product,
+          interestArea: userInputs?.interestArea,
+          repContact: userInputs?.repContact,
+          notes: userInputs?.notes,
+          siteNumber: userInputs?.siteNumber,
+          blind_type: userInputs?.blinded,
+          siteName: userInputs?.siteName,
+          irt: userInputs?.irt,
+          role: userInputs?.role,
+          sub_role: userInputs?.sub_role,
+          ibu: userInputs?.ibu,
+          userType: userInputs?.UserType,
+          institute: userInputs?.institution,
+        };
+        // await postData(ENDPOINT.READER_CREATE, data);
+        loader("hide");
+
+        navigate("/reader-review", {
+          state: {
+            data: data,
+          },
+        });
+      } catch (err) {
+        console.log(err);
+        loader("hide");
+      }
+    }
+  };
+
+  const downloadFile = () => {
+    let user_id = localStorage.getItem("user_id");
+    let link = document.createElement("a");
+
+    if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+      link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
+    } else {
+      link.href = "https://webinar.informed.pro/sample.xls";
+    }
+    link.setAttribute("download", "file.xlsx");
+    document.body.appendChild(link);
+    link.download = "";
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const RDAccount = () => {
+    return (
+      <>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
+            Institution <span>*</span>
+          </Form.Label>
+          <Select
+            options={userDetail?.institution}
+            placeholder={"Select Institution"}
+            name="institution"
+            className={
+              error?.institution
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
+            isClearable
+            onChange={(e) => handleChange(e?.value, "institution")}
+          />
+
+          {error?.institution ? (
+            <div className="login-validation">{error?.institution}</div>
+             ) : (
+            ""
+          )}
+        </Form.Group>
+
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "IRT mandatory training"
+              : "IRT"}
+          </Form.Label>
+          <Select
+            options={userDetail?.irt}
+            defaultValue={{
+              label: "Yes",
+              value: "Yes",
+            }}
+            value={
+              userDetail?.irt.findIndex(
+                (el) => el.value == userInputs?.irt
+              ) == -1
+                ? ""
+                : userDetail?.irt[
+                    userDetail?.irt.findIndex(
+                      (el) => el.value == userInputs?.irt
+                    )
+                  ]
+            }
+            placeholder={
+              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                ? "Select IRT mandatory training"
+                : "Select IRT"
+            }
+            name="irt"
+            className={
+              error?.irt
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
+            isClearable
+            onChange={(e) => handleChange(e?.value, "irt")}
+          />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "IRT role"
+              : "Role"}
+          </Form.Label>
+          
+          
+            {userInputs?.irt && userInputs.irt == 1 ? (
+              <>
+              <Select
+                options={userDetail?.userIrtRoles}
+                placeholder="Select Role"
+                name="role"
+                // defaultValue={userDetail?.userIrtRoles[0]}
+                className="dropdown-basic-button split-button-dropup"
+                value={
+                  userDetail?.userIrtRoles.findIndex(
+                    (el) => el.value == userInputs?.role
+                  ) == -1
+                    ? userDetail?.userIrtRoles[0]
+                    : userDetail?.userIrtRoles[
+                        userDetail?.userIrtRoles.findIndex(
+                          (el) => el.value == userInputs?.role
+                        )
+                      ]
+                }
+                isClearable
+                onChange={(e) => handleChange(e?.value, "role")}
+              />
+              </>
+            ) : userInputs.irt == 0 ? (
+              <>
+              <Select
+                options={userDetail?.role}
+                placeholder="Select Role"
+                name="role"
+                className="dropdown-basic-button split-button-dropup"
+                value={
+                  userDetail?.role.findIndex(
+                    (el) => el.value == userInputs?.role
+                  ) == -1
+                    ? ""
+                    : userDetail?.role[
+                        userDetail?.role.findIndex(
+                          (el) => el.value == userInputs?.role
+                        )
+                      ]
+                }
+                isClearable
+                onChange={(e) => handleChange(e?.value, "role")}
+              />
+              </>
+            ) : (
+              <>
+              <Select
+                className="dropdown-basic-button split-button-dropup"
+                placeholder="Select Role"
+              />
+              </>
+            )}
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
+            {" "}
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? "Study role"
+              : "Sub Role"}{" "}
+          </Form.Label>
+          <Select
+            options={userDetail?.sub_role}
+            placeholder={
+              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                ? "Select Study Role"
+                : "Select Role"
+            }
+            name="sub_role"
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "sub_role")}
+          />
+        </Form.Group>
+        {/* <Form.Group className="form-group">
+          <Form.Label htmlFor="">
+            Blind Type<span>*</span>{" "}
+          </Form.Label>
+          <Select
+            options={userDetail?.blind_type}
+            placeholder="Select Blind Type"
+            name="blinded"
+            className={
+              error?.blinded
+                ? "dropdown-basic-button split-button-dropup error"
+                : "dropdown-basic-button split-button-dropup"
+            }
+            isClearable
+            onChange={(e) => handleChange(e?.value, "blinded")}
+          />
+          {error?.blinded ? (
+            <div className="login-validation">{error?.blinded}</div>
+          ) : (
+            ""
+          )}
+        </Form.Group> */}
+
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
+            Country <span>*</span>
+          </Form.Label>
+          {userInputs?.irt && userInputs?.irt == 1 ? (
+            <Select
+              options={irtCountry}
+              value={
+                irtCountry?.findIndex((e) => e.value == userInputs?.country) ==
+                -1
+                  ? ""
+                  : irtCountry[
+                      irtCountry?.findIndex(
+                        (e) => e.value == userInputs?.country
+                      )
+                    ]
+              }
+              // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+              placeholder="Select country"
+              name="country"
+              className={
+                error?.country
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup"
+              }
+              isClearable
+              onChange={(e) => handleChange(e?.value, "country")}
+            />
+          ) : (
+            <Select
+              options={countryAll}
+              value={
+                countryAll?.findIndex((e) => e.value == userInputs?.country) ==
+                -1
+                  ? ""
+                  : countryAll[
+                      countryAll?.findIndex(
+                        (e) => e.value == userInputs?.country
+                      )
+                    ]
+              }
+              // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
+              placeholder="Select country"
+              name="country"
+              className={
+                error?.country
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup"
+              }
+              isClearable
+              onChange={(e) => handleChange(e?.value, "country")}
+            />
+          )}
+          {error?.country ? (
+            <div className="login-validation">{error?.country}</div>
+          ) : (
+            ""
+          )}
+        </Form.Group>
+
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">Site number </Form.Label>
+          <Select
+            options={userDetail?.siteNumber}
+            placeholder="Select Site Number"
+            noOptionsMessage={() =>
+              userInputs?.country == ""
+                ? "Please select country first"
+                : "No options"
+            }
+            name="siteNumber"
+            value={
+              userDetail?.siteNumber.findIndex(
+                (el) => el.value == userInputs?.siteNumber
+              ) == -1
+                ? ""
+                : userDetail?.siteNumber[
+                    userDetail?.siteNumber.findIndex(
+                      (el) => el.value == userInputs?.siteNumber
+                    )
+                  ]
+            }
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "siteNumber")}
+          />
+        </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">Site name </Form.Label>
+          <Select
+            options={userDetail?.siteName}
+            placeholder="Select Site Name "
+            noOptionsMessage={() =>
+              userInputs?.country == ""
+                ? "Please select country first"
+                : "No options"
+            }
+            name="siteName"
+            value={
+              userDetail?.siteName.findIndex(
+                (el) => el.value == userInputs?.siteName
+              ) == -1
+                ? ""
+                : userDetail?.siteName[
+                    userDetail?.siteName.findIndex(
+                      (el) => el.value == userInputs?.siteName
+                    )
+                  ]
+            }
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "siteName")}
+          />
+        </Form.Group>
+      </>
+    );
+  };
   return (
     <>
-    <Col className="right-sidebar">
-      <div className="custom-container">
-        <Row>
-          <div className="page-top-nav">
-          <div className="row justify-content-end align-items-center">
-            <div className="col-12 col-md-2">
-              <div className="header-btn-left">
-                <button  className="btn btn-primary btn-bordered back"><Link to="/readers-view">Back</Link></button>
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
+      <Col className="right-sidebar custom-change">
+        <div className="custom-container">
+          <Row>
+            <div className="page-top-nav sticky">
+              <div className="row justify-content-end align-items-center">
+                <Col md="1">
+                  <div className="header-btn-left">
+                    {/*<Link
+                        className="btn btn-primary btn-bordered back-btn"
+                        to="/readers-view"
+                      >
+                        <svg
+                          width="14"
+                          height="24"
+                          viewBox="0 0 14 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                            fill="#97B6CF"
+                          />
+                        </svg>
+                      </Link>*/}
 
-            </div>
-            <div className="col-12 col-md-4">
-              <div className="header-btn">
-                <button onClick={handleShow}
-                  className="btn btn-primary btn-bordered upload">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
-                    <path d="M88 63C86.9391 63 85.9217 63.4214 85.1716 64.1716C84.4214 64.9217 84 65.9391 84 67V72.852C83.9968 75.8076 82.8213 78.6413 80.7313 80.7313C78.6413 82.8213 75.8077 83.9968 72.852 84H23.148C20.1923 83.9968 17.3586 82.8213 15.2687 80.7313C13.1787 78.6413 12.0032 75.8076 12 72.852V67C12 65.9391 11.5786 64.9217 10.8284 64.1716C10.0783 63.4214 9.06087 63 8 63C6.93913 63 5.92172 63.4214 5.17157 64.1716C4.42143 64.9217 4 65.9391 4 67V72.852C4.00529 77.9287 6.02437 82.796 9.61417 86.3858C13.204 89.9756 18.0713 91.9947 23.148 92H72.852C77.9287 91.9947 82.796 89.9756 86.3858 86.3858C89.9756 82.796 91.9947 77.9287 92 72.852V67C92 65.9391 91.5786 64.9217 90.8284 64.1716C90.0783 63.4214 89.0609 63 88 63Z" fill="#0066BE"/>
-                    <path d="M70.7788 31.3305C70.0287 32.0803 69.0115 32.5016 67.9508 32.5016C66.8902 32.5016 65.8729 32.0803 65.1228 31.3305L51.9508 18.1585L52 67.0012C52 68.0621 51.5786 69.0795 50.8284 69.8296C50.0783 70.5798 49.0609 71.0012 48 71.0012C46.9391 71.0012 45.9217 70.5798 45.1716 69.8296C44.4214 69.0795 44 68.0621 44 67.0012L43.9508 18.1585L30.7788 31.3305C30.0244 32.0591 29.014 32.4623 27.9652 32.4532C26.9165 32.444 25.9132 32.0234 25.1716 31.2817C24.4299 30.5401 24.0093 29.5369 24.0002 28.4881C23.991 27.4393 24.3942 26.4289 25.1228 25.6745L45.1228 5.67447C45.4944 5.30196 45.9358 5.00642 46.4218 4.80477C46.9077 4.60312 47.4287 4.49932 47.9548 4.49932C48.481 4.49932 49.002 4.60312 49.4879 4.80477C49.9739 5.00642 50.4153 5.30196 50.7868 5.67447L70.7868 25.6745C71.5357 26.4256 71.9555 27.4435 71.954 28.5041C71.9525 29.5648 71.5298 30.5814 70.7788 31.3305Z" fill="#0066BE"/>
-                    </svg> Upload
-                </button>
-                <button 
-                  className="btn btn-primary btn-filled next">
-                  Next
-                </button>
+                    {/* <button className="btn btn-primary btn-bordered back">
+                      <Link to="/readers-view">Back</Link>
+                    </button> */}
+                  </div>
+                </Col>
+                {/* <div className="col-12 col-md-1">
+
+                </div> */}
+                <Col md="9">
+                  <ul className="tabnav-link">
+                    <li className="active active-main">
+                      <a href="">Create CRM</a>
+                    </li>
+                    <li className="">
+                      <a href="">Review &amp; approve</a>
+                    </li>
+                  </ul>
+                </Col>
+                <Col md="2">
+                  <div className="header-btn">
+                    {/* <Link
+                    className="btn btn-primary btn-bordered move-draft"
+                    to="/readers-view"
+                    >
+                      Cancel
+                    </Link> */}
+
+                    <button
+                      className="btn btn-primary btn-filled next"
+                      onClick={nextButtonClicked}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </Col>
               </div>
             </div>
-          </div>
-        </div>
-        </Row>
-        <Row>
-            <div className='create-reader'>
-                <h4>Create Reader</h4>
-                <h6>Use this side for adding a new contact.</h6>
-                <Form className='d-flex flex-wrap row'>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>First name</Form.Label>
-                      <Form.Control
-                        name="first-name"
+            <div className="create-reader create-change-content reader_added">
+              <div className="form_action">
+                <div className="create-reader-form-header">
+                  <h4>Please fill the following details</h4>
+                  {/* <input
+                    type="file"
+                    name="file-6[]"
+                    id="file-6" */}
+                  {/* // className="inputfile inputfile-6" //
+                  accept="application/pdf" */}
+                  {/* onChange={handleFileUpload}
+                  /> */}
+
+                  <Button
+                    className="btn-bordered"
+                    type="file"
+                    onClick={handleShow}
+                  >
+                    Upload Excel File
+                  </Button>
+                </div>
+                <div className="row">
+                  <Col md="7">
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">
+                        First name <span>*</span>
+                      </Form.Label>
+                      <input
                         type="text"
-                        placeholder="First name*"
+                        placeholder="First name"
+                        className={
+                          error?.firstName
+                            ? "form-control error"
+                            : "form-control"
+                        }
+                        ref={nameRef}
+                        name="firstName"
+                        onInput={(e) => handleChange(e)}
                       />
+                      {error?.firstName ? (
+                        <div className="login-validation">
+                          {error?.firstName}
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Middle name</Form.Label>
-                      <Form.Control
-                        name="middle-name"
+
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Middle name</Form.Label>
+                      <input
                         type="text"
                         placeholder="Middle name"
+                        className="form-control"
+                        name="middleName"
+                        onChange={(e) => handleChange(e)}
                       />
                     </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Last name</Form.Label>
-                      <Form.Control
-                        name="last-name"
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">Last name</Form.Label>
+                      <input
                         type="text"
                         placeholder="Last name"
+                        className="form-control"
+                        name="lastName"
+                        onChange={(e) => handleChange(e)}
                       />
                     </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Country</Form.Label>
-                      <DropdownButton className="dropdown-basic-button split-button-dropup" title="country">
-                        <Dropdown.Item>Select</Dropdown.Item>
-                        <Dropdown.Item>Australia</Dropdown.Item>
-                        <Dropdown.Item>India</Dropdown.Item>
-                        <Dropdown.Item>United Kingdom</Dropdown.Item>
-                        <Dropdown.Item>United States</Dropdown.Item>
-                      </DropdownButton>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Hospital</Form.Label>
-                      <Form.Control
-                        name="hospital"
-                        type="text"
-                        placeholder="Hospital"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Title</Form.Label>
-                      <Form.Control
-                        name="title"
-                        type="text"
-                        placeholder="Title"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Speciality</Form.Label>
-                      <DropdownButton className="dropdown-basic-button split-button-dropup" title="Select Speciality">
-                        <Dropdown.Item>HCP</Dropdown.Item>
-                        <Dropdown.Item>Staff</Dropdown.Item>
-                        <Dropdown.Item>Test Users</Dropdown.Item>
-                      </DropdownButton>
-                    </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Discipline</Form.Label>
-                      <DropdownButton className="dropdown-basic-button split-button-dropup" title="Choose Discipline">
-                        <Dropdown.Item>HCP</Dropdown.Item>
-                        <Dropdown.Item>Staff</Dropdown.Item>
-                        <Dropdown.Item>Test Users</Dropdown.Item>
-                      </DropdownButton>
-                    </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Province</Form.Label>
-                      <DropdownButton className="dropdown-basic-button split-button-dropup" title="Choose Province">
-                        <Dropdown.Item>HCP</Dropdown.Item>
-                        <Dropdown.Item>Staff</Dropdown.Item>
-                        <Dropdown.Item>Test Users</Dropdown.Item>
-                      </DropdownButton>
-                    </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Rep Contact</Form.Label>
-                      <Form.Control
-                        name="rep-contact"
-                        type="text"
-                        placeholder="Who is Rep contact?"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Primary e-mail*</Form.Label>
-                      <Form.Control
-                        name="primary-email"
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="">
+                        Primary email <span>*</span>
+                      </Form.Label>
+                      <input
                         type="email"
-                        placeholder="Primary e-mail"
+                        className={
+                          error?.email ? "form-control error" : "form-control"
+                        }
+                        placeholder="example@email.com"
+                        ref={emailRef}
+                        name="email"
+                        onInput={(e) => handleChange(e)}
                       />
+                      {error?.email ? (
+                        <div className="login-validation">{error?.email}</div>
+                      ) : (
+                        ""
+                      )}
                     </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Alternative e-mail</Form.Label>
-                      <Form.Control
-                        name="alternative-email"
-                        type="email"
-                        placeholder="Alternative e-mail"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Primary phone</Form.Label>
-                      <Form.Control
-                        name="phone"
-                        type="text"
-                        placeholder="Primary phone"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Alternative phone</Form.Label>
-                      <Form.Control
-                        name="aalternative-phone"
-                        type="text"
-                        placeholder="Alternative phone"
-                      />
-                    </Form.Group>
+                    {groupId == 2 ||
+                    (groupId == 3 && flag == 0) ||
+                    (groupId == 3 && flag == 0 && pharmaData == 1) ? (
+                      <>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Alternative email </Form.Label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="example@email.com"
+                            name="alternativeEmail"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+                        <Form.Group className="form-group primary_phone">
+                          <Form.Label htmlFor="">Primary phone </Form.Label>
+                          <Select
+                            options={countryCode}
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            placeholder=""
+                            onChange={(e) => handleChange(e, "countryCode")}
+                          />
 
-                    <Form.Group  className="mb-3 col-6 form-group" as={Col} controlId="my_product_field">
-                      <Form.Label>Products</Form.Label>
-                      <div className='form-product-list'>
-                        <Form.Control as="select" multiple value={field} onChange={e => setField([].slice.call(e.target.selectedOptions).map(item => item.value))}>
-                            <option value="Products 1">Products 1</option>
-                            <option value="Products 2">Products 2</option>
-                            <option value="Products 3">Products 3</option>
-                        </Form.Control>
-                      </div>
-                    </Form.Group>
-                    <Form.Group  className="mb-3 col-6 form-group" as={Col} controlId="my_indication_field">
-                      <Form.Label>Interest area</Form.Label>
-                      <div className='form-interest-area'>
-                        <Form.Control as="select" multiple value={field} onChange={e => setField([].slice.call(e.target.selectedOptions).map(item => item.value))}>
-                            <option value="Anaesthesia &amp; Intensive care">Anaesthesia &amp; Intensive care</option>
-                            <option value="CIDP and MMN">CIDP and MMN</option>
-                            <option value="Cardiac surgery">Cardiac surgery</option>
-                            <option value="GBS">GBS</option>
-                            <option value="General Haematology">General Haematology</option>
-                            <option value="Haematological malignancies">Haematological malignancies</option>
-                            <option value="Haemophilia and VWD">Haemophilia and VWD</option>
-                            <option value="Immunology">Immunology</option>
-                            <option value="Neurology">Neurology</option>
-                            <option value="Transplantation">Transplantation</option>
-                            <option value="Trauma">Trauma</option>
-                            <option value="Other">Other</option>
-                        </Form.Control>
-                      </div>
-                    </Form.Group>
-                    <Form.Group className="mb-3 col-6 form-group">
-                      <Form.Label>Notes</Form.Label>
-                      <Form.Control as="textarea" rows={3} placeholder="Meeting notes, special interests etc" />
-                    </Form.Group>
-                    
-                </Form>
+                          <input
+                            type="number"
+                            className="form-control"
+                            name="primary_phone"
+                            placeholder="Phone number"
+                            onChange={(e) => handleChange(e)}
+                          />
+                          {error?.primary_phone ? (
+                            <div className="login-validation">
+                              {error?.primary_phone}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </Form.Group>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Alternative phone</Form.Label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            name="alternativePhone"
+                            placeholder="Alternative phone"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+                      </>
+                    ) : (
+                      ""
+                    )}
+
+                    {groupId == 3 && flag == 1 ? RDAccount() : ""}
+
+                    {groupId == 3 && flag == 1 ? (
+                      ""
+                    ) : (
+                      <Form.Group className="form-group">
+                        <Form.Label htmlFor="">
+                          Country <span>*</span>
+                        </Form.Label>
+                        <Select
+                          options={countryAll}
+                          placeholder="Select country"
+                          name="country"
+                          className={
+                            error?.country
+                              ? "dropdown-basic-button split-button-dropup error"
+                              : "dropdown-basic-button split-button-dropup"
+                          }
+                          isClearable
+                          onChange={(e) => handleChange(e?.value, "country")}
+                        />
+                        {error?.country ? (
+                          <div className="login-validation">
+                            {error?.country}
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </Form.Group>
+                    )}
+                    {groupId == 2 ||
+                    (groupId == 3 && flag == 0 && pharmaData == 0) ? (
+                      <Form.Group className="form-group margin-added">
+                        <Form.Label htmlFor="">Province</Form.Label>
+                        <Select
+                          options={userDetail?.province}
+                          placeholder="Select province"
+                          name="province"
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                          onChange={(e) => handleChange(e?.value, "province")}
+                        />
+                        <div className="add_product">
+                          <span>&nbsp;</span>
+                          <Button
+                            className="btn-bordered btn-voilet"
+                            onClick={(e) => addNewProductClicked("province", e)}
+                          >
+                            Add New Province +
+                          </Button>
+                        </div>
+
+                        {/* {selectedCategory.includes("province") ? (
+                          <span>
+                            <div className="add_product">
+                              <span>&nbsp;</span>
+                              <Button
+                                className="btn-bordered btn-voilet"
+                                onClick={(e) =>
+                                  editProductClicked("province", e?.value)
+                                }
+                              >
+                                Edit Province
+                              </Button>
+                            </div>
+                          </span>
+                        ) : (
+                          ""
+                        )} */}
+                      </Form.Group>
+                    ) : (
+                      ""
+                    )}
+
+                    {groupId == 2 || (groupId == 3 && flag == 0) ? (
+                      <>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Hospital</Form.Label>
+                          <Select
+                            options={hospital}
+                            placeholder="Select hospital"
+                            className="dropdown-basic-button split-button-dropup"
+                            value={
+                              Object.keys(userInputs?.hospitalData)?.length
+                                ? userInputs.hospitalData
+                                : userInputs?.hospital
+                                ? {
+                                    label: userInputs?.hospital,
+                                    value: userInputs?.hospital,
+                                  }
+                                : ""
+                            }
+                            isClearable
+                            onChange={(e) => handleChange(e?.value, "hospital")}
+                          />
+                          <div className="add_product">
+                            <span>&nbsp;</span>
+                            <Button
+                              className="btn-bordered btn-voilet"
+                              onClick={(e) =>
+                                addNewProductClicked("hospital", e)
+                              }
+                            >
+                              Add New Hospital +
+                            </Button>
+                          </div>
+                        </Form.Group>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Title</Form.Label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="title"
+                            placeholder="Title"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="form-group margin-added">
+                          <Form.Label htmlFor="">Speciality</Form.Label>
+                          <Select
+                            options={userDetail?.speciality}
+                            placeholder="Select speciality"
+                            name="speciality"
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            onChange={(e) =>
+                              handleChange(e?.value, "speciality")
+                            }
+                          />
+                          <div className="add_product">
+                            <span>&nbsp;</span>
+                            <Button
+                              className="btn-bordered btn-voilet"
+                              onClick={(e) =>
+                                addNewProductClicked("speciality", e)
+                              }
+                            >
+                              Add New Speciality +
+                            </Button>
+                          </div>
+                          {/* {selectedCategory.includes("speciality") ? (
+                            <span>
+                              <div className="add_product">
+                                <span>&nbsp;</span>
+                                <Button
+                                  className="btn-bordered btn-voilet"
+                                  onClick={(e) =>
+                                    editProductClicked("speciality", e?.value)
+                                  }
+                                >
+                                  Edit Speciality
+                                </Button>
+                              </div>
+                            </span>
+                          ) : (
+                            ""
+                          )} */}
+                        </Form.Group>
+
+                        {groupId == 2 ||
+                        (groupId == 3 && flag == 0 && pharmaData == 0) ? (
+                          <>
+                            <Form.Group className="form-group margin-added">
+                              <Form.Label htmlFor="">Discipline</Form.Label>
+                              <Select
+                                options={userDetail?.discipline}
+                                placeholder="Select discipline"
+                                name="discipline"
+                                className="dropdown-basic-button split-button-dropup"
+                                isClearable
+                                onChange={(e) =>
+                                  handleChange(e?.value, "discipline")
+                                }
+                              />
+                              <div className="add_product">
+                                <span>&nbsp;</span>
+                                <Button
+                                  onClick={(e) =>
+                                    addNewProductClicked("discipline", e)
+                                  }
+                                  className="btn-bordered btn-voilet"
+                                >
+                                  Add New Discipline +
+                                </Button>
+                              </div>
+                              {/* {selectedCategory.includes("discipline") ? (
+                                <span>
+                                  <div className="add_product">
+                                    <span>&nbsp;</span>
+                                    <Button
+                                      className="btn-bordered btn-voilet"
+                                      onClick={(e) =>
+                                        editProductClicked(
+                                          "discipline",
+                                          e?.value
+                                        )
+                                      }
+                                    >
+                                      Edit Discipline
+                                    </Button>
+                                  </div>
+                                </span>
+                              ) : (
+                                ""
+                              )} */}
+                            </Form.Group>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                        {groupId == 3 && pharmaData == 1 ? (
+                          <Form.Group className="form-group">
+                            <Form.Label htmlFor="">Bussiness Unit</Form.Label>
+                            <Select
+                              options={ibu}
+                              placeholder="Select Bussiness Unit"
+                              name="ibu"
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                              onChange={(e) => handleChange(e?.value, "ibu")}
+                            />
+                          </Form.Group>
+                        ) : (
+                          ""
+                        )}
+
+                        <Form.Group className="form-group margin-added">
+                          <Form.Label htmlFor="">Product</Form.Label>
+                          <Select
+                            options={userDetail?.product}
+                            placeholder="Select product"
+                            name="product"
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            onChange={(e) => handleChange(e?.value, "product")}
+                          />
+                          <div className="add_product">
+                            <span>&nbsp;</span>
+                            <Button
+                              className="btn-bordered btn-voilet"
+                              onClick={(e) =>
+                                addNewProductClicked("product", e)
+                              }
+                            >
+                              Add New Product +
+                            </Button>
+                          </div>
+
+                          {/* {selectedCategory.includes("product") ? (
+                            <span>
+                              <div className="add_product">
+                                <span>&nbsp;</span>
+                                <Button
+                                  className="btn-bordered btn-voilet"
+                                  onClick={(e) =>
+                                    editProductClicked("product", e?.value)
+                                  }
+                                >
+                                  Edit Product
+                                </Button>
+                              </div>
+                            </span>
+                          ) : (
+                            ""
+                          )} */}
+                        </Form.Group>
+
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Interest area</Form.Label>
+                          <Select
+                            options={productionAll}
+                            placeholder="Select interest area"
+                            name="interestArea"
+                            className="dropdown-basic-button split-button-dropup"
+                            isClearable
+                            onChange={(e) =>
+                              handleChange(e?.value, "interestArea")
+                            }
+                          />
+                        </Form.Group>
+                        <Form.Group className="form-group">
+                          <Form.Label htmlFor="">Rep contact</Form.Label>
+                          <input
+                            type="text"
+                            name="repContact"
+                            placeholder="Who is internal contact?"
+                            className="form-control"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </Form.Group>
+                      </>
+                    ) : (
+                      ""
+                    )}
+
+                    {groupId == 3 && flag == 0 && pharmaData == 0 ? (
+                      <>
+                        {localStorage.getItem("user_id") !=
+                        "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                          <Form.Group className="form-group">
+                            <Form.Label htmlFor="">Select User Type</Form.Label>
+                            <Select
+                              options={userDetail?.userType}
+                              placeholder="Select user type"
+                              name="userType"
+                              className="dropdown-basic-button split-button-dropup"
+                              isClearable
+                              onChange={(e) =>
+                                handleChange(e?.value, "UserType")
+                              }
+                            />
+                          </Form.Group>
+                        ) : null}
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </Col>
+                  {groupId == 2 || (groupId == 3 && flag == 0) ? (
+                    <>
+                      <Col
+                        md="5"
+                        className="d-flex justify-content-end align-items-start right-change"
+                      >
+                        <Form.Group className="form-group justify-content-end">
+                          <Form.Label htmlFor="">Notes</Form.Label>
+                          <textarea
+                            className="form-control"
+                            name="notes"
+                            id="formControlTextarea"
+                            rows="5"
+                            placeholder="Meeting note, special interest etc..."
+                            onChange={(e) => handleChange(e)}
+                          ></textarea>
+                        </Form.Group>
+                      </Col>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                {/*
+                <Form className="d-flex flex-wrap row">
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>First name</Form.Label>
+                  <Form.Control
+                    name="first-name"
+                    type="text"
+                    placeholder="First name*"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Middle name</Form.Label>
+                  <Form.Control
+                    name="middle-name"
+                    type="text"
+                    placeholder="Middle name"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Last name</Form.Label>
+                  <Form.Control
+                    name="last-name"
+                    type="text"
+                    placeholder="Last name"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Country</Form.Label>
+                  <DropdownButton
+                    className="dropdown-basic-button split-button-dropup"
+                    title="country"
+                  >
+                    <Dropdown.Item>Select</Dropdown.Item>
+                    <Dropdown.Item>Australia</Dropdown.Item>
+                    <Dropdown.Item>India</Dropdown.Item>
+                    <Dropdown.Item>United Kingdom</Dropdown.Item>
+                    <Dropdown.Item>United States</Dropdown.Item>
+                  </DropdownButton>
+                </Form.Group>
+
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Hospital</Form.Label>
+                  <Form.Control
+                    name="hospital"
+                    type="text"
+                    placeholder="Hospital"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control name="title" type="text" placeholder="Title" />
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Speciality</Form.Label>
+                  <DropdownButton
+                    className="dropdown-basic-button split-button-dropup"
+                    title="Select Speciality"
+                  >
+                    <Dropdown.Item>HCP</Dropdown.Item>
+                    <Dropdown.Item>Staff</Dropdown.Item>
+                    <Dropdown.Item>Test Users</Dropdown.Item>
+                  </DropdownButton>
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Discipline</Form.Label>
+                  <DropdownButton
+                    className="dropdown-basic-button split-button-dropup"
+                    title="Choose Discipline"
+                  >
+                    <Dropdown.Item>HCP</Dropdown.Item>
+                    <Dropdown.Item>Staff</Dropdown.Item>
+                    <Dropdown.Item>Test Users</Dropdown.Item>
+                  </DropdownButton>
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Province</Form.Label>
+                  <DropdownButton
+                    className="dropdown-basic-button split-button-dropup"
+                    title="Choose Province"
+                  >
+                    <Dropdown.Item>HCP</Dropdown.Item>
+                    <Dropdown.Item>Staff</Dropdown.Item>
+                    <Dropdown.Item>Test Users</Dropdown.Item>
+                  </DropdownButton>
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Rep Contact</Form.Label>
+                  <Form.Control
+                    name="rep-contact"
+                    type="text"
+                    placeholder="Who is Rep contact?"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Primary e-mail*</Form.Label>
+                  <Form.Control
+                    name="primary-email"
+                    type="email"
+                    placeholder="Primary e-mail"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Alternative e-mail</Form.Label>
+                  <Form.Control
+                    name="alternative-email"
+                    type="email"
+                    placeholder="Alternative e-mail"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Primary phone</Form.Label>
+                  <Form.Control
+                    name="phone"
+                    type="text"
+                    placeholder="Primary phone"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Alternative phone</Form.Label>
+                  <Form.Control
+                    name="aalternative-phone"
+                    type="text"
+                    placeholder="Alternative phone"
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3 col-6 form-group"
+                  as={Col}
+                  controlId="my_product_field"
+                >
+                  <Form.Label>Products</Form.Label>
+                  <div className="form-product-list">
+                    <Form.Control
+                      as="select"
+                      multiple
+                      value={field}
+                      onChange={(e) =>
+                        setField(
+                          [].slice
+                            .call(e.target.selectedOptions)
+                            .map((item) => item.value)
+                        )
+                      }
+                    >
+                      <option value="Products 1">Products 1</option>
+                      <option value="Products 2">Products 2</option>
+                      <option value="Products 3">Products 3</option>
+                    </Form.Control>
+                  </div>
+                </Form.Group>
+                <Form.Group
+                  className="mb-3 col-6 form-group"
+                  as={Col}
+                  controlId="my_indication_field"
+                >
+                  <Form.Label>Interest area</Form.Label>
+                  <div className="form-interest-area">
+                    <Form.Control
+                      as="select"
+                      multiple
+                      value={field}
+                      onChange={(e) =>
+                        setField(
+                          [].slice
+                            .call(e.target.selectedOptions)
+                            .map((item) => item.value)
+                        )
+                      }
+                    >
+                      <option value="Anaesthesia &amp; Intensive care">
+                        Anaesthesia &amp; Intensive care
+                      </option>
+                      <option value="CIDP and MMN">CIDP and MMN</option>
+                      <option value="Cardiac surgery">Cardiac surgery</option>
+                      <option value="GBS">GBS</option>
+                      <option value="General Haematology">
+                        General Haematology
+                      </option>
+                      <option value="Haematological malignancies">
+                        Haematological malignancies
+                      </option>
+                      <option value="Haemophilia and VWD">
+                        Haemophilia and VWD
+                      </option>
+                      <option value="Immunology">Immunology</option>
+                      <option value="Neurology">Neurology</option>
+                      <option value="Transplantation">Transplantation</option>
+                      <option value="Trauma">Trauma</option>
+                      <option value="Other">Other</option>
+                    </Form.Control>
+                  </div>
+                </Form.Group>
+                <Form.Group className="mb-3 col-6 form-group">
+                  <Form.Label>Notes</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    placeholder="Meeting notes, special interests etc"
+                  />
+                </Form.Group>
+              </Form> */}
+              </div>
             </div>
-        </Row>
-      </div>
-       <Modal show={show} onHide={handleClose} className="send-confirm" id="upload-confirm">
-        <Modal.Header closeButton>
-          <Modal.Title><h4>Upload File</h4></Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <p>Use this side for adding multiple contacts via an excel sheet. <br/><a href="https:informed.pro/Readers/download" id="download_excel_id" title="Please download the sample Excel file, follow the same format and save it in your pc, then upload file." download="">Download the sample Excel file</a></p>
+          </Row>
+        </div>
+        <CommonModel
+          show={commonShow}
+          onClose={setCommonShow}
+          heading={commonHeader}
+          handleChange={handleModelFun}
+          handleSubmit={handleSubmitModelFun}
+          data={data}
+          // footerButton={"Add"}
+          footerButton={commonFooter}
+        />
+        {/* <Modal
+          show={show}
+          onHide={handleClose}
+          className="send-confirm"
+          id="upload-confirm"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>
+              <h4>Upload File</h4>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>
+              Use this side for adding multiple contacts via an excel sheet.{" "}
+              <br />
+              <a
+                href="https:informed.pro/Readers/download"
+                id="download_excel_id"
+                title="Please download the sample Excel file, follow the same format and save it in your pc, then upload file."
+                download=""
+              >
+                Download the sample Excel file
+              </a>
+            </p>
             <div className="upload-file-box">
               <div className="box">
                 <input
@@ -217,30 +1775,94 @@ const ReaderAdd = () => {
                   accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                   data-multiple-caption="{count} files selected"
                 />
-                  <>
-                    <label for="upload-file">
-                      <span>Choose Your File</span>
-                    </label>
-                    <p>Upload your new list file</p>
-                  </>
+                <>
+                  <Form.Label htmlFor="upload-file">
+                    <span>Choose Your File</span>
+                  </Form.Label>
+                  <p>Upload your new list file</p>
+                </>
               </div>
-        </div>
-              <h4>Please upload max 300 readers at once.</h4>
-        <div className="modal-buttons"> <button type="button"  onClick={handleClose} className="btn btn-primary btn-bordered light" data-bs-dismiss="modal">Upload</button></div>
-        </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer> */}
-      </Modal>
-        
-    </Col>
-</>
-  )
-}
+            </div>
+            <h4>Please upload max 300 readers at once.</h4>
+            <div className="modal-buttons">
+              {" "}
+              <button
+                type="button"
+                onClick={handleClose}
+                className="btn btn-primary btn-bordered light"
+                data-bs-dismiss="modal"
+              >
+                Upload
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal> */}
+        <Modal
+          show={uploadShow}
+          onHide={handleClose}
+          className="send-confirm preview-content"
+          id="download-qr"
+        >
+          <Modal.Header>
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Change file
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={handleClose}
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            <Form className="upload_reader_excel">
+              <div className="form-group">
+                <div className="upload-file-box">
+                  <div className="box">
+                    <input
+                      type="file"
+                      name="file-5[]"
+                      id="file-5"
+                      className="inputfile inputfile-5"
+                      // accept="application/pdf"
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      onChange={(e) => handleChange(e, "uploadFile")}
+                    />
+                    <Form.Label htmlFor="file-5">
+                      <span>Choose Your File</span>
+                    </Form.Label>
+                    {userInputs?.uploadFile?.[0]?.name ? (
+                      <p className="uploaded-file">
+                        {userInputs?.uploadFile?.[0].name}
+                      </p>
+                    ) : (
+                      <p>Upload your Excel</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="sample_btn" onClick={downloadFile}>
+                <p>Download sample file from here</p>
+              </div>
+            </Form>
+          </Modal.Body>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className={
+                updateFlag == 0
+                  ? "btn btn-primary save btn-filled move-draft btn-disabled"
+                  : "btn btn-primary save btn-filled move-draft"
+              }
+              onClick={handleFileUpload}
+            >
+              Upload
+            </button>
+          </div>
+        </Modal>
+      </Col>
+    </>
+  );
+};
 
 export default ReaderAdd;

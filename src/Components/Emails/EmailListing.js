@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import { Link } from "react-router-dom";
@@ -14,6 +14,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import queryString from "query-string";
 import { getSelectedSmartListData } from "../../actions";
+import { Col, Row } from "react-bootstrap";
 const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -24,6 +25,11 @@ const EmailList = (props) => {
   const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [filterdata, setFilterData] = useState([]);
+  const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] =
+    useState(false);
+  const [readerDetailsData, setReaderDetailsData] = useState([]);
+  const [detailPopupName, setDetailPopupName] = useState("");
+  const [popupHeadingColor, setPopupHeadingColor] = useState("");
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [submiHandle, setSubmiHandle] = useState("");
@@ -46,6 +52,7 @@ const EmailList = (props) => {
   const [filterapplied, setFilterApply] = useState(false);
   const [getDraftEmailSendStatus, setDraftEmailSendStatus] = useState(false);
   const [getDraftCamapignId, setDraftCamapignId] = useState(0);
+  const [getloadmore, setloadmore] = useState(0);
   const [options_ch, setOptions_ch] = useState({
     chart: {
       type: "column",
@@ -65,7 +72,7 @@ const EmailList = (props) => {
       },
     },
     xAxis: {
-      categories: ["Email sent", "Email opened", "Link clicked"],
+      categories: ["Emails sent", "Emails opened", "Link clicked (CTR 1)"],
       labels: {
         skew3d: true,
         style: {
@@ -81,15 +88,37 @@ const EmailList = (props) => {
     series: [
       {
         name: "Email campaign",
-        data: [2, 3, 0],
+        data: [
+          { y: 2, color: "#8a4e9c" },
+          { y: 3, color: "#ffbe2c" },
+          { y: 0, color: "#39cabc" },
+        ],
       },
     ],
   });
-
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
   useEffect(() => {
     props.getEmailData(null);
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
   }, []);
 
   const showViewEmailModal = (data) => {
@@ -98,9 +127,9 @@ const EmailList = (props) => {
       let getSpecificKeyData = SendListData.filter((p) => p.id == id);
       let valueupdate = options_ch;
       valueupdate.series[0].data = [
-        getSpecificKeyData[0].total_Sent,
-        getSpecificKeyData[0].total_Opened,
-        getSpecificKeyData[0].total_Click,
+        { y: getSpecificKeyData[0].total_Sent, color: "#8a4e9c" },
+        { y: getSpecificKeyData[0].total_Opened, color: "#ffbe2c" },
+        { y: getSpecificKeyData[0].total_Click, color: "#39cabc" },
       ];
       setOptions_ch(valueupdate);
       setviewEmailData(getSpecificKeyData);
@@ -124,7 +153,7 @@ const EmailList = (props) => {
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getData = (stage) => {
+  const getData = (stage, page = 1) => {
     loader("show");
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -132,7 +161,7 @@ const EmailList = (props) => {
       filter: filter,
     };
     axios
-      .post(`emailapi/getlist`, body)
+      .post(`emailapi/getlist?page=` + page, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           setSendListData(res.data.response.data.emails);
@@ -140,7 +169,6 @@ const EmailList = (props) => {
             setOriginalSendListData(res.data.response.data.emails);
 
             setFilterData(res.data.response.data.filter);
-            console.log(res.data.response.data.filter);
           }
           setUserData(res.data.response.data.user);
         } else if (res.data.status_code == 201) {
@@ -559,15 +587,51 @@ const EmailList = (props) => {
       });
   };
 
+  const load_more = () => {
+    getData("initial", 2);
+    setloadmore(1);
+  };
+
+  const getReaderData = async (type = "", name = "", color_code = "") => {
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      campaign_id: viewEmailData?.[0]?.id,
+      pdf_id: viewEmailData?.[0]?.pdf_id,
+      type: type,
+    };
+    setviewEmailModal(false);
+    setDetailPopupName(name);
+    setPopupHeadingColor(color_code);
+    loader("show");
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    await axios
+      .post(`emailapi/get_article_readers`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          loader("hide");
+          if (res?.data?.response?.data) {
+            setReaderDetailsData(res?.data?.response?.data);
+          }
+          setReaderDetailsPopupStatus(true);
+        } else {
+          loader("hide");
+          setReaderDetailsData([]);
+          toast.warning(res.data.message);
+        }
+      })
+      .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong");
+      });
+  };
+
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
-          <div className="row">
-            <div className="top-header">
-              <div className="page-title">
-                <h2>Email</h2>
-              </div>
+          <Row>
+            <div className="top-header sticky">
+              <div className="page-title">{/* <h2>Email</h2> */}</div>
               <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -603,6 +667,7 @@ const EmailList = (props) => {
                   }
                 >
                   <button
+                    ref={buttonRef}
                     className="btn btn-secondary dropdown"
                     type="button"
                     id="dropdownMenuButton2"
@@ -660,6 +725,7 @@ const EmailList = (props) => {
                   {/*Code for show filters*/}
                   {showfilter && (
                     <div
+                      ref={filterRef}
                       className="dropdown-menu filter-options"
                       aria-labelledby="dropdownMenuButton2"
                     >
@@ -1132,7 +1198,7 @@ const EmailList = (props) => {
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
-                                        <g clip-path="url(#clip0_586_1145)">
+                                        <g clipPath="url(#clip0_586_1145)">
                                           <path
                                             d="M9.52404 0.0444336C9.25621 0.125366 9.01122 0.27124 8.80846 0.473999L1.54639 7.73596C1.3396 7.94275 1.19666 8.18957 1.11719 8.45154L8.12279 7.05041L9.52404 0.0444336Z"
                                             fill="#C8D1D9"
@@ -1344,9 +1410,21 @@ const EmailList = (props) => {
                 )}
               </div>
             </div>
-          </div>
+          </Row>
         </div>
-      </div>
+        {typeof SendListData !== "undefined" &&
+          SendListData.length == 32 &&
+          getloadmore === 0 && (
+            <div className="load_more">
+              <button
+                className="btn btn-primary btn-filled"
+                onClick={load_more}
+              >
+                Load More
+              </button>
+            </div>
+          )}
+      </Col>
 
       <div>
         <Modal className="modal send-confirm" id="resend-confirm" show={isOpen}>
@@ -1477,9 +1555,13 @@ const EmailList = (props) => {
                   </div>
                   <div className="mail-stats">
                     <ul>
-                      <li>
+                      <li
+                        onClick={() => {
+                          getReaderData("unique", "Emails sent", "#8a4e9c");
+                        }}
+                      >
                         <div className="mail_send">
-                          <h6>Emails send</h6>
+                          <h6>Emails sent</h6>
                           <div className="mail-stats-list">
                             <svg
                               width="40"
@@ -1496,7 +1578,7 @@ const EmailList = (props) => {
                                 stroke-width="3"
                                 stroke-linejoin="round"
                               />
-                              <g clip-path="url(#clip0_698_88)">
+                              <g clipPath="url(#clip0_698_88)">
                                 <path
                                   d="M21.905 10.0557C21.5703 10.1568 21.264 10.3392 21.0106 10.5926L11.933 19.6701C11.6745 19.9286 11.4958 20.2371 11.3965 20.5645L20.1535 18.8131L21.905 10.0557Z"
                                   fill="#986CA5"
@@ -1523,7 +1605,11 @@ const EmailList = (props) => {
                         </div>
                       </li>
 
-                      <li>
+                      <li
+                        onClick={() => {
+                          getReaderData("bounce", "Emails bounced", "#f58289");
+                        }}
+                      >
                         <div className="mail_view">
                           <h6>Emails bounced</h6>
                           <div className="mail-stats-list">
@@ -1542,10 +1628,10 @@ const EmailList = (props) => {
                                 stroke-width="3"
                                 stroke-linejoin="round"
                               />
-                              <g clip-path="url(#clip0_698_97)">
+                              <g clipPath="url(#clip0_698_97)">
                                 <path
-                                  fill-rule="evenodd"
-                                  clip-rule="evenodd"
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
                                   d="M27.9098 12.283C27.5648 12.0981 27.1782 12.0001 26.7771 12.0001L12.4111 12C12.002 12 11.6165 12.1028 11.2788 12.2833L19.594 17.8268L27.9098 12.283ZM20.6461 25.1001C20.5929 24.8003 20.5651 24.4917 20.5651 24.1766C20.5651 21.2795 22.9136 18.931 25.8107 18.931C27.0975 18.931 28.2762 19.3944 29.1888 20.1634L29.1889 14.2817C29.1888 13.8568 29.0782 13.4485 28.8715 13.0884L19.9582 19.0308C19.738 19.1776 19.451 19.1777 19.2307 19.0309L10.3172 13.0886C10.1158 13.4407 10 13.8479 10 14.2819V15.0203V16.3318V17.8295L10.0001 19.1409L10 20.6387V21.9502V22.6886C10.0001 23.3309 10.2514 23.9359 10.7078 24.3923C11.1642 24.8487 11.7694 25.1001 12.4115 25.1001L20.6461 25.1001ZM25.804 28.3757C28.1216 28.3757 30.0004 26.4969 30.0004 24.1792C30.0004 21.8616 28.1216 19.9828 25.804 19.9828C23.4863 19.9828 21.6075 21.8616 21.6075 24.1792C21.6075 26.4969 23.4863 28.3757 25.804 28.3757ZM25.1052 26.6285C25.1052 26.2422 25.4184 25.9291 25.8047 25.9291C26.1909 25.9291 26.504 26.2422 26.504 26.6285C26.504 27.0148 26.1909 27.3279 25.8047 27.3279C25.4185 27.3279 25.1052 27.0148 25.1052 26.6285ZM25.8046 24.9097C26.1909 24.9097 26.504 24.583 26.504 24.1799V21.7623C26.504 21.3593 26.1909 21.0325 25.8046 21.0325C25.4183 21.0325 25.1052 21.3593 25.1052 21.7623V24.1799C25.1052 24.583 25.4183 24.9097 25.8046 24.9097Z"
                                   fill="#F58289"
                                 />
@@ -1561,11 +1647,19 @@ const EmailList = (props) => {
                                 </clipPath>
                               </defs>
                             </svg>
-                            <span>0</span>
+                            <span>
+                              {viewEmailData[0]?.bounce
+                                ? viewEmailData[0].bounce
+                                : 0}
+                            </span>
                           </div>
                         </div>
                       </li>
-                      <li>
+                      <li
+                        onClick={() => {
+                          getReaderData("open", "Emails opened", "#ffbe2c");
+                        }}
+                      >
                         <div className="mail_open">
                           <h6>Emails opened</h6>
                           <div className="mail-stats-list">
@@ -1605,7 +1699,11 @@ const EmailList = (props) => {
                           </div>
                         </div>
                       </li>
-                      <li>
+                      <li
+                        onClick={() => {
+                          getReaderData("ctr", "CTR 1", "#39cabc");
+                        }}
+                      >
                         <div className="mail_click">
                           <div className="mail_click_box">
                             <h6>CTR 1</h6>
@@ -1712,7 +1810,7 @@ const EmailList = (props) => {
                 <div className="mail-stats-list">
                   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="20" cy="20" r="18.5" stroke="#986CA5" stroke-width="3" stroke-linejoin="round"/>
-                  <g clip-path="url(#clip0_698_88)">
+                  <g clipPath="url(#clip0_698_88)">
                   <path d="M21.905 10.0557C21.5703 10.1568 21.264 10.3392 21.0106 10.5926L11.933 19.6701C11.6745 19.9286 11.4958 20.2371 11.3965 20.5645L20.1535 18.8131L21.905 10.0557Z" fill="#986CA5"/>
                   <path d="M29.3698 15.9047L24.0578 10.5925C23.7892 10.3241 23.4613 10.136 23.1032 10.0391L21.2259 19.426C21.1795 19.6579 20.9982 19.8393 20.7663 19.8857L11.3793 21.7632C11.4745 22.1129 11.6586 22.4434 11.9328 22.7176L12.3995 23.1842L10.1715 25.4121C9.9428 25.641 9.9428 26.012 10.1717 26.2408C10.2861 26.3551 10.436 26.4124 10.586 26.4124C10.736 26.4124 10.8858 26.3551 11.0002 26.2408L13.2282 24.0129L14.1745 24.9593L10.1715 28.9623C9.9428 29.191 9.9428 29.5621 10.1717 29.7908C10.2861 29.9052 10.436 29.9625 10.586 29.9625C10.736 29.9625 10.8858 29.9052 11.0002 29.7908L15.0032 25.7878L15.9496 26.7343L13.7218 28.9623C13.4929 29.191 13.4929 29.5621 13.7218 29.7908C13.8361 29.9052 13.9861 29.9625 14.1361 29.9625C14.2861 29.9625 14.4359 29.9052 14.5503 29.7908L16.7783 27.563L17.2449 28.0296C17.6508 28.4354 18.1919 28.6589 18.7686 28.6589C19.3454 28.6589 19.8866 28.4354 20.2924 28.0296L29.3698 18.9522C30.2101 18.1119 30.2101 16.7448 29.3698 15.9047Z" fill="#986CA5"/>
                   </g>
@@ -1734,8 +1832,8 @@ const EmailList = (props) => {
                 <div className="mail-stats-list">
                   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="20" cy="20" r="18.5" stroke="#F58289" stroke-width="3" stroke-linejoin="round"/>
-                  <g clip-path="url(#clip0_698_97)">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M27.9098 12.283C27.5648 12.0981 27.1782 12.0001 26.7771 12.0001L12.4111 12C12.002 12 11.6165 12.1028 11.2788 12.2833L19.594 17.8268L27.9098 12.283ZM20.6461 25.1001C20.5929 24.8003 20.5651 24.4917 20.5651 24.1766C20.5651 21.2795 22.9136 18.931 25.8107 18.931C27.0975 18.931 28.2762 19.3944 29.1888 20.1634L29.1889 14.2817C29.1888 13.8568 29.0782 13.4485 28.8715 13.0884L19.9582 19.0308C19.738 19.1776 19.451 19.1777 19.2307 19.0309L10.3172 13.0886C10.1158 13.4407 10 13.8479 10 14.2819V15.0203V16.3318V17.8295L10.0001 19.1409L10 20.6387V21.9502V22.6886C10.0001 23.3309 10.2514 23.9359 10.7078 24.3923C11.1642 24.8487 11.7694 25.1001 12.4115 25.1001L20.6461 25.1001ZM25.804 28.3757C28.1216 28.3757 30.0004 26.4969 30.0004 24.1792C30.0004 21.8616 28.1216 19.9828 25.804 19.9828C23.4863 19.9828 21.6075 21.8616 21.6075 24.1792C21.6075 26.4969 23.4863 28.3757 25.804 28.3757ZM25.1052 26.6285C25.1052 26.2422 25.4184 25.9291 25.8047 25.9291C26.1909 25.9291 26.504 26.2422 26.504 26.6285C26.504 27.0148 26.1909 27.3279 25.8047 27.3279C25.4185 27.3279 25.1052 27.0148 25.1052 26.6285ZM25.8046 24.9097C26.1909 24.9097 26.504 24.583 26.504 24.1799V21.7623C26.504 21.3593 26.1909 21.0325 25.8046 21.0325C25.4183 21.0325 25.1052 21.3593 25.1052 21.7623V24.1799C25.1052 24.583 25.4183 24.9097 25.8046 24.9097Z" fill="#F58289"/>
+                  <g clipPath="url(#clip0_698_97)">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M27.9098 12.283C27.5648 12.0981 27.1782 12.0001 26.7771 12.0001L12.4111 12C12.002 12 11.6165 12.1028 11.2788 12.2833L19.594 17.8268L27.9098 12.283ZM20.6461 25.1001C20.5929 24.8003 20.5651 24.4917 20.5651 24.1766C20.5651 21.2795 22.9136 18.931 25.8107 18.931C27.0975 18.931 28.2762 19.3944 29.1888 20.1634L29.1889 14.2817C29.1888 13.8568 29.0782 13.4485 28.8715 13.0884L19.9582 19.0308C19.738 19.1776 19.451 19.1777 19.2307 19.0309L10.3172 13.0886C10.1158 13.4407 10 13.8479 10 14.2819V15.0203V16.3318V17.8295L10.0001 19.1409L10 20.6387V21.9502V22.6886C10.0001 23.3309 10.2514 23.9359 10.7078 24.3923C11.1642 24.8487 11.7694 25.1001 12.4115 25.1001L20.6461 25.1001ZM25.804 28.3757C28.1216 28.3757 30.0004 26.4969 30.0004 24.1792C30.0004 21.8616 28.1216 19.9828 25.804 19.9828C23.4863 19.9828 21.6075 21.8616 21.6075 24.1792C21.6075 26.4969 23.4863 28.3757 25.804 28.3757ZM25.1052 26.6285C25.1052 26.2422 25.4184 25.9291 25.8047 25.9291C26.1909 25.9291 26.504 26.2422 26.504 26.6285C26.504 27.0148 26.1909 27.3279 25.8047 27.3279C25.4185 27.3279 25.1052 27.0148 25.1052 26.6285ZM25.8046 24.9097C26.1909 24.9097 26.504 24.583 26.504 24.1799V21.7623C26.504 21.3593 26.1909 21.0325 25.8046 21.0325C25.4183 21.0325 25.1052 21.3593 25.1052 21.7623V24.1799C25.1052 24.583 25.4183 24.9097 25.8046 24.9097Z" fill="#F58289"/>
                   </g>
                   <defs>
                   <clipPath id="clip0_698_97">
@@ -1905,6 +2003,105 @@ const EmailList = (props) => {
         </Modal>
       </div>
       {/*Modal end for send Draft Email*/}
+
+      {
+        /*Modal for Reader Listing*/
+        <div>
+          <Modal
+            className="modal modal-second"
+            id="mail-view"
+            show={readerDetailsPopupStatus}
+          >
+            <Modal.Header>
+              <h4 style={{ color: popupHeadingColor }}>
+                {detailPopupName != "" ? detailPopupName : null}
+              </h4>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                onClick={(e) => {
+                  setReaderDetailsPopupStatus(false);
+                  setReaderDetailsData([]);
+                  setviewEmailModal(true);
+                }}
+              ></button>
+            </Modal.Header>
+            <Modal.Body>
+              {
+                <div className="selected-hcp-list">
+                  <table className="table" id="table-to-xls">
+                    <thead className="sticky-header">
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        {/* <th scope="col">Bounced</th> */}
+                        <th scope="col">Country</th>
+                        {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <th scope="col">IRT mandatory training</th>
+                      ) : (
+                        <th scope="col">Business Unit</th>
+                      )}
+
+                        {/* <th scope="col">Contact Type</th> */}
+                        {/* <th scope="col">Opened</th> */}
+                        {/* <th scope="col"> Clicked</th> */}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {typeof readerDetailsData !== "undefined" &&
+                      readerDetailsData.length > 0 ? (
+                        readerDetailsData.map((item, index) => (
+                          <tr
+                            key={"readers_" + index}
+                            className="hcp"
+                            id={`row-selected` + index}
+                          >
+                            <td>
+                              {" "}
+                              {item?.first_name + " " + item?.last_name}{" "}
+                            </td>
+                            <td> {item?.email ? item.email : "N/A"} </td>
+                            {/* <td> {item?.bounce ? item.bounce : "N/A"}</td> */}
+                            <td>
+                              {" "}
+                              <span>
+                                {item?.country ? item.country : "N/A"}
+                              </span>{" "}
+                            </td>
+                            <td>
+                              {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? item.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :item.ibu
+                                  ? item.ibu
+                                  : "N/A"}
+                            </td>
+                            {/* <td> {item?.contact_type} </td> */}
+                            {/* <td>{item?.opened ? item?.opened : "N/A"}</td> */}
+                            {/* <td>{item?.ctr ? item?.ctr : "N/A"}</td> */}
+                          </tr>
+                        ))
+                      ) : readerDetailsData.length == 0 ? (
+                        <tr className="table_no_data_found">
+                          <td colspan="6">
+                            <div className="no_found">
+                              <p>No Data Found</p>
+                            </div>
+                          </td>
+                        </tr>
+                      ) : null}
+                    </tbody>
+                  </table>
+                </div>
+              }
+            </Modal.Body>
+          </Modal>
+        </div>
+      }
     </>
   );
 };

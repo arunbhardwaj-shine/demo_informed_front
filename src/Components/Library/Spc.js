@@ -5,17 +5,17 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const data = [
   {
-    image: `${path_image}spc-create-icon.png`,
+    image: `${path_image}spc-create-icon.svg`,
     title: "Create",
     subtitle: "Upload your SPC here",
   },
   {
-    image: `${path_image}edit-icon.png`,
+    image: `${path_image}edit-icon1.svg`,
     title: "View | Edit",
     subtitle: "View and Edit all your SPC here",
   },
   {
-    image: `${path_image}delete.png`,
+    image: `${path_image}delete-icon.svg`,
     title: "Delete",
     subtitle: "Delete your SPC from here",
   },
@@ -29,7 +29,7 @@ const Spc = () => {
     if (value == 0) {
       navigate("/spc-create");
     } else if (value == 1) {
-      navigate("/spc-edit", {
+      navigate("/spc-view", {
         state: {
           data: "edit",
         },
@@ -48,7 +48,7 @@ const Spc = () => {
         <Row>
           <div className="top-header">
             <div className="page-title">
-              <h2>SPC</h2>
+              {/* <h2>SPC</h2> */}
             </div>
           </div>
           <div className="library_create spc-box d-flex">

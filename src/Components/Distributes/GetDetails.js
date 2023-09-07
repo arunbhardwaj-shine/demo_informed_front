@@ -41,13 +41,13 @@ const GetDetails = () => {
       .post(`distributes/get_campaign_readers_details`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
-          if(flag == 1){
-              setData([]);
-              setUpdatedData([]);
+          if (flag == 1) {
+            setData([]);
+            setUpdatedData([]);
           }
           const readers = res.data.response.data.readers;
-          setData(readers)
-          setUpdatedData(readers)
+          setData(readers);
+          setUpdatedData(readers);
           // const filteredData1 = readers.filter((reader) => {
           //   if (
           //     reader.email_read == "Yes" &&
@@ -164,13 +164,13 @@ const GetDetails = () => {
           return 1;
         }
         if (a.first_name === b.first_name) {
-           return 0;
+          return 0;
         }
         return a.first_name.toLowerCase() > b.first_name.toLowerCase()
-        ? 1
-        : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-        ? -1
-        : 0
+          ? 1
+          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
+          ? -1
+          : 0;
       });
     } else {
       normalArr.sort((a, b) => {
@@ -182,9 +182,13 @@ const GetDetails = () => {
         }
 
         if (a.first_name === b.first_name) {
-           return 0;
+          return 0;
         }
-        return a.first_name.toLowerCase() < b.first_name.toLowerCase() ? 1 : b.first_name.toLowerCase() < a.first_name.toLowerCase() ? -1 : 0
+        return a.first_name.toLowerCase() < b.first_name.toLowerCase()
+          ? 1
+          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
+          ? -1
+          : 0;
       });
     }
     setSortingCountEmail(0);
@@ -234,7 +238,7 @@ const GetDetails = () => {
     event.preventDefault();
     let r_table = [];
     updatedData.find(function (item) {
-      if(item.first_name !== null || item.email !== ""){
+      if (item.first_name !== null || item.email !== "") {
         if (item.first_name.includes(search) || item.email.includes(search)) {
           r_table.push(item);
         }
@@ -256,7 +260,7 @@ const GetDetails = () => {
   const syncData = (e) => {
     e.preventDefault();
     getCampaignReaderDetails(1);
-  }
+  };
 
   return (
     <>
@@ -264,8 +268,7 @@ const GetDetails = () => {
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
-          {
-            /*
+            {/*
             <div className="page-top-nav smart_list_names">
 
               <div className="row justify-content-start align-items-center">
@@ -292,26 +295,25 @@ const GetDetails = () => {
 
 
             </div>
-            */
-          }
+            */}
             <section className="search-hcp smart-list-view">
-            <div className="header-btn-left">
-              {true ? (
-                <Link
-                  to={{
-                    pathname: "/EmailStatss",
-                  }}
-                >
+              <div className="header-btn-left">
+                {true ? (
+                  <Link
+                    to={{
+                      pathname: "/EmailStatss",
+                    }}
+                  >
+                    <button className="btn btn-primary btn-bordered back">
+                      Back
+                    </button>
+                  </Link>
+                ) : (
                   <button className="btn btn-primary btn-bordered back">
                     Back
                   </button>
-                </Link>
-              ) : (
-                <button className="btn btn-primary btn-bordered back">
-                  Back
-                </button>
-              )}
-            </div>
+                )}
+              </div>
               <div className="result-hcp-table">
                 <div className="table-title">
                   <h4>
@@ -335,7 +337,7 @@ const GetDetails = () => {
                         <span>{distributeData.subject}</span>
                       </li>
                       <li>
-                        <label>Smart List</label>
+                        <label>Smart list</label>
                         <span>{distributeData.list}</span>
                       </li>
                       <li>
@@ -343,40 +345,58 @@ const GetDetails = () => {
                         <span>{distributeData.total_sent_count}</span>
                       </li>
                       <li>
-                        <label>Email Read:</label>
+                        <label>Email read:</label>
                         <span>{distributeData.total_read_count}</span>
                       </li>
                       <li>
-                        <label>Pending Read Email:</label>
+                        <label>Pending read email:</label>
                         <span>{distributeData.total_pending_count}</span>
                       </li>
                       <li>
-                        <label>Bounce Count:</label>
+                        <label>Bounce count:</label>
                         <span>{distributeData.total_bouns_count}</span>
                       </li>
                     </ul>
                   </div>
-
                   <div className="color_opt d-flex">
                     <div className="col-md-6">
                       <div className="green-box">
-                          <div className="box"></div>
-                          <p>Reader already registered in system from a previous campaign. </p>
+                        <div className="box"></div>
+                        <p>
+                          Reader already registered in system from a previous
+                          campaign.{" "}
+                        </p>
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="orange-box">
                         <div className="box"></div>
-                        <p>Email already sent to this user from a previous campaign.</p>
+                        <p>
+                          Email already sent to this user from a previous
+                          campaign.
+                        </p>
                       </div>
                     </div>
                   </div>
-
                   <div className="table_xls search_view sync">
                     <div className="smart-list-btns">
                       <div className="top-left-action">
-                        <button className="btn btn-primary btn-bordered back" onClick={(e) => syncData(e)}>Sync
-                        <svg data-name="Layer 1" id="Layer_1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#0066be" d="M64,256H34A222,222,0,0,1,430,118.15V85h30V190H355V160h67.27A192.21,192.21,0,0,0,256,64C150.13,64,64,150.13,64,256Zm384,0c0,105.87-86.13,192-192,192A192.21,192.21,0,0,1,89.73,352H157V322H52V427H82V393.85A222,222,0,0,0,478,256Z"/></svg>
+                        <button
+                          className="btn btn-primary btn-bordered back"
+                          onClick={(e) => syncData(e)}
+                        >
+                          Sync
+                          <svg
+                            data-name="Layer 1"
+                            id="Layer_1"
+                            viewBox="0 0 512 512"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fill="#0066be"
+                              d="M64,256H34A222,222,0,0,1,430,118.15V85h30V190H355V160h67.27A192.21,192.21,0,0,0,256,64C150.13,64,64,150.13,64,256Zm384,0c0,105.87-86.13,192-192,192A192.21,192.21,0,0,1,89.73,352H157V322H52V427H82V393.85A222,222,0,0,0,478,256Z"
+                            />
+                          </svg>
                         </button>
                       </div>
                       <div className="top-right-action">
@@ -422,111 +442,111 @@ const GetDetails = () => {
                       <thead className="sticky-header">
                         <tr>
                           <>
-                          <th scope="col">
-                            First Name
-                            <div className="hcp-sort">
-                              {sortingCount == 0 ? (
-                                <>
-                                  <button
-                                    className="btn btn-outline-primary"
-                                    onClick={sortName}
-                                  >
-                                    <img
-                                      src={path_image + "sort.svg"}
-                                      alt="Shorting"
-                                    />
-                                  </button>
-                                </>
-                              ) : sortingName == 0 ? (
-                                <>
-                                  <button
-                                    className="btn btn-outline-primary desc"
-                                    onClick={sortName}
-                                  >
-                                    <img
-                                      src={path_image + "sort-decending.svg"}
-                                      alt="Shorting"
-                                    />
-                                  </button>
-                                </>
-                              ) : (
-                                <>
-                                  <button
-                                    className="btn btn-outline-primary asc"
-                                    onClick={sortName}
-                                  >
-                                    <img
-                                      src={path_image + "sort-assending.svg"}
-                                      alt="Shorting"
-                                    />
-                                  </button>
-                                </>
-                              )}
-                            </div>
-                          </th>
-                          <th scope="col">Last Name</th>
-                          <th scope="col">
-                            Email
-                            <div className="hcp-sort">
-                              {sortingCountEmail == 0 ? (
-                                <>
-                                  <button
-                                    className="btn btn-outline-primary"
-                                    onClick={sortEmail}
-                                  >
-                                    <img
-                                      src={path_image + "sort.svg"}
-                                      alt="Shorting"
-                                    />
-                                  </button>
-                                </>
-                              ) : sortingEmail == 0 ? (
-                                <>
-                                  <button
-                                    className="btn btn-outline-primary desc"
-                                    onClick={sortEmail}
-                                  >
-                                    <img
-                                      src={path_image + "sort-decending.svg"}
-                                      alt="Shorting"
-                                    />
-                                  </button>
-                                </>
-                              ) : (
-                                <>
-                                  <button
-                                    className="btn btn-outline-primary asc"
-                                    onClick={sortEmail}
-                                  >
-                                    <img
-                                      src={path_image + "sort-assending.svg"}
-                                      alt="Shorting"
-                                    />
-                                  </button>
-                                </>
-                              )}
-                            </div>
-                          </th>
-                          <th scope="col">Email Read</th>
-                          <th scope="col">Link Open</th>
-                          <th scope="col">Registered</th>
-                          {
-                            typeof data != "undefined" && data.length > 0 ? (
-                                <>
-                                {
-                                  data[0]?.all_read_info && data[0].all_read_info != "" ?
-                                  Object.keys(data[0].all_read_info).map((key, index) => (
-                                    <>
-                                    <th>Link Open {index +1 }</th>
-                                    <th>Registered {index +1}</th>
-                                    </>
-                                  ))
-                                  :
-                                  ''
-                                }
-                                </>
-                            ) : ''
-                          }
+                            <th scope="col">
+                              First name
+                              <div className="hcp-sort">
+                                {sortingCount == 0 ? (
+                                  <>
+                                    <button
+                                      className="btn btn-outline-primary"
+                                      onClick={sortName}
+                                    >
+                                      <img
+                                        src={path_image + "sort.svg"}
+                                        alt="Shorting"
+                                      />
+                                    </button>
+                                  </>
+                                ) : sortingName == 0 ? (
+                                  <>
+                                    <button
+                                      className="btn btn-outline-primary desc"
+                                      onClick={sortName}
+                                    >
+                                      <img
+                                        src={path_image + "sort-decending.svg"}
+                                        alt="Shorting"
+                                      />
+                                    </button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <button
+                                      className="btn btn-outline-primary asc"
+                                      onClick={sortName}
+                                    >
+                                      <img
+                                        src={path_image + "sort-assending.svg"}
+                                        alt="Shorting"
+                                      />
+                                    </button>
+                                  </>
+                                )}
+                              </div>
+                            </th>
+                            <th scope="col">Last name</th>
+                            <th scope="col">
+                              Email
+                              <div className="hcp-sort">
+                                {sortingCountEmail == 0 ? (
+                                  <>
+                                    <button
+                                      className="btn btn-outline-primary"
+                                      onClick={sortEmail}
+                                    >
+                                      <img
+                                        src={path_image + "sort.svg"}
+                                        alt="Shorting"
+                                      />
+                                    </button>
+                                  </>
+                                ) : sortingEmail == 0 ? (
+                                  <>
+                                    <button
+                                      className="btn btn-outline-primary desc"
+                                      onClick={sortEmail}
+                                    >
+                                      <img
+                                        src={path_image + "sort-decending.svg"}
+                                        alt="Shorting"
+                                      />
+                                    </button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <button
+                                      className="btn btn-outline-primary asc"
+                                      onClick={sortEmail}
+                                    >
+                                      <img
+                                        src={path_image + "sort-assending.svg"}
+                                        alt="Shorting"
+                                      />
+                                    </button>
+                                  </>
+                                )}
+                              </div>
+                            </th>
+                            <th scope="col">Email read</th>
+                            <th scope="col">Link open</th>
+                            <th scope="col">Registered</th>
+                            {typeof data != "undefined" && data.length > 0 ? (
+                              <>
+                                {data[0]?.all_read_info &&
+                                data[0].all_read_info != ""
+                                  ? Object.keys(data[0].all_read_info).map(
+                                      (key, index) => (
+                                        <>
+                                          <th>Link Open {index + 1}</th>
+                                          <th>Registered {index + 1}</th>
+                                        </>
+                                      )
+                                    )
+                                  : ""}
+                              </>
+                            ) : (
+                              ""
+                            )}
                           </>
                         </tr>
                       </thead>
@@ -534,38 +554,57 @@ const GetDetails = () => {
                         {typeof data != "undefined" && data.length > 0 ? (
                           data.map((item, index) => (
                             <>
-                              {
-                                  item.email != "" ?
-                                    <tr className= {item.article_already_register == 1 ? "green" : item.already_email_sent == 1 ? "orange" : ""}>
-                                      <td>{item.first_name}</td>
-                                      <td>{item.last_name}</td>
-                                      <td>{item.email}</td>
-                                      <td>{item.email_read}</td>
-                                      <td>{item.article_open}</td>
-                                      <td>{item.article_register}</td>
-                                      {
-                                        item?.all_read_info && item.all_read_info != "" ?
-                                        Object.keys(item.all_read_info).map((key) => (
+                              {item.email != "" ? (
+                                <tr
+                                  key={index}
+                                  className={
+                                    item?.article_already_register == 1
+                                      ? "green"
+                                      : item?.already_email_sent == 1
+                                      ? "orange"
+                                      : ""
+                                  }
+                                >
+                                  <td>{item.first_name}</td>
+                                  <td>{item.last_name}</td>
+                                  <td>{item.email}</td>
+                                  <td>{item.email_read}</td>
+                                  <td>{item.article_open}</td>
+                                  <td>{item.article_register}</td>
+                                  {item?.all_read_info &&
+                                  item.all_read_info != ""
+                                    ? Object.keys(item.all_read_info).map(
+                                        (key) => (
                                           <>
-                                          <td>{item.all_read_info[key].article_read}</td>
-                                          <td>{item.all_read_info[key].article_registered}</td>
+                                            <td>
+                                              {
+                                                item.all_read_info[key]
+                                                  .article_read
+                                              }
+                                            </td>
+                                            <td>
+                                              {
+                                                item.all_read_info[key]
+                                                  .article_registered
+                                              }
+                                            </td>
                                           </>
-                                        ))
-                                        :
-                                        ''
-                                      }
-                                    </tr>
-                                   :
-                                  <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td className="removed_td centered">Removed</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                  </tr>
-
-                              }
+                                        )
+                                      )
+                                    : ""}
+                                </tr>
+                              ) : (
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td className="removed_td centered">
+                                    Removed
+                                  </td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              )}
                             </>
                           ))
                         ) : (

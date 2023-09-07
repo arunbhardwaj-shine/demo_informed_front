@@ -14,20 +14,23 @@ import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Select, { createFilter }  from 'react-select';
-import makeAnimated from 'react-select/animated';
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Select, { createFilter } from "react-select";
+import makeAnimated from "react-select/animated";
 const ViewTable = (props) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
   });
   const filterConfig = {
-      matchFrom: 'start',
+    matchFrom: "start",
   };
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
+  const [instituions, setInstituions] = useState([]);
+
+
   const [editable, setEditable] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -36,7 +39,11 @@ const ViewTable = (props) => {
   const [validator3] = React.useState(new SimpleReactValidator());
   const [manualReRender, setManualReRender] = useState(0);
   const [update, setUpdate] = useState(0);
+  const [siteNameAll, setSiteNameAll] = useState([]);
+  const [siteStreetAll, setSiteStreetAll] = useState([]);
+  const [siteCityAll, setSiteCityAll] = useState([]);
   const [saveOpen, setSaveOpen] = useState(false);
+  const [siteNumber, setSiteNumber] = useState("");
   const [data, setData] = useState(0);
   const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
@@ -46,26 +53,32 @@ const ViewTable = (props) => {
   const [showReaders, setShowSaveReader] = useState(false);
   const [save, setSave] = useState(false);
   const [updateCounter, setUpdateCounter] = useState(0);
-
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [name_edits, setNameEdit] = useState("");
   const [country_edits, setCountryEdit] = useState("");
   const [email_edits, setEmailEdit] = useState("");
 
   const [addNewData, setAddNewData] = useState(0);
+  const [siteNumberAll, setSiteNumberAll] = useState([]);
 
   const [profile_user_id, setProfileUserId] = useState();
 
   const [reRenders, setReRenders] = useState(0);
 
   const [validator3Counter, setValidator3Counter] = useState(0);
+  const [validationError, setValidationError] = useState({});
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
+  const [sitePostalCodeAll, setSitePostCodeAll] = useState([]);
   const [newData, setNewData] = useState([]);
   const [showLessUpdate, setShowLessUpdate] = useState(0);
   const [activeExcel, setActiveExcel] = useState("");
   const [editableData, setEditableData] = useState([]);
+  const [siteIrtAll, setSiteIrtAll] = useState([]);
+  const [siteData, setSiteData] = useState([]);
   const animatedComponents = makeAnimated();
+  const [forceRender, setForceRender] = useState(false);
   let file_name = useRef("");
 
   useEffect(() => {
@@ -82,8 +95,14 @@ const ViewTable = (props) => {
       setListName(props.smartListName);
     }
   }, []);
+  useEffect(()=>{
+    setEditList(props.data);
+  },[props.data?.length])
 
   useEffect(() => {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
     const getalCountry = async () => {
       let body = {
         user_id: localStorage.getItem("user_id"),
@@ -92,19 +111,172 @@ const ViewTable = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
+            let user_type;
+            let sub_role;
+            let blind_type;
+            let arrUserType;
+            let arrSubRole;
+            let arrBlindType;
+            let site_number;
+            let arrSiteNumber;
             let country = res.data.response.data.country;
+            let site_name;
+            let arrSiteName;
+            let site_street;
+            let arrSiteStreet;
+            let site_postcode;
+            let site_city;
+            let arrSiteCity;
+            let arrSitePostCode;
+            let arrSiteIrt;
+            let irt_user_type;
+            let arrIrtUserType = [];
+                   let institutions;
+            let arrinstitutions = [];
+
             let arr = [];
+
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              user_type = res.data.response.data.investigator_type;
+              sub_role = res.data.response.data.sub_role;
+              blind_type = res.data.response.data.blind_type;
+              site_number = res.data.response.data.site_number;
+              site_name = res.data.response.data.site_name;
+              site_street = res.data.response.data.site_street;
+              site_postcode = res.data.response.data.site_post_code;
+              site_city = res.data.response.data.site_city;
+              irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
+              institutions  = res?.data?.response?.data?.institution_type;
+
+              arrUserType = [];
+              arrSubRole = [];
+              arrBlindType = [];
+              arrSiteNumber = [];
+              arrSiteName = [];
+              arrSiteStreet = [];
+              arrSitePostCode = [];
+              arrSiteCity = [];
+              arrSiteIrt = [
+                { value: "Yes", label: "Yes" },
+                { value: "No", label: "No" },
+              ];
+            }
+
+            //  const data = Object.assign({}, res.data.response.data.blind_type);
+
             Object.entries(country).map(([index, item]) => {
               let label = item;
-                if(index == "B&H"){
-                  label = "Bosnia and Herzegovina";
-                }
-                arr.push({
-                    value: item,
-                    label: label,
-                });
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
+              });
             });
+
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              Object.entries(site_number).map(([index, item]) => {
+                let label = item;
+
+                arrSiteNumber.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
+              Object.entries(site_street).map(([index, item]) => {
+                let label = item;
+
+                arrSiteStreet.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
+              Object.entries(site_city).map(([index, item]) => {
+                let label = item;
+
+                arrSiteCity.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
+              Object.entries(site_postcode).map(([index, item]) => {
+                let label = item;
+
+                arrSitePostCode.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
+              Object.entries(site_name).map(([index, item]) => {
+                let label = item;
+
+                arrSiteName.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
+              Object.entries(user_type).map(([index, item]) => {
+                let label = item;
+
+                arrUserType.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
+              Object.entries(sub_role).map(([index, item]) => {
+                let label = item;
+                arrSubRole.push({
+                  value: item,
+                  label: label,
+                });
+              });
+              Object.entries(blind_type).map(([index, item]) => {
+                let label = item;
+
+                arrBlindType.push({
+                  value: item,
+                  label: label,
+                });
+              });
+              Object.entries(irt_user_type)?.map(([item, index]) => {
+                arrIrtUserType.push({
+                  label: item,
+                  value: item,
+                });
+              });
+         Object.entries(institutions)?.map(([item, index]) => {
+                arrinstitutions.push({
+                  label: item,
+                  value: item,
+                });
+              });
+
+            }
+
             setCountryall(arr);
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              setIrtRole(arrIrtUserType);
+               setInstituions(arrinstitutions);
+              setUserTypeAll(arrUserType);
+              setSubUserTypeAll(arrSubRole);
+              // setSiteNumberAll(arrSiteNumber);
+              // setSiteNameAll(arrSiteName);
+              setSiteStreetAll(arrSiteStreet);
+              setSitePostCodeAll(arrSitePostCode);
+              setSiteCityAll(arrSiteCity);
+              setSiteIrtAll(arrSiteIrt);
+              setBlindTypeAll(arrBlindType);
+              setSiteData(res.data.response.data.site_data);
+              setChanges(res.data.response.data);
+            }
+
             // setCountryall(res.data.response.data.country);
           }
           // let country_opt = res.data.response.data.country;
@@ -122,7 +294,7 @@ const ViewTable = (props) => {
           //     loader("hide");
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
     };
     getalCountry();
@@ -136,23 +308,73 @@ const ViewTable = (props) => {
   const [country, setCountry] = useState(null);
   const [email, setEmail] = useState(null);
   const [updateData, setUpdatedData] = useState(null);
-
+  const [totalData, setTotalData] = useState({});
   const [editList, setEditList] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [getlistid, setListId] = useState("");
   const [getlistname, setListName] = useState("");
   const [getlistcount, setListCount] = useState("");
+  const [change, setChanges] = useState(null);
+  const [irtRole, setIrtRole] = useState([]);
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: "" },
+    {
+      firstname: "",
+      lastname: "",
+      email: "",
+      contact_type: "",
+      country: "",
+      countryIndex: "",
+      userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+      subUserType: "",
+      siteNumber: "",
+      subUserTypeIndex: "",
+      siteNumberIndex: "",
+      blindType: "",
+      blindTypeIndex: "",
+      sitePostCode: "",
+      sitePostCodeIndex: "",
+      siteCity: "",
+      siteCityIndex: "",
+      siteStreet: "",
+      siteStreetIndex: "",
+      siteName: "",
+      siteNameIndex: "",
+      siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+      siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
+      // siteIrtAll
+      // role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+      // optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
+      // siteDetails: [
+      //   {
+      //     siteNumber: "",
+      //     siteName: "",
+      //     siteStreet: "",
+      //     sitePostCode: "",
+      //     siteCity: "",
+      //   },
+      // ],
+    },
   ]);
+
+  const [siteCity, setSiteCity] = useState("");
+
+  const [sitePostCode, setSitePostCode] = useState("");
+
+  const [siteStreet, setSiteStreet] = useState("");
+
+  const [siteName, setSiteName] = useState("");
   const [renderCounterData, setCounterData] = useState([]);
 
   const [countryall, setCountryall] = useState([]);
-
+  const [irtCountry, setIRTCountry] = useState([]);
+  const [userTypeAll, setUserTypeAll] = useState([]);
+  const [subUserTypeAll, setSubUserTypeAll] = useState([]);
+  const [blindTypeAll, setBlindTypeAll] = useState([]);
   const handleClose = () => {
     setShow(false);
     setCounter([0]);
@@ -168,6 +390,21 @@ const ViewTable = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
+        userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+        userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+        siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+        siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
+        siteDetails: [
+          {
+            siteNumber: "",
+            siteName: "",
+            siteStreet: "",
+            sitePostCode: "",
+            siteCity: "",
+
+
+          },
+        ],
       },
     ]);
     setActiveManual("active");
@@ -186,6 +423,28 @@ const ViewTable = (props) => {
   let combine_data_manual;
 
   const [counter, setCounter] = useState([0]);
+
+  const axiosFun = async () => {
+    try {
+      const result = await axios.get(`emailapi/get_site`);
+
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+      setIRTCountry(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
+  };
 
   const editButtonClicked = () => {
     if (editable == 1) {
@@ -212,8 +471,7 @@ const ViewTable = (props) => {
     setNewData([]);
     setTimeout(() => {
       setEditList(vr);
-      setNewData(new_add_arr)
-      console.log("This will run after 1 second!");
+      setNewData(new_add_arr);
       setUpdateCounter(updateCounter + 1);
     }, 50);
   };
@@ -252,7 +510,7 @@ const ViewTable = (props) => {
         .post(`distributes/add_update_list`, body)
         .then((res) => {
           loader("hide");
-          console.log(res);
+
           if (res.data.status_code === 200) {
             popup_alert({
               visible: "show",
@@ -271,7 +529,7 @@ const ViewTable = (props) => {
         })
         .catch((err) => {
           toast.error("Something went wrong");
-          console.log(err);
+          //console.log(err);
         });
     };
     if (addNewData > 0) {
@@ -284,9 +542,9 @@ const ViewTable = (props) => {
     setAddNewData(addNewData + 1);
     setShowSaveReader(false);
     // setTimeout(() => {
-    //   console.log(editList);
+    //   //console.log(editList);
     // }, 1000);
-    // console.log(editList);
+    // //console.log(editList);
 
     // if (props.listId) {
   };
@@ -348,24 +606,20 @@ const ViewTable = (props) => {
 
   const deleteRecord = (i) => {
     const list = hpc;
-
     list.splice(i, 1);
-
     setHpc(list);
     setCounterFlag(counterFlag + 1);
   };
 
   const showMoreInfo = (e) => {
     e.preventDefault();
-
     setShowLessInfo(!showLessInfo);
   };
 
-  const addMoreHcp = () => {
-    console.log(hpc);
-
+  const addMoreHcp = (e) => {
+    e.preventDefault();
     const status = hpc.map((data) => {
-      if (data.email == "") {
+      if (data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") {
         return "false";
       } else {
         return "true";
@@ -381,12 +635,55 @@ const ViewTable = (props) => {
           email: "",
           contact_type: "",
           country: "",
-          countryIndex: ""
+          countryIndex: "",
+          userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+          userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+          subUserType: "",
+          subUserTypeIndex: "",
+          blindType: "",
+          blindTypeIndex: "",
+          siteNumber: "",
+          siteName: "",
+          siteStreet: "",
+          sitePostCode: "",
+          siteCity: "",
+          siteNumberIndex: "",
+          siteNameIndex: "",
+          siteStreetIndex: "",
+          sitePostCodeIndex: "",
+          siteCityIndex: "",
+          siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+          siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
         },
       ]);
     } else {
       toast.warning("Please input the email atleast");
     }
+  };
+
+  const addMoreSite = (i, e) => {
+    e.preventDefault();
+
+    let old_hpc = hpc;
+    old_hpc[i].siteDetails.push({
+      siteNumber: "",
+      siteName: "",
+      siteStreet: "",
+      sitePostCode: "",
+      siteCity: "",
+    });
+
+    setHpc(old_hpc);
+    setUpdate(update + 1);
+  };
+  const removeSite = (index, i, e) => {
+    e.preventDefault();
+
+    let old_hpc = hpc;
+    old_hpc[i].siteDetails.splice(index, 1);
+
+    setHpc(old_hpc);
+    setUpdate(update + 1);
   };
 
   const addHcp = () => {
@@ -397,26 +694,39 @@ const ViewTable = (props) => {
 
   const saveEditClicked = async () => {
     setEditable(0);
-    if(editableData.length > 0){
+    if (editableData.length > 0) {
       editableData.map((data) => {
-        const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
-        const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
-        const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
-        const contact_type_edit = document.getElementById("field_contact_type" + data.profile_user_id).value;
+        const name_edit = document.getElementById(
+          "field_name" + data.profile_user_id
+        ).innerText;
+        const country_edit = document.getElementById(
+          "field_country" + data.profile_user_id
+        ).value;
+        const edit_index = document.getElementById(
+          "field_index" + data.profile_user_id
+        ).value;
+        const contact_type_edit =
+          localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+            ? document.getElementById(
+                "field_contact_type" + data.profile_user_id
+              ).value
+            : "";
 
-        let prev_obj = editList.find(x => x.profile_user_id === data.profile_user_id);
-        if(typeof prev_obj != "undefined"){
-          if(typeof editList[edit_index] != "undefined"){
-              editList[edit_index].country = country_edit;
+        let prev_obj = editList.find(
+          (x) => x.profile_user_id === data.profile_user_id
+        );
+        if (typeof prev_obj != "undefined") {
+          if (typeof editList[edit_index] != "undefined") {
+            editList[edit_index].country = country_edit;
           }
-          if(typeof editList[edit_index] != "undefined"){
-              editList[edit_index].contact_type = contact_type_edit;
+          if (typeof editList[edit_index] != "undefined") {
+            editList[edit_index].contact_type = contact_type_edit;
           }
-        }else{
-          if(typeof newData[edit_index] != "undefined"){
+        } else {
+          if (typeof newData[edit_index] != "undefined") {
             newData[edit_index].country = country_edit;
           }
-          if(typeof newData[edit_index] != "undefined"){
+          if (typeof newData[edit_index] != "undefined") {
             newData[edit_index].contact_type = contact_type_edit;
           }
         }
@@ -427,8 +737,7 @@ const ViewTable = (props) => {
       });
     }
 
-    if(editableData.length > 0){
-
+    if (editableData.length > 0) {
       const body = {
         user_id: localStorage.getItem("user_id"),
         edit_list_array: editableData,
@@ -439,24 +748,24 @@ const ViewTable = (props) => {
       await axios
         .post(`distributes/update_reders_details`, body)
         .then((res) => {
-            loader("hide");
-            if (res.data.status_code === 200) {
-                toast.success("List updated");
-              } else {
-                  popup_alert({
-                      visible: "show",
-                      message: res.data.message,
-                      type: "error",
-                    });
-                  }
-                })
-                .catch((err) => {
-                    toast.error("Something went wrong");
-                  });
+          loader("hide");
+          if (res.data.status_code === 200) {
+            toast.success("List updated");
+          } else {
+            popup_alert({
+              visible: "show",
+              message: res.data.message,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
 
-                setSaveOpen(false);
-                setEditableData([]);
-    }else{
+      setSaveOpen(false);
+      setEditableData([]);
+    } else {
       setSaveOpen(false);
       toast.warning("No row update");
     }
@@ -518,7 +827,7 @@ const ViewTable = (props) => {
         loader("hide");
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   };
 
@@ -542,9 +851,6 @@ const ViewTable = (props) => {
         profile_user_id,
       });
     } else {
-      console.log("validator3");
-      console.log(validator3);
-      console.log(validator3.errorMessages);
     }
   };
 
@@ -560,18 +866,21 @@ const ViewTable = (props) => {
     await axios
       .post(`distributes/delete_reader`, body)
       .then((res) => {
-        console.log(res);
-
         loader("hide");
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
+
+    const filtered_list_update = updateData.filter((data) => {
+      return data.profile_user_id != profile_user_id;
+    });
 
     const filtered_list = editList.filter((data) => {
       return data.profile_user_id != profile_user_id;
     });
 
+    setUpdatedData(filtered_list_update);
     setEditList(filtered_list);
   };
 
@@ -589,53 +898,65 @@ const ViewTable = (props) => {
     //   "row-selected" + index
     // );
 
-    if(editable != 0){
-        // ignoreClickOnMeElement.addEventListener(
-        //   "mouseleave",
-        //   async (event) => {
-            const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
-            const country_edit = document.getElementById("field_country" + profile_user_id).value;
-            const contact_type_edit = document.getElementById("field_contact_type" + profile_user_id).value;
+    if (editable != 0) {
+      // ignoreClickOnMeElement.addEventListener(
+      //   "mouseleave",
+      //   async (event) => {
+      const name_edit = document.getElementById(
+        "field_name" + profile_user_id
+      ).innerText;
+      const country_edit = document.getElementById(
+        "field_country" + profile_user_id
+      ).value;
+      const contact_type_edit =
+        localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+          ? document.getElementById("field_contact_type" + profile_user_id)
+              .value
+          : "";
 
-            var arr = [];
-            arr.push({
-              profile_id: profile_id,
-              profile_user_id: profile_user_id,
-              email: email,
-              jobTitle: jobTitle,
-              company: company,
-              country: country_edit,
-              username: name_edit,
-              contact_type:contact_type_edit
-            });
+      var arr = [];
+      arr.push({
+        profile_id: profile_id,
+        profile_user_id: profile_user_id,
+        email: email,
+        jobTitle: jobTitle,
+        company: company,
+        country: country_edit,
+        username: name_edit,
+        contact_type: contact_type_edit,
+      });
 
-            // if(editableData.length > 0){
-                let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
-                if(typeof (prev_obj) != "undefined") {
-                    //update existing
-                   editableData.map(obj => arr.find(o => o.profile_user_id === profile_user_id) || obj);
-                }else{
-                  //create new
-                  setEditableData((oldArray) => [...oldArray, ...arr]);
-                }
-            // }else{
-            //     //create new
-            //     setEditableData((oldArray) => [...oldArray, ...arr]);
-            // }
-            // console.log(name_edit);
-            // console.log(editableData);
-          // },
-          // { once: true }
-        // );
+      // if(editableData.length > 0){
+      let prev_obj = editableData.find(
+        (x) => x.profile_user_id === profile_user_id
+      );
+      if (typeof prev_obj != "undefined") {
+        //update existing
+        editableData.map(
+          (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
+        );
+      } else {
+        //create new
+        setEditableData((oldArray) => [...oldArray, ...arr]);
+      }
+      // }else{
+      //     //create new
+      //     setEditableData((oldArray) => [...oldArray, ...arr]);
+      // }
+      // //console.log(name_edit);
+      // //console.log(editableData);
+      // },
+      // { once: true }
+      // );
     }
 
     // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
 
-    //   console.log(event);
-    //   console.log(index);
+    //   //console.log(event);
+    //   //console.log(index);
 
     //   const data = editList.find((x) => x.profile_id === profile_id);
-    //   console.log(data);
+    //   //console.log(data);
 
     //   if (
     //     data.first_name + " " + data.last_name != name_edit ||
@@ -655,10 +976,10 @@ const ViewTable = (props) => {
     //     await axios
     //       .post(`distributes/update_reders_details`, body)
     //       .then((res) => {
-    //         console.log(res);
+    //         //console.log(res);
     //       })
     //       .catch((err) => {
-    //         console.log(err);
+    //         //console.log(err);
     //       });
     //   }
     // });
@@ -679,7 +1000,7 @@ const ViewTable = (props) => {
     country,
     profile_user_id,
   }) => {
-    if (editList.length > 1) {
+    if (updateData.length > 1) {
       setIsOpen(true);
       setProfileUserId(profile_user_id);
     } else {
@@ -715,10 +1036,162 @@ const ViewTable = (props) => {
     setHpc(list);
     setEmailData(e.target.value);
   };
+  const onSiteNumberChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteNumber = "";
+      setHpc(list);
+    } else {
+      let getSiteData = siteData;
+      let site_name_value = getSiteData[e.value];
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteNumber;
+      list[i].siteNumber = value;
+      list[i].siteName = site_name_value;
+
+      let snameindex = siteNameAll.findIndex(
+        (x) => x.value === site_name_value
+      );
+      list[i].siteNameIndex = snameindex;
+
+      let index = siteNumberAll.findIndex((x) => x.value === value);
+      list[i].siteNumberIndex = index;
+      setHpc(list);
+    }
+    // e.preventDefault();
+    // if (index != 0) {
+    //   const { value } = e.target;
+    //   const old_hpc = hpc;
+    //   old_hpc[i].siteDetails[index].siteNumber = value;
+
+    //   setHpc(old_hpc);
+    //   setUpdate(update + 1);
+    // } else if (index == 0) {
+    //   const { value } = e;
+    //   const old_hpc = hpc;
+    //   old_hpc[i].siteDetails[index].siteNumber = value;
+
+    //   setHpc(old_hpc);
+    //   setUpdate(update + 1);
+    // }
+  };
+
+  const onSiteNameChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteName = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      let getSiteData = siteData;
+      let site_number_value = Object.keys(getSiteData).find(
+        (key) => getSiteData[key] === e.value
+      );
+
+      const list = [...hpc];
+      const name = hpc[i].siteName;
+      list[i].siteName = value;
+      list[i].siteNumber = site_number_value;
+
+      let snameindex = siteNumberAll.findIndex(
+        (x) => x.value === site_number_value
+      );
+      list[i].siteNumberIndex = snameindex;
+
+      let index = siteNameAll.findIndex((x) => x.value === value);
+      list[i].siteNameIndex = index;
+      setHpc(list);
+    }
+  };
+
+  const onSiteStreetChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteStreet = "";
+      list[i].siteStreet = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteStreet;
+      list[i].siteStreet = value;
+
+      let index = siteStreetAll.findIndex((x) => x.value === value);
+      list[i].siteStreetIndex = index;
+      setHpc(list);
+    }
+  };
+
+  const onSiteIrtChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteIrt = "";
+      list[i].siteIrt = "";
+      list[i].userType = "";
+      list[i].userTypeIndex = "";
+      list[i].country = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteIrt;
+      list[i].siteIrt = value;
+
+      let index = siteIrtAll.findIndex((x) => x.value === value);
+      list[i].siteIrtIndex = index;
+      list[i].userType = "";
+      list[i].userTypeIndex = "";
+      list[i].country = "";
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      setHpc(list);
+    }
+    let arr = [];
+    setSiteNumberAll(arr);
+    setSiteNameAll(arr);
+    setForceRender(!forceRender);
+  };
+
+  const onSiteCityChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteCity = "";
+      list[i].siteCity = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteCity;
+      list[i].siteCity = value;
+
+      let index = siteCityAll.findIndex((x) => x.value === value);
+      list[i].siteCityIndex = index;
+      setHpc(list);
+    }
+  };
+
+  const onSitePostCode = (e, i) => {
+    // if (e == null) {
+    //   const list = [...hpc];
+    //   list[i].sitePostCode = "";
+    //   list[i].sitePostCode = "";
+    //   setHpc(list);
+    // } else {
+    const value = e.value;
+    const list = [...hpc];
+    const name = hpc[i].sitePostCode;
+    list[i].sitePostCode = value;
+
+    let index = sitePostalCodeAll.findIndex((x) => x.value === value);
+    list[i].sitePostCodeIndex = index;
+    setHpc(list);
+  };
 
   const onContactTypeChange = (e, i) => {
     const value = e;
-    // console.log(value);
     const list = [...hpc];
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
@@ -726,19 +1199,138 @@ const ViewTable = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    if(e == null){
+    if (e == null) {
       const list = [...hpc];
       list[i].country = "";
       list[i].countryIndex = "";
       setHpc(list);
-    }else{
+    } else {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        let consetValue = e.value;
+        if (e.value == "B&H") {
+          consetValue = "Bosnia and Herzegovina";
+        }
+
+        const matchingKeys = Object.entries(change.site_country_data)
+          .filter(([key, value]) => value === consetValue)
+          .map(([key, value]) => key);
+
+        const filteredSiteNames = matchingKeys.map((key) => ({
+          label: change.site_data[key],
+          value: change.site_data[key],
+        }));
+        const siteNumbers = matchingKeys.map((key) => ({
+          label: key,
+          value: key,
+        }));
+
+        setSiteNumberAll(siteNumbers);
+        setSiteNameAll(filteredSiteNames);
+      }
+
       const value = e.value;
       const list = [...hpc];
       const name = hpc[i].country;
       list[i].country = value;
 
-      let index = countryall.findIndex(x => x.value === value);
+      let index = countryall.findIndex((x) => x.value === value);
       list[i].countryIndex = index;
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      setHpc(list);
+    }
+  };
+
+  const onUserTypeChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].userType = "";
+      list[i].userTypeIndex = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].userType;
+      list[i].userType = value;
+
+      let index = countryall.findIndex((x) => x.value === value);
+      list[i].userTypeIndex = index;
+      setHpc(list);
+    }
+  };
+  const onInstitutionChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].institute = "";
+      list[i].institute = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      
+      const list = [...hpc];
+      if(value == "Study site"){
+        list[i].siteIrtIndex = 0;
+        list[i].siteIrt = "Yes";
+      }else{
+        list[i].siteIrtIndex = 1;
+        list[i].siteIrt = "No";
+        list[i].userType = "";
+        list[i].userTypeIndex = "";
+      }
+      list[i].siteNumberIndex = "";
+      list[i].siteNameIndex = "";
+      list[i].siteName = "";
+      list[i].siteNumber = "";
+      list[i].country = "";
+      const name = hpc[i].institute;
+      list[i].institute = value;
+
+      let index = instituions.findIndex((x) => x.value === value);
+      list[i].instituteIndex = index;
+
+      if(value != "Study site"){
+        let arr = [];
+        setSiteNumberAll(arr);
+        setSiteNameAll(arr);
+        setForceRender(!forceRender);
+      }
+      setHpc(list);
+    }
+  };
+  const onSubUserTypeChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].subUserType = "";
+      list[i].subUserType = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].subUserType;
+      list[i].subUserType = value;
+
+      let index = subUserTypeAll.findIndex((x) => x.value === value);
+      list[i].subUserTypeIndex = index;
+      setHpc(list);
+    }
+  };
+
+  const onBlindTypeChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].blindType = "";
+      list[i].blindType = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].blindType;
+      list[i].blindType = value;
+
+      let index = blindTypeAll.findIndex((x) => x.value === value);
+      list[i].blindTypeIndex = index;
       setHpc(list);
     }
   };
@@ -791,6 +1383,17 @@ const ViewTable = (props) => {
           email: data.email,
           country: data.country,
           contact_type: data.contact_type,
+          investigator_type: data.userType ? data.userType : "",
+          sub_roll: data.subUserType ? data.subUserType : "",
+          blind_type: data.blindType ? data.blindType : "",
+          siteNumber: data.siteNumber ? data.siteNumber : "",
+          siteName: data.siteName ? data.siteName : "",
+          siteStreet: data.siteStreet ? data.siteStreet : "",
+          sitePostalCode: data.sitePostCode ? data.sitePostCode : "",
+          siteCity: data.siteCity ? data.siteCity : "",
+          institution_type: data.institute ? data.institute : "",
+          siteIrt:
+            data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
         };
       });
 
@@ -801,24 +1404,34 @@ const ViewTable = (props) => {
         user_id: localStorage.getItem("user_id"),
         smart_list_id: getlistid,
       };
+   
 
       const status = body.data.map((data) => {
         if (data.email == "") {
+          // setValidationError({ newHcpEmail: "Please enter the email atleast" });
           return "Please enter the email atleast";
-        } else if(data.email != ""){
+        }
+        else if(data.institution_type == "" && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="){
+          
+          return "Please select Institution";
+        } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
           // if (!regex.test(String(useremail).toLowerCase())) {
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find(x => x.email === useremail);
-            if(typeof prev_obj != "undefined"){
+            let prev_obj = editList.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
+              // setValidationError({
+              //   newHcpEmail: "User with same email already added in list.",
+              // });
               return "User with same email already added in list.";
-            }else{
+            } else {
               return "true";
             }
-          }else{
+          } else {
+            // setValidationError({ newHcpEmail: "Email format is not valid" });
             return "Email format is not valid";
           }
         } else {
@@ -858,16 +1471,17 @@ const ViewTable = (props) => {
             loader("hide");
           });
       } else {
-        toast.warning(status[0]);
+        const filteredArray = status.filter(value => value !== 'true');
+
+        toast.warning(filteredArray?.[0]);
       }
     } else {
       let formData = new FormData();
-      let user_id =  localStorage.getItem("user_id");
+      let user_id = localStorage.getItem("user_id");
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
 
-      console.log(formData);
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -881,9 +1495,6 @@ const ViewTable = (props) => {
               let new_data = res.data.response.data;
               setNewData(new_data);
               combine_data = [...new_data, ...old_data];
-
-              console.log(new_data);
-              // console.log(combine_data);
               setEditList(old_data);
               setShowSaveReader(true);
               setIsOpenAdd(false);
@@ -900,7 +1511,7 @@ const ViewTable = (props) => {
           })
           .catch((err) => {
             loader("hide");
-            console.log("something went wrong");
+            //console.log("something went wrong");
           });
         setIsOpen(false);
       } else {
@@ -914,7 +1525,7 @@ const ViewTable = (props) => {
       setShowUploadMenu(!showUploadMenu);
 
       let formData = new FormData();
-      let user_id =  localStorage.getItem("user_id");
+      let user_id = localStorage.getItem("user_id");
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
@@ -934,10 +1545,9 @@ const ViewTable = (props) => {
           loader("hide");
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
     } else {
-      console.log(validator2.errorMessages);
       validator2.showMessages();
       setFileValidationMeassage(fileValidationMessage + 1);
     }
@@ -954,7 +1564,6 @@ const ViewTable = (props) => {
   };
 
   const deleteNewlyAdded = (profile_user_id) => {
-    //  console.log(profile_user_id);
     const data = newData;
     const dataUpdated = data.filter((d) => {
       return d.profile_user_id != profile_user_id;
@@ -964,7 +1573,8 @@ const ViewTable = (props) => {
 
   return (
     <>
-      <div className="page-top-nav smart_list_names">
+      <div className="page-top-nav smart_list_names sticky">
+        {/* {console.log("props.data",props.data)} */}
         <div className="row justify-content-end align-items-center">
           <div className="col-12 col-md-1">
             <div className="header-btn-left">
@@ -1082,7 +1692,7 @@ const ViewTable = (props) => {
         <div className="result-hcp-table">
           <div className="table-title">
             <h4>
-              {getlistname} <span>| {editList.length}</span>
+              {getlistname} <span>| {props.list_count}</span>
             </h4>
             <div className="selected-hcp-table-action">
               {editable == false ? (
@@ -1138,16 +1748,28 @@ const ViewTable = (props) => {
                   <th scope="col">Email</th>
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
-                  <th scope="col">Business Unit</th>
-                  <th scope="col">Contact Type</th>
+
+                  {localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    <>
+                      <th scope="col">IRT mandatory training</th>
+                      <th scope="col">IRT role</th>
+                    </>
+                  ) : (
+                    <>
+                    <th scope="col">Business unit</th>
+                    <th scope="col">Contact type</th>
+                    </>
+                  )}
+
                   {showLessInfo == false ? (
                     <>
                       {" "}
                       <th scope="col">Consent</th>
-                      <th scope="col">Email Received</th>
+                      <th scope="col">Email received</th>
                       <th scope="col">Openings</th>
                       <th scope="col">Registrations</th>
-                      <th scope="col">Last Email</th>
+                      <th scope="col">Last email</th>
                       <th scope="col"></th>{" "}
                     </>
                   ) : null}
@@ -1156,19 +1778,25 @@ const ViewTable = (props) => {
               <tbody className="form-group">
                 {newData.map((item, index) => (
                   <tr
+                    key={item}
                     className="hcps-added"
-                    onClick={(e) => editing(
-                      item.profile_id,
-                      item.profile_user_id,
-                      item.email,
-                      item.jobTitle,
-                      item.company,
-                      item.country,
-                      item.first_name + " " + item.last_name,
-                      item.contact_type,
-                    )}
+                    onClick={(e) =>
+                      editing(
+                        item.profile_id,
+                        item.profile_user_id,
+                        item.email,
+                        item.jobTitle,
+                        item.company,
+                        item.country,
+                        item.first_name + " " + item.last_name,
+                        item.contact_type
+                      )
+                    }
                   >
-                    <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
+                    <td
+                      contenteditable={editable === 0 ? "false" : "true"}
+                      id={`field_name` + item.profile_user_id}
+                    >
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -1192,44 +1820,78 @@ const ViewTable = (props) => {
                         item.email
                       )}
                     </td>
-                    <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
-                    <td>{item.bounce}</td>
+                    <input
+                      type="hidden"
+                      id={`field_index` + item.profile_user_id}
+                      value={index}
+                    />
+                    <td>{item.bounce ? item.bounce : "N/A"}</td>
                     <td>
-                    {
-                      editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
-                    }
+                      {editable ? (
+                        <EditCountry
+                          selected_country={item.country}
+                          profile_user={item.profile_user_id}
+                        ></EditCountry>
+                      ) : (
+                        <span>{item.country ? item.country : "N/A"}</span>
+                      )}
                     </td>
                     <td>
-                      {item.ibu}
+                      {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ? item?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  :item.ibu
+                                  ? item.ibu
+                                  : "N/A"}
                     </td>
                     <td>
-                    {
-                      editable ? <EditContactType selected_ibu={item.contact_type} profile_user={item.profile_user_id}></EditContactType> : <span>{item.contact_type}</span>
-                    }
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <span>
+                          {item.user_type != 0 ? item.user_type : "N/A"}
+                        </span>
+                      ) : editable ? (
+                        <EditContactType
+                          selected_ibu={item.contact_type}
+                          profile_user={item.profile_user_id}
+                        ></EditContactType>
+                      ) : (
+                        <span>
+                          {item.contact_type ? item.contact_type : "N/A"}
+                        </span>
+                      )}
                     </td>
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.consent}</span>{" "}
+                        <span>{item.consent ? item.consent : "N/A"}</span>{" "}
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_received}</span>
+                        <span>
+                          {item.email_received ? item.email_received : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_opening}</span>
+                        <span>
+                          {item.email_opening ? item.email_opening : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.registration}</span>
+                        <span>
+                          {item.registration ? item.registration : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.last_email}</span>
+                        <span>{item.last_email ? item.last_email : "N/A"}</span>
                       </td>
                     ) : null}
                     <td className="delete_row" colspan="12">
@@ -1246,9 +1908,9 @@ const ViewTable = (props) => {
                   <td colspan="13"></td>
                 </tr>
 
-                {
-                  editList.map((item, index) => (
+                {editList.map((item, index) => (
                   <tr
+                    key={item}
                     id={`row-selected` + index}
                     onClick={(e) =>
                       editing(
@@ -1260,7 +1922,7 @@ const ViewTable = (props) => {
                         item.company,
                         item.country,
                         item.first_name + " " + item.last_name,
-                        item.contact_type,
+                        item.contact_type
                       )
                     }
                   >
@@ -1271,48 +1933,87 @@ const ViewTable = (props) => {
                       <span> {item.first_name + " " + item.last_name} </span>
                     </td>
 
-                    <td id={`field_email` + item.profile_user_id}>{item.email}</td>
-                    <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
-                    <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
+                    <td id={`field_email` + item.profile_user_id}>
+                      {item.email}
+                    </td>
+                    <input
+                      type="hidden"
+                      id={`field_index` + item.profile_user_id}
+                      value={index}
+                    />
+                    <td id={`field_bounced` + item.profile_user_id}>
+                      {item.bounce}
+                    </td>
                     <td>
-                      {
-                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
-                      }
+                      {editable ? (
+                        <EditCountry
+                          selected_country={item.country}
+                          profile_user={item.profile_user_id}
+                        ></EditCountry>
+                      ) : (
+                        <span>{item.country ? item.country : "N/A"}</span>
+                      )}
                     </td>
-                    <td id="field_business_unit">{item.ibu}</td>
+                    <td id="field_business_unit">
+                    {/*item.ibu*/}
+                    {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg=="
+                                ? item?.irt
+                                  ? "Yes"
+                                  : "No"
+                                :item.ibu
+                                ? item.ibu
+                                : "N/A"}
+                    </td>
                     <td id="field_interest">
-                    {
-                      editable ? <EditContactType selected_ibu={item.contact_type} profile_user={item.profile_user_id}></EditContactType> : <span>{item.contact_type}</span>
-                    }
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <span>
+                          {item.user_type != 0 ? item.user_type : "N/A"}
+                        </span>
+                      ) : editable ? (
+                        <EditContactType
+                          selected_ibu={item.contact_type}
+                          profile_user={item.profile_user_id}
+                        ></EditContactType>
+                      ) : (
+                        <span>
+                          {item.contact_type ? item.contact_type : "N/A"}
+                        </span>
+                      )}
                     </td>
 
-
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.consent}</span>{" "}
+                        <span>{item.consent ? item.consent : "N/A"}</span>{" "}
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_received}</span>
+                        <span>
+                          {item.email_received ? item.email_received : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.email_opening}</span>
+                        <span>
+                          {item.email_opening ? item.email_opening : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.registration}</span>
+                        <span>
+                          {item.registration ? item.registration : "N/A"}
+                        </span>
                       </td>
                     ) : null}
                     {showLessInfo == false ? (
                       <td>
-                        <span>{item.last_email}</span>
+                        <span>{item.last_email ? item.last_email : "N/A"}</span>
                       </td>
                     ) : null}
-
 
                     <td className="delete_row" colspan="12">
                       <img
@@ -1333,10 +2034,8 @@ const ViewTable = (props) => {
                         }
                       />
                     </td>
-
                   </tr>
-                ))
-              }
+                ))}
               </tbody>
             </table>
           </div>
@@ -1374,7 +2073,7 @@ const ViewTable = (props) => {
                 setOpenDeleteConfirmation(true);
               }}
             >
-              Yes Please!
+              Yes please!
             </button>
 
             <button
@@ -1408,7 +2107,9 @@ const ViewTable = (props) => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add New HCP
+              {localStorage.getItem("user_id") == userId
+                ? "Add New User +"
+                : "Add New HCP"}
             </h5>
             <button
               onClick={() => {
@@ -1420,11 +2121,15 @@ const ViewTable = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    countryIndex:""
+                    userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
+                    userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+                    countryIndex: "",
+                    siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
+                    siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.indexOf(item =>item?.value == "Yes"):"",
                   },
                 ]);
                 setActiveManual("active");
-                document.querySelector("#file-4").value = "";
+                // document.querySelector("#file-4").value = "";
                 setActiveExcel("");
               }}
               type="button"
@@ -1437,6 +2142,7 @@ const ViewTable = (props) => {
             <div className="hcp-add-box">
               <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
@@ -1446,7 +2152,7 @@ const ViewTable = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label htmlFor="">First name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1459,7 +2165,7 @@ const ViewTable = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Last Name</label>
+                                  <label htmlFor="">Last name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1472,10 +2178,16 @@ const ViewTable = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Email *</label>
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
                                   <input
                                     type="email"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpEmail
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     id="email-desc"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
@@ -1483,34 +2195,93 @@ const ViewTable = (props) => {
                                     }
                                     value={val.email}
                                   />
+                                  {validationError?.newHcpEmail ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpEmail}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Contact Type</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
-                                    title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
-                                    onSelect={(event) => onContactTypeChange(event, i)}
+
+                              {localStorage.getItem("user_id") !=
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label for="">Contact type</label>
+                                    <DropdownButton
+                                      className="dropdown-basic-button split-button-dropup"
+                                      title={
+                                        hpc[i].contact_type != "" &&
+                                        hpc[i].contact_type != "undefined"
+                                          ? hpc[i].contact_type
+                                          : "Select Type"
+                                      }
+                                      onSelect={(event) =>
+                                        onContactTypeChange(event, i)
+                                      }
                                     >
-                                  <div className="scroll_div">
-                                      <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
-                                      <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
-                                      <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
+                                      <div className="scroll_div">
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          HCP
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </div>
+                                    </DropdownButton>
                                   </div>
-                                </DropdownButton>
                                 </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Country</label>
-                                  <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
-                                    defaultValue  = {countryall[hpc[i].countryIndex]}
-                                    placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
-                                    filterOption  = {createFilter(filterConfig)}
-                                    isClearable
+                              ) : null}
+
+                              {localStorage.getItem("user_id") !=
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label for="">Country</label>
+                                    <Select
+                                      options={countryall}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      defaultValue={
+                                        countryall[hpc[i].countryIndex]
+                                      }
+                                      placeholder={
+                                        typeof countryall[
+                                          hpc[i].countryIndex
+                                        ] === "undefined"
+                                          ? "Select Country"
+                                          : countryall[hpc[i].countryIndex]
+                                      }
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
                                     />
-                                  {
-                                    /*
+                                    {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                         title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                         onSelect={(event) => onCountryChange(event, i)}
@@ -1529,10 +2300,593 @@ const ViewTable = (props) => {
                                   )}
                                   </div>
                                   </DropdownButton>
-                                    */
-                                  }
+                                    */}
+                                  </div>
                                 </div>
-                              </div>
+                              ) : null}
+
+                              {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                
+                                  <hr />
+                                  <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Institution <span>*</span></label>
+                                        <Select
+                                          options={instituions}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onInstitutionChange(event, i)
+                                          }
+                                          value={
+                                            instituions[
+                                              hpc[i].instituteIndex
+                                            ]
+                                          }
+                                          placeholder={
+                                            typeof instituions[
+                                              hpc[i].instituteIndex
+                                            ] === "undefined"
+                                              ? "Select Institutions"
+                                              : instituions[
+                                                  hpc[i].instituteIndex
+                                                ]
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT mandatory training</label>
+                                      <Select
+                                        options={siteIrtAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteIrtChange(
+                                            event,
+                                            i
+                                          )
+                                        }
+                                        value={
+                                          siteIrtAll[hpc[i].siteIrtIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteIrtAll[
+                                            hpc[i].siteIrtIndex
+                                          ] === "undefined"
+                                            ? "Select Site IRT"
+                                            : siteIrtAll[hpc[i].siteIrtIndex]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT role</label>
+                                      {siteIrtAll[hpc[i].siteIrtIndex]
+                                        ?.value === "Yes" ? (
+                                        <Select
+                                          options={irtRole}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onUserTypeChange(event, i)
+                                          }
+                                          value={
+                                            irtRole.findIndex(
+                                              (el) => el.value == val?.userType
+                                            ) == -1
+                                              ? ""
+                                              : irtRole[
+                                                  irtRole.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.userType
+                                                  )
+                                                ]
+                                          }
+                                          placeholder={"Select Role"}
+                                          isClearable
+                                          // filterOption={createFilter(filterConfig)}
+                                        />
+                                      ) : siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "No" ? (
+                                        <Select
+                                          options={userTypeAll}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onUserTypeChange(event, i)
+                                          }
+                                          value={
+                                            userTypeAll.findIndex(
+                                              (el) => el.value == val?.userType
+                                            ) == -1
+                                              ? ""
+                                              : userTypeAll[
+                                                  userTypeAll.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.userType
+                                                  )
+                                                ]
+                                          }
+                                          isClearable
+                                          placeholder={"Select Role"}
+                                          // filterOption={createFilter(filterConfig)}
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          placeholder={"Select Role"}
+                                        />
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  {
+                                    /*<div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Blind Type</label>
+                                        <Select
+                                          options={blindTypeAll}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onBlindTypeChange(event, i)
+                                          }
+                                          defaultValue={
+                                            blindTypeAll[hpc[i].blindTypeIndex]
+                                          }
+                                          placeholder={
+                                            typeof blindTypeAll[
+                                              hpc[i].blindTypeIndex
+                                            ] === "undefined"
+                                              ? "Select Blind Type"
+                                              : blindTypeAll[
+                                                  hpc[i].blindTypeIndex
+                                                ]
+                                          }
+                                          // filterOption={createFilter(filterConfig)}
+                                        />
+                                      </div>
+                                    </div>*/
+                                  }
+
+
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Study role</label>
+                                      <Select
+                                        options={subUserTypeAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSubUserTypeChange(event, i)
+                                        }
+                                        defaultValue={
+                                          subUserTypeAll[
+                                            hpc[i].subUserTypeIndex
+                                          ]
+                                        }
+                                        placeholder={
+                                          typeof subUserTypeAll[
+                                            hpc[i].subUserTypeIndex
+                                          ] === "undefined"
+                                            ? "Select Study Role"
+                                            : subUserTypeAll[
+                                                hpc[i].subUserTypeIndex
+                                              ]
+                                        }
+                                        // filterOption={createFilter(filterConfig)}
+                                        //  isClearable
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Country</label>
+                                      {siteIrtAll[hpc[i].siteIrtIndex]
+                                        ?.value === "Yes" ? (
+                                        <Select
+                                          options={irtCountry}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onCountryChange(event, i)
+                                          }
+                                          value={
+                                            irtCountry.findIndex(
+                                              (el) => el.value == val?.country
+                                            ) == -1
+                                              ? ""
+                                              : irtCountry[
+                                                  irtCountry.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.country
+                                                  )
+                                                ]
+                                          }
+                                          placeholder="Select Country"
+                                          filterOption={createFilter(
+                                            filterConfig
+                                          )}
+                                          isClearable
+                                        />
+                                      ) : (
+                                        <Select
+                                          options={countryall}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onCountryChange(event, i)
+                                          }
+                                          value={
+                                            countryall.findIndex(
+                                              (el) => el.value == val?.country
+                                            ) == -1
+                                              ? ""
+                                              : countryall[
+                                                  countryall.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.country
+                                                  )
+                                                ]
+                                          }
+                                          placeholder="Select Country"
+                                          filterOption={createFilter(
+                                            filterConfig
+                                          )}
+                                          isClearable
+                                        />
+                                      )}
+                                      {/*
+                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
+                                        title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
+                                        onSelect={(event) => onCountryChange(event, i)}
+                                        >
+                                        <div className="scroll_div">
+                                        {countryall.length === 0
+                                        ? ""
+                                        : Object.entries(countryall).map(
+                                        ([index, item]) => {
+                                        return (
+                                        <>
+                                        <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                        </>
+                                      );
+                                    }
+                                  )}
+                                  </div>
+                                  </DropdownButton>
+                                    */}
+                                    </div>
+                                  </div>
+
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site number</label>
+                                      <Select
+                                        options={siteNumberAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNumberChange(event, i)
+                                        }
+                                        value={
+                                          siteNumberAll[hpc[i].siteNumberIndex]
+                                            ? siteNumberAll[
+                                                hpc[i].siteNumberIndex
+                                              ]
+                                            : ""
+                                        }
+                                        // defaultValue={
+                                        //   siteNumberAll[hpc[i].siteNumberIndex]
+                                        // }
+                                        placeholder={
+                                          typeof siteNumberAll[
+                                            hpc[i].siteNumberIndex
+                                          ] === "undefined"
+                                            ? "Select Site Number"
+                                            : siteNumberAll[
+                                                hpc[i].siteNumberIndex
+                                              ]
+                                        }
+                                        // onChange={(event) =>
+                                        //   onUserTypeChange(event, i)
+                                        // }
+                                        // defaultValue={
+                                        //   userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ]
+                                        // }
+                                        // placeholder={
+                                        //   typeof userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ] === "undefined"
+                                        //     ? "Select User Type"
+                                        //     : userTypeAll[
+                                        //         hpc[i].userTypeIndex
+                                        //       ]
+                                        // }
+                                        // filterOption={createFilter(filterConfig)}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site name</label>
+
+                                      <Select
+                                        options={siteNameAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNameChange(event, i)
+                                        }
+                                        // onChange={(event) =>
+                                        //   onUserTypeChange(event, i)
+                                        // }
+                                        // defaultValue={
+                                        //   userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ]
+                                        // }
+                                        // valueField={
+                                        //   siteNameAll[hpc[i].siteNameIndex]?.value
+                                        // }
+                                        value={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                            : ""
+                                        }
+                                        defaultValue={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteNameAll[
+                                            hpc[i].siteNameIndex
+                                          ] === "undefined"
+                                            ? "Select Site Name"
+                                            : siteNameAll[hpc[i].siteNameIndex]
+                                        }
+                                        // filterOption={createFilter(filterConfig)}
+                                      />
+                                    </div>
+                                  </div>
+
+                                  {/* <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Street</label>
+                                      <Select
+                                        options={siteStreetAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteStreetChange(
+                                            event,
+
+                                            i
+                                          )
+                                        }
+                                        defaultValue={
+                                          siteStreetAll[hpc[i].siteStreetIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteStreetAll[
+                                            hpc[i].siteStreetIndex
+                                          ] === "undefined"
+                                            ? "Select Site Street"
+                                            : siteStreetAll[
+                                                hpc[i].siteStreetIndex
+                                              ]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Post Code</label>
+                                      <Select
+                                        options={sitePostalCodeAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSitePostCode(
+                                            event,
+
+                                            i
+                                          )
+                                        }
+                                        defaultValue={
+                                          sitePostalCodeAll[
+                                            hpc[i].sitePostCodeIndex
+                                          ]
+                                        }
+                                        placeholder={
+                                          typeof sitePostalCodeAll[
+                                            hpc[i].sitePostCodeIndex
+                                          ] === "undefined"
+                                            ? "Select Post Code"
+                                            : sitePostalCodeAll[
+                                                hpc[i].sitePostCodeIndex
+                                              ]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site City</label>
+                                      <Select
+                                        options={siteCityAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteCityChange(
+                                            event,
+
+                                            i
+                                          )
+                                        }
+                                        defaultValue={
+                                          siteStreetAll[hpc[i].siteStreetIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteCityAll[
+                                            hpc[i].siteCityIndex
+                                          ] === "undefined"
+                                            ? "Select Site City"
+                                            : siteCityAll[hpc[i].siteCityIndex]
+                                        }
+                                      />
+                                    </div>
+                                  </div>*/}
+
+                                  {/* <button onClick={(e) => addMoreSite(i, e)}>
+                                    +
+                                  </button> */}
+
+                                  {val?.siteDetails?.map((data, index) => {
+                                    return (
+                                      <>
+                                        {/* {index !== 0 ? (
+                                          <>
+                                            <div className="add-content-form">
+                                              <div className="row">
+                                                <div className="col-12 col-md-6">
+                                                  <div className="form-group">
+                                                    <label for="">
+                                                      Site number
+                                                    </label>
+                                                    <input
+                                                      type="email"
+                                                      className="form-control"
+                                                      id="email-desc"
+                                                      // name={`${fieldName}.email`}
+                                                      onChange={(event) =>
+                                                        onSiteNumberChange(
+                                                          event,
+                                                          index,
+                                                          i
+                                                        )
+                                                      }
+                                                      value={data.siteNumber}
+                                                    />
+                                                  </div>
+                                                </div>
+                                                <div className="col-12 col-md-6">
+                                                  <div className="form-group">
+                                                    <label for="">
+                                                      Site name
+                                                    </label>
+                                                    <input
+                                                      type="email"
+                                                      className="form-control"
+                                                      id="email-desc"
+                                                      // name={`${fieldName}.email`}
+                                                      onChange={(event) =>
+                                                        onSiteNameChange(
+                                                          event,
+                                                          index,
+                                                          i
+                                                        )
+                                                      }
+                                                      value={data.siteName}
+                                                    />
+                                                  </div>
+                                                </div>
+
+                                                <div className="col-12 col-md-6">
+                                                  <div className="form-group">
+                                                    <label for="">
+                                                      Site Street
+                                                    </label>
+                                                    <input
+                                                      type="email"
+                                                      className="form-control"
+                                                      id="email-desc"
+                                                      // name={`${fieldName}.email`}
+                                                      onChange={(event) =>
+                                                        onSiteStreetChange(
+                                                          event,
+                                                          index,
+                                                          i
+                                                        )
+                                                      }
+                                                      value={data.siteStreet}
+                                                    />
+                                                  </div>
+                                                </div>
+                                                <div className="col-12 col-md-6">
+                                                  <div className="form-group">
+                                                    <label for="">
+                                                      Site Post Code
+                                                    </label>
+                                                    <input
+                                                      type="email"
+                                                      className="form-control"
+                                                      id="email-desc"
+                                                      // name={`${fieldName}.email`}
+                                                      onChange={(event) =>
+                                                        onSitePostCode(
+                                                          event,
+                                                          index,
+                                                          i
+                                                        )
+                                                      }
+                                                      value={data.sitePostCode}
+                                                    />
+                                                  </div>
+                                                </div>
+                                                <div className="col-12 col-md-6">
+                                                  <div className="form-group">
+                                                    <label for="">
+                                                      Site City
+                                                    </label>
+                                                    <input
+                                                      type="email"
+                                                      className="form-control"
+                                                      id="email-desc"
+                                                      // name={`${fieldName}.email`}
+                                                      onChange={(event) =>
+                                                        onSiteCityChange(
+                                                          event,
+                                                          index,
+                                                          i
+                                                        )
+                                                      }
+                                                      value={data.siteCity}
+                                                    />
+                                                  </div>
+                                                  <div className="delete_btn">
+                                                    {index !== 0 ? (
+                                                      <button
+                                                        type="button"
+                                                        className="btn btn-filled"
+                                                        onClick={(e) =>
+                                                          removeSite(
+                                                            index,
+                                                            i,
+                                                            e
+                                                          )
+                                                        }
+                                                      >
+                                                        <img
+                                                          src={
+                                                            path_image +
+                                                            "delete.svg"
+                                                          }
+                                                          alt="Add More"
+                                                        />
+                                                      </button>
+                                                    ) : null}
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </>
+                                        ) : ( */}
+                                        <>
+                                          <div className="add-content-form">
+                                            <div className="row"></div>
+                                          </div>
+                                        </>
+                                        {/* )} */}
+                                      </>
+                                    );
+                                  })}
+                                </>
+                              ) : null}
                               {/*
                               <div className="col-12 col-md-6 btn_rmv">
                                 <div className="form-group">
@@ -1574,12 +2928,14 @@ const ViewTable = (props) => {
                               <ul className="nav nav-tabs" role="tablist">
                                 <li className="nav-item add_hcp">
                                   <a
-                                    onClick={addMoreHcp}
+                                    onClick={(e) => addMoreHcp(e)}
                                     className="nav-link active btn-bordered"
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    Add HCP +
+                                    {localStorage.getItem("user_id") == userId
+                                      ? "Add User +"
+                                      : "Add HCP +"}
                                   </a>
                                 </li>
 
@@ -1624,7 +2980,7 @@ const ViewTable = (props) => {
                           {file_name.current?.files === undefined ||
                           file_name.current.files?.length === 0 ? (
                             <>
-                              <label for="file-4">
+                              <label htmlFor="file-4">
                                 <span>Choose Your File</span>
                               </label>
                               <p>Upload your excel file</p>
