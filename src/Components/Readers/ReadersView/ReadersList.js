@@ -1282,7 +1282,7 @@ const NewReaders = () => {
     }
   };
 
-  const tabClicked = async (key, userId) => {
+  const tabClicked = async (key, userId, index, country) => {
     setApiCallStatus(false);
     if (key == "usage") {
       let index = emailStats.findIndex((el) => el.userId == userId);
@@ -1310,13 +1310,35 @@ const NewReaders = () => {
       const res = await getData(ENDPOINT.READER_USER_DROP);
 
       setChanges(res?.data?.data);
+      console.log("res--->", res);
+      // setSiteNumber((prevSiteNumbers) => ({
+      //   ...prevSiteNumbers,
+      //   all: res?.data?.data?.siteNumber,
+      // }));
+      // setSiteName((prevSiteName) => ({
+      //   ...prevSiteName,
+      //   all: res?.data?.data?.siteName,
+      // }));
+      let consetValue = country;
+      const filteredData = res?.data?.data?.sideData.filter(
+        (item) => item.country === consetValue
+      );
+
+      const siteNumbers = filteredData.map((item) => ({
+        label: item.site_number,
+        value: item.site_number,
+      }));
+      const siteNames = filteredData.map((item) => ({
+        label: item.site_name,
+        value: item.site_name,
+      }));
       setSiteNumber((prevSiteNumbers) => ({
         ...prevSiteNumbers,
-        all: res?.data?.data?.siteNumber,
+        [index]: siteNumbers,
       }));
-      setSiteName((prevSiteName) => ({
-        ...prevSiteName,
-        all: res?.data?.data?.siteName,
+      setSiteName((prevSiteNumbers) => ({
+        ...prevSiteNumbers,
+        [index]: siteNames,
       }));
       axiosFun();
     }
@@ -1981,7 +2003,9 @@ const NewReaders = () => {
                         </div>
                         <div className="tabs-data">
                           <Tabs
-                            onSelect={(key) => tabClicked(key, data?.id)}
+                            onSelect={(key) =>
+                              tabClicked(key, data?.id, index, data?.country)
+                            }
                             defaultActiveKey="personal-details"
                             fill
                           >
