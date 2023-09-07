@@ -301,8 +301,13 @@ const TimelineDetail = (props) => {
                               <tr>
                                 <th>Consent</th>
                                 <td>
-                                  {timeLineData?.user?.other_option
-                                    ? (timeLineData?.user?.other_option == 'checkbox1') ? 'Full Consent' :  (timeLineData?.user?.other_option =='checkbox3~checkbox4~checkbox5') ? 'Full Consent' : "Limited Consnet" :"N/A" }
+                                  {
+                                    localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
+                                    timeLineData?.user?.lex_consent == 1 ?  'Full Consent' : "Limited Consnet"
+                                    :
+                                    timeLineData?.user?.other_option
+                                    ? (timeLineData?.user?.other_option == 'checkbox1') ? 'Full Consent' :  (timeLineData?.user?.other_option =='checkbox3~checkbox4~checkbox5') ? 'Full Consent' : "Limited Consnet" :"N/A" 
+                                  }
                                 </td>
                               </tr>
                             </tbody>
