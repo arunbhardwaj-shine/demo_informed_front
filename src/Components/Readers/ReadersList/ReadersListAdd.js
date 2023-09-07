@@ -662,6 +662,8 @@ const ReadersListAdd = () => {
       }else{
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
+        list[i].userType = "";
+        list[i].userTypeIndex = "";
       }
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -1718,7 +1720,7 @@ console.log(body_data);
                           })
                         ) : (
                           <tr className="no_found">
-                            <td>No Data Found</td>
+                            <td colspan="5">No Data Found</td>
                           </tr>
                         )}
                       </tbody>

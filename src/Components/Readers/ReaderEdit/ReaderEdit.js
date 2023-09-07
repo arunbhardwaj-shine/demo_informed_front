@@ -266,6 +266,7 @@ const ReaderEdit = () => {
       irt: hasData?.data?.data?.irt,
       institution: hasData?.data?.data?.institution,
     });
+    changeSiteData()
     loader("hide");
   };
 
@@ -432,18 +433,16 @@ const ReaderEdit = () => {
     initialReaderFun();
   }, []);
 
-  useEffect(() => {
-    changeSiteData();
-  }, [userDetail?.sideData]);
+  // useEffect(() => {
+  //   changeSiteData();
+  // }, [userDetail?.sideData]);
 
   const changeSiteData = () => {
     if (typeof userDetail?.sideData !== "undefined") {
       let newSite = [],
         newSiteNumber = [];
-        console.log("-userInputs?.country",userInputs?.country)
-        console.log("--userDatea",userDetail?.sideData)
+        console.log("-userInputs?.country",userInputs)
       userDetail?.sideData?.forEach((item) => {
-        console.log("--dfdf",item?.country)
         if (item?.country == userInputs?.country) {
           newSite.push({ label: item?.site_name, value: item?.site_name });
           newSiteNumber.push({
@@ -825,7 +824,7 @@ const ReaderEdit = () => {
               ""
             )}
           </Form.Group>*/}
-
+        {console.log("-", userInputs?.country)}
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Country <span>*</span>
